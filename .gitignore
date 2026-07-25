@@ -1,3 +1,5 @@
+.vscode/
+
 docs/_build/*
 docs/_static/*
 docs/_templates/*
@@ -30,3 +32,7 @@ python_server.log
 # LLM agent
 .codex/
 .agents/
+.specstory
+.cursorindexingignore
+
+.claude/

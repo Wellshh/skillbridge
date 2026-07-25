@@ -157,8 +157,19 @@ class TcpChannel(Channel):
         return self.decode_response(response)
 
     def send(self, data: str) -> str:
-        self._send_only(data)
-        return self._receive_only()
+        try:
+            self._send_only(data)
+            return self._receive_only()
+        except RuntimeError as e:
+            # On some platforms (notably macOS) a dead TCP peer may not be
+            # detected during sendall; the failure only surfaces when reading
+            # the response.
+            if "The server unexpectedly died" not in str(e):
+                raise
+            print("attempting to reconnect")
+            self.reconnect()
+            self._send_only(data)
+            return self._receive_only()
 
     def try_repair(self) -> Exception | str:
         try:
