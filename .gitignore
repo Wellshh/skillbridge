@@ -26,3 +26,7 @@ test.ipynb
 
 *.so
 python_server.log
+
+# LLM agent
+.codex/
+.agents/

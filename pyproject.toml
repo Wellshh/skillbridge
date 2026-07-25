@@ -2,6 +2,9 @@
 requires = ["setuptools>=57", "wheel"]
 build-backend = "setuptools.build_meta"
 
+[tool.poetry]
+version = "1.8.0"
+
 [project]
 name = "skillbridge"
 authors = [
@@ -37,7 +40,7 @@ version = {attr = "skillbridge.version.__version__"}
 [project.optional-dependencies]
 dev = [
     "pytest",
-    "pytest-coverage",
+    "pytest-cov",
     "hypothesis",
     "mypy",
     "ruff>=0.2.1",
