@@ -14,7 +14,7 @@ def ws() -> Workspace:
     try:
         workspace = Workspace.open()
         assert workspace['plus'](1, 2) == 3
-    except (Exception, ValueError, AssertionError):  # noqa: BLE001
+    except (Exception, ValueError, AssertionError):  # ruff: ignore[blind-except]
         warn("Skipping integration tests, because Workspace could not connect", UserWarning)
         skip()
 
@@ -116,9 +116,9 @@ def test_remote_object(ws: Workspace) -> None:
 
     lib.getdoc()
 
-    assert lib == lib  # noqa: PLR0124
+    assert lib == lib  # ruff: ignore[comparison-with-itself]
     assert lib != libs[1]
-    assert not (lib == 1)  # noqa: SIM201  # this tests __eq__ and the next line tests __ne__
+    assert not (lib == 1)  # ruff: ignore[negate-equal-op]  # this tests __eq__ and the next line tests __ne__
     assert lib != 1
 
 
@@ -255,7 +255,7 @@ def test_outstring(ws: Workspace) -> None:
     fprintf = ws['fprintf']
 
     s = outstring()
-    assert get_outstring(s) == ""  # noqa: PLC1901
+    assert get_outstring(s) == ""  # ruff: ignore[compare-to-empty-string]
 
     assert fprintf(s, "Hello ")
     assert get_outstring(s) == "Hello "

@@ -52,7 +52,7 @@ def import_stub_gen() -> tuple[Any, Any]:
     # -> mypy detects a syntax error in its own code base
     # this can only be ignored by hiding the import code behind an exec call
     scope: dict[str, Any] = {}
-    exec("from mypy.stubgen import Options, generate_stubs", scope, scope)  # noqa: S102
+    exec("from mypy.stubgen import Options, generate_stubs", scope, scope)  # ruff: ignore[exec-builtin]
     return scope['Options'], scope['generate_stubs']
 
 

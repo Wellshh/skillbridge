@@ -175,7 +175,7 @@ class TcpChannel(Channel):
         try:
             length = int(self.socket.recv(10))
             message = b''.join(self._receive_all(length))
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:  # ruff: ignore[blind-except]
             return e
         return message.decode()
 
@@ -201,13 +201,13 @@ def create_channel_class(force_tcp: bool = False) -> type[TcpChannel]:
         class CustomTcpChannel(TcpChannel):
             def configure(self, sock: socket) -> None:
                 try:
-                    from socket import (  # type: ignore[attr-defined]  # noqa: PLC0415
+                    from socket import (  # type: ignore[attr-defined]  # ruff: ignore[import-outside-top-level]
                         SIO_LOOPBACK_FAST_PATH,
                     )
 
                     sock.ioctl(  # type: ignore[attr-defined]
                         SIO_LOOPBACK_FAST_PATH,
-                        True,  # noqa: FBT003
+                        True,  # ruff: ignore[boolean-positional-value-in-call]
                     )
                 except ImportError:
                     pass
@@ -226,7 +226,7 @@ def create_channel_class(force_tcp: bool = False) -> type[TcpChannel]:
 
         return CustomTcpChannel
 
-    from socket import AF_UNIX  # noqa: PLC0415
+    from socket import AF_UNIX  # ruff: ignore[import-outside-top-level]
 
     class CustomUnixChannel(TcpChannel):
         address_family = AF_UNIX

@@ -56,13 +56,13 @@ class SingleTcpServer(TCPServer):
 
     def server_bind(self) -> None:
         try:
-            from socket import (  # type: ignore[attr-defined]  # noqa: PLC0415
+            from socket import (  # type: ignore[attr-defined]  # ruff: ignore[import-outside-top-level]
                 SIO_LOOPBACK_FAST_PATH,
             )
 
             self.socket.ioctl(  # type: ignore[attr-defined]
                 SIO_LOOPBACK_FAST_PATH,
-                True,  # noqa: FBT003
+                True,  # ruff: ignore[boolean-positional-value-in-call]
             )
         except ImportError:
             pass

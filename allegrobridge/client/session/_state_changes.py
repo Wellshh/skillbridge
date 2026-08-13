@@ -9,11 +9,10 @@ This is adapted from @sqlalchemy: orm/state_changes.py session managment.
 """
 
 from __future__ import annotations
-from enum import Enum, auto
-import threading
-from typing import Any, Callable, Optional, TypeVar
 
-_F = TypeVar("_F", bound=Callable[..., Any])
+import threading
+from enum import Enum, auto
+from typing import Any, Callable
 
 
 class _State(Enum):
@@ -39,7 +38,7 @@ class _StateChange:
     _state: _State
     _next_state: _State = _States.ANY
 
-    _cur_fn: Optional[Callable[..., Any]] = None
+    _cur_fn: Callable[..., Any] | None = None
 
     _lock: threading.RLock
 

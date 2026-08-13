@@ -242,7 +242,7 @@ def test_object_equality(server: Virtuoso, ws: Workspace):
     assert first == second
     assert first != third
     assert second != third
-    assert not (first == 1)  # noqa: SIM201  # this tests __eq__ and the next line tests __ne__
+    assert not (first == 1)  # ruff: ignore[negate-equal-op]  # this tests __eq__ and the next line tests __ne__
     assert first != 1
 
 

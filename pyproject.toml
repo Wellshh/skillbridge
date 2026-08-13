@@ -49,11 +49,24 @@ doc = [
     "sphinx"
 ]
 
+[dependency-groups]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "hypothesis",
+    "mypy<2",
+    "ruff>=0.2.1",
+    "pre-commit",
+]
+doc = [
+    "sphinx",
+]
+
 [project.scripts]
 skillbridge = "skillbridge.__main__:main"
 
 [tool.setuptools.packages.find]
-include = ["skillbridge*"]
+include = ["skillbridge*", "allegrobridge*"]
 namespaces = false
 
 [tool.black]
@@ -64,15 +77,17 @@ exclude = "env"
 line-length = 100
 
 [tool.pytest.ini_options]
-addopts = "--cov=skillbridge --cov-report=html --cov-report=term:skip-covered --cov-branch --no-cov-on-fail"
+addopts = "--cov=skillbridge --cov=allegrobridge --cov-report=html --cov-report=term:skip-covered --cov-branch --no-cov-on-fail"
 
 [tool.coverage.report]
 precision = 2
 exclude_also = ["raise NotImplementedError"]
 
 [tool.mypy]
-python_version = "3.8"
-files = "skillbridge"
+python_version = "3.12"
+files = ["skillbridge", "allegrobridge"]
+exclude = ["tests"]
+platform = "linux"
 pretty = true
 show_error_context = true
 
@@ -112,50 +127,50 @@ target-version = "py38"
 [tool.ruff.lint]
 select = ["ALL"]
 ignore = [
-    "A003",
-    "ANN10", "ANN401",
-    "B028",
-    "COM812",
-    "CPY001",
+    "builtin-attribute-shadowing",
+    "ANN10", "any-type",
+    "no-explicit-stacklevel",
+    "missing-trailing-comma",
+    "missing-copyright-notice",
     "D",
-    "EM101", "EM102",
-    "FBT001", "FBT002",
-    "G004",
-    "ISC001",
-    "N999",
-    "PLR0911", "PLR6301",
-    "PLW1641", "PLW3201",
-    "PT001", "PT013",
-    "PTH123",
-    "RUF067",
-    "S101", "S108", "S310", "S311", "S404",
-    "T201",
-    "TC001", "TC002", "TC003",
-    "TID252",
-    "TRY003", "TRY004", "TRY400",
+    "raw-string-in-exception", "f-string-in-exception",
+    "boolean-type-hint-positional-argument", "boolean-default-value-positional-argument",
+    "logging-f-string",
+    "single-line-implicit-string-concatenation",
+    "invalid-module-name",
+    "too-many-return-statements", "no-self-use",
+    "eq-without-hash", "bad-dunder-method-name",
+    "pytest-fixture-incorrect-parentheses-style", "pytest-incorrect-pytest-import",
+    "builtin-open",
+    "non-empty-init-module",
+    "assert", "hardcoded-temp-file", "suspicious-url-open-usage", "suspicious-non-cryptographic-random-usage", "suspicious-subprocess-import",
+    "print",
+    "typing-only-first-party-import", "typing-only-third-party-import", "typing-only-standard-library-import",
+    "relative-imports",
+    "raise-vanilla-args", "type-check-without-type-error", "error-instead-of-exception",
 ]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = [
     "ANN",
-    "ARG001",
-    "PLR2004",
-    "S603", "S607",
-    "SLF001",
-    "PERF203",
-    "B017",
-    "PT011",
+    "unused-function-argument",
+    "magic-value-comparison",
+    "subprocess-without-shell-equals-true", "start-process-with-partial-path",
+    "private-member-access",
+    "try-except-in-loop",
+    "assert-raises-exception",
+    "pytest-raises-too-broad",
 ]
 "update_version.py" = [
-    "S603",
-    "S607",
+    "subprocess-without-shell-equals-true",
+    "start-process-with-partial-path",
 ]
 "docs/conf.py" = [
-    "INP001",
-    "A001",
+    "implicit-namespace-package",
+    "builtin-variable-shadowing",
 ]
 "*" = [
-    "Q000",
+    "bad-quotes-inline-string",
 ]
 
 [tool.ruff.lint.pylint]

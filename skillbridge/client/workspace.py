@@ -61,7 +61,7 @@ class Workspace:
     arm: FunctionCollection
     art: FunctionCollection
     asi: FunctionCollection
-    auLvs: FunctionCollection  # noqa: N815
+    auLvs: FunctionCollection  # ruff: ignore[mixed-case-variable-in-class-scope]
     awv: FunctionCollection
     axl: FunctionCollection
     bnd: FunctionCollection
@@ -289,7 +289,7 @@ class Workspace:
     def close(self, log_exception: bool = True) -> None:
         try:
             self._channel.close()
-        except:  # noqa: E722
+        except:  # ruff: ignore[bare-except]
             if log_exception:
                 logger.exception("Failed to close workspace")
 

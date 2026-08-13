@@ -34,7 +34,7 @@ _STATIC_EVAL_CONTEXT = {
 
 
 def _skill_value_to_python(string: str, eval_context: dict[str, Any] | None = None) -> Skill:
-    return eval(  # type: ignore[no-any-return]  # noqa: S307
+    return eval(  # type: ignore[no-any-return]  # ruff: ignore[suspicious-eval-usage]
         string,
         eval_context or _STATIC_EVAL_CONTEXT,
     )

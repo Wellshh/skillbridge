@@ -57,8 +57,9 @@ def test_direct_mode(no_cover):  # with coverage enabled this test breaks
     virtuoso = b'success 1337\nsuccess 42'
     p = run(['python', '-c', code], capture_output=True, input=virtuoso, check=False)
 
-    out = p.stdout.replace(b' ', b'')
-    assert p.stderr == b'cell_view=1337\n'
+    out = p.stdout.replace(b'\r\n', b'\n').replace(b' ', b'')
+    err = p.stderr.replace(b'\r\n', b'\n').replace(b' ', b'')
+    assert err == b'cell_view=1337\n'
     assert out == b'geGetEditCellView()\ngeGetCellViewWindow(1337)\n'
 
 

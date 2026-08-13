@@ -30,7 +30,7 @@ def deprecated_command() -> None:  # pragma: no cover
 
 
 def shell_command(ws_id: str | None, ping: bool, force_tcp: bool) -> None:
-    import skillbridge  # noqa: PLC0415
+    import skillbridge  # ruff: ignore[import-outside-top-level]
 
     variables = {name: getattr(skillbridge, name) for name in dir(skillbridge)}
     ws = skillbridge.Workspace.open(ws_id, force_tcp=force_tcp)
