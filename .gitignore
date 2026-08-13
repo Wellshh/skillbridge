@@ -35,4 +35,4 @@ python_server.log
 .specstory
 .cursorindexingignore
 
-# .claude/
+.claude/

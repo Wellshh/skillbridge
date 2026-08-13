@@ -13,8 +13,12 @@ from socketserver import (
     StreamRequestHandler,
     TCPServer,
     ThreadingMixIn,
-    UnixStreamServer,
 )
+
+try:
+    from socketserver import UnixStreamServer
+except ImportError:  # pragma: no cover - Windows: unix domain sockets unavailable
+    UnixStreamServer = None  # type: ignore[assignment,misc]
 from sys import argv, platform, stderr, stdin, stdout
 from sys import exit as sys_exit
 from typing import Any
@@ -89,23 +93,27 @@ def create_tcp_server_class(single: bool) -> type[SingleTcpServer]:
     return SingleTcpServer if single else ThreadingTcpServer
 
 
-class SingleUnixServer(UnixStreamServer):
-    request_queue_size: int = 0
-    allow_reuse_address: bool = True
+if UnixStreamServer is not None:  # POSIX only; Windows uses TCP
 
-    def __init__(self, file: str, handler: type[StreamRequestHandler]) -> None:
+    class SingleUnixServer(UnixStreamServer):
+        request_queue_size: int = 0
+        allow_reuse_address: bool = True
 
-        path = f"/tmp/skill-server-{file}.sock"
-        Path(path).unlink(missing_ok=True)
+        def __init__(self, file: str, handler: type[StreamRequestHandler]) -> None:
 
-        super().__init__(path, handler)
+            path = f"/tmp/skill-server-{file}.sock"
+            Path(path).unlink(missing_ok=True)
 
+            super().__init__(path, handler)
 
-class ThreadingUnixServer(ThreadingMixIn, SingleUnixServer):
-    pass
+    class ThreadingUnixServer(ThreadingMixIn, SingleUnixServer):
+        pass
 
 
 def create_unix_server_class(single: bool) -> type[SingleUnixServer]:
+    if UnixStreamServer is None:  # pragma: no cover - Windows
+        msg = "Unix domain sockets are unavailable on this platform"  # type: ignore[unreachable]
+        raise RuntimeError(msg)
     return SingleUnixServer if single else ThreadingUnixServer
 
 
