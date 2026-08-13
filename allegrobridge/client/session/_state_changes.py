@@ -54,4 +54,4 @@ class _StateChange:
 
         self._next_state = _States.ANY
         self._cur_fn = None
-        self._lock = lock if lock is not None else threading.RLock
+        self._lock = lock if lock is not None else threading.RLock()
