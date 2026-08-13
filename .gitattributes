@@ -1,0 +1,23 @@
+# Normalize line endings to LF for all text files, regardless of platform.
+# This prevents entire-file diffs when switching between Windows (CRLF) and WSL/Linux (LF).
+* text=auto
+*.py text eol=lf
+*.il text eol=lf
+*.toml text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+*.cfg text eol=lf
+*.ini text eol=lf
+*.txt text eol=lf
+*.rst text eol=lf
+
+# Binary files (never touch)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.so binary
