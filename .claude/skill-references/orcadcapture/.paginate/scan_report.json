@@ -1,0 +1,1082 @@
+{
+  "token_limit": 15000,
+  "chars_per_token": 4.0,
+  "total_files": 133,
+  "oversized_files": 1,
+  "files": [
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/capture_commands/capture_cmds.md",
+      "relative_path": "capture_commands/capture_cmds.md",
+      "chars": 25107,
+      "lines": 1149,
+      "estimated_tokens": 6276,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/cis_commands/CBOMODBCDataCacheItem.md",
+      "relative_path": "cis_commands/CBOMODBCDataCacheItem.md",
+      "chars": 11854,
+      "lines": 511,
+      "estimated_tokens": 2963,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/cis_commands/CISBase.md",
+      "relative_path": "cis_commands/CISBase.md",
+      "chars": 4074,
+      "lines": 182,
+      "estimated_tokens": 1018,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/cis_commands/CISInstOccurrenceCISVariantPartOBJ_.md",
+      "relative_path": "cis_commands/CISInstOccurrenceCISVariantPartOBJ_.md",
+      "chars": 3343,
+      "lines": 113,
+      "estimated_tokens": 835,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/cis_commands/CISPageCISBase_.md",
+      "relative_path": "cis_commands/CISPageCISBase_.md",
+      "chars": 3623,
+      "lines": 158,
+      "estimated_tokens": 905,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/cis_commands/CISPartInstCISVariantPartOBJ_.md",
+      "relative_path": "cis_commands/CISPartInstCISVariantPartOBJ_.md",
+      "chars": 6760,
+      "lines": 257,
+      "estimated_tokens": 1690,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/cis_commands/CISSchematicCISBase_.md",
+      "relative_path": "cis_commands/CISSchematicCISBase_.md",
+      "chars": 5251,
+      "lines": 206,
+      "estimated_tokens": 1312,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/cis_commands/CISVariantPartOBJCISBase_.md",
+      "relative_path": "cis_commands/CISVariantPartOBJCISBase_.md",
+      "chars": 7644,
+      "lines": 292,
+      "estimated_tokens": 1911,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/cis_commands/CNewBOm.md",
+      "relative_path": "cis_commands/CNewBOm.md",
+      "chars": 4278,
+      "lines": 210,
+      "estimated_tokens": 1069,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/cis_commands/CPMgtCfg.md",
+      "relative_path": "cis_commands/CPMgtCfg.md",
+      "chars": 10381,
+      "lines": 514,
+      "estimated_tokens": 2595,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/cis_commands/CPartPropQPropertyArray_.md",
+      "relative_path": "cis_commands/CPartPropQPropertyArray_.md",
+      "chars": 2845,
+      "lines": 119,
+      "estimated_tokens": 711,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/cis_commands/CRefDes.md",
+      "relative_path": "cis_commands/CRefDes.md",
+      "chars": 1121,
+      "lines": 62,
+      "estimated_tokens": 280,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/cis_commands/CRefDesArray.md",
+      "relative_path": "cis_commands/CRefDesArray.md",
+      "chars": 544,
+      "lines": 31,
+      "estimated_tokens": 136,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/cis_commands/CVariant.md",
+      "relative_path": "cis_commands/CVariant.md",
+      "chars": 10170,
+      "lines": 431,
+      "estimated_tokens": 2542,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/cis_commands/QPropertyArray.md",
+      "relative_path": "cis_commands/QPropertyArray.md",
+      "chars": 1732,
+      "lines": 87,
+      "estimated_tokens": 433,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/cis_commands/QUIntArray.md",
+      "relative_path": "cis_commands/QUIntArray.md",
+      "chars": 1196,
+      "lines": 65,
+      "estimated_tokens": 299,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/cis_commands/StatusInfo.md",
+      "relative_path": "cis_commands/StatusInfo.md",
+      "chars": 5610,
+      "lines": 247,
+      "estimated_tokens": 1402,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/cis_commands/_intro.md",
+      "relative_path": "cis_commands/_intro.md",
+      "chars": 749,
+      "lines": 31,
+      "estimated_tokens": 187,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/CorDb_Dll_Tcl.md",
+      "relative_path": "database_commands/CorDb_Dll_Tcl.md",
+      "chars": 13788,
+      "lines": 557,
+      "estimated_tokens": 3447,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboArcDboVector_.md",
+      "relative_path": "database_commands/DboArcDboVector_.md",
+      "chars": 3247,
+      "lines": 139,
+      "estimated_tokens": 811,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboBezierPointsIter.md",
+      "relative_path": "database_commands/DboBezierPointsIter.md",
+      "chars": 3422,
+      "lines": 137,
+      "estimated_tokens": 855,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboBitMapDboVector_.md",
+      "relative_path": "database_commands/DboBitMapDboVector_.md",
+      "chars": 2485,
+      "lines": 102,
+      "estimated_tokens": 621,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboBookMarkDboNetSymbolInstance_.md",
+      "relative_path": "database_commands/DboBookMarkDboNetSymbolInstance_.md",
+      "chars": 1323,
+      "lines": 45,
+      "estimated_tokens": 330,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboBoxDboVector_.md",
+      "relative_path": "database_commands/DboBoxDboVector_.md",
+      "chars": 2473,
+      "lines": 104,
+      "estimated_tokens": 618,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboBusEntryDboBaseObject_.md",
+      "relative_path": "database_commands/DboBusEntryDboBaseObject_.md",
+      "chars": 3033,
+      "lines": 124,
+      "estimated_tokens": 758,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboCellDboLibObject_.md",
+      "relative_path": "database_commands/DboCellDboLibObject_.md",
+      "chars": 1622,
+      "lines": 65,
+      "estimated_tokens": 405,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboCellPartsIterTBaseDboLibPartsIter_.md",
+      "relative_path": "database_commands/DboCellPartsIterTBaseDboLibPartsIter_.md",
+      "chars": 668,
+      "lines": 21,
+      "estimated_tokens": 167,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboColorRotMirror.md",
+      "relative_path": "database_commands/DboColorRotMirror.md",
+      "chars": 811,
+      "lines": 35,
+      "estimated_tokens": 202,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboCustomItemInstanceDboGraphicInstance_.md",
+      "relative_path": "database_commands/DboCustomItemInstanceDboGraphicInstance_.md",
+      "chars": 1850,
+      "lines": 65,
+      "estimated_tokens": 462,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboDefinition.md",
+      "relative_path": "database_commands/DboDefinition.md",
+      "chars": 28081,
+      "lines": 1203,
+      "estimated_tokens": 7020,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboDesignDboLib_.md",
+      "relative_path": "database_commands/DboDesignDboLib_.md",
+      "chars": 7989,
+      "lines": 313,
+      "estimated_tokens": 1997,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboDesignUpdateOccurrenceBlockerManager.md",
+      "relative_path": "database_commands/DboDesignUpdateOccurrenceBlockerManager.md",
+      "chars": 2926,
+      "lines": 89,
+      "estimated_tokens": 731,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboDevicePinNumbersIter.md",
+      "relative_path": "database_commands/DboDevicePinNumbersIter.md",
+      "chars": 8516,
+      "lines": 333,
+      "estimated_tokens": 2129,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboDisplayPropDboBaseObject_.md",
+      "relative_path": "database_commands/DboDisplayPropDboBaseObject_.md",
+      "chars": 6391,
+      "lines": 245,
+      "estimated_tokens": 1597,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboDrawnInstDboPartInst_.md",
+      "relative_path": "database_commands/DboDrawnInstDboPartInst_.md",
+      "chars": 6766,
+      "lines": 259,
+      "estimated_tokens": 1691,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboERCDboNetSymbolInstance_.md",
+      "relative_path": "database_commands/DboERCDboNetSymbolInstance_.md",
+      "chars": 2753,
+      "lines": 101,
+      "estimated_tokens": 688,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboEllipseDboVector_.md",
+      "relative_path": "database_commands/DboEllipseDboVector_.md",
+      "chars": 3399,
+      "lines": 137,
+      "estimated_tokens": 849,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboFillDboVector_.md",
+      "relative_path": "database_commands/DboFillDboVector_.md",
+      "chars": 1624,
+      "lines": 67,
+      "estimated_tokens": 406,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboGlobalDboNetSymbolInstance_.md",
+      "relative_path": "database_commands/DboGlobalDboNetSymbolInstance_.md",
+      "chars": 782,
+      "lines": 25,
+      "estimated_tokens": 195,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboGraphicArcInstDboGraphicInstance_.md",
+      "relative_path": "database_commands/DboGraphicArcInstDboGraphicInstance_.md",
+      "chars": 3812,
+      "lines": 138,
+      "estimated_tokens": 953,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboGraphicBezierInstDboGraphicInstance_.md",
+      "relative_path": "database_commands/DboGraphicBezierInstDboGraphicInstance_.md",
+      "chars": 2024,
+      "lines": 67,
+      "estimated_tokens": 506,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboGraphicBitMapInstDboGraphicInstance_.md",
+      "relative_path": "database_commands/DboGraphicBitMapInstDboGraphicInstance_.md",
+      "chars": 1931,
+      "lines": 66,
+      "estimated_tokens": 482,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboGraphicBoxInstDboGraphicInstance_.md",
+      "relative_path": "database_commands/DboGraphicBoxInstDboGraphicInstance_.md",
+      "chars": 2910,
+      "lines": 103,
+      "estimated_tokens": 727,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboGraphicCommentTextInstDboGraphicInstance_.md",
+      "relative_path": "database_commands/DboGraphicCommentTextInstDboGraphicInstance_.md",
+      "chars": 3116,
+      "lines": 103,
+      "estimated_tokens": 779,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboGraphicEllipseInstDboGraphicInstance_.md",
+      "relative_path": "database_commands/DboGraphicEllipseInstDboGraphicInstance_.md",
+      "chars": 3046,
+      "lines": 103,
+      "estimated_tokens": 761,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboGraphicInstanceDboBaseObject_.md",
+      "relative_path": "database_commands/DboGraphicInstanceDboBaseObject_.md",
+      "chars": 6906,
+      "lines": 254,
+      "estimated_tokens": 1726,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboGraphicLineInstDboGraphicInstance_.md",
+      "relative_path": "database_commands/DboGraphicLineInstDboGraphicInstance_.md",
+      "chars": 1956,
+      "lines": 67,
+      "estimated_tokens": 489,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboGraphicObjectDboLibObject_.md",
+      "relative_path": "database_commands/DboGraphicObjectDboLibObject_.md",
+      "chars": 10244,
+      "lines": 348,
+      "estimated_tokens": 2561,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboGraphicObjectVectorsIter.md",
+      "relative_path": "database_commands/DboGraphicObjectVectorsIter.md",
+      "chars": 1043,
+      "lines": 41,
+      "estimated_tokens": 260,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboGraphicOleEmbedInstDboGraphicInstance_.md",
+      "relative_path": "database_commands/DboGraphicOleEmbedInstDboGraphicInstance_.md",
+      "chars": 1216,
+      "lines": 41,
+      "estimated_tokens": 304,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboGraphicPolygonInstDboGraphicInstance_.md",
+      "relative_path": "database_commands/DboGraphicPolygonInstDboGraphicInstance_.md",
+      "chars": 2040,
+      "lines": 67,
+      "estimated_tokens": 510,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboGraphicPolylineInstDboGraphicInstance_.md",
+      "relative_path": "database_commands/DboGraphicPolylineInstDboGraphicInstance_.md",
+      "chars": 2060,
+      "lines": 67,
+      "estimated_tokens": 515,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboGraphicSymbolVectorInstDboGraphicInstance_.md",
+      "relative_path": "database_commands/DboGraphicSymbolVectorInstDboGraphicInstance_.md",
+      "chars": 44499,
+      "lines": 1454,
+      "estimated_tokens": 11124,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboInstOccurrenceDboOccurrence_.md",
+      "relative_path": "database_commands/DboInstOccurrenceDboOccurrence_.md",
+      "chars": 14619,
+      "lines": 533,
+      "estimated_tokens": 3654,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboLibDboBaseObject_.md",
+      "relative_path": "database_commands/DboLibDboBaseObject_.md",
+      "chars": 39005,
+      "lines": 1539,
+      "estimated_tokens": 9751,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboLibObjectDboBaseObject_.md",
+      "relative_path": "database_commands/DboLibObjectDboBaseObject_.md",
+      "chars": 2595,
+      "lines": 100,
+      "estimated_tokens": 648,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboLibPackagesIterTBaseDboLibPackagesIter_.md",
+      "relative_path": "database_commands/DboLibPackagesIterTBaseDboLibPackagesIter_.md",
+      "chars": 7307,
+      "lines": 257,
+      "estimated_tokens": 1826,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboLibPartDboSymbol_.md",
+      "relative_path": "database_commands/DboLibPartDboSymbol_.md",
+      "chars": 5092,
+      "lines": 208,
+      "estimated_tokens": 1273,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboLibPartPinsIterDboSymbolPinsIter_.md",
+      "relative_path": "database_commands/DboLibPartPinsIterDboSymbolPinsIter_.md",
+      "chars": 982,
+      "lines": 32,
+      "estimated_tokens": 245,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboLibPartsIterTBaseDboLibPartsIter_.md",
+      "relative_path": "database_commands/DboLibPartsIterTBaseDboLibPartsIter_.md",
+      "chars": 1372,
+      "lines": 44,
+      "estimated_tokens": 343,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboLineDboVector_.md",
+      "relative_path": "database_commands/DboLineDboVector_.md",
+      "chars": 2386,
+      "lines": 102,
+      "estimated_tokens": 596,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboNetOccurrenceEffectivePropsIterDboEffectivePropsIter_.md",
+      "relative_path": "database_commands/DboNetOccurrenceEffectivePropsIterDboEffectivePropsIter_.md",
+      "chars": 10857,
+      "lines": 385,
+      "estimated_tokens": 2714,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboNetScalarDboNet_.md",
+      "relative_path": "database_commands/DboNetScalarDboNet_.md",
+      "chars": 17410,
+      "lines": 633,
+      "estimated_tokens": 4352,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboOffPageConnectorDboNetSymbolInstance,DboInstOccMapper_.md",
+      "relative_path": "database_commands/DboOffPageConnectorDboNetSymbolInstance,DboInstOccMapper_.md",
+      "chars": 2361,
+      "lines": 68,
+      "estimated_tokens": 590,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboOleEmbedDboVector_.md",
+      "relative_path": "database_commands/DboOleEmbedDboVector_.md",
+      "chars": 2554,
+      "lines": 103,
+      "estimated_tokens": 638,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboPackageDboLibObject_.md",
+      "relative_path": "database_commands/DboPackageDboLibObject_.md",
+      "chars": 4444,
+      "lines": 172,
+      "estimated_tokens": 1111,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboPackageDevicesIterTBaseDboPackageDevicesIter_.md",
+      "relative_path": "database_commands/DboPackageDevicesIterTBaseDboPackageDevicesIter_.md",
+      "chars": 10853,
+      "lines": 434,
+      "estimated_tokens": 2713,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboPageEditsIter.md",
+      "relative_path": "database_commands/DboPageEditsIter.md",
+      "chars": 11165,
+      "lines": 391,
+      "estimated_tokens": 2791,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboPageFindGraphicInstIterTBaseDboPageFindGraphicInstIter_.md",
+      "relative_path": "database_commands/DboPageFindGraphicInstIterTBaseDboPageFindGraphicInstIter_.md",
+      "chars": 14179,
+      "lines": 553,
+      "estimated_tokens": 3544,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboPartInstDboGraphicInstance,DboInstOccMapper_.md",
+      "relative_path": "database_commands/DboPartInstDboGraphicInstance,DboInstOccMapper_.md",
+      "chars": 12238,
+      "lines": 400,
+      "estimated_tokens": 3059,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboPolygonDboVector_.md",
+      "relative_path": "database_commands/DboPolygonDboVector_.md",
+      "chars": 3485,
+      "lines": 138,
+      "estimated_tokens": 871,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboPolygonPointsIter.md",
+      "relative_path": "database_commands/DboPolygonPointsIter.md",
+      "chars": 4104,
+      "lines": 168,
+      "estimated_tokens": 1026,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboPortDboNetSymbolInstance_.md",
+      "relative_path": "database_commands/DboPortDboNetSymbolInstance_.md",
+      "chars": 1628,
+      "lines": 57,
+      "estimated_tokens": 407,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboPortInstDboBaseObject,DboInstOccMapper_.md",
+      "relative_path": "database_commands/DboPortInstDboBaseObject,DboInstOccMapper_.md",
+      "chars": 12597,
+      "lines": 443,
+      "estimated_tokens": 3149,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboPortInstDisplayPropsIterDboDisplayPropsIter_.md",
+      "relative_path": "database_commands/DboPortInstDisplayPropsIterDboDisplayPropsIter_.md",
+      "chars": 2229,
+      "lines": 66,
+      "estimated_tokens": 557,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboPortInstEffectivePropsIterDboEffectivePropsIter_.md",
+      "relative_path": "database_commands/DboPortInstEffectivePropsIterDboEffectivePropsIter_.md",
+      "chars": 3928,
+      "lines": 133,
+      "estimated_tokens": 982,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboPortInstScalarDboPortInst_.md",
+      "relative_path": "database_commands/DboPortInstScalarDboPortInst_.md",
+      "chars": 11482,
+      "lines": 420,
+      "estimated_tokens": 2870,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboPrimitiveAndVisiblePowerPins.md",
+      "relative_path": "database_commands/DboPrimitiveAndVisiblePowerPins.md",
+      "chars": 1809,
+      "lines": 65,
+      "estimated_tokens": 452,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboSchematicGlobalDboSchematicSymbolInst_.md",
+      "relative_path": "database_commands/DboSchematicGlobalDboSchematicSymbolInst_.md",
+      "chars": 8952,
+      "lines": 279,
+      "estimated_tokens": 2238,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboSchematicGlobalsIterTBaseDboSchematicGlobalsIter_.md",
+      "relative_path": "database_commands/DboSchematicGlobalsIterTBaseDboSchematicGlobalsIter_.md",
+      "chars": 4480,
+      "lines": 129,
+      "estimated_tokens": 1120,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboSchematicNetBusMembersIterTBaseDboSchematicNetsIter_.md",
+      "relative_path": "database_commands/DboSchematicNetBusMembersIterTBaseDboSchematicNetsIter_.md",
+      "chars": 71258,
+      "lines": 2734,
+      "estimated_tokens": 17814,
+      "exceeds_limit": true
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboSchematicNetBusMembersIterTBaseDboSchematicNetsIter_.part01.md",
+      "relative_path": "database_commands/DboSchematicNetBusMembersIterTBaseDboSchematicNetsIter_.part01.md",
+      "chars": 34904,
+      "lines": 1371,
+      "estimated_tokens": 8726,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboSchematicNetBusMembersIterTBaseDboSchematicNetsIter_.part02.md",
+      "relative_path": "database_commands/DboSchematicNetBusMembersIterTBaseDboSchematicNetsIter_.part02.md",
+      "chars": 36563,
+      "lines": 1372,
+      "estimated_tokens": 9140,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboSchematicNetScalarDboSchematicNet_.md",
+      "relative_path": "database_commands/DboSchematicNetScalarDboSchematicNet_.md",
+      "chars": 9201,
+      "lines": 293,
+      "estimated_tokens": 2300,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboSchematicPortDboSchematicSymbolInst,DboInstOccMapper_.md",
+      "relative_path": "database_commands/DboSchematicPortDboSchematicSymbolInst,DboInstOccMapper_.md",
+      "chars": 1160,
+      "lines": 29,
+      "estimated_tokens": 290,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboSchematicSymbolInstDboBaseObject_.md",
+      "relative_path": "database_commands/DboSchematicSymbolInstDboBaseObject_.md",
+      "chars": 1922,
+      "lines": 67,
+      "estimated_tokens": 480,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboShadowPageDboPage_.md",
+      "relative_path": "database_commands/DboShadowPageDboPage_.md",
+      "chars": 909,
+      "lines": 31,
+      "estimated_tokens": 227,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboState.md",
+      "relative_path": "database_commands/DboState.md",
+      "chars": 1374,
+      "lines": 62,
+      "estimated_tokens": 343,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboSymbolPinScalarDboSymbolPin_.md",
+      "relative_path": "database_commands/DboSymbolPinScalarDboSymbolPin_.md",
+      "chars": 1904,
+      "lines": 62,
+      "estimated_tokens": 476,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboSymbolVectorDboVector_.md",
+      "relative_path": "database_commands/DboSymbolVectorDboVector_.md",
+      "chars": 7654,
+      "lines": 260,
+      "estimated_tokens": 1913,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboSymbolVectorVectorsIter.md",
+      "relative_path": "database_commands/DboSymbolVectorVectorsIter.md",
+      "chars": 4243,
+      "lines": 171,
+      "estimated_tokens": 1060,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboTclHelper.md",
+      "relative_path": "database_commands/DboTclHelper.md",
+      "chars": 5389,
+      "lines": 241,
+      "estimated_tokens": 1347,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboTitleBlockDboGraphicInstance,DboInstOccMapper_.md",
+      "relative_path": "database_commands/DboTitleBlockDboGraphicInstance,DboInstOccMapper_.md",
+      "chars": 9649,
+      "lines": 317,
+      "estimated_tokens": 2412,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboTitleBlockSymbolDboSymbol_.md",
+      "relative_path": "database_commands/DboTitleBlockSymbolDboSymbol_.md",
+      "chars": 1998,
+      "lines": 71,
+      "estimated_tokens": 499,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboValidValuesIter.md",
+      "relative_path": "database_commands/DboValidValuesIter.md",
+      "chars": 882,
+      "lines": 32,
+      "estimated_tokens": 220,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboValue.md",
+      "relative_path": "database_commands/DboValue.md",
+      "chars": 4177,
+      "lines": 185,
+      "estimated_tokens": 1044,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboVectorDboBaseObject_.md",
+      "relative_path": "database_commands/DboVectorDboBaseObject_.md",
+      "chars": 837,
+      "lines": 30,
+      "estimated_tokens": 209,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboViewDboLibObject_.md",
+      "relative_path": "database_commands/DboViewDboLibObject_.md",
+      "chars": 1538,
+      "lines": 62,
+      "estimated_tokens": 384,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboWireBusDboWire_.md",
+      "relative_path": "database_commands/DboWireBusDboWire_.md",
+      "chars": 1473,
+      "lines": 52,
+      "estimated_tokens": 368,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboWireDisplayPropsIterDboDisplayPropsIter_.md",
+      "relative_path": "database_commands/DboWireDisplayPropsIterDboDisplayPropsIter_.md",
+      "chars": 1302,
+      "lines": 44,
+      "estimated_tokens": 325,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboWireScalarDboWire_.md",
+      "relative_path": "database_commands/DboWireScalarDboWire_.md",
+      "chars": 1648,
+      "lines": 66,
+      "estimated_tokens": 412,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/NG_DCFWriter.md",
+      "relative_path": "database_commands/NG_DCFWriter.md",
+      "chars": 19928,
+      "lines": 934,
+      "estimated_tokens": 4982,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/Psp2CapBaseInfoSubsIter.md",
+      "relative_path": "database_commands/Psp2CapBaseInfoSubsIter.md",
+      "chars": 3665,
+      "lines": 136,
+      "estimated_tokens": 916,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/RefDesPartInfo.md",
+      "relative_path": "database_commands/RefDesPartInfo.md",
+      "chars": 2723,
+      "lines": 116,
+      "estimated_tokens": 680,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/RefDesQueryOptions.md",
+      "relative_path": "database_commands/RefDesQueryOptions.md",
+      "chars": 1672,
+      "lines": 65,
+      "estimated_tokens": 418,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/TBaseDboCellPartsIterIterDefs_.md",
+      "relative_path": "database_commands/TBaseDboCellPartsIterIterDefs_.md",
+      "chars": 1220,
+      "lines": 45,
+      "estimated_tokens": 305,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/TBaseDboDesignFlatNetsIterIterDefs_.md",
+      "relative_path": "database_commands/TBaseDboDesignFlatNetsIterIterDefs_.md",
+      "chars": 18100,
+      "lines": 677,
+      "estimated_tokens": 4525,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/TBaseDboFlatNetNetOccurrencesIterIterDefs_.md",
+      "relative_path": "database_commands/TBaseDboFlatNetNetOccurrencesIterIterDefs_.md",
+      "chars": 9309,
+      "lines": 340,
+      "estimated_tokens": 2327,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/TBaseDboLibPartsIterIterDefs_.md",
+      "relative_path": "database_commands/TBaseDboLibPartsIterIterDefs_.md",
+      "chars": 1953,
+      "lines": 67,
+      "estimated_tokens": 488,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/TBaseDboLibUnusedCacheEntriesIterIterDefs_.md",
+      "relative_path": "database_commands/TBaseDboLibUnusedCacheEntriesIterIterDefs_.md",
+      "chars": 4318,
+      "lines": 157,
+      "estimated_tokens": 1079,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/TBaseDboOccurrenceChildrenIterIterDefs_.md",
+      "relative_path": "database_commands/TBaseDboOccurrenceChildrenIterIterDefs_.md",
+      "chars": 6035,
+      "lines": 207,
+      "estimated_tokens": 1508,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/TBaseDboPackageDevicesIterIterDefs_.md",
+      "relative_path": "database_commands/TBaseDboPackageDevicesIterIterDefs_.md",
+      "chars": 1202,
+      "lines": 40,
+      "estimated_tokens": 300,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/TBaseDboPartInstPinsIterIterDefs_.md",
+      "relative_path": "database_commands/TBaseDboPartInstPinsIterIterDefs_.md",
+      "chars": 6467,
+      "lines": 241,
+      "estimated_tokens": 1616,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/TBaseDboWireAliasesIterIterDefs_.md",
+      "relative_path": "database_commands/TBaseDboWireAliasesIterIterDefs_.md",
+      "chars": 12503,
+      "lines": 465,
+      "estimated_tokens": 3125,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/XMATIC.md",
+      "relative_path": "database_commands/XMATIC.md",
+      "chars": 3762,
+      "lines": 143,
+      "estimated_tokens": 940,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/_intro.md",
+      "relative_path": "database_commands/_intro.md",
+      "chars": 18193,
+      "lines": 694,
+      "estimated_tokens": 4548,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/tutorials/ch01_scripting_capability_in_orcad_capture.md",
+      "relative_path": "tutorials/ch01_scripting_capability_in_orcad_capture.md",
+      "chars": 13552,
+      "lines": 224,
+      "estimated_tokens": 3388,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/tutorials/ch02_learn_basic_tcl.md",
+      "relative_path": "tutorials/ch02_learn_basic_tcl.md",
+      "chars": 5497,
+      "lines": 117,
+      "estimated_tokens": 1374,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/tutorials/ch03_learn_capture_database_tcl.md",
+      "relative_path": "tutorials/ch03_learn_capture_database_tcl.md",
+      "chars": 27690,
+      "lines": 798,
+      "estimated_tokens": 6922,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/tutorials/ch04_migrating_orcad_capture_designs.md",
+      "relative_path": "tutorials/ch04_migrating_orcad_capture_designs.md",
+      "chars": 8909,
+      "lines": 221,
+      "estimated_tokens": 2227,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/tutorials/ch05_synchronizing_pcb_footprint_property_value_on_part.md",
+      "relative_path": "tutorials/ch05_synchronizing_pcb_footprint_property_value_on_part.md",
+      "chars": 12856,
+      "lines": 305,
+      "estimated_tokens": 3214,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/tutorials/ch06_package_corrections_in_capture_library_or_design.md",
+      "relative_path": "tutorials/ch06_package_corrections_in_capture_library_or_design.md",
+      "chars": 9318,
+      "lines": 232,
+      "estimated_tokens": 2329,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/tutorials/ch07_enumerating_all_open_libraries_and_designs_in_acti.md",
+      "relative_path": "tutorials/ch07_enumerating_all_open_libraries_and_designs_in_acti.md",
+      "chars": 3432,
+      "lines": 76,
+      "estimated_tokens": 858,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/tutorials/ch08_adding_custom_commands_to_capture.md",
+      "relative_path": "tutorials/ch08_adding_custom_commands_to_capture.md",
+      "chars": 4949,
+      "lines": 104,
+      "estimated_tokens": 1237,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/tutorials/ch09_search_and_replace_text_globally_using_regular_exp.md",
+      "relative_path": "tutorials/ch09_search_and_replace_text_globally_using_regular_exp.md",
+      "chars": 7430,
+      "lines": 191,
+      "estimated_tokens": 1857,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/tutorials/ch10_adding_custom_menus_submenus_under_accessories_and.md",
+      "relative_path": "tutorials/ch10_adding_custom_menus_submenus_under_accessories_and.md",
+      "chars": 4981,
+      "lines": 106,
+      "estimated_tokens": 1245,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/tutorials/ch11_orcad_capture_tcl_tk_applications_dashboard.md",
+      "relative_path": "tutorials/ch11_orcad_capture_tcl_tk_applications_dashboard.md",
+      "chars": 2894,
+      "lines": 100,
+      "estimated_tokens": 723,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/tutorials/ch12_extended_preferences_dialog.md",
+      "relative_path": "tutorials/ch12_extended_preferences_dialog.md",
+      "chars": 700,
+      "lines": 20,
+      "estimated_tokens": 175,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/tutorials/ch13_pdf_export_for_capture_design.md",
+      "relative_path": "tutorials/ch13_pdf_export_for_capture_design.md",
+      "chars": 12147,
+      "lines": 293,
+      "estimated_tokens": 3036,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/tutorials/ch14_capture_communication_server.md",
+      "relative_path": "tutorials/ch14_capture_communication_server.md",
+      "chars": 2535,
+      "lines": 65,
+      "estimated_tokens": 633,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/tutorials/ch15_tcl_encryption_support.md",
+      "relative_path": "tutorials/ch15_tcl_encryption_support.md",
+      "chars": 4892,
+      "lines": 90,
+      "estimated_tokens": 1223,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/tutorials/ch16_page_customization.md",
+      "relative_path": "tutorials/ch16_page_customization.md",
+      "chars": 2504,
+      "lines": 45,
+      "estimated_tokens": 626,
+      "exceeds_limit": false
+    },
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/tutorials/ch17_common_tcl_tk_issues.md",
+      "relative_path": "tutorials/ch17_common_tcl_tk_issues.md",
+      "chars": 661,
+      "lines": 11,
+      "estimated_tokens": 165,
+      "exceeds_limit": false
+    }
+  ],
+  "oversized": [
+    {
+      "path": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/database_commands/DboSchematicNetBusMembersIterTBaseDboSchematicNetsIter_.md",
+      "relative_path": "database_commands/DboSchematicNetBusMembersIterTBaseDboSchematicNetsIter_.md",
+      "chars": 71258,
+      "lines": 2734,
+      "estimated_tokens": 17814,
+      "exceeds_limit": true
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "token_limit": 15000,
+  "chars_per_token": 4.0,
+  "safety_ratio": 0.9,
+  "max_chars_per_page": 54000,
+  "output_dir": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture",
+  "reports_dir": "/Users/wells/Documents/02_\u5de5\u4f5c\u5b9e\u4e60/Job/\u9f99\u65d7\u79d1\u6280/\u4ee3\u7801\u5e93/pcb_pr/.claude/skill-references/orcadcapture/.paginate",
+  "files": [
+    {
+      "source": "database_commands/DboSchematicNetBusMembersIterTBaseDboSchematicNetsIter_.md",
+      "source_estimated_tokens": 17814,
+      "parts": 2,
+      "outputs": [
+        "database_commands/DboSchematicNetBusMembersIterTBaseDboSchematicNetsIter_.part01.md",
+        "database_commands/DboSchematicNetBusMembersIterTBaseDboSchematicNetsIter_.part02.md"
+      ]
+    }
+  ]
+}
