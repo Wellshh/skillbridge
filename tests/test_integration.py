@@ -9,7 +9,7 @@ from skillbridge import LazyList, RemoteObject, RemoteTable, SkillCode, Symbol, 
 here = Path(__file__).parent
 
 
-@fixture(scope='module')
+@fixture(scope='session')
 def ws() -> Workspace:
     try:
         workspace = Workspace.open()
