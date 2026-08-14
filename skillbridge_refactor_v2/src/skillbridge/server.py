@@ -131,7 +131,6 @@ if UnixStreamServer is not None:
             finally:
                 self.socket_path.unlink(missing_ok=True)
 
-
     class ThreadingUnixServer(ThreadingMixIn, SingleUnixServer):
         daemon_threads = True
         block_on_close = True
@@ -362,9 +361,7 @@ def cli() -> None:
     if ns.max_payload_size <= 0:
         raise SystemExit("--max-payload-size must be positive")
     if ns.skill_protocol == "line" and ns.recover_timeouts is True:
-        raise SystemExit(
-            "--recover-timeouts requires --skill-protocol framed"
-        )
+        raise SystemExit("--recover-timeouts requires --skill-protocol framed")
 
     with contextlib.suppress(KeyboardInterrupt):
         main(

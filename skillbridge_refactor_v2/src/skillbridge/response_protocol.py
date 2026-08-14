@@ -7,7 +7,7 @@ from typing import Protocol, TextIO
 
 STX = "\x02"  # successful response starts here
 NAK = "\x15"  # failed response starts here
-RS = "\x1e"   # response terminator
+RS = "\x1e"  # response terminator
 
 
 class SkillResponseProtocolError(RuntimeError):
@@ -94,9 +94,7 @@ class FramedResponseProtocol:
 
             preamble.append(char)
             if len(preamble) > self.max_preamble_chars:
-                raise SkillResponseProtocolError(
-                    "response preamble exceeded configured limit"
-                )
+                raise SkillResponseProtocolError("response preamble exceeded configured limit")
 
         payload: list[str] = []
         while True:
@@ -106,9 +104,7 @@ class FramedResponseProtocol:
 
             payload.append(char)
             if len(payload) > self.max_payload_chars:
-                raise SkillResponseProtocolError(
-                    "SKILL response payload exceeded configured limit"
-                )
+                raise SkillResponseProtocolError("SKILL response payload exceeded configured limit")
 
 
 def create_response_protocol(name: str) -> SkillResponseProtocol:

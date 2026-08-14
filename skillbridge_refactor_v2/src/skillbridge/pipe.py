@@ -39,8 +39,7 @@ class SkillPipeTimeoutError(SkillPipeError):
         self.timeout = timeout
         self.phase = phase
         super().__init__(
-            f"SKILL request timed out after {timeout:g} seconds "
-            f"while waiting for {phase}"
+            f"SKILL request timed out after {timeout:g} seconds while waiting for {phase}"
         )
 
 
@@ -139,8 +138,7 @@ class SkillPipe:
         )
         if recovery and not protocol.recoverable_after_timeout:
             raise ValueError(
-                f"response protocol {protocol.name!r} cannot safely recover "
-                "after a timeout"
+                f"response protocol {protocol.name!r} cannot safely recover after a timeout"
             )
         self._validate_optional_timeout(drain_timeout, name="drain_timeout")
 
@@ -268,8 +266,7 @@ class SkillPipe:
 
             self._mark_desynchronized_locked(
                 SkillPipeDesynchronizedError(
-                    "unexpected or additional response arrived while no frame "
-                    "was expected"
+                    "unexpected or additional response arrived while no frame was expected"
                 )
             )
 
@@ -344,8 +341,7 @@ class SkillPipe:
 
         if self._state is SkillPipeState.DESYNCHRONIZED:
             error = SkillPipeDesynchronizedError(
-                "SKILL pipe is desynchronized; restart the bridge before "
-                "sending another request"
+                "SKILL pipe is desynchronized; restart the bridge before sending another request"
             )
             if self._failure is not None:
                 raise error from self._failure
@@ -384,8 +380,7 @@ class SkillPipe:
             self._drain_timer = None
             self._mark_desynchronized_locked(
                 SkillPipeDesynchronizedError(
-                    f"late SKILL response did not arrive within "
-                    f"{self._drain_timeout:g} seconds"
+                    f"late SKILL response did not arrive within {self._drain_timeout:g} seconds"
                 )
             )
 
@@ -488,9 +483,7 @@ class SkillPipe:
             if envelope.request_id != request_id:
                 with self._condition:
                     self._mark_desynchronized_locked(
-                        SkillPipeDesynchronizedError(
-                            "received a response for a different request"
-                        )
+                        SkillPipeDesynchronizedError("received a response for a different request")
                     )
                 raise SkillPipeDesynchronizedError(
                     "received a response for a different request; restart the bridge"
@@ -523,9 +516,7 @@ class SkillPipe:
 
                 if self._state is SkillPipeState.BROKEN:
                     self._pending_request_id = None
-                    error = SkillPipeBrokenError(
-                        "SKILL IPC pipe failed during execution"
-                    )
+                    error = SkillPipeBrokenError("SKILL IPC pipe failed during execution")
                     if self._failure is not None:
                         raise error from self._failure
                     raise error
@@ -536,9 +527,7 @@ class SkillPipe:
                     or not self._response_enqueued
                 ):
                     self._mark_desynchronized_locked(
-                        SkillPipeDesynchronizedError(
-                            "SKILL pipe transaction state is inconsistent"
-                        )
+                        SkillPipeDesynchronizedError("SKILL pipe transaction state is inconsistent")
                     )
                     raise SkillPipeDesynchronizedError(
                         "SKILL pipe transaction state is inconsistent"

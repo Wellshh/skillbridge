@@ -18,17 +18,13 @@ def test_line_protocol_preserves_newline() -> None:
 
 
 def test_framed_success_preserves_multiline_payload() -> None:
-    response = FramedResponseProtocol().read_response(
-        StringIO("\x02line one\nline two\x1e")
-    )
+    response = FramedResponseProtocol().read_response(StringIO("\x02line one\nline two\x1e"))
     assert response.ok
     assert response.payload == "line one\nline two"
 
 
 def test_framed_error_is_distinct_from_success() -> None:
-    response = FramedResponseProtocol().read_response(
-        StringIO("\x15bad expression\x1e")
-    )
+    response = FramedResponseProtocol().read_response(StringIO("\x15bad expression\x1e"))
     assert not response.ok
     assert response.payload == "bad expression"
 
@@ -47,9 +43,7 @@ def test_optional_preamble_ignoring() -> None:
 
 def test_framed_protocol_rejects_oversized_payload() -> None:
     with pytest.raises(SkillResponseProtocolError):
-        FramedResponseProtocol(max_payload_chars=3).read_response(
-            StringIO("\x02four\x1e")
-        )
+        FramedResponseProtocol(max_payload_chars=3).read_response(StringIO("\x02four\x1e"))
 
 
 def test_framed_protocol_reports_eof_inside_frame() -> None:

@@ -16,7 +16,8 @@ from ..helpers import BlockingTextReader, RecordingWriter
 
 @contextmanager
 def line_server(
-    *, timeout: float | None = 1.0,
+    *,
+    timeout: float | None = 1.0,
 ) -> Iterator[tuple[ThreadingTcpServer, SkillPipe, BlockingTextReader, RecordingWriter]]:
     reader = BlockingTextReader()
     writer = RecordingWriter()
@@ -51,6 +52,7 @@ def port(server: ThreadingTcpServer) -> int:
 @pytest.mark.integration
 def test_legacy_one_line_response_remains_compatible() -> None:
     with line_server() as (server, pipe, reader, writer):
+
         def respond() -> None:
             assert writer.write_event.wait(1.0)
             reader.feed_line("legacy-result\n")

@@ -58,6 +58,7 @@ def port(server: ThreadingTcpServer) -> int:
 def test_real_tcp_round_trip_multiline_error_and_health() -> None:
     with running_server() as (server, pipe, reader, writer):
         with SkillBridgeClient("127.0.0.1", port(server), timeout=2.0) as client:
+
             def success(expected: str, payload: str) -> None:
                 deadline = time.monotonic() + 1.0
                 while expected not in writer.lines() and time.monotonic() < deadline:

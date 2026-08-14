@@ -16,9 +16,7 @@ class PeerClosedError(ProtocolError):
     def __init__(self, expected: int, received: int) -> None:
         self.expected = expected
         self.received = received
-        super().__init__(
-            f"peer closed connection after {received} of {expected} expected bytes"
-        )
+        super().__init__(f"peer closed connection after {received} of {expected} expected bytes")
 
 
 class FrameTooLargeError(ProtocolError):
@@ -50,9 +48,7 @@ def encode_header(payload_size: int) -> bytes:
 
 def decode_header(header: bytes) -> int:
     if len(header) != HEADER_SIZE:
-        raise ProtocolError(
-            f"invalid header size: expected {HEADER_SIZE}, got {len(header)}"
-        )
+        raise ProtocolError(f"invalid header size: expected {HEADER_SIZE}, got {len(header)}")
     try:
         text = header.decode("ascii")
     except UnicodeDecodeError as exc:
@@ -71,9 +67,7 @@ def recv_frame(
     header = recv_exactly(sock, HEADER_SIZE)
     payload_size = decode_header(header)
     if payload_size > max_payload_size:
-        raise FrameTooLargeError(
-            f"payload length {payload_size} exceeds limit {max_payload_size}"
-        )
+        raise FrameTooLargeError(f"payload length {payload_size} exceeds limit {max_payload_size}")
     return recv_exactly(sock, payload_size)
 
 
@@ -84,7 +78,5 @@ def send_frame(
     max_payload_size: int = DEFAULT_MAX_PAYLOAD_SIZE,
 ) -> None:
     if len(payload) > max_payload_size:
-        raise FrameTooLargeError(
-            f"payload length {len(payload)} exceeds limit {max_payload_size}"
-        )
+        raise FrameTooLargeError(f"payload length {len(payload)} exceeds limit {max_payload_size}")
     sock.sendall(encode_header(len(payload)) + payload)
