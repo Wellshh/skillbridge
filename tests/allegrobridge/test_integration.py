@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from time import sleep
 from typing import NewType
 
 import pytest
@@ -16,6 +17,8 @@ def design(ws: Workspace) -> object:
 
 # POC tests
 class TestBasicOp:
+    _IDLE_SECONDS = 5
+
     _design: object
 
     @pytest.fixture(scope='class', autouse=True)
@@ -36,3 +39,12 @@ class TestBasicOp:
 
     def test_can_get_nets(self) -> None:
         self._basic_oop('nets', 1)
+
+    def test_ping(self, ws: Workspace) -> None:
+        for i in range(1_000):
+            assert ws['plus'](i, 0) == i
+
+    def test_callback_keeps_working_while_idle(self, ws: Workspace) -> None:
+        assert ws['plus'](1, 2) == 3
+        sleep(TestBasicOp._IDLE_SECONDS)
+        assert ws['plus'](3, 5) == 8, 'Callback not available until next skill execution'
