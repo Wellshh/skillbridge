@@ -18,7 +18,7 @@ def design(ws: Workspace) -> object:
 class TestBasicOp:
     _design: object
 
-    @pytest.fixture(autouse=True)
+    @pytest.fixture(scope='class', autouse=True)
     def _inject(self, design: object) -> None:
         self._design = design
 

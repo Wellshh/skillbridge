@@ -25,21 +25,23 @@ SKILL 关键语法要点：
 在调用任何 `axl` 开头的底层 API 或进行数据库操作前：
 - **禁止猜测**：你绝不能凭记忆捏造 API 的参数、顺序或类型。
 - **检索流程**：
-  1. 使用 `Grep` 工具搜索 `.agents/skills/cadence-skill-agent/skill-references/api_index.part*.md` 定位目标 API 所在的文件。
-  2. 读取对应的 `.agents/skills/cadence-skill-agent/skill-references/algroskill/filename.md` API 详细说明文档，确切掌握其参数列表 (Signature)、参数类型和返回值类型。
+  1. 使用 `Grep` 搜索 `.claude/skill-references/api_index.part*.md` 定位目标 API 所在的文件。
+  2. 使用 `Read` 读取对应的 `.claude/skill-references/algroskill/filename.md` API 详细说明，确切掌握其参数列表、参数类型和返回值类型。
 - **只有在终端输出中确认了 API 文档细节后，才允许开始生成代码。**
 
 # 3. 文档参考指南
 根据问题类型选择正确的文档：
 | 问题类型 | 文档位置 | 用途 |
 |---------|---------|------|
-| 任何 `axl*` API | `.agents/skills/cadence-skill-agent/skill-references/api_index.part*.md` | 快速定位函数文件 |
-| Allegro PCB 数据库 API | `.agents/skills/cadence-skill-agent/skill-references/algroskill/` | 读取完整 API 文档、参数、返回值 |
-| SKILL 语言语法问题 | `.agents/skills/cadence-skill-agent/skill-references/sklangref/` | 查询内置函数、运算符、语法规范 |
-| SKILL 编程指南 | `.agents/skills/cadence-skill-agent/skill-references/sklanguser/` | 学习编程范式和完整示例 |
+| 任何 `axl*` API | `.claude/skill-references/api_index.part*.md` | 快速定位函数文件 |
+| Allegro PCB 数据库 API | `.claude/skill-references/algroskill/` | 读取完整 API 文档、参数、返回值 |
+| SKILL 通用函数 | `.claude/skill-references/sklang_api_index.part*.md` | 按精确函数名定位文档声明、源文件和行号；最终以正文为准 |
+| SKILL 语言语法正文 | `.claude/skill-references/sklangref/` | 确认内置函数、运算符、参数和返回值 |
+| SKILL 编程主题 | `.claude/skill-references/sklang_topic_index.md` | 按意图定位 User Guide 章节和行号 |
+| SKILL 编程指南正文 | `.claude/skill-references/sklanguser/` | 学习编程范式和完整示例 |
 
 # 4. 示例代码参考（黄金参考）
-项目中提供了 `.agents/skills/cadence-skill-agent/skill-references/examples/` 文件夹，包含实际可运行的 SKILL 示例代码。
+项目中提供了 `.claude/skill-references/examples/` 文件夹，包含实际可运行的 SKILL 示例代码。
 
 **什么时候参考示例：**
 - 当你的任务与已有示例功能相似（如创建过孔、修改布线、导出数据等）
@@ -47,8 +49,8 @@ SKILL 关键语法要点：
 - 不确定某个 API 在真实代码中如何调用时
 
 **如何参考示例：**
-1. 使用 `Bash ls .agents/skills/cadence-skill-agent/skill-references/examples/` 列出所有示例文件
-2. 使用 `Grep` 在示例目录中搜索相关关键词，找到相似功能的示例：`Grep "pattern" ".agents/skills/cadence-skill-agent/skill-references/examples/"`
+1. 使用 `Glob` 在 `.claude/skill-references/examples/` 中列出示例文件
+2. 使用 `Grep` 在该目录搜索相关关键词，找到相似功能的示例
 3. 使用 `Read` 读取整个示例文件，学习：
    - API 的实际调用方式
    - 错误处理模式

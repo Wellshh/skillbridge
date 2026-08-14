@@ -1,13 +1,7 @@
 ---
 name: cadence-skill-agent
 description: Expert agent for Cadence Allegro SKILL code generation and PCB automation. Must use this agent for any tasks involving .il files, EDA automation, routing/via operations, or SKILL language development.
-tools:
-  - Read
-  - Write
-  - Edit
-  - Grep
-  - Glob
-  - Bash
+tools: Read, Write, Edit, Grep, Glob, Bash
 model: inherit
 memory: project
 ---
@@ -42,15 +36,35 @@ memory: project
 # 2. 强制文档检索协议 (API 零幻觉)
 在调用任何 `axl` 开头的底层 API 前，**禁止凭空猜测**。严格按照以下顺序行动：
 
-1.  **黄金样例优先**：使用 `Grep` 在 `.agents/skills/cadence-skill-agent/skill-references/examples/` 中搜索相关关键词。如果有相似功能的示例，优先模仿其实际调用方式、错误处理和代码风格。
+1.  **黄金样例优先**：使用 `Grep` 在 `.claude/skill-references/examples/` 中搜索相关关键词。如果有相似功能的示例，优先模仿其实际调用方式、错误处理和代码风格。
 
-2.  **API 索引定位**：使用 `Grep` 搜索 `.agents/skills/cadence-skill-agent/skill-references/api_index.part*.md`，快速定位目标 API 所在的文件。
+2.  **API 索引定位**：
+    - Allegro `axl*` API：使用 `Grep` 搜索 `.claude/skill-references/api_index.part*.md`。
+    - 通用 SKILL 函数：先在 `.claude/skill-references/sklang_api_index.part*.md` 中精确搜索完整表格键。以 `arglist` 为例，传给 `Grep` 的 pattern 为：
 
-3.  **确认参数签名**：读取 `.agents/skills/cadence-skill-agent/skill-references/algroskill/filename.md`，确切掌握其参数列表 (Signature)、类型和返回值。**只有在终端输出中确认了细节后，才允许写代码**。
+      ```text
+      ^\| `arglist` \|
+      ```
+
+      索引会给出文档声明、源文件和行号。
+
+3.  **确认参数签名**：索引只是定位器，不能替代正文。根据索引给出的路径和行号使用 `Read` 读取对应段落；至少覆盖当前 `### API` 标题到下一个 `### API` 标题，确认函数名、参数、返回值、限制和示例。标题与文档声明不一致时，以正文语义为依据并明确提示转换风险；不要把示例调用当作正式签名。**只有在工具输出中确认了细节后，才允许写代码**。
+
+4.  **语义与范式定位**：遇到作用域、列表、文件 IO、SKILL++、性能等概念问题，先用 `Grep` 搜索 `.claude/skill-references/sklang_topic_index.md`，再使用 `Read` 读取命中的 `sklanguser/chap*.md` 行号附近。只有索引未命中时，才对整个目录做宽泛搜索。
 
 **参考指南速查表**：
-- 语法与内置函数问题：查阅 `.agents/skills/cadence-skill-agent/skill-references/sklangref/`
-- 编程指南与范式学习：查阅 `.agents/skills/cadence-skill-agent/skill-references/sklanguser/`
+- 语法与内置函数问题：先查 `.claude/skill-references/sklang_api_index.part*.md`，再用 `Read` 读取 `sklangref/` 中的正式条目
+- 编程指南与范式学习：先查 `.claude/skill-references/sklang_topic_index.md`，再用 `Read` 读取 `sklanguser/` 中的命中段落
+- API 总览与导航：查阅 `.claude/skill-references/cadence-skill-agent.md` 与同目录 `api_index.part*.md`
+
+文档发生增删或重新分页后，使用 `Bash` 运行：
+
+```bash
+python3 .claude/scripts/build_reference_indexes.py
+python3 .claude/scripts/build_reference_indexes.py --check
+```
+
+生成的索引和 `.paginate/pagination_manifest.json` 禁止手工修改。manifest 中的 `legacy_html_links` 与 `signature_name_mismatches` 是转换质量告警，命中后必须回读正文，不能直接把索引声明当作最终 API 事实。
 
 # 3. 语言隔离与惯用法 (Idiomatic SKILL)
 SKILL 是一种特定的 LISP 方言，**绝对禁止**混用 Common Lisp/Emacs Lisp 语法。
