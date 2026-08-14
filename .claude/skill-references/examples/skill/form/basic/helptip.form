@@ -1,0 +1,55 @@
+##
+# Demostration of FORM helptip  capability
+# See helptip.il Skill file
+
+
+FILE_TYPE=FORM_DEFN VERSION=2
+FORM
+FIXED
+PORT 30 10
+HEADER "Helptip Programming Example"
+
+TILE
+
+TEXT "I did it!"
+TLOC 6 2
+OPTIONS BOLD
+ENDTEXT
+
+TEXT "String:"
+FLOC 2 4
+ENDTEXT
+
+FIELD fillin
+FLOC 16 4
+STRFILLIN 7 128
+HELPTIP "A field to enter any free form data."
+ENDFIELD
+
+FIELD checkbox
+FLOC 2 6
+CHECKLIST "A checkbox"
+HELPTIP "A checkbox control where text to right indicates function."
+ENDFIELD
+
+# helptip show field; multiline
+GROUP "Info about field"
+FLOC 2 9
+FSIZE 27 6
+ENDGROUP
+
+TEXT 
+FLOC 3 11
+INFO helptip 1
+FSIZE 25 4
+ENDFIELD
+
+FIELD done
+FLOC 4 16
+MENUBUTTON "OK" 9 3
+HELPTIP "Click to close form."
+ENDFIELD
+ENDTILE
+
+ENDFORM
+

@@ -1,0 +1,22 @@
+#!/bin/csh -f
+
+if (!($?VERSION)) then
+    setenv VERSION  13.6
+endif
+
+setenv noconfirm
+unsetenv TELSKILL
+
+#which allegro
+
+cat > tmp.scr << EOF_FILE
+skill load "Dumplist.il"
+skill DumpAxlFuncs( "$VERSION.txt" )
+set noconfirm
+quit
+EOF_FILE
+
+#allegro_layout -nographic here << EOF_FILE
+allegro -expert -p . -nographic -s tmp.scr 
+(/bin/rm -f *.jrl* tmp.scr)
+exit 0

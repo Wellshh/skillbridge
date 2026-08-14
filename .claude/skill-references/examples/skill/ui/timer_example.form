@@ -1,0 +1,38 @@
+# demostrates method for using axlUIWTimerAdd and Form Progress contro
+# paired with Skill file timer.il
+
+FILE_TYPE=FORM_DEFN VERSION=2
+FORM 
+FIXED
+PORT 24 6
+HEADER "Timer Progress Example"
+
+TILE
+
+TEXT "Count:"
+TLOC 2 2
+ENDTEXT
+TEXT
+TLOC 7 2
+INFO count 8
+ENDTEXT
+
+TEXT "Meter:"
+TLOC 2 4
+ENDTEXT
+
+FIELD progress
+FLOC 7 4
+PROGRESS 16 3
+ENDFIELD
+
+
+FIELD close
+FLOC 8 8
+MENUBUTTON "Stop" 10 4
+ENDFIELD
+
+
+ENDTILE
+
+ENDFORM

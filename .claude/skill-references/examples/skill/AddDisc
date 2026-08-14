@@ -1,0 +1,21 @@
+#!/bin/csh -f
+
+set WARRANTY = disclaimer.il
+
+set l = (*)
+set i = $l[1]
+while $#l
+    if (-d $i) then
+	set l = ($i/* $l)
+    else if ($i =~ *.il) then
+	grep -s WARRANTY $i
+	if ($status) then
+	    cp $WARRANTY temp
+	    cat $i >> temp
+	    mv temp $i
+	endif	
+    endif
+    set i = $l[1]
+    shift l
+end
+

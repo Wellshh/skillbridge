@@ -1,0 +1,16 @@
+# Allegro script for loading required Skill program files 
+# and launching Constraint Automation example.
+
+# Launch Constraint Manager
+setwindow pcb
+cmgr
+setwindow cmgr
+
+# Load Skill files for Constraint Automation.
+cm SILApplyString load ( t "cmsk_main.il" )
+cm SILApplyString load ( t "cmsk_diffpair.il" )
+# Insert additional Skill files here when available.
+
+# Run the Constraint Automation program's main loop.
+cm SILApplyString cmsk_afterCMLaunch ( t "cmsk_report.txt" ) ( t "cmsk_config.txt" )
+cm endUndoBlock

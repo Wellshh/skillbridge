@@ -1,0 +1,463 @@
+#
+# Example form file -- goes with axlform.il
+#
+FILE_TYPE=FORM_DEFN VERSION=2
+FORM AUTOGREYTEXT 
+FIXED
+PORT 44 14
+HEADER "Form Field Type Demo"
+
+POPUP <STRING>"Fee""0","Fi""1","Foo""2","Fum""3", "Disabled""4".
+POPUP <ENUM>"ITEM1""0","ITEM2""1","ITEM3""2","LAST ONE""3".
+POPUP <ENUMCOLOR>"PLACEHOLDER""0".
+
+POPUP <BUTPOP_O>"but item1""item1","but item2""item2","but item3""item3".
+POPUP <BUTPOP>"but item1""1","but item2""2","but item3""3".
+
+POPUP <RIGHTPOP>"A""1","Context""2","Popup""3".
+POPUP <TREE>"Expand All""expand_all","Collapse Top""collapse_top".
+
+MESSAGE nedit 2 "Not editable while in interactive command."
+
+TILE
+
+TABSET "tab"
+OPTIONS tabsetDispatch
+FLOC 2 1
+FSIZE 42 27
+
+TAB "Fillins"
+
+TEXT "Enum single/drop:"
+FLOC 2 2
+ENDTEXT
+
+FIELD enum
+FLOC 16 2
+ENUMSET 7
+POP "ENUM"
+ENDFIELD
+
+FIELD enumdrop
+FLOC 29 2
+ENUMSET 7 4
+OPTIONS prettyprint 
+POP "ENUM"
+ENDFIELD
+
+
+TEXT "Enum with color:"
+FLOC 2 4
+ENDTEXT
+
+FIELD enumcolor
+FLOC 16 4
+ENUMSET 8
+OPTIONS ownerdrawn prettyprint 
+POP "ENUMCOLOR"
+ENDFIELD
+
+TEXT "String field:"
+FLOC 2 6
+ENDTEXT
+
+FIELD string
+FLOC 16 6
+STRFILLIN 7 50
+ENDFIELD
+
+TEXT "String w/enum:"
+FLOC 2 8
+ENDTEXT
+
+FIELD strwenum
+FLOC 16 8
+STRFILLIN 7 7
+POP "STRING"
+ENDFIELD
+
+TEXT "Float field:"
+FLOC 2 10
+ENDTEXT
+
+FIELD float
+FLOC 16 10
+REALFILLIN 7 7
+DECIMAL 3
+ENDFIELD
+
+TEXT "Integer field:"
+FLOC 2 12
+ENDTEXT
+
+FIELD int
+FLOC 16 12
+LONGFILLIN 5 5
+MIN 0
+MAX 500
+ENDFIELD
+
+TEXT "Slidebar:" t1
+FLOC 2 14
+ENDTEXT
+
+FIELD slidebar
+FLOC 16 14
+INTSLIDEBAR 2 2
+MIN 1
+MAX 16
+ENDFIELD
+
+# next two field sets test when field is grey associated text
+# is also greyed
+TEXT "Grey enum:"
+FLOC 2 18
+ENDTEXT
+
+FIELD grey_enum
+ENUMSET 10
+FLOC 16 18
+POP "STRING"
+ENDFIELD
+
+TEXT "Grey string:"
+FLOC 2 20
+ENDTEXT
+
+FIELD grey_string
+FLOC 16 20
+STRFILLIN 12 16
+ENDFIELD
+
+ENDTAB
+
+TAB "Fillin2"
+
+TEXT "Multiline:"
+FLOC 2 6
+ENDTEXT
+
+FIELD mline
+FLOC 16 6
+STRFILLIN 16 1024
+FSIZE 16 10
+ENDFIELD
+
+ENDTAB
+
+TAB "Text"
+
+GROUP "Dynamic Group"
+FLOC 2 1
+FSIZE 32 5
+INFO group
+ENDGROUP
+
+TEXT "Static Text:" static_text
+FLOC 4 4
+ENDTEXT
+
+TEXT
+FLOC 14 4
+INFO info 18
+ENDTEXT
+
+GROUP "Text Types"
+FLOC 2 6
+FSIZE 32 6
+ENDGROUP
+
+{
+TEXT "Bold"
+FLOC 4 8
+OPTIONS bold
+ENDTEXT
+
+TEXT "Underline"
+FLOC 10 8
+OPTIONS underline
+ENDTEXT
+
+TEXT "Disabled"
+INFO disabled_text
+FLOC 20 8
+ENDTEXT
+}
+
+TEXT "Right Just"
+FLOC 4 10
+OPTIONS right 
+ENDTEXT
+
+TEXT "Center + Border"
+FLOC 17 10
+OPTIONS center border
+ENDTEXT
+
+GROUP "Group Text Set By Form File" g2
+FLOC 2 12
+FSIZE 32 7
+ENDGROUP
+
+TEXT
+FLOC 4 14
+INFO multiline 1
+FSIZE 28 5
+ENDTEXT
+
+
+TEXT "Vert"
+FLOC 35 0
+ENDTEXT
+
+GROUP ""
+FLOC 36 1
+FSIZE 0 14
+ENDGROUP
+
+TEXT "Horizontal Line:"
+FLOC 2 20
+ENDTEXT
+
+GROUP ""
+FLOC 2 21
+FSIZE 32 0
+ENDGROUP
+
+ENDTAB
+
+TAB "Buttons"
+
+GROUP "Radio Buttons"
+FLOC 2 2
+FSIZE 14 8
+ENDGROUP
+
+FIELD radio1
+FLOC 4 4
+CHECKLIST "Radio1" "rg"
+ENDFIELD
+
+FIELD radio2
+FLOC 4 6
+CHECKLIST "Radio2" "rg"
+ENDFIELD
+
+FIELD radio3
+FLOC 4 8
+CHECKLIST "Radio3 xyz" "rg"
+ENDFIELD
+
+FIELD checkbox
+FLOC 20 4
+CHECKLIST "Checkbox"
+ENDFIELD
+
+FIELD ButtoN
+FLOC 4 13
+MENUBUTTON "Button" 14 3
+ENDFIELD
+
+FIELD butpopup
+FLOC 20 13
+MENUBUTTON "ButtonWPopup" 9 3
+POP "BUTPOP"
+ENDFIELD
+
+ENDTAB
+
+TAB "List"
+
+TEXT "Single Selection"
+OPTIONS underline
+FLOC 4 2
+ENDTEXT
+
+FIELD listfield
+FLOC 2 4
+LIST "" 16 7
+OPTIONS sort
+ENDFIELD
+
+TEXT "MutliSelect"
+OPTIONS underline
+FLOC 23 2
+ENDTEXT
+
+FIELD mlistfield
+FLOC 20 4
+LIST "" 16 7
+OPTIONS multiselect prettyprint
+ENDFIELD
+
+FIELD listfield_delete
+FLOC 4 18
+MENUBUTTON "Delete" 9 3
+ENDFIELD
+
+FIELD mlistfield_sel
+FLOC 24 18
+MENUBUTTON "Sel All" 9 3
+ENDFIELD
+
+TEXT Selected:
+FLOC 2 21
+ENDTEXT
+
+TEXT
+FLOC 10 21
+INFO listtext 24
+ENDTEXT
+
+ENDTAB
+
+TAB "Misc"
+TEXT "Progress Meter:"
+FLOC 4 2
+ENDTEXT
+
+FIELD progress
+FLOC 16 2
+PROGRESS 16 3
+ENDFIELD
+
+FIELD progstep
+FLOC 34 2
+MENUBUTTON "Step" 5 2
+ENDFIELD
+
+TEXT "Trackbar:"
+FLOC 4 5
+ENDTEXT
+
+FIELD trackbar
+FLOC 10 4
+TRACKBAR 28 4
+MIN 0
+MAX 100
+ENDFIELD
+
+TEXT "Color Buttons:"
+FLOC 4 7
+ENDTEXT
+
+FIELD color
+FLOC 16 7
+COLOR 3 1
+ENDFIELD
+
+TEXT "Static:" stc
+FLOC 22 7
+ENDTEXT
+
+FIELD icolor
+FLOC 30 7
+COLOR 3 1
+INFO_ONLY
+ENDFIELD
+
+TEXT "Bitmaps:"
+FLOC 4 10
+ENDTEXT
+
+FIELD bmp1
+THUMBNAIL axlformbmp1
+FLOC 13 10
+FSIZE 5 4
+ENDFIELD
+
+TEXT "Center"
+FLOC 13 14
+ENDTEXT
+
+
+FIELD bmp3
+THUMBNAIL axlformbmp1
+OPTIONS stretch
+FLOC 22 10
+FSIZE 5 4
+ENDFIELD
+
+TEXT "Stretch"
+FLOC 22 14
+ENDTEXT
+
+TEXT "Program:"
+FLOC 4 16
+ENDTEXT
+
+FIELD bmpcheck
+FLOC 10 16
+CHECKLIST ""
+ENDFIELD
+
+FIELD bmp2
+THUMBNAIL
+FLOC 15 16
+FSIZE 4 3
+ENDFIELD
+
+ENDTAB
+
+TAB "TreeView"
+
+FIELD tree
+FLOC 2 3
+TREEVIEW  20 6
+POP "TREE"
+ENDFIELD
+
+ENDTAB
+
+TAB "Graphics"
+
+FIELD graphic
+THUMBNAIL
+FLOC 3 1
+FSIZE 15 15
+ENDFIELD
+
+FIELD redraw
+FLOC 21 8
+MENUBUTTON "Draw" 14 4
+ENDFIELD
+
+FIELD bitmap
+THUMBNAIL
+OPTIONS stretch
+FLOC 5 17
+FSIZE 29 5
+ENDFIELD
+
+ENDTAB
+
+
+ENDTABSET
+
+FIELD done
+FLOC 2 29
+MENUBUTTON "OK" 10 3
+ENDFIELD
+
+FLEXMODE edgegravity
+FLEX tab 0 0 1 1
+FLEX listfield 0 0 1 1
+FLEX tree 0 0 1 1
+FLEX progress 0 0 1 0
+FLEX enum 0 0 1 0
+FLEX string 0 0 1 0
+FLEX strwenum 0 0 1 0
+FLEX float 0 0 1 0
+FLEX int 0 0 1 0
+FLEX t1 0 0 0 0
+FLEX g2 0 1 0 0
+FLEX bmpcheck 1 0 0 0
+FLEX bmp1 0 0 1 1
+FLEX stc 0.5 0 0 0
+FLEX color 0.0 0 0.5 0
+FLEX icolor 0.5 0 0.5 0
+FLEX slidebar 0 0 1 0
+
+ENDTILE
+
+ENDFORM

@@ -40,26 +40,30 @@ memory: project
 
 2.  **API 索引定位**：
     - Allegro `axl*` API：使用 `Grep` 搜索 `.claude/skill-references/api_index.part*.md`。
-    - 通用 SKILL 函数：先在 `.claude/skill-references/sklang_api_index.part*.md` 中精确搜索完整表格键。以 `arglist` 为例，传给 `Grep` 的 pattern 为：
+    - 通用 SKILL、IPC、开发工具和 SKILL++ API：先在 `.claude/skill-references/sklang_api_index.part*.md` 中精确搜索完整表格键。以 `ipcBeginProcess` 为例，传给 `Grep` 的 pattern 为：
 
       ```text
-      ^\| `arglist` \|
+      ^\| `ipcBeginProcess` \|
       ```
 
       索引会给出文档声明、源文件和行号。
 
-3.  **确认参数签名**：索引只是定位器，不能替代正文。根据索引给出的路径和行号使用 `Read` 读取对应段落；至少覆盖当前 `### API` 标题到下一个 `### API` 标题，确认函数名、参数、返回值、限制和示例。标题与文档声明不一致时，以正文语义为依据并明确提示转换风险；不要把示例调用当作正式签名。**只有在工具输出中确认了细节后，才允许写代码**。
+3.  **确认参数签名**：索引只是定位器，不能替代正文。根据索引给出的路径和行号使用 `Read` 读取对应段落；至少覆盖当前 `### API` 标题到下一个 `### API` 标题，包括中间所有 `## PDF page` 物理页。路径分流：`sklangref/` 为语言 API，`skipcref/` 为 IPC，`skdevref/` 为开发/调试，`skoopref/` 为 SKILL++ 对象系统。确认函数名、参数、返回值、限制和示例后才能生成代码。
 
 4.  **语义与范式定位**：遇到作用域、列表、文件 IO、SKILL++、性能等概念问题，先用 `Grep` 搜索 `.claude/skill-references/sklang_topic_index.md`，再使用 `Read` 读取命中的 `sklanguser/chap*.md` 行号附近。只有索引未命中时，才对整个目录做宽泛搜索。
 
 **参考指南速查表**：
 - 语法与内置函数问题：先查 `.claude/skill-references/sklang_api_index.part*.md`，再用 `Read` 读取 `sklangref/` 中的正式条目
+- IPC 进程与回调问题：先查同一 API 索引，再用 `Read` 读取 `skipcref/` 中从命中行号到下一 API 标题的完整条目
+- 开发/调试或 SKILL++ 对象系统：先查同一 API 索引，再分别读 `skdevref/` 或 `skoopref/`
 - 编程指南与范式学习：先查 `.claude/skill-references/sklang_topic_index.md`，再用 `Read` 读取 `sklanguser/` 中的命中段落
 - API 总览与导航：查阅 `.claude/skill-references/cadence-skill-agent.md` 与同目录 `api_index.part*.md`
 
 文档发生增删或重新分页后，使用 `Bash` 运行：
 
 ```bash
+python3 .claude/scripts/convert_pdf_references.py
+python3 .claude/scripts/convert_pdf_references.py --check
 python3 .claude/scripts/build_reference_indexes.py
 python3 .claude/scripts/build_reference_indexes.py --check
 ```

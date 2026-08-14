@@ -23,6 +23,9 @@ class ReferenceIndexBuilderTests(unittest.TestCase):
         self.root = Path(self.temp_dir.name)
         (self.root / "sklangref").mkdir()
         (self.root / "sklanguser").mkdir()
+        (self.root / "skipcref").mkdir()
+        (self.root / "skdevref").mkdir()
+        (self.root / "skoopref").mkdir()
         (self.root / "docs").mkdir()
 
     def tearDown(self):
@@ -119,6 +122,26 @@ class ReferenceIndexBuilderTests(unittest.TestCase):
         self.assertIn("| Getting Started | `sklanguser/chap1.md` |", topic_index)
         self.assertIn("| Solving Common Problems | `sklanguser/chap1.md` |", topic_index)
 
+    def test_indexes_supplemental_skill_api_references(self):
+        (self.root / "skipcref" / "skipcref.part01.md").write_text(
+            "### ipcBeginProcess\n\n"
+            "`ipcBeginProcess( t_command [ t_hostName ] ) => o_childId`\n",
+            encoding="utf-8",
+        )
+        (self.root / "skoopref" / "skoopref.part01.md").write_text(
+            "### makeInstance\n\n"
+            "`makeInstance( us_class @rest l_initargs ) => g_instance`\n",
+            encoding="utf-8",
+        )
+
+        builder = load_builder()
+        builder.build(self.root)
+
+        ipc_index = (self.root / "sklang_api_index.part02.md").read_text(encoding="utf-8")
+        object_index = (self.root / "sklang_api_index.part02.md").read_text(encoding="utf-8")
+        self.assertIn("`skipcref/skipcref.part01.md`", ipc_index)
+        self.assertIn("`skoopref/skoopref.part01.md`", object_index)
+
     def test_manifest_is_portable_and_reports_legacy_links(self):
         (self.root / "sklangref" / "core.md").write_text(
             "### arglist\n\n`arglist( g_function ) => l_argumentList`\n\n"
@@ -134,6 +157,10 @@ class ReferenceIndexBuilderTests(unittest.TestCase):
         )
         serialized = json.dumps(manifest)
         self.assertEqual(manifest["schema_version"], 2)
+        self.assertEqual(
+            manifest["indexes"]["api_reference_dirs"],
+            ["sklangref", "skipcref", "skdevref", "skoopref"],
+        )
         self.assertNotIn(str(self.root), serialized)
         self.assertEqual(manifest["quality"]["legacy_html_links"], 1)
         self.assertEqual(manifest["documents"][0]["path"], "sklangref/core.md")

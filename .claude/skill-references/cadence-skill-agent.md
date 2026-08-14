@@ -35,8 +35,11 @@ SKILL 关键语法要点：
 |---------|---------|------|
 | 任何 `axl*` API | `.claude/skill-references/api_index.part*.md` | 快速定位函数文件 |
 | Allegro PCB 数据库 API | `.claude/skill-references/algroskill/` | 读取完整 API 文档、参数、返回值 |
-| SKILL 通用函数 | `.claude/skill-references/sklang_api_index.part*.md` | 按精确函数名定位文档声明、源文件和行号；最终以正文为准 |
+| SKILL 通用/IPC/开发/SKILL++ API | `.claude/skill-references/sklang_api_index.part*.md` | 按精确函数名定位正式声明、源文件和行号；最终以正文为准 |
 | SKILL 语言语法正文 | `.claude/skill-references/sklangref/` | 确认内置函数、运算符、参数和返回值 |
+| IPC 正文 | `.claude/skill-references/skipcref/` | 确认 `ipc*` 函数、进程句柄、数据/错误/结束回调与等待语义 |
+| SKILL 开发工具正文 | `.claude/skill-references/skdevref/` | 确认 profiler、lint、context、debugger、Finder 和 IDE API |
+| SKILL++ 对象系统正文 | `.claude/skill-references/skoopref/` | 确认 class、instance、generic function、method 和 dependency API |
 | SKILL 编程主题 | `.claude/skill-references/sklang_topic_index.md` | 按意图定位 User Guide 章节和行号 |
 | SKILL 编程指南正文 | `.claude/skill-references/sklanguser/` | 学习编程范式和完整示例 |
 

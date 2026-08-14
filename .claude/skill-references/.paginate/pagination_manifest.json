@@ -10,6 +10,20 @@
   },
   "sources": [
     {
+      "path": "docs/skdevref.pdf",
+      "source_version": "6.1.6 / August 2014",
+      "bytes": 586373,
+      "sha256": "39a473f10193282fe9e9db44ca20a4a6590e33cf09ee33e0c91d7cf8fee3a3cc",
+      "physical_pages": 162
+    },
+    {
+      "path": "docs/skipcref.pdf",
+      "source_version": "6.1.6 / August 2014",
+      "bytes": 310038,
+      "sha256": "cf33c29095dcd9d98a5772ff1217d1985741bc0e21e2205394c9ff92097e8df5",
+      "physical_pages": 56
+    },
+    {
       "path": "docs/sklangref.pdf",
       "source_version": "6.1.6 / November 2014",
       "bytes": 2184579,
@@ -22,6 +36,13 @@
       "bytes": 2182653,
       "sha256": "ce0623f9a559a189066557e7a22674e976aad6b22426cd9bdfce46e32015ba20",
       "physical_pages": 408
+    },
+    {
+      "path": "docs/skoopref.pdf",
+      "source_version": "6.1.6 / November 2014",
+      "bytes": 313336,
+      "sha256": "d8541b60c5c1a4ebb433243abc5422c3674ec05cc5b70f8707fb9619519ee0fc",
+      "physical_pages": 72
     }
   ],
   "documents": [
@@ -633,10 +654,79 @@
       "estimated_tokens": 617,
       "exceeds_limit": false,
       "exceeds_safety_target": false
+    },
+    {
+      "path": "skipcref/skipcref.part01.md",
+      "chars": 51779,
+      "estimated_tokens": 12945,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "skipcref/skipcref.part02.md",
+      "chars": 38927,
+      "estimated_tokens": 9732,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "skdevref/skdevref.part01.md",
+      "chars": 51122,
+      "estimated_tokens": 12781,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "skdevref/skdevref.part02.md",
+      "chars": 51856,
+      "estimated_tokens": 12964,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "skdevref/skdevref.part03.md",
+      "chars": 51900,
+      "estimated_tokens": 12975,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "skdevref/skdevref.part04.md",
+      "chars": 51913,
+      "estimated_tokens": 12979,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "skdevref/skdevref.part05.md",
+      "chars": 1314,
+      "estimated_tokens": 329,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "skoopref/skoopref.part01.md",
+      "chars": 50833,
+      "estimated_tokens": 12709,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "skoopref/skoopref.part02.md",
+      "chars": 42837,
+      "estimated_tokens": 10710,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
     }
   ],
   "indexes": {
-    "api_entries": 467,
+    "api_entries": 621,
+    "api_reference_dirs": [
+      "sklangref",
+      "skipcref",
+      "skdevref",
+      "skoopref"
+    ],
     "topic_entries": 472,
     "outputs": [
       "sklang_api_index.part01.md",
@@ -647,6 +737,6 @@
   },
   "quality": {
     "legacy_html_links": 3159,
-    "signature_name_mismatches": 14
+    "signature_name_mismatches": 15
   }
 }

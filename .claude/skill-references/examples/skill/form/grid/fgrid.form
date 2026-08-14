@@ -1,0 +1,118 @@
+# Example of programming the Form Grid Comtrol in Skill
+
+FILE_TYPE=FORM_DEFN VERSION=2
+FORM 
+FIXED
+PORT 91 12
+HEADER "Grid Demo"
+
+POPUP <pglobal>"Enable Cell""enableCell","Disable Cell""disableCell","Set Enum""setEnum","Unset Enum""unsetEnum".
+POPUP <penum>"A""1","Typical""2","Drop""3","down""4".
+POPUP <penum2>"Mod""mod","Enum""enum","B""b","C""c","D""d","E""e","F""f","G""g","H""h","I""i","J""j".
+POPUP <ptop>"Top""Top","Of""Of","Header""Header","Popup""Popup".
+POPUP <pside>"Side""1","Of""2","Header""3","Popup""4".
+POPUP <pstring>"A""1","String""2","With""3","Enum""4".
+
+TILE
+
+GRID grid
+FLOC 2 1
+FSIZE 72 17
+#ifdef MSEL
+OPTIONS HLINES VLINES USERSIZE MULTISELROW
+#else
+OPTIONS HLINES VLINES USERSIZE 
+#endif
+POP "pglobal"
+
+GHEAD TOP 
+HEADSIZE 3
+OPTIONS 3D MULTI
+POP "ptop"
+ENDGHEAD
+
+GHEAD SIDE
+OPTIONS 3D NUMBER 
+HEADSIZE 5
+POP "pside"
+ENDGHEAD
+
+ENDGRID
+
+FIELD done
+FLOC 79 2
+MENUBUTTON "OK" 10 3
+ENDFIELD
+
+FIELD rowselect
+FLOC 78 6
+CHECKLIST "Rowselect" "1"
+ENDFIELD
+
+FIELD cellselect
+FLOC 78 8
+CHECKLIST "Cellselect" "1"
+ENDFIELD
+
+FIELD change
+FLOC 78 10
+CHECKLIST "Change"
+ENDFIELD
+
+FIELD rightpopup
+FLOC 78 12
+CHECKLIST "RightPopup"
+ENDFIELD
+
+FIELD add4
+FLOC 78 14
+MENUBUTTON "Add4" 6 2
+ENDFIELD
+
+FIELD del4
+FLOC 78 16
+MENUBUTTON "Del4" 6 2
+ENDFIELD
+
+TEXT "Get Cell:"
+FLOC 42 19
+ENDTEXT
+
+FIELD data
+FLOC 50 19
+STRFILLIN 8 8
+ENDFIELD
+
+TEXT "Row:"
+FLOC 2 19
+ENDTEXT
+
+TEXT
+FLOC 7 19
+INFO row 4
+ENDTEXT
+
+TEXT "Col:"
+FLOC 12 19
+ENDTEXT
+
+TEXT
+FLOC 16 19
+INFO col 4
+ENDTEXT
+
+TEXT "Event:"
+FLOC 22 19
+ENDTEXT
+
+TEXT
+FLOC 27 19
+INFO event 10
+ENDTEXT
+
+FLEXMODE edgegravity
+FLEX grid 0 0 1 1
+
+ENDTILE
+
+ENDFORM
