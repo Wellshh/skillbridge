@@ -121,20 +121,66 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
 
     putd('pyShowLog nil)
     defun(pyShowLog (@optional (length 20) "x")
-        let((fin line (lines declare(lines[length])) (ptr 0))
-            fin = infile(pyShowLog.logName)
-
-            while(gets(line fin)
-                lines[ptr] = line
-                ptr = mod(ptr + 1 length)
+        if(!fixp(length) || length <= 0 then
+            fprintf(
+                stderr
+                "pyShowLog: length must be a positive integer\n"
             )
-
-            for(i 0 length-1
-                printf("%s" lines[mod(ptr + i length)])
+            nil
+        else
+            let((
+                fin
+                line
+                (lines declare(lines[length]))
+                (ptr 0)
+                (count 0)
+                (start 0)
+                i
             )
-            printf("")
+                fin = infile(pyShowLog.logName)
+
+                if(!fin then
+                    fprintf(
+                        stderr
+                        "pyShowLog: cannot open log file %s\n"
+                        pyShowLog.logName
+                    )
+                    nil
+                else
+                    unwindProtect(
+                        while(gets(line fin)
+                            lines[ptr] = line
+                            ptr = mod(ptr + 1 length)
+
+                            when(count < length
+                                count = count + 1
+                            )
+                        )
+                        close(fin)
+                    )
+
+                    ; Before the buffer fills, valid lines start at index 0.
+                    ; After it fills, ptr points to the oldest retained line.
+                    if(count < length then
+                        start = 0
+                    else
+                        start = ptr
+                    )
+
+                    when(count > 0
+                        for(i 0 count-1
+                            printf(
+                                "%s"
+                                lines[mod(start + i length)]
+                            )
+                        )
+                    )
+
+                    printf("")
+                    t
+                )
+            )
         )
-        t
     )
 
     pyShowLog.logName = lsprintf(
