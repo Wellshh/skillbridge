@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import contextlib
 import logging
+import os
 from argparse import ArgumentParser
 from collections.abc import Callable, Generator, Iterable
 from functools import partial
@@ -127,6 +128,23 @@ def win_data_ready() -> bool:
     return True
 
 
+def _respond_to_client(request: Any, result: str) -> None:
+    restarting = result.startswith('restart ')
+    if restarting:
+        result = 'success ' + result[len('restart ') :]
+
+    payload = result.encode()
+    request.sendall(f'{len(payload):10}'.encode())
+    request.sendall(payload)
+    logger.debug("sent response to client")
+
+    if restarting:
+        logger.info("graceful restart requested; exiting daemon")
+        # os._exit (not sys_exit): this runs in a request-handler thread under
+        # ThreadingTcpServer, and sys_exit would only end that one thread.
+        os._exit(0)
+
+
 def create_handler(
     data_ready: Callable[[], bool],
 ) -> type[StreamRequestHandler]:
@@ -157,12 +175,10 @@ def create_handler(
 
             send_to_skill(command.decode())
             logger.debug("sent data to skill")
-            result = read_from_skill(data_ready).encode()
+            result = read_from_skill(data_ready)
             logger.debug(f"got response from skill {result[:1000]!r}")
 
-            self.request.send(f'{len(result):10}'.encode())
-            self.request.send(result)
-            logger.debug("sent response to client")
+            _respond_to_client(self.request, result)
 
             return True
 

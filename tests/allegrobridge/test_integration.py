@@ -15,6 +15,7 @@ def design(ws: Workspace) -> object:
     # design is always not None despite a .brd being open or not
     return ws['axlDBGetDesign']()
 
+
 # POC tests
 class TestBasicOp:
     _IDLE_SECONDS = 5
@@ -24,6 +25,9 @@ class TestBasicOp:
     @pytest.fixture(scope='class', autouse=True)
     def _inject(self, design: object) -> None:
         self._design = design
+
+    def _single_ping_test(self, obj_workspace: Workspace) -> bool:
+        return obj_workspace['plus'](1, 2) == 3
 
     def _basic_oop(self, attr: ALObjectHandle, length: int | None = None) -> None:
         obj = getattr(self._design, attr, None)
@@ -45,6 +49,17 @@ class TestBasicOp:
             assert ws['plus'](i, 0) == i
 
     def test_callback_keeps_working_while_idle(self, ws: Workspace) -> None:
-        assert ws['plus'](1, 2) == 3
+        assert self._single_ping_test(ws)
         sleep(TestBasicOp._IDLE_SECONDS)
-        assert ws['plus'](3, 5) == 8, 'Callback not available until next skill execution'
+        assert self._single_ping_test(ws), 'Callback not available until next skill execution'
+
+    def test_server_can_restart(self, ws: Workspace) -> None:
+        try:
+            assert self._single_ping_test(ws)
+            assert ws['pyRestartServer']() is True
+
+        finally:
+            ws.close()
+        # retry connection
+        new_ws = Workspace.open()
+        assert self._single_ping_test(new_ws)
