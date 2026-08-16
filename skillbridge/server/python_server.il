@@ -8,15 +8,104 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
     _logDirectory = getShellEnvVar("SKILLBRIDGE_LOG_DIRECTORY") || "."
     _unbound = makeTable("JustForUnbound")[""]
 
+    putd('__pySpawnServer nil)
+    defun(__pySpawnServer ()
+        let((executableWithArgs process)
+            pyStartServer.state = 'starting
+
+            executableWithArgs = lsprintf(
+                "%s %L %s"
+                pyStartServer.exe
+                pyStartServer.id
+                pyStartServer.logLevel
+            )
+
+            if(pyStartServer.singleMode then
+                executableWithArgs = lsprintf(
+                    "%s --single"
+                    executableWithArgs
+                )
+            )
+
+            if(pyStartServer.forceTcp then
+                executableWithArgs = lsprintf(
+                    "%s --force-tcp"
+                    executableWithArgs
+                )
+            )
+
+            if(pyStartServer.timeout then
+                executableWithArgs = lsprintf(
+                    "%s --timeout %L"
+                    executableWithArgs
+                    pyStartServer.timeout
+                )
+            )
+
+            executableWithArgs = lsprintf(
+                "\"%s\" %s"
+                pyStartServer.python
+                executableWithArgs
+            )
+
+            process = ipcBeginProcess(
+                executableWithArgs
+                ""
+                '__pyOnData
+                '__pyOnError
+                '__pyOnFinish
+                pyStartServer.logName
+            )
+
+            if(process then
+                pyStartServer.ipc = process
+                pyStartServer.state = 'running
+                t
+            else
+                pyStartServer.ipc = nil
+                pyStartServer.state = 'stopped
+                fprintf(stderr "failed to start server\n")
+                nil
+            )
+        )
+    )
+
     putd('pyKillServer nil)
     defun(pyKillServer ()
         if(!pyStartServer.ipc then
             printf("server was not running\n")
             nil
         else
+            pyStartServer.restartPending = nil
+            pyStartServer.state = 'stopping
+
+            ; ipcKillProcess only requests termination. The process handle
+            ; remains owned by __pyOnFinish until the matching callback arrives.
             ipcKillProcess(pyStartServer.ipc)
-            pyStartServer.ipc = nil
             t
+        )
+    )
+
+    putd('pyRestartServer nil)
+    defun(pyRestartServer ()
+        if(!pyStartServer.ipc then
+            __pySpawnServer()
+        else
+            pyStartServer.restartPending = t
+            pyStartServer.state = 'restarting
+
+            if(pyStartServer.requestIpc == pyStartServer.ipc then
+                ; This function is being evaluated for a request from the
+                ; Python daemon itself. __pyOnData returns a "restart" response.
+                ; The daemon acknowledges the client and then exits gracefully.
+                t
+            else
+                ; Called directly from CIW or another SKILL entry point.
+                ; There is no client response to preserve, so termination can
+                ; be requested immediately.
+                ipcKillProcess(pyStartServer.ipc)
+                t
+            )
         )
     )
 
@@ -48,7 +137,10 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
         t
     )
 
-    pyShowLog.logName = lsprintf("%s/skillbridge_skill.log" _logDirectory)
+    pyShowLog.logName = lsprintf(
+        "%s/skillbridge_skill.log"
+        _logDirectory
+    )
 
     putd('__pyCaptureWarnings nil)
     defmacro(__pyCaptureWarnings (@rest body)
@@ -71,22 +163,65 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
     putd('__pyOnData nil)
     defun(__pyOnData (id data)
         foreach(line parseString(data "\n")
-            let((result capturedWarning pythonCode)
-                capturedWarning = __pyCaptureWarnings(errset(result=evalstring(line)))
+            let((result capturedWarning pythonCode responseStatus)
+                ; Remember which process is currently executing the request.
+                pyStartServer.requestIpc = id
+
+                capturedWarning = __pyCaptureWarnings(
+                    errset(result=evalstring(line))
+                )
+
                 if((errset.errset) then
-                    printf("command %L resulted in error %L\n" line errset.errset)
-                    ipcWriteProcess(id lsprintf("failure %L\n" errset.errset))
+                    printf(
+                        "command %L resulted in error %L\n"
+                        line
+                        errset.errset
+                    )
+                    ipcWriteProcess(
+                        id
+                        lsprintf("failure %L\n" errset.errset)
+                    )
                 else
                     if(boundp('result) then
                         pythonCode = __pySkillToPython(result)
-                        if((capturedWarning != "" && capturedWarning != "*WARNING* ") then
-                            pythonCode = lsprintf("warning(%L, %s)" capturedWarning pythonCode)
+
+                        if(
+                            capturedWarning != "" &&
+                            capturedWarning != "*WARNING* "
+                        then
+                            pythonCode = lsprintf(
+                                "warning(%L, %s)"
+                                capturedWarning
+                                pythonCode
+                            )
                         )
-                        ipcWriteProcess(id lsprintf("success %s\n" pythonCode))
+
+                        if(
+                            pyStartServer.restartPending &&
+                            id == pyStartServer.ipc
+                        then
+                            responseStatus = "restart"
+                        else
+                            responseStatus = "success"
+                        )
+
+                        ipcWriteProcess(
+                            id
+                            lsprintf(
+                                "%s %s\n"
+                                responseStatus
+                                pythonCode
+                            )
+                        )
                     else
-                        ipcWriteProcess(id "success error('unbound')\n")
+                        ipcWriteProcess(
+                            id
+                            "success error('unbound')\n"
+                        )
                     )
                 )
+
+                pyStartServer.requestIpc = nil
             )
         )
     )
@@ -97,9 +232,31 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
     )
 
     putd('__pyOnFinish nil)
-    defun(__pyOnFinish (_ data)
-        printf("server was stopped with code %L\n" data)
-        pyStartServer.ipc = nil
+    defun(__pyOnFinish (id exitStatus)
+        if(id == pyStartServer.ipc then
+            let((shouldRestart)
+                printf(
+                    "server was stopped with code %L\n"
+                    exitStatus
+                )
+
+                shouldRestart = pyStartServer.restartPending
+
+                pyStartServer.ipc = nil
+                pyStartServer.requestIpc = nil
+                pyStartServer.restartPending = nil
+                pyStartServer.state = 'stopped
+
+                when(shouldRestart
+                    __pySpawnServer()
+                )
+            )
+        else
+            printf(
+                "ignoring stale server finish callback with code %L\n"
+                exitStatus
+            )
+        )
     )
 
     putd('__pyOnFinishScript nil)
@@ -107,16 +264,23 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
         printf("script finished with code %L\n" data)
     )
 
-
-
     putd('__pyPropertyListToPython nil)
     defun(__pyPropertyListToPython (propList)
-        strcat("{"
+        strcat(
+            "{"
             buildString(
-                mapcar(lambda((key)
-                    lsprintf("'%s':%s" key __pySkillToPython(get(propList key))))
-                    propList->?)
-            ",")
+                mapcar(
+                    lambda((key)
+                        lsprintf(
+                            "'%s':%s"
+                            key
+                            __pySkillToPython(get(propList key))
+                        )
+                    )
+                    propList->?
+                )
+                ","
+            )
             "}"
         )
     )
@@ -125,22 +289,33 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
     defun(__pySaveToVariableAndReturn (thing)
         let((repr variableName split objectType address variableSymbol)
             repr = lsprintf("%L" thing)
+
             if(rexExecute(repr) then
                 split = buildString(parseString(repr "_") "")
                 split = parseString(split "@:")
                 objectType = car(split)
                 address = cadr(split)
-                variableName = lsprintf("__py_%s_%s" objectType address)
+                variableName = lsprintf(
+                    "__py_%s_%s"
+                    objectType
+                    address
+                )
                 set(stringToSymbol(variableName) thing)
                 lsprintf("Remote(%L)" variableName)
             else if(otherp(thing) then
                 variableSymbol = gensym("__py_OTHER_")
                 set(variableSymbol thing)
-                lsprintf("Remote(%L)" symbolToString(variableSymbol))
+                lsprintf(
+                    "Remote(%L)"
+                    symbolToString(variableSymbol)
+                )
             else if(portp(thing) then
                 variableSymbol = gensym("__py_openfile_")
                 set(variableSymbol thing)
-                lsprintf("Remote(%L)" symbolToString(variableSymbol))
+                lsprintf(
+                    "Remote(%L)"
+                    symbolToString(variableSymbol)
+                )
             else
                 lsprintf("error(%L)" repr)
                 printf("I COULD NOT PARSE %L\n" repr)
@@ -162,7 +337,10 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
         let((symbol)
             symbol = gensym("__py_vector_")
             set(symbol collection)
-            lsprintf("Vector(%L)" symbolToString(symbol))
+            lsprintf(
+                "Vector(%L)"
+                symbolToString(symbol)
+            )
         )
     )
 
@@ -171,73 +349,132 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
         let((symbol)
             symbol = gensym("__py_table_")
             set(symbol collection)
-            lsprintf("Table(%L)" symbolToString(symbol))
+            lsprintf(
+                "Table(%L)"
+                symbolToString(symbol)
+            )
         )
     )
 
     putd('__pySkillToPython nil)
     defun(__pySkillToPython (thing)
-        if(thing == t then "True" else
-        if(!thing then "None" else
-        if(or(numberp(thing) stringp(thing)) then lsprintf("%L" thing) else
-        if(symbolp(thing) then lsprintf("Symbol('%s')" thing) else
-        if(listp(thing) then
-            if(and(!car(thing) symbolp(cadr(thing)) cadr(thing) != t)
-            then __pyPropertyListToPython(thing)
-            else __pyListToPython(thing)
+        if(thing == t then
+            "True"
+        else if(!thing then
+            "None"
+        else if(or(numberp(thing) stringp(thing)) then
+            lsprintf("%L" thing)
+        else if(symbolp(thing) then
+            lsprintf("Symbol('%s')" thing)
+        else if(listp(thing) then
+            if(
+                and(
+                    !car(thing)
+                    symbolp(cadr(thing))
+                    cadr(thing) != t
+                )
+            then
+                __pyPropertyListToPython(thing)
+            else
+                __pyListToPython(thing)
             )
+        else if(tablep(thing) then
+            __pyTableToPython(thing)
+        else if(vectorp(thing) then
+            __pyVectorToPython(thing)
         else
-        if(tablep(thing) then __pyTableToPython(thing) else
-        if(vectorp(thing) then __pyVectorToPython(thing) else
-        rexCompile("^[_a-zA-Z]+[:@][x0-9a-fA-F]+$")
-        __pySaveToVariableAndReturn(thing)
+            rexCompile("^[_a-zA-Z]+[:@][x0-9a-fA-F]+$")
+            __pySaveToVariableAndReturn(thing)
         )))))))
     )
 
     putd('pyStartServer nil)
-    defun(pyStartServer (@key (id "default") (logLevel "INFO") (singleMode nil) (timeout nil) (python "python") (forceTcp nil) "ttggtg")
+    defun(pyStartServer (
+        @key
+        (id "default")
+        (logLevel "INFO")
+        (singleMode nil)
+        (timeout nil)
+        (python "python")
+        (forceTcp nil)
+        "ttggtg"
+    )
         if(pyStartServer.ipc then
-            fprintf(stderr, "server is already running\n")
+            fprintf(stderr "server is already running\n")
             nil
         else
-            let(((executableWithArgs lsprintf("%s %L %s" pyStartServer.exe id logLevel)))
-                if(singleMode then
-                    executableWithArgs = lsprintf("%s --single" executableWithArgs)
-                )
-                if(forceTcp then
-                    executableWithArgs = lsprintf("%s --force-tcp" executableWithArgs)
-                )
-                if(timeout then
-                    executableWithArgs = lsprintf("%s --timeout %L" executableWithArgs timeout)
-                )
-                executableWithArgs = lsprintf("\"%s\" %s" python executableWithArgs)
+            pyStartServer.id = id
+            pyStartServer.logLevel = logLevel
+            pyStartServer.singleMode = singleMode
+            pyStartServer.timeout = timeout
+            pyStartServer.python = python
+            pyStartServer.forceTcp = forceTcp
+            pyStartServer.restartPending = nil
 
-                pyStartServer.ipc = ipcBeginProcess(executableWithArgs "" '__pyOnData '__pyOnError '__pyOnFinish pyStartServer.logName)
-                t
+            __pySpawnServer()
+        )
+    )
+
+    pyStartServer.logName = lsprintf(
+        "%s/skillbridge_skill.log"
+        _logDirectory
+    )
+
+    putd('pyRunScript nil)
+    defun(pyRunScript (
+        script
+        @key
+        (python "python")
+        (args nil)
+        (block nil)
+        "ttlg"
+    )
+        let((command process)
+            command = lsprintf(
+                "%s %s %s"
+                python
+                script
+                buildString(args)
+            )
+
+            process = ipcBeginProcess(
+                command
+                ""
+                '__pyOnData
+                '__pyOnError
+                '__pyOnFinishScript
+                pyRunScript.logName
+            )
+
+            if(block then
+                ipcWait(process)
+            else
+                process
             )
         )
     )
 
-    pyStartServer.logName = lsprintf("%s/skillbridge_skill.log" _logDirectory)
-
-    putd('pyRunScript nil)
-    defun(pyRunScript (script @key (python "python") (args nil) (block nil) "ttlg")
-        let((command process)
-            command = lsprintf("%s %s %s" python script buildString(args))
-            process = ipcBeginProcess(command "" '__pyOnData '__pyOnError '__pyOnFinishScript pyRunScript.logName)
-
-            if(block then ipcWait(process) else process)
-        )
+    pyRunScript.logName = lsprintf(
+        "%s/skillbridge_script.log"
+        _logDirectory
     )
-
-    pyRunScript.logName = lsprintf("%s/skillbridge_script.log" _logDirectory)
 
     pyStartServer.ipc = nil
     pyStartServer.exe = _executable
+    pyStartServer.id = "default"
+    pyStartServer.logLevel = "INFO"
+    pyStartServer.singleMode = nil
+    pyStartServer.timeout = nil
+    pyStartServer.python = "python"
+    pyStartServer.forceTcp = nil
+    pyStartServer.restartPending = nil
+    pyStartServer.requestIpc = nil
+    pyStartServer.state = 'stopped
 
     printf("Available commands:\n")
-    printf("\tpyStartServer ?id \"default\" ?logLevel \"WARNING\" ?singleMode nil ?timeout nil ?python \"python\"\n")
+    printf("\tpyStartServer ?id \"default\" ?logLevel \"WARNING\" ?singleMode nil ?timeout nil ?python \"python\" ?forceTcp nil\n")
     printf("\tpyKillServer\n")
+    printf("\tpyRestartServer\n")
     printf("\tpyReloadScript\n")
     printf("\tpyShowLog [numberOfLines]\n")
     printf("\tpyRunScript path ?args list() ?python \"python\"\n")
