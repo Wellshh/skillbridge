@@ -22,7 +22,7 @@ class TestBasicOp:
 
     _design: object
 
-    @pytest.fixture(scope='class', autouse=True)
+    @pytest.fixture(autouse=True)
     def _inject(self, design: object) -> None:
         self._design = design
 
@@ -60,6 +60,20 @@ class TestBasicOp:
 
         finally:
             ws.close()
-        # retry connection
-        new_ws = Workspace.open()
-        assert self._single_ping_test(new_ws)
+
+        new_ws = None
+        for _ in range(40):
+            try:
+                candidate = Workspace.open()
+                if self._single_ping_test(candidate):
+                    new_ws = candidate
+                    break
+                candidate.close()
+            except (OSError, RuntimeError, ConnectionResetError):
+                sleep(0.5)
+                continue
+        assert new_ws is not None, 'server did not come back after restart'
+        try:
+            assert self._single_ping_test(new_ws)
+        finally:
+            new_ws.close()
