@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from json import dumps
+from pathlib import Path
 from time import sleep
 from typing import NewType
 
@@ -52,6 +54,53 @@ class TestBasicOp:
         assert self._single_ping_test(ws)
         sleep(TestBasicOp._IDLE_SECONDS)
         assert self._single_ping_test(ws), 'Callback not available until next skill execution'
+
+    def test_py_show_log_prints_latest_lines_and_closes_port(
+        self,
+        ws: Workspace,
+        tmp_path: Path,
+    ) -> None:
+        log_path = tmp_path / 'skillbridge_py_show_log_test.log'
+        log_lines = [f'log-entry-{index}\n' for index in range(5)]
+        log_path.write_text(''.join(log_lines), encoding='utf-8')
+
+        def capture_py_show_log(requested_length: int) -> str:
+            skill_code = f"""
+                let((capturePort oldLogName output)
+                    oldLogName = pyShowLog.logName
+                    capturePort = outstring()
+                    unwindProtect(
+                        {{
+                            pyShowLog.logName = {dumps(log_path.as_posix())}
+                            let(((poport capturePort))
+                                pyShowLog({requested_length})
+                            )
+                            output = getOutstring(capturePort)
+                        }}
+                        {{
+                            pyShowLog.logName = oldLogName
+                            close(capturePort)
+                        }}
+                    )
+                    output
+                )
+            """.replace('\n', ' ')
+            output = ws['evalstring'](skill_code)
+            assert isinstance(output, str)
+            return output
+
+        latest_lines = capture_py_show_log(3)
+        more_lines_than_available = capture_py_show_log(len(log_lines) + 3)
+
+        try:
+            log_path.unlink()
+        except OSError as error:
+            pytest.fail(f'pyShowLog left its input port open: {error}', pytrace=False)
+
+        assert latest_lines == ''.join(log_lines[-3:])
+        assert more_lines_than_available == ''.join(log_lines)
+        assert 'unbound' not in more_lines_than_available.lower()
+        assert not log_path.exists()
 
     def test_server_can_restart(self, ws: Workspace) -> None:
         try:
