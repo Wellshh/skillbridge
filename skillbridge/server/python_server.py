@@ -94,7 +94,7 @@ def create_tcp_server_class(single: bool) -> type[SingleTcpServer]:
     return SingleTcpServer if single else ThreadingTcpServer
 
 
-if UnixStreamServer is not None:  # POSIX only; Windows uses TCP
+if UnixStreamServer is not None:
 
     class SingleUnixServer(UnixStreamServer):
         request_queue_size: int = 0
