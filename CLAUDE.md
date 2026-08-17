@@ -12,7 +12,7 @@ Implementation
 
 
 Testing rules
-
+> For each file respectively, both integration and unit tests needed to reach 100% coverage.
 - Before writing tests, inspect the nearest existing unit and integration tests. Match their structure, naming, fixtures, assertions, and style; do not invent a new testing style.
 - Organize related tests consistently with `tests/test_integration`. Use test classes only for coherent behavior groups, not merely because the production code uses classes.
 - Use fixtures for shared setup, state, or resource lifecycle. Keep pure actions, builders, and assertion utilities as normal helper functions.
@@ -24,3 +24,12 @@ Testing rules
 - Do not change production APIs solely to make tests easier to write.
 - When using unfamiliar or version-sensitive pytest APIs, check the current pytest documentation with Context7 instead of guessing.
 - Run the smallest relevant test set first, then the broader affected test suite. Do not weaken or delete existing tests just to make a change pass.
+
+---- 
+
+For both
+
+- Do not add defensive checks for states or inputs already guaranteed by the current contract, types, or callers. Validate only at external/trust boundaries or when explicitly required by the behavior.
+- Before adding input validation or an error branch, inspect the actual call sites. Do not speculate about inputs that the current system cannot produce.
+- Internal code may rely on established invariants. Do not repeatedly revalidate the same invariant at every layer.
+- Do not add guards, exceptions, fallback paths, production branches, or artificial tests solely to satisfy coverage.
