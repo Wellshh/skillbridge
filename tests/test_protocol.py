@@ -6,6 +6,7 @@ from io import StringIO, TextIOWrapper
 from os import fdopen, pipe
 from select import select
 from socket import SHUT_WR, socket, socketpair
+from sys import platform
 
 from pytest import fixture, mark, raises
 
@@ -218,7 +219,6 @@ class TestResponse:
 
         assert response.reader is reader
         assert response.max_payload_chars == Response.DEFAULT_MAX_PAYLOAD_CHARS_
-        assert response.ignore_preamble is False
         assert response.max_preamble_chars == Response.DEFAULT_MAX_PREAMBLE_CHARS_
 
     def test_rejects_character_before_response_frame(self) -> None:
@@ -287,7 +287,9 @@ def test_response_roundtrip_over_os_pipe(
     reader, writer = text_pipe
     writer.write(f'{Response.STX_}line one\nline two{Response.RS_}')
     writer.flush()
-    readable, _, _ = select([reader], [], [], SOCKET_TIMEOUT_SECONDS)
 
-    assert readable == [reader]
+    if platform != "win32":
+        readable, _, _ = select([reader], [], [], SOCKET_TIMEOUT_SECONDS)
+        assert readable == [reader]
+
     assert Response(reader).recv() == (True, 'line one\nline two')

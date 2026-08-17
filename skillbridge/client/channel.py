@@ -131,7 +131,7 @@ class TcpChannel(Channel):
                 " call `ws.try_repair()` if you are sure that the response"
                 " will arrive.",
             ) from None
-        except PeerClosedError as e:
+        except (PeerClosedError, OSError) as e:
             raise RuntimeError("The server unexpectedly died") from e
 
         return self.decode_response(payload.decode())

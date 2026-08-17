@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from string import ascii_lowercase
 from typing import Any
 
 from .channel import Channel
@@ -50,9 +49,6 @@ class GlobalVar:
 
     def filter(self, code: Any) -> Var:
         return Var(self._translator.encode_call('setof', Var('i'), self, code))
-
-
-lower_case_with_under_score = set(ascii_lowercase + '_')
 
 
 def is_variable_name(string: str) -> bool:

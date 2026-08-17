@@ -9,4 +9,3 @@
 ## UI/UX
 - [ ] log beautify
   - [ ] add floating window ui: refer to virtuso-bridge-lite
-  - [ ] 

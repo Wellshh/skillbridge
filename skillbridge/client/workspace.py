@@ -1,19 +1,16 @@
 from __future__ import annotations
 
 import sys
-import warnings
 from functools import partial
-from inspect import signature
 from logging import getLogger
-from textwrap import dedent
-from typing import Any, Callable, Iterable, NoReturn, Union, cast
+from typing import Any, Iterable, NoReturn, Union, cast
 
 from .channel import Channel, DirectChannel, create_channel_class
 from .functions import FunctionCollection, LiteralRemoteFunction
 from .globals import DirectGlobals, Globals
-from .hints import Function, Symbol
+from .hints import Symbol
 from .objects import RemoteObject, RemoteTable, RemoteVector
-from .translator import DefaultTranslator, Translator, camel_to_snake, snake_to_camel
+from .translator import DefaultTranslator, Translator, snake_to_camel
 
 __all__ = ['Workspace', 'current_workspace']
 
@@ -306,58 +303,6 @@ class Workspace:
     @max_transmission_length.setter
     def max_transmission_length(self, value: int) -> None:
         self._channel.max_transmission_length = value
-
-    @staticmethod
-    def _build_function(function: Callable[..., Any]) -> Function:
-        if not function.__doc__:
-            raise RuntimeError("Function does not have a doc string.")
-
-        s = signature(function)
-
-        if s.return_annotation is s.empty:
-            raise RuntimeError("Function does not have a return annotation.")
-
-        param_doc = []
-        for p in s.parameters.values():
-            if p.default is p.empty:
-                param = p.name
-
-                param = f'    {param}'
-            else:
-                param = f"    [ ?{p.default} {p.name} ]"
-
-            param_doc.append(param)
-
-        doc = [
-            function.__name__ + "(",
-            *param_doc,
-            f"=> {'nil' if s.return_annotation is None else s.return_annotation}",
-            "",
-        ]
-
-        doc_string = '\n'.join(doc) + dedent(function.__doc__)
-
-        return Function(snake_to_camel(function.__name__), doc_string, set())
-
-    def register(self, function: Callable[..., Any]) -> Function:
-        warnings.warn("It is no longer necessary to register functions", DeprecationWarning)
-        name = camel_to_snake(function.__name__)
-
-        try:
-            prefix, _ = name.split('_', maxsplit=1)
-        except ValueError:
-            raise RuntimeError("Function does not have a prefix.") from None
-
-        try:
-            collection = getattr(self, prefix)
-            assert isinstance(collection, FunctionCollection)
-        except AssertionError:
-            raise RuntimeError("You cannot use that prefix.") from None
-        except AttributeError:
-            collection = FunctionCollection(self._channel, prefix, self._translator)
-            setattr(self, prefix, collection)
-
-        return self._build_function(function)
 
     def try_repair(self) -> Any:
         return self._channel.try_repair()
