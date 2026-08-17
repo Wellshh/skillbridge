@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 from typing import ClassVar
@@ -33,20 +32,18 @@ class ProtocolError(SkillBridgeError):
 
 
 class FrameTooLargeError(ProtocolError, ValueError):
-
     code = 'frame_too_large'
 
     def __init__(self, size: int, max_size: int) -> None:
         self.size = size
         self.max_size = max_size
         super().__init__(
-            f'Payload size {size} exceeds the configured limit of {max_size} bytes.',
-            hint='Reduce the payload or increase the configured transmission limit.',
+            f'Data exceeds max transmission length: payload size {size} > limit {max_size} bytes.',
+            hint='Reduce the payload or increase the configured max transmission limit.',
         )
 
 
 class PeerClosedError(ProtocolError, ConnectionError):
-
     code = 'peer_closed'
 
     def __init__(self, expected: int, received: int) -> None:

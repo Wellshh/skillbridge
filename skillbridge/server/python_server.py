@@ -1,10 +1,11 @@
+#!/usr/bin/env python3
 from __future__ import annotations
 
 import contextlib
 import logging
 import os
 from argparse import ArgumentParser
-from collections.abc import Callable, Generator, Iterable
+from collections.abc import Callable, Generator
 from functools import partial
 from logging import WARNING, basicConfig, getLogger
 from os import getenv
@@ -23,6 +24,9 @@ except ImportError:  # pragma: no cover - Windows: unix domain sockets unavailab
 from sys import argv, platform, stderr, stdin, stdout
 from sys import exit as sys_exit
 from typing import Any
+
+from skillbridge.exception import PeerClosedError
+from skillbridge.protocol.socket import Socket
 
 LOG_DIRECTORY = Path(getenv('SKILLBRIDGE_LOG_DIRECTORY', '.'))
 LOG_FILE = LOG_DIRECTORY / 'skillbridge_server.log'
@@ -134,8 +138,7 @@ def _respond_to_client(request: Any, result: str) -> None:
         result = 'success ' + result[len('restart ') :]
 
     payload = result.encode()
-    request.sendall(f'{len(payload):10}'.encode())
-    request.sendall(payload)
+    Socket(request).send_frame(payload)
     logger.debug("sent response to client")
 
     if restarting:
@@ -150,21 +153,13 @@ def create_handler(
 ) -> type[StreamRequestHandler]:
 
     class Handler(StreamRequestHandler):
-        def receive_all(self, remaining: int) -> Iterable[bytes]:
-            while remaining:
-                data = self.request.recv(remaining)
-                remaining -= len(data)
-                yield data
-
         def handle_one_request(self) -> bool:
-            length = self.request.recv(10)
-            if not length:
+            sock = Socket(self.request)
+            try:
+                command = sock.recv_frame()
+            except PeerClosedError:
                 logger.warning(f"client {self.client_address} lost connection")
                 return False
-            logger.debug(f"got length {length}")
-
-            length = int(length)
-            command = b''.join(self.receive_all(length))
 
             logger.debug(f"received {len(command)} bytes")
 

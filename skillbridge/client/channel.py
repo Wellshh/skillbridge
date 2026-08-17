@@ -4,7 +4,10 @@ from contextlib import suppress
 from select import select
 from socket import AF_INET, SOCK_STREAM, socket
 from sys import platform
-from typing import Any, Iterable, TextIO
+from typing import Any, TextIO
+
+from skillbridge.exception import PeerClosedError
+from skillbridge.protocol.socket import Socket
 
 PORT_RANGE_MIN = 0
 PORT_RANGE_MAX = 0xFFFF
@@ -81,6 +84,7 @@ class TcpChannel(Channel):
         self.connected = False
         self.address = self.create_address(address)
         self.socket = self.start()
+        self._socket = Socket(self.socket, max_payload_size=self._max_transmission_length)
 
     @staticmethod
     def create_address(id_: Any) -> Any:
@@ -107,54 +111,30 @@ class TcpChannel(Channel):
     def reconnect(self) -> None:
         self.socket.close()
         self.socket = self.start()
-
-    def _receive_all(self, remaining: int) -> Iterable[bytes]:
-        while remaining:
-            data = self.socket.recv(remaining)
-            remaining -= len(data)
-            yield data
+        self._socket = Socket(self.socket, max_payload_size=self._max_transmission_length)
 
     def _send_only(self, data: str) -> None:
         byte = data.encode()
-
-        if len(byte) > self._max_transmission_length:
-            got = len(byte)
-            should = self._max_transmission_length
-            raise ValueError(f'Data exceeds max transmission length {got} > {should}')
-
-        length = f'{len(byte):10}'.encode()
-
         try:
-            self.socket.sendall(length)
+            self._socket.send_frame(byte, max_size=self._max_transmission_length)
         except (BrokenPipeError, OSError):
             print("attempting to reconnect")
             self.reconnect()
-            self.socket.sendall(length)
-
-        try:
-            self.socket.sendall(byte)
-        except (BrokenPipeError, OSError):
-            print("attempting to reconnect")
-            self.reconnect()
-            self.socket.sendall(length)
-            self.socket.sendall(byte)
+            self._socket.send_frame(byte, max_size=self._max_transmission_length)
 
     def _receive_only(self) -> str:
         try:
-            received_length_raw = self.socket.recv(10)
+            payload = self._socket.recv_frame(max_size=self._max_transmission_length)
         except KeyboardInterrupt:
             raise RuntimeError(
                 "Receive aborted, you should restart the skill server or"
                 " call `ws.try_repair()` if you are sure that the response"
                 " will arrive.",
             ) from None
+        except PeerClosedError as e:
+            raise RuntimeError("The server unexpectedly died") from e
 
-        if not received_length_raw:
-            raise RuntimeError("The server unexpectedly died")
-        received_length = int(received_length_raw)
-        response = b''.join(self._receive_all(received_length)).decode()
-
-        return self.decode_response(response)
+        return self.decode_response(payload.decode())
 
     def send(self, data: str) -> str:
         try:
@@ -173,24 +153,27 @@ class TcpChannel(Channel):
 
     def try_repair(self) -> Exception | str:
         try:
-            length = int(self.socket.recv(10))
-            message = b''.join(self._receive_all(length))
+            payload = self._socket.recv_frame(max_size=self._max_transmission_length)
         except Exception as e:  # ruff: ignore[blind-except]
             return e
-        return message.decode()
+        return payload.decode()
 
     def close(self) -> None:
         if self.connected:
-            self.socket.sendall(b'         6$close')
-            self.socket.close()
-            self.connected = False
+            try:
+                with suppress(ConnectionError):
+                    self._socket.send_frame(b'$close')
+            finally:
+                try:
+                    self.socket.close()
+                finally:
+                    self.connected = False
 
     def flush(self) -> None:
         while True:
             read, _, _ = select([self.socket], [], [], 0.1)
             if read:
-                length = int(self.socket.recv(10))
-                self.socket.recv(length)
+                self._socket.recv_frame()
             else:
                 break
 

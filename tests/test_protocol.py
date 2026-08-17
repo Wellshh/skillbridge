@@ -11,10 +11,11 @@ from skillbridge.protocol.socket import Socket
 
 SOCKET_TIMEOUT_SECONDS = 1.0
 
-# For socket test, we always use socket.socketpaire instead of 
+# For socket test, we always use socket.socketpaire instead of
 # mocking it for behavioural tests
 
-@fixture
+
+@fixture(scope="function")
 def raw_socket_pair() -> Iterator[tuple[socket, socket]]:
     sender, receiver = socketpair()
     sender.settimeout(SOCKET_TIMEOUT_SECONDS)

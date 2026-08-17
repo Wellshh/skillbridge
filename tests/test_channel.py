@@ -1,20 +1,26 @@
+#!/usr/bin/env python3
 from __future__ import annotations
 
 import warnings
-from collections.abc import Iterable
+from collections.abc import Iterable, Iterator
+from select import select
+from socket import socket, socketpair
 from typing import Literal
 
 from _pytest.fixtures import SubRequest
 from pytest import fixture, mark, raises
 
 from skillbridge import Workspace, current_workspace, loop_var
-from skillbridge.client.channel import Channel, create_channel_class
+from skillbridge.client.channel import Channel, TcpChannel, create_channel_class
 from skillbridge.client.objects import RemoteObject
+from skillbridge.exception import PeerClosedError
+from skillbridge.protocol.socket import Socket
 from tests.virtuoso import Virtuoso
 
 WORKSPACE_ID = "8976"
 channel_class = create_channel_class()
 tcp_channel_class = create_channel_class(force_tcp=True)
+SOCKET_TIMEOUT_SECONDS = 1.0
 
 
 ComType = Literal["unix", "tcp"]
@@ -41,6 +47,55 @@ def channel(com_type: ComType) -> Iterable[Channel]:
         yield c
     finally:
         c.close()
+
+
+@fixture
+def local_tcp_channel() -> Iterator[tuple[TcpChannel, socket]]:
+    local, peer = socketpair()
+    local.settimeout(SOCKET_TIMEOUT_SECONDS)
+    peer.settimeout(SOCKET_TIMEOUT_SECONDS)
+
+    channel = object.__new__(TcpChannel)
+    channel._max_transmission_length = 1_000_000
+    channel.connected = True
+    channel.socket = local
+    channel._socket = Socket(local)
+
+    try:
+        yield channel, peer
+    finally:
+        channel.connected = False
+        local.close()
+        peer.close()
+
+
+class TrackingSocket:
+    def __init__(self) -> None:
+        self.closed = False
+
+    def close(self) -> None:
+        self.closed = True
+
+
+class RaisingSocketWrapper:
+    def __init__(self, error: BaseException) -> None:
+        self.error = error
+
+    def send_frame(self, _payload: bytes) -> None:
+        raise self.error
+
+    def recv_frame(self) -> bytes:
+        raise self.error
+
+
+def channel_raising(error: BaseException) -> tuple[TcpChannel, TrackingSocket]:
+    raw_socket = TrackingSocket()
+    channel = object.__new__(TcpChannel)
+    channel._max_transmission_length = 1_000_000
+    channel.connected = True
+    channel.socket = raw_socket
+    channel._socket = RaisingSocketWrapper(error)
+    return channel, raw_socket
 
 
 @fixture
@@ -265,6 +320,90 @@ def test_max_transmission_length_is_honored(server: Virtuoso, ws: Workspace):
 
 def test_flush_does_no_harm(server: Virtuoso, ws: Workspace):
     ws.flush()
+
+
+class TestTcpChannelCleanup:
+    def test_close_sends_close_frame_and_releases_socket(
+        self,
+        local_tcp_channel: tuple[TcpChannel, socket],
+    ) -> None:
+        channel, peer = local_tcp_channel
+
+        channel.close()
+
+        assert Socket(peer).recv_frame() == b'$close'
+        assert not channel.connected
+        assert channel.socket.fileno() == -1
+
+    def test_close_ignores_connection_error_and_releases_socket(self) -> None:
+        channel, raw_socket = channel_raising(BrokenPipeError())
+
+        channel.close()
+
+        assert raw_socket.closed
+        assert not channel.connected
+
+    def test_close_propagates_unexpected_error_after_releasing_socket(self) -> None:
+        channel, raw_socket = channel_raising(RuntimeError('unexpected'))
+
+        try:
+            with raises(RuntimeError, match='unexpected'):
+                channel.close()
+        finally:
+            channel.connected = False
+
+        assert raw_socket.closed
+        assert not channel.connected
+
+    def test_close_propagates_keyboard_interrupt_after_releasing_socket(self) -> None:
+        channel, raw_socket = channel_raising(KeyboardInterrupt())
+
+        try:
+            with raises(KeyboardInterrupt):
+                channel.close()
+        finally:
+            channel.connected = False
+
+        assert raw_socket.closed
+        assert not channel.connected
+
+    def test_flush_discards_all_complete_queued_frames(
+        self,
+        local_tcp_channel: tuple[TcpChannel, socket],
+    ) -> None:
+        channel, peer = local_tcp_channel
+        sending = Socket(peer)
+        sending.send_frame(b'first')
+        sending.send_frame(b'second')
+
+        channel.flush()
+
+        assert select([channel.socket], [], [], 0)[0] == []
+        sending.send_frame(b'next')
+        assert channel._socket.recv_frame() == b'next'
+
+    @mark.parametrize(
+        'error',
+        [
+            PeerClosedError(10, 4),
+            RuntimeError('unexpected'),
+            KeyboardInterrupt(),
+        ],
+        ids=['peer-closed', 'runtime-error', 'keyboard-interrupt'],
+    )
+    def test_flush_propagates_read_error(self, monkeypatch, error: BaseException) -> None:
+        channel, _ = channel_raising(error)
+        readiness = iter([([channel.socket], [], []), ([], [], [])])
+        monkeypatch.setattr(
+            'skillbridge.client.channel.select',
+            lambda *_args, **_kwargs: next(readiness),
+        )
+
+        try:
+            with raises(type(error), match=str(error) or None):
+                channel.flush()
+        finally:
+            channel.connected = False
 
 
 def test_make_workspace_current(server: Virtuoso, ws: Workspace):
