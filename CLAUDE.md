@@ -33,3 +33,4 @@ For both
 - Before adding input validation or an error branch, inspect the actual call sites. Do not speculate about inputs that the current system cannot produce.
 - Internal code may rely on established invariants. Do not repeatedly revalidate the same invariant at every layer.
 - Do not add guards, exceptions, fallback paths, production branches, or artificial tests solely to satisfy coverage.
+- Use the lightest abstraction that preserves the required semantics and type safety. Introduce classes or wrappers only when they provide meaningful behavior, invariants, ownership, or lifecycle management.
