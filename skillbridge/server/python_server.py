@@ -143,8 +143,6 @@ def _respond_to_client(request: Any, result: str) -> None:
 
     if restarting:
         logger.info("graceful restart requested; exiting daemon")
-        # os._exit (not sys_exit): this runs in a request-handler thread under
-        # ThreadingTcpServer, and sys_exit would only end that one thread.
         os._exit(0)
 
 
