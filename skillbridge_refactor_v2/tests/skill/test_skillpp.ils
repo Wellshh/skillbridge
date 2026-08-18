@@ -1,0 +1,13 @@
+; test_skillpp.ils
+
+(defclass MyTestClass ()
+  ((value
+     @initarg value
+     @reader getValue)))
+
+(setq obj
+  (makeInstance
+    'MyTestClass
+    ?value 42))
+
+printf("value = %L\n" getValue(obj))
