@@ -1,3 +1,4 @@
+import sys
 from pathlib import Path
 from subprocess import check_output, run
 from textwrap import dedent
@@ -11,6 +12,8 @@ from skillbridge.client.objects import LazyList, RemoteObject
 from skillbridge.client.translator import DefaultTranslator, Symbol
 from skillbridge.test.channel import DummyChannel
 from skillbridge.test.workspace import DummyWorkspace
+
+python = sys.executable
 
 
 @mark.parametrize(('id_', 'repr_'), [('0x10', 16), ('00001F', 31), ('10', 10)])
@@ -26,7 +29,7 @@ def test_workspace_get_item():
 
 
 def test_reports_skill_server_correctly():
-    out = check_output(['python', '-m', 'skillbridge', 'path'], encoding='utf-8')
+    out = check_output([python, '-m', 'skillbridge', 'path'], encoding='utf-8')
     assert Path(out.splitlines()[1].strip()).exists()
 
 
