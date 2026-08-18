@@ -16,7 +16,7 @@ from skillbridge.exception import (
     PeerClosedError,
     ProtocolError,
 )
-from skillbridge.protocol.response import Response
+from skillbridge.protocol.response import Response, SkillResp
 from skillbridge.protocol.socket import Socket
 
 SOCKET_TIMEOUT_SECONDS = 1.0
@@ -193,49 +193,51 @@ class TestFrame:
 
 class TestResponse:
     @mark.parametrize(
-        ('marker', 'ok'),
+        ('marker', 'expected_status'),
         [
-            (Response.STX_, True),
-            (Response.NAK_, False),
+            (Response.STX, 'success'),
+            (Response.NAK, 'failure'),
+            (Response.RST, 'restart'),
         ],
     )
-    def test_receives_status_and_multiline_payload(self, marker: str, ok: bool) -> None:
-        reader = StringIO(f'{marker}line one\nline two{Response.RS_}')
+    def test_receives_status_and_multiline_payload(self, marker: str, expected_status: str) -> None:
+        reader = StringIO(f'{marker}line one\nline two{Response.RS}')
 
-        assert Response(reader).recv() == (ok, 'line one\nline two')
+        assert Response(reader).recv() == SkillResp(expected_status, 'line one\nline two')
 
     def test_consecutive_responses_do_not_consume_each_other(self) -> None:
         reader = StringIO(
-            f'{Response.STX_}first{Response.RS_}{Response.NAK_}second{Response.RS_}',
+            f'{Response.STX}first{Response.RS}{Response.NAK}second{Response.RS}{Response.RST}third{Response.RS}',
         )
         response = Response(reader)
 
-        assert response.recv() == (True, 'first')
-        assert response.recv() == (False, 'second')
+        assert response.recv() == SkillResp('success', 'first')
+        assert response.recv() == SkillResp('failure', 'second')
+        assert response.recv() == SkillResp('restart', 'third')
 
     def test_properties_expose_reader_and_default_limit(self) -> None:
         reader = StringIO()
         response = Response(reader)
 
         assert response.reader is reader
-        assert response.max_payload_chars == Response.DEFAULT_MAX_PAYLOAD_CHARS_
-        assert response.max_preamble_chars == Response.DEFAULT_MAX_PREAMBLE_CHARS_
+        assert response.max_payload_chars == Response.DEFAULT_MAX_PAYLOAD_CHARS
+        assert response.max_preamble_chars == Response.DEFAULT_MAX_PREAMBLE_CHARS
 
     def test_rejects_character_before_response_frame(self) -> None:
         with raises(InvalidResponseError) as caught:
-            Response(StringIO(f'noise{Response.STX_}ok{Response.RS_}')).recv()
+            Response(StringIO(f'noise{Response.STX}ok{Response.RS}')).recv()
 
         assert caught.value.response == 'n'
         assert caught.value.reason == 'unexpected character before response frame'
 
     def test_ignore_preamble_discards_noise_before_frame(self) -> None:
-        reader = StringIO(f'*WARNING* noise\n{Response.STX_}ok{Response.RS_}')
+        reader = StringIO(f'*WARNING* noise\n{Response.STX}ok{Response.RS}')
         response = Response(reader, ignore_preamble=True)
 
-        assert response.recv() == (True, 'ok')
+        assert response.recv() == SkillResp('success', 'ok')
 
     def test_ignore_preamble_rejects_oversized_preamble(self) -> None:
-        reader = StringIO(f'12345{Response.STX_}ok{Response.RS_}')
+        reader = StringIO(f'12345{Response.STX}ok{Response.RS}')
         response = Response(reader, ignore_preamble=True, max_preamble_chars=4)
 
         with raises(FrameTooLargeError) as caught:
@@ -248,7 +250,7 @@ class TestResponse:
         ('stream', 'context'),
         [
             ('', 'before response frame'),
-            (f'{Response.STX_}partial', 'inside response frame'),
+            (f'{Response.STX}partial', 'inside response frame'),
         ],
     )
     def test_reports_end_of_stream(self, stream: str, context: str) -> None:
@@ -257,7 +259,7 @@ class TestResponse:
 
     def test_rejects_payload_above_limit(self) -> None:
         response = Response(
-            StringIO(f'{Response.STX_}four{Response.RS_}'),
+            StringIO(f'{Response.STX}four{Response.RS}'),
             max_payload_chars=3,
         )
 
@@ -285,11 +287,11 @@ def test_response_roundtrip_over_os_pipe(
     text_pipe: tuple[TextIOWrapper, TextIOWrapper],
 ) -> None:
     reader, writer = text_pipe
-    writer.write(f'{Response.STX_}line one\nline two{Response.RS_}')
+    writer.write(f'{Response.STX}line one\nline two{Response.RS}')
     writer.flush()
 
     if platform != "win32":
         readable, _, _ = select([reader], [], [], SOCKET_TIMEOUT_SECONDS)
         assert readable == [reader]
 
-    assert Response(reader).recv() == (True, 'line one\nline two')
+    assert Response(reader).recv() == SkillResp('success', 'line one\nline two')
