@@ -1,0 +1,47 @@
+; For mathematics
+; Assigns a set of math constants to the symbol
+(defMathConstants 'qub::m)
+
+; Check if two floats are almost equal
+; Returns:
+;   bool
+; Args:
+;   a: float
+;   b: float
+;   rel_tol: float
+;            The relative tolerance of the comparison
+;            0.0 for 0% tolerance, 1.0 for 100% tolerance etc
+;   abs_tol: float
+;            The absolute numerical tolerance of the comparison
+(defgeneric qub::almostEqual (a b @key (rel_tol 0) (abs_tol 0)))
+(defmethod qub::almostEqual ((a number) 
+                             (b number)
+                             @key (rel_tol 0) (abs_tol 0))
+  (when (or (negativep rel_tol)
+            (negativep abs_tol))
+        (error "Can't have negative tolerance"))
+  (cond ((equal a b) t)
+        ((isInfinity (float a)) nil)
+        ((isInfinity (float b)) nil)
+        (t (let ((diff (abs (difference a b))))
+             (cond ((leqp diff (abs (times rel_tol b))) t)
+                   ((leqp diff (abs (times rel_tol a))) t)
+                   ((leqp diff abs_tol))
+                   (t nil))))))
+
+(defmethod qub::almostEqual ((a list) (b list) @key (rel_tol 0) (abs_tol 0))
+  ; check if each value is equal
+  (if (nequal (length a) (length b))
+      nil
+      (let ((ae (lambda (x y) 
+                  (qub::almostEqual x y ?rel_tol rel_tol ?abs_tol abs_tol))))
+        (qub::foldl (lambda (acc x) (and acc x)) t (mapcar ae a b)))))
+
+; Checks if two floats are not almost equal
+; It just inverts the return value of qub::almostEqual                   
+(defun qub::notAlmostEqual (a b @key (rel_tol 0) (abs_tol 0))
+  (not (qub::almostEqual a b ?rel_tol rel_tol ?abs_tol abs_tol)))
+  
+; Find the mean of some numbers
+(defun qub::mean (@rest x) 
+  (quotient (qub::sum x) (length x)))

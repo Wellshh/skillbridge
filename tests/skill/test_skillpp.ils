@@ -1,13 +1,30 @@
 ; test_skillpp.ils
 
+printf("=== SKILL++ smoke test start ===\n")
+
 (defclass MyTestClass ()
   ((value
      @initarg value
-     @reader getValue)))
+     @reader getValue
+     @writer setValue)))
 
-(setq obj
-  (makeInstance
-    'MyTestClass
-    ?value 42))
+(defmethod doubleValue ((obj MyTestClass))
+  times(getValue(obj) 2)
+)
 
-printf("value = %L\n" getValue(obj))
+obj = makeInstance(
+  'MyTestClass
+  ?value 42
+)
+
+printf("reader: %L\n" getValue(obj))
+printf("method: %L\n" doubleValue(obj))
+
+setValue(obj 100)
+
+printf("writer: %L\n" getValue(obj))
+
+testLambda = lambda((x) plus(x 1))
+printf("lambda: %L\n" funcall(testLambda 41))
+
+printf("=== SKILL++ smoke test done ===\n")

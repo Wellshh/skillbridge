@@ -1,0 +1,43 @@
+(unless (findNamespace "qub")
+        (makeNamespace "qub"))
+
+; classes.ils
+(addToExportList '(qub:::checkType
+                   qub:::equal
+                   qub:::nequal
+                   qub:::eqfn
+                   qub:::allEqual))
+                   
+; fileio.ils
+(addToExportList '(qub:::listFileRec
+                   qub:::filterUnwanted
+                   qub:::getFileName
+                   qub:::findFilesWithPrefix
+                   qub:::findFiles))
+
+; functional.ils
+(addToExportList '(qub:::foldl
+                   qub:::foldr
+                   qub:::sum
+                   qub:::lcmp
+                   qub:::takeN
+				   qub:::dropN))
+
+; list.ils
+(addToExportList '(qub:::joinLists
+                   qub:::flattenList
+                   qub:::range
+                   qub:::pushEnd
+                   qub:::lastAtom
+                   qub:::addListElems
+                   qub:::copyObjProperties))
+
+; math.ils
+(addToExportList '(qub:::m
+                   qub:::almostEqual
+                   qub:::notAlmostEqual
+                   qub:::mean))
+
+; string.ils
+(addToExportList '(qub:::startsWith
+                   qub:::sexpToStr))                   

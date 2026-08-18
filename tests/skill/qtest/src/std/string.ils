@@ -1,0 +1,17 @@
+; Checks if string starts with a particular substring
+; Returns:
+;   bool
+; Args:
+;   str: string
+;        The string to check
+;   prefix: string
+;           The substring we're checking for within str
+(defun qub::startsWith (str prefix)
+  (equal 0 (strncmp str prefix (strlen prefix))))
+  
+; Converts an s-expression to a string
+; Used for when some functions want a callback as a string but I 
+; don't want to lose syntax highlighting and other features
+; in my editor
+(defmacro qub::sexpToStr (sexp)
+  `(sprintf nil "%A" ',sexp))

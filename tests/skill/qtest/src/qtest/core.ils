@@ -1,0 +1,106 @@
+; Represents the result of a single Test Case                   
+(defclass qtest:::Result ()
+  ; Result can be 'Pass or 'Fail
+  ((result @initarg result
+           @reader get_result
+           @writer set_result)
+   (msg @initarg msg
+        @reader get_msg
+        @writer set_msg)
+   (inputs @initarg inputs
+           @reader get_inputs
+           @writer set_inputs)
+   (evaluated_inputs @initarg evaluated_inputs
+                     @reader get_evaluated_inputs
+                     @writer set_evaluated_inputs)))
+   
+(defmethod printself ((obj qtest:::Result))
+  (sprintf nil 
+"Result: %s\n
+Message: %s\n
+Inputs: %A\n
+Evaluated Inputs: %A\n"
+        (get_result obj)
+        (get_msg obj)
+        (get_inputs obj)
+        (get_evaluated_inputs obj)))
+   
+(defun qtest:::makeResult (result msg inputs evaluated_inputs)
+  (makeInstance 'qtest:::Result 
+                ?result result 
+                ?msg msg
+                ?inputs inputs
+                ?evaluated_inputs evaluated_inputs))
+   
+; Create function and return a list of its name and the function object. 
+; To be used inside qtest::TestRunner
+(defmacro qtest::TestCase (fn_name 
+                            @key (skip nil) 
+                                 (expect_fail nil) 
+                            @rest body)
+  (if skip
+    ; If we're skipping it then just create a function
+    ; which returns a skipped result
+    `(list ',fn_name 
+           (lambda () (qtest:::makeResult 'Skip "Test was skipped" () ())))
+    (if expect_fail
+      ; If we expect a failure then wrap the function in a lambda
+      ; that checks the output of the result
+      ; If it was 'Fail then change it to 'ExpF (Expected Fail)
+      `(list ',fn_name
+             (lambda ()
+               (let ((result ,@body))
+                 (if (eq 'Fail (get_result result))
+                     ; Creating a new result object
+                     ; to show that the failure was expected
+                     (qtest:::makeResult 'ExpF 
+                                         (get_msg result)
+                                         (get_inputs result)
+                                         (get_evaluated_inputs result))
+                     result))))
+      `(list ',fn_name (lambda () ,@body)))))
+        
+; Test runner. Automatically called by runTests
+; Returns a list containing (fn name (symbol), qub::Result)
+(defun qtest::runTests (tests)
+  (mapcar (lambda (x) (list (car x) (funcall (cadr x)))) tests))
+
+; Runs each of the tests defined in the body
+(defmacro qtest::TestSuite (let_lst @rest tests)
+  `(let ,let_lst
+    (list ,@tests)))
+
+; Flatten all the suites into a list of tests
+; Run each test and print the results
+(defun qtest::runSuites (@rest suites)
+  (letseq ((tests (qub::joinLists suites))
+           (results (qtest::runTests tests))
+           (ntests (length tests))
+           (fails (setof x results (eq 'Fail (get_result (cadr x)))))
+           (nfails (length fails))
+           (skipped (setof x results (eq 'Skip (get_result (cadr x)))))
+           (nskipped (length skipped))
+           (expfails (setof x results (eq 'ExpF (get_result (cadr x)))))
+           (nexpfails (length expfails))
+           (passed (setof x results (eq 'Pass (get_result (cadr x)))))
+           (npassed (length passed)))
+    (printf "%n of %n tests passed
+(%n failures)
+(%n skipped)
+(%n expected failures)\n" 
+            npassed
+            ntests
+            nfails
+            nskipped
+            nexpfails)
+    (mapc (lambda (x) (printf "Test: %s\n%s\n" (car x) (cadr x))) fails)
+    (printf "\n")))
+
+; Recursively look for all files prefixed with "test_" in a dir and load them    
+(defun qtest::runAllTests (relPath)
+  (letseq ((filesInDir (qub::listFileRec relPath))
+           (testFiles (qub::findFilesWithPrefix filesInDir "test_")))
+    (mapc (lambda (x) 
+            (printf "Running: %s\n" x) 
+            (load x))
+          testFiles)))

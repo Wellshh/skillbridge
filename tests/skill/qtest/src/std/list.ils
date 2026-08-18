@@ -1,0 +1,126 @@
+; Join a list of lists
+; Return:
+;   list
+; Args:
+;   lst: A list of lists
+; Example:
+;   >>> (qub::joinLists (list (list 1) (list 2)))
+;   (1 2)
+(defun qub::joinLists (lst)
+  (qub::foldl append (list) lst))
+
+; Recursively flatten all lists
+; Return:
+;   list
+; Args:
+;   lst: A list of lists of any depth
+; Example:
+;   >>> (qub::flattenList (list 1 (list 2) (list (list (list 3)) (list 4))))
+;       (1 2 3 4)
+(defun qub::flattenList (lst)
+  (letseq ((outputList (list)))
+    (labels  ((helper (a)
+              (mapcar (lambda (x) 
+                        (if (atom x) (pushf x outputList) (helper x))) 
+                      a)))
+      (helper lst)
+    (reverse outputList))))
+
+; Creates a list of numbers. Modelled on Python 3's range function.
+; Return:
+;   list of integers
+; Args:
+;   start: int
+;          The starting value. It is inclusive and will be in the output list.
+;   stop: int
+;         The stop value. It is exclusive and will not be in the list
+;   step: int
+;         The step value of the internal loop
+; Example:
+;   >>> (qub::range ?start 0 ?stop 5)
+;   (0 1 2 3 4)
+;   >>> (qub::range ?start 1 ?stop 11 ?step 2)
+;   (1 3 5 7 9)
+(defun qub::range (@key (start 0) (stop -1) (step 1))
+  (if (lessp stop start)
+      (error "End value is lower than start value")
+      (let ((values nil)
+            (cur_val start))
+        (while (lessp cur_val stop)
+          (pushf cur_val values)
+          (setq cur_val (plus cur_val step)))
+        (reverse values))))
+        
+; Mutate a list by adding a new value to the end.
+; Returns:
+;   The value that was added to the list.
+;   The original list is mutated
+; Args:
+;   val: object
+;        The value to be added to the list
+;   lst: list
+;        The list to be mutated
+; Example:
+;   >>> my_list = (list 1 2)
+;   (1 2)
+;   >>> (qub::pushEnd 3 my_list)
+;   (3)
+;   >>> my_list
+;   (1 2 3)		
+(defun qub::pushEnd (val lst)
+  (pushf val (cdr (last lst))))
+  
+; Get the last atom from a list.
+; Returns:
+;   The final atom in a list
+; Args:
+;   lst: list
+;        The list to extract the atom from
+; Example:
+;   >>> (qub::lastAtom (list 1 2 3))
+;   3
+(defun qub::lastAtom (lst)
+  (car (last lst)))
+  
+; Adds each value in a list with the corresponding element in another list.
+; Return:
+;   A list of values
+; Args:
+;   a: A list of numbers
+;   b: A list of numbers
+; Example:
+;   >>> (qub::addListElems (list 1 2 3) (list 1 2 3))
+;   (2 4 6)
+(defun qub::addListElems (a b)
+  (mapcar plus a b))
+  
+; Copies the the values of a property list to a new property list.
+; The new list is mutated
+; Args:
+;   oldVals: property list
+;            The object you're copying from
+;   newVals: property list
+;            The object you're copying to
+; Returns:
+;   Nothing, the newVals list is mutated.
+; Example:
+; >>> x = (list nil 'a 1 'b 2)
+; (nil a 1 b 2)
+; >>> x->??
+; (a 1 b 2)
+; >>> y = (list nil)
+; (nil)
+; >>> y->??
+; nil
+; >>> (qub::copyObjProperties x y)
+; t
+; >>> y->??
+; (b 2 a 1)
+(defun qub::copyObjProperties (oldVals newVals)
+  (letseq ((properties oldVals->??)
+           (numProp (length properties)))
+    (foreach i (qub::range ?start 0 ?stop numProp ?step 2)
+      (let ((newSym (nth i properties))
+            (newVal (nth i+1 properties)))
+        (putprop newVals newVal newSym)))
+    t))

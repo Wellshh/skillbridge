@@ -1,0 +1,26 @@
+;;; init.ils - Core SKILL++ Unit Testing Framework (qtest + std)
+
+(defmacro qubCreateModule (folder @rest body)
+  `(let ((modload (lambda (p) (load (strcat ,folder p)))))
+    ,@body))
+
+;; 1. Initialize namespaces and symbol exports
+(load "std/sym_init.ils")
+(load "qtest/ns_init.ils")
+(load "qtest/sym_init.ils")
+
+;; 2. Load standard library modules
+(qubCreateModule "std/"
+  (modload "classes.ils")
+  (modload "functional.ils")
+  (modload "list.ils")
+  (modload "math.ils")
+  (modload "string.ils")
+  (modload "fileio.ils"))
+
+;; 3. Load qtest core & assertion modules
+(qubCreateModule "qtest/"
+  (modload "core.ils")
+  (modload "assertions.ils"))
+
+(printf "[qtest] Loaded qtest unit testing framework.\n")
