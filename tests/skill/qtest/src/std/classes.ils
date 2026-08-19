@@ -25,6 +25,7 @@
 
 (qub::eqfn list (equal a b))
 (qub::eqfn string (equal a b))
+(qub::eqfn symbol (equal a b))
 
 (defun qub::allEqual (@rest values)
   (forall x (cdr values) (qub::equal (car values) x)))

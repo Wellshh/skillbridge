@@ -66,3 +66,32 @@
 ;   ("x/foo.ils" "y/foo.ils")
 (defun qub::findFiles (files name)
   (setof x files (equal name (qub::getFileName x))))
+
+; Normalizes Windows backslashes to forward slashes.
+; SKILL path splitting (rindex "/", parseString "/") only sees "/"; on Windows
+; get_filename can return backslashes, so rindex("/") returns nil and strlen then
+; crashes. Normalize before splitting.
+; Returns:
+;   string
+; Args:
+;   path: string
+; Example:
+;   >>> (qub::normalizePath "D:\\a\\b\\run.ils")
+;   "D:/a/b/run.ils"
+;   >>> (qub::normalizePath "D:/a/b/run.ils")
+;   "D:/a/b/run.ils"
+(defun qub::normalizePath (path)
+  (buildString (parseString path "\\") "/"))
+
+; Returns the directory of the file currently being loaded (via piport),
+; with backslashes normalized. A test file uses this at its top to load its own
+; module under test by relative path, so the runner does not need to know the SUT.
+; Returns:
+;   string (forward-slash directory, no trailing slash)
+(defun qub::scriptDir ()
+  (letseq ((_filename (simplifyFilename (get_filename piport)))
+           (_normalized (qub::normalizePath _filename))
+           (_fileTail (rindex _normalized "/")))
+    (substring _normalized 1
+               (difference (strlen _normalized)
+                           (strlen _fileTail)))))

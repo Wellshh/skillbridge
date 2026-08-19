@@ -33,7 +33,7 @@ Evaluated Inputs: %A\n"
                 ?evaluated_inputs evaluated_inputs))
 
 (defun qtest:::runTestCase (steps)
-  (prog ((result))
+  (prog (result)
     (foreach step steps
       (setq result (funcall step))
       (when (and (classp result 'qtest:::Result)

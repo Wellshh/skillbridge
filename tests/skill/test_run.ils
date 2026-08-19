@@ -1,0 +1,25 @@
+;;; test_run.ils - Unit tests for path normalization and symbol equality using qtest
+
+(qtest::runSuites
+  ;; Suite 1: Path normalization
+  ;; Regression for the strlen-on-nil crash when get_filename returns backslashes
+  ;; on Windows: rindex("/") found nothing because the path was not normalized.
+  (qtest::TestSuite ()
+    (qtest::TestCase test_normalize_forward_slashes
+      (qtest::assertEqual "D:/AutoPlacer/skillbridge/tests/skill/run.ils"
+                          (qub::normalizePath "D:/AutoPlacer/skillbridge/tests/skill/run.ils")
+                          ?msg "Forward-slash path must be unchanged"))
+
+    (qtest::TestCase test_normalize_backslashes
+      (qtest::assertEqual "D:/AutoPlacer/skillbridge/tests/skill/run.ils"
+                          (qub::normalizePath "D:\\AutoPlacer\\skillbridge\\tests\\skill\\run.ils")
+                          ?msg "Windows backslash path must be normalized to forward slashes")))
+
+  ;; Suite 2: Symbol equality through the qub::equal generic
+  ;; Regression for "equal: no applicable method for (symbol symbol)"
+  (qtest::TestSuite ()
+    (qtest::TestCase test_assert_equal_symbols_match
+      (qtest::assertEqual 'stopped 'stopped ?msg "assertEqual must compare equal symbols"))
+
+    (qtest::TestCase test_assert_not_equal_symbols_differ
+      (qtest::assertNotEqual 'stopped 'running ?msg "assertNotEqual must distinguish symbols"))))

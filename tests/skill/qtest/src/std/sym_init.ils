@@ -13,7 +13,9 @@
                    qub:::filterUnwanted
                    qub:::getFileName
                    qub:::findFilesWithPrefix
-                   qub:::findFiles))
+                   qub:::findFiles
+                   qub:::normalizePath
+                   qub:::scriptDir))
 
 ; functional.ils
 (addToExportList '(qub:::foldl
