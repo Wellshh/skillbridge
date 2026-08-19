@@ -17,5 +17,10 @@
       (load (strcat _qtestSrc "/init.ils")))
     (setSkillPath _oldSkillPath))
 
-  (load (strcat _selfDir "/test_server.ils"))
-  (load (strcat _selfDir "/test_run.ils")))
+  (unwindProtect
+    (progn
+      (load (strcat _qtestSrc "/qcover/test_qcover.ils"))
+      (load (strcat _selfDir "/test_server.ils"))
+      (load (strcat _selfDir "/test_run.ils"))
+      (qcover::report))
+    (qcover::reset)))

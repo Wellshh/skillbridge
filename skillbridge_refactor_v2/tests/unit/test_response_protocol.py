@@ -3,7 +3,6 @@ from __future__ import annotations
 from io import StringIO
 
 import pytest
-
 from skillbridge.response_protocol import (
     FramedResponseProtocol,
     SkillResponseProtocolError,

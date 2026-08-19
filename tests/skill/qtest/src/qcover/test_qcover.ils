@@ -1,0 +1,102 @@
+;;; test_qcover.ils - Regression tests for classic SKILL branch coverage.
+
+(letseq ((_fixtureDir (strcat (qub::scriptDir) "/fixtures"))
+         (_fixture (strcat _fixtureDir "/branches.il"))
+         (_invalidFixture (strcat _fixtureDir "/invalid.il")))
+  (qtest::runSuites
+    (qtest::TestSuite ()
+      (qtest::TestCase test_linereadstring_wraps_one_function_form
+        (qtest::assertEq
+          'procedure
+          (caar (linereadstring "procedure(qcoverParseFixture(value) value)"))
+          ?msg "qcover expects linereadstring's outer logical-line result list"))
+
+      (qtest::TestCase test_load_restores_runtime_state
+        (let ((debugModeBefore (status debugMode))
+              (openFilesBefore (numOpenFiles)))
+          (qcover::reset)
+          (qcover::load _fixture)
+          (qtest::assertEqual debugModeBefore (status debugMode)
+                              ?msg "qcover::load must restore debugMode")
+          (qtest::assertEqual openFilesBefore (numOpenFiles)
+                              ?msg "qcover::load must close every temporary port")))
+
+      (qtest::TestCase test_load_failure_restores_debug_mode
+        (let ((debugModeBefore (status debugMode)))
+          (qtest::assertRaises (qcover::load _invalidFixture)
+                               ?msg "Malformed source must fail to load")
+          (qtest::assertEqual debugModeBefore (status debugMode)
+                              ?msg "Failed load must restore debugMode"))))
+
+    (qtest::TestSuite ()
+      (qtest::TestCase test_report_threshold_fails_for_missing_branch
+        (qcover::reset)
+        (qcover::load _fixture)
+        (qcoverFixtureIf t)
+        (qtest::assertRaises (qcover::report ?minimum 100.0)
+                             ?msg "Incomplete coverage must fail an explicit threshold"))
+
+      (qtest::TestCase test_report_identifies_missing_branch
+        (qcover::reset)
+        (qcover::load _fixture)
+        (qcoverFixtureIf t)
+        (let ((port (outstring))
+              report
+              percentage)
+          (unwindProtect
+            (let ((poport port))
+              (setq percentage (qcover::report))
+              (setq report (getOutstring port)))
+            (close port))
+          (qtest::assertTrue
+            (and (greaterp percentage 0.0)
+                 (lessp percentage 100.0)
+                 (index report "qcoverFixtureIf#1")
+                 (index report "false")
+                 (index report "value"))
+            ?msg "Partial report must include percentage and missing branch metadata")))
+
+      (qtest::TestCase test_reset_clears_coverage
+        (qcover::reset)
+        (qtest::assertEqual '(0 0) (qcover:::coverageCounts)
+                            ?msg "reset must clear covered and total branch counts")))
+
+    (qtest::TestSuite ()
+      (qtest::TestCase test_all_condition_outcomes_reach_full_coverage
+        (qcover::reset)
+        (qcover::load _fixture)
+        (qtest::assertEqual '(0 18) (qcover:::coverageCounts)
+                            ?msg "fixture must register exactly nine decisions")
+
+        (qtest::assertEqual 'yes (qcoverFixtureIf t))
+        (qtest::assertEqual 'no (qcoverFixtureIf nil))
+        (qtest::assertEqual 'yes (qcoverFixtureIfNoElse t))
+        (qtest::assertNil (qcoverFixtureIfNoElse nil))
+
+        (qtest::assertEqual 'yes (qcoverFixtureWhen t))
+        (qtest::assertNil (qcoverFixtureWhen nil))
+        (qtest::assertNil (qcoverFixtureUnless t))
+        (qtest::assertEqual 'yes (qcoverFixtureUnless nil))
+
+        (qtest::assertEqual 'one (qcoverFixtureCond 1))
+        (qtest::assertEqual 'two (qcoverFixtureCond 2))
+        (qtest::assertEqual 'other (qcoverFixtureCond 3))
+
+        (qtest::assertEqual 'both (qcoverFixtureNested t t))
+        (qtest::assertEqual 'first (qcoverFixtureNested t nil))
+        (qtest::assertEqual 'none (qcoverFixtureNested nil t))
+
+        (setq qcoverFixtureSideEffects 0)
+        (qtest::assertEqual 'first (qcoverFixtureOnce))
+        (qtest::assertEqual 'later (qcoverFixtureOnce))
+        (qtest::assertEqual 2 qcoverFixtureSideEffects
+                            ?msg "instrumented conditions must execute exactly once")
+
+        (qtest::assertEqual qcoverFixtureQuotedExpected
+                            (qcoverFixtureQuoted)
+                            ?msg "quoted branch-shaped data must not be instrumented")
+        (qtest::assertEqual 100.0 (qcover::report ?minimum 100.0)
+                            ?msg "all executable condition outcomes must be covered"))))
+
+  ;; The project coverage run starts from a clean registry after framework tests.
+  (qcover::reset))

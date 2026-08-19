@@ -8,11 +8,12 @@ from contextlib import contextmanager
 from typing import Iterator
 
 import pytest
+from skillbridge.pipe import SkillPipe, SkillPipeState
+from skillbridge.socket_protocol import encode_header, recv_frame
 
 from skillbridge.client import SkillBridgeClient
-from skillbridge.pipe import SkillPipe, SkillPipeState
 from skillbridge.server import Handler, ThreadingTcpServer
-from skillbridge.socket_protocol import encode_header, recv_frame
+
 from ..helpers import BlockingTextReader, RecordingWriter
 
 

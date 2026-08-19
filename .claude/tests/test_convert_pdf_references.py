@@ -35,7 +35,7 @@ class PdfReferenceConverterTests(unittest.TestCase):
         )
 
     def test_does_not_treat_example_call_as_a_declaration(self):
-        page = "Example\nresult = ipcBeginProcess(\"hostname\")\n=> ipc:3\n"
+        page = 'Example\nresult = ipcBeginProcess("hostname")\n=> ipc:3\n'
 
         declarations = load_converter().extract_api_declarations(page)
 

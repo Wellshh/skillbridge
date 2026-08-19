@@ -1,0 +1,218 @@
+;;; core.ils - Branch coverage for classic SKILL function bodies.
+
+qcover:::_branches = makeTable("qcoverBranches" nil)
+qcover:::_hits = makeTable("qcoverHits" 0)
+qcover:::_originalDefinitions = makeTable("qcoverOriginalDefinitions" nil)
+qcover:::_currentFile = nil
+qcover:::_currentFunction = nil
+qcover:::_nextDecision = 0
+
+(defun qcover::reset ()
+  "Restore instrumented functions and clear all coverage state."
+  (foreach functionName qcover:::_originalDefinitions
+    (putd functionName qcover:::_originalDefinitions[functionName]))
+
+  (setq qcover:::_branches (makeTable "qcoverBranches" nil))
+  (setq qcover:::_hits (makeTable "qcoverHits" 0))
+  (setq qcover:::_originalDefinitions
+        (makeTable "qcoverOriginalDefinitions" nil))
+  (setq qcover:::_currentFile nil)
+  (setq qcover:::_currentFunction nil)
+  (setq qcover:::_nextDecision 0)
+  t)
+
+(defun qcover:::decision (decisionId value)
+  "Record one condition outcome and return its original value."
+  (let ((branchId
+          (strcat decisionId (if value ":true" ":false"))))
+    (setq qcover:::_hits[branchId]
+          (add1 qcover:::_hits[branchId]))
+    value))
+
+(defun qcover:::registerDecision (condition)
+  (letseq ((decisionNumber (add1 qcover:::_nextDecision))
+           (decisionId
+             (sprintf nil "%s::%s#%d"
+                      qcover:::_currentFile
+                      (symbolToString qcover:::_currentFunction)
+                      decisionNumber))
+           (conditionText (sprintf nil "%L" condition)))
+    (setq qcover:::_nextDecision decisionNumber)
+    (setq qcover:::_branches[strcat(decisionId ":true")]
+          (list qcover:::_currentFile
+                qcover:::_currentFunction
+                decisionNumber
+                'true
+                conditionText))
+    (setq qcover:::_branches[strcat(decisionId ":false")]
+          (list qcover:::_currentFile
+                qcover:::_currentFunction
+                decisionNumber
+                'false
+                conditionText))
+    decisionId))
+
+(defun qcover:::quotedForm (head)
+  (member head '(quote _quote quasiquote _backquote)))
+
+(defun qcover:::transformBindings (bindings)
+  (mapcar
+    (lambda (binding)
+      (if (atom binding)
+          binding
+          (cons (car binding)
+                (mapcar qcover:::transformExpression (cdr binding)))))
+    bindings))
+
+(defun qcover:::wrapDecision (condition)
+  (let ((decisionId (qcover:::registerDecision condition)))
+    (list 'qcover:::decision
+          decisionId
+          (qcover:::transformExpression condition))))
+
+(defun qcover:::transformCondClause (clause)
+  (if (or (atom clause) (null clause))
+      clause
+      (cons
+        (if (eq (car clause) t)
+            t
+            (qcover:::wrapDecision (car clause)))
+        (mapcar qcover:::transformExpression (cdr clause)))))
+
+(defun qcover:::transformExpression (expression)
+  (if (atom expression)
+      expression
+      (let ((head (car expression)))
+        (cond
+          ((qcover:::quotedForm head)
+           expression)
+          ((member head '(if when unless))
+           (cons head
+                 (cons (qcover:::wrapDecision (cadr expression))
+                       (mapcar qcover:::transformExpression
+                               (cddr expression)))))
+          ((eq head 'cond)
+           (cons head
+                 (mapcar qcover:::transformCondClause
+                         (cdr expression))))
+          ((member head '(let letseq prog))
+           (cons head
+                 (cons (qcover:::transformBindings (cadr expression))
+                       (mapcar qcover:::transformExpression
+                               (cddr expression)))))
+          ((member head '(lambda nlambda))
+           (cons head
+                 (cons (cadr expression)
+                       (mapcar qcover:::transformExpression
+                               (cddr expression)))))
+          (t
+           (mapcar qcover:::transformExpression expression))))))
+
+(defun qcover:::transformDefinition (definition)
+  (let ((head (car definition)))
+    (cond
+      ((member head '(procedure nprocedure mprocedure))
+       (cons head
+             (cons (cadr definition)
+                   (mapcar qcover:::transformExpression
+                           (cddr definition)))))
+      ((member head '(defun defmacro))
+       (append (list head (cadr definition) (caddr definition))
+               (mapcar qcover:::transformExpression
+                       (cdddr definition))))
+      (t
+       (qcover:::transformExpression definition)))))
+
+(defun qcover:::prettyDefinition (functionName)
+  (let ((port (outstring))
+        text)
+    (unless port
+      (error "qcover: cannot create an outstring port"))
+    (unwindProtect
+      (progn
+        ;; pp is an nlambda: construct the call so the actual function symbol
+        ;; is passed unevaluated, while the output port is evaluated.
+        (eval (list 'pp functionName (list 'quote port)))
+        (setq text (getOutstring port)))
+      (close port))
+    text))
+
+(defun qcover:::instrumentFunction (functionName)
+  (letseq ((definitionText (qcover:::prettyDefinition functionName))
+           (forms (linereadstring definitionText))
+           (definition (car forms))
+           transformed)
+    (unless definition
+      (error "qcover: cannot parse function %L" functionName))
+
+    (setq qcover:::_currentFunction functionName)
+    (setq qcover:::_nextDecision 0)
+    (unless qcover:::_originalDefinitions[functionName]
+      (setq qcover:::_originalDefinitions[functionName]
+            (getd functionName)))
+    (setq transformed (qcover:::transformDefinition definition))
+    (loadstring (sprintf nil "%L" transformed) 'il)))
+
+(defun qcover::load (fileName)
+  "Load and instrument every classic SKILL function defined by fileName."
+  (let ((oldDebugMode (status debugMode))
+        (normalizedFile (qub::normalizePath (simplifyFilename fileName)))
+        functions
+        success)
+    (unwindProtect
+      (progn
+        (sstatus debugMode t)
+        (load normalizedFile)
+        (setq functions
+              (getFunctions (qub::getFileName normalizedFile)))
+        (setq qcover:::_currentFile normalizedFile)
+        (foreach functionName functions
+          (qcover:::instrumentFunction functionName))
+        (setq success t))
+      (progn
+        (sstatus debugMode oldDebugMode)
+        (unless success
+          (qcover::reset))))
+    t))
+
+(defun qcover:::coverageCounts ()
+  "Return (covered total) for the registered branch outcomes."
+  (let ((covered 0)
+        (total 0))
+    (foreach branchId qcover:::_branches
+      (setq total (add1 total))
+      (when (greaterp qcover:::_hits[branchId] 0)
+        (setq covered (add1 covered))))
+    (list covered total)))
+
+(defun qcover::report (@key (minimum nil))
+  "Print branch coverage, optionally failing below minimum percent."
+  (when (and minimum
+             (or (not (numberp minimum))
+                 (lessp minimum 0)
+                 (greaterp minimum 100)))
+    (error "qcover: minimum must be between 0 and 100"))
+
+  (letseq ((counts (qcover:::coverageCounts))
+           (covered (car counts))
+           (total (cadr counts))
+           (percentage
+             (if (zerop total)
+                 100.0
+                 (quotient (times 100.0 covered) total))))
+    (printf "qcover: %d/%d branches covered (%.2f%%)\n"
+            covered total percentage)
+    (foreach branchId qcover:::_branches
+      (when (zerop qcover:::_hits[branchId])
+        (let ((metadata qcover:::_branches[branchId]))
+          (printf "  missing %s::%L#%d %L: %s\n"
+                  (car metadata)
+                  (cadr metadata)
+                  (nth 2 metadata)
+                  (nth 3 metadata)
+                  (nth 4 metadata)))))
+
+    (when (and minimum (lessp percentage minimum))
+      (error "qcover: branch coverage %.2f%% is below %.2f%%"
+             percentage minimum))
+    percentage))

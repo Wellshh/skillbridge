@@ -8,7 +8,7 @@ import logging
 import os
 import re
 import sys
-from argparse import ArgumentParser, BooleanOptionalAction
+from argparse import ArgumentParser
 from pathlib import Path
 from socketserver import StreamRequestHandler, TCPServer, ThreadingMixIn
 from typing import Any
@@ -294,23 +294,22 @@ def main(
         sys.stdin,
         sys.stdout,
         drain_timeout=drain_timeout,
-    ) as skill_pipe:
-        with create_server(
+    ) as skill_pipe, create_server(
+        id_,
+        skill_pipe=skill_pipe,
+        single=single,
+        timeout=timeout,
+        force_tcp=force_tcp,
+        max_payload_size=max_payload_size,
+    ) as server:
+        logger.info(
+            "starting server id=%s timeout=%s",
             id_,
-            skill_pipe=skill_pipe,
-            single=single,
-            timeout=timeout,
-            force_tcp=force_tcp,
-            max_payload_size=max_payload_size,
-        ) as server:
-            logger.info(
-                "starting server id=%s timeout=%s",
-                id_,
-                timeout,
-            )
-            if notify:
-                notify_skill("running")
-            server.serve_forever()
+            timeout,
+        )
+        if notify:
+            notify_skill("running")
+        server.serve_forever()
 
 
 def build_argument_parser() -> ArgumentParser:

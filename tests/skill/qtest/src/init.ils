@@ -9,6 +9,8 @@
 (load "std/sym_init.ils")
 (load "qtest/ns_init.ils")
 (load "qtest/sym_init.ils")
+(load "qcover/ns_init.ils")
+(load "qcover/sym_init.ils")
 
 ;; 2. Load standard library modules
 (qubCreateModule "std/"
@@ -24,4 +26,8 @@
   (modload "core.ils")
   (modload "assertions.ils"))
 
-(printf "[qtest] Loaded qtest unit testing framework.\n")
+;; 4. Load classic SKILL branch coverage
+(qubCreateModule "qcover/"
+  (modload "core.ils"))
+
+(printf "[qtest] Loaded qtest and qcover.\n")

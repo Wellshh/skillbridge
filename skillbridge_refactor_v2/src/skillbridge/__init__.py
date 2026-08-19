@@ -11,19 +11,19 @@ from .pipe import (
     SkillPipeTimeoutError,
 )
 from .response_protocol import (
-    FramedResponseProtocol,
     NAK,
     RS,
     STX,
+    FramedResponseProtocol,
     SkillResponse,
     SkillResponseProtocolError,
 )
 
 __all__ = [
-    "FramedResponseProtocol",
     "NAK",
     "RS",
     "STX",
+    "FramedResponseProtocol",
     "SkillBridgeClient",
     "SkillPipe",
     "SkillPipeBrokenError",

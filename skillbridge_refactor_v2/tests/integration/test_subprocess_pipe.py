@@ -4,13 +4,12 @@ import subprocess
 import sys
 
 import pytest
-
 from skillbridge.pipe import SkillPipe, SkillPipeState, SkillPipeTimeoutError
 
 
 @pytest.mark.integration
 def test_real_subprocess_frames_errors_multiline_and_timeout_recovery() -> None:
-    script = r'''
+    script = r"""
 import sys
 import time
 
@@ -36,7 +35,7 @@ for line in sys.stdin:
         break
     else:
         send(STX, "reply:" + command)
-'''
+"""
     process = subprocess.Popen(
         [sys.executable, "-u", "-c", script],
         stdin=subprocess.PIPE,

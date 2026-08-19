@@ -4,7 +4,6 @@ import threading
 from queue import Queue
 
 import pytest
-
 from skillbridge.pipe import (
     SkillPipe,
     SkillPipeBrokenError,
@@ -14,6 +13,7 @@ from skillbridge.pipe import (
     SkillPipeTimeoutError,
 )
 from skillbridge.response_protocol import SkillResponse
+
 from ..helpers import BlockingTextReader, FailingWriter, RecordingWriter
 
 

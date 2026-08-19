@@ -1,0 +1,3 @@
+(addToExportList '(qcover:::reset
+                   qcover:::load
+                   qcover:::report))

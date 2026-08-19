@@ -11,7 +11,6 @@ returning to READY.
 from __future__ import annotations
 
 import logging
-import math
 import threading
 import time
 from enum import Enum, auto
@@ -170,17 +169,6 @@ class SkillPipe:
             self._condition.notify_all()
 
     @staticmethod
-    def _validate_optional_timeout(value: float | None, *, name: str) -> None:
-        if value is None:
-            return
-        if not math.isfinite(value) or value < 0.0:
-            raise ValueError(f"{name} must be None or a finite non-negative number")
-
-    @classmethod
-    def _validate_timeout(cls, timeout: float | None) -> None:
-        cls._validate_optional_timeout(timeout, name="timeout")
-
-    @staticmethod
     def _remaining(deadline: float | None) -> float | None:
         if deadline is None:
             return None
@@ -293,7 +281,6 @@ class SkillPipe:
         timeout: float | None,
     ) -> SkillResponse:
         """Execute one command and return its complete response object."""
-        self._validate_timeout(timeout)
         deadline = None if timeout is None else time.monotonic() + timeout
 
         self._acquire_request_lock(timeout=timeout, deadline=deadline)
@@ -384,7 +371,6 @@ class SkillPipe:
 
     def wait_until_ready(self, timeout: float | None = None) -> bool:
         """Wait until recovery finishes; return false on timeout/unusable state."""
-        self._validate_timeout(timeout)
         deadline = None if timeout is None else time.monotonic() + timeout
         with self._condition:
             while self._state is SkillPipeState.DRAINING:

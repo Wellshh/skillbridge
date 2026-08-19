@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 from skillbridge.pipe import SkillPipe
-from skillbridge.response_protocol import FramedResponseProtocol
+
 from skillbridge.server import SingleTcpServer, create_server
+
 from ..helpers import BlockingTextReader, RecordingWriter
 
 
