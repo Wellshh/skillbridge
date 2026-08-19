@@ -55,18 +55,6 @@ class Response:
         self._ignore_preamble = ignore_preamble
         self._max_preamble_chars = max_preamble_chars
 
-    @property
-    def reader(self) -> TextIO:
-        return self._reader
-
-    @property
-    def max_payload_chars(self) -> int:
-        return self._max_payload_chars
-
-    @property
-    def max_preamble_chars(self) -> int:
-        return self._max_preamble_chars
-
     @staticmethod
     def _read_char(reader: TextIO, context: str) -> str:
         char = reader.read(1)

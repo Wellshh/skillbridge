@@ -3,6 +3,7 @@
 
 ## IMPLEMENTATION:
 - [ ] Server refactor
+  - [ ] Fix multi-thread restart issues
 - [ ] Understand the underneath mechanism of skill object handling
 
 
