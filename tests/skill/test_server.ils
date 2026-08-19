@@ -1,13 +1,5 @@
 ;;; test_server.ils - Unit tests for python_server.il using qtest
 
-;; Auto-import qtest framework if not loaded
-(unless (findNamespace "qtest")
-  (load "tests/skill/qtest/src/init.ils"))
-
-;; Load python_server.il if not loaded
-(unless (isCallable '__pySkillToPython)
-  (load "skillbridge/server/python_server.il"))
-
 (qtest::runSuites
   ;; Suite 1: Scalar data types serialization
   (qtest::TestSuite ()

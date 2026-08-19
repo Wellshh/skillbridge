@@ -1,0 +1,19 @@
+;;; run.ils - Load qtest and run python_server.il unit tests.
+
+;;; Run: load("/absolute/path/to/skillbridge/tests/skill/run.ils")
+
+(letseq ((_filename (simplifyFilename (get_filename piport)))
+         (_fileTail (rindex _filename "/"))
+         (_testDir (substring _filename 1
+                              (difference (strlen _filename)
+                                          (strlen _fileTail))))
+         (_qtestSrc (simplifyFilename (strcat _testDir "/qtest/src")))
+         (_oldSkillPath (getSkillPath)))
+  (unwindProtect
+    (progn
+      (setSkillPath (cons _qtestSrc _oldSkillPath))
+      (load (strcat _qtestSrc "/init.ils")))
+    (setSkillPath _oldSkillPath))
+
+  (load (strcat _testDir "/../../skillbridge/server/python_server.il"))
+  (load (strcat _testDir "/test_server.ils")))

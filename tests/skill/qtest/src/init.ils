@@ -1,5 +1,6 @@
 ;;; init.ils - Core SKILL++ Unit Testing Framework (qtest + std)
 
+; Run this file twice to fix all "unknown object" errors
 (defmacro qubCreateModule (folder @rest body)
   `(let ((modload (lambda (p) (load (strcat ,folder p)))))
     ,@body))

@@ -31,6 +31,15 @@ Evaluated Inputs: %A\n"
                 ?msg msg
                 ?inputs inputs
                 ?evaluated_inputs evaluated_inputs))
+
+(defun qtest:::runTestCase (steps)
+  (prog ((result))
+    (foreach step steps
+      (setq result (funcall step))
+      (when (and (classp result 'qtest:::Result)
+                 (eq 'Fail (get_result result)))
+        (return result)))
+    (return result)))
    
 ; Create function and return a list of its name and the function object. 
 ; To be used inside qtest::TestRunner
@@ -38,27 +47,31 @@ Evaluated Inputs: %A\n"
                             @key (skip nil) 
                                  (expect_fail nil) 
                             @rest body)
-  (if skip
-    ; If we're skipping it then just create a function
-    ; which returns a skipped result
-    `(list ',fn_name 
-           (lambda () (qtest:::makeResult 'Skip "Test was skipped" () ())))
-    (if expect_fail
-      ; If we expect a failure then wrap the function in a lambda
-      ; that checks the output of the result
-      ; If it was 'Fail then change it to 'ExpF (Expected Fail)
+  (let ((steps
+          (mapcar (lambda (step) `(lambda () ,step)) body)))
+    (if skip
+      ; If we're skipping it then just create a function
+      ; which returns a skipped result
       `(list ',fn_name
-             (lambda ()
-               (let ((result ,@body))
-                 (if (eq 'Fail (get_result result))
-                     ; Creating a new result object
-                     ; to show that the failure was expected
-                     (qtest:::makeResult 'ExpF 
-                                         (get_msg result)
-                                         (get_inputs result)
-                                         (get_evaluated_inputs result))
-                     result))))
-      `(list ',fn_name (lambda () ,@body)))))
+             (lambda () (qtest:::makeResult 'Skip "Test was skipped" () ())))
+      (if expect_fail
+        ; If we expect a failure then wrap the function in a lambda
+        ; that checks the output of the result
+        ; If it was 'Fail then change it to 'ExpF (Expected Fail)
+        `(list ',fn_name
+               (lambda ()
+                 (let ((result (qtest:::runTestCase (list ,@steps))))
+                   (if (eq 'Fail (get_result result))
+                       ; Creating a new result object
+                       ; to show that the failure was expected
+                       (qtest:::makeResult 'ExpF
+                                           (get_msg result)
+                                           (get_inputs result)
+                                           (get_evaluated_inputs result))
+                       result))))
+        `(list ',fn_name
+               (lambda ()
+                 (qtest:::runTestCase (list ,@steps))))))))
         
 ; Test runner. Automatically called by runTests
 ; Returns a list containing (fn name (symbol), qub::Result)

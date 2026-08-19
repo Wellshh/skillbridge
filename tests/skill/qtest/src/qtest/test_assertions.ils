@@ -82,6 +82,28 @@
            (result ((cadr testcase))))
     (assertPass 'assert_expected_fail_works
                 (qtest::assertEq 'ExpF (get_result result))))
+  ; Test multiple assertions stop at the first failure
+  (letseq ((continued nil)
+           (testcase (qtest::TestCase 'foo
+                       (qtest::assertEqual 1 2)
+                       (qtest::assertTrue
+                         (progn
+                           (setq continued t)
+                           t))))
+           (result ((cadr testcase))))
+    (assertFail 'assert_first_failure_is_preserved result)
+    (assertPass 'assert_testcase_stops_after_failure
+                (qtest::assertNil continued)))
+  ; Test multiple passing assertions return Pass
+  (letseq ((prepared nil)
+           (testcase (qtest::TestCase 'foo
+                       (setq prepared t)
+                       (qtest::assertEqual 1 1)
+                       (qtest::assertTrue t)))
+           (result ((cadr testcase))))
+    (assertPass 'assert_multiple_assertions_pass result)
+    (assertPass 'assert_testcase_allows_setup_expressions
+                (qtest::assertTrue prepared)))
   (printf "Unit Test Self-Test Finished.\n%n of %n Passed\n\n" 
        (difference num_tests num_fails) 
        num_tests))
