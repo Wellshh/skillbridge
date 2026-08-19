@@ -31,7 +31,7 @@ def _remaining(deadline: float | None) -> float | None:
 
 
 class _DrainTimer:
-    """Watch dog timer for pipe drain state."""
+    """Watchdog timer for pipe drain state."""
 
     __slots__ = ("_timeout", "_timer")
 
@@ -72,7 +72,13 @@ class _PipeState(Enum):
 
 
 class _StateMachine:
-    __slots__ = ("_cause", "_drain", "_resp", "_state", "_sync")
+    __slots__ = (
+        "_cause",
+        "_drain",
+        "_resp",
+        "_state",
+        "_sync",
+    )
 
     _cause: Exception | None
     _drain: _DrainTimer
@@ -134,8 +140,6 @@ class _StateMachine:
                 broken_error = SkillPipeBrokenError("SKILL IPC pipe is broken")
                 raise broken_error from self._cause
 
-            self._resp = _MISSING
-            self._cause = None
             self._state = _PipeState.EXECUTING
 
     def write_failed(self, failure: Exception) -> bool:
@@ -169,13 +173,12 @@ class _StateMachine:
                 self._sync.wait(remaining)
 
             if is_waiting():
-                elapsed = timeout if timeout is not None else 0.0
-                self._cause = SkillPipeTimeoutError(elapsed, phase="SKILL response")
-                self._resp = _MISSING
                 self._state = _PipeState.DRAINING
                 self._drain.start(self._expire_drain)
                 self._sync.notify_all()
-                raise SkillPipeTimeoutError(elapsed, phase="SKILL response")
+                raise SkillPipeTimeoutError(
+                    timeout if timeout is not None else 0.0, phase="SKILL response"
+                )
 
             if self._state is _PipeState.CLOSED:
                 raise SkillPipeClosedError("SKILL pipe was closed during execution")
@@ -192,7 +195,6 @@ class _StateMachine:
             if self._state is not _PipeState.BROKEN:
                 self._state = _PipeState.READY
                 self._cause = None
-            self._sync.notify_all()
             return resp
 
     def publish(self, event: SkillResp | Exception) -> None:
@@ -210,6 +212,7 @@ class _StateMachine:
                 self._sync.notify_all()
                 return
             if self._state is _PipeState.DRAINING:
+                assert isinstance(event, SkillResp)
                 preview = (
                     event.payload[:_PREVIEW_CHARS] + "..."
                     if len(event.payload) > _PREVIEW_CHARS

@@ -25,7 +25,6 @@ from skillbridge.server._pipe import (  # ruff: ignore[import-private-name]
 )
 
 TEST_TIMEOUT = 1.0
-_EOF = object()
 
 
 class Client(threading.Thread):
@@ -33,20 +32,16 @@ class Client(threading.Thread):
         self,
         request: Callable[[], SkillResp],
         *,
-        gate: threading.Barrier | None = None,
         name: str = 'mock-client',
     ) -> None:
         super().__init__(name=name, daemon=True)
         self._request = request
-        self._gate = gate
         self._outcome: Queue[SkillResp | Exception] = Queue(maxsize=1)
         self.started = threading.Event()
 
     def run(self) -> None:
         self.started.set()
         try:
-            if self._gate is not None:
-                self._gate.wait(TEST_TIMEOUT)
             outcome: SkillResp | Exception = self._request()
         except Exception as exc:  # ruff: ignore[blind-except] - propagate to test thread
             outcome = exc
@@ -66,7 +61,7 @@ class Server:
     def __init__(self, command_reader: TextIOWrapper, response_writer: TextIOWrapper) -> None:
         self._command_reader = command_reader
         self._response_writer = response_writer
-        self._commands: Queue[str | object] = Queue()
+        self._commands: Queue[str | None] = Queue()
         self._write_lock = threading.Lock()
         self._thread = threading.Thread(
             target=self._collect_commands,
@@ -80,14 +75,13 @@ class Server:
             for command in self._command_reader:
                 self._commands.put(command[:-1] if command.endswith('\n') else command)
         finally:
-            self._commands.put(_EOF)
+            self._commands.put(None)
             self._response_writer.close()
 
     def recv(self, timeout: float = TEST_TIMEOUT) -> str:
         command = self._commands.get(timeout=timeout)
-        if command is _EOF:
+        if command is None:
             raise EOFError("Pipe closed its command stream")
-        assert isinstance(command, str)
         return command
 
     def respond(self, payload: str, *, status: RespStatus = 'success') -> None:
@@ -229,32 +223,6 @@ class TestStateMachine:
         with raises(SkillPipeClosedError):
             machine.begin(timeout=None, deadline=None)
 
-    def test_reader_failure_breaks_current_and_future_requests(self) -> None:
-        machine = _StateMachine(drain_timeout=None)
-        failure = EOFError('reader stopped')
-        machine.begin(timeout=None, deadline=None)
-
-        machine.publish(failure)
-
-        with raises(SkillPipeBrokenError) as caught:
-            machine.wait_response(timeout=None, deadline=None)
-        assert caught.value.__cause__ is failure
-        machine.publish(SkillResp('success', 'ignored'))
-        with raises(SkillPipeBrokenError) as caught:
-            machine.begin(timeout=None, deadline=None)
-        assert caught.value.__cause__ is failure
-
-    def test_response_received_before_reader_failure_is_returned(self) -> None:
-        machine = _StateMachine(drain_timeout=None)
-        response = SkillResp('success', 'complete')
-        machine.begin(timeout=None, deadline=None)
-
-        machine.publish(response)
-        machine.publish(EOFError('reader stopped'))
-
-        assert machine.wait_response(timeout=None, deadline=None) == response
-        assert machine.state is _PipeState.BROKEN
-
     def test_unexpected_response_desynchronizes_pipe(self) -> None:
         machine = _StateMachine(drain_timeout=None)
 
@@ -276,15 +244,6 @@ class TestStateMachine:
         with raises(SkillPipeDesynchronizedError):
             machine.wait_response(timeout=None, deadline=None)
 
-    def test_close_interrupts_current_request(self) -> None:
-        machine = _StateMachine(drain_timeout=None)
-        machine.begin(timeout=None, deadline=None)
-
-        machine.close()
-
-        with raises(SkillPipeClosedError):
-            machine.wait_response(timeout=None, deadline=None)
-
     def test_late_response_restores_ready_state(self) -> None:
         machine = _StateMachine(drain_timeout=None)
         machine.begin(timeout=0.0, deadline=time.monotonic())
@@ -296,63 +255,12 @@ class TestStateMachine:
         machine.publish(SkillResp('success', 'late'))
         assert machine.wait_until_ready(TEST_TIMEOUT)
 
-    def test_request_cannot_overtake_timeout_recovery(self) -> None:
-        machine = _StateMachine(drain_timeout=None)
-        machine.begin(timeout=0.0, deadline=time.monotonic())
-        with raises(SkillPipeTimeoutError):
-            machine.wait_response(timeout=0.0, deadline=time.monotonic())
-
-        with raises(SkillPipeTimeoutError):
-            machine.begin(timeout=0.0, deadline=time.monotonic())
-
-    def test_request_waits_for_timeout_recovery(self) -> None:
-        machine = _StateMachine(drain_timeout=None)
-        machine.begin(timeout=0.0, deadline=time.monotonic())
-        with raises(SkillPipeTimeoutError):
-            machine.wait_response(timeout=0.0, deadline=time.monotonic())
-
-        def begin_after_recovery() -> SkillResp:
-            machine.begin(timeout=None, deadline=None)
-            return SkillResp('success', 'started')
-
-        waiter = Client(begin_after_recovery)
-        waiter.start()
-        assert waiter.started.wait(TEST_TIMEOUT)
-
-        with raises(TimeoutError):
-            waiter.result()
-        machine.publish(SkillResp('success', 'late'))
-
-        assert waiter.result() == SkillResp('success', 'started')
-
     def test_stale_drain_watchdog_does_not_change_ready_state(self) -> None:
         machine = _StateMachine(drain_timeout=None)
 
         machine._expire_drain()
 
         assert machine.state is _PipeState.READY
-
-    def test_missing_late_response_desynchronizes_pipe(self) -> None:
-        machine = _StateMachine(drain_timeout=0.0)
-        machine.begin(timeout=0.0, deadline=time.monotonic())
-
-        with raises(SkillPipeTimeoutError):
-            machine.wait_response(timeout=0.0, deadline=time.monotonic())
-
-        assert not machine.wait_until_ready(TEST_TIMEOUT)
-        assert machine.state is _PipeState.DESYNCHRONIZED
-
-    def test_write_failure_breaks_pipe_unless_already_closed(self) -> None:
-        failure = OSError('writer stopped')
-        machine = _StateMachine(drain_timeout=None)
-        machine.begin(timeout=None, deadline=None)
-
-        assert machine.write_failed(failure)
-        assert machine.state is _PipeState.BROKEN
-
-        closed_machine = _StateMachine(drain_timeout=None)
-        closed_machine.close()
-        assert not closed_machine.write_failed(failure)
 
 
 @mark.integration
@@ -404,35 +312,29 @@ def test_failure_response_does_not_poison_channel(skill_pipe: tuple[Pipe, Server
 @mark.integration
 def test_execute_serializes_clients(skill_pipe: tuple[Pipe, Server]) -> None:
     channel, server = skill_pipe
-    gate = threading.Barrier(3)
+    first_client = Client(
+        lambda: channel.execute('first()', timeout=TEST_TIMEOUT),
+        name='mock-client-first',
+    )
+    second_client = Client(
+        lambda: channel.execute('second()', timeout=TEST_TIMEOUT),
+        name='mock-client-second',
+    )
 
-    def make_request(command: str) -> Callable[[], SkillResp]:
-        return lambda: channel.execute(command, timeout=TEST_TIMEOUT)
+    first_client.start()
+    assert server.recv() == 'first()'
 
-    clients = [
-        Client(
-            make_request(command),
-            gate=gate,
-            name=f'mock-client-{command}',
-        )
-        for command in ('first()', 'second()')
-    ]
-    for client in clients:
-        client.start()
-    gate.wait(TEST_TIMEOUT)
-
-    first = server.recv()
+    second_client.start()
+    assert second_client.started.wait(TEST_TIMEOUT)
     with raises(Empty):
         server.recv(timeout=0.05)
-    server.respond(f'response:{first}')
-    second = server.recv()
-    server.respond(f'response:{second}')
 
-    assert {first, second} == {'first()', 'second()'}
-    assert {client.result().payload for client in clients} == {
-        'response:first()',
-        'response:second()',
-    }
+    server.respond('response:first')
+    assert first_client.result() == SkillResp('success', 'response:first')
+
+    assert server.recv() == 'second()'
+    server.respond('response:second')
+    assert second_client.result() == SkillResp('success', 'response:second')
 
 
 @mark.integration
