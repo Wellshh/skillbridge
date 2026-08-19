@@ -1,3 +1,4 @@
+from typing import TextIO
 from enum import auto
 from enum import Enum
 from __future__ import annotations
@@ -147,7 +148,14 @@ class _PipeState(Enum):
 class Pipe:
     
     __slots__ = (
+        "_reader",
+        "_writer",
 
     )
 
+    _reader: TextIO
+    _writer: TextIO
+
     
+
+
