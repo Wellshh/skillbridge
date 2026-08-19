@@ -39,12 +39,12 @@
     (qtest::TestCase test_serialize_table
       (let ((tbl (makeTable "testTable" nil)))
         (tbl["key"] = 123)
-        (qtest::assertTrue (qub::startsWith (__pySkillToPython tbl) "Table('__py_table_")
+        (qtest::assertTrue (qub::startsWith (__pySkillToPython tbl) "Table(\"__py_table_")
                            ?msg "Table serialization prefix check failed")))
 
     (qtest::TestCase test_serialize_vector
       (let ((vec (makeVector 2 nil)))
-        (qtest::assertTrue (qub::startsWith (__pySkillToPython vec) "Vector('__py_vector_")
+        (qtest::assertTrue (qub::startsWith (__pySkillToPython vec) "Vector(\"__py_vector_")
                            ?msg "Vector serialization prefix check failed"))))
 
   ;; Suite 4: Default server configuration and initial state

@@ -312,22 +312,24 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
 
     putd('__pyPropertyListToPython nil)
     defun(__pyPropertyListToPython (propList)
-        strcat(
-            "{"
-            buildString(
-                mapcar(
-                    lambda((key)
-                        lsprintf(
-                            "'%s':%s"
-                            key
-                            __pySkillToPython(get(propList key))
-                        )
-                    )
-                    propList->?
+        ; Iterate the raw (key val key val ...) pairs in list order. propList->?
+        ; returns property names in unspecified (often LIFO) order, which made the
+        ; serialized dict key order nondeterministic; reading the pairs directly
+        ; preserves the construction order of a literal disembodied property list.
+        let((rest parts)
+            rest = cdr(propList)
+            while(rest
+                parts = cons(
+                    lsprintf("'%s':%s" car(rest) __pySkillToPython(cadr(rest)))
+                    parts
                 )
-                ","
+                rest = cddr(rest)
             )
-            "}"
+            strcat(
+                "{"
+                buildString(reverse(parts) ",")
+                "}"
+            )
         )
     )
 
