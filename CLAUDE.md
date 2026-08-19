@@ -34,3 +34,7 @@ For both
 - Internal code may rely on established invariants. Do not repeatedly revalidate the same invariant at every layer.
 - Do not add guards, exceptions, fallback paths, production branches, or artificial tests solely to satisfy coverage.
 - Use the lightest abstraction that preserves the required semantics and type safety. Introduce classes or wrappers only when they provide meaningful behavior, invariants, ownership, or lifecycle management.
+
+
+---- 
+Specifically, every time writing .il / .ils code, use local `cadence-skill-agent` first to query local api docs.

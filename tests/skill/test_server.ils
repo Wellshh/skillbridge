@@ -1,2 +1,66 @@
-; test_server.ils
-; unit tests for 'python_server.il
+;;; test_server.ils - Unit tests for python_server.il using qtest
+
+;; Auto-import qtest framework if not loaded
+(unless (findNamespace "qtest")
+  (load "tests/skill/qtest/src/init.ils"))
+
+;; Load python_server.il if not loaded
+(unless (isCallable '__pySkillToPython)
+  (load "skillbridge/server/python_server.il"))
+
+(qtest::runSuites
+  ;; Suite 1: Scalar data types serialization
+  (qtest::TestSuite ()
+    (qtest::TestCase test_serialize_boolean
+      (qtest::assertEqual "True" (__pySkillToPython t) ?msg "Boolean t must serialize to True")
+      (qtest::assertEqual "None" (__pySkillToPython nil) ?msg "nil must serialize to None"))
+
+    (qtest::TestCase test_serialize_numbers
+      (qtest::assertEqual "42" (__pySkillToPython 42) ?msg "Integer serialization failed")
+      (qtest::assertEqual "-10" (__pySkillToPython -10) ?msg "Negative integer serialization failed")
+      (qtest::assertEqual "3.14" (__pySkillToPython 3.14) ?msg "Float serialization failed"))
+
+    (qtest::TestCase test_serialize_string
+      (qtest::assertEqual "\"hello world\"" (__pySkillToPython "hello world") ?msg "String serialization failed")
+      (qtest::assertEqual "\"\"" (__pySkillToPython "") ?msg "Empty string serialization failed"))
+
+    (qtest::TestCase test_serialize_symbol
+      (qtest::assertEqual "Symbol('my_symbol')" (__pySkillToPython 'my_symbol) ?msg "Symbol serialization failed")))
+
+  ;; Suite 2: List and Disembodied Property List serialization
+  (qtest::TestSuite ()
+    (qtest::TestCase test_serialize_list
+      (qtest::assertEqual "[]" (__pySkillToPython (list)) ?msg "Empty list must serialize to []")
+      (qtest::assertEqual "[1,2,3]" (__pySkillToPython (list 1 2 3)) ?msg "List of integers failed")
+      (qtest::assertEqual "[\"a\",True,None]" (__pySkillToPython (list "a" t nil)) ?msg "Heterogeneous list failed")
+      (qtest::assertEqual "[1,[2,3]]" (__pySkillToPython (list 1 (list 2 3))) ?msg "Nested list failed"))
+
+    (qtest::TestCase test_serialize_disembodied_property_list
+      ;; D-list format: (nil prop1 val1 prop2 val2)
+      (qtest::assertEqual "{'a':1,'b':2}" (__pySkillToPython (list nil 'a 1 'b 2)) ?msg "D-list with integers failed")
+      (qtest::assertEqual "{'name':\"skillbridge\"}" (__pySkillToPython (list nil 'name "skillbridge")) ?msg "D-list with string failed")))
+
+  ;; Suite 3: Table and Vector container serialization
+  (qtest::TestSuite ()
+    (qtest::TestCase test_serialize_table
+      (let ((tbl (makeTable "testTable" nil)))
+        (tbl["key"] = 123)
+        (qtest::assertTrue (qub::startsWith (__pySkillToPython tbl) "Table('__py_table_")
+                           ?msg "Table serialization prefix check failed")))
+
+    (qtest::TestCase test_serialize_vector
+      (let ((vec (makeVector 2 nil)))
+        (qtest::assertTrue (qub::startsWith (__pySkillToPython vec) "Vector('__py_vector_")
+                           ?msg "Vector serialization prefix check failed"))))
+
+  ;; Suite 4: Default server configuration and initial state
+  (qtest::TestSuite ()
+    (qtest::TestCase test_server_initial_state
+      (qtest::assertEqual 'stopped pyStartServer.state ?msg "Initial state must be 'stopped")
+      (qtest::assertEqual "default" pyStartServer.id ?msg "Default id must be 'default'")
+      (qtest::assertEqual "INFO" pyStartServer.logLevel ?msg "Default logLevel must be 'INFO'")
+      (qtest::assertEqual "python" pyStartServer.python ?msg "Default python executable must be 'python'")
+      (qtest::assertNil pyStartServer.singleMode ?msg "Default singleMode must be nil")
+      (qtest::assertNil pyStartServer.timeout ?msg "Default timeout must be nil")
+      (qtest::assertNil pyStartServer.forceTcp ?msg "Default forceTcp must be nil")
+      (qtest::assertNil pyStartServer.ipc ?msg "Initial IPC handle must be nil"))))
