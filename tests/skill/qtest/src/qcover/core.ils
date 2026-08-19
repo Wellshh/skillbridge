@@ -25,8 +25,7 @@ qcover:::_nextDecision = 0
   "Record one condition outcome and return its original value."
   (let ((branchId
           (strcat decisionId (if value ":true" ":false"))))
-    (setq qcover:::_hits[branchId]
-          (add1 qcover:::_hits[branchId]))
+    (setarray qcover:::_hits branchId (add1 qcover:::_hits[branchId]))
     value))
 
 (defun qcover:::registerDecision (condition)
@@ -38,13 +37,13 @@ qcover:::_nextDecision = 0
                       decisionNumber))
            (conditionText (sprintf nil "%L" condition)))
     (setq qcover:::_nextDecision decisionNumber)
-    (setq qcover:::_branches[strcat(decisionId ":true")]
+    (setarray qcover:::_branches (strcat decisionId ":true")
           (list qcover:::_currentFile
                 qcover:::_currentFunction
                 decisionNumber
                 'true
                 conditionText))
-    (setq qcover:::_branches[strcat(decisionId ":false")]
+    (setarray qcover:::_branches (strcat decisionId ":false")
           (list qcover:::_currentFile
                 qcover:::_currentFunction
                 decisionNumber
@@ -148,7 +147,7 @@ qcover:::_nextDecision = 0
     (setq qcover:::_currentFunction functionName)
     (setq qcover:::_nextDecision 0)
     (unless qcover:::_originalDefinitions[functionName]
-      (setq qcover:::_originalDefinitions[functionName]
+      (setarray qcover:::_originalDefinitions functionName
             (getd functionName)))
     (setq transformed (qcover:::transformDefinition definition))
     (loadstring (sprintf nil "%L" transformed) 'il)))

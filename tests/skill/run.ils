@@ -1,26 +1,33 @@
-;;; run.ils - Load qtest and run the test_*.ils suites.
+;;; run.ils - Load qtest+qcover and run the test_*.ils suites with coverage.
 ;;; Each test file imports its own module under test (see the top of each test_*.ils).
 
 ;;; Run: load("/absolute/path/to/skillbridge/tests/skill/run.ils")
 
+;;; Bootstrap: load qtest and qcover so the qub/qtest/qcover namespaces exist
+;;; before the main form is parsed. The main form's qcover:: calls are read at
+;;; parse time, not after the runtime loads below have run, so the namespaces
+;;; must already exist when the reader reaches them.
 (letseq ((_selfDir (letseq ((_filename (simplifyFilename (get_filename piport)))
                             (_normalized (buildString (parseString _filename "\\") "/"))
                             (_fileTail (rindex _normalized "/")))
                      (substring _normalized 1
-                                (difference (strlen _normalized)
-                                            (strlen _fileTail)))))
+                                (difference (strlen _normalized) (strlen _fileTail)))))
          (_qtestSrc (simplifyFilename (strcat _selfDir "/qtest/src")))
          (_oldSkillPath (getSkillPath)))
   (unwindProtect
     (progn
       (setSkillPath (cons _qtestSrc _oldSkillPath))
-      (load (strcat _qtestSrc "/init.ils")))
-    (setSkillPath _oldSkillPath))
+      (load (strcat _qtestSrc "/init.ils"))
+      (load (strcat _qtestSrc "/qcover/ns_init.ils"))
+      (load (strcat _qtestSrc "/qcover/sym_init.ils"))
+      (load (strcat _qtestSrc "/qcover/core.ils")))
+    (setSkillPath _oldSkillPath)))
 
-  (unwindProtect
-    (progn
-      (load (strcat _qtestSrc "/qcover/test_qcover.ils"))
-      (load (strcat _selfDir "/test_server.ils"))
-      (load (strcat _selfDir "/test_run.ils"))
-      (qcover::report))
-    (qcover::reset)))
+;;; Main: run the qcover self-test, then the project suites, then report coverage.
+(unwindProtect
+  (progn
+    (load (strcat (qub::scriptDir) "/qtest/src/qcover/test_qcover.ils"))
+    (load (strcat (qub::scriptDir) "/test_server.ils"))
+    (load (strcat (qub::scriptDir) "/test_run.ils"))
+    (qcover::report))
+  (qcover::reset))
