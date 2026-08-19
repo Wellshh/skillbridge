@@ -1,13 +1,11 @@
 from __future__ import annotations
 
 import threading
-import time
 from queue import Queue
 
 import pytest
 
 from skillbridge.pipe import (
-    SkillExecutionError,
     SkillPipe,
     SkillPipeBrokenError,
     SkillPipeClosedError,
@@ -15,7 +13,7 @@ from skillbridge.pipe import (
     SkillPipeState,
     SkillPipeTimeoutError,
 )
-from skillbridge.response_protocol import FramedResponseProtocol, LineResponseProtocol
+from skillbridge.response_protocol import SkillResponse
 from ..helpers import BlockingTextReader, FailingWriter, RecordingWriter
 
 
@@ -28,7 +26,6 @@ def framed_pipe(
     pipe = SkillPipe(
         reader,
         writer,
-        response_protocol=FramedResponseProtocol(),
         drain_timeout=drain_timeout,
         owns_streams=True,
     )
@@ -45,17 +42,18 @@ def test_framed_success_and_multiline_payload() -> None:
     thread = threading.Thread(target=respond)
     thread.start()
     try:
-        assert pipe.execute("cmd()", timeout=1.0) == "line one\nline two"
+        response = pipe.execute("cmd()", timeout=1.0)
+        assert response.ok
+        assert response.payload == "line one\nline two"
         assert writer.text == "cmd()\n"
         assert pipe.state is SkillPipeState.READY
-        assert pipe.snapshot().successful_requests == 1
     finally:
         pipe.close()
         thread.join(1.0)
         pipe.join_reader(1.0)
 
 
-def test_framed_error_raises_without_poisoning_channel() -> None:
+def test_framed_error_returns_failed_response_without_poisoning_channel() -> None:
     pipe, reader, writer = framed_pipe()
 
     def respond_error() -> None:
@@ -65,11 +63,10 @@ def test_framed_error_raises_without_poisoning_channel() -> None:
     thread = threading.Thread(target=respond_error)
     thread.start()
     try:
-        with pytest.raises(SkillExecutionError) as caught:
-            pipe.execute("bad()", timeout=1.0)
-        assert caught.value.payload == "bad expression"
+        response = pipe.execute("bad()", timeout=1.0)
+        assert not response.ok
+        assert response.payload == "bad expression"
         assert pipe.state is SkillPipeState.READY
-        assert pipe.snapshot().remote_errors == 1
     finally:
         pipe.close()
         thread.join(1.0)
@@ -78,6 +75,7 @@ def test_framed_error_raises_without_poisoning_channel() -> None:
 
 def test_framed_timeout_drains_late_response_and_recovers() -> None:
     pipe, reader, writer = framed_pipe(drain_timeout=1.0)
+    respond_thread: threading.Thread | None = None
     try:
         with pytest.raises(SkillPipeTimeoutError) as caught:
             pipe.execute("slow()", timeout=0.03)
@@ -87,8 +85,6 @@ def test_framed_timeout_drains_late_response_and_recovers() -> None:
         reader.feed_success("late result")
         assert pipe.wait_until_ready(1.0)
         assert pipe.state is SkillPipeState.READY
-        assert pipe.snapshot().recovered_timeouts == 1
-        assert pipe.snapshot().failure is None
 
         writer.write_event.clear()
 
@@ -96,44 +92,55 @@ def test_framed_timeout_drains_late_response_and_recovers() -> None:
             assert writer.write_event.wait(1.0)
             reader.feed_success("next result")
 
-        thread = threading.Thread(target=respond_next)
-        thread.start()
-        assert pipe.execute("next()", timeout=1.0) == "next result"
-        thread.join(1.0)
+        respond_thread = threading.Thread(target=respond_next)
+        respond_thread.start()
+        response = pipe.execute("next()", timeout=1.0)
+        assert response.ok
+        assert response.payload == "next result"
         assert writer.lines() == ["slow()", "next()"]
     finally:
         pipe.close()
+        if respond_thread is not None:
+            respond_thread.join(1.0)
         pipe.join_reader(1.0)
 
 
 def test_next_request_waits_for_drain_before_writing() -> None:
     pipe, reader, writer = framed_pipe(drain_timeout=1.0)
-    result: Queue[str | BaseException] = Queue()
+    result: Queue[SkillResponse | BaseException] = Queue()
+    next_entered = threading.Event()
+    next_thread: threading.Thread | None = None
     try:
         with pytest.raises(SkillPipeTimeoutError):
             pipe.execute("slow()", timeout=0.03)
 
+        assert pipe.state is SkillPipeState.DRAINING
         writer.write_event.clear()
 
         def next_request() -> None:
+            next_entered.set()
             try:
                 result.put(pipe.execute("next()", timeout=1.0))
             except BaseException as exc:
                 result.put(exc)
 
-        thread = threading.Thread(target=next_request)
-        thread.start()
-        time.sleep(0.03)
+        next_thread = threading.Thread(target=next_request)
+        next_thread.start()
+        assert next_entered.wait(1.0)
         assert writer.lines() == ["slow()"]
 
         reader.feed_success("stale")
         assert writer.write_event.wait(1.0)
         assert writer.lines() == ["slow()", "next()"]
         reader.feed_success("fresh")
-        thread.join(1.0)
-        assert result.get_nowait() == "fresh"
+        res = result.get(timeout=1.0)
+        assert isinstance(res, SkillResponse)
+        assert res.ok
+        assert res.payload == "fresh"
     finally:
         pipe.close()
+        if next_thread is not None:
+            next_thread.join(1.0)
         pipe.join_reader(1.0)
 
 
@@ -144,9 +151,7 @@ def test_drain_watchdog_eventually_desynchronizes() -> None:
             pipe.execute("never_returns()", timeout=0.02)
         assert pipe.state is SkillPipeState.DRAINING
 
-        deadline = time.monotonic() + 1.0
-        while pipe.state is SkillPipeState.DRAINING and time.monotonic() < deadline:
-            time.sleep(0.005)
+        assert not pipe.wait_until_ready(0.5)
         assert pipe.state is SkillPipeState.DESYNCHRONIZED
         with pytest.raises(SkillPipeDesynchronizedError):
             pipe.execute("next()", timeout=1.0)
@@ -170,41 +175,9 @@ def test_request_deadline_can_expire_while_waiting_for_recovery() -> None:
         pipe.join_reader(1.0)
 
 
-def test_line_mode_timeout_remains_fail_closed() -> None:
-    reader = BlockingTextReader()
-    writer = RecordingWriter()
-    pipe = SkillPipe(
-        reader,
-        writer,
-        response_protocol=LineResponseProtocol(),
-        owns_streams=True,
-    )
-    try:
-        with pytest.raises(SkillPipeTimeoutError):
-            pipe.execute("slow()", timeout=0.02)
-        assert pipe.state is SkillPipeState.DESYNCHRONIZED
-        reader.feed_line("late\n")
-        time.sleep(0.01)
-        with pytest.raises(SkillPipeDesynchronizedError):
-            pipe.execute("next()", timeout=1.0)
-    finally:
-        pipe.close()
-        pipe.join_reader(1.0)
-
-
-def test_recovery_cannot_be_enabled_for_line_protocol() -> None:
-    with pytest.raises(ValueError):
-        SkillPipe(
-            BlockingTextReader(),
-            RecordingWriter(),
-            response_protocol=LineResponseProtocol(),
-            recover_after_timeout=True,
-        )
-
-
 def test_timeout_waiting_for_serializer_does_not_poison_channel() -> None:
     pipe, reader, writer = framed_pipe()
-    first_result: Queue[str | BaseException] = Queue()
+    first_result: Queue[SkillResponse | BaseException] = Queue()
 
     def first_request() -> None:
         try:
@@ -214,8 +187,8 @@ def test_timeout_waiting_for_serializer_does_not_poison_channel() -> None:
 
     first = threading.Thread(target=first_request)
     first.start()
-    assert writer.write_event.wait(1.0)
     try:
+        assert writer.write_event.wait(1.0)
         with pytest.raises(SkillPipeTimeoutError) as caught:
             pipe.execute("second()", timeout=0.03)
         assert caught.value.phase == "serialization"
@@ -223,8 +196,10 @@ def test_timeout_waiting_for_serializer_does_not_poison_channel() -> None:
         assert writer.lines() == ["first()"]
 
         reader.feed_success("one")
-        first.join(1.0)
-        assert first_result.get_nowait() == "one"
+        res = first_result.get(timeout=1.0)
+        assert isinstance(res, SkillResponse)
+        assert res.ok
+        assert res.payload == "one"
         assert pipe.state is SkillPipeState.READY
     finally:
         pipe.close()
@@ -234,42 +209,52 @@ def test_timeout_waiting_for_serializer_does_not_poison_channel() -> None:
 
 def test_two_callers_are_serialized_across_response_boundary() -> None:
     pipe, reader, writer = framed_pipe()
-    outputs: dict[str, str] = {}
+    outputs: dict[str, SkillResponse] = {}
     failures: list[BaseException] = []
+    second_started = threading.Event()
 
-    def call(name: str) -> None:
+    def call_a() -> None:
         try:
-            outputs[name] = pipe.execute(name, timeout=2.0)
+            outputs["A"] = pipe.execute("A", timeout=2.0)
         except BaseException as exc:
             failures.append(exc)
 
-    threads = [threading.Thread(target=call, args=(name,)) for name in ("A", "B")]
-    for thread in threads:
-        thread.start()
+    def call_b() -> None:
+        second_started.set()
+        try:
+            outputs["B"] = pipe.execute("B", timeout=2.0)
+        except BaseException as exc:
+            failures.append(exc)
+
+    t_a = threading.Thread(target=call_a)
+    t_b = threading.Thread(target=call_b)
+
+    t_a.start()
     try:
-        deadline = time.monotonic() + 1.0
-        while len(writer.lines()) < 1 and time.monotonic() < deadline:
-            time.sleep(0.005)
-        first = writer.lines()[0]
-        time.sleep(0.03)
-        assert writer.lines() == [first]
-        reader.feed_success(f"response:{first}")
+        assert writer.write_event.wait(1.0)
+        assert writer.lines() == ["A"]
 
-        deadline = time.monotonic() + 1.0
-        while len(writer.lines()) < 2 and time.monotonic() < deadline:
-            time.sleep(0.005)
-        second = writer.lines()[1]
-        reader.feed_success(f"response:{second}")
+        writer.write_event.clear()
+        t_b.start()
+        assert second_started.wait(1.0)
 
-        for thread in threads:
-            thread.join(1.0)
+        reader.feed_success("response:A")
+        t_a.join(1.0)
+        assert outputs["A"].ok
+        assert outputs["A"].payload == "response:A"
+
+        assert writer.write_event.wait(1.0)
+        assert writer.lines() == ["A", "B"]
+
+        reader.feed_success("response:B")
+        t_b.join(1.0)
+        assert outputs["B"].ok
+        assert outputs["B"].payload == "response:B"
         assert not failures
-        assert outputs[first] == f"response:{first}"
-        assert outputs[second] == f"response:{second}"
     finally:
         pipe.close()
-        for thread in threads:
-            thread.join(1.0)
+        t_a.join(1.0)
+        t_b.join(1.0)
         pipe.join_reader(1.0)
 
 
@@ -295,7 +280,6 @@ def test_reader_eof_and_writer_failure_mark_broken() -> None:
     pipe2 = SkillPipe(
         reader2,
         FailingWriter(),
-        response_protocol=FramedResponseProtocol(),
         owns_streams=True,
     )
     try:
@@ -309,7 +293,7 @@ def test_reader_eof_and_writer_failure_mark_broken() -> None:
 
 def test_close_wakes_request_with_no_deadline() -> None:
     pipe, _reader, writer = framed_pipe()
-    result: Queue[str | BaseException] = Queue()
+    result: Queue[SkillResponse | BaseException] = Queue()
 
     def execute() -> None:
         try:
@@ -319,11 +303,15 @@ def test_close_wakes_request_with_no_deadline() -> None:
 
     thread = threading.Thread(target=execute)
     thread.start()
-    assert writer.write_event.wait(1.0)
-    pipe.close()
-    thread.join(1.0)
-    assert isinstance(result.get_nowait(), SkillPipeClosedError)
-    pipe.join_reader(1.0)
+    try:
+        assert writer.write_event.wait(1.0)
+        pipe.close()
+        res = result.get(timeout=1.0)
+        assert isinstance(res, SkillPipeClosedError)
+    finally:
+        pipe.close()
+        thread.join(1.0)
+        pipe.join_reader(1.0)
 
 
 @pytest.mark.parametrize("timeout", [-1.0, float("inf"), float("nan")])
@@ -334,4 +322,71 @@ def test_invalid_timeout_is_rejected(timeout: float) -> None:
             pipe.execute("cmd", timeout=timeout)
     finally:
         pipe.close()
+        pipe.join_reader(1.0)
+
+
+def test_deadline_race_response_published_at_exact_boundary(monkeypatch) -> None:
+    """When time reaches the deadline just as reader publishes the response frame,
+    the pipe must reliably return the response if it was published while EXECUTING,
+    and state must remain READY without dropping into DRAINING."""
+    pipe, reader, writer = framed_pipe(drain_timeout=1.0)
+    current_time = 100.0
+
+    def mock_time() -> float:
+        return current_time
+
+    monkeypatch.setattr("time.monotonic", mock_time)
+
+    result_queue: Queue[SkillResponse | BaseException] = Queue()
+
+    def caller() -> None:
+        try:
+            res = pipe.execute("race()", timeout=1.0)
+            result_queue.put(res)
+        except BaseException as exc:
+            result_queue.put(exc)
+
+    t = threading.Thread(target=caller)
+    t.start()
+    try:
+        assert writer.write_event.wait(1.0)
+        # Advance clock to simulate deadline boundary expiration
+        current_time = 102.0
+        # Publish response simultaneously
+        reader.feed_success("exact_boundary")
+        res = result_queue.get(timeout=1.0)
+        assert isinstance(res, SkillResponse)
+        assert res.ok
+        assert res.payload == "exact_boundary"
+        assert pipe.state is SkillPipeState.READY
+    finally:
+        pipe.close()
+        t.join(1.0)
+        pipe.join_reader(1.0)
+
+
+def test_response_delivered_before_subsequent_reader_eof() -> None:
+    """When a complete response frame is published and the reader encounters EOF
+    on the next read, the current in-flight execute must return the complete response,
+    and only the subsequent execute should report BROKEN."""
+    pipe, reader, writer = framed_pipe()
+
+    def feed_and_then_eof() -> None:
+        assert writer.write_event.wait(1.0)
+        reader.feed_success("valid payload")
+        reader.feed_eof()
+
+    feed_thread = threading.Thread(target=feed_and_then_eof)
+    feed_thread.start()
+    try:
+        result = pipe.execute("first()", timeout=1.0)
+        assert result.ok
+        assert result.payload == "valid payload"
+
+        with pytest.raises(SkillPipeBrokenError):
+            pipe.execute("second()", timeout=1.0)
+        assert pipe.state is SkillPipeState.BROKEN
+    finally:
+        pipe.close()
+        feed_thread.join(1.0)
         pipe.join_reader(1.0)

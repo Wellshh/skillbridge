@@ -2,19 +2,16 @@
 
 from .client import SkillBridgeClient
 from .pipe import (
-    SkillExecutionError,
     SkillPipe,
     SkillPipeBrokenError,
     SkillPipeClosedError,
     SkillPipeDesynchronizedError,
     SkillPipeError,
-    SkillPipeSnapshot,
     SkillPipeState,
     SkillPipeTimeoutError,
 )
 from .response_protocol import (
     FramedResponseProtocol,
-    LineResponseProtocol,
     NAK,
     RS,
     STX,
@@ -24,18 +21,15 @@ from .response_protocol import (
 
 __all__ = [
     "FramedResponseProtocol",
-    "LineResponseProtocol",
     "NAK",
     "RS",
     "STX",
     "SkillBridgeClient",
-    "SkillExecutionError",
     "SkillPipe",
     "SkillPipeBrokenError",
     "SkillPipeClosedError",
     "SkillPipeDesynchronizedError",
     "SkillPipeError",
-    "SkillPipeSnapshot",
     "SkillPipeState",
     "SkillPipeTimeoutError",
     "SkillResponse",

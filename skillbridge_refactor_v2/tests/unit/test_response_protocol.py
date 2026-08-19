@@ -6,15 +6,8 @@ import pytest
 
 from skillbridge.response_protocol import (
     FramedResponseProtocol,
-    LineResponseProtocol,
     SkillResponseProtocolError,
 )
-
-
-def test_line_protocol_preserves_newline() -> None:
-    response = LineResponseProtocol().read_response(StringIO("hello\n"))
-    assert response.ok
-    assert response.payload == "hello\n"
 
 
 def test_framed_success_preserves_multiline_payload() -> None:

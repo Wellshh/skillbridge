@@ -11,7 +11,6 @@ import pytest
 
 from skillbridge.client import SkillBridgeClient
 from skillbridge.pipe import SkillPipe, SkillPipeState
-from skillbridge.response_protocol import FramedResponseProtocol
 from skillbridge.server import Handler, ThreadingTcpServer
 from skillbridge.socket_protocol import encode_header, recv_frame
 from ..helpers import BlockingTextReader, RecordingWriter
@@ -28,7 +27,6 @@ def running_server(
     pipe = SkillPipe(
         reader,
         writer,
-        response_protocol=FramedResponseProtocol(),
         drain_timeout=drain_timeout,
         owns_streams=True,
     )
@@ -83,9 +81,7 @@ def test_real_tcp_round_trip_multiline_error_and_health() -> None:
             assert pipe.state is SkillPipeState.READY
 
             health = json.loads(client.health())
-            assert health["protocol"] == "framed"
-            assert health["successful_requests"] == 1
-            assert health["remote_errors"] == 1
+            assert health["state"] == "READY"
 
 
 @pytest.mark.integration

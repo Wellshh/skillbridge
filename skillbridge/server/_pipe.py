@@ -1,12 +1,46 @@
+from enum import auto
+from enum import Enum
 from __future__ import annotations
 
-# Design Principle:
-# The python daemon server supports multi thread conection
-# by `ThreadMixIn`, while skill command execution is single threaded, 
-# must be in order. 
-# ----------------------
-# We would use two clients, A and B to illustrate multi thread orchestration:
-# User Jack is implementating certain algorithm for EDA automation, the psuedocode is as follow:
+# One physical SKILL IPC channel is owned by exactly one SkillPipe instance.
+# The SkillPipe owns one daemon reader thread; no TCP handler or application
+# thread may read directly from the SKILL response stream.
+#
+# The Python TCP server may handle multiple client connections concurrently,
+# but the underlying Cadence SKILL runtime is a single serialized resource.
+# At most one command may be sent without having consumed its complete response.
+#
+# With the direct API, TCP handler threads may call SkillPipe.execute()
+# concurrently. SkillPipe serializes complete command/response transactions.
+# A blocked handler thread does not block the whole Python server.
+#
+# A higher-level dispatcher may optionally provide:
+#   - a bounded FIFO request queue,
+#   - one executor worker,
+#   - one Future per submitted job,
+#   - deterministic admission order,
+#   - queue backpressure and cancellation-before-dispatch.
+#
+# The dispatcher queue is used for command admission, not for response routing.
+# Each caller waits on its own Future. Only the SkillPipe reader thread reads
+# SKILL responses.
+#
+# A local request/job ID is useful for tracing, metrics, timeout diagnosis, and
+# late-response auditing. It is not required for response correlation while
+# the channel permits exactly one in-flight request.
+#
+# A wire-level request ID is required only if multiple requests are allowed to
+# be outstanding on the same protocol stream. This design intentionally does
+# not permit that, because SKILL execution is single-threaded and pipelining
+# would add timeout and recovery complexity without increasing throughput.
+#
+# "Fast" and "slow" are scheduling or timeout policies, not pipe operations.
+# A running slow SKILL command cannot be preempted by a later fast command.
+#
+# After a response timeout, the remote execution outcome is unknown. Draining
+# a late response restores protocol synchronization only; it does not cancel
+# or roll back SKILL-side changes.
+
 """
 # ===== Skill Server ======
 
@@ -101,12 +135,19 @@ def algo(ignore_module_error):
 
     modules
 """
-# where there are two types of speed:
-# - the python calculation spped (cpu intensive)
-# - the skill execution speed (io intensive, because we would be waiting for its return)
-# The two modules are independently solved, so multi-thread would be enable --
-# each thread corresponds to one TcpServer (tcp connection).
-# The in-order execution of skill code DOES not guarantee the return order of results,
-# which may result in out of order response fetched by our python daemon.
-# To resolve this, learn from TCP protocol, we may add a REQUEST_ID to the message
-# and put them into a queue(Queue.queue) -- like what we specify in the mock Skill server.
+
+class _PipeState(Enum):
+    READY = auto()
+    EXECUTING = auto()
+    DRAINING = auto()
+    DESYNCHRONIZED = auto()
+    BROKEN = auto()
+    CLOSED = auto()
+
+class Pipe:
+    
+    __slots__ = (
+
+    )
+
+    

@@ -11,7 +11,6 @@ def test_windows_factory_uses_tcp_and_preserves_timeout(monkeypatch) -> None:
     pipe = SkillPipe(
         reader,
         RecordingWriter(),
-        response_protocol=FramedResponseProtocol(),
         owns_streams=True,
     )
     monkeypatch.setattr("skillbridge.server.sys.platform", "win32")

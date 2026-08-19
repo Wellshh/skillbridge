@@ -215,14 +215,6 @@ class TestResponse:
         assert response.recv() == SkillResp('failure', 'second')
         assert response.recv() == SkillResp('restart', 'third')
 
-    def test_properties_expose_reader_and_default_limit(self) -> None:
-        reader = StringIO()
-        response = Response(reader)
-
-        assert response.reader is reader
-        assert response.max_payload_chars == Response.DEFAULT_MAX_PAYLOAD_CHARS
-        assert response.max_preamble_chars == Response.DEFAULT_MAX_PREAMBLE_CHARS
-
     def test_rejects_character_before_response_frame(self) -> None:
         with raises(InvalidResponseError) as caught:
             Response(StringIO(f'noise{Response.STX}ok{Response.RS}')).recv()

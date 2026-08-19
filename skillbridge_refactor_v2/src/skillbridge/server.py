@@ -19,7 +19,6 @@ except ImportError:  # pragma: no cover - unavailable on some Windows versions
     UnixStreamServer = None  # type: ignore[assignment,misc]
 
 from .pipe import (
-    SkillExecutionError,
     SkillPipe,
     SkillPipeBrokenError,
     SkillPipeClosedError,
@@ -27,7 +26,6 @@ from .pipe import (
     SkillPipeError,
     SkillPipeTimeoutError,
 )
-from .response_protocol import create_response_protocol
 from .socket_protocol import (
     DEFAULT_MAX_PAYLOAD_SIZE,
     FrameTooLargeError,
@@ -184,7 +182,7 @@ class Handler(StreamRequestHandler):
         if command_bytes == b"$close":
             return False
         if command_bytes == b"$health":
-            self._send_text(json.dumps(server.skill_pipe.snapshot().to_dict()))
+            self._send_text(json.dumps({"state": server.skill_pipe.state.name}))
             return True
 
         try:
@@ -194,14 +192,11 @@ class Handler(StreamRequestHandler):
             return False
 
         try:
-            result = server.skill_pipe.execute(command, timeout=server.skill_timeout)
+            response = server.skill_pipe.execute(command, timeout=server.skill_timeout)
         except SkillPipeTimeoutError as exc:
             logger.warning("SKILL request timeout in phase %s", exc.phase)
             self._send_text(f"failure <timeout phase={exc.phase}>")
             return False
-        except SkillExecutionError as exc:
-            self._send_text(f"failure <skill-error>\n{exc.payload}")
-            return True
         except SkillPipeDesynchronizedError:
             self._send_text("failure <desynchronized>")
             return False
@@ -217,8 +212,12 @@ class Handler(StreamRequestHandler):
             self._send_text("failure <pipe-error>")
             return False
 
+        if not response.ok:
+            self._send_text(f"failure <skill-error>\n{response.payload}")
+            return True
+
         try:
-            self._send_text(result)
+            self._send_text(response.payload)
         except FrameTooLargeError:
             logger.error("SKILL response exceeded configured frame limit")
             self._send_text("failure <response-too-large>")
@@ -287,18 +286,13 @@ def main(
     timeout: float | None,
     force_tcp: bool,
     max_payload_size: int,
-    skill_protocol: str,
-    recover_timeouts: bool | None,
-    drain_timeout: float | None,
+    drain_timeout: float | None = 30.0,
 ) -> None:
     configure_logging(log_level)
-    protocol = create_response_protocol(skill_protocol)
 
     with SkillPipe(
         sys.stdin,
         sys.stdout,
-        response_protocol=protocol,
-        recover_after_timeout=recover_timeouts,
         drain_timeout=drain_timeout,
     ) as skill_pipe:
         with create_server(
@@ -310,10 +304,8 @@ def main(
             max_payload_size=max_payload_size,
         ) as server:
             logger.info(
-                "starting server id=%s protocol=%s recovery=%s timeout=%s",
+                "starting server id=%s timeout=%s",
                 id_,
-                skill_pipe.protocol_name,
-                skill_pipe.recover_after_timeout,
                 timeout,
             )
             if notify:
@@ -337,17 +329,6 @@ def build_argument_parser() -> ArgumentParser:
         type=int,
         default=DEFAULT_MAX_PAYLOAD_SIZE,
     )
-    parser.add_argument(
-        "--skill-protocol",
-        choices=["line", "framed"],
-        default="line",
-    )
-    parser.add_argument(
-        "--recover-timeouts",
-        action=BooleanOptionalAction,
-        default=None,
-        help="default: enabled for framed, disabled for line",
-    )
     parser.add_argument("--drain-timeout", type=float, default=30.0)
     return parser
 
@@ -360,8 +341,6 @@ def cli() -> None:
             raise SystemExit(f"--{name.replace('_', '-')} must be non-negative")
     if ns.max_payload_size <= 0:
         raise SystemExit("--max-payload-size must be positive")
-    if ns.skill_protocol == "line" and ns.recover_timeouts is True:
-        raise SystemExit("--recover-timeouts requires --skill-protocol framed")
 
     with contextlib.suppress(KeyboardInterrupt):
         main(
@@ -372,8 +351,6 @@ def cli() -> None:
             ns.timeout,
             ns.force_tcp,
             ns.max_payload_size,
-            ns.skill_protocol,
-            ns.recover_timeouts,
             ns.drain_timeout,
         )
 

@@ -2,12 +2,10 @@ from __future__ import annotations
 
 import subprocess
 import sys
-import time
 
 import pytest
 
-from skillbridge.pipe import SkillExecutionError, SkillPipe, SkillPipeState, SkillPipeTimeoutError
-from skillbridge.response_protocol import FramedResponseProtocol
+from skillbridge.pipe import SkillPipe, SkillPipeState, SkillPipeTimeoutError
 
 
 @pytest.mark.integration
@@ -53,22 +51,22 @@ for line in sys.stdin:
     pipe = SkillPipe(
         process.stdout,
         process.stdin,
-        response_protocol=FramedResponseProtocol(),
         drain_timeout=1.0,
     )
     try:
-        assert pipe.execute("hello", timeout=2.0) == "reply:hello"
-        assert pipe.execute("multiline", timeout=2.0) == "one\ntwo"
-        with pytest.raises(SkillExecutionError):
-            pipe.execute("error", timeout=2.0)
+        assert pipe.execute("hello", timeout=2.0).payload == "reply:hello"
+        assert pipe.execute("multiline", timeout=2.0).payload == "one\ntwo"
+        err_res = pipe.execute("error", timeout=2.0)
+        assert not err_res.ok
+        assert err_res.payload == "remote failure"
         assert pipe.state is SkillPipeState.READY
 
         with pytest.raises(SkillPipeTimeoutError):
             pipe.execute("slow", timeout=0.03)
         assert pipe.state is SkillPipeState.DRAINING
         assert pipe.wait_until_ready(1.0)
-        assert pipe.execute("after", timeout=2.0) == "reply:after"
-        assert pipe.execute("quit", timeout=2.0) == "bye"
+        assert pipe.execute("after", timeout=2.0).payload == "reply:after"
+        assert pipe.execute("quit", timeout=2.0).payload == "bye"
     finally:
         pipe.close()
         process.stdin.close()

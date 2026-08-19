@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Protocol, TextIO
+from typing import TextIO
 
 STX = "\x02"  # successful response starts here
 NAK = "\x15"  # failed response starts here
@@ -22,48 +22,22 @@ class SkillResponse:
     payload: str
 
 
-class SkillResponseProtocol(Protocol):
-    """Strategy for decoding one response from a blocking text stream."""
-
-    name: str
-    recoverable_after_timeout: bool
-
-    def read_response(self, reader: TextIO) -> SkillResponse:
-        """Block until one response is decoded or raise on EOF/protocol error."""
-
-
-@dataclass(frozen=True, slots=True)
-class LineResponseProtocol:
-    """Compatibility protocol: exactly one response line per command."""
-
-    name: str = "line"
-    recoverable_after_timeout: bool = False
-
-    def read_response(self, reader: TextIO) -> SkillResponse:
-        line = reader.readline()
-        if line == "":
-            raise EOFError("SKILL IPC pipe was closed")
-        return SkillResponse(ok=True, payload=line)
-
-
 @dataclass(frozen=True, slots=True)
 class FramedResponseProtocol:
     """Decode ``STX|NAK + payload + RS`` frames.
 
-    The payload may contain newlines.  Timeout recovery is safe because the
+    The payload may contain newlines. Timeout recovery is safe because the
     reader can discard exactly one complete late frame before accepting another
     request.
 
     ``ignore_preamble`` mirrors the pragmatic behavior used by several Cadence
-    bridges: characters before STX/NAK are ignored.  Strict mode is preferable
+    bridges: characters before STX/NAK are ignored. Strict mode is preferable
     when the pipe is known to contain only protocol traffic.
     """
 
     max_payload_chars: int = 16 * 1024 * 1024
     ignore_preamble: bool = False
     max_preamble_chars: int = 4096
-    name: str = "framed"
-    recoverable_after_timeout: bool = True
 
     def __post_init__(self) -> None:
         if self.max_payload_chars <= 0:
@@ -105,12 +79,3 @@ class FramedResponseProtocol:
             payload.append(char)
             if len(payload) > self.max_payload_chars:
                 raise SkillResponseProtocolError("SKILL response payload exceeded configured limit")
-
-
-def create_response_protocol(name: str) -> SkillResponseProtocol:
-    normalized = name.strip().lower()
-    if normalized == "line":
-        return LineResponseProtocol()
-    if normalized == "framed":
-        return FramedResponseProtocol()
-    raise ValueError(f"unknown SKILL response protocol: {name!r}")

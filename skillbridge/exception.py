@@ -9,6 +9,11 @@ __all__ = [
     'PeerClosedError',
     'ProtocolError',
     'SkillBridgeError',
+    'SkillPipeBrokenError',
+    'SkillPipeClosedError',
+    'SkillPipeDesynchronizedError',
+    'SkillPipeError',
+    'SkillPipeTimeoutError',
 ]
 
 
@@ -73,3 +78,59 @@ class InvalidResponseError(ProtocolError):
         if len(response) > len(preview):
             preview += '...'
         super().__init__(f'Invalid SkillBridge response: {reason}. Response: {preview!r}.')
+
+
+class SkillPipeError(SkillBridgeError, RuntimeError):
+    """Base class for SKILL channel failures."""
+
+    code = 'pipe_error'
+
+
+class SkillPipeTimeoutError(SkillPipeError, TimeoutError):
+    """A request exceeded its total deadline."""
+
+    code = 'pipe_timeout'
+
+    def __init__(self, timeout: float, *, phase: str) -> None:
+        self.timeout = timeout
+        self.phase = phase
+        super().__init__(
+            f'SKILL request timed out after {timeout:g} seconds while waiting for {phase}.',
+            hint='Increase the timeout value or investigate slow SKILL execution.',
+        )
+
+
+class SkillPipeDesynchronizedError(SkillPipeError):
+    """The request/response association can no longer be trusted."""
+
+    code = 'pipe_desynchronized'
+
+    def __init__(
+        self,
+        message: str = 'SKILL pipe is desynchronized; restart the bridge before sending another request.',
+    ) -> None:
+        super().__init__(
+            message,
+            hint='Restart the server or subprocess to resynchronize IPC communication.',
+        )
+
+
+class SkillPipeClosedError(SkillPipeError):
+    """The channel was closed intentionally."""
+
+    code = 'pipe_closed'
+
+    def __init__(self, message: str = 'SKILL pipe is closed.') -> None:
+        super().__init__(message)
+
+
+class SkillPipeBrokenError(SkillPipeError):
+    """The underlying reader, writer, or framing parser failed."""
+
+    code = 'pipe_broken'
+
+    def __init__(self, message: str = 'SKILL IPC pipe is broken.') -> None:
+        super().__init__(
+            message,
+            hint='Check that the Cadence process is still running and responsive.',
+        )
