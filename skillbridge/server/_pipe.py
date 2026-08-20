@@ -346,12 +346,6 @@ class Pipe:
 
         Returns:
             The complete SKILL response.
-
-        Raises:
-            SkillPipeBrokenError: The command or response stream failed.
-            SkillPipeClosedError: The pipe closed during execution.
-            SkillPipeTimeoutError: Serialization or response waiting timed out.
-            ValueError: The timeout is negative or not finite.
         """
         if timeout is not None and (timeout < 0.0 or not math.isfinite(timeout)):
             raise ValueError("timeout must be None or a non-negative finite number")
@@ -387,7 +381,10 @@ class Pipe:
                     ) from exc
                 raise SkillPipeBrokenError("failed to write command to the SKILL IPC pipe") from exc
 
-            return self._machine.wait_response(timeout=timeout, deadline=deadline)
+            response = self._machine.wait_response(timeout=timeout, deadline=deadline)
+            if response.status == 'restart':
+                self.close()
+            return response
         finally:
             self._lock.release()
 

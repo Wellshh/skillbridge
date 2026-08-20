@@ -84,12 +84,14 @@ class SkillPipeError(SkillBridgeError, RuntimeError):
     """Base class for SKILL channel failures."""
 
     code = 'pipe_error'
+    wire_payload: ClassVar[str] = '<pipe-error>'
 
 
 class SkillPipeTimeoutError(SkillPipeError, TimeoutError):
     """A request exceeded its total deadline."""
 
     code = 'pipe_timeout'
+    wire_payload = '<timeout>'
 
     def __init__(self, timeout: float, *, phase: str) -> None:
         self.timeout = timeout
@@ -104,10 +106,13 @@ class SkillPipeDesynchronizedError(SkillPipeError):
     """The request/response association can no longer be trusted."""
 
     code = 'pipe_desynchronized'
+    wire_payload = '<desynchronized>'
 
     def __init__(
         self,
-        message: str = 'SKILL pipe is desynchronized; restart the bridge before sending another request.',
+        message: str = (
+            'SKILL pipe is desynchronized; restart the bridge before sending another request.'
+        ),
     ) -> None:
         super().__init__(
             message,
@@ -119,6 +124,7 @@ class SkillPipeClosedError(SkillPipeError):
     """The channel was closed intentionally."""
 
     code = 'pipe_closed'
+    wire_payload = '<closed>'
 
     def __init__(self, message: str = 'SKILL pipe is closed.') -> None:
         super().__init__(message)

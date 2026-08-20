@@ -5,7 +5,9 @@ from select import select
 from subprocess import PIPE, STDOUT, Popen
 from sys import executable
 from threading import Thread
+from tty import setraw
 
+from skillbridge.protocol.response import Response, RespStatus
 from skillbridge.server import python_server
 
 
@@ -31,6 +33,7 @@ class Virtuoso(Thread):
     def _create_subprocess(self):
         script = python_server.__file__
         master, slave = openpty()
+        setraw(slave)
         force_args = ["--force-tcp"] if self.force_tcp else []
         self.server = Popen(
             [executable, script, self.workspace_id, "DEBUG", '--notify', *force_args],
@@ -85,7 +88,8 @@ class Virtuoso(Thread):
         return None
 
     def write(self, message: str):
-        self.pin.write(message + '\n')
+        self.pin.write(message)
+        self.pin.flush()
 
     def stop(self):
         self.should_run = False
@@ -93,8 +97,13 @@ class Virtuoso(Thread):
         self.server.kill()
         self.server.wait()
 
-    def answer_with(self, status: str, message: str):
-        self.queue.put(status + ' ' + message)
+    def answer_with(self, status: RespStatus, message: str):
+        marker = {
+            'success': Response.STX,
+            'failure': Response.NAK,
+            'restart': Response.RST,
+        }[status]
+        self.queue.put(marker + message + Response.RS)
 
     def answer_success(self, message: str):
         self.answer_with('success', message)

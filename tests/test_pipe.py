@@ -338,6 +338,30 @@ def test_execute_serializes_clients(skill_pipe: tuple[Pipe, Server]) -> None:
 
 
 @mark.integration
+def test_restart_closes_before_next_client_can_write(skill_pipe: tuple[Pipe, Server]) -> None:
+    channel, server = skill_pipe
+    restarting = Client(lambda: channel.execute('restart()', timeout=TEST_TIMEOUT))
+    waiting = Client(lambda: channel.execute('next()', timeout=TEST_TIMEOUT))
+
+    restarting.start()
+    assert server.recv() == 'restart()'
+
+    waiting.start()
+    assert waiting.started.wait(TEST_TIMEOUT)
+    with raises(Empty):
+        server.recv(timeout=0.05)
+
+    server.respond('True', status='restart')
+
+    assert restarting.result() == SkillResp('restart', 'True')
+    with raises(SkillPipeClosedError):
+        waiting.result()
+    assert_pipe_state(channel, _PipeState.CLOSED)
+    with raises(EOFError):
+        server.recv()
+
+
+@mark.integration
 def test_serialization_timeout_does_not_send_command(
     skill_pipe: tuple[Pipe, Server],
 ) -> None:

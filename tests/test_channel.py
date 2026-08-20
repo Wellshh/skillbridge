@@ -129,7 +129,7 @@ def test_reconnect(use_tcp: bool):
     c = (tcp_channel_class if use_tcp else channel_class)(WORKSPACE_ID)
     first.answer_success("pong")
     try:
-        assert c.send("ping") == "pong\n"
+        assert c.send("ping") == "pong"
         assert first.last_question == "ping"
     finally:
         first.stop()
@@ -141,7 +141,7 @@ def test_reconnect(use_tcp: bool):
     second.answer_success("toc")
 
     try:
-        assert c.send("tic") == "toc\n"
+        assert c.send("tic") == "toc"
         assert second.last_question == "tic"
     finally:
         second.stop()
@@ -157,7 +157,7 @@ def test_one_message_is_send(server: Virtuoso, channel: Channel):
     server.answer_success("pong")
     answer = channel.send("ping")
 
-    assert answer == "pong\n"
+    assert answer == "pong"
     assert server.last_question == "ping"
 
 
@@ -168,7 +168,7 @@ def test_many_messages_are_send(server: Virtuoso, channel: Channel):
         server.answer_success(f"answer-{index}")
         answer = channel.send(question)
 
-        assert answer == f"answer-{index}\n"
+        assert answer == f"answer-{index}"
         assert server.last_question == question
 
 
