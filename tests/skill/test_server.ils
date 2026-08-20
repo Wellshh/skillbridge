@@ -2,6 +2,47 @@
 
 (qcover::load (strcat (qub::scriptDir) "/../../skillbridge/server/python_server.il"))
 
+(defun __pyTestAssertFunctionsWritable (names)
+  (foreach name names
+    (when (getFnWriteProtect name)
+      (error "test_server: cannot mock write-protected function %L" name)))
+  t)
+
+(defun __pyTestServerState ()
+  (list pyStartServer.ipc
+        pyStartServer.id
+        pyStartServer.logLevel
+        pyStartServer.singleMode
+        pyStartServer.timeout
+        pyStartServer.python
+        pyStartServer.forceTcp
+        pyStartServer.restartPending
+        pyStartServer.requestIpc
+        pyStartServer.state))
+
+(defun __pyTestRestoreServerState (state)
+  (setq pyStartServer.ipc (nth 0 state))
+  (setq pyStartServer.id (nth 1 state))
+  (setq pyStartServer.logLevel (nth 2 state))
+  (setq pyStartServer.singleMode (nth 3 state))
+  (setq pyStartServer.timeout (nth 4 state))
+  (setq pyStartServer.python (nth 5 state))
+  (setq pyStartServer.forceTcp (nth 6 state))
+  (setq pyStartServer.restartPending (nth 7 state))
+  (setq pyStartServer.requestIpc (nth 8 state))
+  (setq pyStartServer.state (nth 9 state))
+  t)
+
+(defun __pyTestWriteLines (fileName lines)
+  (let ((port (outfile fileName)))
+    (unless port
+      (error "test_server: cannot create temporary file %s" fileName))
+    (unwindProtect
+      (foreach line lines
+        (fprintf port "%s\n" line))
+      (close port)))
+  t)
+
 (qtest::runSuites
   ;; Suite 1: Scalar data types serialization
   (qtest::TestSuite ()
@@ -57,4 +98,372 @@
       (qtest::assertNil pyStartServer.singleMode ?msg "Default singleMode must be nil")
       (qtest::assertNil pyStartServer.timeout ?msg "Default timeout must be nil")
       (qtest::assertNil pyStartServer.forceTcp ?msg "Default forceTcp must be nil")
-      (qtest::assertNil pyStartServer.ipc ?msg "Initial IPC handle must be nil"))))
+      (qtest::assertNil pyStartServer.ipc ?msg "Initial IPC handle must be nil")))
+
+  ;; Suite 5: Server process lifecycle
+  (qtest::TestSuite ()
+    (qtest::TestCase test_spawn_server_builds_all_command_variants
+      (let ((originalBegin (getd 'ipcBeginProcess))
+            (savedState (__pyTestServerState))
+            mockProcess
+            commands
+            firstResult
+            firstState
+            secondResult
+            secondState)
+        (__pyTestAssertFunctionsWritable '(ipcBeginProcess))
+        (unwindProtect
+          (progn
+            (putd 'ipcBeginProcess
+                  (lambda (command _host _dataHandler _errorHandler _postFunc _logFile)
+                    (setq commands (cons command commands))
+                    mockProcess))
+
+            (setq pyStartServer.id "workspace")
+            (setq pyStartServer.logLevel "DEBUG")
+            (setq pyStartServer.python "python-test")
+            (setq pyStartServer.singleMode nil)
+            (setq pyStartServer.forceTcp nil)
+            (setq pyStartServer.timeout nil)
+            (setq mockProcess 'mockProcess)
+            (setq firstResult (__pySpawnServer))
+            (setq firstState pyStartServer.state)
+
+            (setq pyStartServer.singleMode t)
+            (setq pyStartServer.forceTcp t)
+            (setq pyStartServer.timeout 2.5)
+            (setq mockProcess nil)
+            (setq secondResult (__pySpawnServer))
+            (setq secondState pyStartServer.state)
+
+            (setq commands (reverse commands))
+            (qtest::assertEqual
+              '(t running nil nil nil nil stopped t t t)
+              (list firstResult
+                    firstState
+                    (not (null (index (car commands) "--single")))
+                    (not (null (index (car commands) "--force-tcp")))
+                    (not (null (index (car commands) "--timeout")))
+                    secondResult
+                    secondState
+                    (not (null (index (cadr commands) "--single")))
+                    (not (null (index (cadr commands) "--force-tcp")))
+                    (not (null (index (cadr commands) "--timeout 2.5"))))
+              ?msg "spawn must cover optional flags and success/failure states"))
+          (progn
+            (putd 'ipcBeginProcess originalBegin)
+            (__pyTestRestoreServerState savedState)))))
+
+    (qtest::TestCase test_kill_and_restart_lifecycle
+      (let ((originalKill (getd 'ipcKillProcess))
+            (originalSpawn (getd '__pySpawnServer))
+            (savedState (__pyTestServerState))
+            kills
+            spawnCount
+            actual)
+        (__pyTestAssertFunctionsWritable '(ipcKillProcess))
+        (unwindProtect
+          (progn
+            (putd 'ipcKillProcess
+                  (lambda (process)
+                    (setq kills (cons process kills))
+                    t))
+            (putd '__pySpawnServer
+                  (lambda ()
+                    (setq spawnCount (add1 spawnCount))
+                    t))
+            (setq spawnCount 0)
+
+            (setq pyStartServer.ipc nil)
+            (setq pyStartServer.state 'stopped)
+            (setq actual (list (pyKillServer) pyStartServer.state))
+
+            (setq pyStartServer.ipc 'killProcess)
+            (setq pyStartServer.restartPending t)
+            (setq actual
+                  (append actual
+                          (list (pyKillServer)
+                                pyStartServer.state
+                                pyStartServer.restartPending
+                                (car kills))))
+
+            (setq pyStartServer.ipc nil)
+            (setq actual (append actual (list (pyRestartServer) spawnCount)))
+
+            (setq pyStartServer.ipc 'restartProcess)
+            (setq pyStartServer.requestIpc 'restartProcess)
+            (setq kills nil)
+            (setq actual
+                  (append actual
+                          (list (pyRestartServer)
+                                pyStartServer.state
+                                pyStartServer.restartPending
+                                kills)))
+
+            (setq pyStartServer.requestIpc nil)
+            (setq actual
+                  (append actual
+                          (list (pyRestartServer) (car kills))))
+
+            (qtest::assertEqual
+              '(nil stopped t stopping nil killProcess
+                t 1
+                t restarting t nil
+                t restartProcess)
+              actual
+              ?msg "kill/restart must handle stopped, request, and direct paths"))
+          (progn
+            (putd 'ipcKillProcess originalKill)
+            (putd '__pySpawnServer originalSpawn)
+            (__pyTestRestoreServerState savedState))))))
+
+  ;; Suite 6: Log display branches and file cleanup
+  (qtest::TestSuite ()
+    (qtest::TestCase test_show_log_handles_invalid_missing_and_ring_buffer_files
+      (let ((savedLogName pyShowLog.logName)
+            (emptyFile (makeTempFileName (strcat (qub::scriptDir) "/qtsrvXXXX")))
+            shortFile
+            overflowFile
+            missingFile)
+        (unwindProtect
+          (progn
+            (__pyTestWriteLines emptyFile nil)
+            (setq shortFile
+                  (makeTempFileName (strcat (qub::scriptDir) "/qtsrvXXXX")))
+            (__pyTestWriteLines shortFile '("one" "two"))
+            (setq overflowFile
+                  (makeTempFileName (strcat (qub::scriptDir) "/qtsrvXXXX")))
+            (__pyTestWriteLines overflowFile '("one" "two" "three"))
+            (setq missingFile
+                  (makeTempFileName (strcat (qub::scriptDir) "/qtsrvXXXX")))
+
+            (qtest::assertEqual
+              '(nil nil t t t)
+              (list (pyShowLog 0)
+                    (progn
+                      (setq pyShowLog.logName missingFile)
+                      (pyShowLog 2))
+                    (progn
+                      (setq pyShowLog.logName emptyFile)
+                      (pyShowLog 2))
+                    (progn
+                      (setq pyShowLog.logName shortFile)
+                      (pyShowLog 3))
+                    (progn
+                      (setq pyShowLog.logName overflowFile)
+                      (pyShowLog 2)))
+              ?msg "log display must cover validation, open failure, empty, short, and wrapped files"))
+          (progn
+            (setq pyShowLog.logName savedLogName)
+            (when emptyFile (deleteFile emptyFile))
+            (when shortFile (deleteFile shortFile))
+            (when overflowFile (deleteFile overflowFile))
+            (when missingFile (deleteFile missingFile)))))))
+
+  ;; Suite 7: IPC request and callback behavior
+  (qtest::TestSuite ()
+    (qtest::TestCase test_on_data_writes_error_unbound_warning_success_and_restart
+      (let ((originalWrite (getd 'ipcWriteProcess))
+            (savedState (__pyTestServerState))
+            writes
+            responses)
+        (__pyTestAssertFunctionsWritable '(ipcWriteProcess))
+        (unwindProtect
+          (progn
+            (putd 'ipcWriteProcess
+                  (lambda (process data)
+                    (setq writes (cons (list process data) writes))
+                    t))
+
+            (setq pyStartServer.restartPending nil)
+            (setq pyStartServer.ipc 'serverProcess)
+            (__pyOnData 'serverProcess "error(\"qtest boom\")\n")
+            (__pyOnData 'serverProcess
+                        "makeTable(\"qtestUnbound\")[\"missing\"]\n")
+            (__pyOnData 'serverProcess "plus(1 2)\n")
+            (__pyOnData 'serverProcess
+                        "progn(warn(\"qtest warning\") 7)\n")
+            (setq pyStartServer.restartPending t)
+            (__pyOnData 'serverProcess "plus(2 3)\n")
+
+            (setq responses (mapcar 'cadr (reverse writes)))
+            (qtest::assertEqual
+              '(t t t t t t)
+              (list (qub::startsWith (nth 0 responses) "failure ")
+                    (equal (nth 1 responses) "success error('unbound')\n")
+                    (equal (nth 2 responses) "success 3\n")
+                    (not (null (index (nth 3 responses) "warning(")))
+                    (equal (nth 4 responses) "restart 5\n")
+                    (null pyStartServer.requestIpc))
+              ?msg "data callback must emit every response class and clear request state"))
+          (progn
+            (putd 'ipcWriteProcess originalWrite)
+            (__pyTestRestoreServerState savedState)))))
+
+    (qtest::TestCase test_on_finish_ignores_stale_and_restarts_current_process
+      (let ((originalSpawn (getd '__pySpawnServer))
+            (savedState (__pyTestServerState))
+            (spawnCount 0)
+            actual)
+        (unwindProtect
+          (progn
+            (putd '__pySpawnServer
+                  (lambda ()
+                    (setq spawnCount (add1 spawnCount))
+                    t))
+
+            (setq pyStartServer.ipc 'currentProcess)
+            (setq pyStartServer.state 'running)
+            (__pyOnFinish 'staleProcess 1)
+            (setq actual
+                  (list pyStartServer.ipc pyStartServer.state spawnCount))
+
+            (setq pyStartServer.restartPending nil)
+            (__pyOnFinish 'currentProcess 0)
+            (setq actual
+                  (append actual
+                          (list pyStartServer.ipc
+                                pyStartServer.state
+                                spawnCount)))
+
+            (setq pyStartServer.ipc 'restartProcess)
+            (setq pyStartServer.restartPending t)
+            (setq pyStartServer.requestIpc 'restartProcess)
+            (__pyOnFinish 'restartProcess 0)
+            (setq actual
+                  (append actual
+                          (list pyStartServer.ipc
+                                pyStartServer.state
+                                pyStartServer.restartPending
+                                pyStartServer.requestIpc
+                                spawnCount)))
+
+            (qtest::assertEqual
+              '(currentProcess running 0
+                nil stopped 0
+                nil stopped nil nil 1)
+              actual
+              ?msg "finish callback must ignore stale ids and restart only when requested"))
+          (progn
+            (putd '__pySpawnServer originalSpawn)
+            (__pyTestRestoreServerState savedState))))))
+
+  ;; Suite 8: Remaining remote serialization branches
+  (qtest::TestSuite ()
+    (qtest::TestCase test_remote_serialization_handles_regex_other_port_and_fallback
+      (let ((port (outstring))
+            otherResult
+            regexResult
+            portResult
+            fallbackResult)
+        (unwindProtect
+          (progn
+            ;; The public serializer compiles the production regex before
+            ;; entering __pySaveToVariableAndReturn.
+            (setq portResult (__pySkillToPython port))
+            (setq otherResult
+                  (__pySaveToVariableAndReturn
+                    (makeTable "not-a-match" nil)))
+            (setq regexResult
+                  (__pySaveToVariableAndReturn
+                    (stringToSymbol "remote@0xabc")))
+            (setq fallbackResult (__pySaveToVariableAndReturn 42))
+
+            (qtest::assertEqual
+              '(t t t t)
+              (list (not (null (index otherResult "__py_OTHER_")))
+                    (qub::startsWith regexResult "Remote(")
+                    (not (null (index portResult "__py_openfile_")))
+                    (eq fallbackResult t))
+              ?msg "remote serialization must cover regex, other, port, and fallback"))
+          (close port)))))
+
+  ;; Suite 9: Public start and script execution
+  (qtest::TestSuite ()
+    (qtest::TestCase test_start_server_rejects_duplicate_and_forwards_configuration
+      (let ((originalSpawn (getd '__pySpawnServer))
+            (savedState (__pyTestServerState))
+            (spawnCount 0)
+            actual)
+        (unwindProtect
+          (progn
+            (putd '__pySpawnServer
+                  (lambda ()
+                    (setq spawnCount (add1 spawnCount))
+                    t))
+            (setq pyStartServer.ipc 'existingProcess)
+            (setq actual (list (pyStartServer) spawnCount))
+
+            (setq pyStartServer.ipc nil)
+            (setq actual
+                  (append actual
+                          (list (pyStartServer
+                                  ?id "configured"
+                                  ?logLevel "DEBUG"
+                                  ?singleMode t
+                                  ?timeout 4.0
+                                  ?python "python-test"
+                                  ?forceTcp t)
+                                spawnCount
+                                pyStartServer.id
+                                pyStartServer.logLevel
+                                pyStartServer.singleMode
+                                pyStartServer.timeout
+                                pyStartServer.python
+                                pyStartServer.forceTcp
+                                pyStartServer.restartPending)))
+
+            (qtest::assertEqual
+              '(nil 0 t 1 "configured" "DEBUG" t 4.0 "python-test" t nil)
+              actual
+              ?msg "start must reject duplicates and store every configuration value"))
+          (progn
+            (putd '__pySpawnServer originalSpawn)
+            (__pyTestRestoreServerState savedState)))))
+
+    (qtest::TestCase test_run_script_returns_process_or_waits
+      (let ((originalBegin (getd 'ipcBeginProcess))
+            (originalWait (getd 'ipcWait))
+            (savedLogName pyRunScript.logName)
+            beginCalls
+            waitCalls
+            nonBlockingResult
+            blockingResult)
+        (__pyTestAssertFunctionsWritable '(ipcBeginProcess ipcWait))
+        (unwindProtect
+          (progn
+            (putd 'ipcBeginProcess
+                  (lambda (command _host _dataHandler _errorHandler _postFunc _logFile)
+                    (setq beginCalls (cons command beginCalls))
+                    'scriptProcess))
+            (putd 'ipcWait
+                  (lambda (process)
+                    (setq waitCalls (cons process waitCalls))
+                    t))
+
+            (setq nonBlockingResult
+                  (pyRunScript "script.py" ?python "python-test" ?args '("a" "b")))
+            (setq blockingResult
+                  (pyRunScript "script.py" ?python "python-test" ?block t))
+
+            (qtest::assertEqual
+              '(scriptProcess t 2 scriptProcess t)
+              (list nonBlockingResult
+                    blockingResult
+                    (length beginCalls)
+                    (car waitCalls)
+                    (not (null (index (car beginCalls) "python-test script.py"))))
+              ?msg "run script must return non-blocking handles and wait when requested"))
+          (progn
+            (putd 'ipcBeginProcess originalBegin)
+            (putd 'ipcWait originalWait)
+            (setq pyRunScript.logName savedLogName))))))
+
+  ;; The suite itself is the acceptance criterion for python_server.il.
+  (qtest::TestSuite ()
+    (qtest::TestCase test_python_server_reaches_full_branch_coverage
+      (qtest::assertEqual
+        '((62 62) 100.0)
+        (list (qcover:::coverageCounts)
+              (qcover::report ?minimum 100.0))
+        ?msg "python_server.il must retain all 31 decisions at full coverage"))))
