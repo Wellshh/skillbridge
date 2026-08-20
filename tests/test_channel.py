@@ -481,7 +481,7 @@ def test_open_file(server: Virtuoso, ws: Workspace):
 def test_globals_direct_write(server: Virtuoso, ws: Workspace):
     g = ws.globals("prefix")
     server.answer_success("None")
-    g.x <<= "123"
+    g.x << "123"
     assert server.last_question == 'prefixX = "123" nil'
 
 

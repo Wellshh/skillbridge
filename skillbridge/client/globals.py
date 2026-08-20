@@ -7,6 +7,9 @@ from .hints import SkillCode
 from .translator import Translator, snake_to_camel
 from .var import Var
 
+# Remote: cadence skill runtime
+# Local: python daemon thread
+
 
 class GlobalVar:
     __slots__ = '_channel', '_translator', 'name'
@@ -16,9 +19,17 @@ class GlobalVar:
         self._channel = channel
         self._translator = translator
 
-    def __call__(self) -> Any:
+    def read(self) -> Any:
+        """Fetch from remote.
+
+        Returns:
+            Decoded Python value.
+        """
         response = self._channel.send(snake_to_camel(self.name))
         return self._translator.decode(response)
+
+    def __call__(self) -> Any:
+        return self.read()
 
     def __str__(self) -> str:
         return f"Global({self.name})"
@@ -26,10 +37,14 @@ class GlobalVar:
     def __repr__(self) -> str:
         return f"Global({self.name})"
 
-    def __lshift__(self, code: Any) -> None:
-        code = self._translator.encode_assign(self.name, code)
+    def write(self, value: Any) -> None:
+        """Push to remote."""
+        code = self._translator.encode_assign(self.name, value)
         response = self._channel.send(code)
         assert self._translator.decode(response) is None
+
+    def __lshift__(self, value: Any) -> None:
+        self.write(value)
 
     def __repr_skill__(self) -> SkillCode:
         return SkillCode(snake_to_camel(self.name))
@@ -73,17 +88,15 @@ class Globals:
 
         raise AttributeError(item)
 
-    def __setitem__(self, item: str | tuple[str, ...], value: Any) -> Any:
+    def __setitem__(self, item: str | tuple[str, ...], value: Any) -> None:
         if isinstance(item, tuple):
             item = '_'.join(item)
 
         if not is_variable_name(item):
-            return super().__setattr__(item, value)
+            super().__setattr__(item, value)
+            return
 
-        code = self._translator.encode_assign(self._prefix + item, value)
-        response = self._channel.send(code)
-        assert self._translator.decode(response) is None
-        return None
+        self[item].write(value)
 
     def __delitem__(self, item: str) -> None:
         self[item] = None
