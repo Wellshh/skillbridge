@@ -180,9 +180,7 @@ def recv_exact(sock: socket.socket, size: int) -> bytes:
     while remaining:
         chunk = sock.recv(remaining)
         if not chunk:
-            raise ConnectionError(
-                f"Connection closed with {remaining} bytes remaining"
-            )
+            raise ConnectionError(f"Connection closed with {remaining} bytes remaining")
         chunks.append(chunk)
         remaining -= len(chunk)
 
@@ -816,7 +814,7 @@ session = AllegroSession.connect(
 只有调试环境显式开启：
 
 ```python
-allow_raw_eval=True
+allow_raw_eval = True
 ```
 
 Raw 返回类型可以包括：
