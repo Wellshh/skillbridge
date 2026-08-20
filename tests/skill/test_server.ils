@@ -357,15 +357,16 @@
                     (makeTable "not-a-match" nil)))
             (setq regexResult
                   (__pySaveToVariableAndReturn
-                    (stringToSymbol "remote@0xabc")))
+                    (stringToSymbol "remote:0xabc")))
             (setq fallbackResult (__pySaveToVariableAndReturn 42))
 
             (let ((mp (outfile "C:/Users/baijunyan/AppData/Local/Temp/srv_s8.txt"))
-                  (s8repr (lsprintf "%L" (stringToSymbol "remote@0xabc"))))
+                  (atRepr (lsprintf "%L" (stringToSymbol "remote@0xabc")))
+                  (colRepr (lsprintf "%L" (stringToSymbol "remote:0xabc"))))
               (rexCompile "^[_a-zA-Z]+[:@][x0-9a-fA-F]+$")
               (when mp
-                (fprintf mp "s8repr=%L\nrexExec=%L\nother=%L\nregex=%L\nport=%L\nfallback=%L\n"
-                         s8repr (rexExecute s8repr) otherResult regexResult portResult fallbackResult)
+                (fprintf mp "atRepr=%L\natExec=%L\ncolRepr=%L\ncolExec=%L\nother=%L\nregex=%L\nport=%L\nfallback=%L\n"
+                         atRepr (rexExecute atRepr) colRepr (rexExecute colRepr) otherResult regexResult portResult fallbackResult)
                 (close mp)))
 
             (qtest::assertEqual
@@ -373,7 +374,7 @@
               (list (not (null (index otherResult "__py_OTHER_")))
                     (qub::startsWith regexResult "Remote(")
                     (not (null (index portResult "__py_openfile_")))
-                    (eq fallbackResult t))
+                    (qub::startsWith fallbackResult "error("))
               ?msg "remote serialization must cover regex, other, port, and fallback"))
           (close port)))))
 

@@ -8,28 +8,6 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
     _logDirectory = getShellEnvVar("SKILLBRIDGE_LOG_DIRECTORY") || "."
     _unbound = makeTable("JustForUnbound")[""]
 
-    ; Thin wrappers around the internal (non-redefinable) IPC built-ins so that
-    ; tests can putd-mock them. User-defined, so they carry no "internal" flag.
-    putd('__pyIpcBeginProcess nil)
-    defun(__pyIpcBeginProcess (@rest args)
-        apply('ipcBeginProcess args)
-    )
-
-    putd('__pyIpcKillProcess nil)
-    defun(__pyIpcKillProcess (@rest args)
-        apply('ipcKillProcess args)
-    )
-
-    putd('__pyIpcWriteProcess nil)
-    defun(__pyIpcWriteProcess (@rest args)
-        apply('ipcWriteProcess args)
-    )
-
-    putd('__pyIpcWait nil)
-    defun(__pyIpcWait (@rest args)
-        apply('ipcWait args)
-    )
-
     putd('__pySpawnServer nil)
     defun(__pySpawnServer ()
         let((executableWithArgs process)
@@ -70,7 +48,7 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
                 executableWithArgs
             )
 
-            process = __pyIpcBeginProcess(
+            process = ipcBeginProcess(
                 executableWithArgs
                 ""
                 '__pyOnData
@@ -103,7 +81,7 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
 
             ; ipcKillProcess only requests termination. The process handle
             ; remains owned by __pyOnFinish until the matching callback arrives.
-            __pyIpcKillProcess(pyStartServer.ipc)
+            ipcKillProcess(pyStartServer.ipc)
             t
         )
     )
@@ -125,7 +103,7 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
                 ; Called directly from CIW or another SKILL entry point.
                 ; There is no client response to preserve, so termination can
                 ; be requested immediately.
-                __pyIpcKillProcess(pyStartServer.ipc)
+                ipcKillProcess(pyStartServer.ipc)
                 t
             )
         )
@@ -245,7 +223,7 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
                         line
                         errset.errset
                     )
-                    __pyIpcWriteProcess(
+                    ipcWriteProcess(
                         id
                         lsprintf("failure %L\n" errset.errset)
                     )
@@ -273,7 +251,7 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
                             responseStatus = "success"
                         )
 
-                        __pyIpcWriteProcess(
+                        ipcWriteProcess(
                             id
                             lsprintf(
                                 "%s %s\n"
@@ -282,7 +260,7 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
                             )
                         )
                     else
-                        __pyIpcWriteProcess(
+                        ipcWriteProcess(
                             id
                             "success error('unbound')\n"
                         )
@@ -387,8 +365,8 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
                     symbolToString(variableSymbol)
                 )
             else
-                lsprintf("error(%L)" repr)
                 printf("I COULD NOT PARSE %L\n" repr)
+                lsprintf("error(%L)" repr)
             )))
         )
     )
@@ -507,7 +485,7 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
                 buildString(args)
             )
 
-            process = __pyIpcBeginProcess(
+            process = ipcBeginProcess(
                 command
                 ""
                 '__pyOnData
@@ -517,7 +495,7 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
             )
 
             if(block then
-                __pyIpcWait(process)
+                ipcWait(process)
             else
                 process
             )
