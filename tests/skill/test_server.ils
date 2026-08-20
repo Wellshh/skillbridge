@@ -360,15 +360,6 @@
                     (stringToSymbol "remote:0xabc")))
             (setq fallbackResult (__pySaveToVariableAndReturn 42))
 
-            (let ((mp (outfile "C:/Users/baijunyan/AppData/Local/Temp/srv_s8.txt"))
-                  (atRepr (lsprintf "%L" (stringToSymbol "remote@0xabc")))
-                  (colRepr (lsprintf "%L" (stringToSymbol "remote:0xabc"))))
-              (rexCompile "^[_a-zA-Z]+[:@][x0-9a-fA-F]+$")
-              (when mp
-                (fprintf mp "atRepr=%L\natExec=%L\ncolRepr=%L\ncolExec=%L\nother=%L\nregex=%L\nport=%L\nfallback=%L\n"
-                         atRepr (rexExecute atRepr) colRepr (rexExecute colRepr) otherResult regexResult portResult fallbackResult)
-                (close mp)))
-
             (qtest::assertEqual
               '(t t t t)
               (list (not (null (index otherResult "__py_OTHER_")))
