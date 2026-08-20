@@ -2,12 +2,6 @@
 
 (qcover::load (strcat (qub::scriptDir) "/../../skillbridge/server/python_server.il"))
 
-(defun __pyTestAssertFunctionsWritable (names)
-  (foreach name names
-    (when (getFnWriteProtect name)
-      (error "test_server: cannot mock write-protected function %L" name)))
-  t)
-
 (defun __pyTestServerState ()
   (list pyStartServer.ipc
         pyStartServer.id
@@ -103,7 +97,7 @@
   ;; Suite 5: Server process lifecycle
   (qtest::TestSuite ()
     (qtest::TestCase test_spawn_server_builds_all_command_variants
-      (let ((originalBegin (getd 'ipcBeginProcess))
+      (let ((originalBegin (getd '__pyIpcBeginProcess))
             (savedState (__pyTestServerState))
             mockProcess
             commands
@@ -111,10 +105,9 @@
             firstState
             secondResult
             secondState)
-        (__pyTestAssertFunctionsWritable '(ipcBeginProcess))
         (unwindProtect
           (progn
-            (putd 'ipcBeginProcess
+            (putd '__pyIpcBeginProcess
                   (lambda (command _host _dataHandler _errorHandler _postFunc _logFile)
                     (setq commands (cons command commands))
                     mockProcess))
@@ -151,20 +144,19 @@
                     (not (null (index (cadr commands) "--timeout 2.5"))))
               ?msg "spawn must cover optional flags and success/failure states"))
           (progn
-            (putd 'ipcBeginProcess originalBegin)
+            (putd '__pyIpcBeginProcess originalBegin)
             (__pyTestRestoreServerState savedState)))))
 
     (qtest::TestCase test_kill_and_restart_lifecycle
-      (let ((originalKill (getd 'ipcKillProcess))
+      (let ((originalKill (getd '__pyIpcKillProcess))
             (originalSpawn (getd '__pySpawnServer))
             (savedState (__pyTestServerState))
             kills
             spawnCount
             actual)
-        (__pyTestAssertFunctionsWritable '(ipcKillProcess))
         (unwindProtect
           (progn
-            (putd 'ipcKillProcess
+            (putd '__pyIpcKillProcess
                   (lambda (process)
                     (setq kills (cons process kills))
                     t))
@@ -213,7 +205,7 @@
               actual
               ?msg "kill/restart must handle stopped, request, and direct paths"))
           (progn
-            (putd 'ipcKillProcess originalKill)
+            (putd '__pyIpcKillProcess originalKill)
             (putd '__pySpawnServer originalSpawn)
             (__pyTestRestoreServerState savedState))))))
 
@@ -263,14 +255,13 @@
   ;; Suite 7: IPC request and callback behavior
   (qtest::TestSuite ()
     (qtest::TestCase test_on_data_writes_error_unbound_warning_success_and_restart
-      (let ((originalWrite (getd 'ipcWriteProcess))
+      (let ((originalWrite (getd '__pyIpcWriteProcess))
             (savedState (__pyTestServerState))
             writes
             responses)
-        (__pyTestAssertFunctionsWritable '(ipcWriteProcess))
         (unwindProtect
           (progn
-            (putd 'ipcWriteProcess
+            (putd '__pyIpcWriteProcess
                   (lambda (process data)
                     (setq writes (cons (list process data) writes))
                     t))
@@ -297,7 +288,7 @@
                     (null pyStartServer.requestIpc))
               ?msg "data callback must emit every response class and clear request state"))
           (progn
-            (putd 'ipcWriteProcess originalWrite)
+            (putd '__pyIpcWriteProcess originalWrite)
             (__pyTestRestoreServerState savedState)))))
 
     (qtest::TestCase test_on_finish_ignores_stale_and_restarts_current_process
@@ -369,6 +360,14 @@
                     (stringToSymbol "remote@0xabc")))
             (setq fallbackResult (__pySaveToVariableAndReturn 42))
 
+            (let ((mp (outfile "C:/Users/baijunyan/AppData/Local/Temp/srv_s8.txt"))
+                  (s8repr (lsprintf "%L" (stringToSymbol "remote@0xabc"))))
+              (rexCompile "^[_a-zA-Z]+[:@][x0-9a-fA-F]+$")
+              (when mp
+                (fprintf mp "s8repr=%L\nrexExec=%L\nother=%L\nregex=%L\nport=%L\nfallback=%L\n"
+                         s8repr (rexExecute s8repr) otherResult regexResult portResult fallbackResult)
+                (close mp)))
+
             (qtest::assertEqual
               '(t t t t)
               (list (not (null (index otherResult "__py_OTHER_")))
@@ -422,21 +421,20 @@
             (__pyTestRestoreServerState savedState)))))
 
     (qtest::TestCase test_run_script_returns_process_or_waits
-      (let ((originalBegin (getd 'ipcBeginProcess))
-            (originalWait (getd 'ipcWait))
+      (let ((originalBegin (getd '__pyIpcBeginProcess))
+            (originalWait (getd '__pyIpcWait))
             (savedLogName pyRunScript.logName)
             beginCalls
             waitCalls
             nonBlockingResult
             blockingResult)
-        (__pyTestAssertFunctionsWritable '(ipcBeginProcess ipcWait))
         (unwindProtect
           (progn
-            (putd 'ipcBeginProcess
+            (putd '__pyIpcBeginProcess
                   (lambda (command _host _dataHandler _errorHandler _postFunc _logFile)
                     (setq beginCalls (cons command beginCalls))
                     'scriptProcess))
-            (putd 'ipcWait
+            (putd '__pyIpcWait
                   (lambda (process)
                     (setq waitCalls (cons process waitCalls))
                     t))
@@ -455,8 +453,8 @@
                     (not (null (index (car beginCalls) "python-test script.py"))))
               ?msg "run script must return non-blocking handles and wait when requested"))
           (progn
-            (putd 'ipcBeginProcess originalBegin)
-            (putd 'ipcWait originalWait)
+            (putd '__pyIpcBeginProcess originalBegin)
+            (putd '__pyIpcWait originalWait)
             pyRunScript.logName = savedLogName)))))
 
   ;; The suite itself is the acceptance criterion for python_server.il.

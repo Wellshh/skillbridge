@@ -8,6 +8,28 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
     _logDirectory = getShellEnvVar("SKILLBRIDGE_LOG_DIRECTORY") || "."
     _unbound = makeTable("JustForUnbound")[""]
 
+    ; Thin wrappers around the internal (non-redefinable) IPC built-ins so that
+    ; tests can putd-mock them. User-defined, so they carry no "internal" flag.
+    putd('__pyIpcBeginProcess nil)
+    defun(__pyIpcBeginProcess (@rest args)
+        apply('ipcBeginProcess args)
+    )
+
+    putd('__pyIpcKillProcess nil)
+    defun(__pyIpcKillProcess (@rest args)
+        apply('ipcKillProcess args)
+    )
+
+    putd('__pyIpcWriteProcess nil)
+    defun(__pyIpcWriteProcess (@rest args)
+        apply('ipcWriteProcess args)
+    )
+
+    putd('__pyIpcWait nil)
+    defun(__pyIpcWait (@rest args)
+        apply('ipcWait args)
+    )
+
     putd('__pySpawnServer nil)
     defun(__pySpawnServer ()
         let((executableWithArgs process)
@@ -48,7 +70,7 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
                 executableWithArgs
             )
 
-            process = ipcBeginProcess(
+            process = __pyIpcBeginProcess(
                 executableWithArgs
                 ""
                 '__pyOnData
@@ -81,7 +103,7 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
 
             ; ipcKillProcess only requests termination. The process handle
             ; remains owned by __pyOnFinish until the matching callback arrives.
-            ipcKillProcess(pyStartServer.ipc)
+            __pyIpcKillProcess(pyStartServer.ipc)
             t
         )
     )
@@ -103,7 +125,7 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
                 ; Called directly from CIW or another SKILL entry point.
                 ; There is no client response to preserve, so termination can
                 ; be requested immediately.
-                ipcKillProcess(pyStartServer.ipc)
+                __pyIpcKillProcess(pyStartServer.ipc)
                 t
             )
         )
@@ -223,7 +245,7 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
                         line
                         errset.errset
                     )
-                    ipcWriteProcess(
+                    __pyIpcWriteProcess(
                         id
                         lsprintf("failure %L\n" errset.errset)
                     )
@@ -251,7 +273,7 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
                             responseStatus = "success"
                         )
 
-                        ipcWriteProcess(
+                        __pyIpcWriteProcess(
                             id
                             lsprintf(
                                 "%s %s\n"
@@ -260,7 +282,7 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
                             )
                         )
                     else
-                        ipcWriteProcess(
+                        __pyIpcWriteProcess(
                             id
                             "success error('unbound')\n"
                         )
@@ -485,7 +507,7 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
                 buildString(args)
             )
 
-            process = ipcBeginProcess(
+            process = __pyIpcBeginProcess(
                 command
                 ""
                 '__pyOnData
@@ -495,7 +517,7 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
             )
 
             if(block then
-                ipcWait(process)
+                __pyIpcWait(process)
             else
                 process
             )

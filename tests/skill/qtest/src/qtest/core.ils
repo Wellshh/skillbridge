@@ -76,7 +76,13 @@ Evaluated Inputs: %A\n"
 ; Test runner. Automatically called by runTests
 ; Returns a list containing (fn name (symbol), qub::Result)
 (defun qtest::runTests (tests)
-  (mapcar (lambda (x) (list (car x) (funcall (cadr x)))) tests))
+  (mapcar (lambda (x)
+            (let ((mp (outfile "C:/Users/baijunyan/AppData/Local/Temp/srv_current.txt")))
+              (when mp
+                (fprintf mp "%L\n" (car x))
+                (close mp)))
+            (list (car x) (funcall (cadr x))))
+          tests))
 
 ; Runs each of the tests defined in the body
 (defmacro qtest::TestSuite (let_lst @rest tests)
