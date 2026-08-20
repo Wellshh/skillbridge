@@ -12,6 +12,7 @@
         pyStartServer.forceTcp
         pyStartServer.restartPending
         pyStartServer.requestIpc
+        pyStartServer.receiveBuffer
         pyStartServer.state))
 
 (defun __pyTestRestoreServerState (state)
@@ -24,7 +25,8 @@
   pyStartServer.forceTcp = (nth 6 state)
   pyStartServer.restartPending = (nth 7 state)
   pyStartServer.requestIpc = (nth 8 state)
-  pyStartServer.state = (nth 9 state)
+  pyStartServer.receiveBuffer = (nth 9 state)
+  pyStartServer.state = (nth 10 state)
   t)
 
 (defun __pyTestWriteLines (fileName lines)
@@ -92,6 +94,7 @@
       (qtest::assertNil pyStartServer.singleMode ?msg "Default singleMode must be nil")
       (qtest::assertNil pyStartServer.timeout ?msg "Default timeout must be nil")
       (qtest::assertNil pyStartServer.forceTcp ?msg "Default forceTcp must be nil")
+      (qtest::assertEqual "" pyStartServer.receiveBuffer ?msg "Initial receive buffer must be empty")
       (qtest::assertNil pyStartServer.ipc ?msg "Initial IPC handle must be nil")))
 
   ;; Suite 5: Server process lifecycle
@@ -254,6 +257,104 @@
 
   ;; Suite 7: IPC request and callback behavior
   (qtest::TestSuite ()
+    (qtest::TestCase test_frame_protocol_constants
+      (qtest::assertEqual
+        (list (strcat (intToChar 2))
+              (strcat (intToChar 21))
+              (strcat (intToChar 18))
+              (strcat (intToChar 30)))
+        (list __pyWriteFrame.STX
+              __pyWriteFrame.NAK
+              __pyWriteFrame.RST
+              __pyWriteFrame.RS)
+        ?msg "frame protocol constants must match Python Response markers"))
+
+    (qtest::TestCase test_on_data_buffers_partial_and_multiple_lines
+      (let ((originalWrite (getd '__pyIpcWriteProcess))
+            (savedState (__pyTestServerState))
+            writes
+            afterPartial
+            afterStale
+            afterMultiple)
+        (unwindProtect
+          (progn
+            (putd '__pyIpcWriteProcess
+                  (lambda (process data)
+                    (setq writes (cons (list process data) writes))
+                    t))
+
+            pyStartServer.ipc = 'currentProcess
+            pyStartServer.receiveBuffer = ""
+            (__pyOnData 'currentProcess "plus(1 ")
+            (setq afterPartial
+                  (list (length writes) pyStartServer.receiveBuffer))
+
+            (__pyOnData 'staleProcess "99)\n")
+            (setq afterStale
+                  (list (length writes) pyStartServer.receiveBuffer))
+
+            (__pyOnData 'currentProcess "2)\r\n\r\n\nplus(3 4)\nplus(5 ")
+            (setq afterMultiple
+                  (list (mapcar 'cadr (reverse writes))
+                        pyStartServer.receiveBuffer))
+
+            (__pyOnData 'currentProcess "6)\n")
+
+            (qtest::assertEqual
+              (list '(0 "plus(1 ")
+                    '(0 "plus(1 ")
+                    (list (list (strcat __pyWriteFrame.STX "3" __pyWriteFrame.RS)
+                                (strcat __pyWriteFrame.STX "7" __pyWriteFrame.RS))
+                          "plus(5 ")
+                    (list (strcat __pyWriteFrame.STX "3" __pyWriteFrame.RS)
+                          (strcat __pyWriteFrame.STX "7" __pyWriteFrame.RS)
+                          (strcat __pyWriteFrame.STX "11" __pyWriteFrame.RS))
+                    "")
+              (list afterPartial
+                    afterStale
+                    afterMultiple
+                    (mapcar 'cadr (reverse writes))
+                    pyStartServer.receiveBuffer)
+              ?msg "data callback must frame complete lines and retain only the partial tail"))
+          (progn
+            (putd '__pyIpcWriteProcess originalWrite)
+            pyStartServer.receiveBuffer = ""
+            (__pyTestRestoreServerState savedState)))))
+
+    (qtest::TestCase test_receive_buffer_follows_process_lifecycle
+      (let ((originalBegin (getd '__pyIpcBeginProcess))
+            (savedState (__pyTestServerState))
+            bufferAtSpawn
+            actual)
+        (unwindProtect
+          (progn
+            (putd '__pyIpcBeginProcess
+                  (lambda (_command _host _dataHandler _errorHandler _postFunc _logFile)
+                    (setq bufferAtSpawn pyStartServer.receiveBuffer)
+                    'newProcess))
+
+            pyStartServer.receiveBuffer = "old partial"
+            (__pySpawnServer)
+            (setq actual (list bufferAtSpawn pyStartServer.receiveBuffer))
+
+            pyStartServer.receiveBuffer = "current partial"
+            (__pyOnFinish 'staleProcess 0)
+            (setq actual
+                  (append actual (list pyStartServer.receiveBuffer)))
+
+            (__pyOnFinish 'newProcess 0)
+            (setq actual
+                  (append actual (list pyStartServer.receiveBuffer)))
+
+            (qtest::assertEqual
+              '("" "" "current partial" "")
+              actual
+              ?msg "spawn/current finish must clear the buffer while stale finish preserves it"))
+          (progn
+            (putd '__pyIpcBeginProcess originalBegin)
+            pyStartServer.receiveBuffer = ""
+            (__pyTestRestoreServerState savedState)))))
+
     (qtest::TestCase test_on_data_writes_error_unbound_warning_success_and_restart
       (let ((originalWrite (getd '__pyIpcWriteProcess))
             (savedState (__pyTestServerState))
@@ -279,14 +380,25 @@
 
             (setq responses (mapcar 'cadr (reverse writes)))
             (qtest::assertEqual
-              '(t t t t t t)
-              (list (qub::startsWith (nth 0 responses) "failure ")
-                    (equal (nth 1 responses) "success error('unbound')\n")
-                    (equal (nth 2 responses) "success 3\n")
+              '(t t t t t t t t)
+              (list (and (qub::startsWith (nth 0 responses) __pyWriteFrame.NAK)
+                         (equal (substring (nth 0 responses)
+                                           (strlen (nth 0 responses)) 1)
+                                __pyWriteFrame.RS)
+                         (not (null (index (nth 0 responses) "qtest boom")))
+                         (null (index (nth 0 responses) "failure ")))
+                    (equal (nth 1 responses)
+                           (strcat __pyWriteFrame.STX "error('unbound')" __pyWriteFrame.RS))
+                    (equal (nth 2 responses) (strcat __pyWriteFrame.STX "3" __pyWriteFrame.RS))
+                    (qub::startsWith (nth 3 responses) __pyWriteFrame.STX)
                     (not (null (index (nth 3 responses) "warning(")))
-                    (equal (nth 4 responses) "restart 5\n")
+                    (equal (substring (nth 3 responses)
+                                      (strlen (nth 3 responses)) 1)
+                           __pyWriteFrame.RS)
+                    (equal (nth 4 responses)
+                           (strcat __pyWriteFrame.RST "5" __pyWriteFrame.RS))
                     (null pyStartServer.requestIpc))
-              ?msg "data callback must emit every response class and clear request state"))
+              ?msg "data callback must emit framed responses and clear request state"))
           (progn
             (putd '__pyIpcWriteProcess originalWrite)
             (__pyTestRestoreServerState savedState)))))

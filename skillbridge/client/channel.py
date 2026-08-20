@@ -7,7 +7,7 @@ from sys import platform
 from typing import Any, TextIO
 
 from skillbridge.exception import PeerClosedError
-from skillbridge.protocol.socket import Socket
+from skillbridge.protocol.socket import DEFAULT_MAX_PAYLOAD_SIZE, Socket
 
 PORT_RANGE_MIN = 0
 PORT_RANGE_MAX = 0xFFFF
@@ -79,7 +79,7 @@ class TcpChannel(Channel):
     socket_kind = SOCK_STREAM
 
     def __init__(self, address: Any) -> None:
-        super().__init__(1_000_000)
+        super().__init__(DEFAULT_MAX_PAYLOAD_SIZE)
 
         self.connected = False
         self.address = self.create_address(address)
@@ -110,6 +110,7 @@ class TcpChannel(Channel):
 
     def reconnect(self) -> None:
         self.socket.close()
+        self.connected = False
         self.socket = self.start()
         self._socket = Socket(self.socket, max_payload_size=self._max_transmission_length)
 
@@ -117,10 +118,10 @@ class TcpChannel(Channel):
         byte = data.encode()
         try:
             self._socket.send_frame(byte, max_size=self._max_transmission_length)
-        except (BrokenPipeError, OSError):
-            print("attempting to reconnect")
-            self.reconnect()
-            self._socket.send_frame(byte, max_size=self._max_transmission_length)
+        except OSError as e:
+            with suppress(OSError):
+                self.reconnect()
+            raise RuntimeError("The server unexpectedly died") from e
 
     def _receive_only(self) -> str:
         try:
@@ -132,24 +133,15 @@ class TcpChannel(Channel):
                 " will arrive.",
             ) from None
         except (PeerClosedError, OSError) as e:
+            with suppress(OSError):
+                self.reconnect()
             raise RuntimeError("The server unexpectedly died") from e
 
         return self.decode_response(payload.decode())
 
     def send(self, data: str) -> str:
-        try:
-            self._send_only(data)
-            return self._receive_only()
-        except RuntimeError as e:
-            # On some platforms (notably macOS) a dead TCP peer may not be
-            # detected during sendall; the failure only surfaces when reading
-            # the response.
-            if "The server unexpectedly died" not in str(e):
-                raise
-            print("attempting to reconnect")
-            self.reconnect()
-            self._send_only(data)
-            return self._receive_only()
+        self._send_only(data)
+        return self._receive_only()
 
     def try_repair(self) -> Exception | str:
         try:

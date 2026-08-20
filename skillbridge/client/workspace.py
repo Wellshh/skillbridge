@@ -180,7 +180,6 @@ class Workspace:
         self._id = id_
         self._channel = channel
         self._translator = translator or self._prepare_default_translator()
-        self._max_transmission_length = 1_000_000
         self.__ = DirectGlobals(channel, self._translator)
 
         for key in Workspace.__annotations__:

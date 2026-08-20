@@ -5,6 +5,7 @@ import warnings
 from collections.abc import Iterable, Iterator
 from select import select
 from socket import socket, socketpair
+from threading import Thread
 from typing import Literal
 
 from _pytest.fixtures import SubRequest
@@ -14,7 +15,7 @@ from skillbridge import Workspace, current_workspace, loop_var
 from skillbridge.client.channel import Channel, TcpChannel, create_channel_class
 from skillbridge.client.objects import RemoteObject
 from skillbridge.exception import PeerClosedError
-from skillbridge.protocol.socket import Socket
+from skillbridge.protocol.socket import DEFAULT_MAX_PAYLOAD_SIZE, Socket
 from tests.virtuoso import Virtuoso
 
 WORKSPACE_ID = "8976"
@@ -121,7 +122,7 @@ def test_channel_cannot_connect_without_server(use_tcp: bool):
 
 
 @mark.parametrize("use_tcp", argvalues=[False, True], ids=["unix", "tcp"])
-def test_reconnect(use_tcp: bool):
+def test_channel_reconnects_without_replaying_failed_request(use_tcp: bool):
     first = Virtuoso(WORKSPACE_ID, force_tcp=use_tcp)
     first.start()
     first.wait_until_ready()
@@ -141,15 +142,21 @@ def test_reconnect(use_tcp: bool):
     second.answer_success("toc")
 
     try:
-        assert c.send("tic") == "toc"
-        assert second.last_question == "tic"
+        with raises(RuntimeError, match="unexpectedly died"):
+            c.send("tic")
+        assert second.last_question is None
+
+        assert c.send("next") == "toc"
+        assert second.last_question == "next"
     finally:
+        c.close()
         second.stop()
 
 
 def test_channel_connects(server: Virtuoso):
     c = tcp_channel_class(WORKSPACE_ID) if server.force_tcp else channel_class(WORKSPACE_ID)
     assert c.connected
+    assert c.max_transmission_length == DEFAULT_MAX_PAYLOAD_SIZE
     c.close()
 
 
@@ -307,9 +314,6 @@ def test_fix_completion_does_not_raise(server: Virtuoso, ws: Workspace):
 
 def test_max_transmission_length_is_honored(server: Virtuoso, ws: Workspace):
     _ = server
-    with raises(ValueError, match="max transmission"):
-        ws._channel.send("x" * 2_000_000)
-
     ws.max_transmission_length = 100
     assert ws.max_transmission_length == 100
     assert ws._channel
@@ -323,6 +327,75 @@ def test_flush_does_no_harm(server: Virtuoso, ws: Workspace):
 
 
 class TestTcpChannelCleanup:
+    def test_send_failure_reconnects_without_retrying(
+        self,
+        local_tcp_channel: tuple[TcpChannel, socket],
+        monkeypatch,
+    ) -> None:
+        channel, peer = local_tcp_channel
+        next_local, next_peer = socketpair()
+        next_local.settimeout(SOCKET_TIMEOUT_SECONDS)
+        next_peer.settimeout(SOCKET_TIMEOUT_SECONDS)
+
+        def start() -> socket:
+            channel.connected = True
+            return next_local
+
+        monkeypatch.setattr(channel, 'start', start)
+        peer.close()
+
+        try:
+            with raises(RuntimeError, match='unexpectedly died'):
+                channel.send('write()')
+            assert select([next_peer], [], [], 0)[0] == []
+
+            Socket(next_peer).send_frame(b'success ok')
+            assert channel.send('next()') == 'ok'
+            assert Socket(next_peer).recv_frame() == b'next()'
+        finally:
+            channel.connected = False
+            next_local.close()
+            next_peer.close()
+
+    def test_lost_response_reconnects_without_replaying_request(
+        self,
+        local_tcp_channel: tuple[TcpChannel, socket],
+        monkeypatch,
+    ) -> None:
+        channel, peer = local_tcp_channel
+        next_local, next_peer = socketpair()
+        next_local.settimeout(SOCKET_TIMEOUT_SECONDS)
+        next_peer.settimeout(SOCKET_TIMEOUT_SECONDS)
+        received: list[bytes] = []
+
+        def start() -> socket:
+            channel.connected = True
+            return next_local
+
+        def drop_response() -> None:
+            received.append(Socket(peer).recv_frame())
+            peer.close()
+
+        monkeypatch.setattr(channel, 'start', start)
+        dropping = Thread(target=drop_response)
+        dropping.start()
+
+        try:
+            with raises(RuntimeError, match='unexpectedly died'):
+                channel.send('write()')
+            dropping.join(SOCKET_TIMEOUT_SECONDS)
+            assert not dropping.is_alive()
+            assert received == [b'write()']
+            assert select([next_peer], [], [], 0)[0] == []
+
+            Socket(next_peer).send_frame(b'success ok')
+            assert channel.send('next()') == 'ok'
+            assert Socket(next_peer).recv_frame() == b'next()'
+        finally:
+            channel.connected = False
+            next_local.close()
+            next_peer.close()
+
     def test_close_sends_close_frame_and_releases_socket(
         self,
         local_tcp_channel: tuple[TcpChannel, socket],

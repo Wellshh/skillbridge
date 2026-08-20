@@ -25,6 +25,20 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
         apply('ipcWriteProcess args)
     )
 
+    putd('__pyWriteFrame nil)
+    defun(__pyWriteFrame (id marker payload)
+        __pyIpcWriteProcess(
+            id
+            lsprintf("%s%s%s" marker payload __pyWriteFrame.RS)
+        )
+    )
+
+    ; Frame markers match protocol/response.py: STX, NAK, RST start payload; RS ends it.
+    __pyWriteFrame.STX = intToChar(2)
+    __pyWriteFrame.NAK = intToChar(21)
+    __pyWriteFrame.RST = intToChar(18)
+    __pyWriteFrame.RS = intToChar(30)
+
     putd('__pyIpcWait nil)
     defun(__pyIpcWait (@rest args)
         apply('ipcWait args)
@@ -34,6 +48,7 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
     defun(__pySpawnServer ()
         let((executableWithArgs process)
             pyStartServer.state = 'starting
+            pyStartServer.receiveBuffer = ""
 
             executableWithArgs = lsprintf(
                 "%s %L %s"
@@ -230,66 +245,95 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
 
     putd('__pyOnData nil)
     defun(__pyOnData (id data)
-        foreach(line parseString(data "\n")
-            let((result capturedWarning pythonCode responseStatus)
-                ; Remember which process is currently executing the request.
-                pyStartServer.requestIpc = id
-
-                capturedWarning = __pyCaptureWarnings(
-                    errset(result=evalstring(line))
+        when(id == pyStartServer.ipc
+            let((newlineTail lineLength line)
+                pyStartServer.receiveBuffer = strcat(
+                    pyStartServer.receiveBuffer
+                    data
                 )
+                newlineTail = index(pyStartServer.receiveBuffer "\n")
 
-                if((errset.errset) then
-                    printf(
-                        "command %L resulted in error %L\n"
-                        line
-                        errset.errset
+                while(newlineTail
+                    lineLength = strlen(pyStartServer.receiveBuffer) - strlen(newlineTail)
+                    when(
+                        lineLength > 0 &&
+                        substring(pyStartServer.receiveBuffer lineLength 1) == intToChar(13)
+                        lineLength = lineLength - 1
                     )
-                    __pyIpcWriteProcess(
-                        id
-                        lsprintf("failure %L\n" errset.errset)
+                    when(lineLength > 0
+                        line = substring(
+                            pyStartServer.receiveBuffer
+                            1
+                            lineLength
+                        )
                     )
-                else
-                    if(boundp('result) then
-                        pythonCode = __pySkillToPython(result)
+                    pyStartServer.receiveBuffer =
+                        substring(newlineTail 2) || ""
 
-                        if(
-                            capturedWarning != "" &&
-                            capturedWarning != "*WARNING* "
-                        then
-                            pythonCode = lsprintf(
-                                "warning(%L, %s)"
-                                capturedWarning
-                                pythonCode
+                    when(lineLength > 0
+                        let((result capturedWarning pythonCode responseMarker)
+                            ; Remember which process is currently executing the request.
+                            pyStartServer.requestIpc = id
+
+                            capturedWarning = __pyCaptureWarnings(
+                                errset(result=evalstring(line))
                             )
-                        )
 
-                        if(
-                            pyStartServer.restartPending &&
-                            id == pyStartServer.ipc
-                        then
-                            responseStatus = "restart"
-                        else
-                            responseStatus = "success"
-                        )
+                            if((errset.errset) then
+                                printf(
+                                    "command %L resulted in error %L\n"
+                                    line
+                                    errset.errset
+                                )
+                                __pyWriteFrame(
+                                    id
+                                    __pyWriteFrame.NAK
+                                    lsprintf("%L" errset.errset)
+                                )
+                            else
+                                if(boundp('result) then
+                                    pythonCode = __pySkillToPython(result)
 
-                        __pyIpcWriteProcess(
-                            id
-                            lsprintf(
-                                "%s %s\n"
-                                responseStatus
-                                pythonCode
+                                    if(
+                                        capturedWarning != "" &&
+                                        capturedWarning != "*WARNING* "
+                                    then
+                                        pythonCode = lsprintf(
+                                            "warning(%L, %s)"
+                                            capturedWarning
+                                            pythonCode
+                                        )
+                                    )
+
+                                    if(
+                                        pyStartServer.restartPending &&
+                                        id == pyStartServer.ipc
+                                    then
+                                        responseMarker = __pyWriteFrame.RST
+                                    else
+                                        responseMarker = __pyWriteFrame.STX
+                                    )
+
+                                    __pyWriteFrame(
+                                        id
+                                        responseMarker
+                                        pythonCode
+                                    )
+                                else
+                                    __pyWriteFrame(
+                                        id
+                                        __pyWriteFrame.STX
+                                        "error('unbound')"
+                                    )
+                                )
                             )
-                        )
-                    else
-                        __pyIpcWriteProcess(
-                            id
-                            "success error('unbound')\n"
+
+                            pyStartServer.requestIpc = nil
                         )
                     )
+
+                    newlineTail = index(pyStartServer.receiveBuffer "\n")
                 )
-
-                pyStartServer.requestIpc = nil
             )
         )
     )
@@ -313,6 +357,7 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
                 pyStartServer.ipc = nil
                 pyStartServer.requestIpc = nil
                 pyStartServer.restartPending = nil
+                pyStartServer.receiveBuffer = ""
                 pyStartServer.state = 'stopped
 
                 when(shouldRestart
@@ -539,6 +584,7 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
     pyStartServer.forceTcp = nil
     pyStartServer.restartPending = nil
     pyStartServer.requestIpc = nil
+    pyStartServer.receiveBuffer = ""
     pyStartServer.state = 'stopped
 
     printf("Available commands:\n")

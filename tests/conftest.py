@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Pytest configuration for the test-suite."""
 
 from __future__ import annotations
@@ -9,12 +10,10 @@ import pytest
 
 from skillbridge import Workspace
 
-# On Windows the ``pty``/``UnixStreamServer``-based server tests cannot be
-# imported (the ``skillbridge.server.python_server`` module references
-# POSIX-only primitives), so skip them entirely during collection.
+# The channel integration tests use ``pty``, which is unavailable on Windows.
 collect_ignore_glob: list[str] = []
 if sys.platform == 'win32':
-    collect_ignore_glob = ['test_channel.py', 'test_server.py']
+    collect_ignore_glob = ['test_channel.py']
 
 
 def pytest_addoption(parser: pytest.Parser) -> None:

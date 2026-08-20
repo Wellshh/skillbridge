@@ -7,6 +7,8 @@ from skillbridge.exception import FrameTooLargeError, PeerClosedError, ProtocolE
 if TYPE_CHECKING:
     from socket import socket
 
+DEFAULT_MAX_PAYLOAD_SIZE: Final[int] = 64 * 1024 * 1024  # 64 MiB
+
 
 class Socket:
     __slots__ = (
@@ -15,8 +17,6 @@ class Socket:
     )
 
     HEADER_SIZE_: Final[int] = 10
-    DEFAULT_MAX_PAYLOAD_SIZE_: Final[int] = 64 * 1024 * 1024  # 64 MiB
-
     _sock: socket
     _max_payload_size: int
 
@@ -24,7 +24,7 @@ class Socket:
         self,
         sock: socket,
         *,
-        max_payload_size: int = DEFAULT_MAX_PAYLOAD_SIZE_,
+        max_payload_size: int = DEFAULT_MAX_PAYLOAD_SIZE,
     ) -> None:
         self._sock = sock
         self._max_payload_size = max_payload_size
@@ -80,7 +80,7 @@ class Socket:
     def encode_header(cls, size: int) -> bytes:
         txt = f"{size:{cls.HEADER_SIZE_}d}"
         if len(txt) != cls.HEADER_SIZE_:
-            raise FrameTooLargeError(size, cls.DEFAULT_MAX_PAYLOAD_SIZE_)
+            raise FrameTooLargeError(size, DEFAULT_MAX_PAYLOAD_SIZE)
         return txt.encode("ascii")
 
     @classmethod

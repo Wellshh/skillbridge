@@ -17,13 +17,17 @@ try:
     from socketserver import UnixStreamServer
 except ImportError:  # pragma: no cover - Windows: unix domain sockets unavailable
     UnixStreamServer = None  # type: ignore[assignment,misc]
-from sys import argv, platform, stderr, stdin, stdout
-from sys import exit as sys_exit
-from typing import Any, cast
+from sys import platform, stdin, stdout
+from typing import cast
 
-from skillbridge.exception import PeerClosedError, SkillPipeError
+from skillbridge.exception import (
+    FrameTooLargeError,
+    PeerClosedError,
+    SkillPipeError,
+    SkillPipeTimeoutError,
+)
 from skillbridge.protocol.response import SkillResp
-from skillbridge.protocol.socket import Socket
+from skillbridge.protocol.socket import DEFAULT_MAX_PAYLOAD_SIZE, Socket
 from skillbridge.server._pipe import Pipe
 
 LOG_DIRECTORY = Path(getenv('SKILLBRIDGE_LOG_DIRECTORY', '.'))
@@ -32,6 +36,9 @@ LOG_FORMAT = '%(asctime)s %(levelname)s %(message)s'
 LOG_DATE_FORMAT = '%d.%m.%Y %H:%M:%S'
 basicConfig(filename=LOG_FILE, format=LOG_FORMAT, datefmt=LOG_DATE_FORMAT)
 logger = getLogger("python-server")
+
+# payload size should at least be capable of reporting back error
+MIN_MAX_PAYLOAD_SIZE = 28
 
 
 class SingleTcpServer(TCPServer):
@@ -45,9 +52,11 @@ class SingleTcpServer(TCPServer):
         *,
         pipe: Pipe,
         timeout: float | None,
+        max_payload_size: int = DEFAULT_MAX_PAYLOAD_SIZE,
     ) -> None:
         self.pipe = pipe
         self.timeout = timeout
+        self.max_payload_size = max_payload_size
         super().__init__(("localhost", int(port)), handler)
 
     def server_bind(self) -> None:
@@ -69,7 +78,7 @@ class ThreadingTcpServer(ThreadingMixIn, SingleTcpServer):
     daemon_threads = True
 
 
-if UnixStreamServer is not None:
+if UnixStreamServer is not None:  # pragma: no branch
 
     class SingleUnixServer(UnixStreamServer):
         request_queue_size: int = 0
@@ -82,12 +91,14 @@ if UnixStreamServer is not None:
             *,
             pipe: Pipe,
             timeout: float | None,
+            max_payload_size: int = DEFAULT_MAX_PAYLOAD_SIZE,
         ) -> None:
             path = f"/tmp/skill-server-{file}.sock"
             self.path = Path(path)
             self.path.unlink(missing_ok=True)
             self.pipe = pipe
             self.timeout = timeout
+            self.max_payload_size = max_payload_size
 
             super().__init__(path, handler)
 
@@ -101,7 +112,7 @@ if UnixStreamServer is not None:
         daemon_threads = True
 
 
-def _respond_to_client(request: Any, response: SkillResp) -> None:
+def _respond_to_client(sock: Socket, response: SkillResp) -> None:
     restarting = response.status == 'restart'
     status = 'success' if restarting else response.status
     result = f'{status} {response.payload}'
@@ -110,7 +121,7 @@ def _respond_to_client(request: Any, response: SkillResp) -> None:
 
     payload = result.encode()
     try:
-        Socket(request).send_frame(payload)
+        sock.send_frame(payload)
         logger.debug("sent response to client")
     finally:
         if restarting:
@@ -119,9 +130,13 @@ def _respond_to_client(request: Any, response: SkillResp) -> None:
 
 class Handler(StreamRequestHandler):
     def handle_one_request(self) -> bool:
-        sock = Socket(self.request)
+        server = cast("SingleTcpServer | SingleUnixServer", self.server)
+        sock = Socket(self.request, max_payload_size=server.max_payload_size)
         try:
             command = sock.recv_frame()
+        except FrameTooLargeError:
+            _respond_to_client(sock, SkillResp('failure', '<request-too-large>'))
+            return False
         except PeerClosedError:
             logger.warning(f"client {self.client_address} lost connection")
             return False
@@ -132,17 +147,26 @@ class Handler(StreamRequestHandler):
             logger.debug(f"client {self.client_address} disconnected")
             return False
 
-        decoded = command.decode()
+        try:
+            decoded = command.decode()
+        except UnicodeDecodeError:
+            _respond_to_client(sock, SkillResp('failure', '<invalid-utf8>'))
+            return False
         logger.debug(f"got data {decoded[:1000]}")
-        server = cast("SingleTcpServer | SingleUnixServer", self.server)
         try:
             response = server.pipe.execute(decoded, timeout=server.timeout)
+        except SkillPipeTimeoutError as exc:
+            _respond_to_client(sock, SkillResp('failure', exc.wire_payload))
+            return True
         except SkillPipeError as exc:
-            _respond_to_client(self.request, SkillResp('failure', exc.wire_payload))
+            _respond_to_client(sock, SkillResp('failure', exc.wire_payload))
             return False
         logger.debug(f"got response from skill {response.payload[:1000]!r}")
 
-        _respond_to_client(self.request, response)
+        try:
+            _respond_to_client(sock, response)
+        except FrameTooLargeError:
+            _respond_to_client(sock, SkillResp('failure', '<response-too-large>'))
         return True
 
     def handle(self) -> None:
@@ -161,7 +185,11 @@ def create_server(
     single: bool,
     timeout: float | None,
     force_tcp: bool,
+    max_payload_size: int = DEFAULT_MAX_PAYLOAD_SIZE,
 ) -> SingleTcpServer | SingleUnixServer:
+    assert max_payload_size >= MIN_MAX_PAYLOAD_SIZE, (
+        f"max_payload_size must be at least {MIN_MAX_PAYLOAD_SIZE} bytes"
+    )
     serv_cls: type[SingleUnixServer | SingleTcpServer]
 
     if platform == "win32" or force_tcp:
@@ -171,7 +199,13 @@ def create_server(
             msg = "Unix domain sockets are unavailable on this platform"
             raise RuntimeError(msg)
         serv_cls = SingleUnixServer if single else ThreadingUnixServer
-    return serv_cls(id_, Handler, pipe=pipe, timeout=timeout)
+    return serv_cls(
+        id_,
+        Handler,
+        pipe=pipe,
+        timeout=timeout,
+        max_payload_size=max_payload_size,
+    )
 
 
 def main(
@@ -181,6 +215,7 @@ def main(
     single: bool,
     timeout: float | None,
     force_tcp: bool,
+    max_payload_size: int = DEFAULT_MAX_PAYLOAD_SIZE,
 ) -> None:
     logger.setLevel(log_level)
     with Pipe(stdin, stdout) as pipe, create_server(
@@ -189,9 +224,11 @@ def main(
         single=single,
         timeout=timeout,
         force_tcp=force_tcp,
+        max_payload_size=max_payload_size,
     ) as server:
         logger.info(
-            f"starting server id={id_} log={log_level} {notify=} {single=} {timeout=} {force_tcp=}",
+            f"starting server id={id_} log={log_level} {notify=} "
+            f"{single=} {timeout=} {force_tcp=} {max_payload_size=}",
         )
         if notify:
             stdout.write('running\n')
@@ -199,21 +236,36 @@ def main(
         server.serve_forever()
 
 
-if __name__ == '__main__':
+def build_parser() -> ArgumentParser:
     log_levels = ["DEBUG", "WARNING", "INFO", "ERROR", "CRITICAL", "FATAL"]
-    argument_parser = ArgumentParser(argv[0])
+    argument_parser = ArgumentParser()
     argument_parser.add_argument('id')
     argument_parser.add_argument('log_level', choices=log_levels)
     argument_parser.add_argument('--notify', action='store_true')
     argument_parser.add_argument('--single', action='store_true')
     argument_parser.add_argument('--timeout', type=float, default=None)
     argument_parser.add_argument('--force-tcp', action='store_true')
+    argument_parser.add_argument(
+        '--max-payload-size',
+        type=int,
+        default=DEFAULT_MAX_PAYLOAD_SIZE,
+    )
+    return argument_parser
 
-    ns = argument_parser.parse_args()
 
-    if platform == 'win32' and ns.timeout is not None:
-        print("Timeout is not possible on Windows", file=stderr)
-        sys_exit(1)
-
+def cli(args: list[str] | None = None) -> None:
+    ns = build_parser().parse_args(args)
     with suppress(KeyboardInterrupt):
-        main(ns.id, ns.log_level, ns.notify, ns.single, ns.timeout, ns.force_tcp)
+        main(
+            ns.id,
+            ns.log_level,
+            ns.notify,
+            ns.single,
+            ns.timeout,
+            ns.force_tcp,
+            max_payload_size=ns.max_payload_size,
+        )
+
+
+if __name__ == '__main__':  # pragma: no cover
+    cli()

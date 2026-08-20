@@ -17,7 +17,7 @@ from skillbridge.exception import (
     ProtocolError,
 )
 from skillbridge.protocol.response import Response, SkillResp
-from skillbridge.protocol.socket import Socket
+from skillbridge.protocol.socket import DEFAULT_MAX_PAYLOAD_SIZE, Socket
 
 SOCKET_TIMEOUT_SECONDS = 1.0
 
@@ -153,7 +153,7 @@ class TestFrame:
         connection = Socket(sender)
 
         assert connection.sock is sender
-        assert connection.max_payload_size == Socket.DEFAULT_MAX_PAYLOAD_SIZE_
+        assert connection.max_payload_size == DEFAULT_MAX_PAYLOAD_SIZE
 
     def test_send_uses_instance_limit(
         self,
