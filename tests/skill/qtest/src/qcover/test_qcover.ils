@@ -44,8 +44,8 @@
               report
               percentage)
           (unwindProtect
-            (let ((poport port))
-              (setq percentage (qcover::report))
+            (progn
+              (setq percentage (qcover::report ?port port))
               (setq report (getOutstring port)))
             (close port))
           (qtest::assertTrue
@@ -86,13 +86,13 @@
         (qtest::assertEqual 'first (qcoverFixtureNested t nil))
         (qtest::assertEqual 'none (qcoverFixtureNested nil t))
 
-        (setq qcoverFixtureSideEffects 0)
+        (set 'qcoverFixtureSideEffects 0)
         (qtest::assertEqual 'first (qcoverFixtureOnce))
         (qtest::assertEqual 'later (qcoverFixtureOnce))
-        (qtest::assertEqual 2 qcoverFixtureSideEffects
+        (qtest::assertEqual 2 (symeval 'qcoverFixtureSideEffects)
                             ?msg "instrumented conditions must execute exactly once")
 
-        (qtest::assertEqual qcoverFixtureQuotedExpected
+        (qtest::assertEqual (symeval 'qcoverFixtureQuotedExpected)
                             (qcoverFixtureQuoted)
                             ?msg "quoted branch-shaped data must not be instrumented")
         (qtest::assertEqual 100.0 (qcover::report ?minimum 100.0)

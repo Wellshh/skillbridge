@@ -184,7 +184,7 @@ qcover:::_nextDecision = 0
         (setq covered (add1 covered))))
     (list covered total)))
 
-(defun qcover::report (@key (minimum nil))
+(defun qcover::report (@key (minimum nil) (port nil))
   "Print branch coverage, optionally failing below minimum percent."
   (when (and minimum
              (or (not (numberp minimum))
@@ -198,13 +198,14 @@ qcover:::_nextDecision = 0
            (percentage
              (if (zerop total)
                  100.0
-                 (quotient (times 100.0 covered) total))))
-    (printf "qcover: %d/%d branches covered (%.2f%%)\n"
+                 (quotient (times 100.0 covered) total)))
+           (outPort (if port port poport)))
+    (fprintf outPort "qcover: %d/%d branches covered (%.2f%%)\n"
             covered total percentage)
     (foreach branchId qcover:::_branches
       (when (zerop qcover:::_hits[branchId])
         (let ((metadata qcover:::_branches[branchId]))
-          (printf "  missing %s::%L#%d %L: %s\n"
+          (fprintf outPort "  missing %s::%L#%d %L: %s\n"
                   (car metadata)
                   (cadr metadata)
                   (nth 2 metadata)
