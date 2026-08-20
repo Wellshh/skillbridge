@@ -1,0 +1,143 @@
+\t (00:00:07) allegro 17.2 S048 Windows SPB 64-bit Edition
+\t (00:00:07)     Journal start - Thu Aug 20 12:02:57 2026
+\t (00:00:07)         Host=SZ-BAIJUNYAN1 User=baijunyan Pid=13728 CPUs=20
+\t (00:00:07) CmdLine= D:\Cadence\Cadence_SPB_17.2-2016\tools\bin\allegro.exe
+\t (00:00:07) 
+   (00:00:07) Loading axlcore.cxt 
+\t (00:00:07) [PCB-GRID] Version=2026-08-11.8 loaded; planning entry=pcb_grid_plan_v2(modules).
+\t (00:00:07) [PCB-PR] Strict TSV placement-plan importer loaded: 2026-08-11.12.
+\t (00:00:07) PCB PR DEV Capture highlight watcher started.
+   (00:00:07) PCB PR bootstrap: C:/Users/baijunyan/AppData/Local/PCB_PR
+   (00:00:07) PCB PR bootstrap loaded.
+\t (00:00:08) Starting new design...
+   (00:00:08) PCB PR menu inserted.
+\i (00:00:09) trapsize 29310
+\i (00:00:09) generaledit 
+\i (00:06:09) skill 'load("D:/Autoplacer/skillbridge/tests/skill/run.ils")' 
+   (00:06:09) *WARNING* (removeMethod): method does not exist :_ilSharedInitialize for class:qtest:::Result
+   (00:06:09) 
+   (00:06:09) *WARNING* (reader): a '(' at line 3 was still unclosed on EOF, ')' added
+   (00:06:09)                     at line 7 of file D:\Autoplacer\skillbridge\tests\skill\qtest\src\qcover\fixtures\invalid.il 
+   (00:06:09) *WARNING* (def): macro __pyCaptureWarnings redefined
+   (00:06:09) [qtest] Loaded qtest and qcover.
+   (00:06:09) variable reset redefined
+   (00:06:09) variable decision redefined
+   (00:06:09) variable registerDecision redefined
+   (00:06:09) variable quotedForm redefined
+   (00:06:09) variable transformBindings redefined
+   (00:06:09) variable wrapDecision redefined
+   (00:06:09) variable transformCondClause redefined
+   (00:06:09) variable transformExpression redefined
+   (00:06:09) variable transformDefinition redefined
+   (00:06:09) variable prettyDefinition redefined
+   (00:06:09) variable instrumentFunction redefined
+   (00:06:09) variable load redefined
+   (00:06:09) variable coverageCounts redefined
+   (00:06:09) variable report redefined
+   (00:06:09) Loading skillDev.cxt 
+   (00:06:09) function qcoverFixtureQuoted redefined
+   (00:06:09) function qcoverFixtureOnce redefined
+   (00:06:09) function qcoverFixtureNested redefined
+   (00:06:09) function qcoverFixtureCond redefined
+   (00:06:09) function qcoverFixtureUnless redefined
+   (00:06:09) function qcoverFixtureWhen redefined
+   (00:06:09) function qcoverFixtureIfNoElse redefined
+   (00:06:09) function qcoverFixtureIf redefined
+   (00:06:09) function qcoverFixtureIf redefined
+   (00:06:09) function qcoverFixtureIfNoElse redefined
+   (00:06:09) function qcoverFixtureWhen redefined
+   (00:06:09) function qcoverFixtureUnless redefined
+   (00:06:09) function qcoverFixtureCond redefined
+   (00:06:09) function qcoverFixtureNested redefined
+   (00:06:09) function qcoverFixtureOnce redefined
+   (00:06:09) function qcoverFixtureQuoted redefined
+   (00:06:09) function qcoverFixtureQuoted redefined
+   (00:06:09) function qcoverFixtureOnce redefined
+   (00:06:09) function qcoverFixtureNested redefined
+   (00:06:09) function qcoverFixtureCond redefined
+   (00:06:09) function qcoverFixtureUnless redefined
+   (00:06:09) function qcoverFixtureWhen redefined
+   (00:06:09) function qcoverFixtureIfNoElse redefined
+   (00:06:09) function qcoverFixtureIf redefined
+   (00:06:09) qcover: 1/18 branches covered (5.56%)
+   (00:06:09)   missing D:/Autoplacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureWhen#1 false: value
+   (00:06:09)   missing D:/Autoplacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureCond#2 true: (value == 2)
+   (00:06:09)   missing D:/Autoplacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureOnce#1 true: ((qcoverFixtureSideEffects = (qcoverFixtureSideEffects + 1)) == 1)
+   (00:06:09)   missing D:/Autoplacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureUnless#1 false: value
+   (00:06:09)   missing D:/Autoplacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureNested#1 true: first
+   (00:06:09)   missing D:/Autoplacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureOnce#1 false: ((qcoverFixtureSideEffects = (qcoverFixtureSideEffects + 1)) == 1)
+   (00:06:09)   missing D:/Autoplacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureCond#2 false: (value == 2)
+   (00:06:09)   missing D:/Autoplacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureCond#1 false: (value == 1)
+   (00:06:09)   missing D:/Autoplacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureIf#1 false: value
+   (00:06:09)   missing D:/Autoplacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureWhen#1 true: value
+   (00:06:09)   missing D:/Autoplacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureNested#2 false: second
+   (00:06:09)   missing D:/Autoplacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureIfNoElse#1 true: value
+   (00:06:09)   missing D:/Autoplacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureCond#1 true: (value == 1)
+   (00:06:09)   missing D:/Autoplacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureNested#2 true: second
+   (00:06:09)   missing D:/Autoplacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureUnless#1 true: value
+   (00:06:09)   missing D:/Autoplacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureNested#1 false: first
+   (00:06:09)   missing D:/Autoplacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureIfNoElse#1 false: value
+   (00:06:09) function qcoverFixtureIf redefined
+   (00:06:09) function qcoverFixtureIfNoElse redefined
+   (00:06:09) function qcoverFixtureWhen redefined
+   (00:06:09) function qcoverFixtureUnless redefined
+   (00:06:09) function qcoverFixtureCond redefined
+   (00:06:09) function qcoverFixtureNested redefined
+   (00:06:09) function qcoverFixtureOnce redefined
+   (00:06:09) function qcoverFixtureQuoted redefined
+   (00:06:09) function qcoverFixtureQuoted redefined
+   (00:06:09) function qcoverFixtureOnce redefined
+   (00:06:09) function qcoverFixtureNested redefined
+   (00:06:09) function qcoverFixtureCond redefined
+   (00:06:09) function qcoverFixtureUnless redefined
+   (00:06:09) function qcoverFixtureWhen redefined
+   (00:06:09) function qcoverFixtureIfNoElse redefined
+   (00:06:09) function qcoverFixtureIf redefined
+   (00:06:09) function qcoverFixtureIf redefined
+   (00:06:09) function qcoverFixtureIfNoElse redefined
+   (00:06:09) function qcoverFixtureWhen redefined
+   (00:06:09) function qcoverFixtureUnless redefined
+   (00:06:09) function qcoverFixtureCond redefined
+   (00:06:09) function qcoverFixtureNested redefined
+   (00:06:09) function qcoverFixtureOnce redefined
+   (00:06:09) function qcoverFixtureQuoted redefined
+   (00:06:09) function qcoverFixtureQuoted redefined
+   (00:06:09) function qcoverFixtureOnce redefined
+   (00:06:09) function qcoverFixtureNested redefined
+   (00:06:09) function qcoverFixtureCond redefined
+   (00:06:09) function qcoverFixtureUnless redefined
+   (00:06:09) function qcoverFixtureWhen redefined
+   (00:06:09) function qcoverFixtureIfNoElse redefined
+   (00:06:09) function qcoverFixtureIf redefined
+   (00:06:09) qcover: 18/18 branches covered (100.00%)
+   (00:06:09) .......
+   (00:06:09) Available commands:
+   (00:06:09) 	pyStartServer ?id "default" ?logLevel "WARNING" ?singleMode nil ?timeout nil ?python "python" ?forceTcp nil
+   (00:06:09) 	pyKillServer
+   (00:06:09) 	pyRestartServer
+   (00:06:09) 	pyReloadScript
+   (00:06:09) 	pyShowLog [numberOfLines]
+   (00:06:09) 	pyRunScript path ?args list() ?python "python"
+   (00:06:09) function pyRunScript redefined
+   (00:06:09) function pyStartServer redefined
+   (00:06:09) function __pySkillToPython redefined
+   (00:06:09) function __pyTableToPython redefined
+   (00:06:09) function __pyVectorToPython redefined
+   (00:06:09) function __pyListToPython redefined
+   (00:06:09) function __pySaveToVariableAndReturn redefined
+   (00:06:09) function __pyPropertyListToPython redefined
+   (00:06:09) function __pyOnFinishScript redefined
+   (00:06:09) function __pyOnFinish redefined
+   (00:06:09) function __pyOnError redefined
+   (00:06:09) function __pyOnData redefined
+   (00:06:09) function pyShowLog redefined
+   (00:06:09) function pyReloadScript redefined
+   (00:06:09) function pyRestartServer redefined
+   (00:06:09) function pyKillServer redefined
+   (00:06:09) function __pySpawnServer redefined
+   (00:06:09) *Error* setq: argument #1 should be a symbol (type template = "sg") - (pyStartServer.id)
+   (00:06:09) *Error* load: error while loading file - "D:/Autoplacer/skillbridge/tests/skill/test_server.ils" at line 469
+   (00:06:09) *Error* load: error while loading file - "D:/Autoplacer/skillbridge/tests/skill/run.ils" at line 35
+   (00:06:09) ERROR
+\i (00:16:33) exit 
+\t (00:16:33)     Journal end - Thu Aug 20 12:19:23 2026
