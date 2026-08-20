@@ -49,8 +49,8 @@
       (let ((table (qtest:::formatTable
                      (list (list 'test_dash
                                  (qtest:::makeResult 'Pass "ok" () ()))))))
-        (qtest::assertTrue (index table "—")
-                           ?msg "pass detail is an em dash")))
+        (qtest::assertTrue (index table "-")
+                           ?msg "pass detail is a dash")))
 
     (qtest::TestCase test_format_table_fail_detail_has_eval
       (let ((table (qtest:::formatTable
@@ -91,4 +91,4 @@
                 (close p2))
               (qtest::assertNil (index s2 "rec_one")
                                 ?msg "accumulator cleared after summary")))
-          (qtest:::restoreResults saved)))))
+          (qtest:::restoreResults saved))))))

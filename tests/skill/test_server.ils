@@ -350,14 +350,17 @@
         (unwindProtect
           (progn
             ;; The public serializer compiles the production regex before
-            ;; entering __pySaveToVariableAndReturn.
+            ;; entering __pySaveToVariableAndReturn. pcreCompile yields a real
+            ;; C handle whose %L is "pcreobj@0x<hex>" — the only constructible
+            ;; object whose unescaped repr matches the regex (symbols are
+            ;; escaped by %L, so they can never reach this branch).
             (setq portResult (__pySkillToPython port))
             (setq otherResult
                   (__pySaveToVariableAndReturn
                     (makeTable "not-a-match" nil)))
             (setq regexResult
                   (__pySaveToVariableAndReturn
-                    (stringToSymbol "remote:0xabc")))
+                    (pcreCompile "abc")))
             (setq fallbackResult (__pySaveToVariableAndReturn 42))
 
             (qtest::assertEqual

@@ -45,19 +45,19 @@ qtest:::_results = nil
                    4 results))
           (port (outstring))
           text)
-      (let ((headFmt (sprintf nil "%%-3s  %%-%d.%ds  %%-6s  %%s\n" nameW))
-            (rowFmt (sprintf nil "%%-3d  %%-%d.%ds  %%-6s  %%s\n" nameW)))
+      (let ((headFmt (sprintf nil "%%-3s  %%-%d.%ds  %%-6s  %%s\n" nameW nameW))
+            (rowFmt (sprintf nil "%%-3d  %%-%d.%ds  %%-6s  %%s\n" nameW nameW)))
         (unwindProtect
           (progn
             (fprintf port headFmt "ID" "Test" "Status" "Detail")
-            (fprintf port "--------------------------------------------------------------------------------\n")
+            (fprintf port "================================================================================\n")
             (let ((i 0))
               (foreach r results
                 (setq i (add1 i))
                 (letseq ((res (cadr r))
                          (status (qtest:::statusText (get_result res)))
                          (detail (if (eq (get_result res) 'Pass)
-                                     "—"
+                                     "-"
                                    (sprintf nil "%s | eval: %A"
                                             (get_msg res)
                                             (get_evaluated_inputs res)))))
