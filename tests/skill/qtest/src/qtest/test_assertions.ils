@@ -104,6 +104,29 @@
     (assertPass 'assert_multiple_assertions_pass result)
     (assertPass 'assert_testcase_allows_setup_expressions
                 (qtest::assertTrue prepared)))
+  ; Test uncaught errors are attributed to the test and do not stop the runner
+  (letseq ((continued nil)
+           (tests (list
+                    (qtest::TestCase uncaught_error_case
+                      (error "qtest boom"))
+                    (qtest::TestCase after_uncaught_error_case
+                      (setq continued t)
+                      (qtest::assertTrue t))))
+           (results (qtest::runTests tests))
+           (errorResult (cadr (car results)))
+           (nextResult (cadr (cadr results))))
+    (assertPass 'assert_uncaught_error_is_fail
+                (qtest::assertEq 'Fail (get_result errorResult)))
+    (assertPass 'assert_uncaught_error_names_test
+                (qtest::assertTrue
+                  (index (get_msg errorResult) "uncaught_error_case")))
+    (assertPass 'assert_uncaught_error_keeps_detail
+                (qtest::assertTrue
+                  (index (get_msg errorResult) "qtest boom")))
+    (assertPass 'assert_runner_continues_after_error
+                (qtest::assertEq 'Pass (get_result nextResult)))
+    (assertPass 'assert_later_test_executed
+                (qtest::assertTrue continued)))
   (printf "Unit Test Self-Test Finished.\n%n of %n Passed\n\n" 
        (difference num_tests num_fails) 
        num_tests))

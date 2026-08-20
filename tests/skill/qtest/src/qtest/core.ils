@@ -76,7 +76,20 @@ Evaluated Inputs: %A\n"
 ; Test runner. Automatically called by runTests
 ; Returns a list containing (fn name (symbol), qub::Result)
 (defun qtest::runTests (tests)
-  (mapcar (lambda (x) (list (car x) (funcall (cadr x)))) tests))
+  (mapcar
+    (lambda (test)
+      (letseq ((name (car test))
+               (result (errset (funcall (cadr test)))))
+        (list name
+              (if result
+                  (car result)
+                  (qtest:::makeResult
+                    'Fail
+                    (sprintf nil "Uncaught error in %L: %L"
+                             name errset.errset)
+                    nil
+                    nil)))))
+    tests))
 
 ; Runs each of the tests defined in the body
 (defmacro qtest::TestSuite (let_lst @rest tests)
