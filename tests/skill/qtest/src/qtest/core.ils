@@ -87,27 +87,12 @@ Evaluated Inputs: %A\n"
 ; Run each test and print the results
 (defun qtest::runSuites (@rest suites)
   (letseq ((tests (qub::joinLists suites))
-           (results (qtest::runTests tests))
-           (ntests (length tests))
-           (fails (setof x results (eq 'Fail (get_result (cadr x)))))
-           (nfails (length fails))
-           (skipped (setof x results (eq 'Skip (get_result (cadr x)))))
-           (nskipped (length skipped))
-           (expfails (setof x results (eq 'ExpF (get_result (cadr x)))))
-           (nexpfails (length expfails))
-           (passed (setof x results (eq 'Pass (get_result (cadr x)))))
-           (npassed (length passed)))
-    (printf "%n of %n tests passed
-(%n failures)
-(%n skipped)
-(%n expected failures)\n" 
-            npassed
-            ntests
-            nfails
-            nskipped
-            nexpfails)
-    (mapc (lambda (x) (printf "Test: %s\n%s\n" (car x) (cadr x))) fails)
-    (printf "\n")))
+           (results (qtest::runTests tests)))
+    (mapc (lambda (r) (printf "%s" (qtest:::progressMarker (get_result (cadr r)))))
+          results)
+    (printf "\n")
+    (qtest:::recordResults results)
+    results))
 
 ; Recursively look for all files prefixed with "test_" in a dir and load them    
 (defun qtest::runAllTests (relPath)

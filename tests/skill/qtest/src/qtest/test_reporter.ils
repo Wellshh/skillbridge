@@ -1,0 +1,94 @@
+;;; test_reporter.ils - Self-tests for the qtest reporter (progress dots, table, summary).
+
+(qtest::runSuites
+  (qtest::TestSuite ()
+    (qtest::TestCase test_progress_marker_pass
+      (qtest::assertEqual "."
+                          (qtest:::progressMarker 'Pass)
+                          ?msg "Pass progress marker is a dot"))
+
+    (qtest::TestCase test_progress_marker_fail
+      (qtest::assertEqual "F"
+                          (qtest:::progressMarker 'Fail)
+                          ?msg "Fail progress marker is F"))
+
+    (qtest::TestCase test_progress_marker_skip
+      (qtest::assertEqual "s"
+                          (qtest:::progressMarker 'Skip)
+                          ?msg "Skip progress marker is s"))
+
+    (qtest::TestCase test_progress_marker_xfail
+      (qtest::assertEqual "x"
+                          (qtest:::progressMarker 'ExpF)
+                          ?msg "Expected-fail progress marker is x"))
+
+    (qtest::TestCase test_status_text
+      (qtest::assertEqual "PASS" (qtest:::statusText 'Pass) ?msg "Pass status text")
+      (qtest::assertEqual "FAIL" (qtest:::statusText 'Fail) ?msg "Fail status text")
+      (qtest::assertEqual "SKIP" (qtest:::statusText 'Skip) ?msg "Skip status text")
+      (qtest::assertEqual "XFAIL" (qtest:::statusText 'ExpF) ?msg "Expected-fail status text")))
+
+  (qtest::TestSuite ()
+    (qtest::TestCase test_format_table_contains_rows_and_header
+      (letseq ((pass (qtest:::makeResult 'Pass "ok" () ()))
+               (fail (qtest:::makeResult 'Fail "boom" '(a b) '(1 2)))
+               (table (qtest:::formatTable
+                        (list (list 'test_alpha pass)
+                              (list 'test_beta fail)))))
+        (qtest::assertTrue
+          (and (index table "test_alpha")
+               (index table "PASS")
+               (index table "test_beta")
+               (index table "FAIL")
+               (index table "Test")
+               (index table "Status")
+               (index table "Detail"))
+          ?msg "table contains every name, status, and the header")))
+
+    (qtest::TestCase test_format_table_pass_detail_is_dash
+      (let ((table (qtest:::formatTable
+                     (list (list 'test_dash
+                                 (qtest:::makeResult 'Pass "ok" () ()))))))
+        (qtest::assertTrue (index table "—")
+                           ?msg "pass detail is an em dash")))
+
+    (qtest::TestCase test_format_table_fail_detail_has_eval
+      (let ((table (qtest:::formatTable
+                     (list (list 'test_eval
+                                 (qtest:::makeResult 'Fail "boom" '(x) '(1)))))))
+        (qtest::assertTrue (index table "eval:")
+                           ?msg "fail detail shows eval inputs")
+        (qtest::assertTrue (index table "boom")
+                           ?msg "fail detail shows the message")))
+
+    ;; Stateful: drives the shared accumulator through the public functions
+    ;; only, and saves/restores it via snapshotResults/restoreResults so the
+    ;; qcover/server/run results recorded earlier are not wiped by printSummary.
+    (qtest::TestCase test_record_and_summary_clears
+      (let ((saved (qtest:::snapshotResults)))
+        (unwindProtect
+          (progn
+            (qtest:::recordResults
+              (list (list 'rec_one (qtest:::makeResult 'Pass "ok" () ()))
+                    (list 'rec_two (qtest:::makeResult 'Fail "boom" '(x) '(1)))))
+            (let ((p1 (outstring)) s1)
+              (unwindProtect
+                (progn
+                  (qtest::printSummary ?port p1)
+                  (setq s1 (getOutstring p1)))
+                (close p1))
+              (qtest::assertTrue (index s1 "rec_one")
+                                 ?msg "summary includes first recorded result")
+              (qtest::assertTrue (index s1 "rec_two")
+                                 ?msg "summary includes second recorded result")
+              (qtest::assertTrue (index s1 "passed")
+                                 ?msg "summary prints a banner"))
+            (let ((p2 (outstring)) s2)
+              (unwindProtect
+                (progn
+                  (qtest::printSummary ?port p2)
+                  (setq s2 (getOutstring p2)))
+                (close p2))
+              (qtest::assertNil (index s2 "rec_one")
+                                ?msg "accumulator cleared after summary")))
+          (qtest:::restoreResults saved)))))

@@ -18,4 +18,5 @@
                    qtest:::runTests
                    qtest:::TestSuite
                    qtest:::runSuites
-                   qtest:::runAllTests))                   
+                   qtest:::runAllTests
+                   qtest:::printSummary))                   

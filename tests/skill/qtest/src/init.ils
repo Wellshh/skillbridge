@@ -24,7 +24,8 @@
 ;; 3. Load qtest core & assertion modules
 (qubCreateModule "qtest/"
   (modload "core.ils")
-  (modload "assertions.ils"))
+  (modload "assertions.ils")
+  (modload "reporter.ils"))
 
 ;; 4. Load classic SKILL branch coverage
 (qubCreateModule "qcover/"

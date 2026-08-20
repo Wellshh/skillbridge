@@ -1,0 +1,87 @@
+;;; reporter.ils - Pytest-style progress dots + a final results table.
+;;;
+;;; runSuites prints one progress dot per test and feeds results here via
+;;; recordResults; printSummary (called once at the end of run.ils) prints the
+;;; consolidated table + banner and clears the accumulator.
+
+qtest:::_results = nil
+
+(defun qtest:::progressMarker (status)
+  "Return the single-char progress marker for a result status."
+  (cond ((eq status 'Pass) ".")
+        ((eq status 'Fail) "F")
+        ((eq status 'Skip) "s")
+        ((eq status 'ExpF) "x")
+        (t "?")))
+
+(defun qtest:::statusText (status)
+  "Return the plain (uncolored) status label for the table."
+  (cond ((eq status 'Pass) "PASS")
+        ((eq status 'Fail) "FAIL")
+        ((eq status 'Skip) "SKIP")
+        ((eq status 'ExpF) "XFAIL")
+        (t "???")))
+
+(defun qtest:::recordResults (results)
+  "Append a batch of (testName resultObj) pairs to the session accumulator."
+  (setq qtest:::_results (append qtest:::_results results)))
+
+(defun qtest:::snapshotResults ()
+  "Return the current accumulator (for test save/restore)."
+  qtest:::_results)
+
+(defun qtest:::restoreResults (saved)
+  "Restore the accumulator to a snapshot (for test save/restore)."
+  (setq qtest:::_results saved))
+
+(defun qtest:::formatTable (results)
+  "Return a formatted table string for a list of (testName resultObj) pairs."
+  (if (null results)
+      ""
+    (let ((nameW (qub::foldl
+                   (lambda (m r)
+                     (let ((n (strlen (symbolToString (car r)))))
+                       (if (greaterp n m) n m)))
+                   4 results))
+          (port (outstring))
+          text)
+      (let ((headFmt (sprintf nil "%%-3s  %%-%d.%ds  %%-6s  %%s\n" nameW))
+            (rowFmt (sprintf nil "%%-3d  %%-%d.%ds  %%-6s  %%s\n" nameW)))
+        (unwindProtect
+          (progn
+            (fprintf port headFmt "ID" "Test" "Status" "Detail")
+            (fprintf port "--------------------------------------------------------------------------------\n")
+            (let ((i 0))
+              (foreach r results
+                (setq i (add1 i))
+                (letseq ((res (cadr r))
+                         (status (qtest:::statusText (get_result res)))
+                         (detail (if (eq (get_result res) 'Pass)
+                                     "—"
+                                   (sprintf nil "%s | eval: %A"
+                                            (get_msg res)
+                                            (get_evaluated_inputs res)))))
+                  (fprintf port rowFmt i (symbolToString (car r)) status detail))))
+            (setq text (getOutstring port)))
+          (close port)))
+      text)))
+
+(defun qtest::printSummary (@key (port nil))
+  "Print the consolidated results table + banner, then clear the accumulator."
+  (let ((outPort (if port port poport))
+        (table (qtest:::formatTable qtest:::_results))
+        (passed 0)
+        (failed 0)
+        (skipped 0)
+        (xfails 0))
+    (foreach r qtest:::_results
+      (let ((status (get_result (cadr r))))
+        (cond ((eq status 'Pass) (setq passed (add1 passed)))
+              ((eq status 'Fail) (setq failed (add1 failed)))
+              ((eq status 'Skip) (setq skipped (add1 skipped)))
+              ((eq status 'ExpF) (setq xfails (add1 xfails))))))
+    (when (and table (not (equal table "")))
+      (fprintf outPort "%s" table))
+    (fprintf outPort "=== %d passed, %d failed, %d skipped, %d xfailed ===\n"
+            passed failed skipped xfails)
+    (setq qtest:::_results nil)))
