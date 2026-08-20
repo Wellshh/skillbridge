@@ -17,20 +17,19 @@
   (unwindProtect
     (progn
       (setSkillPath (cons _qtestSrc _oldSkillPath))
-      (load (strcat _qtestSrc "/init.ils"))
-      (load (strcat _qtestSrc "/qcover/ns_init.ils"))
-      (load (strcat _qtestSrc "/qcover/sym_init.ils"))
-      (load (strcat _qtestSrc "/qcover/core.ils")))
+      (load (strcat _qtestSrc "/init.ils")))
     (setSkillPath _oldSkillPath)))
 
-;;; Main: run the qcover self-test, then the project suites, then report coverage.
+;;; Main: run framework self-tests, project suites, summary, then coverage.
 (unwindProtect
   (progn
     (load (strcat (qub::scriptDir) "/qtest/src/qtest/test_assertions.ils"))
+    (load (strcat (qub::scriptDir) "/qtest/src/qtest/test_reporter.ils"))
     (load (strcat (qub::scriptDir) "/qtest/src/qcover/test_qcover.ils"))
     (load (strcat (qub::scriptDir) "/test_server.ils"))
     (load (strcat (qub::scriptDir) "/test_run.ils"))
-    (load (strcat (qub::scriptDir) "/qtest/src/qtest/test_reporter.ils"))
-    (qcover::report ?minimum 100.0)
-    (qtest::printSummary))
+    (let ((failed (qtest::printSummary)))
+      (when (greaterp failed 0)
+        (error "qtest: %d tests failed" failed))
+      (qcover::report ?minimum 100.0)))
   (qcover::reset))

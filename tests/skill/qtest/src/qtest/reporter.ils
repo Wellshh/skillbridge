@@ -26,14 +26,6 @@ qtest:::_results = nil
   "Append a batch of (testName resultObj) pairs to the session accumulator."
   (setq qtest:::_results (append qtest:::_results results)))
 
-(defun qtest:::snapshotResults ()
-  "Return the current accumulator (for test save/restore)."
-  qtest:::_results)
-
-(defun qtest:::restoreResults (saved)
-  "Restore the accumulator to a snapshot (for test save/restore)."
-  (setq qtest:::_results saved))
-
 (defun qtest:::formatTable (results)
   "Return a formatted table string for a list of (testName resultObj) pairs."
   (if (null results)
@@ -67,7 +59,7 @@ qtest:::_results = nil
       text)))
 
 (defun qtest::printSummary (@key (port nil))
-  "Print the consolidated results table + banner, then clear the accumulator."
+  "Print results, clear the accumulator, and return the failure count."
   (let ((outPort (if port port poport))
         (table (qtest:::formatTable qtest:::_results))
         (passed 0)
@@ -84,4 +76,5 @@ qtest:::_results = nil
       (fprintf outPort "%s" table))
     (fprintf outPort "=== %d passed, %d failed, %d skipped, %d xfailed ===\n"
             passed failed skipped xfails)
-    (setq qtest:::_results nil)))
+    (setq qtest:::_results nil)
+    failed))

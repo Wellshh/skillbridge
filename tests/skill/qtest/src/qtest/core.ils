@@ -2,17 +2,13 @@
 (defclass qtest:::Result ()
   ; Result can be 'Pass or 'Fail
   ((result @initarg result
-           @reader get_result
-           @writer set_result)
+           @reader get_result)
    (msg @initarg msg
-        @reader get_msg
-        @writer set_msg)
+        @reader get_msg)
    (inputs @initarg inputs
-           @reader get_inputs
-           @writer set_inputs)
+           @reader get_inputs)
    (evaluated_inputs @initarg evaluated_inputs
-                     @reader get_evaluated_inputs
-                     @writer set_evaluated_inputs)))
+                     @reader get_evaluated_inputs)))
    
 (defmethod printself ((obj qtest:::Result))
   (sprintf nil 

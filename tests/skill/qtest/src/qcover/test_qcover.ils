@@ -16,17 +16,19 @@
               (openFilesBefore (numOpenFiles)))
           (qcover::reset)
           (qcover::load _fixture)
-          (qtest::assertEqual debugModeBefore (status debugMode)
-                              ?msg "qcover::load must restore debugMode")
-          (qtest::assertEqual openFilesBefore (numOpenFiles)
-                              ?msg "qcover::load must close every temporary port")))
+          (qtest::assertEqual
+            (list debugModeBefore openFilesBefore)
+            (list (status debugMode) (numOpenFiles))
+            ?msg "qcover::load must restore debugMode and close temporary ports")))
 
       (qtest::TestCase test_load_failure_restores_debug_mode
-        (let ((debugModeBefore (status debugMode)))
-          (qtest::assertRaises (qcover::load _invalidFixture)
-                               ?msg "Malformed source must fail to load")
-          (qtest::assertEqual debugModeBefore (status debugMode)
-                              ?msg "Failed load must restore debugMode"))))
+        (letseq ((debugModeBefore (status debugMode))
+                 (loadResult
+                   (qtest::assertRaises (qcover::load _invalidFixture))))
+          (qtest::assertEqual
+            (list 'Pass debugModeBefore)
+            (list (get_result loadResult) (status debugMode))
+            ?msg "Malformed load must fail and restore debugMode"))))
 
     (qtest::TestSuite ()
       (qtest::TestCase test_report_threshold_fails_for_missing_branch

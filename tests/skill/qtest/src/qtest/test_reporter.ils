@@ -2,25 +2,11 @@
 
 (qtest::runSuites
   (qtest::TestSuite ()
-    (qtest::TestCase test_progress_marker_pass
-      (qtest::assertEqual "."
-                          (qtest:::progressMarker 'Pass)
-                          ?msg "Pass progress marker is a dot"))
-
-    (qtest::TestCase test_progress_marker_fail
-      (qtest::assertEqual "F"
-                          (qtest:::progressMarker 'Fail)
-                          ?msg "Fail progress marker is F"))
-
-    (qtest::TestCase test_progress_marker_skip
-      (qtest::assertEqual "s"
-                          (qtest:::progressMarker 'Skip)
-                          ?msg "Skip progress marker is s"))
-
-    (qtest::TestCase test_progress_marker_xfail
-      (qtest::assertEqual "x"
-                          (qtest:::progressMarker 'ExpF)
-                          ?msg "Expected-fail progress marker is x"))
+    (qtest::TestCase test_progress_markers
+      (qtest::assertEqual
+        '("." "F" "s" "x")
+        (mapcar qtest:::progressMarker '(Pass Fail Skip ExpF))
+        ?msg "progress markers match every result status"))
 
     (qtest::TestCase test_status_text
       (qtest::assertEqual "PASS" (qtest:::statusText 'Pass) ?msg "Pass status text")
@@ -56,39 +42,44 @@
       (let ((table (qtest:::formatTable
                      (list (list 'test_eval
                                  (qtest:::makeResult 'Fail "boom" '(x) '(1)))))))
-        (qtest::assertTrue (index table "eval:")
-                           ?msg "fail detail shows eval inputs")
-        (qtest::assertTrue (index table "boom")
-                           ?msg "fail detail shows the message")))
+        (qtest::assertTrue
+          (and (index table "eval:")
+               (index table "boom"))
+          ?msg "fail detail shows evaluated inputs and the message")))
 
-    ;; Stateful: drives the shared accumulator through the public functions
-    ;; only, and saves/restores it via snapshotResults/restoreResults so the
-    ;; qcover/server/run results recorded earlier are not wiped by printSummary.
+    ;; Stateful: this suite runs before project suites, so it can clear the
+    ;; accumulator without preserving unrelated results.
     (qtest::TestCase test_record_and_summary_clears
-      (let ((saved (qtest:::snapshotResults)))
+      (let (p1
+            p2
+            s1
+            s2
+            failed
+            emptyFailed
+            result)
         (unwindProtect
           (progn
+            (setq p1 (outstring))
+            (setq p2 (outstring))
             (qtest:::recordResults
               (list (list 'rec_one (qtest:::makeResult 'Pass "ok" () ()))
                     (list 'rec_two (qtest:::makeResult 'Fail "boom" '(x) '(1)))))
-            (let ((p1 (outstring)) s1)
-              (unwindProtect
-                (progn
-                  (qtest::printSummary ?port p1)
-                  (setq s1 (getOutstring p1)))
-                (close p1))
-              (qtest::assertTrue (index s1 "rec_one")
-                                 ?msg "summary includes first recorded result")
-              (qtest::assertTrue (index s1 "rec_two")
-                                 ?msg "summary includes second recorded result")
-              (qtest::assertTrue (index s1 "passed")
-                                 ?msg "summary prints a banner"))
-            (let ((p2 (outstring)) s2)
-              (unwindProtect
-                (progn
-                  (qtest::printSummary ?port p2)
-                  (setq s2 (getOutstring p2)))
-                (close p2))
-              (qtest::assertNil (index s2 "rec_one")
-                                ?msg "accumulator cleared after summary")))
-          (qtest:::restoreResults saved))))))
+            (setq failed (qtest::printSummary ?port p1))
+            (setq s1 (getOutstring p1))
+            (setq emptyFailed (qtest::printSummary ?port p2))
+            (setq s2 (getOutstring p2))
+            (setq result
+                  (qtest::assertEqual
+                    '(t t t 1 nil 0)
+                    (list (not (null (index s1 "rec_one")))
+                          (not (null (index s1 "rec_two")))
+                          (not (null (index s1 "passed")))
+                          failed
+                          (index s2 "rec_one")
+                          emptyFailed)
+                    ?msg "summary reports failures and clears its accumulator")))
+          (progn
+            (when p1 (close p1))
+            (when p2 (close p2))
+            (setq qtest:::_results nil)))
+        result))))

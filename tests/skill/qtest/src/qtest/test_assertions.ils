@@ -1,7 +1,6 @@
 ; A mini unit test for the qtest unit test framework
 ; It simply checks that the tests return a Pass, Fail or Skip as expected
-(letseq ((testCount 0)
-         (num_tests 0)
+(letseq ((num_tests 0)
          (num_fails 0)
          (assertPass (lambda (name test) 
                        (unless (eq 'Pass (get_result test))
@@ -104,6 +103,19 @@
     (assertPass 'assert_multiple_assertions_pass result)
     (assertPass 'assert_testcase_allows_setup_expressions
                 (qtest::assertTrue prepared)))
+  ; Test assertion macros do not capture caller variables
+  (let ((x 1)
+        (y 1))
+    (assertPass 'assert_macro_variables_do_not_capture_inputs
+                (qtest::assertEqual x y)))
+  ; Test assertion inputs are evaluated exactly once
+  (let ((calls 0))
+    (assertPass 'assert_not_equal_with_side_effect
+                (qtest::assertNotEqual
+                  (progn (setq calls (add1 calls)) calls)
+                  0))
+    (assertPass 'assert_not_equal_evaluates_once
+                (qtest::assertEqual 1 calls)))
   ; Test uncaught errors are attributed to the test and do not stop the runner
   (letseq ((continued nil)
            (tests (list
@@ -129,4 +141,7 @@
                 (qtest::assertTrue continued)))
   (printf "Unit Test Self-Test Finished.\n%n of %n Passed\n\n" 
        (difference num_tests num_fails) 
-       num_tests))
+       num_tests)
+  (when (greaterp num_fails 0)
+    (error "qtest assertion self-test failed: %d/%d failed"
+           num_fails num_tests)))

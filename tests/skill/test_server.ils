@@ -450,13 +450,4 @@
           (progn
             (putd '__pyIpcBeginProcess originalBegin)
             (putd '__pyIpcWait originalWait)
-            pyRunScript.logName = savedLogName)))))
-
-  ;; The suite itself is the acceptance criterion for python_server.il.
-  (qtest::TestSuite ()
-    (qtest::TestCase test_python_server_reaches_full_branch_coverage
-      (qtest::assertEqual
-        '((62 62) 100.0)
-        (list (qcover:::coverageCounts)
-              (qcover::report ?minimum 100.0))
-        ?msg "python_server.il must retain all 31 decisions at full coverage"))))
+            pyRunScript.logName = savedLogName))))))
