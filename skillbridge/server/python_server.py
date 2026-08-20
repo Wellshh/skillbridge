@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import logging
 import os
 from argparse import ArgumentParser
 from contextlib import suppress
-from logging import WARNING, basicConfig, getLogger
+from logging import basicConfig, getLogger
 from os import getenv
 from pathlib import Path
 from socketserver import (
@@ -31,8 +30,6 @@ LOG_DIRECTORY = Path(getenv('SKILLBRIDGE_LOG_DIRECTORY', '.'))
 LOG_FILE = LOG_DIRECTORY / 'skillbridge_server.log'
 LOG_FORMAT = '%(asctime)s %(levelname)s %(message)s'
 LOG_DATE_FORMAT = '%d.%m.%Y %H:%M:%S'
-LOG_LEVEL = WARNING
-
 basicConfig(filename=LOG_FILE, format=LOG_FORMAT, datefmt=LOG_DATE_FORMAT)
 logger = getLogger("python-server")
 
@@ -72,10 +69,6 @@ class ThreadingTcpServer(ThreadingMixIn, SingleTcpServer):
     daemon_threads = True
 
 
-def create_tcp_server_class(single: bool) -> type[SingleTcpServer]:
-    return SingleTcpServer if single else ThreadingTcpServer
-
-
 if UnixStreamServer is not None:
 
     class SingleUnixServer(UnixStreamServer):
@@ -106,13 +99,6 @@ if UnixStreamServer is not None:
 
     class ThreadingUnixServer(ThreadingMixIn, SingleUnixServer):
         daemon_threads = True
-
-
-def create_unix_server_class(single: bool) -> type[SingleUnixServer]:
-    if UnixStreamServer is None:  # pragma: no cover - Windows
-        msg = "Unix domain sockets are unavailable on this platform"
-        raise RuntimeError(msg)
-    return SingleUnixServer if single else ThreadingUnixServer
 
 
 def _respond_to_client(request: Any, response: SkillResp) -> None:
@@ -159,17 +145,13 @@ class Handler(StreamRequestHandler):
         _respond_to_client(self.request, response)
         return True
 
-    def try_handle_one_request(self) -> bool:
-        try:
-            return self.handle_one_request()
-        except Exception:
-            logger.exception("Failed to handle request")
-            return False
-
     def handle(self) -> None:
         logger.info(f"client {self.client_address} connected")
-        while self.try_handle_one_request():
-            pass
+        try:
+            while self.handle_one_request():
+                pass
+        except Exception:
+            logger.exception("Failed to handle request")
 
 
 def create_server(
@@ -183,9 +165,12 @@ def create_server(
     serv_cls: type[SingleUnixServer | SingleTcpServer]
 
     if platform == "win32" or force_tcp:
-        serv_cls = create_tcp_server_class(single)
+        serv_cls = SingleTcpServer if single else ThreadingTcpServer
     else:
-        serv_cls = create_unix_server_class(single)
+        if UnixStreamServer is None:  # pragma: no cover - Windows
+            msg = "Unix domain sockets are unavailable on this platform"
+            raise RuntimeError(msg)
+        serv_cls = SingleUnixServer if single else ThreadingUnixServer
     return serv_cls(id_, Handler, pipe=pipe, timeout=timeout)
 
 
@@ -197,7 +182,7 @@ def main(
     timeout: float | None,
     force_tcp: bool,
 ) -> None:
-    logger.setLevel(getattr(logging, log_level))
+    logger.setLevel(log_level)
     with Pipe(stdin, stdout) as pipe, create_server(
         id_,
         pipe=pipe,

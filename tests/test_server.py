@@ -8,7 +8,7 @@ from socket import socketpair
 from socketserver import BaseServer
 from typing import cast
 
-from pytest import FixtureRequest, MonkeyPatch, TempPathFactory, fixture, mark, raises
+from pytest import FixtureRequest, MonkeyPatch, fixture, mark, raises
 
 from skillbridge.client.channel import Channel, create_channel_class
 from skillbridge.exception import (
@@ -92,19 +92,13 @@ def redirect() -> Redirect:
     return Redirect()
 
 
-@fixture(scope='session')
-def unix_identifier(tmp_path_factory: TempPathFactory) -> str:
-    return f"{tmp_path_factory.mktemp('server').name}-{getpid()}"
-
-
-@fixture
+@fixture(params=[False, True], ids=['unix', 'tcp'])
 def server(
     redirect: Redirect,
     request: FixtureRequest,
-    unix_identifier: str,
 ) -> Iterator[Server]:
     use_tcp = bool(request.param)
-    identifier = '0' if use_tcp else unix_identifier
+    identifier = '0' if use_tcp else f'server-{getpid()}'
     thread = Server(identifier, redirect, use_tcp=use_tcp)
     thread.start()
     try:
@@ -119,7 +113,6 @@ def server(
             raise thread.failure
 
 
-@mark.parametrize('server', argvalues=[False, True], ids=['unix', 'tcp'], indirect=True)
 def test_one_request(redirect: Redirect, server: Server) -> None:
     redirect.prepare(SkillResp('success', 'pong'))
     channel = server.channel()
@@ -130,7 +123,6 @@ def test_one_request(redirect: Redirect, server: Server) -> None:
         channel.close()
 
 
-@mark.parametrize('server', argvalues=[False, True], ids=['unix', 'tcp'], indirect=True)
 def test_failed_request(redirect: Redirect, server: Server) -> None:
     redirect.prepare(SkillResp('failure', 'bad expression'))
     channel = server.channel()
@@ -142,7 +134,6 @@ def test_failed_request(redirect: Redirect, server: Server) -> None:
         channel.close()
 
 
-@mark.parametrize('server', argvalues=[False, True], ids=['unix', 'tcp'], indirect=True)
 @mark.parametrize(
     ('failure', 'message'),
     argvalues=[
