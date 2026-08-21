@@ -57,18 +57,28 @@ def test_allegro_workspace_namespaces_and_chaining() -> None:
     ws = AllegroWorkspace(channel=dummy_channel, id_=456)
 
     # Allegro-specific top-level namespaces
+    assert callable(ws.close)
     assert ws.db.get_design._function == 'db_get_design'
     assert ws.db.get_design.lazy() == 'axlDBGetDesign( )'
 
     # Multi-level chaining
     assert ws.db.create.pin.lazy(1, 2) == 'axlDBCreatePin(1 2 )'
-    assert ws.geo.distance.lazy(10, 20) == 'axlGeoDistance(10 20 )'
-    assert ws.ui.confirm.lazy('Proceed?') == 'axlUIConfirm("Proceed?" )'
-    assert ws.drc.get_design_drcs.lazy() == 'axlDRCGetDesignDrcs( )'
+    assert ws.geo.rotate_pt.lazy(90.0, [100.0, 0.0], None) == (
+        'axlGeoRotatePt(90.0 (list 100.0 0.0) nil )'
+    )
+    assert ws.ui.yes_no.lazy('Proceed?') == 'axlUIYesNo("Proceed?" )'
+    assert ws.spreadsheet.get_rgb_color_string.lazy(255, 0, 0) == (
+        'axlSpreadsheetGetRGBColorString(255 0 0 )'
+    )
+    assert ws.cns.get_via_zpvf.lazy() == 'axlCNSGetViaZPVF( )'
+    assert ws.drc.get_count.lazy() == 'axlDRCGetCount( )'
     assert ws.form.create.lazy('my_form') == 'axlFormCreate("my_form" )'
 
     # Fallback to standard axl top-level
     assert ws.axl.clear_sel_set.lazy() == 'axlClearSelSet( )'
+    assert ws['plus'].lazy(1, 2) == 'plus(1 2 )'
+    assert ws['axlcreate'].lazy() == 'axlcreate( )'
+    assert ws['axldo'].lazy() == 'axldo( )'
 
 
 def test_allegro_workspace_stays_allegro_when_made_current() -> None:

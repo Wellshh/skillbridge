@@ -69,7 +69,11 @@ skillbridge = "skillbridge.__main__:main"
 include = ["skillbridge*", "allegrobridge*"]
 namespaces = false
 
+[tool.setuptools.package-data]
+allegrobridge = ["assets/*.txt"]
+
 [tool.pytest.ini_options]
+testpaths = ["tests"]
 addopts = "--cov=skillbridge --cov=allegrobridge --cov-report=html --cov-report=term:skip-covered --cov-branch --no-cov-on-fail --cov-fail-under=0"
 markers = [
     "allegro: integration tests requiring an Allegro server (enabled with --allegro)",

@@ -134,9 +134,11 @@
 
             (setq commands (reverse commands))
             (qtest::assertEqual
-              '(t running nil nil nil nil stopped t t t)
+              '(t running t t nil nil nil nil stopped t t t t t)
               (list firstResult
                     firstState
+                    (not (null (index (car commands) "-m skillbridge.server.python_server")))
+                    (null (index (car commands) "python_server.py"))
                     (not (null (index (car commands) "--single")))
                     (not (null (index (car commands) "--force-tcp")))
                     (not (null (index (car commands) "--timeout")))
@@ -145,9 +147,48 @@
                     (not (null (index (cadr commands) "--single")))
                     (not (null (index (cadr commands) "--force-tcp")))
                     (not (null (index (cadr commands) "--timeout 2.5"))))
-              ?msg "spawn must cover optional flags and success/failure states"))
+              ?msg "spawn must use module execution and cover optional flags and success/failure states"))
           (progn
             (putd '__pyIpcBeginProcess originalBegin)
+            (__pyTestRestoreServerState savedState)))))
+
+    (qtest::TestCase test_spawn_server_temporarily_sets_and_restores_pythonpath
+      (let ((originalBegin (getd '__pyIpcBeginProcess))
+            (savedState (__pyTestServerState))
+            (originalPythonPath (getShellEnvVar "PYTHONPATH"))
+            capturedPaths
+            absentRestored
+            presentRestored)
+        (unwindProtect
+          (progn
+            (putd '__pyIpcBeginProcess
+                  (lambda (_command _host _dataHandler _errorHandler _postFunc _logFile)
+                    (setq capturedPaths
+                          (cons (getShellEnvVar "PYTHONPATH") capturedPaths))
+                    'mockProcess))
+
+            (unsetShellEnvVar "PYTHONPATH")
+            (__pySpawnServer)
+            (setq absentRestored (getShellEnvVar "PYTHONPATH"))
+
+            (setShellEnvVar "PYTHONPATH" "qtest-original-path")
+            (__pySpawnServer)
+            (setq presentRestored (getShellEnvVar "PYTHONPATH"))
+
+            (qtest::assertEqual
+              '(nil "qtest-original-path")
+              (list absentRestored presentRestored)
+              ?msg "PYTHONPATH must be restored after both spawn variants")
+            (qtest::assertEqual
+              (list pyStartServer.moduleFolder pyStartServer.moduleFolder)
+              capturedPaths
+              ?msg "spawn must provide the configured module folder as PYTHONPATH"))
+          (progn
+            (putd '__pyIpcBeginProcess originalBegin)
+            (if originalPythonPath then
+                setShellEnvVar("PYTHONPATH" originalPythonPath)
+            else
+                unsetShellEnvVar("PYTHONPATH"))
             (__pyTestRestoreServerState savedState)))))
 
     (qtest::TestCase test_kill_and_restart_lifecycle

@@ -1,11 +1,13 @@
 from __future__ import annotations
 
-from typing import Self
+from typing import TypeVar
 
 from .channel import Channel
 from .hints import Key, Skill, SkillCode
 from .translator import Translator
 from .var import Var
+
+_RF = TypeVar("_RF", bound="RemoteFunction")
 
 
 def keys(**attrs: Skill) -> list[Skill]:
@@ -57,7 +59,7 @@ class RemoteFunction:
         result = self._channel.send(command)
         return self._translate.decode_help(result)
 
-    def __getattr__(self, item: str) -> Self:
+    def __getattr__(self: _RF, item: str) -> _RF:
         return self.__class__(self._channel, f"{self._function}_{item}", self._translate)
 
 

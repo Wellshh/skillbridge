@@ -257,12 +257,33 @@ def test_python_path():
     ('snake_name', 'expected_skill_name'),
     [
         ('db_get_design', 'axlDBGetDesign'),
-        ('drc_get_design_drcs', 'axlDRCGetDesignDrcs'),
-        ('geo_distance', 'axlGeoDistance'),
+        ('drc_get_count', 'axlDRCGetCount'),
+        ('geo_rotate_pt', 'axlGeoRotatePt'),
+        ('ui_yes_no', 'axlUIYesNo'),
+        ('spreadsheet_get_rgb_color_string', 'axlSpreadsheetGetRGBColorString'),
+        ('cns_get_via_zpvf', 'axlCNSGetViaZPVF'),
+        ('cns_add_via', 'axlCnsAddVia'),
+        ('is_point_inside_box', 'axlIsPointInsideBox'),
+        ('dbid_name', 'axlDbidName'),
+        ('pad_suppress_ok_layer', 'axlPadSuppressOkLayer'),
+        ('package_design_check_drc_error', 'axlPackageDesignCheckDrcError'),
         ('form_create', 'axlFormCreate'),
         ('axl_clear_sel_set', 'axlClearSelSet'),
         ('axlDBGetDesign', 'axlDBGetDesign'),
+        ('axl_cns_add_via', 'axlCnsAddVia'),
+        ('axl_is_point_inside_box', 'axlIsPointInsideBox'),
+        ('axl_dbid_name', 'axlDbidName'),
+        ('axl_pad_suppress_ok_layer', 'axlPadSuppressOkLayer'),
+        ('axl_package_design_check_drc_error', 'axlPackageDesignCheckDrcError'),
     ],
 )
-def test_allegro_translator_format_function_name(snake_name: str, expected_skill_name: str) -> None:
+def test_allegro_translator_format_function_name(
+    snake_name: str,
+    expected_skill_name: str,
+) -> None:
     assert ATranslator.format_function_name(snake_name) == expected_skill_name
+
+
+def test_allegro_translator_falls_back_for_unknown_functions() -> None:
+    assert ATranslator.format_function_name('user_custom_function') == 'userCustomFunction'
+    assert ATranslator.format_function_name('axl_custom_function') == 'axlCustomFunction'

@@ -64,6 +64,10 @@ class TestBasicOp:
         for i in range(1_000):
             assert ws['plus'](i, 0) == i
 
+    def test_geo_rotate_pt(self, ws: Workspace) -> None:
+        rotated = ws.geo.rotate_pt(90.0, [100.0, 0.0], None)
+        assert rotated == pytest.approx([0.0, 100.0])
+
     def test_callback_keeps_working_while_idle(self, ws: Workspace) -> None:
         assert self._single_ping_test(ws)
         sleep(TestBasicOp._IDLE_SECONDS)

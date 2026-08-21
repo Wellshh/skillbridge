@@ -1,10 +1,8 @@
-let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
+let((_filename _moduleFolder _logDirectory _unbound)
 
     _filename = get_filename(piport)
     _filename = pcreReplace(pcreCompile("^ +| +$") _filename "" 0)
-    _baseName = substring(_filename 1 strlen(_filename)-2)
     _moduleFolder = substring(_filename 1 strlen(_filename)-23)
-    _executable = strcat("\"" _baseName "py\"")
     _logDirectory = getShellEnvVar("SKILLBRIDGE_LOG_DIRECTORY") || "."
     _unbound = makeTable("JustForUnbound")[""]
 
@@ -46,13 +44,12 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
 
     putd('__pySpawnServer nil)
     defun(__pySpawnServer ()
-        let((executableWithArgs process)
+        let((executableWithArgs process oldPythonPath)
             pyStartServer.state = 'starting
             pyStartServer.receiveBuffer = ""
 
             executableWithArgs = lsprintf(
-                "%s %L %s"
-                pyStartServer.exe
+                "%L %s"
                 pyStartServer.id
                 pyStartServer.logLevel
             )
@@ -80,18 +77,29 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
             )
 
             executableWithArgs = lsprintf(
-                "\"%s\" %s"
+                "\"%s\" -m skillbridge.server.python_server %s"
                 pyStartServer.python
                 executableWithArgs
             )
 
-            process = __pyIpcBeginProcess(
-                executableWithArgs
-                ""
-                '__pyOnData
-                '__pyOnError
-                '__pyOnFinish
-                pyStartServer.logName
+            oldPythonPath = getShellEnvVar("PYTHONPATH")
+            process = unwindProtect(
+                progn(
+                    setShellEnvVar("PYTHONPATH" pyStartServer.moduleFolder)
+                    __pyIpcBeginProcess(
+                        executableWithArgs
+                        ""
+                        '__pyOnData
+                        '__pyOnError
+                        '__pyOnFinish
+                        pyStartServer.logName
+                    )
+                )
+                if(oldPythonPath then
+                    setShellEnvVar("PYTHONPATH" oldPythonPath)
+                else
+                    unsetShellEnvVar("PYTHONPATH")
+                )
             )
 
             if(process then
@@ -569,7 +577,7 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
     )
 
     pyStartServer.ipc = nil
-    pyStartServer.exe = _executable
+    pyStartServer.moduleFolder = _moduleFolder
     pyStartServer.id = "default"
     pyStartServer.logLevel = "INFO"
     pyStartServer.singleMode = nil

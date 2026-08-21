@@ -83,13 +83,12 @@ class Response:
                 raise FrameTooLargeError(preamble_count, self._max_preamble_chars)
 
         status: RespStatus
-        match marker:
-            case self.STX:
-                status = 'success'
-            case self.NAK:
-                status = 'failure'
-            case _:
-                status = 'restart'
+        if marker == self.STX:
+            status = "success"
+        elif marker == self.NAK:
+            status = "failure"
+        else:
+            status = "restart"
 
         payload: list[str] = []
         while True:
