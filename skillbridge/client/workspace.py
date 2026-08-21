@@ -15,7 +15,7 @@ from .translator import DefaultTranslator, Translator, snake_to_camel
 __all__ = ['Workspace', 'current_workspace']
 
 WorkspaceId = Union[str, int, None]
-_open_workspaces: dict[WorkspaceId, Workspace] = {}
+_open_workspaces: dict[tuple[type[Workspace], WorkspaceId], Workspace] = {}
 
 
 logger = getLogger(__name__)
@@ -239,6 +239,10 @@ class Workspace:
             ip.Completer.greedy = True
 
     @classmethod
+    def _create_workspace(cls, channel: Channel, workspace_id: WorkspaceId) -> Workspace:
+        return cls(channel, workspace_id)
+
+    @classmethod
     def open(
         cls,
         workspace_id: WorkspaceId = None,
@@ -269,17 +273,18 @@ class Workspace:
             stdout = sys.stdout
             sys.stdout = sys.stderr
 
-            return Workspace(DirectChannel(stdout), workspace_id)
+            return cls._create_workspace(DirectChannel(stdout), workspace_id)
 
-        if workspace_id not in _open_workspaces:
+        cache_key = (cls, workspace_id)
+        if cache_key not in _open_workspaces:
             try:
                 channel_class = create_channel_class(force_tcp)
                 channel = channel_class(workspace_id)
             except FileNotFoundError:
                 raise RuntimeError("No server found. Is it running?") from None
 
-            _open_workspaces[workspace_id] = Workspace(channel, workspace_id)
-        return _open_workspaces[workspace_id]
+            _open_workspaces[cache_key] = cls._create_workspace(channel, workspace_id)
+        return _open_workspaces[cache_key]
 
     def close(self, log_exception: bool = True) -> None:
         try:
@@ -288,9 +293,11 @@ class Workspace:
             if log_exception:
                 logger.exception("Failed to close workspace")
 
-        _open_workspaces.pop(self.id, None)
+        for cache_key, workspace in tuple(_open_workspaces.items()):
+            if workspace is self:
+                _open_workspaces.pop(cache_key)
 
-        if current_workspace.id == self.id:
+        if current_workspace.__dict__ is self.__dict__:
             current_workspace.__class__ = cast('type[Workspace]', _NoWorkspace)
             current_workspace.__dict__ = {}
 
@@ -306,10 +313,10 @@ class Workspace:
         return self._channel.try_repair()
 
     def make_current(self) -> Workspace:
-        current_workspace.__class__ = Workspace
+        current_workspace.__class__ = self.__class__
         current_workspace.__dict__ = self.__dict__
         return self
 
     @property
     def is_current(self) -> bool:
-        return current_workspace.id == self.id
+        return current_workspace.__dict__ is self.__dict__

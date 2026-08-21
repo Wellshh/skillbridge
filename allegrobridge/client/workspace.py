@@ -24,3 +24,10 @@ class Workspace(GWorkspace):
         id_: WorkspaceId,
     ) -> None:
         super().__init__(channel, id_, Translator())
+
+    @classmethod
+    def _create_workspace(cls, channel: Channel, workspace_id: WorkspaceId) -> GWorkspace:
+        # send a poll request to detect allegro env
+        is_allegro = channel.send("isCallable('axlDBGetDesign)") == 'True'
+        workspace_class = cls if is_allegro else GWorkspace
+        return workspace_class(channel, workspace_id)

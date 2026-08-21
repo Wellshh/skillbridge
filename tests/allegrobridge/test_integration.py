@@ -7,9 +7,20 @@ from typing import NewType
 
 import pytest
 
-from skillbridge import Workspace
+from allegrobridge import Workspace
 
 ALObjectHandle = NewType('ALObjectHandle', str)
+
+
+@pytest.fixture(scope='class')
+def ws() -> Workspace:
+    try:
+        workspace = Workspace.open()
+        assert workspace['plus'](1, 2) == 3
+    except (Exception, ValueError, AssertionError):  # ruff: ignore[blind-except]
+        pytest.skip('Allegro workspace could not connect')
+
+    return workspace
 
 
 @pytest.fixture(scope='class')
@@ -42,6 +53,9 @@ class TestBasicOp:
 
     def test_can_get_components(self) -> None:
         self._basic_oop('components', 1)
+
+    def test_workspace_detects_allegro(self, ws: Workspace) -> None:
+        assert type(ws) is Workspace
 
     def test_can_get_nets(self) -> None:
         self._basic_oop('nets', 1)
@@ -114,14 +128,14 @@ class TestBasicOp:
         for _ in range(40):
             try:
                 candidate = Workspace.open()
-                if self._single_ping_test(candidate):
+                if type(candidate) is Workspace and self._single_ping_test(candidate):
                     new_ws = candidate
                     break
                 candidate.close()
             except (OSError, RuntimeError, ConnectionResetError):
                 sleep(0.5)
                 continue
-        assert new_ws is not None, 'server did not come back after restart'
+        assert new_ws is not None, 'server did not come back as an Allegro workspace after restart'
         try:
             assert self._single_ping_test(new_ws)
         finally:
