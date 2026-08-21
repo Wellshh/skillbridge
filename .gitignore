@@ -29,6 +29,7 @@ test.ipynb
 *.so
 python_server.log
 /allegro.jrl
+tmp/
 
 # LLM agent
 .codex/

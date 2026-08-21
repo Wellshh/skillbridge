@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+from typing import Self
+
 from .channel import Channel
 from .hints import Key, Skill, SkillCode
-from .translator import Translator, snake_to_camel
+from .translator import Translator
 from .var import Var
 
 
@@ -44,7 +46,7 @@ class RemoteFunction:
         return self._translate.decode(result)
 
     def lazy(self, *args: Skill, **kwargs: Skill) -> SkillCode:
-        name = snake_to_camel(self._function)
+        name = self._translate.format_function_name(self._function)
         return self._translate.encode_call(name, *args, **kwargs)
 
     def var(self, *args: Skill, **kwargs: Skill) -> Var:
@@ -54,6 +56,9 @@ class RemoteFunction:
         command = self._translate.encode_help(self._function)
         result = self._channel.send(command)
         return self._translate.decode_help(result)
+
+    def __getattr__(self, item: str) -> Self:
+        return self.__class__(self._channel, f"{self._function}_{item}", self._translate)
 
 
 class LiteralRemoteFunction(RemoteFunction):

@@ -28,6 +28,25 @@ def test_workspace_get_item():
     assert 'myFunction_def' in f.lazy()
 
 
+def test_remote_function_chaining():
+    ws = DummyWorkspace()
+    # 2-level chaining: FunctionCollection -> RemoteFunction -> RemoteFunction
+    rf2 = ws.axl.db.get_design
+    assert rf2._function == 'axl_db_get_design'
+    assert rf2.lazy() == 'axlDbGetDesign( )'
+
+    # Multi-level chaining
+    rf3 = ws.axl.db.create.pin
+    assert rf3._function == 'axl_db_create_pin'
+    assert rf3.lazy(1, 2) == 'axlDbCreatePin(1 2 )'
+
+    # LiteralRemoteFunction chaining preserves class type
+    literal = ws['my_prefix'].sub_ns.func
+    assert isinstance(literal, LiteralRemoteFunction)
+    assert literal._function == 'my_prefix_sub_ns_func'
+    assert literal.lazy(42) == 'my_prefix_sub_ns_func(42 )'
+
+
 def test_reports_skill_server_correctly():
     out = check_output([python, '-m', 'skillbridge', 'path'], encoding='utf-8')
     assert Path(out.splitlines()[1].strip()).exists()

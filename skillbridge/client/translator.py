@@ -117,6 +117,10 @@ def build_python_path(components: Iterable[str | int]) -> SkillCode:
 
 class Translator:
     @staticmethod
+    def format_function_name(name: str) -> str:
+        return snake_to_camel(name)
+
+    @staticmethod
     def encode_call(func_name: str, *args: Skill, **kwargs: Skill) -> SkillCode:
         args_code = ' '.join(map(python_value_to_skill, args))
         kw_keys = map(snake_to_camel, kwargs)

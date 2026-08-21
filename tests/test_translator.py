@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from string import ascii_letters, ascii_lowercase, ascii_uppercase
 from typing import Any, Callable
 
@@ -5,6 +7,7 @@ from hypothesis import given
 from hypothesis.strategies import floats, integers, lists, none, text
 from pytest import fixture, mark, raises
 
+from allegrobridge.client.translator import Translator as ATranslator
 from skillbridge import Symbol, Var
 from skillbridge.client.hints import SkillCode
 from skillbridge.client.translator import (
@@ -248,3 +251,46 @@ def test_python_path():
     assert build_python_path(['x']) == 'x'
     assert build_python_path(['x', 'y']) == 'x.y'
     assert build_python_path(['x', 'y', 123]) == 'x.y[123]'
+
+
+@mark.parametrize(
+    ('snake_name', 'expected_skill_name'),
+    [
+        # 2-letter uppercase acronyms
+        ('db_get_design', 'axlDBGetDesign'),
+        ('ui_confirm', 'axlUIConfirm'),
+        ('dm_status', 'axlDMStatus'),
+        ('os_env', 'axlOSEnv'),
+        # 3-letter uppercase acronyms
+        ('drc_get_design_drcs', 'axlDRCGetDesignDrcs'),
+        ('cns_get_physical', 'axlCNSGetPhysical'),
+        ('grp_members', 'axlGRPMembers'),
+        # 3-letter title-case words
+        ('geo_distance', 'axlGeoDistance'),
+        ('cmd_register', 'axlCmdRegister'),
+        ('net_name', 'axlNetName'),
+        ('pin_loc', 'axlPinLoc'),
+        # 4+ letter title-case words
+        ('form_create', 'axlFormCreate'),
+        ('poly_operation', 'axlPolyOperation'),
+        ('clear_sel_set', 'axlClearSelSet'),
+        # Already prefixed with axl
+        ('axl_db_get_design', 'axlDBGetDesign'),
+        ('axl_clear_sel_set', 'axlClearSelSet'),
+        ('axl_geo_distance', 'axlGeoDistance'),
+    ],
+)
+def test_allegro_translator_format_function_name(
+    snake_name: str, expected_skill_name: str
+) -> None:
+    assert ATranslator.format_function_name(snake_name) == expected_skill_name
+
+
+def test_allegro_translator_encode_call() -> None:
+    t = ATranslator()
+    assert t.encode_call('db_get_design') == 'axlDBGetDesign( )'
+    assert t.encode_call('geo_distance', 1, 2) == 'axlGeoDistance(1 2 )'
+    assert (
+        t.encode_call('form_create', 'my_form', visible=True)
+        == 'axlFormCreate("my_form" ?visible t)'
+    )

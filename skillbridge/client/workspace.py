@@ -38,8 +38,6 @@ _unbound = Symbol('unbound')
 
 
 class Workspace:
-    _var_counter = 0
-
     abe: FunctionCollection
     abs: FunctionCollection
     adp: FunctionCollection
@@ -182,9 +180,10 @@ class Workspace:
         self._translator = translator or self._prepare_default_translator()
         self.__ = DirectGlobals(channel, self._translator)
 
-        for key in Workspace.__annotations__:
-            value = FunctionCollection(channel, key, self._translator)
-            setattr(self, key, value)
+        for cls in reversed(self.__class__.__mro__):
+            for key in getattr(cls, "__annotations__", {}):
+                value = FunctionCollection(channel, key, self._translator)
+                setattr(self, key, value)
 
         self.user = FunctionCollection(channel, 'user', self._translator)
 
