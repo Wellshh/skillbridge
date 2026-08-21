@@ -11,7 +11,6 @@ from .translator import Translator
 class Workspace(GWorkspace):
     # rough count of axl_* apis in allegro: 796
 
-    db: FunctionCollection
     geo: FunctionCollection
     ui: FunctionCollection
     form: FunctionCollection

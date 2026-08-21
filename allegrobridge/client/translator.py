@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from skillbridge import SkillCode
-from skillbridge.client.hints import Skill
 from skillbridge.client.translator import Translator as GTranslator
 
 # Hardcode the non-regular function prefix pattern in allegro axl_* apis
@@ -30,8 +28,3 @@ class Translator(GTranslator):
                 fmt_parts.append(part.capitalize())  # 'geo' -> 'Geo', 'form' -> 'Form'
 
         return "".join(fmt_parts)
-
-    @staticmethod
-    def encode_call(func_name: str, *args: Skill, **kwargs: Skill) -> SkillCode:
-        name = Translator.format_function_name(func_name)
-        return GTranslator.encode_call(name, *args, **kwargs)
