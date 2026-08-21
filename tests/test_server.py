@@ -320,19 +320,26 @@ def test_restart_acknowledges_client_before_exit(monkeypatch: MonkeyPatch) -> No
 
 def test_restart_exits_when_acknowledgement_fails(monkeypatch: MonkeyPatch) -> None:
     server_socket, client_socket = socketpair()
+    sock = Socket(server_socket)
     exits: list[int] = []
     monkeypatch.setattr(python_server.os, '_exit', exits.append)
-    client_socket.close()
+
+    # On POSIX a sendall() to a closed socketpair peer raises OSError on the
+    # first write, but on Windows the first small write is buffered and
+    # succeeds, so the failure cannot be induced by closing the peer alone.
+    # Inject the failure deterministically: the contract under test is that
+    # the daemon still exits even when the acknowledgement send fails.
+    def fail_send(*args: object, **kwargs: object) -> None:
+        raise OSError("acknowledgement send failed")
+
+    monkeypatch.setattr(Socket, 'send_frame', fail_send)
     try:
         with raises(OSError):
-            python_server._respond_to_client(
-                Socket(server_socket),
-                SkillResp('restart', 'True'),
-            )
-
+            python_server._respond_to_client(sock, SkillResp('restart', 'True'))
         assert exits == [0]
     finally:
         server_socket.close()
+        client_socket.close()
 
 
 def test_create_server_rejects_payload_size_smaller_than_minimum(

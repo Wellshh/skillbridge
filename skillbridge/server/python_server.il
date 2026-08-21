@@ -34,10 +34,10 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
     )
 
     ; Frame markers match protocol/response.py: STX, NAK, RST start payload; RS ends it.
-    __pyWriteFrame.STX = intToChar(2)
-    __pyWriteFrame.NAK = intToChar(21)
-    __pyWriteFrame.RST = intToChar(18)
-    __pyWriteFrame.RS = intToChar(30)
+    __pyWriteFrame.STX = strcat(intToChar(2))
+    __pyWriteFrame.NAK = strcat(intToChar(21))
+    __pyWriteFrame.RST = strcat(intToChar(18))
+    __pyWriteFrame.RS = strcat(intToChar(30))
 
     putd('__pyIpcWait nil)
     defun(__pyIpcWait (@rest args)
@@ -132,14 +132,8 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
             pyStartServer.state = 'restarting
 
             if(pyStartServer.requestIpc == pyStartServer.ipc then
-                ; This function is being evaluated for a request from the
-                ; Python daemon itself. __pyOnData returns a "restart" response.
-                ; The daemon acknowledges the client and then exits gracefully.
                 t
             else
-                ; Called directly from CIW or another SKILL entry point.
-                ; There is no client response to preserve, so termination can
-                ; be requested immediately.
                 __pyIpcKillProcess(pyStartServer.ipc)
                 t
             )
@@ -257,7 +251,7 @@ let((_filename _baseName _moduleFolder _logDirectory _executable _unbound)
                     lineLength = strlen(pyStartServer.receiveBuffer) - strlen(newlineTail)
                     when(
                         lineLength > 0 &&
-                        substring(pyStartServer.receiveBuffer lineLength 1) == intToChar(13)
+                        substring(pyStartServer.receiveBuffer lineLength 1) == strcat(intToChar(13))
                         lineLength = lineLength - 1
                     )
                     when(lineLength > 0

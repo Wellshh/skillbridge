@@ -321,6 +321,50 @@
             pyStartServer.receiveBuffer = ""
             (__pyTestRestoreServerState savedState)))))
 
+    (qtest::TestCase test_on_data_frames_crlf_split_and_empty_chunks
+      (let ((originalWrite (getd '__pyIpcWriteProcess))
+            (savedState (__pyTestServerState))
+            writes
+            afterPartialCr)
+        (unwindProtect
+          (progn
+            (putd '__pyIpcWriteProcess
+                  (lambda (process data)
+                    (setq writes (cons (list process data) writes))
+                    t))
+
+            pyStartServer.ipc = 'currentProcess
+            pyStartServer.restartPending = nil
+            pyStartServer.receiveBuffer = ""
+
+            ; CR and LF arrive in separate data chunks. The buffer is joined
+            ; before the CR-strip, so this must still frame exactly one line.
+            (__pyOnData 'currentProcess "plus(1 2)\r")
+            (setq afterPartialCr
+                  (list (length writes) pyStartServer.receiveBuffer))
+
+            (__pyOnData 'currentProcess "\n")
+
+            ; An empty chunk and a bare leading newline must never emit a frame.
+            (__pyOnData 'currentProcess "")
+            (__pyOnData 'currentProcess "\n")
+
+            (__pyOnData 'currentProcess "plus(3 4)\n")
+
+            (qtest::assertEqual
+              (list '(0 "plus(1 2)\r")
+                    (list (strcat __pyWriteFrame.STX "3" __pyWriteFrame.RS)
+                          (strcat __pyWriteFrame.STX "7" __pyWriteFrame.RS))
+                    "")
+              (list afterPartialCr
+                    (mapcar 'cadr (reverse writes))
+                    pyStartServer.receiveBuffer)
+              ?msg "CRLF split across chunks, empty chunks, and leading newlines must frame only complete lines"))
+          (progn
+            (putd '__pyIpcWriteProcess originalWrite)
+            pyStartServer.receiveBuffer = ""
+            (__pyTestRestoreServerState savedState)))))
+
     (qtest::TestCase test_receive_buffer_follows_process_lifecycle
       (let ((originalBegin (getd '__pyIpcBeginProcess))
             (savedState (__pyTestServerState))
@@ -463,7 +507,7 @@
           (progn
             ;; The public serializer compiles the production regex before
             ;; entering __pySaveToVariableAndReturn. pcreCompile yields a real
-            ;; C handle whose %L is "pcreobj@0x<hex>" — the only constructible
+            ;; C handle whose %L is "pcreobj@0x<hex>" -- the only constructible
             ;; object whose unescaped repr matches the regex (symbols are
             ;; escaped by %L, so they can never reach this branch).
             (setq portResult (__pySkillToPython port))
