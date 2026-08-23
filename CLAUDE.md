@@ -9,6 +9,7 @@ Implementation
 - Lean on the dependencies already in the project before writing your own implementation or adding packages. Do not assume a library lacks a capability without checking its documentation and types.
 - Make architectural decisions for the long term. Do not accept a stopgap that only works for now and is meant to be replaced later.
 - For any Cadence API or .il script authoring/modification, strictly follow `cadence-skill-agent` to query local API reference indexes and example codes before writing code.
+- DO NOT ADD comments unless the user asks to -- if asked, always provide with the minimum, brief doctstring for function / class defnition or block comment for code snippets.
 
 
 Testing rules

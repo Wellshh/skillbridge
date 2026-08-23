@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import sys
 from contextlib import suppress
+from os import getenv
 from pathlib import Path
+from shutil import which
 from subprocess import Popen, TimeoutExpired
 from tempfile import TemporaryDirectory
 from time import monotonic, sleep
@@ -18,6 +20,34 @@ OpenMode = Literal['cli', 'manual']
 
 _POLL_INTERVAL = 0.1
 _PROCESS_EXIT_TIMEOUT = 5.0
+
+_INSTALL_ROOT_VARS = ('CDSROOT', 'Sigrity_EDA_DIR')
+
+
+def _resolve_executable(executable: str | Path) -> str:
+    path = Path(executable)
+    if path.is_file():
+        return str(path)
+
+    found = which(str(executable))
+    if found is not None:
+        return found
+
+    names = [path.name] if path.suffix else [path.name, f'{path.name}.exe']
+    for var in _INSTALL_ROOT_VARS:
+        root = getenv(var)
+        if root is None:
+            continue
+        for name in names:
+            candidate = Path(root) / 'tools' / 'bin' / name
+            if candidate.is_file():
+                return str(candidate)
+
+    raise FileNotFoundError(
+        f"could not find the Allegro executable {str(executable)!r}: not on PATH and no "
+        f"Cadence installation found via {', '.join(_INSTALL_ROOT_VARS)}; "
+        "pass the full path with executable=..."
+    )
 
 
 def _default_workspace_id(*, force_tcp: bool) -> str:
@@ -74,7 +104,7 @@ class Allegro:
         *,
         workspace_id: WorkspaceId = None,
         executable: str | Path = "allegro.exe",
-        timeout: float = 30.0,
+        timeout: float = 120.0,
         force_tcp: bool = False,
     ) -> Allegro:
         ws_id = (
@@ -83,18 +113,19 @@ class Allegro:
             else str(workspace_id)
         )
         board_path = Path(board).resolve() if board is not None else None
+        resolved = _resolve_executable(executable)
 
         server_file = Path(skillbridge.server.__file__).with_name('python_server.il').as_posix()
         force_tcp_flag = ' ?forceTcp t' if force_tcp else ''
         script_content = (
             f'skill load("{server_file}")\n'
             f'skill pyStartServer(?id "{ws_id}" ?singleMode t '
-            f'?python "{sys.executable}"{force_tcp_flag})\n'
+            f'?python "{Path(sys.executable).as_posix()}"{force_tcp_flag})\n'
         )
 
         temp_dir = TemporaryDirectory(prefix='allegrobridge-')
         script_path = Path(temp_dir.name) / 'startup.scr'
-        command = [str(executable), '-s', script_path.as_posix()]
+        command = [resolved, '-s', script_path.as_posix()]
         if board_path is not None:
             command.append(board_path.as_posix())
 
@@ -134,7 +165,7 @@ class Allegro:
         workspace_id: WorkspaceId = None,
         board: str | Path | None = None,
         executable: str | Path = "allegro.exe",
-        timeout: float = 30.0,
+        timeout: float = 120.0,
         force_tcp: bool = False,
     ) -> Allegro:
         if mode == 'manual':
