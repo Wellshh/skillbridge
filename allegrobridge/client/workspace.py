@@ -1,8 +1,12 @@
 from __future__ import annotations
 
+from functools import partial
+
 from allegrobridge.util import extract_api_domains
 from skillbridge.client.channel import Channel
 from skillbridge.client.functions import FunctionCollection
+from skillbridge.client.objects import RemoteObject, RemoteTable, RemoteVector
+from skillbridge.client.translator import DefaultTranslator
 from skillbridge.client.workspace import Workspace as GWorkspace
 from skillbridge.client.workspace import WorkspaceId
 
@@ -15,7 +19,17 @@ class Workspace(GWorkspace):
         channel: Channel,
         id_: WorkspaceId,
     ) -> None:
-        super().__init__(channel, id_, Translator())
+        super().__init__(channel, id_)
+
+    def _prepare_default_translator(self) -> DefaultTranslator:
+        translator = Translator()
+        types = [('Remote', RemoteObject), ('Table', RemoteTable), ('Vector', RemoteVector)]
+
+        for name, typ in types:
+            construct = partial(typ, self._channel, translator)
+            translator.register_remote_variable_type(name, construct)
+
+        return translator
 
     @classmethod
     def _create_workspace(cls, channel: Channel, workspace_id: WorkspaceId) -> GWorkspace:

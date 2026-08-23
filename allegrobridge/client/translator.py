@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 from allegrobridge.util import build_snake_to_axl_map
-from skillbridge.client.translator import Translator as GTranslator
+from skillbridge.client.translator import DefaultTranslator as GDefaultTranslator
 
 _SNAKE_TO_AXL = build_snake_to_axl_map()
 
 
-class Translator(GTranslator):
+class Translator(GDefaultTranslator):
     @staticmethod
     def format_function_name(name: str) -> str:
-        return _SNAKE_TO_AXL.get(name, GTranslator.format_function_name(name))
+        return _SNAKE_TO_AXL.get(name, GDefaultTranslator.format_function_name(name))

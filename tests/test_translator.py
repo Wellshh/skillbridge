@@ -287,3 +287,20 @@ def test_allegro_translator_format_function_name(
 def test_allegro_translator_falls_back_for_unknown_functions() -> None:
     assert ATranslator.format_function_name('user_custom_function') == 'userCustomFunction'
     assert ATranslator.format_function_name('axl_custom_function') == 'axlCustomFunction'
+
+
+def test_allegro_translator_has_working_decode() -> None:
+    a = ATranslator()
+    assert a.decode('3') == 3
+    assert a.decode('None') is None
+    assert a.decode('True') is True
+    assert a.decode('[1,2,3]') == [1, 2, 3]
+    assert a.decode('{"x":1,"y":2}') == {'x': 1, 'y': 2}
+
+
+def test_allegro_translator_has_working_encode() -> None:
+    a = ATranslator()
+    assert a.encode(3) == '3'
+    assert a.encode(None) == 'nil'
+    assert a.encode(True) == 't'
+    assert a.encode([1, 2]) == '(list 1 2)'

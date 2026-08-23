@@ -52,6 +52,16 @@ def test_a_crash_while_closing_still_clears_the_cache():
     assert (Workspace, 123) not in _open_workspaces
 
 
+def test_allegro_workspace_decodes_remote_handles() -> None:
+    dummy_channel = DummyChannel(1)
+    ws = AllegroWorkspace(channel=dummy_channel, id_=456)
+
+    # The allegro translator must register the Remote/Table/Vector eval types
+    # (via _prepare_default_translator) so decoded SKILL handles resolve.
+    result = ws._translator.decode('Remote("dbobject:123")')  # ruff: ignore[attr-defined]
+    assert result._variable == 'dbobject:123'  # ruff: ignore[attr-defined]
+
+
 def test_allegro_workspace_namespaces_and_chaining() -> None:
     dummy_channel = DummyChannel(1)
     ws = AllegroWorkspace(channel=dummy_channel, id_=456)

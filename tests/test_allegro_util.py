@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 from pytest import raises
@@ -23,7 +24,7 @@ def test_extract_apis_reads_asset_lines(tmp_path: Path) -> None:
 def test_extract_apis_fails_when_assets_are_missing(tmp_path: Path) -> None:
     missing = tmp_path / 'missing-assets'
 
-    with raises(FileNotFoundError, match=str(missing)):
+    with raises(FileNotFoundError, match=re.escape(missing.name)):
         _extract_apis(missing)
 
 

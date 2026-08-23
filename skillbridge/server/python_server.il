@@ -343,6 +343,33 @@ let((_filename _moduleFolder _logDirectory _unbound)
         )
     )
 
+    putd('__pyOnDataScript nil)
+    defun(__pyOnDataScript (id data)
+        foreach(line parseString(data "\n")
+            when(line != ""
+                let((result capturedWarning pythonCode)
+                    capturedWarning = __pyCaptureWarnings(
+                        errset(result=evalstring(line))
+                    )
+                    if((errset.errset) then
+                        printf("command %L resulted in error %L\n" line errset.errset)
+                        __pyIpcWriteProcess(id lsprintf("failure %L\n" errset.errset))
+                    else
+                        if(boundp('result) then
+                            pythonCode = __pySkillToPython(result)
+                            if(capturedWarning != "" && capturedWarning != "*WARNING* " then
+                                pythonCode = lsprintf("warning(%L, %s)" capturedWarning pythonCode)
+                            )
+                            __pyIpcWriteProcess(id lsprintf("success %s\n" pythonCode))
+                        else
+                            __pyIpcWriteProcess(id "success error('unbound')\n")
+                        )
+                    )
+                )
+            )
+        )
+    )
+
     putd('__pyOnError nil)
     defun(__pyOnError (_ data)
         fprintf(stderr "PYTHON: %s\n" data)
@@ -544,26 +571,45 @@ let((_filename _moduleFolder _logDirectory _unbound)
     defun(pyRunScript (
         script
         @key
-        (python "python")
+        (python "")
         (args nil)
         (block nil)
         "ttlg"
     )
-        let((command process)
+        let((effectivePython command process oldPythonPath)
+            ; Inherit the server's configured python by default: a bare "python"
+            ; is often absent from PATH on Windows, and the script must run with
+            ; the same interpreter the server uses. The ?python slot is typed
+            ; string ("ttlg"), so nil cannot be the default; "" is the sentinel
+            ; for "not given". Set PYTHONPATH to the package parent so the script
+            ; can `import skillbridge` without an editable install, mirroring
+            ; __pySpawnServer.
+            effectivePython = if(python == "" then pyStartServer.python else python)
             command = lsprintf(
                 "%s %s %s"
-                python
+                effectivePython
                 script
                 buildString(args)
             )
 
-            process = __pyIpcBeginProcess(
-                command
-                ""
-                '__pyOnData
-                '__pyOnError
-                '__pyOnFinishScript
-                pyRunScript.logName
+            oldPythonPath = getShellEnvVar("PYTHONPATH")
+            process = unwindProtect(
+                progn(
+                    setShellEnvVar("PYTHONPATH" pyStartServer.moduleFolder)
+                    __pyIpcBeginProcess(
+                        command
+                        ""
+                        '__pyOnDataScript
+                        '__pyOnError
+                        '__pyOnFinishScript
+                        pyRunScript.logName
+                    )
+                )
+                if(oldPythonPath then
+                    setShellEnvVar("PYTHONPATH" oldPythonPath)
+                else
+                    unsetShellEnvVar("PYTHONPATH")
+                )
             )
 
             if(block then

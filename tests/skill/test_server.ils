@@ -530,6 +530,58 @@
             (putd '__pyIpcWriteProcess originalWrite)
             (__pyTestRestoreServerState savedState)))))
 
+    (qtest::TestCase test_on_data_script_writes_newline_protocol
+      (let ((originalWrite (getd '__pyIpcWriteProcess))
+            (savedState (__pyTestServerState))
+            writes
+            processes
+            responses)
+        (unwindProtect
+          (progn
+            (putd '__pyIpcWriteProcess
+                  (lambda (process data)
+                    (setq writes (cons (list process data) writes))
+                    t))
+
+            ; pyRunScript launches a direct subprocess whose stdout reaches this
+            ; handler. Unlike the server __pyOnData, it must NOT require id to
+            ; match pyStartServer.ipc (the subprocess id differs), and it must
+            ; answer with newline-delimited "success/failure <payload>\n" lines
+            ; that DirectChannel reads via input() -- never frame markers.
+            pyStartServer.ipc = 'serverProcess
+            (__pyOnDataScript 'scriptProcess "plus(1 2)\n")
+            (__pyOnDataScript 'scriptProcess "error(\"qtest boom\")\n")
+            (__pyOnDataScript 'scriptProcess
+                              "makeTable(\"qtestScriptUnbound\")[\"missing\"]\n")
+            (__pyOnDataScript 'scriptProcess "progn(warn(\"qtest warning\") 7)\n")
+            (__pyOnDataScript 'scriptProcess "plus(3 4)\n\nplus(5 6)\n")
+
+            (setq responses (mapcar 'cadr (reverse writes)))
+            (setq processes (mapcar 'car (reverse writes)))
+            (qtest::assertEqual
+              '(t t t t t t t)
+              (list
+                (equal (nth 0 responses) "success 3\n")
+                (equal processes
+                      (list 'scriptProcess 'scriptProcess 'scriptProcess
+                            'scriptProcess 'scriptProcess 'scriptProcess))
+                (and (qub::startsWith (nth 1 responses) "failure ")
+                     (not (null (index (nth 1 responses) "qtest boom")))
+                     (equal (substring (nth 1 responses)
+                                       (strlen (nth 1 responses)) 1) "\n"))
+                (equal (nth 2 responses) "success error('unbound')\n")
+                (and (qub::startsWith (nth 3 responses) "success warning(")
+                     (not (null (index (nth 3 responses) "7")))
+                     (equal (substring (nth 3 responses)
+                                       (strlen (nth 3 responses)) 1) "\n"))
+                (equal (list (nth 4 responses) (nth 5 responses))
+                      (list "success 7\n" "success 11\n"))
+                (equal (length writes) 6))
+              ?msg "script data handler must use newline protocol, route to caller id, and skip blank lines"))
+          (progn
+            (putd '__pyIpcWriteProcess originalWrite)
+            (__pyTestRestoreServerState savedState)))))
+
     (qtest::TestCase test_on_finish_ignores_stale_and_restarts_current_process
       (let ((originalSpawn (getd '__pySpawnServer))
             (savedState (__pyTestServerState))
@@ -654,19 +706,57 @@
             (putd '__pySpawnServer originalSpawn)
             (__pyTestRestoreServerState savedState)))))
 
+    (qtest::TestCase test_run_script_inherits_server_python_and_restores_pythonpath
+      (let ((originalBegin (getd '__pyIpcBeginProcess))
+            (savedState (__pyTestServerState))
+            (originalPythonPath (getShellEnvVar "PYTHONPATH"))
+            capturedPython
+            capturedCommand
+            restoredPythonPath)
+        (unwindProtect
+          (progn
+            (putd '__pyIpcBeginProcess
+                  (lambda (command _host _dataHandler _errorHandler _postFunc _logFile)
+                    (setq capturedPython (getShellEnvVar "PYTHONPATH"))
+                    (setq capturedCommand (cons command capturedCommand))
+                    'scriptProcess))
+
+            pyStartServer.python = "server-python-exe"
+            ; No ?python given: must fall back to pyStartServer.python so a bare
+            ; "python" -- absent from PATH on Windows -- is never the executable.
+            (pyRunScript "script.py")
+            (setq restoredPythonPath (getShellEnvVar "PYTHONPATH"))
+
+            (qtest::assertEqual
+              '(t t t)
+              (list
+                (not (null (index (car capturedCommand) "server-python-exe script.py")))
+                (equal capturedPython pyStartServer.moduleFolder)
+                (equal restoredPythonPath originalPythonPath))
+              ?msg "run script must inherit server python, set PYTHONPATH to moduleFolder during spawn, and restore it"))
+          (progn
+            (putd '__pyIpcBeginProcess originalBegin)
+            (if originalPythonPath then
+                setShellEnvVar("PYTHONPATH" originalPythonPath)
+            else
+                unsetShellEnvVar("PYTHONPATH"))
+            (__pyTestRestoreServerState savedState)))))
+
     (qtest::TestCase test_run_script_returns_process_or_waits
       (let ((originalBegin (getd '__pyIpcBeginProcess))
             (originalWait (getd '__pyIpcWait))
             (savedLogName pyRunScript.logName)
             beginCalls
+            dataHandlers
             waitCalls
             nonBlockingResult
             blockingResult)
         (unwindProtect
           (progn
             (putd '__pyIpcBeginProcess
-                  (lambda (command _host _dataHandler _errorHandler _postFunc _logFile)
+                  (lambda (command _host dataHandler _errorHandler _postFunc _logFile)
                     (setq beginCalls (cons command beginCalls))
+                    (setq dataHandlers (cons dataHandler dataHandlers))
                     'scriptProcess))
             (putd '__pyIpcWait
                   (lambda (process)
@@ -679,13 +769,15 @@
                   (pyRunScript "script.py" ?python "python-test" ?block t))
 
             (qtest::assertEqual
-              '(scriptProcess t 2 scriptProcess t)
+              '(scriptProcess t 2 __pyOnDataScript scriptProcess t t)
               (list nonBlockingResult
                     blockingResult
                     (length beginCalls)
+                    (car dataHandlers)
                     (car waitCalls)
-                    (not (null (index (car beginCalls) "python-test script.py"))))
-              ?msg "run script must return non-blocking handles and wait when requested"))
+                    (not (null (index (car beginCalls) "python-test script.py")))
+                    (equal (cadr dataHandlers) '__pyOnDataScript))
+              ?msg "run script must return non-blocking handles, wait when requested, and wire the newline-protocol data handler"))
           (progn
             (putd '__pyIpcBeginProcess originalBegin)
             (putd '__pyIpcWait originalWait)

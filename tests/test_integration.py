@@ -4,7 +4,7 @@ from warnings import warn
 
 from pytest import fixture, mark, raises, skip
 
-from skillbridge import LazyList, RemoteObject, RemoteTable, SkillCode, Symbol, Var, Workspace
+from skillbridge import LazyList, RemoteTable, SkillCode, Symbol, Var, Workspace
 
 here = Path(__file__).parent
 
@@ -19,6 +19,21 @@ def ws() -> Workspace:
         skip()
 
     return workspace
+
+
+@fixture(scope='module')
+def dd_libs(ws: Workspace) -> list:
+    """Virtuoso library list; skips when ddGetLibList is unavailable (non-Virtuoso).
+
+    ddGetLibList is a dfII/Virtuoso API absent in Allegro PCB, so the dd-oriented
+    integration tests probe it once and skip gracefully on other backends.
+    """
+    try:
+        return ws.dd.get_lib_list()
+    except RuntimeError as exc:
+        if 'undefined function' in str(exc):
+            skip('ddGetLibList unavailable (not a Virtuoso/dfII backend)')
+        raise
 
 
 def test_can_add_two_numbers(ws: Workspace) -> None:
@@ -98,8 +113,8 @@ def test_open_file(ws: Workspace) -> None:
     assert isinstance(dir(file), list)
 
 
-def test_remote_object(ws: Workspace) -> None:
-    libs = ws.dd.get_lib_list()
+def test_remote_object(dd_libs: list) -> None:
+    libs = dd_libs
 
     assert libs
     lib = libs[0]
@@ -122,12 +137,8 @@ def test_remote_object(ws: Workspace) -> None:
     assert lib != 1
 
 
-def _lib_with_cells(ws: Workspace) -> RemoteObject:
-    return max(ws.dd.get_lib_list(), key=lambda lib: len(lib.cells or ()))
-
-
-def test_lazy_list(ws: Workspace) -> None:
-    lib = _lib_with_cells(ws)
+def test_lazy_list(ws: Workspace, dd_libs: list) -> None:
+    lib = max(dd_libs, key=lambda lib: len(lib.cells or ()))
 
     cells = lib.lazy.cells
 
