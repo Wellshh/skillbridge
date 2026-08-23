@@ -1,0 +1,20 @@
+FILE_TYPE=FORM_DEFN VERSION=2
+FORM 
+FIXED
+PORT 80 5
+HEADER "Form popup with color swatches."
+
+POPUP <COLOR_LIST> """".
+
+TILE
+
+FIELD colors
+FLOC 1 1
+ENUMSET 60
+OPTIONS prettyprint ownerdrawn
+POP "COLOR_LIST"
+ENDFIELD
+
+ENDTILE
+
+ENDFORM

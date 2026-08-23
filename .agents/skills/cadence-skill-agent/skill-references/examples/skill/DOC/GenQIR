@@ -1,0 +1,36 @@
+#/bin/csh -f
+
+source Version
+echo V $LASTVERSION $VERSION
+
+/bin/rm -rf CHANGE NEW
+mkdir CHANGE NEW
+
+set dfile = New${LASTVERSION}to${VERSION}.txt
+set dcfile = Changes${LASTVERSION}to${VERSION}.txt
+set n =  NewQIR.txt
+set c =  ChangesQIR.txt
+
+/bin/rm -f $n
+/bin/mv $dfile $n
+/bin/rm -f $c
+/bin/mv $dcfile $c
+
+set list = `cat $n`
+set dst = NEW
+foreach i ($list)
+   /bin/cp FUNCS/$i.txt $dst
+end
+   
+set list = `cat $c`
+set dst = CHANGE
+foreach i ($list)
+   /bin/cp FUNCS/$i.txt $dst
+end
+
+rm -rf QIR
+mkdir QIR
+mv $n QIR
+mv $c QIR
+mv NEW QIR
+mv CHANGE QIR

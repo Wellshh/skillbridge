@@ -1,0 +1,52 @@
+#!/bin/csh -f
+
+source Version
+
+set dest = /ccs/data/skill/examples/DOC
+
+if ( $#argv != 0 ) then
+    if ("$argv[1]" == "-d") then
+        alias ct echo
+	alias cp echo
+    else
+	echo "Args are -d or nothing"
+	exit 1
+    endif
+else
+    alias ct cleartool
+endif
+
+ct co -nc  $dest
+ct co -nc $dest/FUNCS
+
+# remove temp files
+/bin/rm -f techpubs.zip CHANGE.log
+
+foreach i (* FUNCS/*)
+   set doci = 0
+   if (-d $i) continue
+
+   if (!(-e $dest/$i)) then
+        ct mkelem -nc $dest/$i
+        set doci = 1
+	echo NEW $i
+   else
+        diff $i $dest/$i >&/dev/null
+        set doci = $status
+        if ($doci == 1) then
+           ct co -nc $dest/$i
+	endif
+   endif
+
+   if ($doci == 1) then
+	echo CHECKIN for $i
+	cp $i $dest/$i 
+	if ($status) then
+	  echo ERROR: Copy of $i failed
+	endif
+	ct ci -c "$LASTVERSION to $VERSION update" $dest/$i
+   endif
+end
+
+ct ci -c "$LASTVERSION to $VERSION update" $dest/FUNCS $dest
+

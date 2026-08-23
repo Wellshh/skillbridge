@@ -1,0 +1,7 @@
+interface:
+  display_name: "Context7 Docs First"
+  short_description: "Check current docs before API work"
+  default_prompt: "Use $context7-docs-first to check current official docs before changing library API code."
+
+policy:
+  allow_implicit_invocation: true

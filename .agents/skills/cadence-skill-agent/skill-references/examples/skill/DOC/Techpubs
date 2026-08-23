@@ -1,0 +1,40 @@
+#!/bin/csh -fx
+# generate files for tech pubs to update doc
+#  - run after the Generate command
+#  - requires Clearcase
+
+source Version
+set NEW = New${LASTVERSION}to${VERSION}.txt
+set CHANGE = Changes${LASTVERSION}to${VERSION}.txt
+
+rm -rf TECHPUBS
+mkdir TECHPUBS
+mkdir TECHPUBS/NEW
+mkdir TECHPUBS/CHANGE
+
+cp $NEW TECHPUBS
+cp $CHANGE TECHPUBS
+
+foreach i (`cat $NEW`)
+    cp FUNCS/$i.txt TECHPUBS/NEW
+end
+
+foreach i (`cat $CHANGE`)
+    cp FUNCS/$i.txt TECHPUBS/CHANGE
+end
+
+cd TECHPUBS/CHANGE
+foreach i (*)
+   set q = $i:r
+   if (-e /ccs/data/skill/examples/DOC/FUNCS/axlDBGetLength.txt) then
+       diff $i /ccs/data/skill/examples/DOC/FUNCS/$i  > $q-DIFF.txt
+   endif
+end
+cd ../..
+
+zip -rq techpubs.zip TECHPUBS
+mv techpubs.zip ..
+rm -rf TECHPUBS
+
+echo techpubs.zip file is in $cwd:h
+echo Give TechPubs techpubs.zip

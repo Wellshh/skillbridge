@@ -1,0 +1,115 @@
+FILE_TYPE=FORM_DEFN VERSION=2
+FORM
+FIXED
+PORT 60 14
+HEADER "Tracing"
+
+POPUP <PRINTP>"to File""0","to Printer""1","to Script""2".
+
+
+ACTIVEFIELD "input"
+
+TILE
+TEXT "Tracing"
+TLOC 3 1
+ENDTEXT
+
+TEXT "Type"
+TLOC 3 3
+ENDTEXT
+
+FIELD set
+FLOC 14 1
+CHECKLIST "Set" "Tracing"
+ENDFIELD
+
+FIELD clear
+FLOC 28 1
+CHECKLIST "Clear" "Tracing"
+ENDFIELD
+
+FIELD functions
+FLOC 14 3
+CHECKLIST "Functions" "Type"
+ENDFIELD
+
+FIELD variables
+FLOC 28 3
+CHECKLIST "Variables" "Type"
+ENDFIELD
+
+FIELD properties
+FLOC 42 3
+CHECKLIST "Properties" "Type"
+ENDFIELD
+
+FIELD symbols
+FLOC 3 9
+FGROUP "Trace Symbols"
+STRFILLIN 50 256
+ENDFIELD
+
+FIELD by_name
+FLOC 4 12
+FGROUP "Trace Symbols"
+CHECKLIST "By Name" "symbols"
+ENDFIELD
+
+FIELD in_context
+FLOC 4 14
+FGROUP "Trace Symbols"
+CHECKLIST "In context" "symbols"
+ENDFIELD
+
+FIELD regular_exp
+FLOC 4 16
+FGROUP "Trace Symbols"
+CHECKLIST "Matching regular expression" "symbols"
+ENDFIELD
+
+FIELD user_functions
+FLOC 4 18
+FGROUP "Trace Symbols"
+CHECKLIST "User functions" "symbols"
+ENDFIELD
+
+FIELD all
+FLOC 4 20
+FGROUP "Trace Symbols"
+CHECKLIST "All" "symbols"
+ENDFIELD
+
+FIELD done
+FLOC 3 24
+MENUBUTTON "Done" 10 3
+ENDFIELD
+
+FIELD cancel
+FLOC 14 24
+MENUBUTTON "Cancel" 10 3
+ENDFIELD
+
+FIELD defaults
+FLOC 25 24
+MENUBUTTON "Defaults" 10 3
+ENDFIELD
+
+FIELD apply
+FLOC 36 24
+MENUBUTTON "Apply" 10 3
+ENDFIELD
+
+FIELD print
+FLOC 47 24
+MENUBUTTON "Print" 10 3
+POP "PRINTP"
+ENDFIELD
+
+GROUP "Trace Symbols"
+GLOC 2 6
+GSIZE 55 17
+ENDGROUP
+
+ENDTILE
+
+ENDFORM

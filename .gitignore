@@ -32,8 +32,9 @@ python_server.log
 tmp/
 
 # LLM agent
-.codex/
-.agents/
+# .codex/
+# .agents/
+.codex/*.env
 .specstory
 .cursorindexingignore
 

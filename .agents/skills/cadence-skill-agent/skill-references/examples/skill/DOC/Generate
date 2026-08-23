@@ -1,0 +1,66 @@
+#!/bin/csh -f
+
+source Version
+changecs $LASTVERSION
+
+
+GetSkillFuncsInProduct
+
+set tmpchange =  /tmp/tmp.CHANGE.log
+set dfile = ../New${LASTVERSION}to${VERSION}.txt
+set dcfile = ../Changes${LASTVERSION}to${VERSION}.txt
+set lfile = ../$LASTVERSION.txt
+set cfile = ../$VERSION.txt
+set change = ../CHANGE.log
+umask 02
+gdoc axl | grep "  axl" >DOCG
+#sdoc axl | grep "  axl" >DOCS
+cat DOCG | sort | uniq > DOC
+/bin/rm -f DOCG DOCS
+set list = (`cat DOC`)
+
+rm -rf FUNCS
+mkdir FUNCS
+cd FUNCS
+rm -f $cfile $dfile $dcfile CHANGE.log $change
+
+foreach i ($list)
+   # eliminate non-Skill doc_c
+
+   # handle obsolete format
+   unset j
+
+   if ($i =~ axlf*) then
+	set j = i
+	set i = `echo $i | sed -e 's/axlf/axl/'`
+   endif
+
+   grep -s $i\$ ../NO.perm
+   if ($status) then
+   #if (!(`grep -s $i $cfile`)) then
+       	gdoc $i | grep -v "No doc_c for" | grep -v "Possible Matches :" > $i.txt
+       	if ($?j) then
+	   sed  -e 's/axlf/axl/' $i.txt > tmp
+	   mv tmp $i.txt
+	endif
+	echo $i >> $cfile
+	grep -s $i $lfile
+        if (($status)) then
+	    echo $i >> $dfile
+	else
+	    # see if changed
+	    echo 			> $tmpchange
+	    echo 			>> $tmpchange
+	    echo ----- $i -------- 	>> $tmpchange
+	    echo 			>> $tmpchange
+	    diff $i.txt /ccs/data/skill/examples/DOC/FUNCS/$i.txt  >> $tmpchange
+	    if (($status)) then
+		cat $tmpchange >> $change
+	        echo $i >> $dcfile
+	    endif
+	endif
+   endif
+end
+cd ..
+
+/bin/rm -f DOC	$tmpchange

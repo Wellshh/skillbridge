@@ -1,0 +1,742 @@
+{
+  "schema_version": 2,
+  "pagination": {
+    "token_limit": 15000,
+    "safety_ratio": 0.9,
+    "estimator": {
+      "method": "character_ratio",
+      "chars_per_token": 4.0
+    }
+  },
+  "sources": [
+    {
+      "path": "docs/skdevref.pdf",
+      "source_version": "6.1.6 / August 2014",
+      "bytes": 586373,
+      "sha256": "39a473f10193282fe9e9db44ca20a4a6590e33cf09ee33e0c91d7cf8fee3a3cc",
+      "physical_pages": 162
+    },
+    {
+      "path": "docs/skipcref.pdf",
+      "source_version": "6.1.6 / August 2014",
+      "bytes": 310038,
+      "sha256": "cf33c29095dcd9d98a5772ff1217d1985741bc0e21e2205394c9ff92097e8df5",
+      "physical_pages": 56
+    },
+    {
+      "path": "docs/sklangref.pdf",
+      "source_version": "6.1.6 / November 2014",
+      "bytes": 2184579,
+      "sha256": "f0980836972ebb2d14abbaf0112a1bf24c871b2165f18c13cb155c2eb53bd8ba",
+      "physical_pages": 638
+    },
+    {
+      "path": "docs/sklanguser.pdf",
+      "source_version": "6.1.6 / November 2014",
+      "bytes": 2182653,
+      "sha256": "ce0623f9a559a189066557e7a22674e976aad6b22426cd9bdfce46e32015ba20",
+      "physical_pages": 408
+    },
+    {
+      "path": "docs/skoopref.pdf",
+      "source_version": "6.1.6 / November 2014",
+      "bytes": 313336,
+      "sha256": "d8541b60c5c1a4ebb433243abc5422c3674ec05cc5b70f8707fb9619519ee0fc",
+      "physical_pages": 72
+    }
+  ],
+  "documents": [
+    {
+      "path": "algroskill/01ovrvew.md",
+      "chars": 16945,
+      "estimated_tokens": 4237,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/02dbdesc.md",
+      "chars": 54898,
+      "estimated_tokens": 13725,
+      "exceeds_limit": false,
+      "exceeds_safety_target": true
+    },
+    {
+      "path": "algroskill/03dbcre8.part01.md",
+      "chars": 54053,
+      "estimated_tokens": 13514,
+      "exceeds_limit": false,
+      "exceeds_safety_target": true
+    },
+    {
+      "path": "algroskill/03dbcre8.part02.md",
+      "chars": 19833,
+      "estimated_tokens": 4959,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/04parmgt.part01.md",
+      "chars": 53938,
+      "estimated_tokens": 13485,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/04parmgt.part02.md",
+      "chars": 31834,
+      "estimated_tokens": 7959,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/05selfnd.md",
+      "chars": 54566,
+      "estimated_tokens": 13642,
+      "exceeds_limit": false,
+      "exceeds_safety_target": true
+    },
+    {
+      "path": "algroskill/06intedt.part01.md",
+      "chars": 52989,
+      "estimated_tokens": 13248,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/06intedt.part02.md",
+      "chars": 16888,
+      "estimated_tokens": 4222,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/07dbaccs.md",
+      "chars": 30902,
+      "estimated_tokens": 7726,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/08intprm.md",
+      "chars": 48895,
+      "estimated_tokens": 12224,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/09cmdshl.md",
+      "chars": 19593,
+      "estimated_tokens": 4899,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/10usrint.part01.md",
+      "chars": 53909,
+      "estimated_tokens": 13478,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/10usrint.part02.md",
+      "chars": 17571,
+      "estimated_tokens": 4393,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/11frmint.part01.md",
+      "chars": 54035,
+      "estimated_tokens": 13509,
+      "exceeds_limit": false,
+      "exceeds_safety_target": true
+    },
+    {
+      "path": "algroskill/11frmint.part02.md",
+      "chars": 54016,
+      "estimated_tokens": 13504,
+      "exceeds_limit": false,
+      "exceeds_safety_target": true
+    },
+    {
+      "path": "algroskill/11frmint.part03.md",
+      "chars": 45784,
+      "estimated_tokens": 11446,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/12draw.md",
+      "chars": 8318,
+      "estimated_tokens": 2080,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/13msghnd.md",
+      "chars": 14101,
+      "estimated_tokens": 3526,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/14dsnctl.md",
+      "chars": 54757,
+      "estimated_tokens": 13690,
+      "exceeds_limit": false,
+      "exceeds_safety_target": true
+    },
+    {
+      "path": "algroskill/15dbgrp.md",
+      "chars": 17822,
+      "estimated_tokens": 4456,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/16dbatt.md",
+      "chars": 9179,
+      "estimated_tokens": 2295,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/17dbtran.md",
+      "chars": 8148,
+      "estimated_tokens": 2037,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/18consmgt.part01.md",
+      "chars": 53980,
+      "estimated_tokens": 13495,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/18consmgt.part02.md",
+      "chars": 32125,
+      "estimated_tokens": 8032,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/19cmdctl.md",
+      "chars": 22041,
+      "estimated_tokens": 5511,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/20plyopr.md",
+      "chars": 22384,
+      "estimated_tokens": 5596,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/21filacc.md",
+      "chars": 17614,
+      "estimated_tokens": 4404,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/22extrct.md",
+      "chars": 9184,
+      "estimated_tokens": 2296,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/23utils.md",
+      "chars": 49039,
+      "estimated_tokens": 12260,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/24mthutl.md",
+      "chars": 20923,
+      "estimated_tokens": 5231,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/25dbmisc.md",
+      "chars": 34709,
+      "estimated_tokens": 8678,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/26logacc.md",
+      "chars": 38122,
+      "estimated_tokens": 9531,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/27langexten.md",
+      "chars": 10118,
+      "estimated_tokens": 2530,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/27plugin.md",
+      "chars": 16167,
+      "estimated_tokens": 4042,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/A_bldcontxt.md",
+      "chars": 11901,
+      "estimated_tokens": 2976,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/algroskillAPL.md",
+      "chars": 43036,
+      "estimated_tokens": 10759,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/algroskillTOC.md",
+      "chars": 50821,
+      "estimated_tokens": 12706,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/msexl.md",
+      "chars": 28838,
+      "estimated_tokens": 7210,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/preface.md",
+      "chars": 13875,
+      "estimated_tokens": 3469,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/sipapd.md",
+      "chars": 53484,
+      "estimated_tokens": 13371,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "algroskill/titlecopy.md",
+      "chars": 3707,
+      "estimated_tokens": 927,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklangref/appA.md",
+      "chars": 10628,
+      "estimated_tokens": 2657,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklangref/appB.md",
+      "chars": 4735,
+      "estimated_tokens": 1184,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklangref/appC.md",
+      "chars": 6544,
+      "estimated_tokens": 1636,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklangref/arithmetic.md",
+      "chars": 33881,
+      "estimated_tokens": 8471,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklangref/bitwise.md",
+      "chars": 7900,
+      "estimated_tokens": 1975,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklangref/controlflow.md",
+      "chars": 51614,
+      "estimated_tokens": 12904,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklangref/core.md",
+      "chars": 32315,
+      "estimated_tokens": 8079,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklangref/dataoperator.md",
+      "chars": 36365,
+      "estimated_tokens": 9092,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklangref/datastruct.md",
+      "chars": 16081,
+      "estimated_tokens": 4021,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklangref/environment.md",
+      "chars": 24410,
+      "estimated_tokens": 6103,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklangref/funcprog.part01.md",
+      "chars": 53989,
+      "estimated_tokens": 13498,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklangref/funcprog.part02.md",
+      "chars": 15287,
+      "estimated_tokens": 3822,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklangref/inputoutput.part01.md",
+      "chars": 53945,
+      "estimated_tokens": 13487,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklangref/inputoutput.part02.md",
+      "chars": 11521,
+      "estimated_tokens": 2881,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklangref/list.md",
+      "chars": 31840,
+      "estimated_tokens": 7960,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklangref/logicalrel.md",
+      "chars": 15562,
+      "estimated_tokens": 3891,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklangref/nmspace.md",
+      "chars": 8957,
+      "estimated_tokens": 2240,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklangref/preface.md",
+      "chars": 12678,
+      "estimated_tokens": 3170,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklangref/sklangrefTOC.md",
+      "chars": 34925,
+      "estimated_tokens": 8732,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklangref/stringfunc.part01.md",
+      "chars": 54023,
+      "estimated_tokens": 13506,
+      "exceeds_limit": false,
+      "exceeds_safety_target": true
+    },
+    {
+      "path": "sklangref/stringfunc.part02.md",
+      "chars": 13603,
+      "estimated_tokens": 3401,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklangref/titlecopy.md",
+      "chars": 2461,
+      "estimated_tokens": 616,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklangref/trigono.md",
+      "chars": 3892,
+      "estimated_tokens": 973,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklangref/typeconv.md",
+      "chars": 9982,
+      "estimated_tokens": 2496,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklanguser/chap1.md",
+      "chars": 44268,
+      "estimated_tokens": 11067,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklanguser/chap10.md",
+      "chars": 39757,
+      "estimated_tokens": 9940,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklanguser/chap11.md",
+      "chars": 19695,
+      "estimated_tokens": 4924,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklanguser/chap12.md",
+      "chars": 34468,
+      "estimated_tokens": 8617,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklanguser/chap13.md",
+      "chars": 32275,
+      "estimated_tokens": 8069,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklanguser/chap14.md",
+      "chars": 28769,
+      "estimated_tokens": 7193,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklanguser/chap15.md",
+      "chars": 17768,
+      "estimated_tokens": 4442,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklanguser/chap16.md",
+      "chars": 36566,
+      "estimated_tokens": 9142,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklanguser/chap17.md",
+      "chars": 41207,
+      "estimated_tokens": 10302,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklanguser/chap2.md",
+      "chars": 27097,
+      "estimated_tokens": 6775,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklanguser/chap3.md",
+      "chars": 23326,
+      "estimated_tokens": 5832,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklanguser/chap4.md",
+      "chars": 52115,
+      "estimated_tokens": 13029,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklanguser/chap5.md",
+      "chars": 29472,
+      "estimated_tokens": 7368,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklanguser/chap6.md",
+      "chars": 16890,
+      "estimated_tokens": 4223,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklanguser/chap7.md",
+      "chars": 44449,
+      "estimated_tokens": 11113,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklanguser/chap8.md",
+      "chars": 48669,
+      "estimated_tokens": 12168,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklanguser/chap9.md",
+      "chars": 42160,
+      "estimated_tokens": 10540,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklanguser/preface.md",
+      "chars": 13319,
+      "estimated_tokens": 3330,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklanguser/sklanguserIX.md",
+      "chars": 15120,
+      "estimated_tokens": 3780,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklanguser/sklanguserTOC.md",
+      "chars": 39787,
+      "estimated_tokens": 9947,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "sklanguser/titlecopy.md",
+      "chars": 2468,
+      "estimated_tokens": 617,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "skipcref/skipcref.part01.md",
+      "chars": 51779,
+      "estimated_tokens": 12945,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "skipcref/skipcref.part02.md",
+      "chars": 38927,
+      "estimated_tokens": 9732,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "skdevref/skdevref.part01.md",
+      "chars": 51122,
+      "estimated_tokens": 12781,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "skdevref/skdevref.part02.md",
+      "chars": 51856,
+      "estimated_tokens": 12964,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "skdevref/skdevref.part03.md",
+      "chars": 51900,
+      "estimated_tokens": 12975,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "skdevref/skdevref.part04.md",
+      "chars": 51913,
+      "estimated_tokens": 12979,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "skdevref/skdevref.part05.md",
+      "chars": 1314,
+      "estimated_tokens": 329,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "skoopref/skoopref.part01.md",
+      "chars": 50833,
+      "estimated_tokens": 12709,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    },
+    {
+      "path": "skoopref/skoopref.part02.md",
+      "chars": 42837,
+      "estimated_tokens": 10710,
+      "exceeds_limit": false,
+      "exceeds_safety_target": false
+    }
+  ],
+  "indexes": {
+    "api_entries": 621,
+    "api_reference_dirs": [
+      "sklangref",
+      "skipcref",
+      "skdevref",
+      "skoopref"
+    ],
+    "topic_entries": 472,
+    "outputs": [
+      "sklang_api_index.part01.md",
+      "sklang_api_index.part02.md",
+      "sklang_api_index.part03.md",
+      "sklang_topic_index.md"
+    ]
+  },
+  "quality": {
+    "legacy_html_links": 3159,
+    "signature_name_mismatches": 15
+  }
+}
