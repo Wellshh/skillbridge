@@ -2,7 +2,10 @@ let((_filename _moduleFolder _logDirectory _unbound)
 
     _filename = get_filename(piport)
     _filename = pcreReplace(pcreCompile("^ +| +$") _filename "" 0)
-    _moduleFolder = substring(_filename 1 strlen(_filename)-23)
+    _moduleFolder = pcreReplace(
+        pcreCompile("[\\\\/][^\\\\/]+[\\\\/][^\\\\/]+[\\\\/][^\\\\/]+$")
+        _filename "" 0
+    )
     _logDirectory = getShellEnvVar("SKILLBRIDGE_LOG_DIRECTORY") || "."
     _unbound = makeTable("JustForUnbound")[""]
 
@@ -49,7 +52,7 @@ let((_filename _moduleFolder _logDirectory _unbound)
             pyStartServer.receiveBuffer = ""
 
             executableWithArgs = lsprintf(
-                "%L %s"
+                "%s %s"
                 pyStartServer.id
                 pyStartServer.logLevel
             )

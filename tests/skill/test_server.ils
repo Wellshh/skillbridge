@@ -134,7 +134,7 @@
 
             (setq commands (reverse commands))
             (qtest::assertEqual
-              '(t running t t nil nil nil nil stopped t t t t t)
+              '(t running t t nil nil nil nil stopped t t t)
               (list firstResult
                     firstState
                     (not (null (index (car commands) "-m skillbridge.server.python_server")))
@@ -148,6 +148,34 @@
                     (not (null (index (cadr commands) "--force-tcp")))
                     (not (null (index (cadr commands) "--timeout 2.5"))))
               ?msg "spawn must use module execution and cover optional flags and success/failure states"))
+          (progn
+            (putd '__pyIpcBeginProcess originalBegin)
+            (__pyTestRestoreServerState savedState)))))
+
+    (qtest::TestCase test_spawn_server_passes_string_id_unquoted
+      (let ((originalBegin (getd '__pyIpcBeginProcess))
+            (savedState (__pyTestServerState))
+            command)
+        (unwindProtect
+          (progn
+            (putd '__pyIpcBeginProcess
+                  (lambda (cmd _host _dataHandler _errorHandler _postFunc _logFile)
+                    (setq command cmd)
+                    'mockProcess))
+
+            pyStartServer.id = "7777"
+            pyStartServer.logLevel = "INFO"
+            pyStartServer.python = "python-test"
+            pyStartServer.singleMode = nil
+            pyStartServer.forceTcp = nil
+            pyStartServer.timeout = nil
+            (__pySpawnServer)
+
+            (qtest::assertEqual
+              '(t nil)
+              (list (not (null (index command "python_server 7777 INFO")))
+                    (index command "\"7777\""))
+              ?msg "string id must be passed unquoted so int(port) does not crash"))
           (progn
             (putd '__pyIpcBeginProcess originalBegin)
             (__pyTestRestoreServerState savedState)))))
@@ -190,6 +218,20 @@
             else
                 unsetShellEnvVar("PYTHONPATH"))
             (__pyTestRestoreServerState savedState)))))
+
+    ; Regression: moduleFolder must be the repo root (skillbridge package's
+    ; PARENT), not the package dir. __pySpawnServer sets PYTHONPATH to it so a
+    ; python with no editable install can `import skillbridge`. With the package
+    ; dir, `import skillbridge` fails (ModuleNotFoundError) -- the package dir
+    ; has no `skillbridge/` child. The package's __init__.py therefore lives at
+    ; moduleFolder/skillbridge/__init__.py, never at moduleFolder/__init__.py.
+    (qtest::TestCase test_module_folder_is_package_parent
+      (let ((pkgInit (strcat pyStartServer.moduleFolder "/skillbridge/__init__.py"))
+            (rootInit (strcat pyStartServer.moduleFolder "/__init__.py")))
+        (qtest::assertEqual
+          (list t nil)
+          (list (isFile pkgInit) (isFile rootInit))
+          ?msg "moduleFolder must be the package parent so PYTHONPATH resolves skillbridge")))
 
     (qtest::TestCase test_kill_and_restart_lifecycle
       (let ((originalKill (getd '__pyIpcKillProcess))
