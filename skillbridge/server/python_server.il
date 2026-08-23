@@ -411,10 +411,7 @@ let((_filename _moduleFolder _logDirectory _unbound)
 
     putd('__pyPropertyListToPython nil)
     defun(__pyPropertyListToPython (propList)
-        ; Iterate the raw (key val key val ...) pairs in list order. propList->?
-        ; returns property names in unspecified (often LIFO) order, which made the
-        ; serialized dict key order nondeterministic; reading the pairs directly
-        ; preserves the construction order of a literal disembodied property list.
+        ; Iterate (key val ...) directly to preserve DPL order (propList->? order is unspecified).
         let((rest parts)
             rest = cdr(propList)
             while(rest
@@ -577,13 +574,6 @@ let((_filename _moduleFolder _logDirectory _unbound)
         "ttlg"
     )
         let((effectivePython command process oldPythonPath)
-            ; Inherit the server's configured python by default: a bare "python"
-            ; is often absent from PATH on Windows, and the script must run with
-            ; the same interpreter the server uses. The ?python slot is typed
-            ; string ("ttlg"), so nil cannot be the default; "" is the sentinel
-            ; for "not given". Set PYTHONPATH to the package parent so the script
-            ; can `import skillbridge` without an editable install, mirroring
-            ; __pySpawnServer.
             effectivePython = if(python == "" then pyStartServer.python else python)
             command = lsprintf(
                 "%s %s %s"
