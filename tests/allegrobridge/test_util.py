@@ -5,6 +5,7 @@ from pathlib import Path
 
 from pytest import raises
 
+import allegrobridge.server
 from allegrobridge import Allegro
 from allegrobridge.util import (
     _extract_apis,  # ruff: ignore[import-private-name]
@@ -55,6 +56,12 @@ def test_build_map_contains_real_assets() -> None:
     assert apis == sorted(set(apis))
     assert mapping['geo_rotate_pt'] == 'axlGeoRotatePt'
     assert mapping['axl_cns_add_via'] == 'axlCnsAddVia'
+
+
+def test_allegro_server_skill_file_is_packaged() -> None:
+    server_file = Path(allegrobridge.server.__file__).with_name('allegro_server.il')
+
+    assert server_file.is_file()
 
 
 def test_allegro_open_validates_mode() -> None:

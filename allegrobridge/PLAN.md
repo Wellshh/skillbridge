@@ -388,8 +388,8 @@ skill pyStartServer(...)
 
 ```python
 # 示例调用
-design = ws.axl.db_get_design()      # 自动解析为 axlDBGetDesign
-spacing = ws.axl.cns_get_spacing()    # 自动解析为 axlCNSGetSpacing
+design = ws.axl.db_get_design()  # 自动解析为 axlDBGetDesign
+spacing = ws.axl.cns_get_spacing()  # 自动解析为 axlCNSGetSpacing
 ```
 
 不过高层 API（Phase 5/6 领域 SDK）仍将调用专有的固定过程或 DTO 函数，而不是让业务层直接分散调用底层的数百个裸 `axl*` 函数。

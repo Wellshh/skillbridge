@@ -1,0 +1,138 @@
+;;; test_allegro_server.ils - Unit tests for the Allegro transaction kernel.
+
+(qcover::load (strcat (qub::scriptDir)
+                      "/../../allegrobridge/server/allegro_server.il"))
+
+(defun __abTestRunTransaction (okValue startValue commitValue rollbackValue command)
+  (let ((originalOK (getd '__abOKToProceed))
+        (originalStart (getd '__abTransactionStart))
+        (originalCommit (getd '__abTransactionCommit))
+        (originalRollback (getd '__abTransactionRollback))
+        calls
+        result
+        failure)
+    (unwindProtect
+      (progn
+        (putd '__abOKToProceed
+              (lambda ()
+                (setq calls (cons 'ok calls))
+                okValue))
+        (putd '__abTransactionStart
+              (lambda ()
+                (setq calls (cons 'start calls))
+                startValue))
+        (putd '__abTransactionCommit
+              (lambda (mark)
+                (setq calls (cons (list 'commit mark) calls))
+                commitValue))
+        (putd '__abTransactionRollback
+              (lambda (mark)
+                (setq calls (cons (list 'rollback mark) calls))
+                ;; Deliberately overwrite errset.errset.  The transaction
+                ;; kernel must already have saved the command failure.
+                (errset (plus 1 "rollback-overwrite"))
+                rollbackValue))
+        (setq result (errset (__abRunTransaction command)))
+        (unless result
+          (setq failure errset.errset)))
+      (progn
+        (putd '__abOKToProceed originalOK)
+        (putd '__abTransactionStart originalStart)
+        (putd '__abTransactionCommit originalCommit)
+        (putd '__abTransactionRollback originalRollback)))
+    (list result
+          failure
+          (reverse calls)
+          (and (eq originalOK (getd '__abOKToProceed))
+               (eq originalStart (getd '__abTransactionStart))
+               (eq originalCommit (getd '__abTransactionCommit))
+               (eq originalRollback (getd '__abTransactionRollback))))))
+
+(qtest::runSuites
+  (qtest::TestSuite ()
+    (qtest::TestCase test_transaction_rejects_busy_allegro
+      (letseq ((run (__abTestRunTransaction nil 17 t t "42"))
+               (failureText (sprintf nil "%L" (cadr run))))
+        (qtest::assertEqual '(ok) (nth 2 run)
+                            ?msg "busy Allegro must not start a transaction")
+        (qtest::assertTrue (index failureText "BUSY_ACTIVE_COMMAND"))))
+
+    (qtest::TestCase test_transaction_rejects_failed_start
+      (letseq ((run (__abTestRunTransaction t nil t t "42"))
+               (failureText (sprintf nil "%L" (cadr run))))
+        (qtest::assertEqual '(ok start) (nth 2 run)
+                            ?msg "failed start must not commit or rollback")
+        (qtest::assertTrue (index failureText "TRANSACTION_START_FAILED"))))
+
+    (qtest::TestCase test_transaction_commits_non_nil_result
+      (let ((run (__abTestRunTransaction t 17 t t "42")))
+        (qtest::assertEqual '(42) (car run))
+        (qtest::assertEqual '(ok start (commit 17)) (nth 2 run))))
+
+    (qtest::TestCase test_transaction_commits_nil_result
+      (let ((run (__abTestRunTransaction t 17 t t "nil")))
+        (qtest::assertEqual '(nil) (car run)
+                            ?msg "(nil) is a successful errsetstring result")
+        (qtest::assertEqual '(ok start (commit 17)) (nth 2 run))))
+
+    (qtest::TestCase test_transaction_rolls_back_parse_error
+      (let (expectedError run failureText)
+        (errsetstring "(")
+        (setq expectedError (sprintf nil "%L" errset.errset))
+        (setq run (__abTestRunTransaction t 17 t t "("))
+        (setq failureText (sprintf nil "%L" (cadr run)))
+        (qtest::assertEqual '(ok start (rollback 17)) (nth 2 run))
+        (qtest::assertTrue
+          (and (index failureText "TRANSACTION_COMMAND_FAILED")
+               (index failureText expectedError))
+          ?msg "parse failure must retain the original errset.errset")))
+
+    (qtest::TestCase test_transaction_rolls_back_runtime_error
+      (let (expectedError run failureText)
+        (errsetstring "error(\"runtime-boom\")")
+        (setq expectedError (sprintf nil "%L" errset.errset))
+        (setq run
+              (__abTestRunTransaction
+                t 17 t t "error(\"runtime-boom\")"))
+        (setq failureText (sprintf nil "%L" (cadr run)))
+        (qtest::assertEqual '(ok start (rollback 17)) (nth 2 run))
+        (qtest::assertTrue
+          (and (index failureText "TRANSACTION_COMMAND_FAILED")
+               (index failureText expectedError))
+          ?msg "runtime failure must retain the original errset.errset"))))
+
+  (qtest::TestSuite ()
+    (qtest::TestCase test_command_and_rollback_failure_are_reported
+      (letseq ((run
+                 (__abTestRunTransaction
+                   t 17 t nil "error(\"command-boom\")"))
+               (failureText (sprintf nil "%L" (cadr run))))
+        (qtest::assertEqual '(ok start (rollback 17)) (nth 2 run))
+        (qtest::assertTrue
+          (and (index failureText "TRANSACTION_COMMAND_FAILED")
+               (index failureText "TRANSACTION_ROLLBACK_FAILED")))))
+
+    (qtest::TestCase test_commit_failure_rolls_back
+      (letseq ((run (__abTestRunTransaction t 17 nil t "42"))
+               (failureText (sprintf nil "%L" (cadr run))))
+        (qtest::assertEqual
+          '(ok start (commit 17) (rollback 17))
+          (nth 2 run)
+          ?msg "commit failure must attempt exactly one rollback")
+        (qtest::assertTrue (index failureText "TRANSACTION_COMMIT_FAILED"))
+        (qtest::assertNil (index failureText "TRANSACTION_ROLLBACK_FAILED"))))
+
+    (qtest::TestCase test_commit_and_rollback_failure_are_reported
+      (letseq ((run (__abTestRunTransaction t 17 nil nil "42"))
+               (failureText (sprintf nil "%L" (cadr run))))
+        (qtest::assertEqual
+          '(ok start (commit 17) (rollback 17))
+          (nth 2 run))
+        (qtest::assertTrue
+          (and (index failureText "TRANSACTION_COMMIT_FAILED")
+               (index failureText "TRANSACTION_ROLLBACK_FAILED")))))
+
+    (qtest::TestCase test_transaction_mocks_are_restored
+      (let ((run (__abTestRunTransaction t 17 t t "42")))
+        (qtest::assertTrue (nth 3 run)
+                           ?msg "all AXL wrappers must be restored")))))

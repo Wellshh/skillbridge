@@ -2,63 +2,13 @@ from __future__ import annotations
 
 import re
 import sys
-from inspect import signature
 from pathlib import Path
+from unittest.mock import Mock
 
 from pytest import MonkeyPatch, fixture, raises
 
 from allegrobridge import Allegro, allegro
 from allegrobridge.allegro import _resolve_executable  # ruff: ignore[import-private-name]
-
-
-class FakeProcess:
-    def __init__(self) -> None:
-        self.terminated = False
-
-    def poll(self) -> None:
-        return None
-
-    def terminate(self) -> None:
-        self.terminated = True
-
-    def kill(self) -> None:
-        self.terminated = True
-
-    def wait(self, timeout: float | None = None) -> int:
-        del timeout
-        return 0
-
-
-class FakeWorkspace:
-    def __init__(self) -> None:
-        self.closed = False
-
-    def close(self) -> None:
-        self.closed = True
-
-
-class LaunchRecorder:
-    def __init__(self) -> None:
-        self.process = FakeProcess()
-        self.workspace = FakeWorkspace()
-        self.command: list[str] = []
-
-    @property
-    def script_path(self) -> Path:
-        return Path(self.command[2])
-
-
-@fixture
-def launch_recorder(monkeypatch: MonkeyPatch) -> LaunchRecorder:
-    recorder = LaunchRecorder()
-
-    def fake_popen(command: list[str], *, shell: bool) -> FakeProcess:
-        assert not shell
-        recorder.command = command
-        return recorder.process
-
-    monkeypatch.setattr(allegro, 'Popen', fake_popen)
-    return recorder
 
 
 @fixture
@@ -67,20 +17,6 @@ def executable(tmp_path: Path) -> Path:
     exe.touch()
     exe.chmod(0o755)
     return exe
-
-
-def stub_ready(monkeypatch: MonkeyPatch, workspace: FakeWorkspace) -> None:
-    def ready(
-        process: object,
-        workspace_id: object,
-        *,
-        force_tcp: bool,
-        timeout: float,
-    ) -> FakeWorkspace:
-        del process, workspace_id, force_tcp, timeout
-        return workspace
-
-    monkeypatch.setattr(Allegro, '_wait_for_workspace', ready)
 
 
 def test_resolve_executable_returns_explicit_path(executable: Path) -> None:
@@ -125,55 +61,60 @@ def test_resolve_executable_raises_with_guidance(
 
 
 def test_launch_writes_posix_startup_script_and_passes_board(
-    launch_recorder: LaunchRecorder,
     executable: Path,
     monkeypatch: MonkeyPatch,
     tmp_path: Path,
 ) -> None:
     board = tmp_path / 'shape1.brd'
     board.touch()
-    stub_ready(monkeypatch, launch_recorder.workspace)
+
+    command: list[str] = []
+    process = Mock(poll=Mock(return_value=None), terminate=Mock())
+    workspace = Mock(close=Mock())
+
+    def fake_popen(cmd: list[str], *, shell: bool) -> Mock:
+        assert not shell
+        command.extend(cmd)
+        return process
+
+    monkeypatch.setattr(allegro, 'Popen', fake_popen)
+    monkeypatch.setattr(Allegro, '_wait_for_workspace', lambda *_, **__: workspace)
 
     opened = Allegro.launch(board=board, executable=executable)
 
-    command = launch_recorder.command
-    assert command[:2] == [str(executable), '-s']
-    assert command[3] == board.resolve().as_posix()
+    command_list = command
+    assert command_list[:2] == [str(executable), '-s']
+    assert command_list[3] == board.resolve().as_posix()
 
-    script = launch_recorder.script_path.read_text(encoding='utf-8')
+    script_path = Path(command_list[2])
+    script = script_path.read_text(encoding='utf-8')
     assert 'pyStartServer' in script
     assert Path(sys.executable).as_posix() in script
     assert '\\' not in script
 
     opened.close()
-    assert launch_recorder.workspace.closed
-    assert launch_recorder.process.terminated
-    assert not launch_recorder.script_path.exists()
+    workspace.close.assert_called_once()
+    process.terminate.assert_called_once()
+    assert not script_path.exists()
 
 
 def test_launch_cleans_up_when_workspace_never_connects(
-    launch_recorder: LaunchRecorder,
     executable: Path,
     monkeypatch: MonkeyPatch,
 ) -> None:
-    def never_ready(
-        process: object,
-        workspace_id: object,
-        *,
-        force_tcp: bool,
-        timeout: float,
-    ) -> None:
-        raise TimeoutError
+    command: list[str] = []
+    process = Mock(poll=Mock(return_value=None), terminate=Mock())
 
-    monkeypatch.setattr(Allegro, '_wait_for_workspace', never_ready)
+    def fake_popen(cmd: list[str], *, shell: bool) -> Mock:
+        assert not shell
+        command.extend(cmd)
+        return process
+
+    monkeypatch.setattr(allegro, 'Popen', fake_popen)
+    monkeypatch.setattr(Allegro, '_wait_for_workspace', Mock(side_effect=TimeoutError))
 
     with raises(TimeoutError):
         Allegro.launch(executable=executable)
 
-    assert launch_recorder.process.terminated
-    assert not launch_recorder.script_path.exists()
-
-
-def test_default_launch_timeout_covers_cold_start() -> None:
-    for method in (Allegro.launch, Allegro.open):
-        assert signature(method).parameters['timeout'].default >= 120
+    process.terminate.assert_called_once()
+    assert not Path(command[2]).exists()

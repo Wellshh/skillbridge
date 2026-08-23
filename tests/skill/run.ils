@@ -27,6 +27,7 @@
     (load (strcat (qub::scriptDir) "/qtest/src/qtest/test_reporter.ils"))
     (load (strcat (qub::scriptDir) "/qtest/src/qcover/test_qcover.ils"))
     (load (strcat (qub::scriptDir) "/test_server.ils"))
+    (load (strcat (qub::scriptDir) "/test_allegro_server.ils"))
     (load (strcat (qub::scriptDir) "/test_run.ils"))
     (let ((failed (qtest::printSummary)))
       (when (greaterp failed 0)

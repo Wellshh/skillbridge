@@ -10,6 +10,7 @@ from typing import NewType
 
 import pytest
 
+import allegrobridge.server
 from allegrobridge import Allegro, OpenMode, Workspace
 from allegrobridge.util import ASSETS_DIR
 
@@ -87,6 +88,15 @@ class TestBasicOp:
     def test_geo_rotate_pt(self, ws: Workspace) -> None:
         rotated = ws.geo.rotate_pt(90.0, [100.0, 0.0], None)
         assert rotated == pytest.approx([0.0, 100.0])
+
+    def test_transaction_extension_commits_and_rolls_back(self, ws: Workspace) -> None:
+        server_file = Path(allegrobridge.server.__file__).with_name('allegro_server.il')
+        ws['load'](server_file.as_posix())
+
+        assert ws['__abRunTransaction']('42') == 42
+        with pytest.raises(RuntimeError, match='TRANSACTION_COMMAND_FAILED'):
+            ws['__abRunTransaction']('error("integration-rollback")')
+        assert self._single_ping_test(ws)
 
     def test_callback_keeps_working_while_idle(self, ws: Workspace) -> None:
         assert self._single_ping_test(ws)

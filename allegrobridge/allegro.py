@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import sys
 from contextlib import suppress
 from os import getenv
@@ -29,19 +30,14 @@ def _resolve_executable(executable: str | Path) -> str:
     if path.is_file():
         return str(path)
 
-    found = which(str(executable))
+    search_dirs = [
+        str(Path(root) / 'tools' / 'bin') for var in _INSTALL_ROOT_VARS if (root := getenv(var))
+    ]
+    search_path = os.pathsep.join([getenv('PATH', ''), *search_dirs])
+
+    found = which(str(executable), path=search_path)
     if found is not None:
         return found
-
-    names = [path.name] if path.suffix else [path.name, f'{path.name}.exe']
-    for var in _INSTALL_ROOT_VARS:
-        root = getenv(var)
-        if root is None:
-            continue
-        for name in names:
-            candidate = Path(root) / 'tools' / 'bin' / name
-            if candidate.is_file():
-                return str(candidate)
 
     raise FileNotFoundError(
         f"could not find the Allegro executable {str(executable)!r}: not on PATH and no "
