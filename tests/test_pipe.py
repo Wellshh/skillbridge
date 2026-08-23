@@ -536,13 +536,22 @@ def test_response_published_at_deadline_is_delivered(
     monkeypatch: MonkeyPatch,
 ) -> None:
     channel, server = skill_pipe
-    current_time = 100.0
-    monkeypatch.setattr(time, 'monotonic', lambda: current_time)
+    published = False
+    monkeypatch.setattr(time, 'monotonic', lambda: 102.0 if published else 100.0)
+
+    original_publish = _StateMachine.publish
+
+    def publish_at_deadline(self: _StateMachine, event: SkillResp | Exception) -> None:
+        nonlocal published
+        original_publish(self, event)
+        published = True
+
+    monkeypatch.setattr(_StateMachine, 'publish', publish_at_deadline)
+
     client = Client(lambda: channel.execute('race()', timeout=1.0))
     client.start()
     assert server.recv() == 'race()'
 
-    current_time = 102.0
     server.respond('exact boundary')
 
     assert client.result() == SkillResp('success', 'exact boundary')
