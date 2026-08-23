@@ -32,9 +32,5 @@ _workspace_members = set(dir(GWorkspace))
 Workspace.__annotations__.update({
     domain: FunctionCollection
     for domain in extract_api_domains()
-    if (
-        domain.isidentifier()
-        and domain != "root"
-        and domain not in _workspace_members
-    )
+    if (domain.isidentifier() and domain != "root" and domain not in _workspace_members)
 })
