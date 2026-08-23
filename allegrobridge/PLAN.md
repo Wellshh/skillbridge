@@ -2,11 +2,11 @@
 
 基于 `skillbridge` 实施时，不要让业务代码直接依赖 `Workspace`、`RemoteObject` 和任意字符串 SKILL。更稳妥的目标架构是：
 
-> **skillbridge 通信内核 + Allegro 专用 RPC 适配层 + DTO 化 Python SDK + 串行执行器 + 大数据文件通道。**
+> **skillbridge 通信内核 + Allegro 原子事务边界 + DTO 化 Python SDK + 大数据文件通道。**
 
 `skillbridge` 已经具备三个很有价值的基础：Python/SKILL 类型转换、远程对象属性访问，以及 Windows 下的 localhost TCP 通道；它的 `Workspace` 甚至已经预留了 `axl` 函数集合。 
 
-但不能原样用于生产。当前 Windows server 不支持超时；TCP 收发存在“假设一次 `recv` 就拿到完整长度头”的问题；多线程 TCP handler 共用一条 Allegro stdin/stdout 管道；客户端还会在断线后自动重连并重发请求；响应解析使用了 Python `eval()`。这些都必须先加固。    
+当前通信内核已经具备帧收发、严格串行执行、Windows timeout、超时后响应排空、SKILL callback 缓冲和写请求不自动重发。在没有真实需求或故障证据前，不再引入 UUID envelope、token、结果缓存或更多恢复状态。下一个核心能力是让 Python 与 SKILL 共同建立单次 RPC 内的原子事务边界。
 
 ---
 
@@ -21,20 +21,20 @@
 │ 返回 DTO，不返回裸 DBID                                    │
 ├───────────────────────────────────────────────────────────┤
 │ AllegroSession                                             │
-│ 单写者锁、超时状态机、事务批次、幂等键、能力检查             │
+│ 事务批次、能力检查、领域服务                            │
 ├───────────────────────────────────────────────────────────┤
 │ Raw Workspace Adapter                                      │
 │ 基于 skillbridge 的函数调用、类型转换、RemoteObject          │
 ├───────────────────────────────────────────────────────────┤
 │ TCP Protocol                                               │
-│ 127.0.0.1 + 长度帧 + JSON envelope + token                 │
+│ 127.0.0.1 / Unix socket + 现有长度帧                      │
 ├───────────────────────────────────────────────────────────┤
 │ Python Relay Process                                       │
 │ Allegro 通过 ipcBeginProcess 启动                           │
-│ ExecutionDispatcher + PipeReader + Result Cache            │
+│ Pipe 串行执行 + reader thread                              │
 ├───────────────────────────────────────────────────────────┤
 │ Allegro SKILL Bridge                                       │
-│ ABOnData / ABEval / ABGetCapabilities / ABRunTransaction   │
+│ 通用 py* server + Allegro 专属 __abRunTransaction         │
 ├───────────────────────────────────────────────────────────┤
 │ Allegro AXL-SKILL API                                      │
 │ axlDBGetDesign / axlDBTransaction* / 其他 axl*              │
@@ -48,7 +48,7 @@ Allegro SKILL ──写 CSV/TSV 临时文件──> Python Bulk Reader
 
 **RPC 路径**用于控制、小结果查询和写操作，例如读取板信息、查询一个元件、移动一个器件、保存设计。
 
-**Bulk 路径**用于大量元件、网络、引脚、图形和属性导出。当前 skillbridge 默认最大传输长度是 1,000,000 字节，大型 PCB 很容易超过；而逐个 RemoteObject 查询会造成严重的 N+1 往返。 
+**Bulk 路径**只在大量元件、网络、引脚、图形和属性导出证明现有帧通道成为瓶颈时引入。优先避免逐个 `RemoteObject` 查询造成的 N+1 往返。
 
 ---
 
@@ -56,8 +56,9 @@ Allegro SKILL ──写 CSV/TSV 临时文件──> Python Bulk Reader
 
 | 原则 | 实施方式 |
 |---|---|
-| Allegro 命令严格串行 | 所有请求进入单一 `ExecutionDispatcher` |
-| 写操作绝不盲目重试 | 超时后返回 `UNKNOWN_COMMIT_STATE` |
+| Allegro 命令严格串行 | 复用现有 `Pipe` 执行锁 |
+| 写操作必须具有事务边界 | 一次 RPC 内开启事务，成功 commit，失败 rollback |
+| 写操作绝不盲目重试 | 传输失败直接报错，不重发同一命令 |
 | 业务 API 不暴露 DBID | 对外返回 `ComponentInfo`、`NetInfo` 等 DTO |
 | 大列表不逐项访问 | 在 SKILL 内一次投影，写入共享临时文件 |
 | 事务优先于 Undo | 第一版先保证 Commit/Rollback，原生 Undo 后做 |
@@ -71,100 +72,37 @@ Cadence 的数据库对象通过 DBID 操作；DBID 会随设计变化，对象�
 
 ---
 
-# 三、推荐项目结构
+# 三、当前项目边界
 
-不要继续沿用 `skillbridge` 包名作为最终业务包名。建议新建独立 namespace：
+保留现有两层，不提前拆分 `protocol/`、`transport/`、`bulk/` 或多个领域包：
 
 ```text
-allegro-python-bridge/
-├── pyproject.toml
-├── README.md
-├── src/
-│   └── allegro_bridge/
-│       ├── __init__.py
-│       ├── cli.py
-│       ├── config.py
-│       ├── session.py
-│       ├── state.py
-│       │
-│       ├── protocol/
-│       │   ├── framing.py
-│       │   ├── messages.py
-│       │   ├── errors.py
-│       │   └── codec.py
-│       │
-│       ├── transport/
-│       │   ├── tcp_channel.py
-│       │   ├── dispatcher.py
-│       │   ├── pipe_reader.py
-│       │   └── server.py
-│       │
-│       ├── raw/
-│       │   ├── workspace.py
-│       │   ├── translator.py
-│       │   ├── function_registry.py
-│       │   ├── remote_object.py
-│       │   └── handles.py
-│       │
-│       ├── api/
-│       │   ├── board.py
-│       │   ├── components.py
-│       │   ├── symbols.py
-│       │   ├── nets.py
-│       │   ├── layers.py
-│       │   ├── geometry.py
-│       │   ├── properties.py
-│       │   └── transactions.py
-│       │
-│       ├── models/
-│       │   ├── common.py
-│       │   ├── board.py
-│       │   ├── component.py
-│       │   ├── net.py
-│       │   └── operation.py
-│       │
-│       ├── bulk/
-│       │   ├── reader.py
-│       │   ├── manifest.py
-│       │   └── cleanup.py
-│       │
-│       └── resources/
-│           └── skill/
-│               ├── allegro_bridge.il
-│               ├── serializer.il
-│               ├── session.il
-│               ├── transactions.il
-│               ├── board.il
-│               ├── components.il
-│               ├── nets.il
-│               ├── geometry.il
-│               └── compatibility.il
-│
-└── tests/
-    ├── unit/
-    ├── protocol/
-    ├── mock_skill/
-    ├── windows_integration/
-    └── boards/
+skillbridge/                 # 现有通信、编码与远程对象内核
+allegrobridge/
+├── allegro.py               # Allegro 窗口生命周期
+├── client/
+│   ├── workspace.py         # Allegro Workspace 与 transaction 原语
+│   └── translator.py        # Allegro 函数名映射
+└── server/
+    ├── __init__.py
+    └── allegro_server.il     # Allegro 专属 SKILL 扩展
 ```
 
-代码来源方面，建议先 fork `skillbridge` 做验证，再把真正需要的核心文件迁入新 namespace。skillbridge 是 LGPL-3.0，fork 和分发时需要保留对应许可与归属。
+通用 `skillbridge/server/python_server.il` 不得引用任何 `axl*` API。`allegro_server.il` 作为库扩展被加载，不是独立用户命令，因此不需要为内部 procedure 额外注册 `axlCmdRegister`。该 `.il` 文件必须加入 wheel package-data，并增加 wheel 内文件存在性测试。
+
+只有当 board/components/nets 出现足够多的稳定业务 API 时，才按实际边界继续拆分领域模块。LGPL-3.0 许可与归属继续保留。
 
 ---
 
-# 四、对 skillbridge 各文件的具体改造
+# 四、当前基线与延后项
 
 ## 1. `skillbridge/server/python_server.py`
 
-这是改造优先级最高的文件。
+长度帧精确读取、`sendall()`、`Pipe` 串行化、reader thread timeout 与 SKILL callback 缓冲已完成。下面 1.1～1.4 保留为当前基线的设计记录，不再作为后续阶段。
 
-当前 Windows 路径已经使用 localhost TCP，并尝试启用 `SIO_LOOPBACK_FAST_PATH`，因此可以保留整体方向。 
+### 1.1 已实现 `recv_exact`
 
-必须修改：
-
-### 1.1 实现 `recv_exact`
-
-现在代码直接：
+旧实现曾直接：
 
 ```python
 length = self.request.recv(10)
@@ -187,11 +125,11 @@ def recv_exact(sock: socket.socket, size: int) -> bytes:
     return b"".join(chunks)
 ```
 
-长度头和 payload 都必须使用 `recv_exact`。
+当前长度头和 payload 都通过 `Socket.recv()` 精确读取。
 
-### 1.2 所有响应改为 `sendall`
+### 1.2 已将所有响应改为 `sendall`
 
-当前 server 使用 `send()` 返回长度和内容，也可能出现部分发送。
+旧 server 使用 `send()` 返回长度和内容，可能出现部分发送。
 
 改成：
 
@@ -200,7 +138,7 @@ self.request.sendall(f"{len(result):10}".encode("ascii"))
 self.request.sendall(result)
 ```
 
-### 1.3 删除多线程直接操作 SKILL pipe
+### 1.3 已串行化 SKILL pipe
 
 当前 `ThreadingTcpServer` 的多个 handler 会共用：
 
@@ -211,7 +149,7 @@ stdin  ← Allegro
 
 这是一个单工序列通道，不能并发。
 
-新增：
+当前由 `Pipe.execute()` 的执行锁统一保证串行，不再新增第二个 dispatcher 抽象。早期方案曾设想：
 
 ```python
 class ExecutionDispatcher:
@@ -233,11 +171,9 @@ MVP 可以先直接强制：
 pyStartServer(?singleMode t)
 ```
 
-生产版仍建议保留 dispatcher，因为 Python 应用内部也可能多线程调用。
+### 1.4 已用 reader thread 实现 Windows timeout
 
-### 1.4 用 reader thread 实现 Windows timeout
-
-当前 Windows 上 `win_data_ready()` 永远返回 `True`，然后进入阻塞的 `stdin.readline()`；项目也明确禁止 Windows timeout。  
+旧实现在 Windows 上会进入阻塞的 `stdin.readline()`。
 
 改成：
 
@@ -279,9 +215,9 @@ READY → EXECUTING → READY
 
 `DRAINING` 或 `DEGRADED` 时拒绝任何新写请求。
 
-### 1.5 加 request ID 和结果缓存
+### 1.5 按需再加 request ID 和结果缓存
 
-请求必须带 UUID：
+当真实应用需要在断线重连后去重时，请求才需要带 UUID：
 
 ```json
 {
@@ -313,9 +249,7 @@ UNKNOWN_COMMIT_STATE
 
 ## 2. `skillbridge/client/channel.py`
 
-当前 channel 断线时会自动 reconnect，然后重发 payload。对于读取操作通常问题不大，但对于“移动元件、删除图形、保存设计”等写操作，可能造成重复执行。
-
-应改成：
+当前 channel 可在断线后重建连接，但不会自动重发已发送的 payload，已满足事务写操作的最小要求。只有真实需要只读自动重试时，才考虑引入：
 
 ```python
 class RetryPolicy(Enum):
@@ -386,160 +320,83 @@ _ALLOWED_CALLS = {
 
 解析过程使用 `ast.parse(..., mode="eval")`，逐节点解释，不直接执行。
 
-长期可以把 SKILL wire format 改成 tagged JSON，但 AST 白名单方案改造量更小，适合第一版生产化。
+只有安全边界需要开放给不可信输入时，才进一步引入 AST 白名单或 tagged JSON。
 
 ---
 
 ## 4. `skillbridge/server/python_server.il`
 
-这个文件是 Allegro 适配核心。
-
-现有代码已经完成：
+这个文件继续作为 Cadence 宿主无关的通用内核，不直接调用 `axlDBTransaction*` 或任何其他 Allegro AXL API。它只负责：
 
 - `ipcBeginProcess`
-- `evalstring`
+- 单行 command 执行
 - 成功/失败返回
 - Python/SKILL 类型转换
 - RemoteObject 保存
+- server 启动、停止和重启生命周期
 
-  
-
-建议复制为：
-
-```text
-resources/skill/allegro_bridge.il
-```
-
-并把所有 `py*`、`__py*` 前缀改为 `AB*` 或 `__ab*`，避免与其他 Cadence SKILL 工具冲突。
-
-需要增加：
-
-```skill
-ABStartServer()
-ABStopServer()
-ABRestartServer()
-ABStatus()
-ABOnData()
-ABOnError()
-ABOnFinish()
-ABGetCapabilities()
-ABGetSessionInfo()
-ABReleaseHandle()
-ABReleaseAllHandles()
-ABEval()
-ABLoadFile()
-ABRunTransaction()
-```
-
-### 4.1 增加接收缓冲区
-
-当前 handler 使用：
-
-```skill
-foreach(line parseString(data "\n") ...)
-```
-
-但 `ipcBeginProcess` callback 的 `data` 不应假设永远按完整行切块。
-
-应保留一个全局 buffer：
-
-```text
-ABReceiveBuffer = ABReceiveBuffer + data
-不断提取完整的 "\n" 行
-最后不足一行的部分留到下次 callback
-```
-
-具体字符串定位 API 应根据目标 Allegro 版本验证，但设计上必须存在这一层。
-
-### 4.2 禁止直接发送多行代码
-
-Python relay 到 Allegro 的 pipe 只传单行表达式。
-
-多行脚本处理方式：
-
-1. Python 写入临时 `.il` 文件；
-2. 将路径中的 `\` 统一为 `/`；
-3. 发送单行：
-
-```skill
-load("C:/Users/.../temp/request_123.il")
-```
-
-Cadence 的 Allegro SKILL 可以在命令行进入 SKILL 环境并加载 `.il`，也可以通过 `axlCmdRegister` 注册命令；Windows 路径建议使用 `/`。
-
-### 4.3 注册管理命令
-
-```skill
-axlCmdRegister(
-    "ab_start"
-    'ABStartServer
-    ?cmdType "general"
-)
-
-axlCmdRegister(
-    "ab_stop"
-    'ABStopServer
-    ?cmdType "general"
-)
-
-axlCmdRegister(
-    "ab_status"
-    'ABStatus
-    ?cmdType "general"
-)
-```
-
-不要在加载 `allegro_bridge.il` 时无条件自动启动。启动行为应由配置控制，以免每次 Allegro 打开都占用端口。
+不复制、重命名或 fork 该文件；`allegrobridge` 通过独立 extension 在其上叠加 Allegro 能力。
 
 ---
 
-## 5. `skillbridge/client/workspace.py`
+## 5. `allegrobridge/server/allegro_server.il`
 
-`Workspace` 已定义 `axl: FunctionCollection`，但函数名中的大写缩写需要特殊处理。
-
-例如：
+该文件只存放 Allegro 专属 procedure，统一使用 `__ab*` 内部前缀。当前只实现：
 
 ```text
-axlDBGetDesign
+__abRunTransaction(command)
 ```
 
-不能简单认为 Python 名一定是：
+不在本阶段增加第二套 start/stop/restart、callback、serializer、handle table 或 capability 系统。
 
-```python
-ws.axl.db_get_design()
+### 5.1 加载责任
+
+CLI 模式的 startup script 按顺序执行：
+
+```skill
+skill load(".../skillbridge/server/python_server.il")
+skill load(".../allegrobridge/server/allegro_server.il")
+skill pyStartServer(...)
 ```
 
-现有转换更可能暴露成带缩写大小写的形式。PoC 阶段直接使用精确函数名：
+在 `allegrobridge.Workspace._create_workspace()` 完成 Allegro 宿主探测后，对 Allegro Workspace 检查 `isCallable('__abRunTransaction)`；缺失时调用 `load()`，然后再次检查。加载或复核失败时，关闭刚创建的 workspace 再抛出错误。Virtuoso 等非 Allegro 宿主仍返回通用 Workspace，不加载该扩展。
 
-```python
-design = ws["axlDBGetDesign"]()
-```
+不覆写 `Workspace.open()`：该方法已有实例缓存，`_create_workspace()` 只在缓存未命中时执行，使扩展初始化天然只发生一次。CLI 模式也经过这一复核，因此 startup script 加载失败不会被误报为就绪。`Workspace.transaction()` 只调用已加载的 procedure，不在每次写操作前部署文件。
 
-生产版新增 `AllegroFunctionRegistry`：
+### 5.2 包装与路径
 
-1. 启动时枚举真实 `axl*` 函数名；
-2. 建立规范化 alias；
-3. 保留 exact-name escape hatch；
-4. 遇到歧义时拒绝自动映射。
-
-例如：
-
-```python
-registry.resolve("db_get_design") == "axlDBGetDesign"
-registry.resolve("ui_popup_define") == "axlUIPopupDefine"
-```
-
-不过高层 API 最好调用你自己的固定函数：
-
-```python
-ws["ABListComponents"](...)
-```
-
-而不是让业务层直接动态调用数百个 `axl*` 函数。
+`allegrobridge/server/__init__.py` 作为资源定位点；Python 从已安装包的 `__file__` 定位同目录 `.il` 文件，转为 `/` 分隔的绝对路径再交给 SKILL。`pyproject.toml` 的 package-data 与 `MANIFEST.in` 都必须包含 `allegrobridge/server/allegro_server.il`，分别保障 wheel 和 source distribution。
 
 ---
 
-## 6. `skillbridge/client/objects.py`
+## 6. `allegrobridge/client/workspace.py` 与 `translator.py`
+
+`Workspace` 继承自 `skillbridge.client.workspace.Workspace`，并绑定了专用的 `allegrobridge.client.translator.Translator`。
+
+### 6.1 `axl*` 函数名与缩写映射（已实现）
+
+对于 `axlDBGetDesign`、`axlCNSGetSpacing`、`axlUIPopupDefine` 等带有大写缩写的 Allegro AXL 函数名，如果直接使用默认规则可能无法得到正确的驼峰命名。
+
+当前已通过 `allegrobridge/util.py` 和 `allegrobridge/client/translator.py` 实现完整映射方案：
+
+1. **真实 API 资源清单**：`allegrobridge/assets/api_names.txt` 包含了 792 个真实 Cadence Allegro `axl*` 函数；
+2. **规范化 Lookup 字典**：`build_snake_to_axl_map()` 启动时通过正则拆分 token，构建双向映射表：
+   - 领域+动作：`"db_get_design"` → `"axlDBGetDesign"`
+   - 完整蛇形：`"axl_db_get_design"` → `"axlDBGetDesign"`
+   - 原名直通：`"axlDBGetDesign"` → `"axlDBGetDesign"`
+3. **透明拦截转换**：`Translator.format_function_name()` 优先从 `_SNAKE_TO_AXL` 查表匹配，支持 `ws.axl.db_get_design()`、`ws.axl.axl_db_get_design()` 与 `ws["axlDBGetDesign"]()` 无缝调用。
+
+```python
+# 示例调用
+design = ws.axl.db_get_design()      # 自动解析为 axlDBGetDesign
+spacing = ws.axl.cns_get_spacing()    # 自动解析为 axlCNSGetSpacing
+```
+
+不过高层 API（Phase 5/6 领域 SDK）仍将调用专有的固定过程或 DTO 函数，而不是让业务层直接分散调用底层的数百个裸 `axl*` 函数。
+
+---
+
+## 7. `skillbridge/client/objects.py`
 
 现有 `RemoteObject` 支持：
 
@@ -554,7 +411,7 @@ dir(obj)
 
 但需要增加两个概念。
 
-### 6.1 Session generation
+### 7.1 Session generation
 
 每次打开、关闭或切换 `.brd` 时：
 
@@ -569,7 +426,7 @@ if self.generation != session.generation:
     raise StaleHandleError(...)
 ```
 
-### 6.2 Handle 释放
+### 7.2 Handle 释放
 
 现有 SKILL serializer 会把 remote object 保存到全局变量中，长期运行后会不断积累。
 
@@ -669,123 +526,86 @@ PoC 验收标准：
 
 ---
 
-## Phase 2：通信层生产化
+## Phase 2：双端原子事务
 
-目标：形成可以长时间运行的可靠 RPC 内核。
+目标：让一条可能修改 Allegro 数据库的 SKILL command，在单次 RPC 内要么全部成功，要么全部回退。
 
-实施顺序：
+这是当前的下一个实施阶段。不先引入 `AllegroSession`、批处理 DSL、UUID envelope 或结果缓存。
 
-1. 实现 `recv_exact()`。
-2. 全部 `send()` 改 `sendall()`。
-3. 加 `ExecutionDispatcher`。
-4. Windows stdin 改 reader thread。
-5. 增加请求 UUID。
-6. 增加 protocol version。
-7. 增加 server state machine。
-8. 增加 token 鉴权。
-9. 删除写操作自动重发。
-10. 加结果缓存和重复 request ID 检测。
-11. SKILL callback 加行缓冲。
-12. 多行代码统一走临时 `.il` 文件。
-13. 加 `ping`、`status`、`recover`。
+### 2.1 SKILL 端事务包装
 
-建议错误码：
-
-```python
-class ErrorCode(str, Enum):
-    NO_DESIGN = "no_design"
-    BUSY_ACTIVE_COMMAND = "busy_active_command"
-    SKILL_ERROR = "skill_error"
-    TIMEOUT = "timeout"
-    UNKNOWN_COMMIT_STATE = "unknown_commit_state"
-    STALE_HANDLE = "stale_handle"
-    SERVER_DOWN = "server_down"
-    PROTOCOL_ERROR = "protocol_error"
-    TRANSACTION_ROLLED_BACK = "transaction_rolled_back"
-    UNSUPPORTED_CAPABILITY = "unsupported_capability"
-```
-
-验收：
+在 `allegrobridge/server/allegro_server.il` 增加 `__abRunTransaction(command)`，接收单条 SKILL expression 字符串：
 
 ```text
-10,000 次连续 ping 无错位
-故意拆分长度头后仍能正确接收
-两个 Python 线程并发调用时 Allegro 端仍严格串行
-只读 timeout 后能够 drain + recover
-写 timeout 返回 UNKNOWN_COMMIT_STATE
-断线不会自动重复执行写操作
-非法 token 被拒绝
+mark = axlDBTransactionStart()
+事务启动失败          → 返回 failure
+errsetstring(command) 成功 → axlDBTransactionCommit(mark)
+command 解析或执行出错  → axlDBTransactionRollback(mark)，返回 failure
+commit 失败              → 尝试 rollback，返回 failure
+rollback 也失败        → 同时报告原错误和 rollback failure
+```
+
+`errsetstring()` 成功时返回包含执行结果的列表，因此 command 正常返回 `nil` 不能被误判为失败。执行出错时必须在 rollback 前保存 `errset.errset`，不能用统一的“transaction rolled back”丢失原始 SKILL 错误。
+
+Cadence 事务 mark 不得跨 Allegro command 保留。Start、command、Commit/Rollback 必须全部在这一次 SKILL 调用内完成；打开或保存设计也不得放入该事务。
+
+### 2.2 Python 端委托
+
+先在 Allegro `Workspace` 提供最小能力：
+
+```python
+result = ws.transaction("axlDBChangeSomething(...)")
+```
+
+这是 Raw Workspace 的底层原语，不是面向业务代码的写操作 API。后续领域 API 仍应调用固定 SKILL procedure，并在内部复用该事务边界。
+
+`Workspace.transaction()` 只负责：
+
+1. 将 command 作为一个普通 SKILL 字符串参数编码。
+2. 调用 `self['__abRunTransaction'](command)`。
+3. 返回 commit 后的结果，或将 rollback 后的 failure 转为 Python 异常。
+
+不在 Python 端暴露 `begin()` / `commit()` / `rollback()`，因为那会让远程 transaction 跨越多次 RPC，违反 Allegro 的事务生命周期。
+
+### 2.3 TDD 实施顺序
+
+1. 先新建 `tests/skill/test_allegro_server.ils`，覆盖 transaction start、commit、rollback、原错误保留和 `nil` 结果，并接入 `tests/skill/run.ils`。
+2. 实现 `allegro_server.il`，并达到该文件 statement/branch 100% coverage。通用 `test_server.ils` 不引入 Allegro transaction 测试。
+3. 在 Python 单元测试中先定义 `Workspace.transaction()` 的委托行为，以及 CLI 预加载、`_create_workspace()` 缺失时加载、已加载时不重复加载、非 Allegro 不加载和加载失败清理连接的行为。
+4. 增加 wheel 包含 `allegrobridge/server/allegro_server.il` 的打包测试。
+5. 最后在 `tests/allegrobridge/test_integration.py` 用真实 Allegro 数据库验证扩展自动加载、commit 与 rollback。
+
+### 2.4 验收
+
+```text
+只读 command 可正常返回值
+返回 nil 的 command 仍 commit
+单个写 command 成功后 commit
+写入后主动抛出 SKILL error，数据库恢复到执行前
+语法错误不留下部分修改
+transaction start/commit 失败时不返回假成功
+原始 SKILL 错误不被 rollback 提示覆盖
+CLI 和 manual 模式都能加载扩展，且已加载时不重复 load
+传输中断后客户端不自动重发写 command
 ```
 
 ---
 
-## Phase 3：Allegro bootstrap 和生命周期
+## Phase 3：Allegro 窗口生命周期
 
-目标：用户不再手工找文件、输入长命令。
+目标：统一表示手动打开或由 Python 启动的 Allegro 窗口。
 
-新增 Python CLI：
+```python
+with Allegro.open(mode="manual") as allegro:
+    ws = allegro.workspace
 
-```text
-allegro-bridge init
-allegro-bridge path
-allegro-bridge doctor
-allegro-bridge status
-allegro-bridge shell
-allegro-bridge config
+with Allegro.open(mode="cli", board="demo.brd") as allegro:
+    ws = allegro.workspace
 ```
 
-`init` 生成：
+`manual` 模式只断开 Workspace，`cli` 模式还负责终止自己启动的 Allegro 进程。`Allegro.open()` 内部调用 `Workspace.open()`，不反向依赖。
 
-```text
-%LOCALAPPDATA%/AllegroBridge/config.json
-%LOCALAPPDATA%/AllegroBridge/runtime/
-%LOCALAPPDATA%/AllegroBridge/logs/
-%LOCALAPPDATA%/AllegroBridge/skill/
-```
-
-再生成一个 SKILL 配置文件：
-
-```skill
-ABPython = "C:/Users/user/project/.venv/Scripts/python.exe"
-ABPort = 7777
-ABToken = "随机生成的长 token"
-ABLogDir = "C:/Users/user/AppData/Local/AllegroBridge/logs"
-```
-
-在用户 `allegro.ilinit` 中只保留：
-
-```skill
-load("C:/Users/user/AppData/Local/AllegroBridge/skill/bootstrap.il")
-```
-
-`bootstrap.il` 再加载：
-
-```text
-serializer.il
-session.il
-transactions.il
-board.il
-components.il
-nets.il
-allegro_bridge.il
-```
-
-Cadence 支持通过加载 SKILL 文件和 `axlCmdRegister` 将自定义命令注册到 Allegro shell。
-
-`doctor` 至少检查：
-
-```text
-Python executable 是否存在
-Python 版本
-端口是否占用
-token 是否存在
-SKILL 文件路径
-日志目录可写
-Allegro bridge 是否可连接
-协议版本是否兼容
-当前是否打开设计
-目标 Allegro 是否具备所需 axl* 函数
-```
+`init`、`doctor`、`config`、自动修改 `allegro.ilinit` 和常驻运行目录暂不实现；等实际分发和运维需求出现后再增加。
 
 ---
 
@@ -946,9 +766,9 @@ ABExportComponents("C:/.../request-123.csv")
 
 ---
 
-## Phase 6：写操作和事务
+## Phase 6：领域写操作
 
-写操作必须通过固定的 Allegro SKILL procedure，而不是 Python 拼接任意数据库表达式。
+写操作必须通过固定的 Allegro SKILL procedure，而不是 Python 拼接任意数据库表达式。每个领域写 API 都复用 Phase 2 已验证的单次 RPC transaction primitive。
 
 推荐 API：
 
@@ -983,31 +803,9 @@ session.board.save()
 
 布线、交互式选择、复杂约束、Constraint Manager 等放到后续。
 
-### 6.1 事务 wrapper
+### 6.1 事务批次
 
-结构示意：
-
-```skill
-procedure(ABRunTransaction(functionSymbol args)
-  let((transaction result)
-    transaction = axlDBTransactionStart()
-
-    if(errset(
-         result = apply(functionSymbol args)
-       ) then
-      axlDBTransactionCommit(transaction)
-      list('success result)
-    else
-      axlDBTransactionRollback(transaction)
-      list('failure errset.errset)
-    )
-  )
-)
-```
-
-Cadence 的 `axlDBTransactionStart`、`Commit` 和 `Rollback` 分别用于开始、提交和回滚数据库更改，并支持嵌套事务。
-
-Python 侧推荐提供 batch，而不是跨很多 RPC 长时间持有远端 transaction：
+只有出现“多个领域操作必须一起成功”的真实用例时，才在 Phase 2 原语上增加 batch：
 
 ```python
 with session.batch("normalize passive placement") as batch:
@@ -1016,7 +814,7 @@ with session.batch("normalize passive placement") as batch:
     batch.components.move("C203", x=15, y=25)
 ```
 
-退出 context 后，整个 batch 编译成一个 SKILL 调用：
+退出 context 后，整个 batch 必须编译成一个 SKILL 调用：
 
 ```text
 start transaction
@@ -1055,6 +853,22 @@ axlCmdRegister(
 Cadence 说明修改数据库的自定义命令通常应以 interactive 类型注册，`?undo t` 可将其纳入 Undo；同时仍应使用数据库事务。对大规模修改，Cadence 也提示不要无条件启用 Undo，因为 Undo 内存存在限制。
 
 批量写入性能稳定后，可以评估 `axlDBCloak`，将动态 shape、显示或其他数据库更新延迟到批次结束，但正确性和事务回滚必须先完成。
+
+---
+
+## Phase 7：按需加固通信层
+
+只在实际部署、故障注入或长时间运行暴露了明确问题时，才增加对应机制：
+
+```text
+需要跨网络访问       → token 与连接安全
+需要在断线后去重     → request ID 与有界结果缓存
+需要协议独立升级       → protocol version
+发现现有恢复能力不足 → status / recover 管理命令
+发现大结果存在性能瓶颈 → bulk 文件通道
+```
+
+这些不是 Phase 2 transaction 或第一批领域 API 的前置条件。
 
 ---
 
@@ -1207,17 +1021,16 @@ affected_object_count
 覆盖：
 
 ```text
-长度帧拆包/粘包
-recv_exact
-部分 send
-请求 UUID
-结果缓存
-重复请求
-AST 安全解析
 函数名映射
-DTO 校验
-状态机
-retry policy
+Workspace.transaction() 的命令编码
+transaction 成功结果解码
+transaction rollback failure 转为 Python 异常
+CLI startup script 先加载 core，再加载 Allegro extension
+Allegro Workspace 初始化时缺失 extension 则加载，已存在时不重复加载
+非 Allegro Workspace 不加载 extension
+extension 加载失败时关闭新建连接
+wheel 包含 allegro_server.il
+写命令传输失败后不重发
 ```
 
 ## Mock SKILL 测试
@@ -1227,13 +1040,12 @@ retry policy
 增加：
 
 ```text
-延迟响应
-迟到响应
-response 在长度头中间断开
-两个客户端同时请求
-写请求断线
-非法 serializer payload
-server restart
+transaction start 成功/失败
+command 返回值或 nil
+command 语法错误
+command 执行中抛错
+commit 成功/失败
+rollback 被调用且原错误传回 Python
 ```
 
 ## Allegro Windows 集成测试
@@ -1252,12 +1064,13 @@ server restart
 
 ```text
 连接和断开
+CLI 和 manual 模式都可调用 __abRunTransaction
+事务内只读 command 返回值
+写入成功后 commit
+写入后强制 SKILL error，数据库无变化
 读取 board info
 读取 placed/unplaced component
 读取 net
-修改属性后 rollback
-修改属性后 commit
-强制 SKILL error 后数据库无变化
 换板后旧 handle stale
 用户处于交互命令时写操作返回 BUSY
 端口冲突
@@ -1268,7 +1081,7 @@ Python 路径含空格
 
 ## 压力验收
 
-建议最低门槛：
+以下只在进入 Phase 7 通信加固时作为验收，不阻塞当前 transaction 实现：
 
 ```text
 10,000 次顺序 ping：0 次错位
@@ -1288,14 +1101,14 @@ Python 路径含空格
 | 里程碑 | 内容 | 典型工作量 |
 |---|---|---:|
 | M0 | 原始 skillbridge 在 Windows Allegro 跑通 | 2–4 天 |
-| M1 | TCP、dispatcher、timeout、状态机加固 | 1–2 周 |
-| M2 | bootstrap、CLI、配置、日志 | 3–5 天 |
+| M1 | Python/SKILL 单命令原子 transaction | 2–4 天 |
+| M2 | Allegro 窗口生命周期 | 2–4 天 |
 | M3 | Raw Workspace、handle 生命周期 | 3–5 天 |
 | M4 | board/components/nets 只读 SDK | 1–2 周 |
-| M5 | 第一批事务化写操作 | 2–4 周 |
-| M6 | 原生 Undo、批量性能、版本兼容 | 1–3 周 |
+| M5 | 第一批领域写操作 | 1–2 周 |
+| M6 | 按需增加批处理、Undo 或通信加固 | 按实际需求评估 |
 
-一个可用于内部自动化的只读 MVP，通常落在 **3–5 周**。具备稳定写操作、异常恢复、事务和多版本兼容的版本，通常落在 **6–10 周**。最大的变量不是 TCP，而是需要覆盖多少 Allegro 写操作，以及目标 Allegro 版本之间的 AXL-SKILL 差异。
+当前先完成 M1，不为尚未出现的部署需求预估通信生产化工期。后续最大的变量是需要覆盖多少 Allegro 写操作，以及目标 Allegro 版本之间的 AXL-SKILL 差异。
 
 ---
 
@@ -1305,17 +1118,12 @@ Python 路径含空格
 
 ```text
 Windows 本机连接
-单 Allegro session
-单写者
-ping/status
-board info
-components/symbols/nets/layers 查询
-批量 CSV 导出
-设置用户属性
-少量元件位置类操作
-事务 rollback
-显式 save
-日志和 doctor
+Allegro.open() 的 cli/manual 生命周期
+Allegro Workspace 与真实 API 名映射
+allegro_server.il 与通用 python_server.il 分层加载
+单次 RPC 原子 transaction
+成功 commit，SKILL error rollback
+写 command 传输失败后不自动重发
 ```
 
 第一版暂不交付：
@@ -1329,6 +1137,9 @@ components/symbols/nets/layers 查询
 完整 Constraint Manager API
 所有写操作原生 Undo
 任意 Agent 默认执行 raw SKILL
+UUID envelope、token、结果缓存
+doctor、常驻配置和自动修改 allegro.ilinit
+bulk 文件通道
 ```
 
-最合理的执行顺序是先完成 **Phase 1 的目标 Allegro 实机 PoC**，尤其验证 1,000 次连续 IPC 调用和无 UI 操作时的 callback 稳定性；该结果会直接决定后续只需加固 skillbridge，还是需要替换 Windows pipe relay。
+最合理的执行顺序是：用现有实机集成测试保持 Phase 1 基线，然后直接实施 **Phase 2 双端原子事务**。只有测试或真实使用暴露通信问题时，才进入 Phase 7 加固对应部分。
