@@ -7,9 +7,6 @@ ASSETS_DIR = Path(__file__).parent / "assets"
 TOKEN_PATTERN = re.compile(r"[A-Z]+(?=[A-Z][a-z0-9]|\b)|[A-Z][a-z0-9]*|[a-z0-9]+")
 
 
-def run_allegro() -> None: ...
-
-
 def _split_api_tokens(api_name: str) -> list[str]:
     if "_" in api_name:
         parts: list[str] = []

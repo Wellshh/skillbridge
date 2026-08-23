@@ -1,26 +1,36 @@
 from __future__ import annotations
 
+from collections.abc import Iterator
 from json import dumps
 from pathlib import Path
+from shutil import copy2
+from sys import platform
 from time import sleep
 from typing import NewType
 
 import pytest
 
-from allegrobridge import Workspace
+from allegrobridge import Allegro, OpenMode, Workspace
+from allegrobridge.util import ASSETS_DIR
 
 ALObjectHandle = NewType('ALObjectHandle', str)
+_TEST_BOARD = ASSETS_DIR / 'shape1.brd'
 
 
 @pytest.fixture(scope='class')
-def ws() -> Workspace:
-    try:
-        workspace = Workspace.open()
-        assert workspace['plus'](1, 2) == 3
-    except (Exception, ValueError, AssertionError):  # ruff: ignore[blind-except]
-        pytest.skip('Allegro workspace could not connect')
+def allegro(tmp_path_factory: pytest.TempPathFactory) -> Iterator[Allegro]:
+    mode: OpenMode = 'cli' if platform == 'win32' else 'manual'
+    board = None
+    if mode == 'cli':
+        board = Path(copy2(_TEST_BOARD, tmp_path_factory.mktemp('allegro')))
 
-    return workspace
+    with Allegro.open(mode=mode, board=board) as opened:
+        yield opened
+
+
+@pytest.fixture(scope='class')
+def ws(allegro: Allegro) -> Workspace:
+    return allegro.workspace
 
 
 @pytest.fixture(scope='class')
@@ -56,6 +66,16 @@ class TestBasicOp:
 
     def test_workspace_detects_allegro(self, ws: Workspace) -> None:
         assert type(ws) is Workspace
+
+    def test_allegro_window_matches_platform(
+        self,
+        allegro: Allegro,
+        ws: Workspace,
+    ) -> None:
+        expected_mode: OpenMode = 'cli' if platform == 'win32' else 'manual'
+        assert allegro.mode == expected_mode
+        assert allegro.workspace is ws
+        assert (allegro.board is not None) is (expected_mode == 'cli')
 
     def test_can_get_nets(self) -> None:
         self._basic_oop('nets', 1)

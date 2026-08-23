@@ -5,6 +5,7 @@ from pathlib import Path
 
 from pytest import raises
 
+from allegrobridge import Allegro
 from allegrobridge.util import (
     _extract_apis,  # ruff: ignore[import-private-name]
     build_snake_to_axl_map,
@@ -54,3 +55,8 @@ def test_build_map_contains_real_assets() -> None:
     assert apis == sorted(set(apis))
     assert mapping['geo_rotate_pt'] == 'axlGeoRotatePt'
     assert mapping['axl_cns_add_via'] == 'axlCnsAddVia'
+
+
+def test_allegro_open_validates_mode() -> None:
+    with raises(ValueError, match="mode must be 'cli' or 'manual'"):
+        Allegro.open(mode='invalid')  # type: ignore[arg-type]
