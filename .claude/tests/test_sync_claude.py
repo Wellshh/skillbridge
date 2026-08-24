@@ -59,8 +59,7 @@ class AgentSyncTests(unittest.TestCase):
         )
 
         assert load_sync_module().adapt_reference(source) == (
-            b"Read .claude/agents/cadence-skill-agent.md and "
-            b".claude/skill-references/api.md.\n"
+            b"Read .claude/agents/cadence-skill-agent.md and .claude/skill-references/api.md.\n"
         )
 
     def test_reports_stale_cadence_references_but_keeps_orcad(self) -> None:
@@ -74,9 +73,7 @@ class AgentSyncTests(unittest.TestCase):
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.touch()
 
-            assert load_sync_module().stale_reference_files(root, {managed}) == [
-                stale
-            ]
+            assert load_sync_module().stale_reference_files(root, {managed}) == [stale]
 
     def test_repository_is_synchronized(self) -> None:
         assert load_sync_module().synchronize(check=True) == []

@@ -12,6 +12,7 @@ from time import monotonic, sleep
 from types import TracebackType
 from typing import Literal
 
+import allegrobridge.server
 import skillbridge.server
 from skillbridge.client.workspace import WorkspaceId
 
@@ -112,9 +113,13 @@ class Allegro:
         resolved = _resolve_executable(executable)
 
         server_file = Path(skillbridge.server.__file__).with_name('python_server.il').as_posix()
+        transaction_file = (
+            Path(allegrobridge.server.__file__).with_name('allegro_server.il').as_posix()
+        )
         force_tcp_flag = ' ?forceTcp t' if force_tcp else ''
         script_content = (
             f'skill load("{server_file}")\n'
+            f'skill load("{transaction_file}")\n'
             f'skill pyStartServer(?id "{ws_id}" ?singleMode t '
             f'?python "{Path(sys.executable).as_posix()}"{force_tcp_flag})\n'
         )

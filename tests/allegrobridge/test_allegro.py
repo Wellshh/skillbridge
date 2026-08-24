@@ -7,6 +7,8 @@ from unittest.mock import Mock
 
 from pytest import MonkeyPatch, fixture, raises
 
+import allegrobridge.server
+import skillbridge.server
 from allegrobridge import Allegro, allegro
 from allegrobridge.allegro import _resolve_executable  # ruff: ignore[import-private-name]
 
@@ -89,6 +91,12 @@ def test_launch_writes_posix_startup_script_and_passes_board(
     script_path = Path(command_list[2])
     script = script_path.read_text(encoding='utf-8')
     assert 'pyStartServer' in script
+    core_server = Path(skillbridge.server.__file__).with_name('python_server.il')
+    transaction_server = Path(allegrobridge.server.__file__).with_name('allegro_server.il')
+    assert script.splitlines()[:2] == [
+        f'skill load("{core_server.as_posix()}")',
+        f'skill load("{transaction_server.as_posix()}")',
+    ]
     assert Path(sys.executable).as_posix() in script
     assert '\\' not in script
 

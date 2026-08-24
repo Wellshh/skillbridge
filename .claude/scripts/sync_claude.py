@@ -24,9 +24,7 @@ def parse_skill(source: str) -> tuple[dict[str, str], str]:
     frontmatter, body = source[4:].split("\n---\n", maxsplit=1)
     fields = {
         key: value.strip()
-        for key, value in (
-            line.split(":", maxsplit=1) for line in frontmatter.splitlines()
-        )
+        for key, value in (line.split(":", maxsplit=1) for line in frontmatter.splitlines())
     }
     return fields, body.strip("\n")
 
@@ -71,7 +69,8 @@ def adapt_reference(data: bytes) -> bytes:
     except UnicodeDecodeError:
         return data
     return (
-        text.replace("\r\n", "\n")
+        text
+        .replace("\r\n", "\n")
         .replace(
             ".agents/skills/cadence-skill-agent/SKILL.md",
             ".claude/agents/cadence-skill-agent.md",
@@ -95,7 +94,7 @@ def expected_files() -> dict[Path, bytes]:
         ).encode("utf-8"),
         CLAUDE / "agents/cadence-skill-agent.md": render_claude_agent(
             (SOURCE / "SKILL.md").read_text(encoding="utf-8")
-        ).encode("utf-8")
+        ).encode("utf-8"),
     }
     reference_root = SOURCE / "skill-references"
     for source in reference_root.rglob("*"):
@@ -138,9 +137,7 @@ def synchronize(*, check: bool) -> list[Path]:
         if not check:
             destination.parent.mkdir(parents=True, exist_ok=True)
             destination.write_bytes(content)
-    changed.extend(
-        stale_reference_files(CLAUDE / "skill-references", set(expected))
-    )
+    changed.extend(stale_reference_files(CLAUDE / "skill-references", set(expected)))
     return changed
 
 

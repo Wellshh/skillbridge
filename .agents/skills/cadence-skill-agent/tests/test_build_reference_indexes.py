@@ -124,13 +124,11 @@ class ReferenceIndexBuilderTests(unittest.TestCase):
 
     def test_indexes_supplemental_skill_api_references(self):
         (self.root / "skipcref" / "skipcref.part01.md").write_text(
-            "### ipcBeginProcess\n\n"
-            "`ipcBeginProcess( t_command [ t_hostName ] ) => o_childId`\n",
+            "### ipcBeginProcess\n\n`ipcBeginProcess( t_command [ t_hostName ] ) => o_childId`\n",
             encoding="utf-8",
         )
         (self.root / "skoopref" / "skoopref.part01.md").write_text(
-            "### makeInstance\n\n"
-            "`makeInstance( us_class @rest l_initargs ) => g_instance`\n",
+            "### makeInstance\n\n`makeInstance( us_class @rest l_initargs ) => g_instance`\n",
             encoding="utf-8",
         )
 

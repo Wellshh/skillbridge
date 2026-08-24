@@ -10,9 +10,9 @@ from typing import NewType
 
 import pytest
 
-import allegrobridge.server
 from allegrobridge import Allegro, OpenMode, Workspace
 from allegrobridge.util import ASSETS_DIR
+from skillbridge import SkillCode
 
 ALObjectHandle = NewType('ALObjectHandle', str)
 _TEST_BOARD = ASSETS_DIR / 'shape1.brd'
@@ -38,6 +38,91 @@ def ws(allegro: Allegro) -> Workspace:
 def design(ws: Workspace) -> object:
     # design is always not None despite a .brd being open or not
     return ws['axlDBGetDesign']()
+
+
+class TestApi:
+    def test_transaction_extension_commits_and_rolls_back(self, ws: Workspace) -> None:
+        assert ws.transaction(SkillCode('42')) == 42
+        with pytest.raises(RuntimeError, match='TRANSACTION_COMMAND_FAILED'):
+            ws.transaction(SkillCode('error("integration-rollback")'))
+        assert ws['plus'](1, 2) == 3
+
+    def test_savepoint_batch_and_dry_run_database_semantics(
+        self,
+        allegro: Allegro,
+        ws: Workspace,
+    ) -> None:
+        if allegro.mode != 'cli':
+            pytest.skip('database transaction test requires the Windows board copy')
+
+        get_thickness = 'cadr(assoc("BOARD_THICKNESS" axlDBGetProperties(axlDBGetDesign())))'
+        snapshot = (
+            f'list(nil \'property {get_thickness} '
+            "'components length(axlDBGetDesign()->components) "
+            "'symbols length(axlDBGetDesign()->symbols))"
+        )
+        original_snapshot = ws['evalstring'](snapshot)
+        original = original_snapshot['property']
+
+        try:
+            success_command = (
+                'progn('
+                'axlDBAddProp(axlDBGetDesign() list("BOARD_THICKNESS" 0.123456)) '
+                f'{get_thickness})'
+            )
+            failed_command = (
+                'progn('
+                'axlDBAddProp(axlDBGetDesign() list("BOARD_THICKNESS" 0.654321)) '
+                'error("savepoint-item"))'
+            )
+            results = ws.transaction.batch([
+                SkillCode(success_command),
+                SkillCode(failed_command),
+            ])
+            persisted = ws['evalstring'](snapshot)
+
+            assert results[0] == {
+                'index': 0,
+                'status': 'success',
+                'value': persisted['property'],
+            }
+            assert results[1]['index'] == 1
+            assert results[1]['status'] == 'failure'
+            assert 'SAVEPOINT_COMMAND_FAILED' in results[1]['error']
+
+            with pytest.raises(RuntimeError, match='TRANSACTION_COMMAND_FAILED'):
+                ws.transaction(
+                    SkillCode(
+                        'progn('
+                        'axlDBAddProp(axlDBGetDesign() list("BOARD_THICKNESS" 0.222222)) '
+                        'error("atomic-item"))'
+                    )
+                )
+            assert ws['evalstring'](snapshot) == persisted
+
+            preview = ws.transaction.preview(
+                SkillCode(
+                    f'progn(axlDBAddProp(axlDBGetDesign() '
+                    f'list("BOARD_THICKNESS" 0.333333)) {snapshot})'
+                )
+            )
+            assert preview.keys() == {'property', 'components', 'symbols'}
+            assert isinstance(preview['property'], (bool, dict, float, int, list, str, type(None)))
+            assert preview['property'] != persisted['property']
+            assert preview['components'] == persisted['components']
+            assert preview['symbols'] == persisted['symbols']
+            assert ws['evalstring'](snapshot) == persisted
+            assert ws['plus'](1, 2) == 3
+        finally:
+            if original is None:
+                ws.transaction(SkillCode('axlDBDeleteProp(nil "BOARD_THICKNESS")'))
+            else:
+                ws.transaction(
+                    SkillCode(
+                        f'axlDBAddProp(axlDBGetDesign() list("BOARD_THICKNESS" {dumps(original)}))'
+                    )
+                )
+        assert ws['evalstring'](snapshot) == original_snapshot
 
 
 # POC tests
@@ -88,84 +173,6 @@ class TestBasicOp:
     def test_geo_rotate_pt(self, ws: Workspace) -> None:
         rotated = ws.geo.rotate_pt(90.0, [100.0, 0.0], None)
         assert rotated == pytest.approx([0.0, 100.0])
-
-    def test_transaction_extension_commits_and_rolls_back(self, ws: Workspace) -> None:
-        server_file = Path(allegrobridge.server.__file__).with_name('allegro_server.il')
-        ws['load'](server_file.as_posix())
-
-        assert ws['__abRunTransaction']('42') == 42
-        with pytest.raises(RuntimeError, match='TRANSACTION_COMMAND_FAILED'):
-            ws['__abRunTransaction']('error("integration-rollback")')
-        assert self._single_ping_test(ws)
-
-    def test_savepoint_batch_and_dry_run_database_semantics(
-        self,
-        allegro: Allegro,
-        ws: Workspace,
-    ) -> None:
-        if allegro.mode != 'cli':
-            pytest.skip('database transaction test requires the Windows board copy')
-
-        server_file = Path(allegrobridge.server.__file__).with_name('allegro_server.il')
-        ws['load'](server_file.as_posix())
-        get_thickness = 'cadr(assoc("BOARD_THICKNESS" axlDBGetProperties(axlDBGetDesign())))'
-        snapshot = (
-            f'list(nil \'property {get_thickness} '
-            "'components length(axlDBGetDesign()->components) "
-            "'symbols length(axlDBGetDesign()->symbols))"
-        )
-        original_snapshot = ws['evalstring'](snapshot)
-        original = original_snapshot['property']
-
-        try:
-            success_command = (
-                'progn('
-                'axlDBAddProp(axlDBGetDesign() list("BOARD_THICKNESS" 0.123456)) '
-                f'{get_thickness})'
-            )
-            failed_command = (
-                'progn('
-                'axlDBAddProp(axlDBGetDesign() list("BOARD_THICKNESS" 0.654321)) '
-                'error("savepoint-item"))'
-            )
-            results = ws['__abRunSavepointBatch']([success_command, failed_command])
-            persisted = ws['evalstring'](snapshot)
-
-            assert results[0] == {
-                'index': 0,
-                'status': 'success',
-                'value': persisted['property'],
-            }
-            assert results[1]['index'] == 1
-            assert results[1]['status'] == 'failure'
-            assert 'SAVEPOINT_COMMAND_FAILED' in results[1]['error']
-
-            with pytest.raises(RuntimeError, match='TRANSACTION_COMMAND_FAILED'):
-                ws['__abRunTransaction'](
-                    'progn('
-                    'axlDBAddProp(axlDBGetDesign() list("BOARD_THICKNESS" 0.222222)) '
-                    'error("atomic-item"))'
-                )
-            assert ws['evalstring'](snapshot) == persisted
-
-            preview = ws['__abRunDryTransaction'](
-                f'progn(axlDBAddProp(axlDBGetDesign() list("BOARD_THICKNESS" 0.333333)) {snapshot})'
-            )
-            assert preview.keys() == {'property', 'components', 'symbols'}
-            assert isinstance(preview['property'], (bool, dict, float, int, list, str, type(None)))
-            assert preview['property'] != persisted['property']
-            assert preview['components'] == persisted['components']
-            assert preview['symbols'] == persisted['symbols']
-            assert ws['evalstring'](snapshot) == persisted
-            assert self._single_ping_test(ws)
-        finally:
-            if original is None:
-                ws['__abRunTransaction']('axlDBDeleteProp(nil "BOARD_THICKNESS")')
-            else:
-                ws['__abRunTransaction'](
-                    f'axlDBAddProp(axlDBGetDesign() list("BOARD_THICKNESS" {dumps(original)}))'
-                )
-        assert ws['evalstring'](snapshot) == original_snapshot
 
     def test_callback_keeps_working_while_idle(self, ws: Workspace) -> None:
         assert self._single_ping_test(ws)
