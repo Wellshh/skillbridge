@@ -9,27 +9,32 @@ from .translator import DefaultTranslator, python_value_to_skill, snake_to_camel
 
 @dataclass(frozen=True)
 class Var:
-    name: str
+    """Build a lazy SKILL expression."""
+
+    _expression: str
+
+    def __bool__(self) -> bool:
+        raise TypeError('a Var expression has no local truth value')
 
     def __repr_skill__(self) -> SkillCode:
-        return SkillCode(self.name)
+        return SkillCode(self._expression)
 
     def __str__(self) -> str:
-        return f"Var({self.name})"
+        return f"Var({self._expression})"
 
     def __repr__(self) -> str:
-        return f"Var({self.name!r})"
+        return f"Var({self._expression!r})"
 
     def __getattr__(self, item: str) -> Var:
-        return Var(f'{self.name}->{snake_to_camel(item)}')
+        return Var(f'{self._expression}->{snake_to_camel(item)}')
 
     def __getitem__(self, item: str | int) -> Var:
         if isinstance(item, str):
-            return Var(f'{self.name}->{item}')
-        return Var(f'nth({item} {self.name})')
+            return Var(f'{self._expression}->{item}')
+        return Var(f'nth({item} {self._expression})')
 
     def _infix(self, other: Any, op: str) -> Var:
-        return Var(f'({self.name} {op} {python_value_to_skill(other)})')
+        return Var(f'({self._expression} {op} {python_value_to_skill(other)})')
 
     def __eq__(self, other: object) -> Var:  # type: ignore[override]
         return self._infix(other, '==')

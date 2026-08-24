@@ -88,14 +88,14 @@ def test_global_var_collection_expressions(
 ) -> None:
     variable = GlobalVar('prefix_x', redirect, translator)
 
-    assert variable.map(Var('(i + 1)')).name == 'mapcar(lambda((i) (i + 1) ) prefixX )'
-    assert variable.map(Var('(i + j)'), j=Var('prefixY')).name == (
+    assert variable.map(Var('(i + 1)')).__repr_skill__() == 'mapcar(lambda((i) (i + 1) ) prefixX )'
+    assert variable.map(Var('(i + j)'), j=Var('prefixY')).__repr_skill__() == (
         'mapcar(lambda((i j) (i + j) ) prefixX prefixY )'
     )
     with raises(AssertionError, match="Cannot use loop var 'i' twice"):
         variable.map(Var('i'), i=Var('prefixY'))
 
-    assert variable.filter(Var('(i != 2)')).name == 'setof(i prefixX (i != 2) )'
+    assert variable.filter(Var('(i != 2)')).__repr_skill__() == 'setof(i prefixX (i != 2) )'
     redirect.prepare('None')
     assert variable.for_each(Var('delete(i)')) is None
     assert redirect.commands == ['foreach(i prefixX delete(i) ) nil']

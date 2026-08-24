@@ -578,7 +578,7 @@ def test_globals_map_car(server: Virtuoso, ws: Workspace):
     _ = server
     g = ws.globals("prefix")
 
-    assert g.x.map(loop_var + 1).name == "mapcar(lambda((i) (i + 1) ) prefixX )"
+    assert g.x.map(loop_var + 1).__repr_skill__() == "mapcar(lambda((i) (i + 1) ) prefixX )"
 
 
 def test_globals_for_each(server: Virtuoso, ws: Workspace):
@@ -593,7 +593,7 @@ def test_globals_filter(server: Virtuoso, ws: Workspace):
     _ = server
     g = ws.globals("prefix")
 
-    assert g.x.filter(loop_var != 2).name == "setof(i prefixX (i != 2) )"
+    assert g.x.filter(loop_var != 2).__repr_skill__() == "setof(i prefixX (i != 2) )"
 
 
 def test_globals_tuple_write(server: Virtuoso, ws: Workspace):

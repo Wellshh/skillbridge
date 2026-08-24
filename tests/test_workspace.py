@@ -110,6 +110,30 @@ def test_allegro_workspace_namespaces_and_chaining() -> None:
     assert ws['axldo'].lazy() == 'axldo( )'
 
 
+def test_allegro_workspace_var_chaining_and_transaction_integration() -> None:
+    channel = ScriptedChannel('"result"')
+    ws = AllegroWorkspace(channel=channel, id_=456)
+
+    assert ws.axl.db.get.design.lazy() == 'axlDBGetDesign( )'
+    design = ws.axl.db.get.design.var()
+
+    assert (
+        design.components[0].name.__repr_skill__() == 'nth(0 axlDBGetDesign( )->components)->name'
+    )
+    assert (
+        design.board_thickness > 1.6
+    ).__repr_skill__() == '(axlDBGetDesign( )->boardThickness > 1.6)'
+
+    nested_cmd = ws.axl.db_add_prop.lazy(design, ['BOARD_THICKNESS', 0.12])
+    assert nested_cmd == 'axlDBAddProp(axlDBGetDesign( ) (list "BOARD_THICKNESS" 0.12) )'
+
+    res = ws.transaction(nested_cmd)
+    assert res == 'result'
+    assert channel.commands == [
+        '__abRunTransaction("axlDBAddProp(axlDBGetDesign( ) (list \\"BOARD_THICKNESS\\" 0.12) )" )'
+    ]
+
+
 def test_allegro_transaction_facade_delegates_to_extension() -> None:
     channel = ScriptedChannel(
         '3',
