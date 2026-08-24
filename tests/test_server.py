@@ -342,6 +342,26 @@ def test_restart_exits_when_acknowledgement_fails(monkeypatch: MonkeyPatch) -> N
         client_socket.close()
 
 
+def test_pipe_death_watcher_exits_process(monkeypatch: MonkeyPatch) -> None:
+    pipe = SimpleNamespace(wait_peer_closed=lambda: True)
+    exits: list[int] = []
+    monkeypatch.setattr(python_server.os, '_exit', exits.append)
+
+    python_server._watch_pipe_death(pipe)
+
+    assert exits == [0]
+
+
+def test_pipe_death_watcher_ignores_local_close(monkeypatch: MonkeyPatch) -> None:
+    pipe = SimpleNamespace(wait_peer_closed=lambda: False)
+    exits: list[int] = []
+    monkeypatch.setattr(python_server.os, '_exit', exits.append)
+
+    python_server._watch_pipe_death(pipe)
+
+    assert exits == []
+
+
 def test_create_server_rejects_payload_size_smaller_than_minimum(
     redirect: Redirect,
 ) -> None:
@@ -439,7 +459,8 @@ def test_main_startup(
 ) -> None:
     served: list[bool] = []
     dummy_server = SimpleNamespace(serve_forever=lambda: served.append(True))
-    monkeypatch.setattr(python_server, "Pipe", lambda *_a, **_kw: nullcontext())
+    dummy_pipe = SimpleNamespace(wait_peer_closed=lambda: False)
+    monkeypatch.setattr(python_server, "Pipe", lambda *_a, **_kw: nullcontext(dummy_pipe))
     monkeypatch.setattr(
         python_server, "create_server", lambda *_a, **_kw: nullcontext(dummy_server)
     )

@@ -486,6 +486,25 @@ def test_owned_close_stops_reader_after_peer_eof(skill_pipe: tuple[Pipe, Server]
 
 
 @mark.integration
+def test_wait_peer_closed_detects_peer_eof(skill_pipe: tuple[Pipe, Server]) -> None:
+    channel, server = skill_pipe
+
+    server.disconnect_response()
+
+    assert channel.wait_peer_closed(TEST_TIMEOUT)
+
+
+@mark.integration
+def test_wait_peer_closed_distinguishes_local_close(skill_pipe: tuple[Pipe, Server]) -> None:
+    channel, server = skill_pipe
+
+    channel.close()
+    server.disconnect_response()
+
+    assert not channel.wait_peer_closed(TEST_TIMEOUT)
+
+
+@mark.integration
 def test_close_wakes_executing_client(skill_pipe: tuple[Pipe, Server]) -> None:
     channel, server = skill_pipe
     client = Client(lambda: channel.execute('wait()', timeout=None))

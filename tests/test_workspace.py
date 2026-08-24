@@ -47,6 +47,18 @@ class ProbeChannel(DummyChannel):
         pass
 
 
+class RejectingChannel(DummyChannel):
+    def __init__(self) -> None:
+        super().__init__(1)
+        self.closed = False
+
+    def send(self, _data: str) -> str:
+        raise RuntimeError('server rejected the request')
+
+    def close(self) -> None:
+        self.closed = True
+
+
 class ScriptedChannel(DummyChannel):
     def __init__(self, *responses: str) -> None:
         super().__init__(1)
@@ -256,3 +268,20 @@ def test_allegro_workspace_closes_when_extension_stays_incomplete(
         AllegroWorkspace.open('incomplete-transaction-extension')
 
     assert channel.closed
+
+
+def test_allegro_workspace_open_closes_channel_when_server_rejects_request(
+    monkeypatch: MonkeyPatch,
+) -> None:
+    channel = RejectingChannel()
+    monkeypatch.setattr(
+        workspace_module,
+        'create_channel_class',
+        lambda _force_tcp: lambda _id: channel,
+    )
+
+    with raises(RuntimeError, match='rejected'):
+        AllegroWorkspace.open('rejecting-server')
+
+    assert channel.closed
+    assert (AllegroWorkspace, 'rejecting-server') not in _open_workspaces

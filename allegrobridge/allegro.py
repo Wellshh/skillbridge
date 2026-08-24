@@ -92,13 +92,13 @@ if sys.platform == 'win32':  # pragma: no cover - exercised on Windows dev/CI ho
 
 
 def _kill_process_tree(process: Popen[bytes]) -> None:
-    if process.poll() is not None:
-        return
     pid = process.pid
     if sys.platform == 'win32' and isinstance(pid, int):
         for child_pid in _descendant_pids(pid):
             with suppress(OSError):
                 _terminate_pid(child_pid)
+    if process.poll() is not None:
+        return
     with suppress(OSError):
         process.terminate()
     try:
@@ -204,9 +204,16 @@ class Allegro:
             Path(allegrobridge.server.__file__).with_name('allegro_server.il').as_posix()
         )
         force_tcp_flag = ' ?forceTcp t' if force_tcp else ''
+        open_board = (
+            f'skill axlOpenDesign(?design "{board_path.as_posix()}" ?mode "wf")\n'
+            if board_path is not None
+            else ''
+        )
         script_content = (
             f'skill load("{server_file}")\n'
             f'skill load("{transaction_file}")\n'
+            'skill axlSetVariable("noconfirm" t)\n'
+            f'{open_board}'
             f'skill pyStartServer(?id "{ws_id}" ?singleMode t '
             f'?python "{Path(sys.executable).as_posix()}"{force_tcp_flag})\n'
         )
@@ -214,8 +221,6 @@ class Allegro:
         temp_dir = TemporaryDirectory(prefix='allegrobridge-')
         script_path = Path(temp_dir.name) / 'startup.scr'
         command = [resolved, '-s', script_path.as_posix()]
-        if board_path is not None:
-            command.append(board_path.as_posix())
 
         try:
             script_path.write_text(script_content, encoding='utf-8')

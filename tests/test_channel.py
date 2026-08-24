@@ -78,6 +78,14 @@ class TrackingSocket:
         self.closed = True
 
 
+class FailingConnectSocket(TrackingSocket):
+    def settimeout(self, _timeout: float | None) -> None:
+        pass
+
+    def connect(self, _address: object) -> None:
+        raise TimeoutError('connect timed out')
+
+
 class RaisingSocketWrapper:
     def __init__(self, error: BaseException) -> None:
         self.error = error
@@ -327,6 +335,18 @@ def test_flush_does_no_harm(server: Virtuoso, ws: Workspace):
 
 
 class TestTcpChannelCleanup:
+    def test_failed_connect_releases_socket(self) -> None:
+        channel = object.__new__(TcpChannel)
+        channel.address = ('localhost', 1)
+        channel.connected = False
+        raw_socket = FailingConnectSocket()
+
+        with raises(TimeoutError):
+            channel.connect(raw_socket)
+
+        assert raw_socket.closed
+        assert not channel.connected
+
     def test_send_failure_reconnects_without_retrying(
         self,
         local_tcp_channel: tuple[TcpChannel, socket],

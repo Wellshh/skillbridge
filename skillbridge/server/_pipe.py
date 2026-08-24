@@ -336,6 +336,16 @@ class Pipe:
         self._thread.join(timeout)
         return not self._thread.is_alive()
 
+    def wait_peer_closed(self, timeout: float | None = None) -> bool:
+        """Wait for the reader thread and report whether the peer ended the pipe.
+
+        Returns:
+            Whether the reader thread exited without a prior local close.
+        """
+        if not self.wait_closed(timeout):
+            return False
+        return self._machine.state is not _PipeState.CLOSED
+
     def execute(
         self,
         cmd: str,
@@ -346,6 +356,12 @@ class Pipe:
 
         Returns:
             The complete SKILL response.
+
+        Raises:
+            ValueError: If the timeout is negative or not finite.
+            SkillPipeClosedError: If the pipe is closed.
+            SkillPipeBrokenError: If the pipe broke while executing.
+            SkillPipeTimeoutError: If the command did not finish in time.
         """
         if timeout is not None and (timeout < 0.0 or not math.isfinite(timeout)):
             raise ValueError("timeout must be None or a non-negative finite number")

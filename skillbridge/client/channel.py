@@ -103,7 +103,11 @@ class TcpChannel(Channel):
 
     def connect(self, sock: socket) -> socket:
         sock.settimeout(1)
-        sock.connect(self.address)
+        try:
+            sock.connect(self.address)
+        except BaseException:
+            sock.close()
+            raise
         sock.settimeout(None)
         self.connected = True
         return sock

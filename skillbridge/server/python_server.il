@@ -276,27 +276,16 @@ let((_filename _moduleFolder _logDirectory _unbound)
                         substring(newlineTail 2) || ""
 
                     when(lineLength > 0
-                        let((result capturedWarning pythonCode responseMarker)
+                        let((result capturedWarning pythonCode responseMarker completed)
                             ; Remember which process is currently executing the request.
                             pyStartServer.requestIpc = id
 
                             capturedWarning = __pyCaptureWarnings(
-                                errset(result=evalstring(line))
+                                completed = errset(result=evalstring(line))
                             )
 
-                            if((errset.errset) then
-                                printf(
-                                    "command %L resulted in error %L\n"
-                                    line
-                                    errset.errset
-                                )
-                                __pyWriteFrame(
-                                    id
-                                    __pyWriteFrame.NAK
-                                    lsprintf("%L" errset.errset)
-                                )
-                            else
-                                if(boundp('result) then
+                            if(boundp('result) then
+                                if(completed then
                                     pythonCode = __pySkillToPython(result)
 
                                     if(
@@ -325,11 +314,22 @@ let((_filename _moduleFolder _logDirectory _unbound)
                                         pythonCode
                                     )
                                 else
+                                    printf(
+                                        "command %L resulted in error %L\n"
+                                        line
+                                        errset.errset
+                                    )
                                     __pyWriteFrame(
                                         id
-                                        __pyWriteFrame.STX
-                                        "error('unbound')"
+                                        __pyWriteFrame.NAK
+                                        lsprintf("%L" errset.errset)
                                     )
+                                )
+                            else
+                                __pyWriteFrame(
+                                    id
+                                    __pyWriteFrame.STX
+                                    "error('unbound')"
                                 )
                             )
 
@@ -346,23 +346,23 @@ let((_filename _moduleFolder _logDirectory _unbound)
     putd('__pyOnDataScript nil)
     defun(__pyOnDataScript (id data)
         foreach(line parseString(data "\n")
-            let((result capturedWarning pythonCode)
+            let((result capturedWarning pythonCode completed)
                 capturedWarning = __pyCaptureWarnings(
-                    errset(result=evalstring(line))
+                    completed = errset(result=evalstring(line))
                 )
-                if((errset.errset) then
-                    printf("command %L resulted in error %L\n" line errset.errset)
-                    __pyIpcWriteProcess(id lsprintf("failure %L\n" errset.errset))
-                else
-                    if(boundp('result) then
+                if(boundp('result) then
+                    if(completed then
                         pythonCode = __pySkillToPython(result)
                         if(capturedWarning != "" && capturedWarning != "*WARNING* " then
                             pythonCode = lsprintf("warning(%L, %s)" capturedWarning pythonCode)
                         )
                         __pyIpcWriteProcess(id lsprintf("success %s\n" pythonCode))
                     else
-                        __pyIpcWriteProcess(id "success error('unbound')\n")
+                        printf("command %L resulted in error %L\n" line errset.errset)
+                        __pyIpcWriteProcess(id lsprintf("failure %L\n" errset.errset))
                     )
+                else
+                    __pyIpcWriteProcess(id "success error('unbound')\n")
                 )
             )
         )

@@ -12,6 +12,7 @@ from socketserver import (
     TCPServer,
     ThreadingMixIn,
 )
+from threading import Thread
 
 try:
     from socketserver import UnixStreamServer
@@ -208,6 +209,12 @@ def create_server(
     )
 
 
+def _watch_pipe_death(pipe: Pipe) -> None:
+    if pipe.wait_peer_closed():
+        logger.info("SKILL IPC pipe closed by peer; exiting")
+        os._exit(0)
+
+
 def main(
     id_: str,
     log_level: str,
@@ -226,6 +233,12 @@ def main(
         force_tcp=force_tcp,
         max_payload_size=max_payload_size,
     ) as server:
+        Thread(
+            target=_watch_pipe_death,
+            args=(pipe,),
+            name="skillbridge-pipe-watcher",
+            daemon=True,
+        ).start()
         logger.info(
             f"starting server id={id_} log={log_level} {notify=} "
             f"{single=} {timeout=} {force_tcp=} {max_payload_size=}",

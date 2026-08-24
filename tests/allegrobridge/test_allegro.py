@@ -19,6 +19,8 @@ from allegrobridge.allegro import (
 )
 from allegrobridge.client.session import Session
 
+_PYTHON = getattr(sys, '_base_executable', None) or sys.executable
+
 
 @fixture
 def executable(tmp_path: Path) -> Path:
@@ -69,7 +71,7 @@ def test_resolve_executable_raises_with_guidance(
         _resolve_executable('allegro.exe')
 
 
-def test_launch_writes_posix_startup_script_and_passes_board(
+def test_launch_writes_startup_script_that_loads_servers_and_opens_board(
     executable: Path,
     monkeypatch: MonkeyPatch,
     tmp_path: Path,
@@ -93,7 +95,7 @@ def test_launch_writes_posix_startup_script_and_passes_board(
 
     command_list = command
     assert command_list[:2] == [str(executable), '-s']
-    assert command_list[3] == board.resolve().as_posix()
+    assert len(command_list) == 3
 
     script_path = Path(command_list[2])
     script = script_path.read_text(encoding='utf-8')
@@ -104,6 +106,11 @@ def test_launch_writes_posix_startup_script_and_passes_board(
         f'skill load("{core_server.as_posix()}")',
         f'skill load("{transaction_server.as_posix()}")',
     ]
+    assert 'axlSetVariable("noconfirm" t)' in script
+    lines = script.splitlines()
+    open_board_line = f'skill axlOpenDesign(?design "{board.resolve().as_posix()}" ?mode "wf")'
+    start_server_line = next(line for line in lines if 'pyStartServer' in line)
+    assert lines.index(open_board_line) < lines.index(start_server_line)
     assert Path(sys.executable).as_posix() in script
     assert '\\' not in script
 
@@ -155,15 +162,15 @@ def test_kill_process_tree_terminates_descendants() -> None:
         skip('process-tree cleanup is Windows-specific')
 
     parent_script = (
-        'import subprocess, sys, time\n'
+        'import subprocess, time\n'
         'child = subprocess.Popen('
-        '[sys.executable, "-c", "import time; time.sleep(60)"],'
+        f'[{_PYTHON!r}, "-c", "import time; time.sleep(60)"],'
         ' stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,'
         ' stderr=subprocess.DEVNULL)\n'
         'print(child.pid, flush=True)\n'
         'time.sleep(60)\n'
     )
-    parent = Popen([sys.executable, '-c', parent_script], stdout=PIPE)
+    parent = Popen([_PYTHON, '-c', parent_script], stdout=PIPE)
     child_pid = -1
     try:
         child_pid = int(parent.stdout.readline())  # type: ignore[union-attr]
@@ -224,3 +231,34 @@ class TestSession:
             assert entered is session
 
         opened.close.assert_called_once_with()
+
+
+def test_kill_process_tree_terminates_orphaned_descendants_when_parent_dead() -> None:
+    if sys.platform != 'win32':
+        skip('process-tree cleanup is Windows-specific')
+
+    parent_script = (
+        'import subprocess\n'
+        'child = subprocess.Popen('
+        f'[{_PYTHON!r}, "-c", "import time; time.sleep(60)"],'
+        ' stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,'
+        ' stderr=subprocess.DEVNULL)\n'
+        'print(child.pid, flush=True)\n'
+    )
+    parent = Popen([_PYTHON, '-c', parent_script], stdout=PIPE)
+    child_pid = -1
+    try:
+        child_pid = int(parent.stdout.readline())  # type: ignore[union-attr]
+        parent.wait(timeout=5)
+        assert parent.poll() is not None
+        assert _is_process_alive(child_pid)
+
+        _kill_process_tree(parent)
+
+        deadline = monotonic() + 5
+        while _is_process_alive(child_pid) and monotonic() < deadline:
+            sleep(0.3)
+        assert not _is_process_alive(child_pid)
+    finally:
+        if child_pid != -1 and _is_process_alive(child_pid):
+            _terminate_pid(child_pid)

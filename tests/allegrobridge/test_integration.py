@@ -74,26 +74,17 @@ class TestApi:
         if allegro.mode != 'cli':
             pytest.skip('database transaction test requires the Windows board copy')
 
-        get_thickness = 'cadr(assoc("BOARD_THICKNESS" axlDBGetProperties(axlDBGetDesign())))'
+        get_nets = 'progn(axlDBRefreshId(axlDBGetDesign()) length(axlDBGetDesign()->nets))'
         snapshot = (
-            f'list(nil \'property {get_thickness} '
+            f'list(nil \'nets {get_nets} '
             "'components length(axlDBGetDesign()->components) "
             "'symbols length(axlDBGetDesign()->symbols))"
         )
         original_snapshot = ws['evalstring'](snapshot)
-        original = original_snapshot['property']
 
         try:
-            success_command = (
-                'progn('
-                'axlDBAddProp(axlDBGetDesign() list("BOARD_THICKNESS" 0.123456)) '
-                f'{get_thickness})'
-            )
-            failed_command = (
-                'progn('
-                'axlDBAddProp(axlDBGetDesign() list("BOARD_THICKNESS" 0.654321)) '
-                'error("savepoint-item"))'
-            )
+            success_command = f'progn(axlDBCreateNet("ITEST_TXN_SUCCESS") {get_nets})'
+            failed_command = 'progn(axlDBCreateNet("ITEST_TXN_FAIL") error("savepoint-item"))'
             results = ws.transaction.batch([
                 SkillCode(success_command),
                 SkillCode(failed_command),
@@ -103,7 +94,7 @@ class TestApi:
             assert results[0] == {
                 'index': 0,
                 'status': 'success',
-                'value': persisted['property'],
+                'value': persisted['nets'],
             }
             assert results[1]['index'] == 1
             assert results[1]['status'] == 'failure'
@@ -111,36 +102,27 @@ class TestApi:
 
             with pytest.raises(RuntimeError, match='TRANSACTION_COMMAND_FAILED'):
                 ws.transaction(
-                    SkillCode(
-                        'progn('
-                        'axlDBAddProp(axlDBGetDesign() list("BOARD_THICKNESS" 0.222222)) '
-                        'error("atomic-item"))'
-                    )
+                    SkillCode('progn(axlDBCreateNet("ITEST_TXN_ATOMIC") error("atomic-item"))')
                 )
             assert ws['evalstring'](snapshot) == persisted
 
             preview = ws.transaction.preview(
-                SkillCode(
-                    f'progn(axlDBAddProp(axlDBGetDesign() '
-                    f'list("BOARD_THICKNESS" 0.333333)) {snapshot})'
-                )
+                SkillCode(f'progn(axlDBCreateNet("ITEST_TXN_PREVIEW") {snapshot})')
             )
-            assert preview.keys() == {'property', 'components', 'symbols'}
-            assert isinstance(preview['property'], (bool, dict, float, int, list, str, type(None)))
-            assert preview['property'] != persisted['property']
+            assert preview.keys() == {'nets', 'components', 'symbols'}
+            assert isinstance(preview['nets'], int)
+            assert preview['nets'] != persisted['nets']
             assert preview['components'] == persisted['components']
             assert preview['symbols'] == persisted['symbols']
             assert ws['evalstring'](snapshot) == persisted
             assert ws['plus'](1, 2) == 3
         finally:
-            if original is None:
-                ws.transaction(SkillCode('axlDBDeleteProp(nil "BOARD_THICKNESS")'))
-            else:
-                ws.transaction(
-                    SkillCode(
-                        f'axlDBAddProp(axlDBGetDesign() list("BOARD_THICKNESS" {dumps(original)}))'
-                    )
+            ws.transaction(
+                SkillCode(
+                    'progn(axlDeleteObject(axlDBCreateNet("ITEST_TXN_SUCCESS")) '
+                    'axlDBRefreshId(axlDBGetDesign()))'
                 )
+            )
         assert ws['evalstring'](snapshot) == original_snapshot
 
 

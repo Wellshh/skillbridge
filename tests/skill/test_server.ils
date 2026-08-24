@@ -530,6 +530,67 @@
             (putd '__pyIpcWriteProcess originalWrite)
             (__pyTestRestoreServerState savedState)))))
 
+    (qtest::TestCase test_on_data_treats_inner_errset_as_success
+      (let ((originalWrite (getd '__pyIpcWriteProcess))
+            (savedState (__pyTestServerState))
+            writes
+            responses)
+        (unwindProtect
+          (progn
+            (putd '__pyIpcWriteProcess
+                  (lambda (process data)
+                    (setq writes (cons (list process data) writes))
+                    t))
+
+            pyStartServer.restartPending = nil
+            pyStartServer.ipc = 'serverProcess
+            ; A request that catches its own error internally and returns
+            ; normally must be reported as success, not failure.
+            (__pyOnData 'serverProcess "errset(error(\"qtest inner boom\"))\n")
+            ; An uncaught error right after must still be reported as failure
+            ; with its own descriptor, not the stale inner one.
+            (__pyOnData 'serverProcess "error(\"qtest outer boom\")\n")
+
+            (setq responses (mapcar 'cadr (reverse writes)))
+            (qtest::assertEqual
+              '(t t t t)
+              (list (equal (nth 0 responses)
+                           (strcat __pyWriteFrame.STX "None" __pyWriteFrame.RS))
+                    (qub::startsWith (nth 1 responses) __pyWriteFrame.NAK)
+                    (not (null (index (nth 1 responses) "qtest outer boom")))
+                    (null (index (nth 1 responses) "qtest inner boom")))
+              ?msg "inner errset must not leak into the server's failure detection"))
+          (progn
+            (putd '__pyIpcWriteProcess originalWrite)
+            (__pyTestRestoreServerState savedState)))))
+
+    (qtest::TestCase test_on_data_script_treats_inner_errset_as_success
+      (let ((originalWrite (getd '__pyIpcWriteProcess))
+            (savedState (__pyTestServerState))
+            writes
+            responses)
+        (unwindProtect
+          (progn
+            (putd '__pyIpcWriteProcess
+                  (lambda (process data)
+                    (setq writes (cons (list process data) writes))
+                    t))
+
+            (__pyOnDataScript 'scriptProcess "errset(error(\"qtest inner boom\"))\n")
+            (__pyOnDataScript 'scriptProcess "error(\"qtest outer boom\")\n")
+
+            (setq responses (mapcar 'cadr (reverse writes)))
+            (qtest::assertEqual
+              '(t t t t)
+              (list (equal (nth 0 responses) "success None\n")
+                    (qub::startsWith (nth 1 responses) "failure ")
+                    (not (null (index (nth 1 responses) "qtest outer boom")))
+                    (null (index (nth 1 responses) "qtest inner boom")))
+              ?msg "script handler must not report internally caught errors as failure"))
+          (progn
+            (putd '__pyIpcWriteProcess originalWrite)
+            (__pyTestRestoreServerState savedState)))))
+
     (qtest::TestCase test_on_data_script_writes_newline_protocol
       (let ((originalWrite (getd '__pyIpcWriteProcess))
             (savedState (__pyTestServerState))

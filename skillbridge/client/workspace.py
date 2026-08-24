@@ -283,7 +283,11 @@ class Workspace:
             except FileNotFoundError:
                 raise RuntimeError("No server found. Is it running?") from None
 
-            _open_workspaces[cache_key] = cls._create_workspace(channel, workspace_id)
+            try:
+                _open_workspaces[cache_key] = cls._create_workspace(channel, workspace_id)
+            except BaseException:
+                channel.close()
+                raise
         return _open_workspaces[cache_key]
 
     def close(self, log_exception: bool = True) -> None:
