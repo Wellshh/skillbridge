@@ -286,7 +286,10 @@ class Workspace:
             try:
                 _open_workspaces[cache_key] = cls._create_workspace(channel, workspace_id)
             except BaseException:
-                channel.close()
+                try:
+                    channel.close()
+                except BaseException:
+                    logger.exception("Failed to close channel after workspace creation failed")
                 raise
         return _open_workspaces[cache_key]
 

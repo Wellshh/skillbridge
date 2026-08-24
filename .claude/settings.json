@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(py -m poetry run python D:/tmp/allegro_repro5.py)",
+      "Bash(py -m poetry run pytest tests/allegrobridge/test_allegro.py::test_launch_writes_startup_script_that_loads_servers_and_opens_board -p no:cacheprovider --no-cov -rA)",
+      "Bash(taskkill /F /IM allegro.exe)",
+      "Bash(powershell -NoProfile -Command 'Get-CimInstance Win32_Process -Filter \"name='\\\\''python.exe'\\\\''\" | Where-Object { $_.CommandLine -like '\\\\''*python_server 7777*'\\\\'' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }')",
+      "Bash(powershell -NoProfile -Command 'Get-CimInstance Win32_Process -Filter \"name='\\\\''python.exe'\\\\''\" | Where-Object { $_.CommandLine -like '\\\\''*python_server 7777*'\\\\'' } | Select-Object ProcessId,CreationDate')",
+      "Bash(powershell -NoProfile -Command 'Get-CimInstance Win32_Process -Filter \"name='\\\\''python.exe'\\\\''\" | Where-Object { $_.CommandLine -like '\\\\''*pytest*'\\\\'' } | Select-Object ProcessId')",
+      "Bash(tasklist /FO CSV /NH)",
+      "Bash(powershell -NoProfile -Command \"Get-CimInstance Win32_Process -Filter \\\\\"ProcessId=32340 or ProcessId=31564\\\\\" | Select-Object ProcessId,ParentProcessId,Name | Format-List\")",
+      "Bash(taskkill /F /T /PID 18780)",
+      "Bash(taskkill /F /PID 19952)",
+      "Bash(taskkill /F /PID 2596)",
+      "Bash(taskkill /F /T /PID 32340)",
+      "Read(//c/Users/baijunyan/**)",
+      "Bash(powershell -NoProfile -Command 'Get-CimInstance Win32_Process -Filter \"name='\\\\''python.exe'\\\\''\" | Where-Object { $_.CommandLine -like '\\\\''*python_server 7777*'\\\\'' -or $_.CommandLine -like '\\\\''*pytest*'\\\\'' } | Select-Object ProcessId')",
+      "Bash(powershell -NoProfile -Command 'Get-CimInstance Win32_Process -Filter \"name='\\\\''python.exe'\\\\''\" | Where-Object { $_.CommandLine -like '\\\\''*python_server 7777*'\\\\'' -or $_.CommandLine -like '\\\\''*pytest*test_integration*'\\\\'' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }')",
+      "Bash(rm -f allegro.jrl allegro.jrl,1)",
+      "Bash(powershell -NoProfile -Command 'Get-CimInstance Win32_Process -Filter \"name='\\\\''python.exe'\\\\''\" | Where-Object { $_.CommandLine -like '\\\\''*python_server 7777*'\\\\'' -or $_.CommandLine -like '\\\\''*pytest*test_integration*'\\\\'' } | Select-Object ProcessId')",
+      "Bash(py -m poetry run pytest tests/allegrobridge/test_integration.py --allegro -p no:cacheprovider --no-cov -rA)"
+    ]
+  }
+}

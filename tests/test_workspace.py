@@ -59,6 +59,11 @@ class RejectingChannel(DummyChannel):
         self.closed = True
 
 
+class RejectingCloseChannel(RejectingChannel):
+    def close(self) -> None:
+        raise OSError('channel close failed')
+
+
 class ScriptedChannel(DummyChannel):
     def __init__(self, *responses: str) -> None:
         super().__init__(1)
@@ -291,3 +296,22 @@ def test_allegro_workspace_open_closes_channel_when_server_rejects_request(
 
     assert channel.closed
     assert (AllegroWorkspace, 'rejecting-server') not in _open_workspaces
+
+
+def test_workspace_open_preserves_creation_error_when_channel_close_fails(
+    monkeypatch: MonkeyPatch,
+) -> None:
+    channel = RejectingCloseChannel()
+    monkeypatch.setattr(
+        workspace_module,
+        'create_channel_class',
+        lambda _force_tcp: lambda _id: channel,
+    )
+
+    with raises(RuntimeError, match='server rejected the request'):
+        AllegroWorkspace.open('rejecting-server-with-close-failure')
+
+    assert (
+        AllegroWorkspace,
+        'rejecting-server-with-close-failure',
+    ) not in _open_workspaces

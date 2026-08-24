@@ -89,6 +89,7 @@ def test_launch_writes_startup_script_that_loads_servers_and_opens_board(
         return process
 
     monkeypatch.setattr(allegro, 'Popen', fake_popen)
+    monkeypatch.setattr(allegro, '_wait_for_tcp_port_release', Mock(), raising=False)
     monkeypatch.setattr(Allegro, '_wait_for_workspace', lambda *_, **__: workspace)
 
     opened = Allegro.launch(board=board, executable=executable)
@@ -108,7 +109,11 @@ def test_launch_writes_startup_script_that_loads_servers_and_opens_board(
     ]
     assert 'axlSetVariable("noconfirm" t)' in script
     lines = script.splitlines()
-    open_board_line = f'skill axlOpenDesign(?design "{board.resolve().as_posix()}" ?mode "wf")'
+    open_board_line = (
+        'skill unless('
+        f'axlOpenDesign(?design "{board.resolve().as_posix()}" ?mode "wf") '
+        'error("ALLEGRO_BOARD_OPEN_FAILED"))'
+    )
     start_server_line = next(line for line in lines if 'pyStartServer' in line)
     assert lines.index(open_board_line) < lines.index(start_server_line)
     assert Path(sys.executable).as_posix() in script
@@ -118,6 +123,21 @@ def test_launch_writes_startup_script_that_loads_servers_and_opens_board(
     workspace.close.assert_called_once()
     process.terminate.assert_called_once()
     assert not script_path.exists()
+
+
+def test_launch_rejects_missing_board_before_starting_process(
+    executable: Path,
+    monkeypatch: MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    popen = Mock()
+    monkeypatch.setattr(allegro, 'Popen', popen)
+    missing_board = tmp_path / 'missing.brd'
+
+    with raises(FileNotFoundError, match=re.escape(str(missing_board))):
+        Allegro.launch(board=missing_board, executable=executable)
+
+    popen.assert_not_called()
 
 
 def test_launch_cleans_up_when_workspace_never_connects(
@@ -140,6 +160,74 @@ def test_launch_cleans_up_when_workspace_never_connects(
 
     process.terminate.assert_called_once()
     assert not Path(command[2]).exists()
+
+
+def test_close_waits_for_tcp_relay_after_killing_allegro(
+    monkeypatch: MonkeyPatch,
+) -> None:
+    events: list[str] = []
+    workspace = Mock(close=lambda: events.append('workspace'))
+    process = Mock()
+    monkeypatch.setattr(allegro, '_kill_process_tree', lambda _: events.append('allegro'))
+    monkeypatch.setattr(
+        allegro,
+        '_wait_for_tcp_port_release',
+        lambda port: events.append(f'port:{port}'),
+        raising=False,
+    )
+    opened = Allegro(
+        mode='cli',
+        workspace_id='7788',
+        board=None,
+        workspace=workspace,
+        process=process,
+        force_tcp=True,
+    )
+
+    opened.close()
+
+    assert events == ['workspace', 'allegro', 'port:7788']
+
+
+class _ProbeSocket:
+    def __init__(self, results: list[int]) -> None:
+        self._results = results
+
+    def __enter__(self) -> _ProbeSocket:  # ruff: ignore[non-self-return-type]
+        return self
+
+    def __exit__(self, *_: object) -> None:
+        pass
+
+    def settimeout(self, _: float) -> None:
+        pass
+
+    def connect_ex(self, _: tuple[str, int]) -> int:
+        return self._results.pop(0)
+
+
+def test_wait_for_tcp_port_release_retries_until_listener_stops(
+    monkeypatch: MonkeyPatch,
+) -> None:
+    results = [0, 1]
+    sleeps: list[float] = []
+    monkeypatch.setattr(allegro, 'socket', lambda *_: _ProbeSocket(results))
+    monkeypatch.setattr(allegro, 'sleep', sleeps.append)
+
+    allegro._wait_for_tcp_port_release(7788)
+
+    assert results == []
+    assert sleeps == [allegro._POLL_INTERVAL]
+
+
+def test_wait_for_tcp_port_release_times_out(
+    monkeypatch: MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(allegro, 'socket', lambda *_: _ProbeSocket([0]))
+    monkeypatch.setattr(allegro, 'monotonic', Mock(side_effect=[0.0, 6.0]))
+
+    with raises(TimeoutError, match='7788'):
+        allegro._wait_for_tcp_port_release(7788)
 
 
 def _is_process_alive(pid: int) -> bool:

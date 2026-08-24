@@ -10,6 +10,8 @@
 
 - `qtest::runTests` 必须在每个 TestCase 边界用 `errset` 捕获未处理错误，将其转成包含测试名和 `errset.errset` 的 `Fail`，然后继续后续测试。不要再写固定路径诊断文件。
 - `errset` 成功时返回包含表达式结果的 list，因此测试正常返回 `nil` 与抛错仍可区分。
+- `.ils` 中 conventional call `f(?port p)` 本身合法，但不能再套成 `(f(?port p))`；外层括号会把返回值再次当作函数求值。Lisp 风格代码统一写 `(f ?port p)`。
+- `errset.errset` 是共享 symbol property，内部已捕获错误也可能留下旧值；用当前外层 `errset` 的返回值判断成败，并在 rollback/cleanup 前立即保存失败描述。
 - remote regex 分支必须用 `pcreCompile("abc")` 生成真实 `pcreobj@0x...` 对象触发；伪造 symbol 的 `%L` 表示会被转义，无法覆盖该分支。
 
 ## 查证入口

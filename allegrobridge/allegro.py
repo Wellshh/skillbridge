@@ -6,6 +6,7 @@ from contextlib import suppress
 from os import getenv
 from pathlib import Path
 from shutil import which
+from socket import AF_INET, SOCK_STREAM, socket
 from subprocess import Popen, TimeoutExpired
 from tempfile import TemporaryDirectory
 from time import monotonic, sleep
@@ -137,6 +138,19 @@ def _default_workspace_id(*, force_tcp: bool) -> str:
     return '7777' if sys.platform == 'win32' or force_tcp else 'default'
 
 
+def _wait_for_tcp_port_release(port: int) -> None:
+    deadline = monotonic() + _PROCESS_EXIT_TIMEOUT
+    while True:
+        with socket(AF_INET, SOCK_STREAM) as probe:
+            probe.settimeout(_POLL_INTERVAL)
+            listening = probe.connect_ex(('localhost', port)) == 0
+        if not listening:
+            return
+        if monotonic() >= deadline:
+            raise TimeoutError(f'Allegro server port {port} was not released')
+        sleep(_POLL_INTERVAL)
+
+
 class Allegro:
     """An open Allegro window connected to a Workspace."""
 
@@ -149,6 +163,7 @@ class Allegro:
         workspace: Workspace,
         process: Popen[bytes] | None = None,
         temp_dir: TemporaryDirectory[str] | None = None,
+        force_tcp: bool = False,
     ) -> None:
         self.mode = mode
         self.workspace_id = workspace_id
@@ -156,6 +171,7 @@ class Allegro:
         self._workspace = workspace
         self._process = process
         self._temp_dir = temp_dir
+        self._force_tcp = force_tcp
         self._closed = False
         self._session = Session(self)
 
@@ -179,6 +195,7 @@ class Allegro:
             workspace_id=ws_id,
             board=board_path,
             workspace=workspace,
+            force_tcp=force_tcp,
         )
 
     @classmethod
@@ -197,6 +214,8 @@ class Allegro:
             else str(workspace_id)
         )
         board_path = Path(board).resolve() if board is not None else None
+        if board_path is not None and not board_path.is_file():
+            raise FileNotFoundError(f'Allegro board file does not exist: {board_path}')
         resolved = _resolve_executable(executable)
 
         server_file = Path(skillbridge.server.__file__).with_name('python_server.il').as_posix()
@@ -205,7 +224,9 @@ class Allegro:
         )
         force_tcp_flag = ' ?forceTcp t' if force_tcp else ''
         open_board = (
-            f'skill axlOpenDesign(?design "{board_path.as_posix()}" ?mode "wf")\n'
+            'skill unless('
+            f'axlOpenDesign(?design "{board_path.as_posix()}" ?mode "wf") '
+            'error("ALLEGRO_BOARD_OPEN_FAILED"))\n'
             if board_path is not None
             else ''
         )
@@ -248,6 +269,7 @@ class Allegro:
             workspace=workspace,
             process=process,
             temp_dir=temp_dir,
+            force_tcp=force_tcp,
         )
 
     @classmethod
@@ -335,11 +357,15 @@ class Allegro:
             return
         self._closed = True
 
-        self._workspace.close()
-        if self._process is not None:
-            _kill_process_tree(self._process)
-        if self._temp_dir is not None:
-            self._temp_dir.cleanup()
+        try:
+            self._workspace.close()
+            if self._process is not None:
+                _kill_process_tree(self._process)
+                if sys.platform == 'win32' or self._force_tcp:
+                    _wait_for_tcp_port_release(int(str(self.workspace_id)))
+        finally:
+            if self._temp_dir is not None:
+                self._temp_dir.cleanup()
 
     def __enter__(self) -> Allegro:  # ruff: ignore[non-self-return-type]
         return self
