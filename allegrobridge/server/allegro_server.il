@@ -19,8 +19,8 @@
           'net_count (length design->nets))))
 
 (putd '__abProjectComponent nil)
-(defun __abProjectComponent (component)
-  (let ((symbol component->symbol))
+(defun __abProjectComponent (component @key (symbolOverride nil))
+  (let ((symbol (if symbolOverride then symbolOverride else component->symbol)))
     (list nil
           'refdes component->name
           'device_type component->deviceType
@@ -41,6 +41,39 @@
                  (or includeUnplaced component->symbol))
         (setq result (cons (__abProjectComponent component) result))))
     (reverse result)))
+
+(putd '__abMoveComponentUnsafe nil)
+(defun __abMoveComponentUnsafe (refdes x y rotation)
+  (let ((component nil)
+        symbol currentXY delta angle transformed)
+    (foreach candidate (axlDBGetDesign)->components
+      (when (equal refdes candidate->name)
+        (setq component candidate)))
+    (unless component
+      (error (sprintf nil "COMPONENT_NOT_FOUND: %L" refdes)))
+    (setq symbol component->symbol)
+    (unless symbol
+      (error (sprintf nil "COMPONENT_UNPLACED: %L" refdes)))
+    (setq currentXY symbol->xy)
+    (setq delta (list (- x (car currentXY))
+                      (- y (cadr currentXY))))
+    (setq angle (if rotation
+                    (- rotation symbol->rotation)
+                    0.0))
+    (setq transformed
+          (axlTransformObject symbol ?move delta ?angle angle))
+    (unless transformed
+      (error (sprintf nil "COMPONENT_TRANSFORM_FAILED: %L" refdes)))
+    (setq symbol (axlDBRefreshId symbol))
+    (unless symbol
+      (error (sprintf nil "COMPONENT_REFRESH_FAILED: %L" refdes)))
+    (__abProjectComponent component ?symbolOverride symbol)))
+
+(putd '__abMoveComponent nil)
+(defun __abMoveComponent (refdes x y rotation)
+  (__abRunTransaction
+    (sprintf nil "(__abMoveComponentUnsafe %L %L %L %L)"
+             refdes x y rotation)))
 
 (putd '__abProjectNet nil)
 (defun __abProjectNet (net)

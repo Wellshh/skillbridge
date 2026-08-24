@@ -10,6 +10,7 @@ if TYPE_CHECKING:
     from allegrobridge.client.session.session import Session
 
 _PROCEDURE = '__abProjectComponents'
+_MOVE_PROCEDURE = '__abMoveComponent'
 _OptionalFloat = Optional[float]
 
 
@@ -33,7 +34,7 @@ class ComponentsApi:
     def __init__(self, session: Session) -> None:
         self._session = session
 
-    def _validate(self, payload: object) -> list[ComponentInfo]:
+    def _validate(self, payload: object, *, procedure: str = _PROCEDURE) -> list[ComponentInfo]:
         if payload is None:
             payload = []
         candidate: object = payload
@@ -47,7 +48,7 @@ class ComponentsApi:
         try:
             return _COMPONENTS.validate_python(candidate, strict=True)
         except ValidationError as error:
-            raise AllegroProtocolError(f'{_PROCEDURE} returned an invalid payload') from error
+            raise AllegroProtocolError(f'{procedure} returned an invalid payload') from error
 
     def __call__(self, *, include_unplaced: bool = True) -> list[ComponentInfo]:
         return self._validate(self._session.raw[_PROCEDURE](None, include_unplaced))
@@ -58,3 +59,14 @@ class ComponentsApi:
         if not components:
             raise KeyError(refdes)
         return components[0]
+
+    def move(
+        self,
+        refdes: str,
+        *,
+        x: float,
+        y: float,
+        rotation: float | None = None,
+    ) -> ComponentInfo:
+        payload = self._session.raw[_MOVE_PROCEDURE](refdes, x, y, rotation)
+        return self._validate([payload], procedure=_MOVE_PROCEDURE)[0]

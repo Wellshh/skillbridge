@@ -23,6 +23,7 @@ _EXTENSION_FUNCTIONS = (
     '__abRunDryTransaction',
     '__abProjectBoard',
     '__abProjectComponents',
+    '__abMoveComponent',
     '__abProjectNets',
 )
 

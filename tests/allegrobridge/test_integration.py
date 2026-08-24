@@ -222,6 +222,49 @@ class TestComponentsApi:
         with pytest.raises(KeyError, match='__MISSING_COMPONENT__'):
             _ = session.components['__MISSING_COMPONENT__']
 
+    def test_move_projects_updated_component(
+        self,
+        allegro: Allegro,
+        session: Session,
+    ) -> None:
+        if allegro.mode != 'cli':
+            pytest.skip('component move test requires the Windows board copy')
+
+        original = session.components(include_unplaced=False)[0]
+        assert original.x is not None
+        assert original.y is not None
+        assert original.rotation is not None
+        target_x = original.x + 1.0
+        target_y = original.y + 1.0
+        target_rotation = original.rotation + 15.0
+
+        try:
+            moved = session.components.move(
+                original.refdes,
+                x=target_x,
+                y=target_y,
+                rotation=target_rotation,
+            )
+            assert moved.refdes == original.refdes
+            assert moved.placement == 'placed'
+            assert moved.x == pytest.approx(target_x)
+            assert moved.y == pytest.approx(target_y)
+            assert moved.rotation == pytest.approx(target_rotation)
+        finally:
+            session.components.move(
+                original.refdes,
+                x=original.x,
+                y=original.y,
+                rotation=original.rotation,
+            )
+
+    def test_move_raises_for_missing_component(self, allegro: Allegro, session: Session) -> None:
+        if allegro.mode != 'cli':
+            pytest.skip('component move test requires the Windows board copy')
+
+        with pytest.raises(RuntimeError, match='COMPONENT_NOT_FOUND'):
+            session.components.move('__MISSING_COMPONENT__', x=1.0, y=2.0)
+
     def test_component_info_is_frozen(self, session: Session) -> None:
         component = session.components()[0]
 
@@ -243,6 +286,23 @@ class TestComponentsApi:
 
         assert session.components() == []
         assert commands == ['__abProjectComponents(nil t )']
+
+    def test_move_protocol_mismatch_raises(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        session: Session,
+    ) -> None:
+        commands: list[str] = []
+
+        def send(command: str) -> str:
+            commands.append(command)
+            return repr({'refdes': 'R1'})
+
+        monkeypatch.setattr(session.raw._channel, 'send', send)
+
+        with pytest.raises(AllegroProtocolError, match='__abMoveComponent'):
+            session.components.move('R1', x=1.0, y=2.0)
+        assert commands == ['__abMoveComponent("R1" 1.0 2.0 nil )']
 
     @pytest.mark.parametrize(
         'payload',
