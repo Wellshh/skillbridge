@@ -1,8 +1,0 @@
-[mcp_servers.context7]
-command = "sh"
-args = [
-  "-lc",
-  "if [ -f .codex/context7.env ]; then . .codex/context7.env; fi; exec npx -y @upstash/context7-mcp --api-key \"${CONTEXT7_API_KEY:ctx7sk-b9cf67eb-6b06-4a58-b65c-1870a5464c14}\"",
-]
-startup_timeout_sec = 40
-tool_timeout_sec = 120

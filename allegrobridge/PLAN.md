@@ -6,7 +6,7 @@
 
 `skillbridge` 已经具备三个很有价值的基础：Python/SKILL 类型转换、远程对象属性访问，以及 Windows 下的 localhost TCP 通道；它的 `Workspace` 甚至已经预留了 `axl` 函数集合。 
 
-当前通信内核已经具备帧收发、严格串行执行、Windows timeout、超时后响应排空、SKILL callback 缓冲和写请求不自动重发。在没有真实需求或故障证据前，不再引入 UUID envelope、token、结果缓存或更多恢复状态。下一个核心能力是让 Python 与 SKILL 共同建立单次 RPC 内的原子事务边界。
+当前通信内核已经具备帧收发、严格串行执行、Windows timeout、超时后响应排空、SKILL callback 缓冲和写请求不自动重发。Python/SKILL 单次 RPC 事务、savepoint batch 与 dry-run 也已通过 Windows Allegro 实机验收。`Allegro` 窗口生命周期和最小内存 `Session` 门面已经落地；下一阶段从 board 开始建立严格校验的只读领域 API。在没有真实需求或故障证据前，不引入 UUID envelope、token、结果缓存或更多恢复状态。
 
 ---
 
@@ -14,11 +14,11 @@
 
 | 维度 | 决策方案 | 实施准则 |
 | :--- | :--- | :--- |
-| **1. Session 架构 (Phase 3/4)** | **轻量级内存会话 (In-Memory `AllegroSession`)** | 仅聚焦于代际管理 (`generation`)、连接生命周期与 DTO 领域分发。**暂不引入 SQLite 持久化和应用级逆向 Undo 日志**，保持架构极简与敏捷。 |
-| **2. 只读查询与 DTO (Phase 5)** | **纯 RPC 优先 + SKILL 端单次投影** | 在 SKILL 端一次性投影提取 DTO 所需字段（避免 N+1 RPC），序列化后直接通过 RPC 返回 Python `list[DTO]`；**仅在单次请求数据量超限或产生明确性能瓶颈时，才按需开启本地临时文件 Bulk 通道**。 |
+| **1. Session 架构 (Phase 4)** | **轻量级内存会话 (In-Memory `Session`)** | 仅聚焦于所有权、连接代际 (`generation`) 与生命周期。**暂不引入 SQLite 持久化和应用级逆向 Undo 日志**，保持架构极简与敏捷。 |
+| **2. 只读查询与协议记录 (Phase 5)** | **纯 RPC + SKILL 单次投影 + Pydantic 严格验收** | SKILL 一次投影返回 DPL/list，沿用现有 Translator 解码；Python 仅在 `client/api` 信任边界严格校验，不增加第二套序列化。**仅在实测出现帧或性能瓶颈时才增加 Bulk 通道**。 |
 | **3. 领域写操作与批处理 (Phase 6)** | **单写即时原子 + `with session.batch():` 延迟复合事务** | 单个写方法（如 `components.move()`）立即发起单次 RPC 原子提交；多操作组合时支持客户端上下文管理器收集指令，退出上下文时编译为单个 SKILL 复合事务一次性提交（All-or-Nothing）。 |
 | **4. 交互冲突策略 (Active Command)** | **严格非侵入式 (Fail-Fast)** | 若 Allegro 正忙（`axlOKToProceed` 为 `nil`），立即抛出 `BUSY_ACTIVE_COMMAND`，**绝不自动发送 done/cancel 中断用户前台交互**，保障人工设计安全。 |
-| **5. SDK 入口与命名空间** | **分层封装 (`Allegro` + `AllegroSession`)** | 顶层统一从 `allegrobridge` 导出 `Allegro`（生命周期管理）与 `AllegroSession`（DTO 领域门面）；底层裸 `Workspace` 收敛在 `session.raw` 下供高级调试使用。 |
+| **5. SDK 入口与命名空间** | **分层封装 (`Allegro` + `Session`)** | 顶层统一从 `allegrobridge` 导出 `Allegro` 与 `Session`；领域 API 位于 `allegrobridge.client.api`，底层裸 `Workspace` 收敛在 `session.raw` 下供高级调试使用。 |
 
 ---
 
@@ -32,7 +32,7 @@
 │ board / components / symbols / nets / layers / properties │
 │ 返回不可变 DTO，不暴露裸 DBID                               │
 ├───────────────────────────────────────────────────────────┤
-│ In-Memory AllegroSession                                  │
+│ In-Memory Session                                         │
 │ 代际跟踪 (generation)、batch 批处理收集、领域服务分发       │
 ├───────────────────────────────────────────────────────────┤
 │ Raw Workspace Adapter (`session.raw`)                     │
@@ -93,6 +93,8 @@ skillbridge/                 # 现有通信、编码与远程对象内核
 allegrobridge/
 ├── allegro.py               # Allegro 窗口生命周期
 ├── client/
+│   ├── session/             # Session 生命周期门面
+│   ├── api/                 # 按实际交付逐个增加领域 API 与协议记录
 │   ├── workspace.py         # Allegro Workspace 与 transaction 原语
 │   └── translator.py        # Allegro 函数名映射
 └── server/
@@ -102,7 +104,7 @@ allegrobridge/
 
 通用 `skillbridge/server/python_server.il` 不得引用任何 `axl*` API。`allegro_server.il` 作为库扩展被加载，不是独立用户命令，因此不需要为内部 procedure 额外注册 `axlCmdRegister`。该 `.il` 文件必须加入 wheel package-data，并增加 wheel 内文件存在性测试。
 
-只有当 board/components/nets 出现足够多的稳定业务 API 时，才按实际边界继续拆分领域模块。LGPL-3.0 许可与归属继续保留。
+`client/api` 不预先创建空模块；board、components、nets 依次随首个真实方法落地。每个模块同时保存该领域的 API 对象、少量公开返回记录和模块级校验器，避免横向拆成 models/schemas/serializers/service 层。LGPL-3.0 许可与归属继续保留。
 
 ---
 
@@ -353,10 +355,12 @@ _ALLOWED_CALLS = {
 
 ## 5. `allegrobridge/server/allegro_server.il`
 
-该文件只存放 Allegro 专属 procedure，统一使用 `__ab*` 内部前缀。当前只实现：
+该文件只存放 Allegro 专属 procedure，统一使用 `__ab*` 内部前缀。当前已实现：
 
 ```text
 __abRunTransaction(command)
+__abRunSavepointBatch(commands)
+__abRunDryTransaction(command)
 ```
 
 不在本阶段增加第二套 start/stop/restart、callback、serializer、handle table 或 capability 系统。
@@ -371,9 +375,9 @@ skill load(".../allegrobridge/server/allegro_server.il")
 skill pyStartServer(...)
 ```
 
-在 `allegrobridge.Workspace._create_workspace()` 完成 Allegro 宿主探测后，对 Allegro Workspace 检查 `isCallable('__abRunTransaction)`；缺失时调用 `load()`，然后再次检查。加载或复核失败时，关闭刚创建的 workspace 再抛出错误。Virtuoso 等非 Allegro 宿主仍返回通用 Workspace，不加载该扩展。
+在 `allegrobridge.Workspace._create_workspace()` 完成 Allegro 宿主探测后，对 Allegro Workspace 检查上述三个 procedure 是否都可调用；缺失时调用 `load()`，然后再次检查。加载或复核失败时，关闭刚创建的 workspace 再抛出错误。Virtuoso 等非 Allegro 宿主仍返回通用 Workspace，不加载该扩展。
 
-不覆写 `Workspace.open()`：该方法已有实例缓存，`_create_workspace()` 只在缓存未命中时执行，使扩展初始化天然只发生一次。CLI 模式也经过这一复核，因此 startup script 加载失败不会被误报为就绪。`Workspace.transaction()` 只调用已加载的 procedure，不在每次写操作前部署文件。
+不覆写 `Workspace.open()`：该方法已有实例缓存，`_create_workspace()` 只在缓存未命中时执行，使扩展初始化天然只发生一次。CLI 模式也经过这一复核，因此 startup script 加载失败不会被误报为就绪。`Workspace.transaction` 门面只调用已加载的 procedure，不在每次写操作前部署文件。
 
 ### 5.2 包装与路径
 
@@ -538,11 +542,11 @@ PoC 验收标准：
 
 ---
 
-## Phase 2：双端原子事务
+## Phase 2：双端原子事务（已完成）
 
 目标：让一条可能修改 Allegro 数据库的 SKILL command，在单次 RPC 内要么全部成功，要么全部回退。
 
-这是当前的下一个实施阶段。不先引入 `AllegroSession`、批处理 DSL、UUID envelope 或结果缓存。
+状态：基础原子事务、savepoint batch 和 dry-run 已完成 Python/SKILL 封装，并已通过 Windows Allegro 真实数据库验收。
 
 ### 2.1 SKILL 端事务包装
 
@@ -563,19 +567,21 @@ Cadence 事务 mark 不得跨 Allegro command 保留。Start、command、Commit/
 
 ### 2.2 Python 端委托
 
-先在 Allegro `Workspace` 提供最小能力：
+在 Allegro `Workspace` 提供最小能力：
 
 ```python
-result = ws.transaction("axlDBChangeSomething(...)")
+result = ws.transaction(SkillCode("axlDBChangeSomething(...)"))
+preview = ws.transaction.preview(SkillCode("axlDBChangeSomething(...)"))
+results = ws.transaction.batch([SkillCode("command1()"), SkillCode("command2()")])
 ```
 
 这是 Raw Workspace 的底层原语，不是面向业务代码的写操作 API。后续领域 API 仍应调用固定 SKILL procedure，并在内部复用该事务边界。
 
-`Workspace.transaction()` 只负责：
+`Workspace.transaction` 返回绑定的 `Txn` 门面：
 
-1. 将 command 作为一个普通 SKILL 字符串参数编码。
-2. 调用 `self['__abRunTransaction'](command)`。
-3. 返回 commit 后的结果，或将 rollback 后的 failure 转为 Python 异常。
+1. `ws.transaction(command)` 调用 `__abRunTransaction`，保持全有或全无语义。
+2. `ws.transaction.preview(command)` 调用 `__abRunDryTransaction`，成功执行后仍回滚。
+3. `ws.transaction.batch(commands)` 调用 `__abRunSavepointBatch`，返回逐项结果；空列表直接返回 `[]`。
 
 不在 Python 端暴露 `begin()` / `commit()` / `rollback()`，因为那会让远程 transaction 跨越多次 RPC，违反 Allegro 的事务生命周期。
 
@@ -604,7 +610,7 @@ CLI 和 manual 模式都能加载扩展，且已加载时不重复 load
 
 ### 2.5 Transaction 模式扩展
 
-基础 transaction 通过 Windows qtest/qcover 验证后，再增加两个独立能力；现有 `__abRunTransaction(command)` 继续保持全有或全无语义：
+基础 transaction 通过 Windows qtest/qcover 验证后，已增加两个独立能力；`__abRunTransaction(command)` 继续保持全有或全无语义：
 
 | API | 语义 | 持久化条件 |
 | :--- | :--- | :--- |
@@ -633,7 +639,7 @@ CLI 和 manual 模式都能加载扩展，且已加载时不重复 load
 ]
 ```
 
-inner commit 只结束当前嵌套层，不代表最终提交。空 `commands` 由未来 Python 客户端直接返回 `[]`，不发送 RPC。
+inner commit 只结束当前嵌套层，不代表最终提交。空 `commands` 由 Python 客户端直接返回 `[]`，不发送 RPC。
 
 #### 2.5.2 Dry run
 
@@ -658,124 +664,136 @@ database transaction 不会回滚 SKILL 全局变量、文件 IO、selection set
 - qtest/qcover 覆盖每项 success、`nil`、command failure、inner commit failure；inner start/rollback failure 触发 outer rollback；outer commit/rollback failure；dry-run success/error/rollback failure；以及 cleanup 前保存 `errset.errset`。
 - Windows Allegro 集成测试使用 board 副本验证：savepoint batch 只保留成功项，atomic batch 仍全部回滚，dry-run 前后数据库对象数和属性完全一致，DTO 不含 DBID，执行后 server 仍可响应。
 
-不增加 `axlDBTransactionMark/Oops`、自动 retry、自动 cloak 或 DRC 自动刷新。Python 侧未来分别暴露 `savepoint_batch()` 和 `dry_run()`，不给现有 `transaction()` 增加模式参数。
+不增加 `axlDBTransactionMark/Oops`、自动 retry、自动 cloak 或 DRC 自动刷新。Python 侧通过 `ws.transaction.batch()` 和 `ws.transaction.preview()` 暴露两种独立语义，不给原子 `ws.transaction()` 增加模式参数。
 
 ---
 
-## Phase 3：Allegro 窗口与会话生命周期
+## Phase 3：Allegro 窗口生命周期（已完成）
 
-目标：统一表示手动打开或由 Python 启动的 Allegro 窗口与会话。
+目标：统一表示手动打开或由 Python 启动的 Allegro 窗口。
+
+`Allegro.open(mode="manual" | "cli")`、上下文管理、CLI 路径探测、startup script 与 `Workspace.open()` 接续已完成并通过 Windows 实机验收。
 
 ```python
-from allegrobridge import Allegro, AllegroSession
+from allegrobridge import Allegro
 
-# 方式一：生命周期管理器（支持 manual / cli 模式）
-with Allegro.open(mode="manual", port=7777) as allegro:
-    pcb = allegro.session
-    board = pcb.board.get_info()
-
-# 方式二：直接连接现有 Session
-with AllegroSession.connect(port=7777) as pcb:
-    board = pcb.board.get_info()
+with Allegro.open(mode="manual", workspace_id="7777") as allegro:
+    assert allegro.workspace["plus"](1, 2) == 3
 ```
 
-- `manual` 模式只断开 Session/Workspace 连接；
+- `manual` 模式只断开 Workspace 连接；
 - `cli` 模式还负责优雅终止自己拉起的 Allegro 进程；
-- 架构上采用**轻量级内存会话（In-Memory Session）**，负责连接心跳、代际跟踪 (`generation`) 与领域服务分发，不依赖外部 SQLite 数据库。
+- `Allegro` 直接保存已打开的 `Workspace`，不绕过公开连接流程读取私有缓存。
 
 ---
 
-## Phase 4：In-Memory Session 与 Raw Workspace Adapter
+## Phase 4：In-Memory Session 与 Raw Workspace Adapter（已完成）
 
 目标：保留 skillbridge 的底层灵活性，但将其安全收敛在明确的底层接口。
 
-建议 API：
+第一步只包装现有对象，不重写通信接口：
 
 ```python
-# 默认通过 session.raw 访问底层原始能力（仅在高级调试或未封装 API 时使用）
-session.raw.call("axlDBGetDesign")
-session.raw.eval("axlDBGetDesign()->nets~>name")
-session.raw.load_file(Path("my_script.il"))
-session.raw.release_all_handles()
+with Allegro.open(mode="manual", workspace_id="7777") as allegro:
+    session = allegro.session
+    assert session.raw is allegro.workspace
 ```
 
-- `eval()` 默认关闭，仅在明确开启 `allow_raw_eval=True` 调试模式时允许；
-- 维护 `session_generation`：每次打开新板或重新连接时递增代际编号，使旧有的 RemoteObject / 缓存失效（返回 `StaleHandleError`）；
-- 业务层高层 API 严禁对外直接暴露 `RemoteObject` 或裸 `dbid`。
+- `Session` 持有 `Allegro`，`raw` 直接返回其 `Workspace`，关闭语义保持幂等。
+- `generation` 先表示当前连接代际；等实际增加换板或重连 API 时，再在那个共享边界递增。
+- 不新增 `raw.call()` / `raw.eval()` / `raw.load_file()` 包装；现有 `Workspace` 已覆盖这些底层能力。
+- 不实现 batch DSL、handle table、心跳或能力握手。
 
 ---
 
-## Phase 5：只读领域 SDK（RPC 优先 + SKILL 端单次投影）
+## Phase 5：严格只读领域 API（下一阶段）
 
-目标：高效拉取 PCB 元件、网络、层等结构化数据，彻底避免 N+1 RPC 往返。
+目标：让 `Session` 提供 Pythonic 领域命名空间，通过固定 SKILL 投影一次返回稳定数据，并在 Python 边界用 Pydantic 严格识别协议漂移。Pydantic 只负责校验，不替换现有 Translator，也不承担 JSON 序列化。
 
-建议第一批实现：
+### 5.1 目录与依赖边界
 
-```python
-session.board.get_info()
-session.board.get_units()
-session.board.get_extents()
+按真实交付顺序增加模块，首个垂直切片只需要 `board.py`：
 
-session.components.list(include_unplaced=True)
-session.components.get("R101")
-session.symbols.list()
-
-session.nets.list()
-session.nets.get("GND")
-session.nets.get_connections("VCC_3V3")
-
-session.layers.list()
-session.properties.get(...)
+```text
+allegrobridge/client/api/
+├── __init__.py       # 只显式导出已经实现的公开 API/记录
+├── _record.py        # 唯一共享的严格、不可变 Pydantic 基类
+├── board.py          # BoardApi + BoardInfo
+├── components.py     # 第二步：ComponentsApi + ComponentInfo
+└── nets.py           # 第三步：NetsApi + NetInfo
 ```
 
-DTO 示例：
+不创建独立的 `models/`、`schemas/`、`serializers/`、`requests/` 或 `responses/`。一个领域的 API 和返回记录放在同一模块；symbols/layers/properties 等模块等到首个真实方法出现再创建。
+
+当前项目声明 Python `>=3.8`，而新的 Pydantic 版本已经提高 Python 下限。实施前必须在同一提交中明确二选一：保留 Python 3.8 时锁定仍支持它的 Pydantic v2 版本；或先正式提高项目 Python 下限。不得加入在声明支持版本上无法安装的依赖。
+
+### 5.2 协议校验：少量记录，不造第二套序列化
 
 ```python
-from dataclasses import dataclass
+from pydantic import BaseModel, ConfigDict, TypeAdapter
 
 
-@dataclass(frozen=True)
-class Point:
-    x: float
-    y: float
+class _Record(BaseModel):
+    model_config = ConfigDict(strict=True, extra="forbid", frozen=True)
 
 
-@dataclass(frozen=True)
-class ComponentInfo:
-    refdes: str
-    package: str | None
-    component_class: str | None
-    placed: bool
-    xy: Point | None
-    rotation: float | None
-    mirrored: bool | None
-
-
-@dataclass(frozen=True)
-class BoardInfo:
-    path: str | None
+class BoardInfo(_Record):
+    path: str
     units: str
     component_count: int
-    placed_symbol_count: int
+    symbol_count: int
     net_count: int
     session_generation: int
+
+
+_BOARD_INFO = TypeAdapter(BoardInfo)
 ```
 
-### 数据传输与投影机制：
-1. **纯 RPC 优先 + SKILL 单次投影（默认路径）**：
-   在 SKILL 端执行单次高效投影遍历，将属性提取为结构化 List/Dict 一次性通过 RPC 报文返回，Python 直接反序列化为不可变 DTO：
-   ```lisp
-   ;; SKILL 端投影示例：一次 RPC 返回全部组件属性字典
-   (defun ABProjectComponents ()
-     (mapcar (lambda (c)
-               (list (cons 'refdes c->name)
-                     (cons 'package c->package)
-                     (cons 'placed (if c->symbol t nil))
-                     (cons 'xy (when c->symbol c->symbol->xy))))
-             (axlDBGetDesign)->components))
-   ```
-2. **按需 Bulk 文件通道（超大数据备选）**：
-   仅在超大型设计（如数万个元件、图形网格）导致单次 RPC 传输或内存达到瓶颈时，才按需触发 `ABExportComponents("tmp.tsv")` 并由 Python Bulk Reader 读取。
+约束如下：
+
+- 固定 `__ab*` procedure 返回 DPL 或 list-of-DPL；继续由现有 Translator 转成 `dict` / `list`。
+- 每个公开返回实体最多一个小型 Pydantic record；列表直接复用模块级 `TypeAdapter(list[ComponentInfo])`，不增加 list wrapper/root model。
+- `TypeAdapter` 在模块加载时创建并复用，API 方法只调用 `validate_python(..., strict=True)`。
+- 缺字段、额外字段或错误标量类型都视为协议错误；不使用 field validator 做隐式兼容或字符串/数字强转。
+- `nil` 在当前 Translator 中表示 `None`，无法同时稳定表达布尔 `False`。会丢失语义的二态字段使用明确的字符串 `Literal`，`None` 只表示缺失；字段 wire 形式必须先经真实 Allegro 验证。
+- 不调用 `model_dump()` / `model_dump_json()`，不增加 JSON round-trip、请求 envelope、响应 envelope 或通用 `OperationResult`。
+- 校验失败统一在 API 边界转成一个 `AllegroProtocolError`，附带 procedure 名并以原始 `ValidationError` 为 cause；业务异常和现有 transaction 异常继续按异常抛出。
+
+公开方法参数优先依靠类型标注和 Python 签名；只有参数确实来自不可信调用边界且包含非平凡约束时，才使用 `@validate_call(config=ConfigDict(strict=True))`。不为每个方法创建 request model，也不为内部 helper 添加装饰器。
+
+### 5.3 Session 命名空间与语法糖
+
+复用 `FunctionCollection` / `RemoteFunction` 已有的调用风格，避免 `.list()` / `.get()` 样板：
+
+```python
+board = session.board()
+components = session.components(include_unplaced=True)
+r101 = session.components["R101"]
+gnd = session.nets["GND"]
+```
+
+- `Session.board`、`components`、`nets` 使用 `cached_property` 返回轻量 API 对象，并由它们调用 `session.raw` 下的固定 `__ab*` procedure。
+- `Api.__call__()` 表示该领域的默认查询；`__getitem__()` 表示按稳定业务 key 精确取一个对象。
+- 不实现 `__iter__()`、`__len__()` 或会隐藏 RPC 的数据 property，避免看似本地的表达式意外触发远程 IO。
+- records 不保存 DBID、`RemoteObject`、Workspace 或 Channel；记录包含创建时的 `session_generation`，需要长期保存时由调用方自行决定。
+- 底层调试仍使用 `session.raw`；领域 API 不接受任意 SKILL 字符串。
+
+### 5.4 实施顺序
+
+1. `BoardApi.__call__() -> BoardInfo`：建立最小 `_Record`、协议错误和一个 `__abProjectBoard` 投影，完成 Python + Windows Allegro 垂直验收。
+2. `ComponentsApi.__call__()` / `__getitem__()`：单次 SKILL 遍历返回所有稳定字段，禁止逐项 RemoteObject 查询。
+3. `NetsApi.__call__()` / `__getitem__()`：沿用相同边界；只有这三个模块稳定后再评估 symbols/layers/properties。
+
+Bulk 文件通道、通用分页器、缓存、handle table 和 capability negotiation 均不属于首批 API；只有实测数据证明单次投影无法满足帧大小或性能要求时再设计。
+
+### 5.5 测试门槛
+
+- 所有领域 API、record 与协议边界测试统一放在 `tests/allegrobridge/test_integration.py`，不创建 `test_api.py`。
+- 现有 `TestApi` 只保留连接、Session 和 transaction 基础设施验收；领域测试分别进入 `TestBoardApi`、`TestComponentsApi`、`TestNetsApi`，以后也按一个领域一个测试类扩展。
+- 每个领域类覆盖正确 payload、缺字段、额外字段、错误类型、冻结行为、调用/索引语法、固定 procedure、单次 RPC 与协议异常。
+- Windows CLI 实机测试验证 `session.board()`，随后逐步增加 components/nets；断言结果类型、稳定字段和无 DBID。Unix manual 环境只执行只读行为，不修改用户已打开的设计。
+- 新增 Python 模块 statement/branch 双 100%；SKILL 投影继续通过 qtest/qcover 和 Windows 实机运行门槛。
+- 不测试 Pydantic 自身的 JSON 序列化，因为该层不使用它。
 
 ---
 
@@ -810,9 +828,10 @@ class BoardInfo:
 
 | Python API | 用途 | 事务与提交行为 |
 | :--- | :--- | :--- |
-| `session.batch()` / `ws.transaction()` | 原子批处理 (Atomic) | 任一失败则整批 Rollback |
-| `session.savepoint_batch()` | 容错批处理 (Savepoint) | 单项失败只回滚该项，所有成功项在 outer Commit 时持久化 |
-| `session.dry_run()` | 试运行预演 (Dry-run) | 无论成功失败均 Rollback，仅返回稳定 DTO |
+| `session.batch()` | 原子批处理 (Atomic) | 未来将多个领域操作编译为一条 command，任一失败则整批 Rollback |
+| `ws.transaction(command)` | 原子单命令 (Atomic) | 已实现；单次 RPC 内 Commit 或 Rollback |
+| `session.savepoint_batch()` | 容错批处理 (Savepoint) | 未来委托 `ws.transaction.batch()`；成功项在 outer Commit 时持久化 |
+| `session.dry_run()` | 试运行预演 (Dry-run) | 未来委托 `ws.transaction.preview()`；始终 Rollback，仅返回稳定 DTO |
 
 ### 6.2 交互冲突策略（Fail-Fast）
 写操作发出前，底层通过 `axlOKToProceed()` 检查 Allegro 状态：
@@ -840,153 +859,123 @@ class BoardInfo:
 
 # 六、Python 对外接口设计
 
-统一由 `allegrobridge` 导出清晰的分层接口：
+顶层只导出生命周期对象；领域 API 与协议记录从 `allegrobridge.client.api` 显式导出：
 
 ```python
-from allegrobridge import Allegro, AllegroSession
+from allegrobridge import Allegro, Session
+from allegrobridge.client.api import BoardInfo, ComponentInfo
 
-# 1. 启动或连接 Allegro 会话
-with AllegroSession.connect(port=7777) as pcb:
-    # 基础状态查询
-    status = pcb.status()
-    print(f"Allegro Version: {status.allegro_version}")
-    print(f"Design Path: {status.design_path}")
+with Allegro.open(mode="manual", workspace_id="7777") as allegro:
+    pcb: Session = allegro.session
+    assert pcb.raw is allegro.workspace
 
-    # 读取板信息 (DTO)
-    board = pcb.board.get_info()
+    board: BoardInfo = pcb.board()
+    components: list[ComponentInfo] = pcb.components(include_unplaced=True)
+    r101: ComponentInfo = pcb.components["R101"]
 
-    # 查询元件列表 (SKILL 端单次投影，返回不可变 DTO 列表)
-    components = pcb.components.list(include_unplaced=True)
-    r101 = pcb.components.get("R101")
-
-    # 单操作即时原子写
-    result = pcb.components.move(
+    # Phase 6：成功返回更新后的记录，失败抛出现有事务或领域异常
+    updated: ComponentInfo = pcb.components.move(
         refdes="R101",
         x=120.0,
         y=45.0,
         rotation=90.0,
     )
-    if not result.ok:
-        raise RuntimeError(result.error)
 
-    # 复合批处理：单次原子事务提交
     with pcb.batch("align filter capacitors") as batch:
         batch.components.move("C101", x=120.0, y=45.0)
         batch.components.move("C102", x=125.0, y=45.0)
-
-    # 保存设计
-    pcb.board.save()
 ```
 
-统一结果类型：
+公开语义保持简单：
 
-```python
-@dataclass(frozen=True)
-class OperationError:
-    code: ErrorCode
-    message: str
-    details: dict[str, object]
-
-
-@dataclass(frozen=True)
-class OperationResult[T]:
-    ok: bool
-    value: T | None
-    error: OperationError | None
-    request_id: str
-    elapsed_ms: float
-```
-
-写操作还应包括：
-
-```python
-@dataclass(frozen=True)
-class MutationMetadata:
-    committed: bool | None
-    rolled_back: bool
-    commit_state_known: bool
-    design_modified: bool | None
-```
-
-这里 `committed=None` 表示 timeout 后无法确认 Allegro 内部是否已经完成写入。
+- 查询一个对象返回 record，查询集合返回 `list[record]`，无对象时按方法契约返回 `None` 或抛出明确的 not-found 异常。
+- 写操作成功时返回更新后的领域 record，纯命令成功时返回 `None`；失败使用现有异常链，不包装 `ok/value/error`。
+- savepoint batch 只有在“部分成功”本身是业务语义时才返回逐项结果，不把这种特殊结构推广到所有 API。
+- `Session.raw` 是唯一 raw escape hatch；高级调用者继续使用现有 `Workspace`、`RemoteFunction.lazy()`、`var()` 和 transaction API。
 
 ---
 
-# 七、能力握手
+# 七、能力握手（延后）
 
-连接建立后，Python 不应直接执行操作，而应先调用：
+当前 Allegro 探测已经由 `Workspace.open()` 的轻量握手完成。Phase 5 不增加 `ABGetCapabilities()`、`ABGetSessionInfo()` 或 capability Pydantic model。
 
-```skill
-ABGetCapabilities()
-ABGetSessionInfo()
-```
-
-建议返回：
-
-```json
-{
-  "bridge_version": "0.1.0",
-  "protocol_version": 1,
-  "allegro_version": "...",
-  "design_loaded": true,
-  "design_id": "dbid:12345",
-  "session_generation": 7,
-  "capabilities": {
-    "read_components": true,
-    "read_nets": true,
-    "write_components": true,
-    "transactions": true,
-    "native_undo": false,
-    "bulk_export": true
-  }
-}
-```
-
-这样可以针对不同 Allegro 版本做兼容适配，而不是在 Python 业务层散布版本判断。
+只有真实支持多个不兼容的 AllegroBridge server 版本时，才设计最小的版本/capability 响应；届时同样使用一个严格 record 校验，不在业务层散布版本判断。
 
 ---
 
-# 八、日志和审计
+# 八、日志和审计（延后）
 
-每个请求至少记录：
+Phase 5 沿用现有 Python/SKILL 日志，不增加 request ID、idempotency key、JSONL 审计模型或日志目录。API 边界只补充 procedure 名和校验失败上下文，且默认不记录完整 SKILL 源码。
 
-```text
-timestamp
-request_id
-session_id
-operation
-mutation
-duration_ms
-status
-error_code
-design_path
-session_generation
-```
-
-写操作额外记录：
-
-```text
-idempotency_key
-transaction_started
-transaction_committed
-transaction_rolled_back
-commit_state_known
-affected_object_count
-```
-
-默认不要记录完整 SKILL 源码，因为其中可能包含设计名称、路径和内部属性。调试模式才记录，并做长度限制。
-
-推荐目录：
-
-```text
-%LOCALAPPDATA%/AllegroBridge/logs/server.jsonl
-%LOCALAPPDATA%/AllegroBridge/logs/client.jsonl
-%LOCALAPPDATA%/AllegroBridge/logs/skill.log
-```
+只有 Agent 实际执行写操作并产生可审计需求时，才根据部署环境设计最小审计事件；审计协议与领域查询 record 分开，不提前污染 `client/api`。
 
 ---
 
 # 九、测试方案
+
+## API 测试结构与数据库隔离
+
+所有领域 API 测试集中在 `tests/allegrobridge/test_integration.py`，沿用现有真实 `Allegro` fixture，不在其他文件复制 Workspace mock 或领域断言：
+
+```text
+TestApi             连接、Session、transaction 基础设施
+TestBoardApi        session.board() 与 BoardInfo 协议
+TestComponentsApi   session.components() / [refdes]
+TestNetsApi         session.nets() / [name]
+```
+
+测试方法按行为命名，不按实现函数逐项镜像；共享 fixture 只负责资源生命周期，不在 fixture 中隐藏业务断言。
+
+### 事务隔离边界
+
+不得实现跨测试 RPC 的 `isolate_db` transaction-mark fixture：
+
+```python
+mark = ws['axlDBTransactionStart']()
+yield
+ws['axlDBTransactionRollback'](mark)
+```
+
+Allegro 会在当前 SKILL command 结束时取消仍活动的 transaction，transaction mark 不能跨 Allegro commands 保存。fixture 的 Start、测试内 API 和 finally Rollback 分属不同 RPC，因此不能提供函数级回滚保证；即使简单场景偶然通过，也不能作为隔离契约。
+
+采用资源所有权清晰的两级隔离：
+
+1. **只读 API**：继续使用 class-scope `allegro` / `ws` / `session`。Windows 每个测试类复制一次 `shape1.brd` 并启动自己的 CLI Allegro；Unix manual 只连接现有 server，测试不得写设计。
+2. **写 API**：使用 function-scope `isolated_session`。每个测试复制新的 `shape1.brd`、启动独立 CLI Allegro、执行测试，并由 context manager 关闭进程后丢弃副本。它只在 Windows CLI 环境运行，不接触 manual 用户窗口。
+3. **事务语义**：一次写操作自身仍必须通过固定 `__ab*` procedure 在单 RPC 内 start/commit/rollback。rollback 与 dry-run 用“调用前快照 == 调用后快照”验证；commit 用预期字段变化验证。
+4. **失败清理**：不论断言、API 还是 teardown 抛错，`Allegro` context 都必须关闭 Workspace 和自己启动的进程。源 `allegrobridge/assets/shape1.brd` 从不直接打开。
+
+建议 fixture 形态：
+
+```python
+@pytest.fixture(scope='class')
+def session(allegro: Allegro) -> Session:
+    return allegro.session
+
+
+@pytest.fixture
+def isolated_session(tmp_path: Path) -> Iterator[Session]:
+    if platform != 'win32':
+        pytest.skip('write API isolation requires a disposable Windows Allegro window')
+    board = Path(copy2(_TEST_BOARD, tmp_path))
+    with Allegro.open(mode='cli', board=board) as allegro:
+        yield allegro.session
+```
+
+不增加自动 restore fixture：对临时 board 做恢复没有价值，对 manual 用户 board 则不安全。需要在同一测试中继续观察 rollback 后状态时，显式采集前后快照；其余隔离由 disposable board/process 保证。当前 Allegro integration suite 使用固定 workspace id，必须串行运行；只有实际引入并行执行时再分配独立 id。
+
+### API 类的最小覆盖矩阵
+
+每个 `Test<Category>Api` 只覆盖四类边界：
+
+```text
+默认调用或集合查询      -> 返回严格 record / list[record]
+__getitem__ 精确查询    -> 命中与 not-found 语义
+协议不匹配              -> 缺字段、额外字段、错误类型转 AllegroProtocolError
+数据库写入（Phase 6）   -> fresh isolated_session 上验证 commit/rollback
+```
+
+协议错误分支允许在同一测试文件中用最小 stub 注入畸形 DPL 解码结果；不需要为每个字段排列组合，也不测试 Pydantic 自身。因为 `tests/allegrobridge/conftest.py` 会把整个文件标记为 `allegro`，这些测试只在显式 `--allegro` 时运行，这是“所有 API 测试集中为集成测试”的已知成本。
 
 ## Python 单元测试
 
@@ -997,6 +986,8 @@ affected_object_count
 Workspace.transaction() 的命令编码
 transaction 成功结果解码
 transaction rollback failure 转为 Python 异常
+transaction.preview() 委托 dry-run
+transaction.batch() 委托 savepoint batch，空列表不发 RPC
 CLI startup script 先加载 core，再加载 Allegro extension
 Allegro Workspace 初始化时缺失 extension 则加载，已存在时不重复加载
 非 Allegro Workspace 不加载 extension
@@ -1018,6 +1009,8 @@ command 语法错误
 command 执行中抛错
 commit 成功/失败
 rollback 被调用且原错误传回 Python
+savepoint batch 的单项失败与 outer transaction 失败
+dry-run 成功、command 失败与 rollback 失败
 ```
 
 ## Allegro Windows 集成测试
@@ -1043,12 +1036,10 @@ CLI 和 manual 模式都可调用 __abRunTransaction
 读取 board info
 读取 placed/unplaced component
 读取 net
-换板后旧 handle stale
 用户处于交互命令时写操作返回 BUSY
 端口冲突
 Python 路径含空格
 设计路径含空格和中文
-大结果走 bulk channel
 ```
 
 ## 压力验收
@@ -1072,15 +1063,15 @@ Python 路径含空格
 
 | 里程碑 | 内容 | 典型工作量 |
 |---|---|---:|
-| M0 | 原始 skillbridge 在 Windows Allegro 跑通 | 2–4 天 |
-| M1 | Python/SKILL 单命令原子 transaction | 2–4 天 |
-| M2 | Allegro 窗口生命周期 | 2–4 天 |
-| M3 | Raw Workspace、handle 生命周期 | 3–5 天 |
-| M4 | board/components/nets 只读 SDK | 1–2 周 |
+| M0 | 原始 skillbridge 在 Windows Allegro 跑通（已完成） | 2–4 天 |
+| M1 | Python/SKILL 原子 transaction、savepoint batch 与 dry-run（已完成） | 2–4 天 |
+| M2 | Allegro 窗口生命周期（已完成） | 2–4 天 |
+| M3 | 轻量 `Session` 与 Raw Workspace 入口（已完成） | 1–2 天 |
+| M4 | board/components/nets 严格只读 API（下一阶段） | 1–2 周 |
 | M5 | 第一批领域写操作 | 1–2 周 |
 | M6 | 按需增加批处理、Undo 或通信加固 | 按实际需求评估 |
 
-当前先完成 M1，不为尚未出现的部署需求预估通信生产化工期。后续最大的变量是需要覆盖多少 Allegro 写操作，以及目标 Allegro 版本之间的 AXL-SKILL 差异。
+当前进入 M4，先交付 `session.board() -> BoardInfo` 的单个端到端切片，再依次增加 components 和 nets。不为尚未出现的部署需求预估通信生产化工期。
 
 ---
 
@@ -1095,6 +1086,8 @@ Allegro Workspace 与真实 API 名映射
 allegro_server.il 与通用 python_server.il 分层加载
 单次 RPC 原子 transaction
 成功 commit，SKILL error rollback
+savepoint batch 部分成功语义
+dry-run 执行后强制 rollback
 写 command 传输失败后不自动重发
 ```
 
@@ -1114,4 +1107,4 @@ doctor、常驻配置和自动修改 allegro.ilinit
 bulk 文件通道
 ```
 
-最合理的执行顺序是：用现有实机集成测试保持 Phase 1 基线，然后直接实施 **Phase 2 双端原子事务**。只有测试或真实使用暴露通信问题时，才进入 Phase 7 加固对应部分。
+最合理的执行顺序是：用现有实机集成测试保持 Phase 1–4 基线，然后实施 **Phase 5 的 `session.board()` 严格协议切片**。只有测试或真实使用暴露通信问题时，才进入 Phase 7 加固对应部分。

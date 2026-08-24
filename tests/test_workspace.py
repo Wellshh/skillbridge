@@ -208,16 +208,17 @@ def test_allegro_workspace_open_detects_server(
             "isCallable('__abRunTransaction )",
             "isCallable('__abRunSavepointBatch )",
             "isCallable('__abRunDryTransaction )",
+            "isCallable('__abProjectBoard )",
         ])
     assert channel.commands == expected_commands
 
     opened.close()
 
 
-def test_allegro_workspace_loads_missing_transaction_extension(
+def test_allegro_workspace_loads_missing_extension(
     monkeypatch: MonkeyPatch,
 ) -> None:
-    channel = ScriptedChannel('True', 'None', 'True', 'True', 'True', 'True')
+    channel = ScriptedChannel('True', 'None', 'True', 'True', 'True', 'True', 'True')
     monkeypatch.setattr(
         workspace_module,
         'create_channel_class',
@@ -235,12 +236,13 @@ def test_allegro_workspace_loads_missing_transaction_extension(
         "isCallable('__abRunTransaction )",
         "isCallable('__abRunSavepointBatch )",
         "isCallable('__abRunDryTransaction )",
+        "isCallable('__abProjectBoard )",
     ]
 
     opened.close()
 
 
-def test_allegro_workspace_closes_when_transaction_extension_stays_incomplete(
+def test_allegro_workspace_closes_when_extension_stays_incomplete(
     monkeypatch: MonkeyPatch,
 ) -> None:
     channel = ScriptedChannel('True', 'None', 'True', 'None')
@@ -250,7 +252,7 @@ def test_allegro_workspace_closes_when_transaction_extension_stays_incomplete(
         lambda _force_tcp: lambda _id: channel,
     )
 
-    with raises(RuntimeError, match='transaction extension'):
+    with raises(RuntimeError, match='Allegro extension'):
         AllegroWorkspace.open('incomplete-transaction-extension')
 
     assert channel.closed

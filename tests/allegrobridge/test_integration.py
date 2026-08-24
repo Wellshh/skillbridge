@@ -9,8 +9,10 @@ from time import sleep
 from typing import NewType
 
 import pytest
+from pydantic import ValidationError
 
-from allegrobridge import Allegro, OpenMode, Workspace
+from allegrobridge import Allegro, OpenMode, Session, Workspace
+from allegrobridge.client.api import AllegroProtocolError, BoardInfo
 from allegrobridge.util import ASSETS_DIR
 from skillbridge import SkillCode
 
@@ -35,12 +37,29 @@ def ws(allegro: Allegro) -> Workspace:
 
 
 @pytest.fixture(scope='class')
+def session(allegro: Allegro) -> Session:
+    return allegro.session
+
+
+@pytest.fixture(scope='class')
 def design(ws: Workspace) -> object:
     # design is always not None despite a .brd being open or not
     return ws['axlDBGetDesign']()
 
 
 class TestApi:
+    def test_session_uses_opened_workspace(
+        self,
+        allegro: Allegro,
+        ws: Workspace,
+    ) -> None:
+        session = allegro.session
+
+        assert isinstance(session, Session)
+        assert session.raw is ws
+        assert session.generation == 1
+        assert session.raw['plus'](1, 2) == 3
+
     def test_transaction_extension_commits_and_rolls_back(self, ws: Workspace) -> None:
         assert ws.transaction(SkillCode('42')) == 42
         with pytest.raises(RuntimeError, match='TRANSACTION_COMMAND_FAILED'):
@@ -123,6 +142,67 @@ class TestApi:
                     )
                 )
         assert ws['evalstring'](snapshot) == original_snapshot
+
+
+class TestBoardApi:
+    def test_default_call_returns_board_info(
+        self,
+        design: object,
+        session: Session,
+    ) -> None:
+        board = session.board()
+
+        assert isinstance(board, BoardInfo)
+        assert board.path.endswith('.brd')
+        assert board.units
+        assert board.component_count == len(design.components)
+        assert board.symbol_count == len(design.symbols)
+        assert board.net_count == len(design.nets)
+        assert board.session_generation == session.generation
+
+    def test_board_info_is_frozen(self, session: Session) -> None:
+        board = session.board()
+
+        with pytest.raises(ValidationError, match='frozen'):
+            board.path = 'changed.brd'
+
+    @pytest.mark.parametrize(
+        'payload',
+        [
+            {
+                'units': 'mils',
+                'component_count': 1,
+                'symbol_count': 1,
+                'net_count': 1,
+            },
+            {
+                'path': 'shape1.brd',
+                'units': 'mils',
+                'component_count': 1,
+                'symbol_count': 1,
+                'net_count': 1,
+                'dbid': 'db:1',
+            },
+            {
+                'path': 'shape1.brd',
+                'units': 'mils',
+                'component_count': '1',
+                'symbol_count': 1,
+                'net_count': 1,
+            },
+        ],
+        ids=['missing-field', 'extra-field', 'wrong-type'],
+    )
+    def test_protocol_mismatch_raises(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        payload: dict[str, object],
+        session: Session,
+    ) -> None:
+        monkeypatch.setattr(session.raw._channel, 'send', lambda _: repr(payload))
+
+        with pytest.raises(AllegroProtocolError, match='__abProjectBoard'):
+            session.board()
 
 
 # POC tests

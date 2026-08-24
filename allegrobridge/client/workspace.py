@@ -17,10 +17,11 @@ from skillbridge.client.workspace import WorkspaceId
 
 from .translator import Translator
 
-_TRANSACTION_FUNCTIONS = (
+_EXTENSION_FUNCTIONS = (
     '__abRunTransaction',
     '__abRunSavepointBatch',
     '__abRunDryTransaction',
+    '__abProjectBoard',
 )
 
 
@@ -57,23 +58,23 @@ class Workspace(GWorkspace):
 
         workspace = cls(channel, workspace_id)
         try:
-            workspace._ensure_transaction_extension()
+            workspace._ensure_extension()
         except BaseException:
             workspace.close(log_exception=False)
             raise
         return workspace
 
-    def _has_transaction_extension(self) -> bool:
-        return all(self['isCallable'](Symbol(name)) for name in _TRANSACTION_FUNCTIONS)
+    def _has_extension(self) -> bool:
+        return all(self['isCallable'](Symbol(name)) for name in _EXTENSION_FUNCTIONS)
 
-    def _ensure_transaction_extension(self) -> None:
-        if self._has_transaction_extension():
+    def _ensure_extension(self) -> None:
+        if self._has_extension():
             return
 
         server_file = Path(allegrobridge.server.__file__).with_name('allegro_server.il')
         self['load'](server_file.resolve().as_posix())
-        if not self._has_transaction_extension():
-            raise RuntimeError('Allegro transaction extension failed to load')
+        if not self._has_extension():
+            raise RuntimeError('Allegro extension failed to load')
 
 
 # Register domain collections as class annotations, excluding 'db' which is inherited

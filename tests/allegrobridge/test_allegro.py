@@ -17,6 +17,7 @@ from allegrobridge.allegro import (
     _kill_process_tree,  # ruff: ignore[import-private-name]
     _resolve_executable,  # ruff: ignore[import-private-name]
 )
+from allegrobridge.client.session import Session
 
 
 @fixture
@@ -181,3 +182,45 @@ def test_kill_process_tree_terminates_descendants() -> None:
             parent.wait(timeout=5)
         if child_pid != -1 and _is_process_alive(child_pid):
             _terminate_pid(child_pid)
+
+
+class TestSession:
+    def test_allegro_owns_session(self) -> None:
+        workspace = Mock()
+        opened = Allegro(
+            mode='manual',
+            workspace_id='test',
+            board=None,
+            workspace=workspace,
+        )
+
+        assert isinstance(opened.session, Session)
+        assert opened.session is opened.session
+        assert opened.session.raw is workspace
+
+    def test_exposes_workspace_and_connection_generation(self) -> None:
+        workspace = Mock()
+        opened = Mock(workspace=workspace)
+
+        session = Session(opened)
+
+        assert session.raw is workspace
+        assert session.generation == 1
+
+    def test_close_is_idempotent(self) -> None:
+        opened = Mock()
+        session = Session(opened)
+
+        session.close()
+        session.close()
+
+        opened.close.assert_called_once_with()
+
+    def test_context_manager_closes(self) -> None:
+        opened = Mock()
+        session = Session(opened)
+
+        with session as entered:
+            assert entered is session
+
+        opened.close.assert_called_once_with()

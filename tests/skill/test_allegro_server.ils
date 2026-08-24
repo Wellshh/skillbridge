@@ -99,6 +99,20 @@
 
 (qtest::runSuites
   (qtest::TestSuite ()
+    (qtest::TestCase test_board_projection_returns_stable_dpl
+      (let ((board (__abProjectBoard))
+            (design (axlDBGetDesign)))
+        (qtest::assertTrue
+          (and (stringp (get board 'path))
+               (stringp (get board 'units))
+               (equal (length design->components)
+                      (get board 'component_count))
+               (equal (length design->symbols)
+                      (get board 'symbol_count))
+               (equal (length design->nets)
+                      (get board 'net_count)))))))
+
+  (qtest::TestSuite ()
     (qtest::TestCase test_transaction_rejects_busy_allegro
       (letseq ((run (__abTestRunTransaction nil 17 t t "42"))
                (failureText (sprintf nil "%L" (cadr run))))

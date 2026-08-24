@@ -16,6 +16,7 @@ import allegrobridge.server
 import skillbridge.server
 from skillbridge.client.workspace import WorkspaceId
 
+from .client.session import Session
 from .client.workspace import Workspace
 
 OpenMode = Literal['cli', 'manual']
@@ -156,6 +157,7 @@ class Allegro:
         self._process = process
         self._temp_dir = temp_dir
         self._closed = False
+        self._session = Session(self)
 
     @classmethod
     def connect(
@@ -318,6 +320,10 @@ class Allegro:
     @property
     def workspace(self) -> Workspace:
         return self._workspace
+
+    @property
+    def session(self) -> Session:
+        return self._session
 
     def close(self) -> None:
         if self._closed:

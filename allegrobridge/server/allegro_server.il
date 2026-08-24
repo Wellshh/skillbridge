@@ -7,6 +7,17 @@
 ;;; A transaction mark belongs only to one call.  Opening or saving a design
 ;;; inside command is unsupported because Allegro cancels active transactions.
 
+(putd '__abProjectBoard nil)
+(defun __abProjectBoard ()
+  (letseq ((design (axlDBGetDesign))
+           (units (axlDBGetDesignUnits)))
+    (list nil
+          'path (axlGetDrawingName)
+          'units (car units)
+          'component_count (length design->components)
+          'symbol_count (length design->symbols)
+          'net_count (length design->nets))))
+
 (putd '__abOKToProceed nil)
 (defun __abOKToProceed ()
   (axlOKToProceed))
