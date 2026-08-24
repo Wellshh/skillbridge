@@ -346,24 +346,22 @@ let((_filename _moduleFolder _logDirectory _unbound)
     putd('__pyOnDataScript nil)
     defun(__pyOnDataScript (id data)
         foreach(line parseString(data "\n")
-            when(line != ""
-                let((result capturedWarning pythonCode)
-                    capturedWarning = __pyCaptureWarnings(
-                        errset(result=evalstring(line))
-                    )
-                    if((errset.errset) then
-                        printf("command %L resulted in error %L\n" line errset.errset)
-                        __pyIpcWriteProcess(id lsprintf("failure %L\n" errset.errset))
-                    else
-                        if(boundp('result) then
-                            pythonCode = __pySkillToPython(result)
-                            if(capturedWarning != "" && capturedWarning != "*WARNING* " then
-                                pythonCode = lsprintf("warning(%L, %s)" capturedWarning pythonCode)
-                            )
-                            __pyIpcWriteProcess(id lsprintf("success %s\n" pythonCode))
-                        else
-                            __pyIpcWriteProcess(id "success error('unbound')\n")
+            let((result capturedWarning pythonCode)
+                capturedWarning = __pyCaptureWarnings(
+                    errset(result=evalstring(line))
+                )
+                if((errset.errset) then
+                    printf("command %L resulted in error %L\n" line errset.errset)
+                    __pyIpcWriteProcess(id lsprintf("failure %L\n" errset.errset))
+                else
+                    if(boundp('result) then
+                        pythonCode = __pySkillToPython(result)
+                        if(capturedWarning != "" && capturedWarning != "*WARNING* " then
+                            pythonCode = lsprintf("warning(%L, %s)" capturedWarning pythonCode)
                         )
+                        __pyIpcWriteProcess(id lsprintf("success %s\n" pythonCode))
+                    else
+                        __pyIpcWriteProcess(id "success error('unbound')\n")
                     )
                 )
             )

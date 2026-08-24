@@ -38,11 +38,18 @@
       ;; errset.errset is global and rollback may overwrite it.
       (setq commandError errset.errset)
       (setq rollbackResult (__abTransactionRollback mark))
-      (unless rollbackResult
-        (error
-          "TRANSACTION_COMMAND_FAILED: %L; TRANSACTION_ROLLBACK_FAILED"
-          commandError))
-      (error "TRANSACTION_COMMAND_FAILED: %L" commandError))
+      (if rollbackResult
+          (putprop 'errset
+                   (list "error" 0 t nil
+                         (list "TRANSACTION_COMMAND_FAILED" commandError))
+                   'errset)
+          (putprop 'errset
+                   (list "error" 0 t nil
+                         (list "TRANSACTION_COMMAND_FAILED"
+                               commandError
+                               "TRANSACTION_ROLLBACK_FAILED"))
+                   'errset))
+      (err))
 
     (unless (__abTransactionCommit mark)
       (setq rollbackResult (__abTransactionRollback mark))

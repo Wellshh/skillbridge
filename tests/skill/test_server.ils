@@ -742,6 +742,37 @@
                 unsetShellEnvVar("PYTHONPATH"))
             (__pyTestRestoreServerState savedState)))))
 
+    (qtest::TestCase test_run_script_restores_preexisting_pythonpath
+      (let ((originalBegin (getd '__pyIpcBeginProcess))
+            (savedState (__pyTestServerState))
+            (originalPythonPath (getShellEnvVar "PYTHONPATH"))
+            capturedPython
+            restoredPythonPath)
+        (unwindProtect
+          (progn
+            (putd '__pyIpcBeginProcess
+                  (lambda (command _host _dataHandler _errorHandler _postFunc _logFile)
+                    (setq capturedPython (getShellEnvVar "PYTHONPATH"))
+                    'scriptProcess))
+
+            setShellEnvVar("PYTHONPATH" "preexisting-pythonpath")
+            (pyRunScript "script.py" ?python "python-test")
+            (setq restoredPythonPath (getShellEnvVar "PYTHONPATH"))
+
+            (qtest::assertEqual
+              '(t t)
+              (list
+                (equal capturedPython pyStartServer.moduleFolder)
+                (equal restoredPythonPath "preexisting-pythonpath"))
+              ?msg "run script must restore a pre-existing PYTHONPATH instead of unsetting it"))
+          (progn
+            (putd '__pyIpcBeginProcess originalBegin)
+            (if originalPythonPath then
+                setShellEnvVar("PYTHONPATH" originalPythonPath)
+            else
+                unsetShellEnvVar("PYTHONPATH"))
+            (__pyTestRestoreServerState savedState)))))
+
     (qtest::TestCase test_run_script_returns_process_or_waits
       (let ((originalBegin (getd '__pyIpcBeginProcess))
             (originalWait (getd '__pyIpcWait))
