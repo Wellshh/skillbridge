@@ -113,6 +113,82 @@
                       (get board 'net_count)))))))
 
   (qtest::TestSuite ()
+    (qtest::TestCase test_component_projection_has_explicit_placement
+      (letseq ((symbol (list nil 'xy 1.0:2.0 'rotation 90.0))
+               (component
+                 (list nil
+                       'name "R1"
+                       'deviceType "RESISTOR"
+                       'package "RES_0402"
+                       'class "DISCRETE"
+                       'symbol symbol))
+               (placed (__abProjectComponent component))
+               (unplaced
+                 (__abProjectComponent
+                   (list nil
+                         'name "R2"
+                         'deviceType "RESISTOR"
+                         'package "RES_0402"
+                         'class "DISCRETE"
+                         'symbol nil))))
+        (qtest::assertEqual "placed" (get placed 'placement))
+        (qtest::assertEqual 1.0 (get placed 'x))
+        (qtest::assertEqual 2.0 (get placed 'y))
+        (qtest::assertEqual 90.0 (get placed 'rotation))
+        (qtest::assertEqual "unplaced" (get unplaced 'placement))
+        (qtest::assertNil (get unplaced 'x))
+        (qtest::assertNil (get unplaced 'y))
+        (qtest::assertNil (get unplaced 'rotation))))
+
+    (qtest::TestCase test_components_projection_filters_and_finds_refdes
+      (letseq ((design (axlDBGetDesign))
+               (allComponents (__abProjectComponents nil t))
+               (placedComponents (__abProjectComponents nil nil))
+               (allPlaced t))
+        (foreach component placedComponents
+          (unless (equal "placed" (get component 'placement))
+            (setq allPlaced nil)))
+        (qtest::assertEqual (length design->components)
+                            (length allComponents))
+        (qtest::assertTrue allPlaced)
+        (when design->components
+          (letseq ((selected (car(design->components)))
+                   (refdes selected->name)
+                   (matched (__abProjectComponents refdes t)))
+            (qtest::assertEqual 1 (length matched))
+            (qtest::assertEqual refdes (get (car matched) 'refdes))))
+        (qtest::assertNil
+          (__abProjectComponents "__MISSING_COMPONENT__" t)))))
+
+  (qtest::TestSuite ()
+    (qtest::TestCase test_net_projection_has_explicit_attributes
+      (letseq ((net (list nil
+                          'name "GND"
+                          'nBranches 2
+                          'unconnected 1
+                          'unplaced 3
+                          'dbid "db:1"))
+               (projected (__abProjectNet net)))
+        (qtest::assertTrue
+          (and (equal "GND" (get projected 'name))
+               (equal 2 (get projected 'branch_count))
+               (equal 1 (get projected 'unconnected_count))
+               (equal 3 (get projected 'unplaced_pin_count))
+               (null (get projected 'dbid))))))
+
+    (qtest::TestCase test_nets_projection_lists_and_finds_name
+      (letseq ((design (axlDBGetDesign))
+               (allNets (__abProjectNets nil)))
+        (qtest::assertEqual (length design->nets) (length allNets))
+        (when design->nets
+          (letseq ((selected (car(design->nets)))
+                   (name selected->name)
+                   (matched (__abProjectNets name)))
+            (qtest::assertEqual 1 (length matched))
+            (qtest::assertEqual name (get (car matched) 'name))))
+        (qtest::assertNil (__abProjectNets "__MISSING_NET__")))))
+
+  (qtest::TestSuite ()
     (qtest::TestCase test_transaction_rejects_busy_allegro
       (letseq ((run (__abTestRunTransaction nil 17 t t "42"))
                (failureText (sprintf nil "%L" (cadr run))))

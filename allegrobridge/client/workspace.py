@@ -22,6 +22,8 @@ _EXTENSION_FUNCTIONS = (
     '__abRunSavepointBatch',
     '__abRunDryTransaction',
     '__abProjectBoard',
+    '__abProjectComponents',
+    '__abProjectNets',
 )
 
 

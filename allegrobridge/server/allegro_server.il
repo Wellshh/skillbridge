@@ -18,6 +18,47 @@
           'symbol_count (length design->symbols)
           'net_count (length design->nets))))
 
+(putd '__abProjectComponent nil)
+(defun __abProjectComponent (component)
+  (let ((symbol component->symbol))
+    (list nil
+          'refdes component->name
+          'device_type component->deviceType
+          'package component->package
+          'component_class component->class
+          'placement (if symbol then "placed" else "unplaced")
+          'x (when symbol (car(symbol->xy)))
+          'y (when symbol (cadr(symbol->xy)))
+          'rotation (when symbol symbol->rotation))))
+
+(putd '__abProjectComponents nil)
+(defun __abProjectComponents (refdes includeUnplaced)
+  (let ((components (axlDBGetDesign)->components)
+        result)
+    (foreach component components
+      (when (and (or (null refdes)
+                     (equal refdes component->name))
+                 (or includeUnplaced component->symbol))
+        (setq result (cons (__abProjectComponent component) result))))
+    (reverse result)))
+
+(putd '__abProjectNet nil)
+(defun __abProjectNet (net)
+  (list nil
+        'name net->name
+        'branch_count net->nBranches
+        'unconnected_count net->unconnected
+        'unplaced_pin_count net->unplaced))
+
+(putd '__abProjectNets nil)
+(defun __abProjectNets (name)
+  (let (result)
+    (foreach net (axlDBGetDesign)->nets
+      (when (or (null name)
+                (equal name net->name))
+        (setq result (cons (__abProjectNet net) result))))
+    (reverse result)))
+
 (putd '__abOKToProceed nil)
 (defun __abOKToProceed ()
   (axlOKToProceed))

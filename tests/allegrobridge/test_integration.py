@@ -12,7 +12,7 @@ import pytest
 from pydantic import ValidationError
 
 from allegrobridge import Allegro, OpenMode, Session, Workspace
-from allegrobridge.client.api import AllegroProtocolError, BoardInfo
+from allegrobridge.client.api import AllegroProtocolError, BoardInfo, ComponentInfo, NetInfo
 from allegrobridge.util import ASSETS_DIR
 from skillbridge import SkillCode
 
@@ -185,6 +185,219 @@ class TestBoardApi:
 
         with pytest.raises(AllegroProtocolError, match='__abProjectBoard'):
             session.board()
+
+
+class TestComponentsApi:
+    def test_default_call_projects_all_components(
+        self,
+        design: object,
+        session: Session,
+    ) -> None:
+        components = session.components()
+
+        assert all(isinstance(component, ComponentInfo) for component in components)
+        assert {component.refdes for component in components} == {
+            component.name for component in design.components
+        }
+        assert all(component.session_generation == session.generation for component in components)
+
+    def test_call_can_exclude_unplaced_components(
+        self,
+        design: object,
+        session: Session,
+    ) -> None:
+        components = session.components(include_unplaced=False)
+
+        assert {component.refdes for component in components} == {
+            component.name for component in design.components if component.symbol is not None
+        }
+        assert all(component.placement == 'placed' for component in components)
+
+    def test_getitem_returns_component_by_refdes(self, session: Session) -> None:
+        expected = session.components()[0]
+
+        assert session.components[expected.refdes] == expected
+
+    def test_getitem_raises_key_error_when_refdes_is_missing(self, session: Session) -> None:
+        with pytest.raises(KeyError, match='__MISSING_COMPONENT__'):
+            _ = session.components['__MISSING_COMPONENT__']
+
+    def test_component_info_is_frozen(self, session: Session) -> None:
+        component = session.components()[0]
+
+        with pytest.raises(ValidationError, match='frozen'):
+            component.refdes = 'changed'
+
+    def test_empty_projection_returns_empty_list(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        session: Session,
+    ) -> None:
+        commands: list[str] = []
+
+        def send(command: str) -> str:
+            commands.append(command)
+            return 'None'
+
+        monkeypatch.setattr(session.raw._channel, 'send', send)
+
+        assert session.components() == []
+        assert commands == ['__abProjectComponents(nil t )']
+
+    @pytest.mark.parametrize(
+        'payload',
+        [
+            [
+                {
+                    'device_type': 'RESISTOR',
+                    'package': 'RES_0402',
+                    'component_class': 'DISCRETE',
+                    'placement': 'placed',
+                    'x': 1.0,
+                    'y': 2.0,
+                    'rotation': 0.0,
+                }
+            ],
+            [
+                {
+                    'refdes': 'R1',
+                    'device_type': 'RESISTOR',
+                    'package': 'RES_0402',
+                    'component_class': 'DISCRETE',
+                    'placement': 'placed',
+                    'x': 1.0,
+                    'y': 2.0,
+                    'rotation': 0.0,
+                    'dbid': 'db:1',
+                }
+            ],
+            [
+                {
+                    'refdes': 'R1',
+                    'device_type': 'RESISTOR',
+                    'package': 'RES_0402',
+                    'component_class': 'DISCRETE',
+                    'placement': 'placed',
+                    'x': '1.0',
+                    'y': 2.0,
+                    'rotation': 0.0,
+                }
+            ],
+            [42],
+            {'refdes': 'R1'},
+        ],
+        ids=['missing-field', 'extra-field', 'wrong-type', 'non-record', 'wrong-container'],
+    )
+    def test_protocol_mismatch_raises(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        payload: object,
+        session: Session,
+    ) -> None:
+        commands: list[str] = []
+
+        def send(command: str) -> str:
+            commands.append(command)
+            return repr(payload)
+
+        monkeypatch.setattr(session.raw._channel, 'send', send)
+
+        with pytest.raises(AllegroProtocolError, match='__abProjectComponents'):
+            session.components()
+        assert commands == ['__abProjectComponents(nil t )']
+
+
+class TestNetsApi:
+    def test_default_call_projects_design_nets(self, design: object, session: Session) -> None:
+        nets = session.nets()
+
+        assert all(isinstance(net, NetInfo) for net in nets)
+        assert [net.name for net in nets] == [net.name for net in design.nets]
+        assert [
+            (net.branch_count, net.unconnected_count, net.unplaced_pin_count) for net in nets
+        ] == [(len(net.branches), net.unconnected, net.unplaced) for net in design.nets]
+        assert all(net.session_generation == session.generation for net in nets)
+
+    def test_getitem_returns_net_by_name(self, session: Session) -> None:
+        expected = session.nets()[0]
+
+        assert session.nets[expected.name] == expected
+
+    def test_getitem_raises_key_error_when_name_is_missing(self, session: Session) -> None:
+        with pytest.raises(KeyError, match='__MISSING_NET__'):
+            _ = session.nets['__MISSING_NET__']
+
+    def test_net_info_is_frozen(self, session: Session) -> None:
+        net = session.nets()[0]
+
+        with pytest.raises(ValidationError, match='frozen'):
+            net.name = 'changed'
+
+    def test_empty_projection_returns_empty_list(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        session: Session,
+    ) -> None:
+        commands: list[str] = []
+
+        def send(command: str) -> str:
+            commands.append(command)
+            return 'None'
+
+        monkeypatch.setattr(session.raw._channel, 'send', send)
+
+        assert session.nets() == []
+        assert commands == ['__abProjectNets(nil )']
+
+    @pytest.mark.parametrize(
+        'payload',
+        [
+            [
+                {
+                    'branch_count': 1,
+                    'unconnected_count': 0,
+                    'unplaced_pin_count': 0,
+                }
+            ],
+            [
+                {
+                    'name': 'GND',
+                    'branch_count': 1,
+                    'unconnected_count': 0,
+                    'unplaced_pin_count': 0,
+                    'dbid': 'db:1',
+                }
+            ],
+            [
+                {
+                    'name': 'GND',
+                    'branch_count': '1',
+                    'unconnected_count': 0,
+                    'unplaced_pin_count': 0,
+                }
+            ],
+            [42],
+            {'name': 'GND'},
+        ],
+        ids=['missing-field', 'extra-field', 'wrong-type', 'non-record', 'wrong-container'],
+    )
+    def test_protocol_mismatch_raises(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        payload: object,
+        session: Session,
+    ) -> None:
+        commands: list[str] = []
+
+        def send(command: str) -> str:
+            commands.append(command)
+            return repr(payload)
+
+        monkeypatch.setattr(session.raw._channel, 'send', send)
+
+        with pytest.raises(AllegroProtocolError, match='__abProjectNets'):
+            session.nets()
+        assert commands == ['__abProjectNets(nil )']
 
 
 # POC tests

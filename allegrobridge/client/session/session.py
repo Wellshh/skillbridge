@@ -8,7 +8,7 @@ from typing import Protocol
 
 from typing_extensions import Self
 
-from allegrobridge.client.api import BoardApi
+from allegrobridge.client.api import BoardApi, ComponentsApi, NetsApi
 from allegrobridge.client.workspace import Workspace
 
 
@@ -36,6 +36,14 @@ class Session:
     @cached_property
     def board(self) -> BoardApi:
         return BoardApi(self)
+
+    @cached_property
+    def components(self) -> ComponentsApi:
+        return ComponentsApi(self)
+
+    @cached_property
+    def nets(self) -> NetsApi:
+        return NetsApi(self)
 
     def close(self) -> None:
         if self._closed:

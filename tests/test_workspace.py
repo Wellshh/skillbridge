@@ -221,6 +221,8 @@ def test_allegro_workspace_open_detects_server(
             "isCallable('__abRunSavepointBatch )",
             "isCallable('__abRunDryTransaction )",
             "isCallable('__abProjectBoard )",
+            "isCallable('__abProjectComponents )",
+            "isCallable('__abProjectNets )",
         ])
     assert channel.commands == expected_commands
 
@@ -230,7 +232,9 @@ def test_allegro_workspace_open_detects_server(
 def test_allegro_workspace_loads_missing_extension(
     monkeypatch: MonkeyPatch,
 ) -> None:
-    channel = ScriptedChannel('True', 'None', 'True', 'True', 'True', 'True', 'True')
+    channel = ScriptedChannel(
+        'True', 'None', 'True', 'True', 'True', 'True', 'True', 'True', 'True'
+    )
     monkeypatch.setattr(
         workspace_module,
         'create_channel_class',
@@ -249,6 +253,8 @@ def test_allegro_workspace_loads_missing_extension(
         "isCallable('__abRunSavepointBatch )",
         "isCallable('__abRunDryTransaction )",
         "isCallable('__abProjectBoard )",
+        "isCallable('__abProjectComponents )",
+        "isCallable('__abProjectNets )",
     ]
 
     opened.close()
