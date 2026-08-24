@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell -NoProfile -Command 'Get-CimInstance Win32_Process -Filter \"name='\\\\''python.exe'\\\\''\" | Where-Object { $_.CommandLine -like '\\\\''*python_server 7777*'\\\\'' } | Select-Object ProcessId')",
+      "Bash(py -m poetry run python -c \"import inspect, allegrobridge.allegro as a; src=inspect.getsource\\(a.Allegro.launch\\); print\\(''.join\\(l+'\\\\n' for l in src.splitlines\\(\\) if 'command' in l or 'startup' in l or 'resolved' in l or 'Popen' in l\\)\\)\")"
+    ]
+  }
+}

@@ -1,16 +1,22 @@
 from __future__ import annotations
 
 import re
+import subprocess
 import sys
 from pathlib import Path
+from subprocess import PIPE, Popen
+from time import monotonic, sleep
 from unittest.mock import Mock
 
-from pytest import MonkeyPatch, fixture, raises
+from pytest import MonkeyPatch, fixture, raises, skip
 
 import allegrobridge.server
 import skillbridge.server
 from allegrobridge import Allegro, allegro
-from allegrobridge.allegro import _resolve_executable  # ruff: ignore[import-private-name]
+from allegrobridge.allegro import (
+    _kill_process_tree,  # ruff: ignore[import-private-name]
+    _resolve_executable,  # ruff: ignore[import-private-name]
+)
 
 
 @fixture
@@ -126,3 +132,52 @@ def test_launch_cleans_up_when_workspace_never_connects(
 
     process.terminate.assert_called_once()
     assert not Path(command[2]).exists()
+
+
+def _is_process_alive(pid: int) -> bool:
+    result = subprocess.run(
+        ['tasklist', '/FI', f'PID eq {pid}', '/FO', 'CSV', '/NH'],
+        capture_output=True,
+        text=True,
+        timeout=10,
+        check=False,
+    )
+    return str(pid) in result.stdout
+
+
+def _terminate_pid(pid: int) -> None:
+    subprocess.run(['taskkill', '/F', '/PID', str(pid)], timeout=10, check=False)
+
+
+def test_kill_process_tree_terminates_descendants() -> None:
+    if sys.platform != 'win32':
+        skip('process-tree cleanup is Windows-specific')
+
+    parent_script = (
+        'import subprocess, sys, time\n'
+        'child = subprocess.Popen('
+        '[sys.executable, "-c", "import time; time.sleep(60)"],'
+        ' stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,'
+        ' stderr=subprocess.DEVNULL)\n'
+        'print(child.pid, flush=True)\n'
+        'time.sleep(60)\n'
+    )
+    parent = Popen([sys.executable, '-c', parent_script], stdout=PIPE)
+    child_pid = -1
+    try:
+        child_pid = int(parent.stdout.readline())  # type: ignore[union-attr]
+        assert _is_process_alive(child_pid)
+
+        _kill_process_tree(parent)
+
+        assert parent.wait(timeout=5) is not None
+        deadline = monotonic() + 5
+        while _is_process_alive(child_pid) and monotonic() < deadline:
+            sleep(0.3)
+        assert not _is_process_alive(child_pid)
+    finally:
+        if parent.poll() is None:
+            parent.kill()
+            parent.wait(timeout=5)
+        if child_pid != -1 and _is_process_alive(child_pid):
+            _terminate_pid(child_pid)

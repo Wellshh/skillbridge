@@ -1,0 +1,168 @@
+\t (00:00:01) allegro 17.2 S048 Windows SPB 64-bit Edition
+\t (00:00:01)     Journal start - Mon Aug 24 01:43:29 2026
+\t (00:00:01)         Host=SZ-BAIJUNYAN1 User=baijunyan Pid=5272 CPUs=20
+\t (00:00:01) CmdLine= D:\Cadence\Cadence_SPB_17.2-2016\tools\bin\allegro.exe -s C:/Users/baijunyan/AppData/Local/Temp/ab_probe/probe3.scr
+\t (00:00:01) 
+   (00:00:01) Loading axlcore.cxt 
+\t (00:00:01) [PCB-GRID] Version=2026-08-11.8 loaded; planning entry=pcb_grid_plan_v2(modules).
+\t (00:00:01) [PCB-PR] Strict TSV placement-plan importer loaded: 2026-08-11.12.
+\t (00:00:01) PCB PR DEV Capture highlight watcher started.
+   (00:00:01) PCB PR bootstrap: C:/Users/baijunyan/AppData/Local/PCB_PR
+   (00:00:01) PCB PR bootstrap loaded.
+\t (00:00:02) Starting new design...
+   (00:00:02) PCB PR menu inserted.
+\i (00:00:03) trapsize 29310
+\i (00:00:03) replay C:/Users/baijunyan/AppData/Local/Temp/ab_probe/probe3.scr 
+\i (00:00:03) skill 'load("C:/Users/baijunyan/AppData/Local/Temp/ab_probe/probe3.ils")' 
+   (00:00:03) t
+\i (00:00:03) trapsize 29310
+\i (00:00:03) generaledit 
+\i (07:49:46) tab 
+\i (07:49:46) setwindow pcb
+\i (07:49:46) mouse_pos 12896.6 0.0
+\i (07:49:46) tab
+\i (08:55:16) exit 
+\t (08:55:16)     Journal end - Mon Aug 24 10:38:43 2026
+:00:03) 
+   (00:00:03) ......
+   (00:00:03) Loading skillDev.cxt 
+   (00:00:03) function qcoverFixtureQuoted redefined
+   (00:00:03) function qcoverFixtureOnce redefined
+   (00:00:03) function qcoverFixtureNested redefined
+   (00:00:03) function qcoverFixtureCond redefined
+   (00:00:03) function qcoverFixtureUnless redefined
+   (00:00:03) function qcoverFixtureWhen redefined
+   (00:00:03) function qcoverFixtureIfNoElse redefined
+   (00:00:03) function qcoverFixtureIf redefined
+   (00:00:03) *Error* plus: can't handle (1 + "text")
+   (00:00:03) *WARNING* (def): macro __pyCaptureWarnings redefined
+   (00:00:03) *WARNING* (reader): expression was improperly terminated by EOF at line 1 of string "("
+   (00:00:03) *WARNING* (reader): expression was improperly terminated by EOF at line 1 of string "("
+   (00:00:03) function qcoverFixtureIf redefined
+   (00:00:03) function qcoverFixtureIfNoElse redefined
+   (00:00:03) function qcoverFixtureWhen redefined
+   (00:00:03) function qcoverFixtureUnless redefined
+   (00:00:03) function qcoverFixtureCond redefined
+   (00:00:03) function qcoverFixtureNested redefined
+   (00:00:03) function qcoverFixtureOnce redefined
+   (00:00:03) function qcoverFixtureQuoted redefined
+   (00:00:03) function qcoverFixtureQuoted redefined
+   (00:00:03) function qcoverFixtureOnce redefined
+   (00:00:03) function qcoverFixtureNested redefined
+   (00:00:03) function qcoverFixtureCond redefined
+   (00:00:03) function qcoverFixtureUnless redefined
+   (00:00:03) function qcoverFixtureWhen redefined
+   (00:00:03) function qcoverFixtureIfNoElse redefined
+   (00:00:03) function qcoverFixtureIf redefined
+   (00:00:03) qcover: 1/18 branches covered (5.56%)
+   (00:00:03)   missing D:/AutoPlacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureIfNoElse#1 false: value
+   (00:00:03)   missing D:/AutoPlacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureWhen#1 false: value
+   (00:00:03)   missing D:/AutoPlacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureNested#2 false: second
+   (00:00:03)   missing D:/AutoPlacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureOnce#1 false: ((qcoverFixtureSideEffects = (qcoverFixtureSideEffects + 1)) == 1)
+   (00:00:03)   missing D:/AutoPlacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureWhen#1 true: value
+   (00:00:03)   missing D:/AutoPlacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureCond#2 false: (value == 2)
+   (00:00:03)   missing D:/AutoPlacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureNested#2 true: second
+   (00:00:03)   missing D:/AutoPlacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureCond#1 false: (value == 1)
+   (00:00:03)   missing D:/AutoPlacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureNested#1 true: first
+   (00:00:03)   missing D:/AutoPlacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureIf#1 false: value
+   (00:00:03)   missing D:/AutoPlacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureOnce#1 true: ((qcoverFixtureSideEffects = (qcoverFixtureSideEffects + 1)) == 1)
+   (00:00:03)   missing D:/AutoPlacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureCond#2 true: (value == 2)
+   (00:00:03)   missing D:/AutoPlacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureIfNoElse#1 true: value
+   (00:00:03)   missing D:/AutoPlacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureUnless#1 false: value
+   (00:00:03)   missing D:/AutoPlacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureCond#1 true: (value == 1)
+   (00:00:03)   missing D:/AutoPlacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureNested#1 false: first
+   (00:00:03)   missing D:/AutoPlacer/skillbridge/tests/skill/qtest/src/qcover/fixtures/branches.il::qcoverFixtureUnless#1 true: value
+   (00:00:03) function qcoverFixtureIf redefined
+   (00:00:03) function qcoverFixtureIfNoElse redefined
+   (00:00:03) function qcoverFixtureWhen redefined
+   (00:00:03) function qcoverFixtureUnless redefined
+   (00:00:03) function qcoverFixtureCond redefined
+   (00:00:03) function qcoverFixtureNested redefined
+   (00:00:03) function qcoverFixtureOnce redefined
+   (00:00:03) function qcoverFixtureQuoted redefined
+   (00:00:03) function qcoverFixtureQuoted redefined
+   (00:00:03) function qcoverFixtureOnce redefined
+   (00:00:03) function qcoverFixtureNested redefined
+   (00:00:03) function qcoverFixtureCond redefined
+   (00:00:03) function qcoverFixtureUnless redefined
+   (00:00:03) function qcoverFixtureWhen redefined
+   (00:00:03) function qcoverFixtureIfNoElse redefined
+   (00:00:03) function qcoverFixtureIf redefined
+   (00:00:03) function qcoverFixtureIf redefined
+   (00:00:03) function qcoverFixtureIfNoElse redefined
+   (00:00:03) function qcoverFixtureWhen redefined
+   (00:00:03) function qcoverFixtureUnless redefined
+   (00:00:03) function qcoverFixtureCond redefined
+   (00:00:03) function qcoverFixtureNested redefined
+   (00:00:03) function qcoverFixtureOnce redefined
+   (00:00:03) function qcoverFixtureQuoted redefined
+   (00:00:03) function qcoverFixtureQuoted redefined
+   (00:00:03) function qcoverFixtureOnce redefined
+   (00:00:03) function qcoverFixtureNested redefined
+   (00:00:03) function qcoverFixtureCond redefined
+   (00:00:03) function qcoverFixtureUnless redefined
+   (00:00:03) function qcoverFixtureWhen redefined
+   (00:00:03) function qcoverFixtureIfNoElse redefined
+   (00:00:03) function qcoverFixtureIf redefined
+   (00:00:03) qcover: 18/18 branches covered (100.00%)
+   (00:00:03) .......
+   (00:00:03) Available commands:
+   (00:00:03) 	pyStartServer ?id "default" ?logLevel "WARNING" ?singleMode nil ?timeout nil ?python "python" ?forceTcp nil
+   (00:00:03) 	pyKillServer
+   (00:00:03) 	pyRestartServer
+   (00:00:03) 	pyReloadScript
+   (00:00:03) 	pyShowLog [numberOfLines]
+   (00:00:03) 	pyRunScript path ?args list() ?python "python"
+   (00:00:03) function pyRunScript redefined
+   (00:00:03) function pyStartServer redefined
+   (00:00:03) function __pySkillToPython redefined
+   (00:00:03) function __pyTableToPython redefined
+   (00:00:03) function __pyVectorToPython redefined
+   (00:00:03) function __pyListToPython redefined
+   (00:00:03) function __pySaveToVariableAndReturn redefined
+   (00:00:03) function __pyPropertyListToPython redefined
+   (00:00:03) function __pyOnFinishScript redefined
+   (00:00:03) function __pyOnFinish redefined
+   (00:00:03) function __pyOnError redefined
+   (00:00:03) function __pyOnDataScript redefined
+   (00:00:03) function __pyOnData redefined
+   (00:00:03) function pyShowLog redefined
+   (00:00:03) function pyReloadScript redefined
+   (00:00:03) function pyRestartServer redefined
+   (00:00:03) function pyKillServer redefined
+   (00:00:03) function __pySpawnServer redefined
+   (00:00:03) function __pyIpcWait redefined
+   (00:00:03) function __pyWriteFrame redefined
+   (00:00:03) function __pyIpcWriteProcess redefined
+   (00:00:03) function __pyIpcKillProcess redefined
+   (00:00:03) function __pyIpcBeginProcess redefined
+   (00:00:03) server was not running
+   (00:00:03) one
+   (00:00:03) two
+   (00:00:03) two
+   (00:00:03) three
+   (00:00:03) ignoring stale server finish callback with code 0
+   (00:00:03) server was stopped with code 0
+   (00:00:03) command "error(\"qtest boom\")" resulted in error ("error" 0 t nil ("*Error* qtest boom"))
+   (00:00:03) command "error(\"qtest boom\")" resulted in error ("error" 0 t nil ("*Error* qtest boom"))
+   (00:00:03) ignoring stale server finish callback with code 1
+   (00:00:03) server was stopped with code 0
+   (00:00:03) server was stopped with code 0
+   (00:00:03) I COULD NOT PARSE "42"
+   (00:00:03) ...........................
+   (00:00:03) function __abRunTransaction redefined
+   (00:00:03) function __abTransactionRollback redefined
+   (00:00:03) function __abTransactionCommit redefined
+   (00:00:03) function __abTransactionStart redefined
+   (00:00:03) function __abOKToProceed redefined
+   (00:00:03) ..........
+   (00:00:03) ....
+   (00:00:03) failed to start server
+   (00:00:03) pyShowLog: length must be a positive integer
+   (00:00:03) pyShowLog: cannot open log file D:/AutoPlacer/skillbridge/tests/skill/qtsrvd32028
+   (00:00:03) server is already running
+   (00:00:03) t
+\i (00:00:03) trapsize 29310
+\i (00:00:03) generaledit 
+\i (01:03:32) exit 
+\t (01:03:33)     Journal end - Mon Aug 24 10:38:44 2026

@@ -67,8 +67,14 @@
 (putd '__abAbortSavepointBatch nil)
 (defun __abAbortSavepointBatch (outerMark reason)
   (if (__abTransactionRollback outerMark)
-      (error "%s" reason)
-      (error "%s; SAVEPOINT_BATCH_ROLLBACK_FAILED" reason)))
+      (putprop 'errset
+               (list "error" 0 t nil reason)
+               'errset)
+      (putprop 'errset
+               (list "error" 0 t nil
+                     (append reason (list "SAVEPOINT_BATCH_ROLLBACK_FAILED")))
+               'errset))
+  (err))
 
 (putd '__abRunSavepointBatch nil)
 (defun __abRunSavepointBatch (commands)
@@ -84,7 +90,7 @@
     (foreach command commands
       (setq innerMark (__abTransactionStart))
       (unless innerMark
-        (__abAbortSavepointBatch outerMark "SAVEPOINT_START_FAILED"))
+        (__abAbortSavepointBatch outerMark (list "SAVEPOINT_START_FAILED")))
 
       (setq result (errsetstring command))
       (if result
@@ -98,7 +104,7 @@
                 (unless rollbackResult
                   (__abAbortSavepointBatch
                     outerMark
-                    "SAVEPOINT_COMMIT_FAILED; SAVEPOINT_ROLLBACK_FAILED"))
+                    (list "SAVEPOINT_COMMIT_FAILED" "SAVEPOINT_ROLLBACK_FAILED")))
                 (setq results
                       (cons (__abSavepointResult
                               index "failure" 'error
@@ -110,9 +116,9 @@
             (unless rollbackResult
               (__abAbortSavepointBatch
                 outerMark
-                (sprintf nil
-                         "SAVEPOINT_COMMAND_FAILED: %L; SAVEPOINT_ROLLBACK_FAILED"
-                         commandError)))
+                (list "SAVEPOINT_COMMAND_FAILED"
+                      commandError
+                      "SAVEPOINT_ROLLBACK_FAILED")))
             (setq results
                   (cons (__abSavepointResult
                           index "failure" 'error
@@ -145,10 +151,17 @@
       (setq commandError errset.errset)
       (setq rollbackResult (__abTransactionRollback mark))
       (if rollbackResult
-          (error "DRY_RUN_COMMAND_FAILED: %L" commandError)
-          (error
-            "DRY_RUN_COMMAND_FAILED: %L; DRY_RUN_ROLLBACK_FAILED"
-            commandError)))
+          (putprop 'errset
+                   (list "error" 0 t nil
+                         (list "DRY_RUN_COMMAND_FAILED" commandError))
+                   'errset)
+          (putprop 'errset
+                   (list "error" 0 t nil
+                         (list "DRY_RUN_COMMAND_FAILED"
+                               commandError
+                               "DRY_RUN_ROLLBACK_FAILED"))
+                   'errset))
+      (err))
 
     (unless (__abTransactionRollback mark)
       (error "DRY_RUN_ROLLBACK_FAILED"))

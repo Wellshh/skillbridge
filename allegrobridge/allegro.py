@@ -23,6 +23,91 @@ OpenMode = Literal['cli', 'manual']
 _POLL_INTERVAL = 0.1
 _PROCESS_EXIT_TIMEOUT = 5.0
 
+if sys.platform == 'win32':  # pragma: no cover - exercised on Windows dev/CI hosts
+    import ctypes
+    from ctypes import wintypes
+
+    _PROCESS_TERMINATE = 0x0001
+    _TH32CS_SNAPPROCESS = 0x00000002
+
+    class _ProcessEntry32W(ctypes.Structure):
+        _fields_ = [
+            ('dwSize', wintypes.DWORD),
+            ('cntUsage', wintypes.DWORD),
+            ('th32ProcessID', wintypes.DWORD),
+            ('th32DefaultHeapID', ctypes.c_void_p),
+            ('th32ModuleID', wintypes.DWORD),
+            ('cntThreads', wintypes.DWORD),
+            ('th32ParentProcessID', wintypes.DWORD),
+            ('pcPriClassBase', ctypes.c_long),
+            ('dwFlags', wintypes.DWORD),
+            ('szExeFile', wintypes.WCHAR * 260),
+        ]
+
+    _kernel32 = ctypes.WinDLL('kernel32', use_last_error=True)
+    _kernel32.CreateToolhelp32Snapshot.restype = wintypes.HANDLE
+    _kernel32.OpenProcess.argtypes = [wintypes.DWORD, wintypes.BOOL, wintypes.DWORD]
+    _kernel32.OpenProcess.restype = wintypes.HANDLE
+    _kernel32.TerminateProcess.argtypes = [wintypes.HANDLE, wintypes.UINT]
+    _kernel32.CloseHandle.argtypes = [wintypes.HANDLE]
+    _kernel32.Process32FirstW.argtypes = [
+        wintypes.HANDLE,
+        ctypes.POINTER(_ProcessEntry32W),
+    ]
+    _kernel32.Process32NextW.argtypes = [
+        wintypes.HANDLE,
+        ctypes.POINTER(_ProcessEntry32W),
+    ]
+
+    def _descendant_pids(root_pid: int) -> list[int]:
+        snapshot = _kernel32.CreateToolhelp32Snapshot(_TH32CS_SNAPPROCESS, 0)
+        if not snapshot:
+            return []
+        children: dict[int, list[int]] = {}
+        entry = _ProcessEntry32W()
+        entry.dwSize = ctypes.sizeof(_ProcessEntry32W)
+        try:
+            if not _kernel32.Process32FirstW(snapshot, ctypes.byref(entry)):
+                return []
+            while True:
+                children.setdefault(entry.th32ParentProcessID, []).append(entry.th32ProcessID)
+                if not _kernel32.Process32NextW(snapshot, ctypes.byref(entry)):
+                    break
+        finally:
+            _kernel32.CloseHandle(snapshot)
+        found: list[int] = []
+        pending = list(children.get(root_pid, []))
+        while pending:
+            pid = pending.pop()
+            found.append(pid)
+            pending.extend(children.get(pid, []))
+        return found
+
+    def _terminate_pid(pid: int) -> None:
+        handle = _kernel32.OpenProcess(_PROCESS_TERMINATE, False, pid)  # ruff: ignore[boolean-positional-value-in-call]
+        if handle:
+            _kernel32.TerminateProcess(handle, 1)
+            _kernel32.CloseHandle(handle)
+
+
+def _kill_process_tree(process: Popen[bytes]) -> None:
+    if process.poll() is not None:
+        return
+    pid = process.pid
+    if sys.platform == 'win32' and isinstance(pid, int):
+        for child_pid in _descendant_pids(pid):
+            with suppress(OSError):
+                _terminate_pid(child_pid)
+    with suppress(OSError):
+        process.terminate()
+    try:
+        process.wait(timeout=_PROCESS_EXIT_TIMEOUT)
+    except TimeoutExpired:
+        with suppress(OSError):
+            process.kill()
+        process.wait(timeout=_PROCESS_EXIT_TIMEOUT)
+
+
 _INSTALL_ROOT_VARS = ('CDSROOT', 'Sigrity_EDA_DIR')
 
 
@@ -145,7 +230,7 @@ class Allegro:
                 timeout=timeout,
             )
         except BaseException:
-            cls._stop_process(process)
+            _kill_process_tree(process)
             temp_dir.cleanup()
             raise
 
@@ -230,19 +315,6 @@ class Allegro:
             raise RuntimeError("Allegro server readiness check failed")
         return workspace
 
-    @staticmethod
-    def _stop_process(process: Popen[bytes]) -> None:
-        if process.poll() is not None:
-            return
-        with suppress(OSError):
-            process.terminate()
-        try:
-            process.wait(timeout=_PROCESS_EXIT_TIMEOUT)
-        except TimeoutExpired:
-            with suppress(OSError):
-                process.kill()
-            process.wait(timeout=_PROCESS_EXIT_TIMEOUT)
-
     @property
     def workspace(self) -> Workspace:
         return self._workspace
@@ -254,7 +326,7 @@ class Allegro:
 
         self._workspace.close()
         if self._process is not None:
-            self._stop_process(self._process)
+            _kill_process_tree(self._process)
         if self._temp_dir is not None:
             self._temp_dir.cleanup()
 
