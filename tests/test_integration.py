@@ -276,3 +276,49 @@ def test_outstring(ws: Workspace) -> None:
 
     assert close(s)
     assert get_outstring(s) is None
+
+
+def test_load_temporary_large_skill_file(tmp_path: Path, ws: Workspace) -> None:
+    function = '__skillbridgeLargeBatchCalc'
+    statements = '\n'.join('      total = total + 1' for _ in range(5_000))
+    script = (
+        f"(putd '{function} nil)\n"
+        f'(defun {function} ()\n'
+        '  (let((total)\n'
+        '    total = 0\n'
+        f'{statements}\n'
+        '    total))\n'
+    )
+    script_path = tmp_path / 'generated_large_logic.il'
+    script_path.write_text(script, encoding='utf-8')
+
+    try:
+        assert ws['load'](script_path.resolve().as_posix()) is True
+        assert ws[function]() == 5_000
+    finally:
+        ws['putd'](Symbol(function), None)
+
+
+def test_large_rpc_payload(ws: Workspace) -> None:
+    payload = 'x' * 1_048_576
+
+    assert ws['strlen'](payload) == len(payload)
+
+
+def test_workspace_define_multiline_custom_function(ws: Workspace) -> None:
+    function = 'userCustomMatrixCalc'
+    code = """
+    let((acc)
+      acc = 0
+      for(i 1 limit
+        acc = acc + i * multiplier
+      )
+      acc
+    )
+    """
+
+    try:
+        ws.define('custom_matrix_calc', args=['limit', 'multiplier'], code=code)
+        assert ws[function](10, 2) == 110
+    finally:
+        ws['putd'](Symbol(function), None)

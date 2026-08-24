@@ -1,3 +1,5 @@
+"""Wrapped around higher-level api of allegro, different from `:class.RemoteObject`."""
+
 from __future__ import annotations
 
 from allegrobridge.client.api._record import AllegroProtocolError

@@ -99,6 +99,11 @@ class Txn:
         return self._workspace['__abRunDryTransaction'](cmd)
 
     def batch(self, cmds: Iterable[SkillCode]) -> list[SavepointResult]:
+        """Execute commands with savepoints, committing successes and rolling back failures.
+
+        Returns:
+            List of savepoint execution results.
+        """
         commands = list(cmds)
         if not commands:
             return []
