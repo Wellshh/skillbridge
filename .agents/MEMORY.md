@@ -3,6 +3,7 @@
 ## qtest / qcover 真实运行基线
 
 - 2026-08-20 上一次已验证基线：用户在 Windows Allegro 中加载 `tests/skill/run.ils`，全部测试通过；`python_server.il` branch coverage 为 `62/62 (100.0%)`。
+- 2026-08-25 Windows Allegro 17.2 实测：Python `--allegro` 连续两轮均为 17/17；SKILL 为 74/74，qcover 为 124/124（100%）；结束后无 Allegro/python_server 进程或 7777 listener。启动环境与诊断步骤见 `.claude/agent-memory/cadence-skill-agent/windows-allegro-integration-validation.md`。
 - 当前 coverage 验收只保留在 `tests/skill/run.ils`，由 `qcover::report ?minimum 100.0` 统一执行；不再用 TestCase 锁定 decision 数量。
 - `tests/skill/run.ils` 是唯一入口：依次运行 qtest/reporter/qcover 自测和项目测试，先打印 summary 并传播测试失败，再执行 100% coverage 阈值。
 
