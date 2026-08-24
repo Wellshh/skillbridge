@@ -48,6 +48,55 @@
                (eq originalCommit (getd '__abTransactionCommit))
                (eq originalRollback (getd '__abTransactionRollback))))))
 
+(defun __abTestRunOperation (operation okValue startValues commitValues rollbackValues)
+  (let ((originalOK (getd '__abOKToProceed))
+        (originalStart (getd '__abTransactionStart))
+        (originalCommit (getd '__abTransactionCommit))
+        (originalRollback (getd '__abTransactionRollback))
+        calls
+        result
+        failure)
+    (unwindProtect
+      (progn
+        (putd '__abOKToProceed
+              (lambda ()
+                (setq calls (cons 'ok calls))
+                okValue))
+        (putd '__abTransactionStart
+              (lambda ()
+                (let ((value (car startValues)))
+                  (setq startValues (cdr startValues))
+                  (setq calls (cons 'start calls))
+                  value)))
+        (putd '__abTransactionCommit
+              (lambda (mark)
+                (let ((value (car commitValues)))
+                  (setq commitValues (cdr commitValues))
+                  (setq calls (cons (list 'commit mark) calls))
+                  value)))
+        (putd '__abTransactionRollback
+              (lambda (mark)
+                (let ((value (car rollbackValues)))
+                  (setq rollbackValues (cdr rollbackValues))
+                  (setq calls (cons (list 'rollback mark) calls))
+                  (errset (plus 1 "rollback-overwrite"))
+                  value)))
+        (setq result (errset (funcall operation)))
+        (unless result
+          (setq failure errset.errset)))
+      (progn
+        (putd '__abOKToProceed originalOK)
+        (putd '__abTransactionStart originalStart)
+        (putd '__abTransactionCommit originalCommit)
+        (putd '__abTransactionRollback originalRollback)))
+    (list result
+          failure
+          (reverse calls)
+          (and (eq originalOK (getd '__abOKToProceed))
+               (eq originalStart (getd '__abTransactionStart))
+               (eq originalCommit (getd '__abTransactionCommit))
+               (eq originalRollback (getd '__abTransactionRollback))))))
+
 (qtest::runSuites
   (qtest::TestSuite ()
     (qtest::TestCase test_transaction_rejects_busy_allegro
@@ -135,4 +184,223 @@
     (qtest::TestCase test_transaction_mocks_are_restored
       (let ((run (__abTestRunTransaction t 17 t t "42")))
         (qtest::assertTrue (nth 3 run)
-                           ?msg "all AXL wrappers must be restored")))))
+                           ?msg "all AXL wrappers must be restored"))))
+
+  (qtest::TestSuite ()
+    (qtest::TestCase test_savepoint_batch_rejects_busy_allegro
+      (letseq ((run (__abTestRunOperation
+                      (lambda () (__abRunSavepointBatch '("1")))
+                      nil nil nil nil))
+               (failureText (sprintf nil "%L" (cadr run))))
+        (qtest::assertTrue
+          (and (equal '(ok) (nth 2 run))
+               (index failureText "BUSY_ACTIVE_COMMAND")))))
+
+    (qtest::TestCase test_savepoint_batch_rejects_failed_outer_start
+      (letseq ((run (__abTestRunOperation
+                      (lambda () (__abRunSavepointBatch '("1")))
+                      t '(nil) nil nil))
+               (failureText (sprintf nil "%L" (cadr run))))
+        (qtest::assertTrue
+          (and (equal '(ok start) (nth 2 run))
+               (index failureText "SAVEPOINT_BATCH_START_FAILED")))))
+
+    (qtest::TestCase test_savepoint_batch_keeps_success_nil_and_failure_results
+      (let (expectedError run results first second third fourth)
+        (errsetstring "error(\"item-boom\")")
+        (setq expectedError (sprintf nil "%L" errset.errset))
+        (setq run
+              (__abTestRunOperation
+                (lambda ()
+                  (__abRunSavepointBatch
+                    '("11" "nil" "error(\"item-boom\")" "44")))
+                t '(100 101 102 103 104) '(t t t t) '(t)))
+        (setq results (car (car run)))
+        (setq first (nth 0 results))
+        (setq second (nth 1 results))
+        (setq third (nth 2 results))
+        (setq fourth (nth 3 results))
+        (qtest::assertTrue
+          (and (equal '(ok start start (commit 101)
+                            start (commit 102)
+                            start (rollback 103)
+                            start (commit 104)
+                            (commit 100))
+                      (nth 2 run))
+               (equal 0 (get first 'index))
+               (equal "success" (get first 'status))
+               (equal 11 (get first 'value))
+               (equal 1 (get second 'index))
+               (equal "success" (get second 'status))
+               (null (get second 'value))
+               (equal 2 (get third 'index))
+               (equal "failure" (get third 'status))
+               (index (get third 'error) "SAVEPOINT_COMMAND_FAILED")
+               (index (get third 'error) expectedError)
+               (equal 3 (get fourth 'index))
+               (equal "success" (get fourth 'status))
+               (equal 44 (get fourth 'value))))))
+
+    (qtest::TestCase test_savepoint_batch_recovers_from_inner_commit_failure
+      (letseq ((run (__abTestRunOperation
+                      (lambda () (__abRunSavepointBatch '("11" "22")))
+                      t '(100 101 102) '(nil t t) '(t)))
+               (results (car (car run)))
+               (failedItem (nth 0 results))
+               (successfulItem (nth 1 results)))
+        (qtest::assertTrue
+          (and (equal '(ok start start (commit 101)
+                            (rollback 101) start (commit 102)
+                            (commit 100))
+                      (nth 2 run))
+               (equal "failure" (get failedItem 'status))
+               (index (get failedItem 'error) "SAVEPOINT_COMMIT_FAILED")
+               (equal "success" (get successfulItem 'status))
+               (equal 22 (get successfulItem 'value))))))
+
+    (qtest::TestCase test_savepoint_batch_aborts_when_inner_start_fails
+      (letseq ((run (__abTestRunOperation
+                      (lambda () (__abRunSavepointBatch '("11")))
+                      t '(100 nil) nil '(t)))
+               (failureText (sprintf nil "%L" (cadr run))))
+        (qtest::assertTrue
+          (and (equal '(ok start start (rollback 100)) (nth 2 run))
+               (index failureText "SAVEPOINT_START_FAILED")))))
+
+    (qtest::TestCase test_savepoint_batch_reports_abort_rollback_failure
+      (letseq ((run (__abTestRunOperation
+                      (lambda () (__abRunSavepointBatch '("11")))
+                      t '(100 nil) nil '(nil)))
+               (failureText (sprintf nil "%L" (cadr run))))
+        (qtest::assertTrue
+          (and (equal '(ok start start (rollback 100)) (nth 2 run))
+               (index failureText "SAVEPOINT_START_FAILED")
+               (index failureText "SAVEPOINT_BATCH_ROLLBACK_FAILED")))))
+
+    (qtest::TestCase test_savepoint_batch_aborts_when_command_rollback_fails
+      (let (expectedError run failureText)
+        (errsetstring "error(\"item-boom\")")
+        (setq expectedError (sprintf nil "%L" errset.errset))
+        (setq run
+              (__abTestRunOperation
+                (lambda ()
+                  (__abRunSavepointBatch '("error(\"item-boom\")")))
+                t '(100 101) nil '(nil t)))
+        (setq failureText (sprintf nil "%L" (cadr run)))
+        (qtest::assertTrue
+          (and (equal '(ok start start (rollback 101) (rollback 100))
+                      (nth 2 run))
+               (index failureText "SAVEPOINT_COMMAND_FAILED")
+               (index failureText expectedError)
+               (index failureText "SAVEPOINT_ROLLBACK_FAILED")))))
+
+    (qtest::TestCase test_savepoint_batch_aborts_when_commit_rollback_fails
+      (letseq ((run (__abTestRunOperation
+                      (lambda () (__abRunSavepointBatch '("11")))
+                      t '(100 101) '(nil) '(nil t)))
+               (failureText (sprintf nil "%L" (cadr run))))
+        (qtest::assertTrue
+          (and (equal '(ok start start (commit 101)
+                            (rollback 101) (rollback 100))
+                      (nth 2 run))
+               (index failureText "SAVEPOINT_COMMIT_FAILED")
+               (index failureText "SAVEPOINT_ROLLBACK_FAILED")))))
+
+    (qtest::TestCase test_savepoint_batch_rolls_back_failed_outer_commit
+      (letseq ((run (__abTestRunOperation
+                      (lambda () (__abRunSavepointBatch '("11")))
+                      t '(100 101) '(t nil) '(t)))
+               (failureText (sprintf nil "%L" (cadr run))))
+        (qtest::assertTrue
+          (and (equal '(ok start start (commit 101)
+                            (commit 100) (rollback 100))
+                      (nth 2 run))
+               (index failureText "SAVEPOINT_BATCH_COMMIT_FAILED")
+               (null (index failureText "SAVEPOINT_BATCH_ROLLBACK_FAILED"))))))
+
+    (qtest::TestCase test_savepoint_batch_reports_failed_outer_rollback
+      (letseq ((run (__abTestRunOperation
+                      (lambda () (__abRunSavepointBatch '("11")))
+                      t '(100 101) '(t nil) '(nil)))
+               (failureText (sprintf nil "%L" (cadr run))))
+        (qtest::assertTrue
+          (and (equal '(ok start start (commit 101)
+                            (commit 100) (rollback 100))
+                      (nth 2 run))
+               (index failureText "SAVEPOINT_BATCH_COMMIT_FAILED")
+               (index failureText "SAVEPOINT_BATCH_ROLLBACK_FAILED"))))))
+
+  (qtest::TestSuite ()
+    (qtest::TestCase test_dry_run_rejects_busy_allegro
+      (letseq ((run (__abTestRunOperation
+                      (lambda () (__abRunDryTransaction "11"))
+                      nil nil nil nil))
+               (failureText (sprintf nil "%L" (cadr run))))
+        (qtest::assertTrue
+          (and (equal '(ok) (nth 2 run))
+               (index failureText "BUSY_ACTIVE_COMMAND")))))
+
+    (qtest::TestCase test_dry_run_rejects_failed_start
+      (letseq ((run (__abTestRunOperation
+                      (lambda () (__abRunDryTransaction "11"))
+                      t '(nil) nil nil))
+               (failureText (sprintf nil "%L" (cadr run))))
+        (qtest::assertTrue
+          (and (equal '(ok start) (nth 2 run))
+               (index failureText "DRY_RUN_START_FAILED")))))
+
+    (qtest::TestCase test_dry_run_returns_value_after_rollback
+      (let ((run (__abTestRunOperation
+                   (lambda () (__abRunDryTransaction "11"))
+                   t '(100) nil '(t))))
+        (qtest::assertEqual
+          '((11) nil (ok start (rollback 100)) t)
+          run)))
+
+    (qtest::TestCase test_dry_run_accepts_nil_result
+      (let ((run (__abTestRunOperation
+                   (lambda () (__abRunDryTransaction "nil"))
+                   t '(100) nil '(t))))
+        (qtest::assertEqual
+          '((nil) nil (ok start (rollback 100)) t)
+          run)))
+
+    (qtest::TestCase test_dry_run_preserves_command_error_before_rollback
+      (let (expectedError run failureText)
+        (errsetstring "error(\"dry-boom\")")
+        (setq expectedError (sprintf nil "%L" errset.errset))
+        (setq run
+              (__abTestRunOperation
+                (lambda () (__abRunDryTransaction "error(\"dry-boom\")"))
+                t '(100) nil '(t)))
+        (setq failureText (sprintf nil "%L" (cadr run)))
+        (qtest::assertTrue
+          (and (equal '(ok start (rollback 100)) (nth 2 run))
+               (index failureText "DRY_RUN_COMMAND_FAILED")
+               (index failureText expectedError)))))
+
+    (qtest::TestCase test_dry_run_does_not_return_value_when_rollback_fails
+      (letseq ((run (__abTestRunOperation
+                      (lambda () (__abRunDryTransaction "11"))
+                      t '(100) nil '(nil)))
+               (failureText (sprintf nil "%L" (cadr run))))
+        (qtest::assertTrue
+          (and (null (car run))
+               (equal '(ok start (rollback 100)) (nth 2 run))
+               (index failureText "DRY_RUN_ROLLBACK_FAILED")))))
+
+    (qtest::TestCase test_dry_run_reports_command_and_rollback_failure
+      (let (expectedError run failureText)
+        (errsetstring "error(\"dry-boom\")")
+        (setq expectedError (sprintf nil "%L" errset.errset))
+        (setq run
+              (__abTestRunOperation
+                (lambda () (__abRunDryTransaction "error(\"dry-boom\")"))
+                t '(100) nil '(nil)))
+        (setq failureText (sprintf nil "%L" (cadr run)))
+        (qtest::assertTrue
+          (and (equal '(ok start (rollback 100)) (nth 2 run))
+               (index failureText "DRY_RUN_COMMAND_FAILED")
+               (index failureText expectedError)
+               (index failureText "DRY_RUN_ROLLBACK_FAILED")
+               (nth 3 run)))))))

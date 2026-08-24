@@ -59,3 +59,98 @@
       (error "TRANSACTION_COMMIT_FAILED"))
 
     (car result)))
+
+(putd '__abSavepointResult nil)
+(defun __abSavepointResult (index status field value)
+  (list nil 'index index 'status status field value))
+
+(putd '__abAbortSavepointBatch nil)
+(defun __abAbortSavepointBatch (outerMark reason)
+  (if (__abTransactionRollback outerMark)
+      (error "%s" reason)
+      (error "%s; SAVEPOINT_BATCH_ROLLBACK_FAILED" reason)))
+
+(putd '__abRunSavepointBatch nil)
+(defun __abRunSavepointBatch (commands)
+  (let (outerMark innerMark result commandError rollbackResult results index)
+    (unless (__abOKToProceed)
+      (error "BUSY_ACTIVE_COMMAND"))
+
+    (setq outerMark (__abTransactionStart))
+    (unless outerMark
+      (error "SAVEPOINT_BATCH_START_FAILED"))
+
+    (setq index 0)
+    (foreach command commands
+      (setq innerMark (__abTransactionStart))
+      (unless innerMark
+        (__abAbortSavepointBatch outerMark "SAVEPOINT_START_FAILED"))
+
+      (setq result (errsetstring command))
+      (if result
+          (if (__abTransactionCommit innerMark)
+              (setq results
+                    (cons (__abSavepointResult
+                            index "success" 'value (car result))
+                          results))
+              (progn
+                (setq rollbackResult (__abTransactionRollback innerMark))
+                (unless rollbackResult
+                  (__abAbortSavepointBatch
+                    outerMark
+                    "SAVEPOINT_COMMIT_FAILED; SAVEPOINT_ROLLBACK_FAILED"))
+                (setq results
+                      (cons (__abSavepointResult
+                              index "failure" 'error
+                              "SAVEPOINT_COMMIT_FAILED")
+                            results))))
+          (progn
+            (setq commandError errset.errset)
+            (setq rollbackResult (__abTransactionRollback innerMark))
+            (unless rollbackResult
+              (__abAbortSavepointBatch
+                outerMark
+                (sprintf nil
+                         "SAVEPOINT_COMMAND_FAILED: %L; SAVEPOINT_ROLLBACK_FAILED"
+                         commandError)))
+            (setq results
+                  (cons (__abSavepointResult
+                          index "failure" 'error
+                          (sprintf nil "SAVEPOINT_COMMAND_FAILED: %L"
+                                   commandError))
+                        results))))
+      (setq index (add1 index)))
+
+    (unless (__abTransactionCommit outerMark)
+      (setq rollbackResult (__abTransactionRollback outerMark))
+      (if rollbackResult
+          (error "SAVEPOINT_BATCH_COMMIT_FAILED")
+          (error
+            "SAVEPOINT_BATCH_COMMIT_FAILED; SAVEPOINT_BATCH_ROLLBACK_FAILED")))
+
+    (reverse results)))
+
+(putd '__abRunDryTransaction nil)
+(defun __abRunDryTransaction (command)
+  (let (mark result commandError rollbackResult)
+    (unless (__abOKToProceed)
+      (error "BUSY_ACTIVE_COMMAND"))
+
+    (setq mark (__abTransactionStart))
+    (unless mark
+      (error "DRY_RUN_START_FAILED"))
+
+    (setq result (errsetstring command))
+    (unless result
+      (setq commandError errset.errset)
+      (setq rollbackResult (__abTransactionRollback mark))
+      (if rollbackResult
+          (error "DRY_RUN_COMMAND_FAILED: %L" commandError)
+          (error
+            "DRY_RUN_COMMAND_FAILED: %L; DRY_RUN_ROLLBACK_FAILED"
+            commandError)))
+
+    (unless (__abTransactionRollback mark)
+      (error "DRY_RUN_ROLLBACK_FAILED"))
+
+    (car result)))
