@@ -9,6 +9,7 @@ from allegrobridge.client.api._rpc import (
     CommandResult,
     RpcArgs,
     SessionApi,
+    core_api,
     read,
     write,
 )
@@ -31,6 +32,7 @@ __all__ = [
     'RpcArgs',
     'SessionApi',
     '_Record',
+    'core_api',
     'read',
     'write',
 ]

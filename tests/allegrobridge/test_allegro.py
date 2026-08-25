@@ -26,6 +26,7 @@ from allegrobridge.client.api import (
     SessionApi,
     read,
 )
+from allegrobridge.client.api._rpc import _core_procedures  # ruff: ignore[import-private-name]
 from allegrobridge.client.session import Session
 from allegrobridge.client.workspace import Workspace
 from allegrobridge.exceptions import (
@@ -252,6 +253,14 @@ class TestSession:
 
 
 class TestReadApi:
+    def test_core_procedures_are_collected_from_api_declarations(self) -> None:
+        assert _core_procedures() == (
+            '__abProjectBoard',
+            '__abProjectComponents',
+            '__abMoveComponent',
+            '__abProjectNets',
+        )
+
     def test_declaration_preserves_signature_and_sends_once(self) -> None:
         workspace = MagicMock()
         workspace.__getitem__.return_value.return_value = 3

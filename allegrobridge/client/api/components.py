@@ -5,7 +5,7 @@ from typing import List, Literal, Optional
 from pydantic import PositiveInt, TypeAdapter
 
 from allegrobridge.client.api._record import _Record
-from allegrobridge.client.api._rpc import RpcArgs, SessionApi, read, write
+from allegrobridge.client.api._rpc import RpcArgs, SessionApi, core_api, read, write
 
 _PROCEDURE = '__abProjectComponents'
 _MOVE_PROCEDURE = '__abMoveComponent'
@@ -29,6 +29,7 @@ _COMPONENTS = TypeAdapter(_ComponentList)
 _COMPONENT = TypeAdapter(ComponentInfo)
 
 
+@core_api
 class ComponentsApi(SessionApi):
     @read(_PROCEDURE, _COMPONENTS, none_as_empty=True)
     def _project(self, refdes: str | None, include_unplaced: bool) -> RpcArgs:

@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Literal, TypedDict, Union, cast
 
 import allegrobridge.server
+from allegrobridge.client.api._rpc import _core_procedures
 from allegrobridge.exceptions import AllegroLaunchError
 from allegrobridge.util import extract_api_domains
 from skillbridge.client.channel import Channel
@@ -18,14 +19,10 @@ from skillbridge.client.workspace import WorkspaceId
 
 from .translator import Translator
 
-_EXTENSION_FUNCTIONS = (
+_TRANSACTION_FUNCTIONS = (
     '__abRunTransaction',
     '__abRunSavepointBatch',
     '__abRunDryTransaction',
-    '__abProjectBoard',
-    '__abProjectComponents',
-    '__abMoveComponent',
-    '__abProjectNets',
 )
 
 
@@ -69,7 +66,8 @@ class Workspace(GWorkspace):
         return workspace
 
     def _has_extension(self) -> bool:
-        return all(self['isCallable'](Symbol(name)) for name in _EXTENSION_FUNCTIONS)
+        procedures = _TRANSACTION_FUNCTIONS + _core_procedures()
+        return all(self['isCallable'](Symbol(name)) for name in procedures)
 
     def _ensure_extension(self) -> None:
         if self._has_extension():

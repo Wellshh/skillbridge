@@ -20,11 +20,32 @@ RpcArgs: TypeAlias = Tuple[Skill, ...]
 P = ParamSpec('P')
 T = TypeVar('T')
 ApiT = TypeVar('ApiT', bound='SessionApi')
+_CORE_PROCEDURES: list[str] = []
 
 
 @dataclass(frozen=True)
 class SessionApi:
     _session: Session
+
+
+def core_api(api: type[ApiT]) -> type[ApiT]:
+    """Register an API class and its underlying SKILL procedures as core extensions.
+
+    Args:
+        api: The API class to inspect and register.
+
+    Returns:
+        The unchanged API class.
+    """
+    for member in vars(api).values():
+        procedure = getattr(member, 'procedure', None)
+        if isinstance(procedure, str) and procedure not in _CORE_PROCEDURES:
+            _CORE_PROCEDURES.append(procedure)
+    return api
+
+
+def _core_procedures() -> tuple[str, ...]:
+    return tuple(_CORE_PROCEDURES)
 
 
 @dataclass(frozen=True)
@@ -177,6 +198,17 @@ def read(
     [Callable[Concatenate[ApiT, P], RpcArgs]],
     Callable[Concatenate[ApiT, P], T],
 ]:
+    """Decorate a read-only API method to query SKILL and validate the returned payload.
+
+    Args:
+        procedure: The remote SKILL procedure name to call.
+        adapter: The Pydantic TypeAdapter for validating the returned payload.
+        none_as_empty: Whether to treat a None payload as an empty list.
+
+    Returns:
+        A decorator transforming argument builders into typed query methods.
+    """
+
     def decorate(
         build_args: Callable[Concatenate[ApiT, P], RpcArgs],
     ) -> Callable[Concatenate[ApiT, P], T]:
@@ -192,6 +224,7 @@ def read(
                 none_as_empty=none_as_empty,
             )
 
+        call.procedure = procedure  # type: ignore[attr-defined]
         return call
 
     return decorate
@@ -281,6 +314,17 @@ def write(
     [Callable[Concatenate[ApiT, P], RpcArgs]],
     _Write[ApiT, P, T],
 ]:
+    """Decorate a state-modifying API method to support execution, dry-run, and batching.
+
+    Args:
+        procedure: The remote SKILL procedure name to call.
+        adapter: The Pydantic TypeAdapter for validating the returned payload.
+        none_as_empty: Whether to treat a None payload as an empty list.
+
+    Returns:
+        A decorator returning a descriptor that enables call, preview, and command extraction.
+    """
+
     def decorate(
         build_args: Callable[Concatenate[ApiT, P], RpcArgs],
     ) -> _Write[ApiT, P, T]:

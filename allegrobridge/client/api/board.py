@@ -3,7 +3,7 @@ from __future__ import annotations
 from pydantic import NonNegativeInt, PositiveInt, TypeAdapter
 
 from allegrobridge.client.api._record import _Record
-from allegrobridge.client.api._rpc import RpcArgs, SessionApi, read
+from allegrobridge.client.api._rpc import RpcArgs, SessionApi, core_api, read
 
 _PROCEDURE = '__abProjectBoard'
 
@@ -20,6 +20,7 @@ class BoardInfo(_Record):
 _BOARD_INFO = TypeAdapter(BoardInfo)
 
 
+@core_api
 class BoardApi(SessionApi):
     @read(_PROCEDURE, _BOARD_INFO)
     def __call__(self) -> RpcArgs:
