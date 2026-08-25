@@ -18,7 +18,7 @@ import allegrobridge.client.api.extensions as extension_package
 import allegrobridge.server
 from allegrobridge import Allegro, OpenMode, Session, Workspace
 from allegrobridge.client.api import BoardInfo, ComponentInfo, NetInfo
-from allegrobridge.exceptions import AllegroProtocolError
+from allegrobridge.exceptions import AllegroProtocolError, ExtensionError
 from allegrobridge.util import ASSETS_DIR
 from skillbridge import SkillCode
 
@@ -62,7 +62,6 @@ def session(allegro: Allegro) -> Session:
 @pytest.fixture(scope='class')
 def extension_environment(session: Session) -> Iterator[None]:
     fixture_root = Path(__file__).with_name('fixtures')
-    module_name = 'allegrobridge.client.api.extensions.probe'
     with pytest.MonkeyPatch.context() as monkeypatch:
         monkeypatch.setattr(
             extension_package,
@@ -74,11 +73,13 @@ def extension_environment(session: Session) -> Iterator[None]:
             '__file__',
             str(fixture_root / 'server' / '__init__.py'),
         )
-        sys.modules.pop(module_name, None)
+        sys.modules.pop('allegrobridge.client.api.extensions.probe', None)
+        sys.modules.pop('allegrobridge.client.api.extensions.missing_server', None)
         try:
             yield
         finally:
-            sys.modules.pop(module_name, None)
+            sys.modules.pop('allegrobridge.client.api.extensions.probe', None)
+            sys.modules.pop('allegrobridge.client.api.extensions.missing_server', None)
 
 
 @pytest.fixture(scope='class')
@@ -696,6 +697,26 @@ class TestNetsApi:
 
 @pytest.mark.usefixtures('extension_environment')
 class TestExtensionApi:
+    def test_missing_extension_is_cached_and_core_api_survives(
+        self,
+        allegro: Allegro,
+        session: Session,
+    ) -> None:
+        if allegro.mode != 'cli':
+            pytest.skip('extension loading test requires the Windows board copy')
+
+        with pytest.raises(ExtensionError, match='missing_server') as first:
+            _ = session.ext.missing_server
+        with pytest.raises(ExtensionError, match='missing_server') as second:
+            _ = session.ext.missing_server
+
+        assert second.value is first.value
+        assert session.raw['plus'](1, 2) == 3
+        assert session.board().session_generation == session.generation
+        assert isinstance(session.components(), list)
+        assert isinstance(session.nets(), list)
+        assert session.raw.transaction(SkillCode('42')) == 42
+
     def test_extension_read_loads_and_returns_strict_records(
         self,
         allegro: Allegro,

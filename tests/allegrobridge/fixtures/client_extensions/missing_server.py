@@ -1,0 +1,12 @@
+from __future__ import annotations
+
+from pydantic import TypeAdapter
+
+from allegrobridge.client.api import RpcArgs, SessionApi, extension, read
+
+
+@extension
+class MissingServerApi(SessionApi):
+    @read('__abp_missing_server_probe', TypeAdapter(int))
+    def probe(self) -> RpcArgs:
+        return ()
