@@ -6,7 +6,7 @@
 
 `skillbridge` 已经具备三个很有价值的基础：Python/SKILL 类型转换、远程对象属性访问，以及 Windows 下的 localhost TCP 通道；它的 `Workspace` 甚至已经预留了 `axl` 函数集合。 
 
-当前通信内核已经具备帧收发、严格串行执行、Windows timeout、超时后响应排空、SKILL callback 缓冲和写请求不自动重发。Python/SKILL 单次 RPC 事务、savepoint batch 与 dry-run 也已通过 Windows Allegro 实机验收。`Allegro` 窗口生命周期和最小内存 `Session` 门面已经落地；下一阶段从 board 开始建立严格校验的只读领域 API。CLI 启动已出现旧 listener 被误认作新实例的真实故障，因此允许使用仅在本地启动阶段回读的实例 nonce；它不进入 RPC envelope，不承担认证、授权或请求去重。除此之外，在没有真实需求或故障证据前，不引入 UUID envelope、安全 token、结果缓存或更多恢复状态。
+当前通信内核已经具备帧收发、严格串行执行、Windows timeout、超时后响应排空、SKILL callback 缓冲和写请求不自动重发。Python/SKILL 单次 RPC 事务、savepoint batch 与 dry-run 也已通过 Windows Allegro 实机验收。`Allegro` 窗口生命周期、最小内存 `Session` 门面、Phase 5 只读领域 API 和 Phase 6 声明式领域写 API 已完成，并已通过 Windows Allegro 实机验收。当前按需扩展机制已覆盖惰性 Python import、SKILL load、成功路径、混合 core/extension Batch 以及缺失 `.il` 的错误缓存与核心 API 隔离。下一步只在出现首个真实业务需求时，按现有约定增加一个 Python extension 模块和可选 `.il` 文件；不预先虚构 `constraints`、`autoplace` 等生产功能。CLI 启动已出现旧 listener 被误认作新实例的真实故障，因此允许使用仅在本地启动阶段回读的实例 nonce；它不进入 RPC envelope，不承担认证、授权或请求去重。除此之外，在没有真实需求或故障证据前，不引入 UUID envelope、安全 token、结果缓存或更多恢复状态。
 
 ---
 
@@ -706,7 +706,7 @@ with Allegro.open(mode="manual", workspace_id="7777") as allegro:
 
 ---
 
-## Phase 5：严格只读领域 API（下一阶段）
+## Phase 5：严格只读领域 API（已完成）
 
 目标：让 `Session` 提供 Pythonic 领域命名空间，通过固定 SKILL 投影一次返回稳定数据，并在 Python 边界用 Pydantic 严格识别协议漂移。Pydantic 只负责校验，不替换现有 Translator，也不承担 JSON 序列化。
 
@@ -779,11 +779,12 @@ gnd = session.nets["GND"]
 - records 不保存 DBID、`RemoteObject`、Workspace 或 Channel；记录包含创建时的 `session_generation`，需要长期保存时由调用方自行决定。
 - 底层调试仍使用 `session.raw`；领域 API 不接受任意 SKILL 字符串。
 
-### 5.4 实施顺序
+### 5.4 已完成交付
 
 1. `BoardApi.__call__() -> BoardInfo`：建立最小 `_Record`、协议错误和一个 `__abProjectBoard` 投影，完成 Python + Windows Allegro 垂直验收。
 2. `ComponentsApi.__call__()` / `__getitem__()`：单次 SKILL 遍历返回所有稳定字段，禁止逐项 RemoteObject 查询。
-3. `NetsApi.__call__()` / `__getitem__()`：沿用相同边界；只有这三个模块稳定后再评估 symbols/layers/properties。
+3. `NetsApi.__call__()` / `__getitem__()`：沿用相同边界。
+4. `@read` / `@write` 声明式 API、惰性 `session.ext` 扩展加载与严格协议边界已完成，并通过 Windows Allegro 实机验收。
 
 Bulk 文件通道、通用分页器、缓存、handle table 和 capability negotiation 均不属于首批 API；只有实测数据证明单次投影无法满足帧大小或性能要求时再设计。
 
@@ -799,7 +800,7 @@ Bulk 文件通道、通用分页器、缓存、handle table 和 capability negot
 
 ---
 
-## Phase 6：领域写操作与批处理（混合模式）
+## Phase 6：领域写操作与批处理（已完成）
 
 写操作必须通过固定的 Allegro SKILL procedure，复用 Phase 2 已验证的单次 RPC 事务边界。
 
@@ -819,21 +820,28 @@ Bulk 文件通道、通用分页器、缓存、handle table 和 capability negot
    多操作组合时，通过客户端上下文管理器在本地收集指令列表，在退出 context 时一次性编译为一个复合 SKILL 事务下发（All-or-Nothing）：
    ```python
    with session.batch("place decouple capacitors") as batch:
-       batch.components.move("C101", x=120.0, y=45.0, rotation=90.0)
-       batch.components.move("C102", x=125.0, y=45.0, rotation=90.0)
-       batch.properties.set(object_kind="component", object_key="C101", name="FIXED", value=True)
-   # 退出 context 时：自动在单个 axlDBTransaction 内部顺序执行以上三条指令
+       c1 = batch.add(
+           session.components.move.command("C101", x=120.0, y=45.0, rotation=90.0)
+       )
+       c2 = batch.add(
+           session.components.move.command("C102", x=125.0, y=45.0, rotation=90.0)
+       )
+   # 退出 context 时：自动在单个 axlDBTransaction 内部顺序执行以上两条指令
    # 全部成功则 Commit；任何一条失败则整批回滚，并在 Python 端抛出对应异常
+   updated_c1 = c1.value
+   updated_c2 = c2.value
    ```
 
-3. **三种事务模式对应 API**：
+3. **事务 API**：
 
 | Python API | 用途 | 事务与提交行为 |
 | :--- | :--- | :--- |
-| `session.batch()` | 原子批处理 (Atomic) | 未来将多个领域操作编译为一条 command，任一失败则整批 Rollback |
+| `session.batch()` | 原子批处理 (Atomic) | 已将多个领域操作编译为一条 command，任一失败则整批 Rollback |
+| `session.batch(dry_run=True)` | 原子批处理预演 (Dry-run) | 整批执行后统一 Rollback，返回逐项严格校验结果 |
+| `operation.preview(...)` | 单条领域操作预演 (Dry-run) | 单次执行后 Rollback，返回严格校验结果 |
 | `ws.transaction(command)` | 原子单命令 (Atomic) | 已实现；单次 RPC 内 Commit 或 Rollback |
-| `session.savepoint_batch()` | 容错批处理 (Savepoint) | 未来委托 `ws.transaction.batch()`；成功项在 outer Commit 时持久化 |
-| `session.dry_run()` | 试运行预演 (Dry-run) | 未来委托 `ws.transaction.preview()`；始终 Rollback，仅返回稳定 DTO |
+| `ws.transaction.batch(commands)` | 容错批处理 (Savepoint) | 逐项保存点执行；成功项在 outer Commit 时持久化 |
+| `ws.transaction.preview(command)` | 原始 SKILL 单命令预演 (Dry-run) | 执行后始终 Rollback，仅返回结果 |
 
 ### 6.2 交互冲突策略（Fail-Fast）
 写操作发出前，底层通过 `axlOKToProceed()` 检查 Allegro 状态：
@@ -884,8 +892,15 @@ with Allegro.open(mode="manual", workspace_id="7777") as allegro:
     )
 
     with pcb.batch("align filter capacitors") as batch:
-        batch.components.move("C101", x=120.0, y=45.0)
-        batch.components.move("C102", x=125.0, y=45.0)
+        c1 = batch.add(
+            pcb.components.move.command("C101", x=120.0, y=45.0)
+        )
+        c2 = batch.add(
+            pcb.components.move.command("C102", x=125.0, y=45.0)
+        )
+
+    updated_c1: ComponentInfo = c1.value
+    updated_c2: ComponentInfo = c2.value
 ```
 
 公开语义保持简单：
@@ -1069,11 +1084,11 @@ Python 路径含空格
 | M1 | Python/SKILL 原子 transaction、savepoint batch 与 dry-run（已完成） | 2–4 天 |
 | M2 | Allegro 窗口生命周期（已完成） | 2–4 天 |
 | M3 | 轻量 `Session` 与 Raw Workspace 入口（已完成） | 1–2 天 |
-| M4 | board/components/nets 严格只读 API（下一阶段） | 1–2 周 |
-| M5 | 第一批领域写操作 | 1–2 周 |
+| M4 | board/components/nets 严格只读 API（已完成，Windows Allegro 已验收） | 1–2 周 |
+| M5 | 声明式领域写操作与原子 Batch（已完成，Windows Allegro 已验收） | 1–2 周 |
 | M6 | 按需增加批处理、Undo 或通信加固 | 按实际需求评估 |
 
-当前进入 M4，先交付 `session.board() -> BoardInfo` 的单个端到端切片，再依次增加 components 和 nets。不为尚未出现的部署需求预估通信生产化工期。
+当前 M4/M5 已完成。下一步等待首个真实业务 extension 需求，按现有约定增加一个 Python 模块和可选 `.il` 文件；不预先创建 `constraints`、`autoplace` 等生产功能。不为尚未出现的部署需求预估通信生产化工期。
 
 ---
 
@@ -1109,4 +1124,4 @@ doctor、常驻配置和自动修改 allegro.ilinit
 bulk 文件通道
 ```
 
-最合理的执行顺序是：用现有实机集成测试保持 Phase 1–4 基线，然后实施 **Phase 5 的 `session.board()` 严格协议切片**。只有测试或真实使用暴露通信问题时，才进入 Phase 7 加固对应部分。
+最合理的执行顺序是：保持 Phase 1–6 的现有实机集成基线；出现首个真实业务需求时，按既有 extension 约定增加一个 Python 模块和可选 `.il`，并为其补充集成测试。没有真实需求时不虚构领域插件；只有测试或真实使用暴露通信问题时，才进入 Phase 7 加固对应部分。

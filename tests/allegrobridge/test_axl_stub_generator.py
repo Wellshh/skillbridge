@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import ast
 import runpy
 import sys
 from pathlib import Path
@@ -7,7 +8,12 @@ from pathlib import Path
 import pytest
 
 from scripts import generate_axl_stubs as generator
-from scripts.generate_axl_stubs import build_api_specs, render_report, summarize_specs
+from scripts.generate_axl_stubs import (
+    build_api_specs,
+    render_report,
+    render_stub,
+    summarize_specs,
+)
 
 REFERENCE_ROOT = (
     Path(__file__).parents[2]
@@ -231,6 +237,11 @@ def test_real_allegro_references_cover_the_supported_inventory() -> None:
     assert by_name['axlDBCreateFilmRec'].quality == 'fallback'
     assert by_name['axlISProductStarted'].quality == 'fallback'
     assert by_name['axlIgnoreFixed'].quality == 'fallback'
+    assert [
+        parameter.name
+        for parameter in by_name['axlAddSimpleMoveDynamics'].declarations[0].parameters
+        if parameter.kind == 'positional'
+    ] == ['l_origin', 'r_path', 't_type']
 
     document_only = {spec.name for spec in specs if spec.quality == 'document_only'}
     assert document_only == generator.DOCUMENT_ONLY_NAMES
@@ -255,6 +266,23 @@ def test_real_allegro_references_cover_the_supported_inventory() -> None:
         'origin',
         'allOrNone',
     ]
+
+
+def test_render_stub_is_deterministic_and_excludes_document_sections() -> None:
+    specs = build_api_specs(API_NAMES_PATH, REFERENCE_ROOT)
+
+    first = render_stub(specs)
+    second = render_stub(specs)
+
+    assert first == second
+    ast.parse(first)
+    assert 'class _AxlDBGetDesign(LiteralRemoteFunction):' in first
+    assert 'db_get_design: _AxlDBGetDesign' in first
+    assert 'get_design: _AxlDBGetDesign' in first
+    assert 'item: Literal["axlDBGetDesign"]' in first
+    assert 'class _AxlColorDoc(' not in first
+    assert 'class _AxlOlOl2(LiteralRemoteFunction):' in first
+    assert generator._snake_name('is') == 'is_'
 
 
 def test_build_api_specs_downgrades_malformed_declarations(
@@ -344,10 +372,24 @@ def test_main_reports_quality_and_checks_inventory(
         ['axlOnly'],
         {'api.md': '### axlOnly\n`axlOnly() => t`\n'},
     )
-    args = ['--api-names', str(api_names_path), '--references', str(reference_root)]
+    output = tmp_path / '_axl_stubs.pyi'
+    args = [
+        '--api-names',
+        str(api_names_path),
+        '--references',
+        str(reference_root),
+        '--output',
+        str(output),
+    ]
 
     assert generator.main(args) == 0
     assert 'total=1' in capsys.readouterr().out
+    assert output.is_file()
+    assert generator.main([*args, '--check']) == 1
+
+    monkeypatch.setattr(generator, 'EXPECTED_API_COUNT', 1)
+    assert generator.main([*args, '--check']) == 0
+    output.write_text('stale\n', encoding='utf-8')
     assert generator.main([*args, '--check']) == 1
 
     monkeypatch.setattr(sys, 'argv', ['generate_axl_stubs.py', *args])

@@ -4,7 +4,7 @@ from collections.abc import Iterable
 from functools import partial
 from pathlib import Path
 from threading import Lock
-from typing import Literal, TypedDict, Union, cast
+from typing import TYPE_CHECKING, Literal, TypedDict, Union, cast
 
 from typing_extensions import override
 
@@ -21,6 +21,14 @@ from skillbridge.client.workspace import WorkspaceId
 
 from .translator import Translator
 
+if TYPE_CHECKING:
+    from ._axl_stubs import _WorkspaceTypingMixin
+else:
+
+    class _WorkspaceTypingMixin:
+        pass
+
+
 _TRANSACTION_FUNCTIONS = (
     '__abRunTransaction',
     '__abRunSavepointBatch',
@@ -28,7 +36,7 @@ _TRANSACTION_FUNCTIONS = (
 )
 
 
-class Workspace(GWorkspace):
+class Workspace(_WorkspaceTypingMixin, GWorkspace):  # type: ignore[misc]
     # GWorkspace treats class annotations as FunctionCollection namespaces.
 
     def __init__(
@@ -129,11 +137,11 @@ class Workspace(GWorkspace):
 # rough count of axl_* apis in allegro: 792
 # The lowercase APIs axlcreate and axldo are callable only through ws['api_name'].
 _workspace_members = set(dir(GWorkspace))
-Workspace.__annotations__.update({
+Workspace.__annotations__ = {
     domain: FunctionCollection
     for domain in extract_api_domains()
     if (domain.isidentifier() and domain != "root" and domain not in _workspace_members)
-})
+}
 
 
 class Txn:

@@ -129,6 +129,12 @@ def test_allegro_workspace_namespaces_and_chaining() -> None:
     assert ws['axldo'].lazy() == 'axldo( )'
 
 
+def test_allegro_workspace_annotations_do_not_pollute_base_workspace() -> None:
+    assert AllegroWorkspace.__annotations__ is not Workspace.__annotations__
+    assert 'air' in AllegroWorkspace.__annotations__
+    assert 'air' not in Workspace.__annotations__
+
+
 def test_allegro_workspace_var_chaining_and_transaction_integration() -> None:
     channel = ScriptedChannel('"result"')
     ws = AllegroWorkspace(channel=channel, id_=456)

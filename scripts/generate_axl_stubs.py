@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 import argparse
+import itertools
+import keyword
 import re
 from collections import Counter
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import Iterable, Sequence
 
@@ -16,13 +18,34 @@ DEFAULT_API_NAMES = ROOT / 'allegrobridge' / 'assets' / 'api_names.txt'
 DEFAULT_REFERENCES = (
     ROOT / '.agents' / 'skills' / 'cadence-skill-agent' / 'skill-references' / 'algroskill'
 )
+DEFAULT_OUTPUT = ROOT / 'allegrobridge' / 'client' / '_axl_stubs.pyi'
 EXPECTED_API_COUNT = 792
+MIN_API_TOKEN_COUNT = 2
+MAX_UNION_ALTERNATIVES = 8
+MAX_DOCSTRING_DESCRIPTION = 240
 ARROWS = ('⇒', '==>', '=>', '-=>', '-->', '->')
 API_NAME = re.compile(r'\baxl[A-Za-z0-9_]+\b')
 ARGUMENT_CELL = re.compile(r'^\|\s*`?(?P<cell>[^`|\n]+)`?\s*\|')
 PLAIN_ARGUMENT = re.compile(r'^`(?P<name>[A-Za-z_][A-Za-z0-9_]*)`$')
 ARGUMENT_NAME = re.compile(r'[A-Za-z_][A-Za-z0-9_]*')
 KEYWORD_ARGUMENT = re.compile(r'\?([A-Za-z_][A-Za-z0-9_]*)\s+([A-Za-z0-9_/\']+)')
+NAME_TOKEN = re.compile(r'[A-Z]+(?=[A-Z][a-z0-9]|\b)|[A-Z][a-z0-9]*|[a-z0-9]+')
+WORKSPACE_DOMAIN_CONFLICTS = frozenset({'close', 'flush', 'open'})
+LIST_PREFIXES = frozenset({'l', 'll', 'ln', 'lg', 'lr', 'la', 'ld', 'lx'})
+PREFIX_TYPES = {
+    'od': 'RemoteObject',
+    'lt': 'list[str]',
+    'ls': 'list[Symbol]',
+    'o': 'RemoteObject',
+    'r': 'RemoteObject',
+    't': 'str',
+    's': 'Symbol',
+    'f': 'float',
+    'i': 'Number',
+    'n': 'Number',
+    'x': 'int',
+}
+RETURN_TYPE_OVERRIDES = {'axlDBTextBlockCreate': 'Skill'}
 
 Quality = Literal['exact', 'fallback', 'conflict', 'missing', 'document_only']
 ParameterKind = Literal['positional', 'keyword', 'var_positional', 'var_keyword']
@@ -66,6 +89,10 @@ HUNGARIAN_PREFIXES = (
     'z',
 )
 HUNGARIAN_PATTERN = '|'.join(sorted(HUNGARIAN_PREFIXES, key=len, reverse=True))
+HUNGARIAN_ATOM = (
+    rf'(?:{HUNGARIAN_PATTERN})_[A-Za-z0-9_]+'
+    rf'?(?=(?:{HUNGARIAN_PATTERN})_|/|$)'
+)
 
 # Only use an override when the body of the indexed entry supplies enough
 # argument and return information to reconstruct the declaration.  A typo in
@@ -440,7 +467,7 @@ def _parse_positional_segment(
             _build_fuzzy_regex_for_name(name)
             for name in sorted(set(argument_names), key=len, reverse=True)
         ),
-        rf'(?:{HUNGARIAN_PATTERN})_[A-Za-z0-9_]+',
+        HUNGARIAN_ATOM,
         r"'[A-Za-z0-9_]+",
         r'nil|t|/',
     ]
@@ -448,7 +475,7 @@ def _parse_positional_segment(
     combined_pattern = '|'.join(atom_patterns)
     parts = re.findall(combined_pattern, raw)
     if ''.join(parts) != raw:
-        parts = re.findall(rf"(?:{HUNGARIAN_PATTERN})_[A-Za-z0-9]+|'?[A-Za-z0-9_]+|/", raw)
+        parts = re.findall(rf"{HUNGARIAN_ATOM}|'?[A-Za-z0-9_]+|/", raw)
         if ''.join(parts) != raw:
             return None
 
@@ -704,17 +731,275 @@ def render_report(specs: Sequence[ApiSpec]) -> str:
     return '\n'.join(lines)
 
 
+def _name_tokens(name: str) -> tuple[str, ...]:
+    return tuple(token for part in name.split('_') for token in NAME_TOKEN.findall(part))
+
+
+def _callable_class_name(api_name: str) -> str:
+    return '_' + ''.join(part[:1].upper() + part[1:] for part in api_name.split('_'))
+
+
+def _snake_name(name: str) -> str:
+    tokens = _name_tokens(name)
+    value = '_'.join(token.lower() for token in tokens) or 'value'
+    if value == 'nil':
+        value = 'value'
+    if keyword.iskeyword(value):
+        value += '_'
+    return value
+
+
+def _api_names(api_name: str) -> tuple[str, str, str] | None:
+    tokens = _name_tokens(api_name)
+    if len(tokens) < MIN_API_TOKEN_COUNT or tokens[0].lower() != 'axl':
+        return None
+    domain = tokens[1].lower()
+    flat_name = '_'.join(token.lower() for token in tokens[1:])
+    method_name = '_'.join(token.lower() for token in tokens[2:])
+    return domain, flat_name, method_name
+
+
+def _union(types: Iterable[str]) -> str:
+    values = tuple(sorted(dict.fromkeys(types), key=lambda value: value == 'None'))
+    return ' | '.join(values) if values else 'Skill'
+
+
+def _atom_type(value: str, *, result: bool) -> str:
+    atom = value.strip()
+    lowered = atom.lower()
+    if not atom or any(character in atom for character in '() '):
+        return 'Skill'
+    if atom.startswith("'"):
+        return 'Symbol'
+    literal_type = {'nil': 'None', 't': 'bool'}.get(lowered)
+    if literal_type is not None:
+        return literal_type
+
+    prefix = lowered.split('_', maxsplit=1)[0]
+    if prefix == 'lo':
+        return 'list[RemoteObject]'
+    if prefix in LIST_PREFIXES:
+        return 'list[Skill]' if result else 'SkillList'
+    return PREFIX_TYPES.get(prefix, 'Skill')
+
+
+def _skill_type(value: str, *, result: bool = False) -> str:
+    if value.count('/') > MAX_UNION_ALTERNATIVES or any(character in value for character in '()'):
+        return 'Skill'
+    return _union(_atom_type(atom, result=result) for atom in value.split('/'))
+
+
+def _parameter_type(parameter: ParameterSpec) -> str:
+    source = parameter.value_name or parameter.name
+    result = _skill_type(source)
+    if parameter.optional and result != 'Skill' and 'None' not in result.split(' | '):
+        return f'{result} | None'
+    return result
+
+
+def _declaration_variants(
+    declaration: DeclarationSpec,
+) -> tuple[tuple[ParameterSpec, ...], ...]:
+    parameters = declaration.parameters
+    middle_optional = tuple(
+        index
+        for index, parameter in enumerate(parameters)
+        if parameter.kind == 'positional'
+        and parameter.optional
+        and any(
+            later.kind == 'positional' and not later.optional for later in parameters[index + 1 :]
+        )
+    )
+    if not middle_optional:
+        return (parameters,)
+
+    variants: list[tuple[ParameterSpec, ...]] = []
+    for included in itertools.product((False, True), repeat=len(middle_optional)):
+        choices = dict(zip(middle_optional, included))
+        variant = tuple(
+            replace(parameter, optional=False)
+            for index, parameter in enumerate(parameters)
+            if index not in choices or choices[index]
+        )
+        variants.append(variant)
+    return tuple(variants)
+
+
+def _render_parameters(parameters: Sequence[ParameterSpec]) -> str:
+    rendered = ['self']
+    used_names: Counter[str] = Counter()
+
+    def unique_name(parameter: ParameterSpec) -> str:
+        source = parameter.name if parameter.kind == 'keyword' else parameter.name.split('/')[0]
+        name = _snake_name(source.lstrip('*'))
+        used_names[name] += 1
+        return name if used_names[name] == 1 else f'{name}_{used_names[name]}'
+
+    positional = tuple(p for p in parameters if p.kind == 'positional')
+    for parameter in positional:
+        default = ' = ...' if parameter.optional else ''
+        rendered.append(f'{unique_name(parameter)}: {_parameter_type(parameter)}{default}')
+    rendered.append('/')
+
+    var_positional = next((p for p in parameters if p.kind == 'var_positional'), None)
+    keywords = tuple(p for p in parameters if p.kind == 'keyword')
+    if var_positional is not None:
+        rendered.append(f'*{unique_name(var_positional)}: Skill')
+    elif keywords:
+        rendered.append('*')
+
+    rendered.extend(
+        f'{unique_name(parameter)}: {_parameter_type(parameter)} = ...' for parameter in keywords
+    )
+
+    var_keyword = next((p for p in parameters if p.kind == 'var_keyword'), None)
+    if var_keyword is not None:
+        rendered.append(f'**{unique_name(var_keyword)}: Skill')
+    return ', '.join(rendered)
+
+
+def _render_docstring(spec: ApiSpec) -> tuple[str, ...]:
+    description = spec.description.split('. ', maxsplit=1)[0].strip()
+    if len(description) > MAX_DOCSTRING_DESCRIPTION:
+        description = description[: MAX_DOCSTRING_DESCRIPTION - 3].rstrip() + '...'
+    signatures = tuple(declaration.raw_signature for declaration in spec.declarations)
+    location = (
+        f'{spec.source_path}:{spec.source_line}' if spec.source_path is not None else 'unavailable'
+    )
+    parts = [description or 'No description available.']
+    parts.extend(f'SKILL: {signature}' for signature in signatures)
+    if not signatures:
+        parts.append('SKILL: signature unavailable; generic fallback')
+    parts.extend(('Version: Allegro 17.2-2016', f'Source: {location}'))
+    return tuple(part.replace('\\', '\\\\').replace('"""', '\\"\\"\\"') for part in parts)
+
+
+def _render_callable(spec: ApiSpec) -> list[str]:
+    lines = [f'class {_callable_class_name(spec.name)}(LiteralRemoteFunction):', '    """']
+    lines.extend(f'    {line}' for line in _render_docstring(spec))
+    lines.append('    """')
+
+    signatures = [
+        (
+            parameters,
+            RETURN_TYPE_OVERRIDES.get(spec.name, _skill_type(declaration.raw_return, result=True)),
+        )
+        for declaration in spec.declarations
+        for parameters in _declaration_variants(declaration)
+    ]
+    if not signatures:
+        lines.extend((
+            '    def __call__(self, *args: Skill, **kwargs: Skill) -> Skill: ...',
+            '',
+        ))
+        return lines
+
+    overloaded = len(signatures) > 1
+    for parameters, return_type in signatures:
+        if overloaded:
+            lines.append('    @overload')
+        lines.append(f'    def __call__({_render_parameters(parameters)}) -> {return_type}: ...')
+    lines.append('')
+    return lines
+
+
+def _domain_class_names(specs: Sequence[ApiSpec]) -> dict[str, str]:
+    candidates: dict[str, list[str]] = {}
+    for spec in specs:
+        names = _api_names(spec.name)
+        tokens = _name_tokens(spec.name)
+        if names is not None:
+            candidates.setdefault(names[0], []).append(tokens[1])
+    result: dict[str, str] = {}
+    for domain, domain_tokens in candidates.items():
+        token = next((value for value in domain_tokens if value.isupper()), domain_tokens[0])
+        suffix = token if token.isupper() else token.title()
+        result[domain] = 'Axl' + suffix
+    return result
+
+
+def render_stub(specs: Sequence[ApiSpec]) -> str:
+    callable_specs = tuple(spec for spec in specs if spec.quality != 'document_only')
+    domain_classes = _domain_class_names(callable_specs)
+    lines = [
+        '# Generated by scripts/generate_axl_stubs.py; do not edit.',
+        '# ruff: disable[line-too-long,docstring-in-stub,builtin-argument-shadowing]',
+        '# fmt: off',
+        '# mypy: disable-error-code="override, overload-cannot-match, overload-overlap"',
+        'from typing import Literal, overload',
+        '',
+        'from skillbridge.client.functions import FunctionCollection, LiteralRemoteFunction',
+        'from skillbridge.client.hints import Number, Skill, SkillList, Symbol',
+        'from skillbridge.client.objects import RemoteObject',
+        '',
+    ]
+    for spec in callable_specs:
+        lines.extend(_render_callable(spec))
+
+    lines.append('class Axl(FunctionCollection):')
+    flat_members = []
+    for spec in callable_specs:
+        names = _api_names(spec.name)
+        if names is not None:
+            flat_members.append(f'    {names[1]}: {_callable_class_name(spec.name)}')
+    lines.extend(flat_members or ['    pass'])
+    lines.append('')
+
+    domain_members: dict[str, list[str]] = {}
+    for spec in callable_specs:
+        names = _api_names(spec.name)
+        if names is None or not names[2] or keyword.iskeyword(names[2]):
+            continue
+        domain_members.setdefault(names[0], []).append(
+            f'    {names[2]}: {_callable_class_name(spec.name)}'
+        )
+    for domain in sorted(domain_members):
+        lines.append(f'class {domain_classes[domain]}(FunctionCollection):')
+        lines.extend(domain_members[domain])
+        lines.append('')
+
+    lines.extend(('class _WorkspaceTypingMixin:', '    axl: Axl'))
+    for domain in sorted(domain_members):
+        if keyword.iskeyword(domain) or domain in WORKSPACE_DOMAIN_CONFLICTS:
+            continue
+        lines.append(f'    {domain}: {domain_classes[domain]}')
+    lines.append('')
+    for spec in callable_specs:
+        lines.extend((
+            '    @overload',
+            '    def __getitem__(',
+            f'        self, item: Literal["{spec.name}"], /',
+            f'    ) -> {_callable_class_name(spec.name)}: ...',
+        ))
+    lines.extend((
+        '    @overload',
+        '    def __getitem__(self, item: str, /) -> LiteralRemoteFunction: ...',
+        '',
+        '# ruff: enable[line-too-long,docstring-in-stub,builtin-argument-shadowing]',
+        '',
+    ))
+    return '\n'.join(lines)
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument('--api-names', type=Path, default=DEFAULT_API_NAMES)
     parser.add_argument('--references', type=Path, default=DEFAULT_REFERENCES)
+    parser.add_argument('--output', type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument('--check', action='store_true')
     args = parser.parse_args(argv)
 
     specs = build_api_specs(args.api_names, args.references)
     print(render_report(specs))
-    if args.check and len(specs) != EXPECTED_API_COUNT:
-        return 1
+    stub = render_stub(specs)
+    if args.check:
+        if len(specs) != EXPECTED_API_COUNT:
+            return 1
+        if not args.output.is_file() or args.output.read_text(encoding='utf-8') != stub:
+            return 1
+    else:
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(stub, encoding='utf-8')
     return 0
 
 
