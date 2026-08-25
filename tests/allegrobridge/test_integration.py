@@ -3,9 +3,10 @@ from __future__ import annotations
 from collections.abc import Iterator
 from json import dumps
 from pathlib import Path
-from shutil import copy2
+from shutil import copy2, copytree
 from socket import socket
 from sys import platform
+from tempfile import TemporaryDirectory
 from time import sleep
 from typing import NewType
 
@@ -84,6 +85,51 @@ def _net_snapshot(ws: Workspace) -> list[list[object]]:
         '(cons (list net->name net->nBranches net->unconnected net->unplaced) result))) '
         '(reverse result))'
     )
+
+
+def _run_skill_suite(workspace_id: str | None) -> str:
+    if platform != 'win32':
+        pytest.skip('automatic SKILL suite launch requires Windows Allegro')
+
+    repository = Path(__file__).parents[2]
+    with TemporaryDirectory(prefix='allegrobridge-skill-') as temporary_directory:
+        temporary_repository = Path(temporary_directory)
+        skill_tests = copytree(
+            repository / 'tests' / 'skill', temporary_repository / 'tests' / 'skill'
+        )
+        for source in (
+            repository / 'skillbridge' / '__init__.py',
+            repository / 'skillbridge' / 'server' / 'python_server.il',
+            repository / 'allegrobridge' / 'server' / 'allegro_server.il',
+            _TEST_BOARD,
+        ):
+            destination = temporary_repository / source.relative_to(repository)
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            copy2(source, destination)
+
+        run_file = (skill_tests / 'run.ils').resolve().as_posix()
+        skill_code = f"""
+            let((capturePort loadResult report)
+                capturePort = outstring()
+                unwindProtect(
+                    let(((poport capturePort))
+                        loadResult = errset(load({dumps(run_file)}))
+                        report = getOutstring(capturePort)
+                    )
+                    close(capturePort)
+                )
+                list(loadResult report)
+            )
+        """.replace('\n', ' ')
+
+        with Allegro.open(mode='cli', workspace_id=workspace_id) as opened:
+            result = opened.workspace['evalstring'](skill_code)
+
+    assert isinstance(result, list)
+    load_result, report = result
+    assert isinstance(report, str)
+    assert load_result, report
+    return report
 
 
 class TestApi:
@@ -620,6 +666,14 @@ class TestNetsApi:
         with pytest.raises(AllegroProtocolError, match='__abProjectNets'):
             session.nets()
         assert commands == ['__abProjectNets(nil )']
+
+
+class TestSkill:
+    def test_run_skill_suite_returns_report_to_python(self, workspace_id: str | None) -> None:
+        report = _run_skill_suite(workspace_id)
+
+        assert '=== 84 passed, 0 failed, 0 skipped, 0 xfailed ===' in report
+        assert 'qcover: 150/150 branches covered (100.00%)' in report
 
 
 # POC tests
