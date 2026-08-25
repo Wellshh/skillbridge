@@ -2,10 +2,15 @@ from __future__ import annotations
 
 import re
 import sys
+from dataclasses import FrozenInstanceError
+from inspect import signature
 from pathlib import Path
+from subprocess import PIPE, Popen
+from time import monotonic, sleep
 from unittest.mock import MagicMock, Mock
 
-import pytest
+from pydantic import TypeAdapter
+from pytest import MonkeyPatch, approx, fixture, raises, skip
 
 import allegrobridge.server
 import skillbridge.server
@@ -14,6 +19,14 @@ from allegrobridge.allegro import (
     _build_startup_script,  # ruff: ignore[import-private-name]
     _resolve_executable,  # ruff: ignore[import-private-name]
     _ServerIdentityError,  # ruff: ignore[import-private-name]
+)
+from allegrobridge.client.api import (
+    AllegroProtocolError,
+    Command,
+    ComponentsApi,
+    RpcArgs,
+    SessionApi,
+    read,
 )
 from allegrobridge.client.session import Session
 from allegrobridge.client.workspace import Workspace
@@ -229,3 +242,154 @@ class TestSession:
         with session as entered:
             assert entered is session
         opened.close.assert_called_once_with()
+
+
+class TestReadApi:
+    def test_declaration_preserves_signature_and_sends_once(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.return_value = 3
+        session = Session(Mock(workspace=workspace))
+
+        class ProbeApi(SessionApi):
+            @read('__abProbe', TypeAdapter(int))
+            def read(self, left: int, right: int = 0) -> RpcArgs:
+                return left, right
+
+        api = ProbeApi(session)
+
+        assert str(signature(api.read)) == "(left: 'int', right: 'int' = 0) -> 'RpcArgs'"
+        assert api.read(1, right=2) == 3
+        workspace.__getitem__.assert_called_once_with('__abProbe')
+        workspace.__getitem__.return_value.assert_called_once_with(1, 2)
+
+    def test_read_api_injects_generation_into_records(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.return_value = {
+            'path': 'shape1.brd',
+            'units': 'mils',
+            'component_count': 1,
+            'symbol_count': 1,
+            'net_count': 1,
+        }
+        session = Session(Mock(workspace=workspace))
+
+        board = session.board()
+
+        assert board.path == 'shape1.brd'
+        assert board.session_generation == session.generation
+
+    def test_read_api_maps_none_to_empty_and_wraps_validation_errors(self) -> None:
+        workspace = MagicMock()
+        remote = workspace.__getitem__.return_value
+        remote.side_effect = [
+            None,
+            [
+                {
+                    'refdes': 'R1',
+                    'device_type': 'RESISTOR',
+                    'package': 'RES_0402',
+                    'component_class': 'DISCRETE',
+                    'placement': 'placed',
+                    'x': 1.0,
+                    'y': 2.0,
+                    'rotation': 0.0,
+                }
+            ],
+            [42],
+        ]
+        session = Session(Mock(workspace=workspace))
+
+        assert session.components() == []
+        assert session.components()[0].session_generation == session.generation
+        with raises(AllegroProtocolError, match='__abProjectNets'):
+            session.nets()
+
+
+class TestWriteApi:
+    @staticmethod
+    def _component_payload(x: float) -> dict[str, object]:
+        return {
+            'refdes': 'R1',
+            'device_type': 'RESISTOR',
+            'package': 'RES_0402',
+            'component_class': 'DISCRETE',
+            'placement': 'placed',
+            'x': x,
+            'y': 2.0,
+            'rotation': 0.0,
+        }
+
+    def test_command_is_inert_and_immediate_call_is_atomic(self) -> None:
+        workspace = MagicMock()
+        remote = workspace.__getitem__.return_value
+        remote.lazy.return_value = '__abMoveComponent("R1" 1.0 2.0 nil )'
+        workspace.transaction.return_value = self._component_payload(1.0)
+        session = Session(Mock(workspace=workspace))
+
+        command = session.components.move.command('R1', x=1.0, y=2.0)
+
+        assert ComponentsApi.move.procedure == '__abMoveComponent'
+        assert list(signature(session.components.move).parameters) == [
+            'refdes',
+            'x',
+            'y',
+            'rotation',
+        ]
+        assert isinstance(command, Command)
+        assert command.procedure == '__abMoveComponent'
+        assert command.expression == '__abMoveComponent("R1" 1.0 2.0 nil )'
+        workspace.transaction.assert_not_called()
+        with raises(FrozenInstanceError):
+            command.procedure = '__changed'
+
+        moved = session.components.move('R1', x=1.0, y=2.0)
+
+        assert moved.x == approx(1.0)
+        assert moved.session_generation == session.generation
+        workspace.transaction.assert_called_once_with(command.expression)
+
+    def test_preview_uses_dry_transaction(self) -> None:
+        workspace = MagicMock()
+        remote = workspace.__getitem__.return_value
+        remote.lazy.return_value = '__abMoveComponent("R1" 3.0 2.0 nil )'
+        workspace.transaction.preview.return_value = self._component_payload(3.0)
+        session = Session(Mock(workspace=workspace))
+
+        preview = session.components.move.preview('R1', x=3.0, y=2.0)
+
+        assert preview.x == approx(3.0)
+        workspace.transaction.assert_not_called()
+        workspace.transaction.preview.assert_called_once_with(
+            '__abMoveComponent("R1" 3.0 2.0 nil )'
+        )
+
+
+def test_kill_process_tree_terminates_orphaned_descendants_when_parent_dead() -> None:
+    if sys.platform != 'win32':
+        skip('process-tree cleanup is Windows-specific')
+
+    parent_script = (
+        'import subprocess\n'
+        'child = subprocess.Popen('
+        f'[{_PYTHON!r}, "-c", "import time; time.sleep(60)"],'
+        ' stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,'
+        ' stderr=subprocess.DEVNULL)\n'
+        'print(child.pid, flush=True)\n'
+    )
+    parent = Popen([_PYTHON, '-c', parent_script], stdout=PIPE)
+    child_pid = -1
+    try:
+        child_pid = int(parent.stdout.readline())  # type: ignore[union-attr]
+        parent.wait(timeout=5)
+        assert parent.poll() is not None
+        assert _is_process_alive(child_pid)
+
+        _kill_process_tree(parent)
+
+        deadline = monotonic() + 5
+        while _is_process_alive(child_pid) and monotonic() < deadline:
+            sleep(0.3)
+        assert not _is_process_alive(child_pid)
+    finally:
+        if child_pid != -1 and _is_process_alive(child_pid):
+            _terminate_pid(child_pid)

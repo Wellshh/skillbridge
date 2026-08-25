@@ -1,13 +1,11 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List, Literal, Optional
+from typing import List, Literal, Optional
 
-from pydantic import PositiveInt, TypeAdapter, ValidationError
+from pydantic import PositiveInt, TypeAdapter
 
-from allegrobridge.client.api._record import AllegroProtocolError, _Record
-
-if TYPE_CHECKING:
-    from allegrobridge.client.session.session import Session
+from allegrobridge.client.api._record import _Record
+from allegrobridge.client.api._rpc import RpcArgs, SessionApi, read, write
 
 _PROCEDURE = '__abProjectComponents'
 _MOVE_PROCEDURE = '__abMoveComponent'
@@ -28,38 +26,25 @@ class ComponentInfo(_Record):
 
 _ComponentList = List[ComponentInfo]
 _COMPONENTS = TypeAdapter(_ComponentList)
+_COMPONENT = TypeAdapter(ComponentInfo)
 
 
-class ComponentsApi:
-    def __init__(self, session: Session) -> None:
-        self._session = session
-
-    def _validate(self, payload: object, *, procedure: str = _PROCEDURE) -> list[ComponentInfo]:
-        if payload is None:
-            payload = []
-        candidate: object = payload
-        if isinstance(payload, list):
-            candidate = [
-                {**item, 'session_generation': self._session.generation}
-                if isinstance(item, dict)
-                else item
-                for item in payload
-            ]
-        try:
-            return _COMPONENTS.validate_python(candidate, strict=True)
-        except ValidationError as error:
-            raise AllegroProtocolError(f'{procedure} returned an invalid payload') from error
+class ComponentsApi(SessionApi):
+    @read(_PROCEDURE, _COMPONENTS, none_as_empty=True)
+    def _project(self, refdes: str | None, include_unplaced: bool) -> RpcArgs:
+        return refdes, include_unplaced
 
     def __call__(self, *, include_unplaced: bool = True) -> list[ComponentInfo]:
-        return self._validate(self._session.raw[_PROCEDURE](None, include_unplaced))
+        return self._project(None, include_unplaced)
 
     def __getitem__(self, refdes: str) -> ComponentInfo:
         include_unplaced = True
-        components = self._validate(self._session.raw[_PROCEDURE](refdes, include_unplaced))
+        components = self._project(refdes, include_unplaced)
         if not components:
             raise KeyError(refdes)
         return components[0]
 
+    @write(_MOVE_PROCEDURE, _COMPONENT)
     def move(
         self,
         refdes: str,
@@ -67,6 +52,5 @@ class ComponentsApi:
         x: float,
         y: float,
         rotation: float | None = None,
-    ) -> ComponentInfo:
-        payload = self._session.raw[_MOVE_PROCEDURE](refdes, x, y, rotation)
-        return self._validate([payload], procedure=_MOVE_PROCEDURE)[0]
+    ) -> RpcArgs:
+        return refdes, x, y, rotation

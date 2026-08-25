@@ -47,8 +47,8 @@
         (setq result (cons (__abProjectComponent component) result))))
     (reverse result)))
 
-(putd '__abMoveComponentUnsafe nil)
-(defun __abMoveComponentUnsafe (refdes x y rotation)
+(putd '__abMoveComponent nil)
+(defun __abMoveComponent (refdes x y rotation)
   (let ((component nil)
         symbol currentXY delta angle transformed)
     (foreach candidate (axlDBGetDesign)->components
@@ -73,12 +73,6 @@
     (unless symbol
       (error (sprintf nil "COMPONENT_REFRESH_FAILED: %L" refdes)))
     (__abProjectComponent component ?symbolOverride symbol)))
-
-(putd '__abMoveComponent nil)
-(defun __abMoveComponent (refdes x y rotation)
-  (__abRunTransaction
-    (sprintf nil "(__abMoveComponentUnsafe %L %L %L %L)"
-             refdes x y rotation)))
 
 (putd '__abProjectNet nil)
 (defun __abProjectNet (net)

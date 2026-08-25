@@ -87,7 +87,7 @@ markers = [
 
 [tool.coverage.report]
 precision = 2
-exclude_also = ["raise NotImplementedError"]
+exclude_also = ["raise NotImplementedError", "@overload"]
 
 [tool.mypy]
 python_version = "3.12"
@@ -157,6 +157,9 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
+"allegrobridge/client/api/_rpc.py" = [
+    "private-member-access",
+]
 "tests/*" = [
     "ANN",
     "unused-function-argument",

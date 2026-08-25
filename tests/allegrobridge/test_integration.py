@@ -305,6 +305,28 @@ class TestComponentsApi:
         with pytest.raises(RuntimeError, match='COMPONENT_NOT_FOUND'):
             session.components.move('__MISSING_COMPONENT__', x=1.0, y=2.0)
 
+    def test_move_preview_returns_projection_and_rolls_back(
+        self,
+        allegro: Allegro,
+        session: Session,
+    ) -> None:
+        if allegro.mode != 'cli':
+            pytest.skip('component move test requires the Windows board copy')
+
+        original = session.components(include_unplaced=False)[0]
+        assert original.x is not None
+        assert original.y is not None
+
+        preview = session.components.move.preview(
+            original.refdes,
+            x=original.x + 1.0,
+            y=original.y + 1.0,
+        )
+
+        assert preview.x == pytest.approx(original.x + 1.0)
+        assert preview.y == pytest.approx(original.y + 1.0)
+        assert session.components[original.refdes] == original
+
     def test_component_info_is_frozen(self, session: Session) -> None:
         component = session.components()[0]
 
@@ -342,7 +364,7 @@ class TestComponentsApi:
 
         with pytest.raises(AllegroProtocolError, match='__abMoveComponent'):
             session.components.move('R1', x=1.0, y=2.0)
-        assert commands == ['__abMoveComponent("R1" 1.0 2.0 nil )']
+        assert commands == ['__abRunTransaction("__abMoveComponent(\\"R1\\" 1.0 2.0 nil )" )']
 
     @pytest.mark.parametrize(
         'payload',

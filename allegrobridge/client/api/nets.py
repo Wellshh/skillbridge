@@ -1,13 +1,11 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List
+from typing import List
 
-from pydantic import NonNegativeInt, PositiveInt, TypeAdapter, ValidationError
+from pydantic import NonNegativeInt, PositiveInt, TypeAdapter
 
-from allegrobridge.client.api._record import AllegroProtocolError, _Record
-
-if TYPE_CHECKING:
-    from allegrobridge.client.session.session import Session
+from allegrobridge.client.api._record import _Record
+from allegrobridge.client.api._rpc import RpcArgs, SessionApi, read
 
 _PROCEDURE = '__abProjectNets'
 
@@ -24,31 +22,16 @@ _NetList = List[NetInfo]
 _NETS = TypeAdapter(_NetList)
 
 
-class NetsApi:
-    def __init__(self, session: Session) -> None:
-        self._session = session
-
-    def _validate(self, payload: object) -> list[NetInfo]:
-        if payload is None:
-            payload = []
-        candidate: object = payload
-        if isinstance(payload, list):
-            candidate = [
-                {**item, 'session_generation': self._session.generation}
-                if isinstance(item, dict)
-                else item
-                for item in payload
-            ]
-        try:
-            return _NETS.validate_python(candidate, strict=True)
-        except ValidationError as error:
-            raise AllegroProtocolError(f'{_PROCEDURE} returned an invalid payload') from error
+class NetsApi(SessionApi):
+    @read(_PROCEDURE, _NETS, none_as_empty=True)
+    def _project(self, name: str | None) -> RpcArgs:
+        return (name,)
 
     def __call__(self) -> list[NetInfo]:
-        return self._validate(self._session.raw[_PROCEDURE](None))
+        return self._project(None)
 
     def __getitem__(self, name: str) -> NetInfo:
-        nets = self._validate(self._session.raw[_PROCEDURE](name))
+        nets = self._project(name)
         if not nets:
             raise KeyError(name)
         return nets[0]

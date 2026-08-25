@@ -119,7 +119,7 @@
                 transformValue))
         (setq result
               (errset
-                (__abMoveComponentUnsafe refdes x y rotation)))
+                (__abMoveComponent refdes x y rotation)))
         (unless result
           (setq failure errset.errset)))
       (progn
@@ -260,22 +260,8 @@
         (qtest::assertNil (car run))
         (qtest::assertTrue (index failureText "COMPONENT_REFRESH_FAILED"))))
 
-    (qtest::TestCase test_move_public_procedure_delegates_to_transaction
-      (let ((originalRun (getd '__abRunTransaction))
-            (command)
-            result)
-        (unwindProtect
-          (progn
-            (putd '__abRunTransaction
-                  (lambda (commandText)
-                    (setq command commandText)
-                    'delegated))
-            (setq result (__abMoveComponent "R4" 1.0 2.0 nil)))
-          (putd '__abRunTransaction originalRun))
-        (qtest::assertEqual 'delegated result)
-        (qtest::assertEqual
-          "(__abMoveComponentUnsafe \"R4\" 1.0 2.0 nil)"
-          command)))
+    (qtest::TestCase test_move_has_no_unsafe_compatibility_procedure
+      (qtest::assertNil (isCallable '__abMoveComponentUnsafe)))
 
     (qtest::TestCase test_components_projection_filters_and_finds_refdes
       (letseq ((design (axlDBGetDesign))
