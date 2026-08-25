@@ -7,9 +7,13 @@
 ;;; A transaction mark belongs only to one call.  Opening or saving a design
 ;;; inside command is unsupported because Allegro cancels active transactions.
 
+(putd '__abFreshDesign nil)
+(defun __abFreshDesign ()
+  (axlDBRefreshId (axlDBGetDesign)))
+
 (putd '__abProjectBoard nil)
 (defun __abProjectBoard ()
-  (letseq ((design (axlDBGetDesign))
+  (letseq ((design (__abFreshDesign))
            (units (axlDBGetDesignUnits)))
     (list nil
           'path (axlGetDrawingName)
@@ -33,8 +37,9 @@
 
 (putd '__abProjectComponents nil)
 (defun __abProjectComponents (refdes includeUnplaced)
-  (let ((components (axlDBGetDesign)->components)
-        result)
+  (letseq ((design (__abFreshDesign))
+           (components design->components)
+           result)
     (foreach component components
       (when (and (or (null refdes)
                      (equal refdes component->name))
@@ -85,8 +90,9 @@
 
 (putd '__abProjectNets nil)
 (defun __abProjectNets (name)
-  (let (result)
-    (foreach net (axlDBGetDesign)->nets
+  (letseq ((design (__abFreshDesign))
+           result)
+    (foreach net design->nets
       (when (or (null name)
                 (equal name net->name))
         (setq result (cons (__abProjectNet net) result))))

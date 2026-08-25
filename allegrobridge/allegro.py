@@ -66,11 +66,14 @@ def _build_startup_script(
         f'skill __abLaunchToken = "{nonce}"',
     ]
     if board is not None:
-        lines.append(
-            'skill unless('
-            f'axlOpenDesign(?design "{board.as_posix()}" ?mode "wf") '
-            'error("ALLEGRO_BOARD_OPEN_FAILED"))'
-        )
+        lines.extend([
+            (
+                'skill unless('
+                f'axlOpenDesign(?design "{board.as_posix()}" ?mode "wf") '
+                'error("ALLEGRO_BOARD_OPEN_FAILED"))'
+            ),
+            'skill unless(axlDBRefreshId(axlDBGetDesign()) error("ALLEGRO_DESIGN_REFRESH_FAILED"))',
+        ])
     lines.append(
         'skill unless('
         f'pyStartServer(?id "{workspace_id}" ?singleMode t '

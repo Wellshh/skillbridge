@@ -752,6 +752,7 @@ _BOARD_INFO = TypeAdapter(BoardInfo)
 约束如下：
 
 - 固定 `__ab*` procedure 返回 DPL 或 list-of-DPL；继续由现有 Translator 转成 `dict` / `list`。
+- 每个投影在同一次 SKILL 求值内先用 `axlDBRefreshId(axlDBGetDesign())` 取得当前 design，再遍历其子 DBID 并立即投影为纯值；不得把 `components`、`nets` 等子 DBID 跨 RPC 当作稳定快照，也不得在 Python 端逐个刷新这些远程 handle。
 - 每个公开返回实体最多一个小型 Pydantic record；列表直接复用模块级 `TypeAdapter(list[ComponentInfo])`，不增加 list wrapper/root model。
 - `TypeAdapter` 在模块加载时创建并复用，API 方法只调用 `validate_python(..., strict=True)`。
 - 缺字段、额外字段或错误标量类型都视为协议错误；不使用 field validator 做隐式兼容或字符串/数字强转。
@@ -792,6 +793,7 @@ Bulk 文件通道、通用分页器、缓存、handle table 和 capability negot
 - 现有 `TestApi` 只保留连接、Session 和 transaction 基础设施验收；领域测试分别进入 `TestBoardApi`、`TestComponentsApi`、`TestNetsApi`，以后也按一个领域一个测试类扩展。
 - 每个领域类覆盖正确 payload、缺字段、额外字段、错误类型、冻结行为、调用/索引语法、固定 procedure、单次 RPC 与协议异常。
 - Windows CLI 实机测试验证 `session.board()`，随后逐步增加 components/nets；断言结果类型、稳定字段和无 DBID。Unix manual 环境只执行只读行为，不修改用户已打开的设计。
+- 实机 expected 必须通过独立的单次 `evalstring` 生成纯值快照；不得从跨 RPC 的 `RemoteObject` 子 DBID 构造 expected，也不得用 `or ()` 等容错掩盖意外 `nil`。
 - 新增 Python 模块 statement/branch 双 100%；SKILL 投影继续通过 qtest/qcover 和 Windows 实机运行门槛。
 - 不测试 Pydantic 自身的 JSON 序列化，因为该层不使用它。
 

@@ -55,7 +55,7 @@ class CliRuntime:
                 self._stop_processes()
             except Exception as cleanup_error:  # ruff: ignore[blind-except]
                 errors.append(cleanup_error)
-            if wait_for_endpoint and self.endpoint is not None:
+            if wait_for_endpoint and self.endpoint is not None and self._process is not None:
                 try:
                     self._wait_for_endpoint_release()
                 except Exception as cleanup_error:  # ruff: ignore[blind-except]

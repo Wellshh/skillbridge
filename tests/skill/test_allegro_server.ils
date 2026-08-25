@@ -131,6 +131,22 @@
 
 (qtest::runSuites
   (qtest::TestSuite ()
+    (qtest::TestCase test_projection_entrypoints_refresh_design
+      (let ((originalFreshDesign (getd '__abFreshDesign))
+            (design (list nil 'components nil 'symbols nil 'nets nil))
+            (refreshCount 0))
+        (unwindProtect
+          (progn
+            (putd '__abFreshDesign
+                  (lambda ()
+                    (setq refreshCount (add1 refreshCount))
+                    design))
+            (__abProjectBoard)
+            (__abProjectComponents nil t)
+            (__abProjectNets nil)
+            (qtest::assertEqual 3 refreshCount))
+          (putd '__abFreshDesign originalFreshDesign))))
+
     (qtest::TestCase test_board_projection_returns_stable_dpl
       (let ((board (__abProjectBoard))
             (design (axlDBGetDesign)))

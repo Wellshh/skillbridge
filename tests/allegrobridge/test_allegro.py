@@ -82,9 +82,16 @@ def test_startup_script_orders_nonce_board_and_guarded_server(tmp_path: Path) ->
     ]
     nonce = 'skill __abLaunchToken = "launch-instance"'
     board_open = next(line for line in lines if 'axlOpenDesign' in line)
+    design_refresh = next(line for line in lines if 'axlDBRefreshId' in line)
     server_start = next(line for line in lines if 'pyStartServer' in line)
-    assert lines.index(nonce) < lines.index(board_open) < lines.index(server_start)
+    assert (
+        lines.index(nonce)
+        < lines.index(board_open)
+        < lines.index(design_refresh)
+        < lines.index(server_start)
+    )
     assert 'ALLEGRO_BOARD_OPEN_FAILED' in board_open
+    assert 'ALLEGRO_DESIGN_REFRESH_FAILED' in design_refresh
     assert server_start.startswith('skill unless(')
     assert 'ALLEGRO_SERVER_START_FAILED' in server_start
     assert '?forceTcp t' in server_start

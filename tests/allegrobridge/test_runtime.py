@@ -56,6 +56,7 @@ def test_close_retries_after_endpoint_release_failure(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     runtime = CliRuntime(endpoint=7788)
+    runtime._process = Mock()
     stop = Mock()
     wait = Mock(side_effect=[TimeoutError('busy'), None])
     monkeypatch.setattr(runtime, '_stop_processes', stop)
@@ -67,6 +68,21 @@ def test_close_retries_after_endpoint_release_failure(
 
     assert stop.call_count == 2
     assert wait.call_count == 2
+
+
+def test_close_skips_endpoint_wait_when_process_never_started(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    runtime = CliRuntime(endpoint=7788)
+    stop = Mock()
+    wait = Mock()
+    monkeypatch.setattr(runtime, '_stop_processes', stop)
+    monkeypatch.setattr(runtime, '_wait_for_endpoint_release', wait)
+
+    runtime.close()
+
+    stop.assert_called_once_with()
+    wait.assert_not_called()
 
 
 def test_stop_processes_kills_wait_procs_survivors(

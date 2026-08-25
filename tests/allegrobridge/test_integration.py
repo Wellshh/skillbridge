@@ -56,8 +56,34 @@ def session(allegro: Allegro) -> Session:
 
 @pytest.fixture(scope='class')
 def design(ws: Workspace) -> object:
-    # design is always not None despite a .brd being open or not
-    return ws['axlDBGetDesign']()
+    design = ws['axlDBGetDesign']()
+    return ws['axlDBRefreshId'](design)
+
+
+def _board_counts(ws: Workspace) -> list[int]:
+    return ws['evalstring'](
+        '(letseq ((design (axlDBRefreshId (axlDBGetDesign)))) '
+        '(list (length design->components) (length design->symbols) (length design->nets)))'
+    )
+
+
+def _component_snapshot(ws: Workspace) -> list[list[object]]:
+    return ws['evalstring'](
+        '(letseq ((design (axlDBRefreshId (axlDBGetDesign))) result) '
+        '(foreach component design->components '
+        '(setq result (cons (list component->name (not (null component->symbol))) result))) '
+        '(reverse result))'
+    )
+
+
+def _net_snapshot(ws: Workspace) -> list[list[object]]:
+    return ws['evalstring'](
+        '(letseq ((design (axlDBRefreshId (axlDBGetDesign))) result) '
+        '(foreach net design->nets '
+        '(setq result '
+        '(cons (list net->name net->nBranches net->unconnected net->unplaced) result))) '
+        '(reverse result))'
+    )
 
 
 class TestApi:
@@ -142,17 +168,18 @@ class TestApi:
 class TestBoardApi:
     def test_default_call_returns_board_info(
         self,
-        design: object,
         session: Session,
+        ws: Workspace,
     ) -> None:
         board = session.board()
+        component_count, symbol_count, net_count = _board_counts(ws)
 
         assert isinstance(board, BoardInfo)
         assert board.path.endswith('.brd')
         assert board.units
-        assert board.component_count == len(design.components)
-        assert board.symbol_count == len(design.symbols)
-        assert board.net_count == len(design.nets)
+        assert board.component_count == component_count
+        assert board.symbol_count == symbol_count
+        assert board.net_count == net_count
         assert board.session_generation == session.generation
 
     def test_board_info_is_frozen(self, session: Session) -> None:
@@ -203,27 +230,27 @@ class TestBoardApi:
 class TestComponentsApi:
     def test_default_call_projects_all_components(
         self,
-        design: object,
         session: Session,
+        ws: Workspace,
     ) -> None:
         components = session.components()
+        snapshot = _component_snapshot(ws)
 
         assert all(isinstance(component, ComponentInfo) for component in components)
-        assert {component.refdes for component in components} == {
-            component.name for component in design.components
-        }
+        assert [component.refdes for component in components] == [item[0] for item in snapshot]
         assert all(component.session_generation == session.generation for component in components)
 
     def test_call_can_exclude_unplaced_components(
         self,
-        design: object,
         session: Session,
+        ws: Workspace,
     ) -> None:
         components = session.components(include_unplaced=False)
+        snapshot = _component_snapshot(ws)
 
-        assert {component.refdes for component in components} == {
-            component.name for component in design.components if component.symbol is not None
-        }
+        assert [component.refdes for component in components] == [
+            item[0] for item in snapshot if item[1]
+        ]
         assert all(component.placement == 'placed' for component in components)
 
     def test_getitem_returns_component_by_refdes(self, session: Session) -> None:
@@ -381,14 +408,19 @@ class TestComponentsApi:
 
 
 class TestNetsApi:
-    def test_default_call_projects_design_nets(self, design: object, session: Session) -> None:
+    def test_default_call_projects_design_nets(
+        self,
+        session: Session,
+        ws: Workspace,
+    ) -> None:
         nets = session.nets()
+        snapshot = _net_snapshot(ws)
 
         assert all(isinstance(net, NetInfo) for net in nets)
-        assert [net.name for net in nets] == [net.name for net in design.nets]
+        assert [net.name for net in nets] == [item[0] for item in snapshot]
         assert [
             (net.branch_count, net.unconnected_count, net.unplaced_pin_count) for net in nets
-        ] == [(len(net.branches), net.unconnected, net.unplaced) for net in design.nets]
+        ] == [tuple(item[1:]) for item in snapshot]
         assert all(net.session_generation == session.generation for net in nets)
 
     def test_getitem_returns_net_by_name(self, session: Session) -> None:

@@ -46,7 +46,8 @@ $env:CDS_LIC_FILE = [Environment]::GetEnvironmentVariable('CDS_LIC_FILE', 'User'
 集成 fixture 每次测试进程先绑定端口 0 获取唯一数字 TCP 端口，然后在本轮各 class
 之间串行复用该端口。端口/孤儿进程修复必须紧接着再跑一轮相同命令；第二轮重新
 分配端口，而同一轮内的即时复用证明关闭后 endpoint 已释放。默认产品端口仍为 7777。
-2026-08-25 生命周期重构后的实测为连续两轮 `38 passed`，分别约 40 秒和 44 秒。
+2026-08-25 生命周期重构与 DBID 缓存修复后的实测为连续五轮 `38 passed`，每轮约
+43–44 秒；最小 `TestApi → TestNetsApi` 污染顺序连续八轮 `13 passed`。
 CLI startup 在 `pyStartServer` 前写入本地 launch-instance nonce，Python readiness 先回读
 nonce 再执行 `plus(1,2)`；nonce 只区分进程代际，不进入 RPC 协议或安全边界。
 
@@ -66,12 +67,19 @@ exit
 进程可能在启动命令返回后继续运行，因此以 `allegro.jrl` 的 `Journal end` 和测试摘要为
 准。2026-08-25 实测基线：
 
-- `78 passed, 0 failed, 0 skipped, 0 xfailed`
+- `79 passed, 0 failed, 0 skipped, 0 xfailed`
 - `qcover: 136/136 branches covered (100.00%)`
 
 Allegro 17.2 不支持 `axlOpenDesign` 的 `"r"` mode。测试 runner 必须使用受失败守卫的
 `"wf"`，随后 `axlDBRefreshId(axlDBGetDesign())`，否则投影测试可能在空 design 上虚假
 通过且 qcover 分支保持 0 hit。
+
+`design->nets/components` 返回的子 DBID 不可跨多个 RPC 当作稳定 ground truth。实机探针
+确认同一端口的失败代 nonce 与 drawing path 均属于当前 fresh board，但 RemoteObject 子
+属性会漂移为 nil；这不是旧 server 误连。投影必须在单次 SKILL 求值内刷新 design、遍历
+子 DBID 并返回纯值。集成 expected 也必须在单次 `evalstring` 内生成纯值快照。不要用
+class-scope 端口隐藏问题，不要用 `or ()` 吞掉 nil，也不要逐个或批量刷新已跨 RPC 的子
+DBID；后者在 17.2 实测会使更多属性变为 nil。
 
 psutil 7.x API 本轮因 Context7 MCP 未注入当前任务而按 docs-first fallback 核对官方
 文档：`Process.children(recursive=True)`、`process_iter(['pid','ppid'])`、`wait_procs()`、
