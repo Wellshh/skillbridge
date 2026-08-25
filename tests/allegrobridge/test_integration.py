@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import sys
 from collections.abc import Iterator
 from json import dumps
 from pathlib import Path
@@ -13,6 +14,8 @@ from typing import NewType
 import pytest
 from pydantic import ValidationError
 
+import allegrobridge.client.api.extensions as extension_package
+import allegrobridge.server
 from allegrobridge import Allegro, OpenMode, Session, Workspace
 from allegrobridge.client.api import BoardInfo, ComponentInfo, NetInfo
 from allegrobridge.exceptions import AllegroProtocolError
@@ -54,6 +57,28 @@ def ws(allegro: Allegro) -> Workspace:
 @pytest.fixture(scope='class')
 def session(allegro: Allegro) -> Session:
     return allegro.session
+
+
+@pytest.fixture(scope='class')
+def extension_environment(session: Session) -> Iterator[None]:
+    fixture_root = Path(__file__).with_name('fixtures')
+    module_name = 'allegrobridge.client.api.extensions.probe'
+    with pytest.MonkeyPatch.context() as monkeypatch:
+        monkeypatch.setattr(
+            extension_package,
+            '__path__',
+            [str(fixture_root / 'client_extensions')],
+        )
+        monkeypatch.setattr(
+            allegrobridge.server,
+            '__file__',
+            str(fixture_root / 'server' / '__init__.py'),
+        )
+        sys.modules.pop(module_name, None)
+        try:
+            yield
+        finally:
+            sys.modules.pop(module_name, None)
 
 
 @pytest.fixture(scope='class')
@@ -667,6 +692,92 @@ class TestNetsApi:
         with pytest.raises(AllegroProtocolError, match='__abProjectNets'):
             session.nets()
         assert commands == ['__abProjectNets(nil )']
+
+
+@pytest.mark.usefixtures('extension_environment')
+class TestExtensionApi:
+    def test_extension_read_loads_and_returns_strict_records(
+        self,
+        allegro: Allegro,
+        session: Session,
+    ) -> None:
+        if allegro.mode != 'cli':
+            pytest.skip('extension loading test requires the Windows board copy')
+
+        probe = session.ext.probe
+
+        assert probe is session.ext['probe']
+        assert probe() == session.components()
+
+    def test_extension_write_commits_atomically(
+        self,
+        allegro: Allegro,
+        session: Session,
+    ) -> None:
+        if allegro.mode != 'cli':
+            pytest.skip('extension write test requires the Windows board copy')
+
+        original = session.components(include_unplaced=False)[0]
+        assert original.x is not None
+        assert original.y is not None
+
+        try:
+            moved = session.ext.probe.move(
+                original.refdes,
+                x=original.x + 1.0,
+                y=original.y + 1.0,
+            )
+            assert moved.x == pytest.approx(original.x + 1.0)
+            assert moved.y == pytest.approx(original.y + 1.0)
+            assert session.components[original.refdes] == moved
+        finally:
+            session.components.move(
+                original.refdes,
+                x=original.x,
+                y=original.y,
+                rotation=original.rotation,
+            )
+
+    def test_extension_command_mixes_with_core_atomic_batch(
+        self,
+        allegro: Allegro,
+        session: Session,
+    ) -> None:
+        if allegro.mode != 'cli':
+            pytest.skip('extension batch test requires the Windows board copy')
+
+        originals = session.components(include_unplaced=False)[:2]
+        assert len(originals) == 2
+        assert all(component.x is not None and component.y is not None for component in originals)
+
+        try:
+            with session.batch('mixed extension batch') as batch:
+                extension_result = batch.add(
+                    session.ext.probe.move.command(
+                        originals[0].refdes,
+                        x=originals[0].x + 1.0,
+                        y=originals[0].y + 1.0,
+                    )
+                )
+                core_result = batch.add(
+                    session.components.move.command(
+                        originals[1].refdes,
+                        x=originals[1].x + 2.0,
+                        y=originals[1].y + 2.0,
+                    )
+                )
+
+            assert [extension_result.value.refdes, core_result.value.refdes] == [
+                component.refdes for component in originals
+            ]
+        finally:
+            for component in originals:
+                session.components.move(
+                    component.refdes,
+                    x=component.x,
+                    y=component.y,
+                    rotation=component.rotation,
+                )
 
 
 class TestSkill:
