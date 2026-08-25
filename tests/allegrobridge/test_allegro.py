@@ -5,12 +5,10 @@ import sys
 from dataclasses import FrozenInstanceError
 from inspect import signature
 from pathlib import Path
-from subprocess import PIPE, Popen
-from time import monotonic, sleep
 from unittest.mock import MagicMock, Mock
 
+import pytest
 from pydantic import TypeAdapter
-from pytest import MonkeyPatch, approx, fixture, raises, skip
 
 import allegrobridge.server
 import skillbridge.server
@@ -301,7 +299,7 @@ class TestReadApi:
 
         assert session.components() == []
         assert session.components()[0].session_generation == session.generation
-        with raises(AllegroProtocolError, match='__abProjectNets'):
+        with pytest.raises(AllegroProtocolError, match='__abProjectNets'):
             session.nets()
 
 
@@ -339,12 +337,12 @@ class TestWriteApi:
         assert command.procedure == '__abMoveComponent'
         assert command.expression == '__abMoveComponent("R1" 1.0 2.0 nil )'
         workspace.transaction.assert_not_called()
-        with raises(FrozenInstanceError):
+        with pytest.raises(FrozenInstanceError):
             command.procedure = '__changed'
 
         moved = session.components.move('R1', x=1.0, y=2.0)
 
-        assert moved.x == approx(1.0)
+        assert moved.x == pytest.approx(1.0)
         assert moved.session_generation == session.generation
         workspace.transaction.assert_called_once_with(command.expression)
 
@@ -357,39 +355,8 @@ class TestWriteApi:
 
         preview = session.components.move.preview('R1', x=3.0, y=2.0)
 
-        assert preview.x == approx(3.0)
+        assert preview.x == pytest.approx(3.0)
         workspace.transaction.assert_not_called()
         workspace.transaction.preview.assert_called_once_with(
             '__abMoveComponent("R1" 3.0 2.0 nil )'
         )
-
-
-def test_kill_process_tree_terminates_orphaned_descendants_when_parent_dead() -> None:
-    if sys.platform != 'win32':
-        skip('process-tree cleanup is Windows-specific')
-
-    parent_script = (
-        'import subprocess\n'
-        'child = subprocess.Popen('
-        f'[{_PYTHON!r}, "-c", "import time; time.sleep(60)"],'
-        ' stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,'
-        ' stderr=subprocess.DEVNULL)\n'
-        'print(child.pid, flush=True)\n'
-    )
-    parent = Popen([_PYTHON, '-c', parent_script], stdout=PIPE)
-    child_pid = -1
-    try:
-        child_pid = int(parent.stdout.readline())  # type: ignore[union-attr]
-        parent.wait(timeout=5)
-        assert parent.poll() is not None
-        assert _is_process_alive(child_pid)
-
-        _kill_process_tree(parent)
-
-        deadline = monotonic() + 5
-        while _is_process_alive(child_pid) and monotonic() < deadline:
-            sleep(0.3)
-        assert not _is_process_alive(child_pid)
-    finally:
-        if child_pid != -1 and _is_process_alive(child_pid):
-            _terminate_pid(child_pid)

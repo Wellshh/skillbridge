@@ -11,6 +11,14 @@
 (defun __abFreshDesign ()
   (axlDBRefreshId (axlDBGetDesign)))
 
+(putd '__abTransformSymbol nil)
+(defun __abTransformSymbol (symbol delta angle)
+  (axlTransformObject symbol ?move delta ?angle angle))
+
+(putd '__abRefreshSymbol nil)
+(defun __abRefreshSymbol (symbol)
+  (axlDBRefreshId symbol))
+
 (putd '__abProjectBoard nil)
 (defun __abProjectBoard ()
   (letseq ((design (__abFreshDesign))
@@ -49,9 +57,10 @@
 
 (putd '__abMoveComponent nil)
 (defun __abMoveComponent (refdes x y rotation)
-  (let ((component nil)
-        symbol currentXY delta angle transformed)
-    (foreach candidate (axlDBGetDesign)->components
+  (letseq ((design (__abFreshDesign))
+           (component nil)
+           symbol currentXY delta angle transformed)
+    (foreach candidate design->components
       (when (equal refdes candidate->name)
         (setq component candidate)))
     (unless component
@@ -60,16 +69,15 @@
     (unless symbol
       (error (sprintf nil "COMPONENT_UNPLACED: %L" refdes)))
     (setq currentXY symbol->xy)
-    (setq delta (list (- x (car currentXY))
-                      (- y (cadr currentXY))))
+    (setq delta (list (difference x (car currentXY))
+                      (difference y (cadr currentXY))))
     (setq angle (if rotation
-                    (- rotation symbol->rotation)
+                    (difference rotation symbol->rotation)
                     0.0))
-    (setq transformed
-          (axlTransformObject symbol ?move delta ?angle angle))
+    (setq transformed (__abTransformSymbol symbol delta angle))
     (unless transformed
       (error (sprintf nil "COMPONENT_TRANSFORM_FAILED: %L" refdes)))
-    (setq symbol (axlDBRefreshId symbol))
+    (setq symbol (__abRefreshSymbol symbol))
     (unless symbol
       (error (sprintf nil "COMPONENT_REFRESH_FAILED: %L" refdes)))
     (__abProjectComponent component ?symbolOverride symbol)))

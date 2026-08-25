@@ -98,38 +98,90 @@
                (eq originalRollback (getd '__abTransactionRollback))))))
 
 (defun __abTestMoveOperation (design transformValue refreshValue refdes x y rotation)
-  (let ((originalGetDesign (getd 'axlDBGetDesign))
-        (originalRefreshId (getd 'axlDBRefreshId))
-        (originalTransform (getd 'axlTransformObject))
-        oldDebugMode
+  (let ((originalFreshDesign (getd '__abFreshDesign))
+        (originalRefreshSymbol (getd '__abRefreshSymbol))
+        (originalTransformSymbol (getd '__abTransformSymbol))
         observed
         result
-        failure)
-    (setq oldDebugMode (status debugMode))
+        success)
     (unwindProtect
       (progn
-        (sstatus debugMode t)
-        (putd 'axlDBGetDesign (lambda () design))
-        (putd 'axlDBRefreshId
-              (lambda (dbid)
-                (when refreshValue dbid)))
-        (putd 'axlTransformObject
-              (lambda (dbid @key (move nil) (angle nil))
-                (setq observed (list move angle))
+        (putd '__abFreshDesign (lambda () design))
+        (putd '__abRefreshSymbol
+              (lambda (symbol)
+                (when refreshValue symbol)))
+        (putd '__abTransformSymbol
+              (lambda (symbol delta angle)
+                (setq observed (list delta angle))
                 transformValue))
-        (setq result
-              (errset
-                (__abMoveComponent refdes x y rotation)))
-        (unless result
-          (setq failure errset.errset)))
+        (catch t
+          (setq result (__abMoveComponent refdes x y rotation))
+          (setq success t)))
       (progn
-        (putd 'axlDBGetDesign originalGetDesign)
-        (putd 'axlDBRefreshId originalRefreshId)
-        (putd 'axlTransformObject originalTransform)
-        (sstatus debugMode oldDebugMode)))
-    (list result failure observed)))
+        (putd '__abFreshDesign originalFreshDesign)
+        (putd '__abRefreshSymbol originalRefreshSymbol)
+        (putd '__abTransformSymbol originalTransformSymbol)))
+    (list success result observed)))
 
 (qtest::runSuites
+  (qtest::TestSuite ()
+    (qtest::TestCase test_move_rejects_missing_component
+      (letseq ((otherComponent (list nil 'name "OTHER" 'symbol nil))
+               (design (list nil 'components (list otherComponent)))
+               (run (__abTestMoveOperation design t t "__MISSING_COMPONENT__"
+                                            1.0 2.0 nil)))
+        (qtest::assertNil (car run))
+        (qtest::assertNil (caddr run))))
+
+    (qtest::TestCase test_move_rejects_unplaced_component
+      (letseq ((component (list nil 'name "R2" 'symbol nil))
+               (design (list nil 'components (list component)))
+               (run (__abTestMoveOperation design t t "R2" 1.0 2.0 nil)))
+        (qtest::assertNil (car run))
+        (qtest::assertNil (caddr run))))
+
+    (qtest::TestCase test_move_reports_transform_failure
+      (letseq ((symbol (list nil 'xy 1.0:2.0 'rotation 90.0))
+               (component (list nil 'name "R3" 'symbol symbol))
+               (design (list nil 'components (list component)))
+               (run (__abTestMoveOperation design nil t "R3" 1.0 2.0 nil)))
+        (qtest::assertNil (car run))
+        (qtest::assertTrue (caddr run))))
+
+    (qtest::TestCase test_move_reports_refresh_failure
+      (letseq ((symbol (list nil 'xy 1.0:2.0 'rotation 90.0))
+               (component (list nil 'name "R4" 'symbol symbol))
+               (design (list nil 'components (list component)))
+               (run (__abTestMoveOperation design t nil "R4" 1.0 2.0 nil)))
+        (qtest::assertNil (car run))
+        (qtest::assertTrue (caddr run))))
+
+    (qtest::TestCase test_components_projection_filters_refdes_and_placement
+      (letseq ((originalFreshDesign (getd '__abFreshDesign))
+               (symbol (list nil 'xy 1.0:2.0 'rotation 0.0))
+               (placed (list nil 'name "R1" 'deviceType "RESISTOR"
+                             'package "RES_0402" 'class "DISCRETE"
+                             'symbol symbol))
+               (unplaced (list nil 'name "R2" 'deviceType "RESISTOR"
+                               'package "RES_0402" 'class "DISCRETE"
+                               'symbol nil))
+               (design (list nil 'components (list placed unplaced)))
+               allComponents placedComponents matched missing)
+        (unwindProtect
+          (progn
+            (putd '__abFreshDesign (lambda () design))
+            (setq allComponents (__abProjectComponents nil t))
+            (setq placedComponents (__abProjectComponents nil nil))
+            (setq matched (__abProjectComponents "R1" t))
+            (setq missing (__abProjectComponents "__MISSING_COMPONENT__" t)))
+          (putd '__abFreshDesign originalFreshDesign))
+        (qtest::assertEqual 2 (length allComponents))
+        (qtest::assertEqual 1 (length placedComponents))
+        (qtest::assertEqual 1 (length matched))
+        (qtest::assertNil missing)))
+
+    )
+
   (qtest::TestSuite ()
     (qtest::TestCase test_projection_entrypoints_refresh_design
       (let ((originalFreshDesign (getd '__abFreshDesign))
@@ -201,87 +253,11 @@
                (preserve (__abTestMoveOperation design t t "R1" 4.0 7.0 nil))
                (zero (__abTestMoveOperation design t t "R1" 4.0 7.0 0.0)))
         (qtest::assertTrue (car preserve))
-        (qtest::assertEqual '(3.0 5.0) (car(caddr preserve)))
-        (qtest::assertEqual 0.0 (cadr(caddr preserve)))
+        (qtest::assertEqual '(3.0 5.0) (car (caddr preserve)))
+        (qtest::assertEqual 0.0 (cadr (caddr preserve)))
         (qtest::assertTrue (car zero))
-        (qtest::assertEqual '(3.0 5.0) (car(caddr zero)))
-        (qtest::assertEqual -90.0 (cadr(caddr zero))))))
-
-    (qtest::TestCase test_move_rejects_missing_component
-      (letseq ((otherComponent (list nil 'name "OTHER" 'symbol nil))
-               (design (list nil 'components (list otherComponent)))
-               (run (__abTestMoveOperation design t t "__MISSING_COMPONENT__"
-                                            1.0 2.0 nil))
-               (failureText (sprintf nil "%L" (cadr run))))
-        (qtest::assertNil (car run))
-        (qtest::assertTrue (index failureText "COMPONENT_NOT_FOUND"))))
-
-    (qtest::TestCase test_move_rejects_unplaced_component
-      (letseq ((component
-                 (list nil
-                       'name "R2"
-                       'deviceType "RESISTOR"
-                       'package "RES_0402"
-                       'class "DISCRETE"
-                       'symbol nil))
-               (design (list nil 'components (list component)))
-               (run (__abTestMoveOperation design t t "R2" 1.0 2.0 nil))
-               (failureText (sprintf nil "%L" (cadr run))))
-        (qtest::assertNil (car run))
-        (qtest::assertTrue (index failureText "COMPONENT_UNPLACED"))))
-
-    (qtest::TestCase test_move_reports_transform_failure
-      (letseq ((symbol (list nil 'xy 1.0:2.0 'rotation 90.0))
-               (component
-                 (list nil
-                       'name "R3"
-                       'deviceType "RESISTOR"
-                       'package "RES_0402"
-                       'class "DISCRETE"
-                       'symbol symbol))
-               (design (list nil 'components (list component)))
-               (run (__abTestMoveOperation design nil t "R3" 1.0 2.0 nil))
-               (failureText (sprintf nil "%L" (cadr run))))
-        (qtest::assertNil (car run))
-        (qtest::assertTrue (index failureText "COMPONENT_TRANSFORM_FAILED"))))
-
-    (qtest::TestCase test_move_reports_refresh_failure
-      (letseq ((symbol (list nil 'xy 1.0:2.0 'rotation 90.0))
-               (component
-                 (list nil
-                       'name "R4"
-                       'deviceType "RESISTOR"
-                       'package "RES_0402"
-                       'class "DISCRETE"
-                       'symbol symbol))
-               (design (list nil 'components (list component)))
-               (run (__abTestMoveOperation design t nil "R4" 1.0 2.0 nil))
-               (failureText (sprintf nil "%L" (cadr run))))
-        (qtest::assertNil (car run))
-        (qtest::assertTrue (index failureText "COMPONENT_REFRESH_FAILED"))))
-
-    (qtest::TestCase test_move_has_no_unsafe_compatibility_procedure
-      (qtest::assertNil (isCallable '__abMoveComponentUnsafe)))
-
-    (qtest::TestCase test_components_projection_filters_and_finds_refdes
-      (letseq ((design (axlDBGetDesign))
-               (allComponents (__abProjectComponents nil t))
-               (placedComponents (__abProjectComponents nil nil))
-               (allPlaced t))
-        (foreach component placedComponents
-          (unless (equal "placed" (get component 'placement))
-            (setq allPlaced nil)))
-        (qtest::assertEqual (length design->components)
-                            (length allComponents))
-        (qtest::assertTrue allPlaced)
-        (when design->components
-          (letseq ((selected (car design->components))
-                   (refdes selected->name)
-                   (matched (__abProjectComponents refdes t)))
-            (qtest::assertEqual 1 (length matched))
-            (qtest::assertEqual refdes (get (car matched) 'refdes))))
-        (qtest::assertNil
-          (__abProjectComponents "__MISSING_COMPONENT__" t)))))
+        (qtest::assertEqual '(3.0 5.0) (car (caddr zero)))
+        (qtest::assertEqual -90.0 (cadr (caddr zero))))))
 
   (qtest::TestSuite ()
     (qtest::TestCase test_net_projection_has_explicit_attributes

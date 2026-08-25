@@ -67,8 +67,8 @@ exit
 进程可能在启动命令返回后继续运行，因此以 `allegro.jrl` 的 `Journal end` 和测试摘要为
 准。2026-08-25 实测基线：
 
-- `79 passed, 0 failed, 0 skipped, 0 xfailed`
-- `qcover: 136/136 branches covered (100.00%)`
+- `84 passed, 0 failed, 0 skipped, 0 xfailed`
+- `qcover: 150/150 branches covered (100.00%)`
 
 Allegro 17.2 不支持 `axlOpenDesign` 的 `"r"` mode。测试 runner 必须使用受失败守卫的
 `"wf"`，随后 `axlDBRefreshId(axlDBGetDesign())`，否则投影测试可能在空 design 上虚假
@@ -80,6 +80,12 @@ Allegro 17.2 不支持 `axlOpenDesign` 的 `"r"` mode。测试 runner 必须使�
 子 DBID 并返回纯值。集成 expected 也必须在单次 `evalstring` 内生成纯值快照。不要用
 class-scope 端口隐藏问题，不要用 `or ()` 吞掉 nil，也不要逐个或批量刷新已跨 RPC 的子
 DBID；后者在 17.2 实测会使更多属性变为 nil。
+
+`components.move` 必须用 `difference` 表达前缀减法；在 conventional `.il` 中写 Lisp
+操作符形式 `(- x y)` 会在 transaction 的 `errsetstring` 路径报 `eval: not a function`。
+qtest 不得通过 `putd` 替换受保护的 `axlDBGetDesign`、`axlDBRefreshId` 或
+`axlTransformObject`；应替换项目自有 `__ab*` seam，且 `.ils` 中嵌套 `car/caddr` 调用
+必须保留 Lisp 空格分组，避免 conventional reader 将参数重新组合。
 
 psutil 7.x API 本轮因 Context7 MCP 未注入当前任务而按 docs-first fallback 核对官方
 文档：`Process.children(recursive=True)`、`process_iter(['pid','ppid'])`、`wait_procs()`、
