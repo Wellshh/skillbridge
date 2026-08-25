@@ -4,6 +4,7 @@ from collections.abc import Iterator
 from json import dumps
 from pathlib import Path
 from shutil import copy2
+from socket import socket
 from sys import platform
 from time import sleep
 from typing import NewType
@@ -20,14 +21,26 @@ ALObjectHandle = NewType('ALObjectHandle', str)
 _TEST_BOARD = ASSETS_DIR / 'shape1.brd'
 
 
+@pytest.fixture(scope='module')
+def workspace_id() -> str | None:
+    if platform != 'win32':
+        return None
+    with socket() as listener:
+        listener.bind(('localhost', 0))
+        return str(listener.getsockname()[1])
+
+
 @pytest.fixture(scope='class')
-def allegro(tmp_path_factory: pytest.TempPathFactory) -> Iterator[Allegro]:
+def allegro(
+    tmp_path_factory: pytest.TempPathFactory,
+    workspace_id: str | None,
+) -> Iterator[Allegro]:
     mode: OpenMode = 'cli' if platform == 'win32' else 'manual'
     board = None
     if mode == 'cli':
         board = Path(copy2(_TEST_BOARD, tmp_path_factory.mktemp('allegro')))
 
-    with Allegro.open(mode=mode, board=board) as opened:
+    with Allegro.open(mode=mode, board=board, workspace_id=workspace_id) as opened:
         yield opened
 
 
@@ -572,7 +585,7 @@ class TestBasicOp:
         new_ws = None
         for _ in range(40):
             try:
-                candidate = Workspace.open()
+                candidate = Workspace.open(ws.id)
                 if type(candidate) is Workspace and self._single_ping_test(candidate):
                     new_ws = candidate
                     break

@@ -43,9 +43,12 @@ $env:CDS_LIC_FILE = [Environment]::GetEnvironmentVariable('CDS_LIC_FILE', 'User'
   tests/allegrobridge/test_integration.py --allegro
 ```
 
-端口/孤儿进程修复必须紧接着再跑一轮相同命令。两轮都使用默认 Windows TCP 端口
-7777；第二轮能立即启动是端口释放的端到端证明。2026-08-25 实测结果为连续两轮
-`17 passed`，每轮约 43 秒。
+集成 fixture 每次测试进程先绑定端口 0 获取唯一数字 TCP 端口，然后在本轮各 class
+之间串行复用该端口。端口/孤儿进程修复必须紧接着再跑一轮相同命令；第二轮重新
+分配端口，而同一轮内的即时复用证明关闭后 endpoint 已释放。默认产品端口仍为 7777。
+2026-08-25 生命周期重构后的实测为连续两轮 `38 passed`，分别约 40 秒和 44 秒。
+CLI startup 在 `pyStartServer` 前写入本地 launch-instance nonce，Python readiness 先回读
+nonce 再执行 `plus(1,2)`；nonce 只区分进程代际，不进入 RPC 协议或安全边界。
 
 集成 fixture 会复制 `allegrobridge/assets/shape1.brd` 到 pytest 临时目录；不要直接在
 版本库样板上运行写数据库测试。
@@ -63,8 +66,18 @@ exit
 进程可能在启动命令返回后继续运行，因此以 `allegro.jrl` 的 `Journal end` 和测试摘要为
 准。2026-08-25 实测基线：
 
-- `74 passed, 0 failed, 0 skipped, 0 xfailed`
-- `qcover: 124/124 branches covered (100.00%)`
+- `78 passed, 0 failed, 0 skipped, 0 xfailed`
+- `qcover: 136/136 branches covered (100.00%)`
+
+Allegro 17.2 不支持 `axlOpenDesign` 的 `"r"` mode。测试 runner 必须使用受失败守卫的
+`"wf"`，随后 `axlDBRefreshId(axlDBGetDesign())`，否则投影测试可能在空 design 上虚假
+通过且 qcover 分支保持 0 hit。
+
+psutil 7.x API 本轮因 Context7 MCP 未注入当前任务而按 docs-first fallback 核对官方
+文档：`Process.children(recursive=True)`、`process_iter(['pid','ppid'])`、`wait_procs()`、
+`net_connections(kind='tcp')`。父进程消失后的历史后代发现只能 best-effort；Windows
+的 `terminate()` 与 `kill()` 都使用 `TerminateProcess`，但仍需检查两轮 `wait_procs`
+返回的 `alive`。
 
 完成后删除临时脚本，并检查：
 

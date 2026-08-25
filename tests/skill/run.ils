@@ -20,9 +20,17 @@
       (load (strcat _qtestSrc "/init.ils")))
     (setSkillPath _oldSkillPath)))
 
-;;; Main: run framework self-tests, project suites, summary, then coverage.
+;;; Main: open the test board (the allegro_server projection suites read a real
+;;; design), run framework self-tests, project suites, summary, then coverage.
 (unwindProtect
   (progn
+    (axlSetVariable "noconfirm" t)
+    (unless
+      (axlOpenDesign
+        ?design (strcat (qub::scriptDir) "/../../allegrobridge/assets/shape1.brd")
+        ?mode "wf")
+      (error "ALLEGRO_TEST_BOARD_OPEN_FAILED"))
+    (axlDBRefreshId (axlDBGetDesign))
     (load (strcat (qub::scriptDir) "/qtest/src/qtest/test_assertions.ils"))
     (load (strcat (qub::scriptDir) "/qtest/src/qtest/test_reporter.ils"))
     (load (strcat (qub::scriptDir) "/qtest/src/qcover/test_qcover.ils"))

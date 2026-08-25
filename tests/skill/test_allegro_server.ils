@@ -273,7 +273,7 @@
                             (length allComponents))
         (qtest::assertTrue allPlaced)
         (when design->components
-          (letseq ((selected (car(design->components)))
+          (letseq ((selected (car design->components))
                    (refdes selected->name)
                    (matched (__abProjectComponents refdes t)))
             (qtest::assertEqual 1 (length matched))
@@ -302,7 +302,7 @@
                (allNets (__abProjectNets nil)))
         (qtest::assertEqual (length design->nets) (length allNets))
         (when design->nets
-          (letseq ((selected (car(design->nets)))
+          (letseq ((selected (car design->nets))
                    (name selected->name)
                    (matched (__abProjectNets name)))
             (qtest::assertEqual 1 (length matched))

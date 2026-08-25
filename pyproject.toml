@@ -16,6 +16,7 @@ readme = {file = "README.md", content-type = "text/markdown"}
 requires-python = ">=3.8"
 dependencies = [
     "pydantic>=2.10,<2.11",
+    "psutil>=7,<8",
 ]
 urls = {Repository = "https://github.com/unihd-cag/skillbridge"}
 license = {file = "LICENSE"}
@@ -45,6 +46,7 @@ dev = [
     "pytest-cov",
     "hypothesis",
     "mypy",
+    "types-psutil",
     "ruff>=0.2.1",
 ]
 doc = [
@@ -57,6 +59,7 @@ dev = [
     "pytest-cov",
     "hypothesis",
     "mypy<2",
+    "types-psutil",
     "ruff>=0.2.1",
     "pre-commit",
 ]

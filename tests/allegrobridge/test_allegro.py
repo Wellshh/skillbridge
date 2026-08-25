@@ -1,28 +1,25 @@
 from __future__ import annotations
 
 import re
-import subprocess
 import sys
 from pathlib import Path
-from subprocess import PIPE, Popen
-from time import monotonic, sleep
-from unittest.mock import Mock
+from unittest.mock import MagicMock, Mock
 
-from pytest import MonkeyPatch, fixture, raises, skip
+import pytest
 
 import allegrobridge.server
 import skillbridge.server
-from allegrobridge import Allegro, allegro
+from allegrobridge import Allegro
 from allegrobridge.allegro import (
-    _kill_process_tree,  # ruff: ignore[import-private-name]
+    _build_startup_script,  # ruff: ignore[import-private-name]
     _resolve_executable,  # ruff: ignore[import-private-name]
+    _ServerIdentityError,  # ruff: ignore[import-private-name]
 )
 from allegrobridge.client.session import Session
+from allegrobridge.client.workspace import Workspace
 
-_PYTHON = getattr(sys, '_base_executable', None) or sys.executable
 
-
-@fixture
+@pytest.fixture
 def executable(tmp_path: Path) -> Path:
     exe = tmp_path / 'allegro.exe'
     exe.touch()
@@ -36,15 +33,14 @@ def test_resolve_executable_returns_explicit_path(executable: Path) -> None:
 
 def test_resolve_executable_searches_path(
     executable: Path,
-    monkeypatch: MonkeyPatch,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     monkeypatch.setenv('PATH', str(executable.parent))
-
     assert _resolve_executable(executable.name) == str(executable)
 
 
 def test_resolve_executable_searches_cadence_install_roots(
-    monkeypatch: MonkeyPatch,
+    monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
 ) -> None:
     install_root = tmp_path / 'Cadence_SPB'
@@ -52,231 +48,146 @@ def test_resolve_executable_searches_cadence_install_roots(
     exe.parent.mkdir(parents=True)
     exe.touch()
     exe.chmod(0o755)
-    monkeypatch.setenv('PATH', str(tmp_path / 'no-allegro-here'))
+    monkeypatch.setenv('PATH', str(tmp_path / 'missing'))
     monkeypatch.delenv('CDSROOT', raising=False)
     monkeypatch.setenv('Sigrity_EDA_DIR', str(install_root))
-
     assert _resolve_executable('allegro.exe') == str(exe)
 
 
 def test_resolve_executable_raises_with_guidance(
-    monkeypatch: MonkeyPatch,
+    monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
 ) -> None:
     monkeypatch.setenv('PATH', str(tmp_path))
     monkeypatch.delenv('CDSROOT', raising=False)
     monkeypatch.delenv('Sigrity_EDA_DIR', raising=False)
-
-    with raises(FileNotFoundError, match=re.escape('allegro.exe')):
+    with pytest.raises(FileNotFoundError, match=re.escape('allegro.exe')):
         _resolve_executable('allegro.exe')
 
 
-def test_launch_writes_startup_script_that_loads_servers_and_opens_board(
-    executable: Path,
-    monkeypatch: MonkeyPatch,
-    tmp_path: Path,
-) -> None:
+def test_startup_script_orders_nonce_board_and_guarded_server(tmp_path: Path) -> None:
     board = tmp_path / 'shape1.brd'
-    board.touch()
-
-    command: list[str] = []
-    process = Mock(poll=Mock(return_value=None), terminate=Mock())
-    workspace = Mock(close=Mock())
-
-    def fake_popen(cmd: list[str], *, shell: bool) -> Mock:
-        assert not shell
-        command.extend(cmd)
-        return process
-
-    monkeypatch.setattr(allegro, 'Popen', fake_popen)
-    monkeypatch.setattr(allegro, '_wait_for_tcp_port_release', Mock(), raising=False)
-    monkeypatch.setattr(Allegro, '_wait_for_workspace', lambda *_, **__: workspace)
-
-    opened = Allegro.launch(board=board, executable=executable)
-
-    command_list = command
-    assert command_list[:2] == [str(executable), '-s']
-    assert len(command_list) == 3
-
-    script_path = Path(command_list[2])
-    script = script_path.read_text(encoding='utf-8')
-    assert 'pyStartServer' in script
-    core_server = Path(skillbridge.server.__file__).with_name('python_server.il')
-    transaction_server = Path(allegrobridge.server.__file__).with_name('allegro_server.il')
-    assert script.splitlines()[:2] == [
-        f'skill load("{core_server.as_posix()}")',
-        f'skill load("{transaction_server.as_posix()}")',
-    ]
-    assert 'axlSetVariable("noconfirm" t)' in script
-    lines = script.splitlines()
-    open_board_line = (
-        'skill unless('
-        f'axlOpenDesign(?design "{board.resolve().as_posix()}" ?mode "wf") '
-        'error("ALLEGRO_BOARD_OPEN_FAILED"))'
+    script = _build_startup_script(
+        board=board,
+        workspace_id='7788',
+        force_tcp=True,
+        nonce='launch-instance',
     )
-    start_server_line = next(line for line in lines if 'pyStartServer' in line)
-    assert lines.index(open_board_line) < lines.index(start_server_line)
-    assert Path(sys.executable).as_posix() in script
+    lines = script.splitlines()
+    core = Path(skillbridge.server.__file__).with_name('python_server.il')
+    extension = Path(allegrobridge.server.__file__).with_name('allegro_server.il')
+    assert lines[:2] == [
+        f'skill load("{core.as_posix()}")',
+        f'skill load("{extension.as_posix()}")',
+    ]
+    nonce = 'skill __abLaunchToken = "launch-instance"'
+    board_open = next(line for line in lines if 'axlOpenDesign' in line)
+    server_start = next(line for line in lines if 'pyStartServer' in line)
+    assert lines.index(nonce) < lines.index(board_open) < lines.index(server_start)
+    assert 'ALLEGRO_BOARD_OPEN_FAILED' in board_open
+    assert server_start.startswith('skill unless(')
+    assert 'ALLEGRO_SERVER_START_FAILED' in server_start
+    assert '?forceTcp t' in server_start
+    assert Path(sys.executable).as_posix() in server_start
     assert '\\' not in script
 
-    opened.close()
-    workspace.close.assert_called_once()
-    process.terminate.assert_called_once()
-    assert not script_path.exists()
 
-
-def test_launch_rejects_missing_board_before_starting_process(
+def test_launch_rejects_missing_board_before_runtime(
     executable: Path,
-    monkeypatch: MonkeyPatch,
+    monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
 ) -> None:
-    popen = Mock()
-    monkeypatch.setattr(allegro, 'Popen', popen)
-    missing_board = tmp_path / 'missing.brd'
-
-    with raises(FileNotFoundError, match=re.escape(str(missing_board))):
-        Allegro.launch(board=missing_board, executable=executable)
-
-    popen.assert_not_called()
+    runtime = Mock()
+    monkeypatch.setattr('allegrobridge.allegro.CliRuntime', runtime)
+    missing = tmp_path / 'missing.brd'
+    with pytest.raises(FileNotFoundError, match=re.escape(str(missing))):
+        Allegro.launch(board=missing, executable=executable)
+    runtime.assert_not_called()
 
 
-def test_launch_cleans_up_when_workspace_never_connects(
+def test_launch_cleans_up_timeout_without_masking_it(
     executable: Path,
-    monkeypatch: MonkeyPatch,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    command: list[str] = []
-    process = Mock(poll=Mock(return_value=None), terminate=Mock())
-
-    def fake_popen(cmd: list[str], *, shell: bool) -> Mock:
-        assert not shell
-        command.extend(cmd)
-        return process
-
-    monkeypatch.setattr(allegro, 'Popen', fake_popen)
-    monkeypatch.setattr(Allegro, '_wait_for_workspace', Mock(side_effect=TimeoutError))
-
-    with raises(TimeoutError):
+    runtime = Mock()
+    runtime.close.side_effect = RuntimeError('cleanup failed')
+    monkeypatch.setattr('allegrobridge.allegro.CliRuntime', Mock(return_value=runtime))
+    monkeypatch.setattr(Allegro, '_wait_for_workspace', Mock(side_effect=TimeoutError('ready')))
+    with pytest.raises(TimeoutError, match='ready'):
         Allegro.launch(executable=executable)
-
-    process.terminate.assert_called_once()
-    assert not Path(command[2]).exists()
+    runtime.close.assert_called_once_with(wait_for_endpoint=True)
 
 
-def test_close_waits_for_tcp_relay_after_killing_allegro(
-    monkeypatch: MonkeyPatch,
+def test_launch_cleans_up_keyboard_interrupt(
+    executable: Path,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    events: list[str] = []
-    workspace = Mock(close=lambda: events.append('workspace'))
-    process = Mock()
-    monkeypatch.setattr(allegro, '_kill_process_tree', lambda _: events.append('allegro'))
-    monkeypatch.setattr(
-        allegro,
-        '_wait_for_tcp_port_release',
-        lambda port: events.append(f'port:{port}'),
-        raising=False,
+    runtime = Mock()
+    monkeypatch.setattr('allegrobridge.allegro.CliRuntime', Mock(return_value=runtime))
+    monkeypatch.setattr(Allegro, '_wait_for_workspace', Mock(side_effect=KeyboardInterrupt))
+    with pytest.raises(KeyboardInterrupt):
+        Allegro.launch(executable=executable)
+    runtime.close.assert_called_once_with(wait_for_endpoint=True)
+
+
+def test_identity_mismatch_closes_unknown_workspace_and_fails_immediately(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    workspace = MagicMock(spec=Workspace)
+    workspace.__getitem__.side_effect = lambda name: Mock(
+        return_value='old-token' if name == 'evalstring' else 3
     )
+    monkeypatch.setattr('allegrobridge.allegro.Workspace.open', Mock(return_value=workspace))
+    with pytest.raises(_ServerIdentityError, match='different launch instance'):
+        Allegro._open_workspace('7788', force_tcp=True, nonce='new-instance')
+    workspace.close.assert_called_once_with()
+
+
+def test_identity_mismatch_does_not_wait_for_unknown_endpoint(
+    executable: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    runtime = Mock()
+    monkeypatch.setattr('allegrobridge.allegro.CliRuntime', Mock(return_value=runtime))
+    monkeypatch.setattr(
+        Allegro,
+        '_wait_for_workspace',
+        Mock(side_effect=_ServerIdentityError('different launch instance')),
+    )
+    with pytest.raises(_ServerIdentityError):
+        Allegro.launch(executable=executable)
+    runtime.close.assert_called_once_with(wait_for_endpoint=False)
+
+
+def test_close_can_retry_after_runtime_failure() -> None:
+    workspace = Mock()
+    runtime = Mock()
+    runtime.close.side_effect = [RuntimeError('busy'), None]
     opened = Allegro(
         mode='cli',
         workspace_id='7788',
         board=None,
         workspace=workspace,
-        process=process,
-        force_tcp=True,
+        runtime=runtime,
     )
-
+    with pytest.raises(RuntimeError, match='busy'):
+        opened.close()
     opened.close()
-
-    assert events == ['workspace', 'allegro', 'port:7788']
-
-
-class _ProbeSocket:
-    def __init__(self, results: list[int]) -> None:
-        self._results = results
-
-    def __enter__(self) -> _ProbeSocket:  # ruff: ignore[non-self-return-type]
-        return self
-
-    def __exit__(self, *_: object) -> None:
-        pass
-
-    def settimeout(self, _: float) -> None:
-        pass
-
-    def connect_ex(self, _: tuple[str, int]) -> int:
-        return self._results.pop(0)
+    opened.close()
+    assert runtime.close.call_count == 2
 
 
-def test_wait_for_tcp_port_release_retries_until_listener_stops(
-    monkeypatch: MonkeyPatch,
-) -> None:
-    results = [0, 1]
-    sleeps: list[float] = []
-    monkeypatch.setattr(allegro, 'socket', lambda *_: _ProbeSocket(results))
-    monkeypatch.setattr(allegro, 'sleep', sleeps.append)
-
-    allegro._wait_for_tcp_port_release(7788)
-
-    assert results == []
-    assert sleeps == [allegro._POLL_INTERVAL]
-
-
-def test_wait_for_tcp_port_release_times_out(
-    monkeypatch: MonkeyPatch,
-) -> None:
-    monkeypatch.setattr(allegro, 'socket', lambda *_: _ProbeSocket([0]))
-    monkeypatch.setattr(allegro, 'monotonic', Mock(side_effect=[0.0, 6.0]))
-
-    with raises(TimeoutError, match='7788'):
-        allegro._wait_for_tcp_port_release(7788)
-
-
-def _is_process_alive(pid: int) -> bool:
-    result = subprocess.run(
-        ['tasklist', '/FI', f'PID eq {pid}', '/FO', 'CSV', '/NH'],
-        capture_output=True,
-        text=True,
-        timeout=10,
-        check=False,
+def test_context_body_error_is_not_replaced_by_close_error() -> None:
+    workspace = Mock()
+    workspace.close.side_effect = RuntimeError('close')
+    opened = Allegro(
+        mode='manual',
+        workspace_id='manual',
+        board=None,
+        workspace=workspace,
     )
-    return str(pid) in result.stdout
-
-
-def _terminate_pid(pid: int) -> None:
-    subprocess.run(['taskkill', '/F', '/PID', str(pid)], timeout=10, check=False)
-
-
-def test_kill_process_tree_terminates_descendants() -> None:
-    if sys.platform != 'win32':
-        skip('process-tree cleanup is Windows-specific')
-
-    parent_script = (
-        'import subprocess, time\n'
-        'child = subprocess.Popen('
-        f'[{_PYTHON!r}, "-c", "import time; time.sleep(60)"],'
-        ' stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,'
-        ' stderr=subprocess.DEVNULL)\n'
-        'print(child.pid, flush=True)\n'
-        'time.sleep(60)\n'
-    )
-    parent = Popen([_PYTHON, '-c', parent_script], stdout=PIPE)
-    child_pid = -1
-    try:
-        child_pid = int(parent.stdout.readline())  # type: ignore[union-attr]
-        assert _is_process_alive(child_pid)
-
-        _kill_process_tree(parent)
-
-        assert parent.wait(timeout=5) is not None
-        deadline = monotonic() + 5
-        while _is_process_alive(child_pid) and monotonic() < deadline:
-            sleep(0.3)
-        assert not _is_process_alive(child_pid)
-    finally:
-        if parent.poll() is None:
-            parent.kill()
-            parent.wait(timeout=5)
-        if child_pid != -1 and _is_process_alive(child_pid):
-            _terminate_pid(child_pid)
+    with pytest.raises(ValueError, match='body'), opened:
+        raise ValueError('body')
 
 
 class TestSession:
@@ -288,65 +199,26 @@ class TestSession:
             board=None,
             workspace=workspace,
         )
-
         assert isinstance(opened.session, Session)
         assert opened.session is opened.session
         assert opened.session.raw is workspace
 
     def test_exposes_workspace_and_connection_generation(self) -> None:
         workspace = Mock()
-        opened = Mock(workspace=workspace)
-
-        session = Session(opened)
-
+        session = Session(Mock(workspace=workspace))
         assert session.raw is workspace
         assert session.generation == 1
 
     def test_close_is_idempotent(self) -> None:
         opened = Mock()
         session = Session(opened)
-
         session.close()
         session.close()
-
         opened.close.assert_called_once_with()
 
     def test_context_manager_closes(self) -> None:
         opened = Mock()
         session = Session(opened)
-
         with session as entered:
             assert entered is session
-
         opened.close.assert_called_once_with()
-
-
-def test_kill_process_tree_terminates_orphaned_descendants_when_parent_dead() -> None:
-    if sys.platform != 'win32':
-        skip('process-tree cleanup is Windows-specific')
-
-    parent_script = (
-        'import subprocess\n'
-        'child = subprocess.Popen('
-        f'[{_PYTHON!r}, "-c", "import time; time.sleep(60)"],'
-        ' stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,'
-        ' stderr=subprocess.DEVNULL)\n'
-        'print(child.pid, flush=True)\n'
-    )
-    parent = Popen([_PYTHON, '-c', parent_script], stdout=PIPE)
-    child_pid = -1
-    try:
-        child_pid = int(parent.stdout.readline())  # type: ignore[union-attr]
-        parent.wait(timeout=5)
-        assert parent.poll() is not None
-        assert _is_process_alive(child_pid)
-
-        _kill_process_tree(parent)
-
-        deadline = monotonic() + 5
-        while _is_process_alive(child_pid) and monotonic() < deadline:
-            sleep(0.3)
-        assert not _is_process_alive(child_pid)
-    finally:
-        if child_pid != -1 and _is_process_alive(child_pid):
-            _terminate_pid(child_pid)

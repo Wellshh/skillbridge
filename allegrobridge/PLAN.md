@@ -6,7 +6,7 @@
 
 `skillbridge` 已经具备三个很有价值的基础：Python/SKILL 类型转换、远程对象属性访问，以及 Windows 下的 localhost TCP 通道；它的 `Workspace` 甚至已经预留了 `axl` 函数集合。 
 
-当前通信内核已经具备帧收发、严格串行执行、Windows timeout、超时后响应排空、SKILL callback 缓冲和写请求不自动重发。Python/SKILL 单次 RPC 事务、savepoint batch 与 dry-run 也已通过 Windows Allegro 实机验收。`Allegro` 窗口生命周期和最小内存 `Session` 门面已经落地；下一阶段从 board 开始建立严格校验的只读领域 API。在没有真实需求或故障证据前，不引入 UUID envelope、token、结果缓存或更多恢复状态。
+当前通信内核已经具备帧收发、严格串行执行、Windows timeout、超时后响应排空、SKILL callback 缓冲和写请求不自动重发。Python/SKILL 单次 RPC 事务、savepoint batch 与 dry-run 也已通过 Windows Allegro 实机验收。`Allegro` 窗口生命周期和最小内存 `Session` 门面已经落地；下一阶段从 board 开始建立严格校验的只读领域 API。CLI 启动已出现旧 listener 被误认作新实例的真实故障，因此允许使用仅在本地启动阶段回读的实例 nonce；它不进入 RPC envelope，不承担认证、授权或请求去重。除此之外，在没有真实需求或故障证据前，不引入 UUID envelope、安全 token、结果缓存或更多恢复状态。
 
 ---
 
@@ -1102,7 +1102,7 @@ dry-run 执行后强制 rollback
 完整 Constraint Manager API
 所有写操作原生 Undo
 任意 Agent 默认执行 raw SKILL
-UUID envelope、token、结果缓存
+RPC UUID envelope、安全 token、请求去重、结果缓存
 doctor、常驻配置和自动修改 allegro.ilinit
 bulk 文件通道
 ```

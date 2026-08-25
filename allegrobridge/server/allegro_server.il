@@ -27,8 +27,8 @@
           'package component->package
           'component_class component->class
           'placement (if symbol then "placed" else "unplaced")
-          'x (when symbol (car(symbol->xy)))
-          'y (when symbol (cadr(symbol->xy)))
+          'x (when symbol (car symbol->xy))
+          'y (when symbol (cadr symbol->xy))
           'rotation (when symbol symbol->rotation))))
 
 (putd '__abProjectComponents nil)
