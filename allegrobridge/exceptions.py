@@ -11,6 +11,7 @@ __all__ = [
     'AllegroProtocolError',
     'AllegroServerIdentityError',
     'AllegroTimeoutError',
+    'ExtensionError',
 ]
 
 
@@ -36,3 +37,7 @@ class AllegroServerIdentityError(AllegroLaunchError):
 
 class AllegroTimeoutError(AllegroLaunchError, TimeoutError):
     code = 'allegro_timeout'
+
+
+class ExtensionError(AllegroError, RuntimeError):
+    code = 'extension_error'

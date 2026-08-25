@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from allegrobridge.client.api._extensions import Extensions, extension
 from allegrobridge.client.api._record import _Record
 from allegrobridge.client.api._rpc import (
     Batch,
@@ -27,12 +28,14 @@ __all__ = [
     'CommandResult',
     'ComponentInfo',
     'ComponentsApi',
+    'Extensions',
     'NetInfo',
     'NetsApi',
     'RpcArgs',
     'SessionApi',
     '_Record',
     'core_api',
+    'extension',
     'read',
     'write',
 ]

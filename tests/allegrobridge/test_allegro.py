@@ -5,6 +5,7 @@ import sys
 from dataclasses import FrozenInstanceError
 from inspect import signature
 from pathlib import Path
+from types import ModuleType
 from unittest.mock import MagicMock, Mock
 
 import pytest
@@ -24,6 +25,7 @@ from allegrobridge.client.api import (
     ComponentsApi,
     RpcArgs,
     SessionApi,
+    extension,
     read,
 )
 from allegrobridge.client.api._rpc import _core_procedures  # ruff: ignore[import-private-name]
@@ -36,6 +38,7 @@ from allegrobridge.exceptions import (
     AllegroProtocolError,
     AllegroServerIdentityError,
     AllegroTimeoutError,
+    ExtensionError,
 )
 from skillbridge.exception import ProtocolError, SkillBridgeError
 
@@ -250,6 +253,78 @@ class TestSession:
         with session as entered:
             assert entered is session
         opened.close.assert_called_once_with()
+
+
+class TestSessionExtensions:
+    @staticmethod
+    def _module(name: str = 'constraints') -> tuple[ModuleType, type[SessionApi]]:
+        module = ModuleType(f'allegrobridge.client.api.extensions.{name}')
+        api = extension(type('ConstraintsApi', (SessionApi,), {'__module__': module.__name__}))
+        module.ConstraintsApi = api
+        return module, api
+
+    def test_imports_on_first_access_and_caches_per_session(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
+        module, api = self._module()
+        importer = Mock(return_value=module)
+        monkeypatch.setattr('allegrobridge.client.api._extensions.import_module', importer)
+        session = Session(Mock(workspace=MagicMock()))
+        ext = session.ext
+        importer.assert_not_called()
+
+        plugin = ext.constraints
+
+        assert isinstance(plugin, api)
+        assert ext['constraints'] is plugin
+        assert session.extensions.constraints is plugin
+        importer.assert_called_once_with('allegrobridge.client.api.extensions.constraints')
+
+    def test_unknown_extension_uses_python_lookup_errors(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
+        module_name = 'allegrobridge.client.api.extensions.missing'
+        error = ModuleNotFoundError(name=module_name)
+        monkeypatch.setattr(
+            'allegrobridge.client.api._extensions.import_module',
+            Mock(side_effect=error),
+        )
+        ext = Session(Mock(workspace=MagicMock())).ext
+
+        with pytest.raises(AttributeError, match='missing'):
+            _ = ext.missing
+        with pytest.raises(KeyError, match='missing'):
+            _ = ext['missing']
+        with pytest.raises(KeyError, match='not-valid'):
+            _ = ext['not-valid']
+        with pytest.raises(KeyError, match='Constraints'):
+            _ = ext['Constraints']
+
+    @pytest.mark.parametrize('failure', ['declaration', 'dependency', 'import'])
+    def test_extension_load_failure_is_isolated(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        failure: str,
+    ) -> None:
+        module = ModuleType('allegrobridge.client.api.extensions.broken')
+        side_effect = {
+            'declaration': module,
+            'dependency': ModuleNotFoundError(name='dependency'),
+            'import': ValueError('import failed'),
+        }[failure]
+        monkeypatch.setattr(
+            'allegrobridge.client.api._extensions.import_module',
+            Mock(side_effect=side_effect)
+            if isinstance(side_effect, BaseException)
+            else Mock(return_value=side_effect),
+        )
+        session = Session(Mock(workspace=MagicMock()))
+
+        with pytest.raises(ExtensionError, match='broken'):
+            _ = session.ext.broken
+        assert session.board is session.board
 
 
 class TestReadApi:
@@ -522,3 +597,4 @@ def test_allegro_errors_share_skillbridge_root() -> None:
     assert issubclass(AllegroFileNotFoundError, FileNotFoundError)
     assert issubclass(AllegroLaunchError, AllegroError)
     assert issubclass(AllegroTimeoutError, AllegroLaunchError)
+    assert issubclass(ExtensionError, AllegroError)

@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from functools import wraps, update_wrapper
+from functools import update_wrapper, wraps
+from inspect import signature
 from types import TracebackType
 from typing import TYPE_CHECKING, Any, Callable, Generic, Tuple, TypeVar, cast, overload
-from inspect import signature
 
 from pydantic import TypeAdapter, ValidationError
 from typing_extensions import Concatenate, ParamSpec, Self, TypeAlias
