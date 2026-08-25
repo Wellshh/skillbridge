@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from functools import update_wrapper, wraps
-from inspect import signature
+from functools import wraps, update_wrapper
 from types import TracebackType
 from typing import TYPE_CHECKING, Any, Callable, Generic, Tuple, TypeVar, cast, overload
+from inspect import signature
 
 from pydantic import TypeAdapter, ValidationError
 from typing_extensions import Concatenate, ParamSpec, Self, TypeAlias
@@ -29,14 +29,7 @@ class SessionApi:
 
 
 def core_api(api: type[ApiT]) -> type[ApiT]:
-    """Register an API class and its underlying SKILL procedures as core extensions.
-
-    Args:
-        api: The API class to inspect and register.
-
-    Returns:
-        The unchanged API class.
-    """
+    """Register an API class and its underlying SKILL procedures as core extensions."""
     for member in vars(api).values():
         procedure = getattr(member, 'procedure', None)
         if isinstance(procedure, str) and procedure not in _CORE_PROCEDURES:
@@ -198,16 +191,7 @@ def read(
     [Callable[Concatenate[ApiT, P], RpcArgs]],
     Callable[Concatenate[ApiT, P], T],
 ]:
-    """Decorate a read-only API method to query SKILL and validate the returned payload.
-
-    Args:
-        procedure: The remote SKILL procedure name to call.
-        adapter: The Pydantic TypeAdapter for validating the returned payload.
-        none_as_empty: Whether to treat a None payload as an empty list.
-
-    Returns:
-        A decorator transforming argument builders into typed query methods.
-    """
+    """Decorate a read-only API method to query SKILL and validate the returned payload."""
 
     def decorate(
         build_args: Callable[Concatenate[ApiT, P], RpcArgs],
@@ -314,16 +298,7 @@ def write(
     [Callable[Concatenate[ApiT, P], RpcArgs]],
     _Write[ApiT, P, T],
 ]:
-    """Decorate a state-modifying API method to support execution, dry-run, and batching.
-
-    Args:
-        procedure: The remote SKILL procedure name to call.
-        adapter: The Pydantic TypeAdapter for validating the returned payload.
-        none_as_empty: Whether to treat a None payload as an empty list.
-
-    Returns:
-        A decorator returning a descriptor that enables call, preview, and command extraction.
-    """
+    """Decorate a state-modifying API method to support execution, dry-run, and batching."""
 
     def decorate(
         build_args: Callable[Concatenate[ApiT, P], RpcArgs],

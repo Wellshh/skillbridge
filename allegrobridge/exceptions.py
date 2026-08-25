@@ -18,7 +18,7 @@ class AllegroError(SkillBridgeError):
     code: ClassVar[str] = 'allegro_error'
 
 
-class AllegroProtocolError(AllegroError, ProtocolError, RuntimeError):
+class AllegroProtocolError(AllegroError, ProtocolError):
     code = 'allegro_protocol_error'
 
 

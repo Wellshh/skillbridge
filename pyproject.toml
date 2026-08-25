@@ -139,6 +139,7 @@ ignore = [
     "missing-trailing-comma",
     "missing-copyright-notice",
     "D",
+    "DOC",
     "raw-string-in-exception", "f-string-in-exception",
     "boolean-type-hint-positional-argument", "boolean-default-value-positional-argument",
     "logging-f-string",
