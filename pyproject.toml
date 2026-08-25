@@ -132,7 +132,7 @@ strict_equality = true
 
 [tool.ruff]
 preview = true
-exclude = ["venv", "env", "build"]
+exclude = ["venv", "env", "build", ".agents", ".claude"]
 line-length = 100
 target-version = "py38"
 

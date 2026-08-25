@@ -300,7 +300,8 @@ def test_allegro_translator_has_working_decode() -> None:
 
 def test_allegro_translator_has_working_encode() -> None:
     a = ATranslator()
+    value = True
     assert a.encode(3) == '3'
     assert a.encode(None) == 'nil'
-    assert a.encode(True) == 't'
+    assert a.encode(value) == 't'
     assert a.encode([1, 2]) == '(list 1 2)'

@@ -149,16 +149,17 @@ def _run_skill_suite(workspace_id: str | None) -> str:
 
         run_file = (skill_tests / 'run.ils').resolve().as_posix()
         skill_code = f"""
-            let((capturePort loadResult report)
+            let((capturePort failure loadResult report)
                 capturePort = outstring()
                 unwindProtect(
                     let(((poport capturePort))
                         loadResult = errset(load({dumps(run_file)}))
+                        unless(loadResult failure = errset.errset)
                         report = getOutstring(capturePort)
                     )
                     close(capturePort)
                 )
-                list(loadResult report)
+                list(loadResult failure report)
             )
         """.replace('\n', ' ')
 
@@ -166,9 +167,9 @@ def _run_skill_suite(workspace_id: str | None) -> str:
             result = opened.workspace['evalstring'](skill_code)
 
     assert isinstance(result, list)
-    load_result, report = result
+    load_result, failure, report = result
     assert isinstance(report, str)
-    assert load_result, report
+    assert load_result, f'{failure}\n{report}'
     return report
 
 
@@ -326,8 +327,7 @@ class TestLayersApi:
 
         assert all(isinstance(layer, LayerInfo) for layer in layers)
         assert [
-            (layer.name, layer.class_name, layer.subclass, layer.number)
-            for layer in layers
+            (layer.name, layer.class_name, layer.subclass, layer.number) for layer in layers
         ] == [tuple(item) for item in snapshot]
         assert all(layer.session_generation == session.generation for layer in layers)
         if etch_only:

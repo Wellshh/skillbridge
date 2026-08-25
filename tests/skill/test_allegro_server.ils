@@ -289,7 +289,7 @@
 
   (qtest::TestSuite ()
     (qtest::TestCase test_layer_projection_has_stable_attributes
-      (letseq ((layer (list nil 'name "TOP" 'parentname "ETCH"
+      (letseq ((layer (list nil 'name "TOP" 'parentName "ETCH"
                             'number 1 'isEtch t 'dbid "db:1"))
                (projected (__abProjectLayer layer)))
         (qtest::assertEqual "ETCH/TOP" (get projected 'name))
@@ -303,7 +303,7 @@
             (etchLayers (__abProjectLayers nil t)))
         (qtest::assertTrue allLayers)
         (qtest::assertTrue etchLayers)
-        (qtest::assertTrue (< (length etchLayers) (length allLayers)))
+        (qtest::assertTrue (lessp (length etchLayers) (length allLayers)))
         (foreach layer etchLayers
           (qtest::assertEqual "ETCH" (get layer 'class_name)))
         (letseq ((selected (car etchLayers))

@@ -87,6 +87,12 @@ qtest 不得通过 `putd` 替换受保护的 `axlDBGetDesign`、`axlDBRefreshId`
 `axlTransformObject`；应替换项目自有 `__ab*` seam，且 `.ils` 中嵌套 `car/caddr` 调用
 必须保留 Lisp 空格分组，避免 conventional reader 将参数重新组合。
 
+2026-08-26 实机确认 `axlLayerGet("ETCH/TOP")` 返回的 layer DPL 使用大小写敏感的
+`parentName` 属性；读取 `parentname` 会得到 `nil`，随后参与 `strcat` 会报参数类型错误。
+Layers 投影修复后完整集成为 `58 passed`，SKILL 为 `84/84`，qcover 为 `150/150`。
+`.ils` qtest 中的前缀比较同样应使用 `lessp(a b)`，不要写 `(< a b)`；后者在 17.2
+加载测试文件时按函数调用失败。
+
 psutil 7.x API 本轮因 Context7 MCP 未注入当前任务而按 docs-first fallback 核对官方
 文档：`Process.children(recursive=True)`、`process_iter(['pid','ppid'])`、`wait_procs()`、
 `net_connections(kind='tcp')`。父进程消失后的历史后代发现只能 best-effort；Windows

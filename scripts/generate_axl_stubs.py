@@ -880,7 +880,7 @@ def _render_callable(spec: ApiSpec) -> list[str]:
     def append_call(parameters: str, return_type: str) -> None:
         lines.extend((f'    def __call__({parameters}) -> {return_type}:', '        """'))
         lines.extend(f'        {line}' for line in _render_docstring(spec))
-        lines.extend(('        """', '        ...'))
+        lines.append('        """')
 
     signatures = [
         (

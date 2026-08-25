@@ -283,6 +283,7 @@ def test_render_stub_is_deterministic_and_excludes_document_sections() -> None:
     assert 'class _AxlColorDoc(' not in first
     assert 'class _AxlOlOl2(LiteralRemoteFunction):' in first
     assert generator._snake_name('is') == 'is_'
+    assert '"""\n        ...' not in first
 
 
 def test_build_api_specs_downgrades_malformed_declarations(

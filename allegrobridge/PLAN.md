@@ -821,12 +821,8 @@ Bulk 文件通道、通用分页器、缓存、handle table 和 capability negot
    多操作组合时，通过客户端上下文管理器在本地收集指令列表，在退出 context 时一次性编译为一个复合 SKILL 事务下发（All-or-Nothing）：
    ```python
    with session.batch("place decouple capacitors") as batch:
-       c1 = batch.add(
-           session.components.move.command("C101", x=120.0, y=45.0, rotation=90.0)
-       )
-       c2 = batch.add(
-           session.components.move.command("C102", x=125.0, y=45.0, rotation=90.0)
-       )
+       c1 = batch.add(session.components.move.command("C101", x=120.0, y=45.0, rotation=90.0))
+       c2 = batch.add(session.components.move.command("C102", x=125.0, y=45.0, rotation=90.0))
    # 退出 context 时：自动在单个 axlDBTransaction 内部顺序执行以上两条指令
    # 全部成功则 Commit；任何一条失败则整批回滚，并在 Python 端抛出对应异常
    updated_c1 = c1.value
@@ -893,12 +889,8 @@ with Allegro.open(mode="manual", workspace_id="7777") as allegro:
     )
 
     with pcb.batch("align filter capacitors") as batch:
-        c1 = batch.add(
-            pcb.components.move.command("C101", x=120.0, y=45.0)
-        )
-        c2 = batch.add(
-            pcb.components.move.command("C102", x=125.0, y=45.0)
-        )
+        c1 = batch.add(pcb.components.move.command("C101", x=120.0, y=45.0))
+        c2 = batch.add(pcb.components.move.command("C102", x=125.0, y=45.0))
 
     updated_c1: ComponentInfo = c1.value
     updated_c2: ComponentInfo = c2.value

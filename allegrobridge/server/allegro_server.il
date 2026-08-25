@@ -103,8 +103,8 @@
 (putd '__abProjectLayer nil)
 (defun __abProjectLayer (layer)
   (list nil
-        'name (strcat layer->parentname "/" layer->name)
-        'class_name layer->parentname
+        'name (strcat layer->parentName "/" layer->name)
+        'class_name layer->parentName
         'subclass layer->name
         'number layer->number))
 
