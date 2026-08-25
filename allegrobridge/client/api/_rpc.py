@@ -3,12 +3,13 @@ from __future__ import annotations
 from dataclasses import dataclass
 from functools import update_wrapper, wraps
 from inspect import signature
-from typing import TYPE_CHECKING, Callable, Generic, Tuple, TypeVar, overload
+from types import TracebackType
+from typing import TYPE_CHECKING, Any, Callable, Generic, Tuple, TypeVar, cast, overload
 
 from pydantic import TypeAdapter, ValidationError
-from typing_extensions import Concatenate, ParamSpec, TypeAlias
+from typing_extensions import Concatenate, ParamSpec, Self, TypeAlias
 
-from allegrobridge.client.api._record import AllegroProtocolError
+from allegrobridge.exceptions import AllegroProtocolError
 from skillbridge.client.hints import Skill, SkillCode
 
 if TYPE_CHECKING:  # pragma: no cover
@@ -37,6 +38,9 @@ class Command(Generic[T]):
     def _execute(self, *, preview: bool = False) -> T:
         transaction = self._session.raw.transaction
         payload = transaction.preview(self.expression) if preview else transaction(self.expression)
+        return self._validate(payload)
+
+    def _validate(self, payload: object) -> T:
         return _validate(
             payload,
             self._adapter,
@@ -44,6 +48,101 @@ class Command(Generic[T]):
             self.procedure,
             none_as_empty=self._none_as_empty,
         )
+
+
+_PENDING = object()
+
+
+class CommandResult(Generic[T]):
+    def __init__(self) -> None:
+        self._value: object = _PENDING
+        self._error: BaseException | None = None
+
+    @property
+    def value(self) -> T:
+        if self._error is not None:
+            raise self._error
+        if self._value is _PENDING:
+            raise RuntimeError('batch result is pending')
+        return cast('T', self._value)
+
+    def _resolve(self, value: T) -> None:
+        self._value = value
+
+    def _fail(self, error: BaseException) -> None:
+        self._error = error
+
+
+class Batch:
+    def __init__(
+        self,
+        session: Session,
+        description: str = '',
+        *,
+        dry_run: bool = False,
+    ) -> None:
+        self.description = description
+        self.dry_run = dry_run
+        self._session = session
+        self._commands: list[Command[Any]] = []
+        self._results: list[CommandResult[Any]] = []
+        self._active = False
+        self._used = False
+
+    def __enter__(self) -> Self:
+        if self._used:
+            raise RuntimeError('batch was already used')
+        self._used = True
+        self._active = True
+        return self
+
+    def __exit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc_value: BaseException | None,
+        traceback: TracebackType | None,
+    ) -> None:
+        self._active = False
+        if exc_value is not None:
+            self._fail(exc_value)
+            return
+        try:
+            self._execute()
+        except BaseException as error:
+            self._fail(error)
+            raise
+
+    def add(self, command: Command[T]) -> CommandResult[T]:
+        if not self._active:
+            raise RuntimeError('batch is not active')
+        if command._session is not self._session:
+            raise ValueError('command belongs to another Session')
+        result = CommandResult[T]()
+        self._commands.append(command)
+        self._results.append(result)
+        return result
+
+    def _execute(self) -> None:
+        if not self._commands:
+            return
+        expression = self._compile()
+        transaction = self._session.raw.transaction
+        payload = transaction.preview(expression) if self.dry_run else transaction(expression)
+        if not isinstance(payload, list) or len(payload) != len(self._commands):
+            raise AllegroProtocolError('batch returned an invalid payload')
+        values = [command._validate(item) for command, item in zip(self._commands, payload)]
+        for result, value in zip(self._results, values):
+            result._resolve(value)
+
+    def _compile(self) -> SkillCode:
+        operations = ' '.join(
+            f'results = cons({command.expression} results)' for command in self._commands
+        )
+        return SkillCode(f'let((results) progn({operations} reverse(results)))')
+
+    def _fail(self, error: BaseException) -> None:
+        for result in self._results:
+            result._fail(error)
 
 
 def _validate(

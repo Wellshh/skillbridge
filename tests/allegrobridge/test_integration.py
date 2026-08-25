@@ -327,6 +327,101 @@ class TestComponentsApi:
         assert preview.y == pytest.approx(original.y + 1.0)
         assert session.components[original.refdes] == original
 
+    def test_atomic_batch_commits_in_order(self, allegro: Allegro, session: Session) -> None:
+        if allegro.mode != 'cli':
+            pytest.skip('component batch test requires the Windows board copy')
+
+        originals = session.components(include_unplaced=False)[:2]
+        assert len(originals) == 2
+        assert all(component.x is not None and component.y is not None for component in originals)
+
+        try:
+            with session.batch('move two components') as batch:
+                results = [
+                    batch.add(
+                        session.components.move.command(
+                            component.refdes,
+                            x=component.x + index + 1.0,
+                            y=component.y + index + 1.0,
+                        )
+                    )
+                    for index, component in enumerate(originals)
+                ]
+
+            assert [result.value.refdes for result in results] == [
+                component.refdes for component in originals
+            ]
+            assert [session.components[item.refdes].x for item in originals] == [
+                result.value.x for result in results
+            ]
+        finally:
+            for component in originals:
+                session.components.move(
+                    component.refdes,
+                    x=component.x,
+                    y=component.y,
+                    rotation=component.rotation,
+                )
+
+    def test_atomic_batch_failure_rolls_back_all(self, allegro: Allegro, session: Session) -> None:
+        if allegro.mode != 'cli':
+            pytest.skip('component batch test requires the Windows board copy')
+
+        original = session.components(include_unplaced=False)[0]
+        assert original.x is not None
+        assert original.y is not None
+        results = []
+
+        def execute() -> None:
+            with session.batch() as batch:
+                results.extend([
+                    batch.add(
+                        session.components.move.command(
+                            original.refdes,
+                            x=original.x + 1.0,
+                            y=original.y + 1.0,
+                        )
+                    ),
+                    batch.add(
+                        session.components.move.command('__MISSING_COMPONENT__', x=1.0, y=2.0)
+                    ),
+                ])
+
+        with pytest.raises(RuntimeError, match='COMPONENT_NOT_FOUND'):
+            execute()
+
+        moved, missing = results
+
+        assert session.components[original.refdes] == original
+        with pytest.raises(RuntimeError, match='COMPONENT_NOT_FOUND'):
+            _ = moved.value
+        with pytest.raises(RuntimeError, match='COMPONENT_NOT_FOUND'):
+            _ = missing.value
+
+    def test_dry_run_batch_returns_results_and_rolls_back(
+        self,
+        allegro: Allegro,
+        session: Session,
+    ) -> None:
+        if allegro.mode != 'cli':
+            pytest.skip('component batch test requires the Windows board copy')
+
+        original = session.components(include_unplaced=False)[0]
+        assert original.x is not None
+        assert original.y is not None
+
+        with session.batch('preview move', dry_run=True) as batch:
+            result = batch.add(
+                session.components.move.command(
+                    original.refdes,
+                    x=original.x + 1.0,
+                    y=original.y + 1.0,
+                )
+            )
+
+        assert result.value.x == pytest.approx(original.x + 1.0)
+        assert session.components[original.refdes] == original
+
     def test_component_info_is_frozen(self, session: Session) -> None:
         component = session.components()[0]
 

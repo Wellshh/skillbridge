@@ -3,9 +3,5 @@ from __future__ import annotations
 from pydantic import BaseModel, ConfigDict
 
 
-class AllegroProtocolError(RuntimeError):
-    pass
-
-
 class _Record(BaseModel):
     model_config = ConfigDict(strict=True, extra='forbid', frozen=True)

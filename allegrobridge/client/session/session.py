@@ -8,7 +8,7 @@ from typing import Protocol
 
 from typing_extensions import Self
 
-from allegrobridge.client.api import BoardApi, ComponentsApi, NetsApi
+from allegrobridge.client.api import Batch, BoardApi, ComponentsApi, NetsApi
 from allegrobridge.client.workspace import Workspace
 
 
@@ -32,6 +32,9 @@ class Session:
     @property
     def generation(self) -> int:
         return self._generation
+
+    def batch(self, description: str = '', *, dry_run: bool = False) -> Batch:
+        return Batch(self, description, dry_run=dry_run)
 
     @cached_property
     def board(self) -> BoardApi:

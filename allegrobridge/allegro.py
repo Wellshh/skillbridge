@@ -8,8 +8,10 @@ from pathlib import Path
 from shutil import which
 from time import monotonic, sleep
 from types import TracebackType
-from typing import Literal, Self
+from typing import Literal
 from uuid import uuid4
+
+from typing_extensions import Self
 
 import allegrobridge.server
 import skillbridge.server
@@ -18,15 +20,17 @@ from skillbridge.client.workspace import WorkspaceId
 from ._runtime import CliRuntime
 from .client.session import Session
 from .client.workspace import Workspace
+from .exceptions import (
+    AllegroFileNotFoundError,
+    AllegroLaunchError,
+    AllegroServerIdentityError,
+    AllegroTimeoutError,
+)
 
 OpenMode = Literal['cli', 'manual']
 _LOG = logging.getLogger(__name__)
 _POLL_INTERVAL = 0.1
 _INSTALL_ROOT_VARS = ('CDSROOT', 'Sigrity_EDA_DIR')
-
-
-class _ServerIdentityError(RuntimeError):
-    pass
 
 
 def _resolve_executable(executable: str | Path) -> str:
@@ -42,7 +46,7 @@ def _resolve_executable(executable: str | Path) -> str:
     )
     if found is not None:
         return found
-    raise FileNotFoundError(
+    raise AllegroFileNotFoundError(
         f"could not find the Allegro executable {str(executable)!r}: not on PATH and no "
         f"Cadence installation found via {', '.join(_INSTALL_ROOT_VARS)}; "
         "pass the full path with executable=..."
@@ -139,7 +143,7 @@ class Allegro:
         )
         board_path = Path(board).resolve() if board is not None else None
         if board_path is not None and not board_path.is_file():
-            raise FileNotFoundError(f'Allegro board file does not exist: {board_path}')
+            raise AllegroFileNotFoundError(f'Allegro board file does not exist: {board_path}')
         token = uuid4().hex
         endpoint = int(ws_id) if sys.platform == 'win32' or force_tcp else None
         runtime = CliRuntime(endpoint=endpoint)
@@ -164,7 +168,7 @@ class Allegro:
             cls._cleanup_after_error(
                 runtime,
                 error,
-                wait_for_endpoint=not isinstance(error, _ServerIdentityError),
+                wait_for_endpoint=not isinstance(error, AllegroServerIdentityError),
             )
             raise
         return cls(
@@ -214,7 +218,7 @@ class Allegro:
         while monotonic() < deadline:
             return_code = runtime.poll()
             if return_code is not None:
-                raise RuntimeError(
+                raise AllegroLaunchError(
                     f'Allegro exited before the server was ready (exit code {return_code})'
                 )
             try:
@@ -223,12 +227,12 @@ class Allegro:
                     force_tcp=force_tcp,
                     nonce=nonce,
                 )
-            except _ServerIdentityError:
+            except AllegroServerIdentityError:
                 raise
             except (OSError, RuntimeError) as error:
                 last_error = error
                 sleep(_POLL_INTERVAL)
-        raise TimeoutError(
+        raise AllegroTimeoutError(
             f'Allegro server was not ready within {timeout:g} seconds'
         ) from last_error
 
@@ -242,26 +246,26 @@ class Allegro:
         workspace = Workspace.open(workspace_id, force_tcp=force_tcp)
         if not isinstance(workspace, Workspace):
             workspace.close()
-            raise RuntimeError('Connected server is not running in Allegro')
+            raise AllegroLaunchError('Connected server is not running in Allegro')
+
+        def verify_identity(actual: object) -> None:
+            if actual != nonce:
+                raise AllegroServerIdentityError(
+                    'Connected Allegro server belongs to a different launch instance'
+                )
+
         try:
             if nonce is not None:
                 actual_token = workspace['evalstring']('__abLaunchToken')
-                Allegro._verify_server_identity(actual_token, nonce)
+                verify_identity(actual_token)
             ok = workspace['plus'](1, 2) == 3  # ruff: ignore[magic-value-comparison]
         except BaseException:
             workspace.close()
             raise
         if not ok:
             workspace.close()
-            raise RuntimeError('Allegro server readiness check failed')
+            raise AllegroLaunchError('Allegro server readiness check failed')
         return workspace
-
-    @staticmethod
-    def _verify_server_identity(actual: object, expected: str) -> None:
-        if actual != expected:
-            raise _ServerIdentityError(
-                'Connected Allegro server belongs to a different launch instance'
-            )
 
     @staticmethod
     def _cleanup_after_error(

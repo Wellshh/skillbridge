@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Literal, TypedDict, Union, cast
 
 import allegrobridge.server
+from allegrobridge.exceptions import AllegroLaunchError
 from allegrobridge.util import extract_api_domains
 from skillbridge.client.channel import Channel
 from skillbridge.client.functions import FunctionCollection
@@ -77,7 +78,7 @@ class Workspace(GWorkspace):
         server_file = Path(allegrobridge.server.__file__).with_name('allegro_server.il')
         self['load'](server_file.resolve().as_posix())
         if not self._has_extension():
-            raise RuntimeError('Allegro extension failed to load')
+            raise AllegroLaunchError('Allegro extension failed to load')
 
 
 # Register domain collections as class annotations, excluding 'db' which is inherited

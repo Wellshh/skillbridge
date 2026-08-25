@@ -16,11 +16,11 @@ from allegrobridge import Allegro
 from allegrobridge.allegro import (
     _build_startup_script,  # ruff: ignore[import-private-name]
     _resolve_executable,  # ruff: ignore[import-private-name]
-    _ServerIdentityError,  # ruff: ignore[import-private-name]
 )
 from allegrobridge.client.api import (
-    AllegroProtocolError,
+    Batch,
     Command,
+    CommandResult,
     ComponentsApi,
     RpcArgs,
     SessionApi,
@@ -28,6 +28,15 @@ from allegrobridge.client.api import (
 )
 from allegrobridge.client.session import Session
 from allegrobridge.client.workspace import Workspace
+from allegrobridge.exceptions import (
+    AllegroError,
+    AllegroFileNotFoundError,
+    AllegroLaunchError,
+    AllegroProtocolError,
+    AllegroServerIdentityError,
+    AllegroTimeoutError,
+)
+from skillbridge.exception import ProtocolError, SkillBridgeError
 
 
 @pytest.fixture
@@ -156,7 +165,7 @@ def test_identity_mismatch_closes_unknown_workspace_and_fails_immediately(
         return_value='old-token' if name == 'evalstring' else 3
     )
     monkeypatch.setattr('allegrobridge.allegro.Workspace.open', Mock(return_value=workspace))
-    with pytest.raises(_ServerIdentityError, match='different launch instance'):
+    with pytest.raises(AllegroServerIdentityError, match='different launch instance'):
         Allegro._open_workspace('7788', force_tcp=True, nonce='new-instance')
     workspace.close.assert_called_once_with()
 
@@ -170,9 +179,9 @@ def test_identity_mismatch_does_not_wait_for_unknown_endpoint(
     monkeypatch.setattr(
         Allegro,
         '_wait_for_workspace',
-        Mock(side_effect=_ServerIdentityError('different launch instance')),
+        Mock(side_effect=AllegroServerIdentityError('different launch instance')),
     )
-    with pytest.raises(_ServerIdentityError):
+    with pytest.raises(AllegroServerIdentityError):
         Allegro.launch(executable=executable)
     runtime.close.assert_called_once_with(wait_for_endpoint=False)
 
@@ -360,3 +369,147 @@ class TestWriteApi:
         workspace.transaction.preview.assert_called_once_with(
             '__abMoveComponent("R1" 3.0 2.0 nil )'
         )
+
+
+class TestBatch:
+    @staticmethod
+    def _payload(refdes: str, x: float) -> dict[str, object]:
+        return {
+            'refdes': refdes,
+            'device_type': 'RESISTOR',
+            'package': 'RES_0402',
+            'component_class': 'DISCRETE',
+            'placement': 'placed',
+            'x': x,
+            'y': 2.0,
+            'rotation': 0.0,
+        }
+
+    def test_resolves_ordered_results_with_one_rpc(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.lazy.side_effect = ['move1()', 'move2()']
+        workspace.transaction.return_value = [self._payload('R1', 1.0), self._payload('R2', 2.0)]
+        session = Session(Mock(workspace=workspace))
+
+        with session.batch('move two') as batch:
+            assert isinstance(batch, Batch)
+            first = batch.add(session.components.move.command('R1', x=1.0, y=2.0))
+            second = batch.add(session.components.move.command('R2', x=2.0, y=2.0))
+            with pytest.raises(RuntimeError, match='pending'):
+                _ = first.value
+
+        assert isinstance(first, CommandResult)
+        assert first.value.refdes == 'R1'
+        assert second.value.refdes == 'R2'
+        composite = workspace.transaction.call_args.args[0]
+        assert 'progn' in composite
+        assert composite.index('move1()') < composite.index('move2()')
+        assert 'reverse(results)' in composite
+        workspace.transaction.assert_called_once()
+
+    def test_dry_run_uses_preview_and_empty_batch_sends_nothing(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.lazy.return_value = 'move1()'
+        workspace.transaction.preview.return_value = [self._payload('R1', 1.0)]
+        session = Session(Mock(workspace=workspace))
+
+        with session.batch(dry_run=True) as batch:
+            result = batch.add(session.components.move.command('R1', x=1.0, y=2.0))
+
+        assert result.value.refdes == 'R1'
+        workspace.transaction.assert_not_called()
+        workspace.transaction.preview.assert_called_once()
+
+        workspace.reset_mock()
+        with session.batch():
+            pass
+        workspace.transaction.assert_not_called()
+        workspace.transaction.preview.assert_not_called()
+
+    def test_rejects_cross_session_command(self) -> None:
+        session = Session(Mock(workspace=MagicMock()))
+        other = Session(Mock(workspace=MagicMock()))
+        command = other.components.move.command('R1', x=1.0, y=2.0)
+
+        with session.batch() as batch, pytest.raises(ValueError, match='Session'):
+            batch.add(command)
+
+    def test_context_error_cancels_results_without_sending(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.lazy.return_value = 'move1()'
+        session = Session(Mock(workspace=workspace))
+        error = ValueError('body')
+        results: list[CommandResult[object]] = []
+
+        def cancel() -> None:
+            with session.batch() as batch:
+                results.append(batch.add(session.components.move.command('R1', x=1.0, y=2.0)))
+                raise error
+
+        with pytest.raises(ValueError, match='body'):
+            cancel()
+
+        with pytest.raises(ValueError) as raised:
+            _ = results[0].value
+        assert raised.value is error
+        workspace.transaction.assert_not_called()
+
+    @pytest.mark.parametrize('payload', [None, [], [None, None]])
+    def test_protocol_failure_fails_every_result(self, payload: object) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.lazy.return_value = 'move1()'
+        workspace.transaction.return_value = payload
+        session = Session(Mock(workspace=workspace))
+        results: list[CommandResult[object]] = []
+
+        def execute() -> None:
+            with session.batch() as batch:
+                results.append(batch.add(session.components.move.command('R1', x=1.0, y=2.0)))
+
+        with pytest.raises(AllegroProtocolError, match='batch'):
+            execute()
+
+        with pytest.raises(AllegroProtocolError, match='batch'):
+            _ = results[0].value
+
+    def test_validation_finishes_before_any_result_is_resolved(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.lazy.side_effect = ['move1()', 'move2()']
+        workspace.transaction.return_value = [self._payload('R1', 1.0), None]
+        session = Session(Mock(workspace=workspace))
+        results: list[CommandResult[object]] = []
+
+        def execute() -> None:
+            with session.batch() as batch:
+                results.extend([
+                    batch.add(session.components.move.command('R1', x=1.0, y=2.0)),
+                    batch.add(session.components.move.command('R2', x=2.0, y=2.0)),
+                ])
+
+        with pytest.raises(AllegroProtocolError, match='__abMoveComponent'):
+            execute()
+        for result in results:
+            with pytest.raises(AllegroProtocolError, match='__abMoveComponent'):
+                _ = result.value
+
+    def test_batch_is_single_use_and_add_requires_active_context(self) -> None:
+        session = Session(Mock(workspace=MagicMock()))
+        batch = session.batch()
+
+        with pytest.raises(RuntimeError, match='active'):
+            batch.add(Mock(spec=Command))
+        with batch:
+            pass
+        with pytest.raises(RuntimeError, match='active'):
+            batch.add(Mock(spec=Command))
+        with pytest.raises(RuntimeError, match='already used'), batch:
+            pass
+
+
+def test_allegro_errors_share_skillbridge_root() -> None:
+    assert issubclass(AllegroError, SkillBridgeError)
+    assert issubclass(AllegroProtocolError, ProtocolError)
+    assert issubclass(AllegroProtocolError, AllegroError)
+    assert issubclass(AllegroFileNotFoundError, FileNotFoundError)
+    assert issubclass(AllegroLaunchError, AllegroError)
+    assert issubclass(AllegroTimeoutError, AllegroLaunchError)

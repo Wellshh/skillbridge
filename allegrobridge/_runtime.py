@@ -9,6 +9,8 @@ from time import monotonic, sleep
 
 import psutil
 
+from .exceptions import AllegroLaunchError, AllegroTimeoutError
+
 _LOG = logging.getLogger(__name__)
 _POLL_INTERVAL = 0.1
 _PROCESS_EXIT_TIMEOUT = 5.0
@@ -27,7 +29,7 @@ class CliRuntime:
     @property
     def process(self) -> Popen[bytes]:
         if self._process is None:
-            raise RuntimeError('Allegro process has not been started')
+            raise AllegroLaunchError('Allegro process has not been started')
         return self._process
 
     def start(self, command: list[str], script: str) -> None:
@@ -77,7 +79,7 @@ class CliRuntime:
             try:
                 probe.bind(('localhost', self.endpoint))
             except OSError as error:
-                raise RuntimeError(
+                raise AllegroLaunchError(
                     f'Allegro server port {self.endpoint} is already in use'
                 ) from error
 
@@ -107,7 +109,9 @@ class CliRuntime:
         except psutil.NoSuchProcess:
             return False
         except psutil.AccessDenied as error:
-            raise RuntimeError(f'Access denied while inspecting process {error.pid}') from error
+            raise AllegroLaunchError(
+                f'Access denied while inspecting process {error.pid}'
+            ) from error
         for process in descendants:
             self._known_processes.setdefault(process.pid, process)
         return True
@@ -119,13 +123,15 @@ class CliRuntime:
         except psutil.NoSuchProcess:
             return None
         except psutil.AccessDenied as error:
-            raise RuntimeError(f'Access denied while inspecting process {error.pid}') from error
+            raise AllegroLaunchError(
+                f'Access denied while inspecting process {error.pid}'
+            ) from error
 
     def _stop_processes(self) -> None:
-        discovery_error: RuntimeError | None = None
+        discovery_error: AllegroLaunchError | None = None
         try:
             self._discover_descendants()
-        except RuntimeError as error:
+        except AllegroLaunchError as error:
             discovery_error = error
         targets, denied = self._terminate_descendants()
         alive = self._wait_and_kill(targets, denied)
@@ -137,14 +143,14 @@ class CliRuntime:
         if alive:
             if root_error is not None:
                 _LOG.error('Root process cleanup also failed', exc_info=root_error)
-            raise TimeoutError(
+            raise AllegroTimeoutError(
                 'Allegro descendant processes did not exit: '
                 + ', '.join(str(process.pid) for process in alive)
             )
         if denied:
             if root_error is not None:
                 _LOG.error('Root process cleanup also failed', exc_info=root_error)
-            raise RuntimeError(
+            raise AllegroLaunchError(
                 'Access denied while stopping Allegro descendant processes: '
                 + ', '.join(str(pid) for pid in denied)
             )
@@ -212,7 +218,9 @@ class CliRuntime:
         while self._endpoint_is_listening():
             if monotonic() >= deadline:
                 detail = self._listener_detail()
-                raise TimeoutError(f'Allegro server port {self.endpoint} was not released{detail}')
+                raise AllegroTimeoutError(
+                    f'Allegro server port {self.endpoint} was not released{detail}'
+                )
             sleep(_POLL_INTERVAL)
 
     def _endpoint_is_listening(self) -> bool:

@@ -12,6 +12,7 @@ import psutil
 import pytest
 
 from allegrobridge._runtime import CliRuntime  # ruff: ignore[import-private-name]
+from allegrobridge.exceptions import AllegroLaunchError
 
 _PYTHON = getattr(sys, '_base_executable', None) or sys.executable
 
@@ -167,7 +168,7 @@ def test_stop_processes_still_reaps_root_when_discovery_is_denied(
     monkeypatch.setattr(
         runtime,
         '_discover_descendants',
-        Mock(side_effect=RuntimeError('Access denied while inspecting process 11')),
+        Mock(side_effect=AllegroLaunchError('Access denied while inspecting process 11')),
     )
 
     with pytest.raises(RuntimeError, match=r'Access denied.*11'):
