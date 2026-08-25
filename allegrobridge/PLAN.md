@@ -99,10 +99,10 @@ allegrobridge/
 │   └── translator.py        # Allegro 函数名映射
 └── server/
     ├── __init__.py
-    └── allegro_server.il     # Allegro 专属 SKILL 扩展
+    └── allegro_server.il     # Allegro core runtime
 ```
 
-通用 `skillbridge/server/python_server.il` 不得引用任何 `axl*` API。`allegro_server.il` 作为库扩展被加载，不是独立用户命令，因此不需要为内部 procedure 额外注册 `axlCmdRegister`。该 `.il` 文件必须加入 wheel package-data，并增加 wheel 内文件存在性测试。
+通用 `skillbridge/server/python_server.il` 不得引用任何 `axl*` API。`allegro_server.il` 作为核心运行时被加载，不是独立用户命令，因此不需要为内部 procedure 额外注册 `axlCmdRegister`。该 `.il` 文件必须加入 wheel package-data，并增加 wheel 内文件存在性测试。
 
 `client/api` 不预先创建空模块；board、components、nets 依次随首个真实方法落地。每个模块同时保存该领域的 API 对象、少量公开返回记录和模块级校验器，避免横向拆成 models/schemas/serializers/service 层。LGPL-3.0 许可与归属继续保留。
 
@@ -349,7 +349,7 @@ _ALLOWED_CALLS = {
 - RemoteObject 保存
 - server 启动、停止和重启生命周期
 
-不复制、重命名或 fork 该文件；`allegrobridge` 通过独立 extension 在其上叠加 Allegro 能力。
+不复制、重命名或 fork 该文件；`allegrobridge` 通过独立 core runtime 在其上叠加 Allegro 能力。
 
 ---
 
@@ -375,9 +375,9 @@ skill load(".../allegrobridge/server/allegro_server.il")
 skill pyStartServer(...)
 ```
 
-在 `allegrobridge.Workspace._create_workspace()` 完成 Allegro 宿主探测后，对 Allegro Workspace 检查上述三个 procedure 是否都可调用；缺失时调用 `load()`，然后再次检查。加载或复核失败时，关闭刚创建的 workspace 再抛出错误。Virtuoso 等非 Allegro 宿主仍返回通用 Workspace，不加载该扩展。
+在 `allegrobridge.Workspace._create_workspace()` 完成 Allegro 宿主探测后，对 Allegro Workspace 检查上述三个 procedure 是否都可调用；缺失时调用 `load()`，然后再次检查。加载或复核失败时，关闭刚创建的 workspace 再抛出错误。Virtuoso 等非 Allegro 宿主仍返回通用 Workspace，不加载该运行时。
 
-不覆写 `Workspace.open()`：该方法已有实例缓存，`_create_workspace()` 只在缓存未命中时执行，使扩展初始化天然只发生一次。CLI 模式也经过这一复核，因此 startup script 加载失败不会被误报为就绪。`Workspace.transaction` 门面只调用已加载的 procedure，不在每次写操作前部署文件。
+不覆写 `Workspace.open()`：该方法已有实例缓存，`_create_workspace()` 只在缓存未命中时执行，使核心运行时初始化天然只发生一次。CLI 模式也经过这一复核，因此 startup script 加载失败不会被误报为就绪。`Workspace.transaction` 门面只调用已加载的 procedure，不在每次写操作前部署文件。
 
 ### 5.2 包装与路径
 
@@ -591,7 +591,7 @@ results = ws.transaction.batch([SkillCode("command1()"), SkillCode("command2()")
 2. 实现 `allegro_server.il`，并达到该文件 statement/branch 100% coverage。通用 `test_server.ils` 不引入 Allegro transaction 测试。
 3. 在 Python 单元测试中先定义 `Workspace.transaction()` 的委托行为，以及 CLI 预加载、`_create_workspace()` 缺失时加载、已加载时不重复加载、非 Allegro 不加载和加载失败清理连接的行为。
 4. 增加 wheel 包含 `allegrobridge/server/allegro_server.il` 的打包测试。
-5. 最后在 `tests/allegrobridge/test_integration.py` 用真实 Allegro 数据库验证扩展自动加载、commit 与 rollback。
+5. 最后在 `tests/allegrobridge/test_integration.py` 用真实 Allegro 数据库验证核心运行时自动加载、commit 与 rollback。
 
 ### 2.4 验收
 
@@ -603,7 +603,7 @@ results = ws.transaction.batch([SkillCode("command1()"), SkillCode("command2()")
 语法错误不留下部分修改
 transaction start/commit 失败时不返回假成功
 原始 SKILL 错误不被 rollback 提示覆盖
-CLI 和 manual 模式都能加载扩展，且已加载时不重复 load
+CLI 和 manual 模式都能加载核心运行时，且已加载时不重复 load
 传输中断后客户端不自动重发写 command
 ```
 ---
@@ -990,10 +990,10 @@ transaction 成功结果解码
 transaction rollback failure 转为 Python 异常
 transaction.preview() 委托 dry-run
 transaction.batch() 委托 savepoint batch，空列表不发 RPC
-CLI startup script 先加载 core，再加载 Allegro extension
-Allegro Workspace 初始化时缺失 extension 则加载，已存在时不重复加载
-非 Allegro Workspace 不加载 extension
-extension 加载失败时关闭新建连接
+CLI startup script 先加载 python_server，再加载 Allegro core runtime
+Allegro Workspace 初始化时缺失 core runtime 则加载，已存在时不重复加载
+非 Allegro Workspace 不加载 core runtime
+core runtime 加载失败时关闭新建连接
 wheel 包含 allegro_server.il
 写命令传输失败后不重发
 ```

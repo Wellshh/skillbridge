@@ -28,13 +28,22 @@ class SessionApi:
     _session: Session
 
 
-def core_api(api: type[ApiT]) -> type[ApiT]:
-    """Register an API class and its underlying SKILL procedures as core extensions."""
-    for member in vars(api).values():
-        procedure = getattr(member, 'procedure', None)
-        if isinstance(procedure, str) and procedure not in _CORE_PROCEDURES:
+def _core_api(api: type[ApiT]) -> type[ApiT]:
+    """Register a built-in API class and its underlying SKILL procedures."""
+    for procedure in _api_procedures(api):
+        if procedure not in _CORE_PROCEDURES:
             _CORE_PROCEDURES.append(procedure)
     return api
+
+
+def _api_procedures(api: type[SessionApi]) -> tuple[str, ...]:
+    return tuple(
+        dict.fromkeys(
+            procedure
+            for member in vars(api).values()
+            if isinstance(procedure := getattr(member, 'procedure', None), str)
+        )
+    )
 
 
 def _core_procedures() -> tuple[str, ...]:

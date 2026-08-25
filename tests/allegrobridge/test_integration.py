@@ -14,7 +14,8 @@ import pytest
 from pydantic import ValidationError
 
 from allegrobridge import Allegro, OpenMode, Session, Workspace
-from allegrobridge.client.api import AllegroProtocolError, BoardInfo, ComponentInfo, NetInfo
+from allegrobridge.client.api import BoardInfo, ComponentInfo, NetInfo
+from allegrobridge.exceptions import AllegroProtocolError
 from allegrobridge.util import ASSETS_DIR
 from skillbridge import SkillCode
 

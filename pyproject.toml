@@ -75,7 +75,7 @@ include = ["skillbridge*", "allegrobridge*"]
 namespaces = false
 
 [tool.setuptools.package-data]
-allegrobridge = ["assets/*.txt", "server/*.il"]
+allegrobridge = ["assets/*.txt", "server/*.il", "server/extensions/*.il"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

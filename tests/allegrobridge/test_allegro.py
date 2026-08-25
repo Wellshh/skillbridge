@@ -11,6 +11,7 @@ from unittest.mock import MagicMock, Mock
 import pytest
 from pydantic import TypeAdapter
 
+import allegrobridge.client.api as api_module
 import allegrobridge.server
 import skillbridge.server
 from allegrobridge import Allegro
@@ -99,10 +100,10 @@ def test_startup_script_orders_nonce_board_and_guarded_server(tmp_path: Path) ->
     )
     lines = script.splitlines()
     core = Path(skillbridge.server.__file__).with_name('python_server.il')
-    extension = Path(allegrobridge.server.__file__).with_name('allegro_server.il')
+    runtime = Path(allegrobridge.server.__file__).with_name('allegro_server.il')
     assert lines[:2] == [
         f'skill load("{core.as_posix()}")',
-        f'skill load("{extension.as_posix()}")',
+        f'skill load("{runtime.as_posix()}")',
     ]
     nonce = 'skill __abLaunchToken = "launch-instance"'
     board_open = next(line for line in lines if 'axlOpenDesign' in line)
@@ -257,9 +258,19 @@ class TestSession:
 
 class TestSessionExtensions:
     @staticmethod
-    def _module(name: str = 'constraints') -> tuple[ModuleType, type[SessionApi]]:
+    def _module(
+        name: str = 'constraints',
+        procedure: str | None = None,
+    ) -> tuple[ModuleType, type[SessionApi]]:
         module = ModuleType(f'allegrobridge.client.api.extensions.{name}')
-        api = extension(type('ConstraintsApi', (SessionApi,), {'__module__': module.__name__}))
+        namespace: dict[str, object] = {'__module__': module.__name__}
+        if procedure is not None:
+
+            def project(self: SessionApi) -> RpcArgs:
+                return ()
+
+            namespace['project'] = read(procedure, TypeAdapter(int))(project)
+        api = extension(type('ConstraintsApi', (SessionApi,), namespace))
         module.ConstraintsApi = api
         return module, api
 
@@ -278,8 +289,27 @@ class TestSessionExtensions:
 
         assert isinstance(plugin, api)
         assert ext['constraints'] is plugin
-        assert session.extensions.constraints is plugin
+        assert session.ext.constraints is plugin
         importer.assert_called_once_with('allegrobridge.client.api.extensions.constraints')
+
+    def test_rpc_extension_prepares_workspace_before_binding(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
+        procedure = '__abp_constraints_project'
+        module, api = self._module(procedure=procedure)
+        monkeypatch.setattr(
+            'allegrobridge.client.api._extensions.import_module',
+            Mock(return_value=module),
+        )
+        workspace = MagicMock()
+        session = Session(Mock(workspace=workspace))
+
+        assert isinstance(session.ext.constraints, api)
+        workspace._ensure_extension.assert_called_once_with(
+            'constraints',
+            (procedure,),
+        )
 
     def test_unknown_extension_uses_python_lookup_errors(
         self,
@@ -314,20 +344,46 @@ class TestSessionExtensions:
             'dependency': ModuleNotFoundError(name='dependency'),
             'import': ValueError('import failed'),
         }[failure]
-        monkeypatch.setattr(
-            'allegrobridge.client.api._extensions.import_module',
+        importer = (
             Mock(side_effect=side_effect)
             if isinstance(side_effect, BaseException)
-            else Mock(return_value=side_effect),
+            else Mock(return_value=side_effect)
         )
+        monkeypatch.setattr('allegrobridge.client.api._extensions.import_module', importer)
         session = Session(Mock(workspace=MagicMock()))
 
-        with pytest.raises(ExtensionError, match='broken'):
+        with pytest.raises(ExtensionError, match='broken') as first:
             _ = session.ext.broken
+        with pytest.raises(ExtensionError, match='broken') as second:
+            _ = session.ext.broken
+        assert second.value is first.value
+        importer.assert_called_once()
         assert session.board is session.board
 
 
 class TestReadApi:
+    def test_client_api_exports_only_public_declarations(self) -> None:
+        assert set(api_module.__all__) == {
+            'Batch',
+            'BoardApi',
+            'BoardInfo',
+            'Command',
+            'CommandResult',
+            'ComponentInfo',
+            'ComponentsApi',
+            'NetInfo',
+            'NetsApi',
+            'RpcArgs',
+            'SessionApi',
+            'extension',
+            'read',
+            'write',
+        }
+        assert not hasattr(api_module, 'AllegroProtocolError')
+        assert not hasattr(api_module, 'core_api')
+        assert not hasattr(api_module, 'Extensions')
+        assert not hasattr(api_module, '_Record')
+
     def test_core_procedures_are_collected_from_api_declarations(self) -> None:
         assert _core_procedures() == (
             '__abProjectBoard',

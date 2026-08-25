@@ -5,7 +5,7 @@ from typing import List
 from pydantic import NonNegativeInt, PositiveInt, TypeAdapter
 
 from allegrobridge.client.api._record import _Record
-from allegrobridge.client.api._rpc import RpcArgs, SessionApi, core_api, read
+from allegrobridge.client.api._rpc import RpcArgs, SessionApi, _core_api, read
 
 _PROCEDURE = '__abProjectNets'
 
@@ -22,7 +22,7 @@ _NetList = List[NetInfo]
 _NETS = TypeAdapter(_NetList)
 
 
-@core_api
+@_core_api
 class NetsApi(SessionApi):
     @read(_PROCEDURE, _NETS, none_as_empty=True)
     def _project(self, name: str | None) -> RpcArgs:

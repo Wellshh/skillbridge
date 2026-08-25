@@ -60,12 +60,12 @@ def _default_workspace_id(*, force_tcp: bool) -> str:
 def _build_startup_script(
     *, board: Path | None, workspace_id: str, force_tcp: bool, nonce: str
 ) -> str:
-    core = Path(skillbridge.server.__file__).with_name('python_server.il').as_posix()
-    extension = Path(allegrobridge.server.__file__).with_name('allegro_server.il').as_posix()
+    python_server = Path(skillbridge.server.__file__).with_name('python_server.il').as_posix()
+    allegro_runtime = Path(allegrobridge.server.__file__).with_name('allegro_server.il').as_posix()
     force_tcp_flag = ' ?forceTcp t' if force_tcp else ''
     lines = [
-        f'skill load("{core}")',
-        f'skill load("{extension}")',
+        f'skill load("{python_server}")',
+        f'skill load("{allegro_runtime}")',
         'skill axlSetVariable("noconfirm" t)',
         f'skill __abLaunchToken = "{nonce}"',
     ]

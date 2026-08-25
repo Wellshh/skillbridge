@@ -3,12 +3,14 @@ from __future__ import annotations
 from collections import deque
 from json import dumps
 from pathlib import Path
+from threading import Thread
 from typing import Any
 
 from pytest import MonkeyPatch, mark, raises
 
 import allegrobridge.server
 from allegrobridge import Workspace as AllegroWorkspace
+from allegrobridge.exceptions import ExtensionError
 from skillbridge import Workspace
 from skillbridge.client import workspace as workspace_module
 from skillbridge.client.channel import Channel
@@ -235,7 +237,7 @@ def test_allegro_workspace_open_detects_server(
     opened.close()
 
 
-def test_allegro_workspace_loads_missing_extension(
+def test_allegro_workspace_loads_missing_core_runtime(
     monkeypatch: MonkeyPatch,
 ) -> None:
     channel = ScriptedChannel(
@@ -247,7 +249,7 @@ def test_allegro_workspace_loads_missing_extension(
         lambda _force_tcp: lambda _id: channel,
     )
 
-    opened = AllegroWorkspace.open('missing-transaction-extension')
+    opened = AllegroWorkspace.open('missing-transaction-runtime')
 
     assert type(opened) is AllegroWorkspace
     server_file = Path(allegrobridge.server.__file__).with_name('allegro_server.il')
@@ -267,7 +269,93 @@ def test_allegro_workspace_loads_missing_extension(
     opened.close()
 
 
-def test_allegro_workspace_closes_when_extension_stays_incomplete(
+def test_allegro_workspace_loads_extension_once_across_threads(
+    monkeypatch: MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    package = tmp_path / 'server'
+    extension_dir = package / 'extensions'
+    extension_dir.mkdir(parents=True)
+    (extension_dir / 'constraints.il').touch()
+    monkeypatch.setattr(allegrobridge.server, '__file__', str(package / '__init__.py'))
+    channel = ScriptedChannel('None', 'None', 'True')
+    ws = AllegroWorkspace(channel=channel, id_=456)
+    threads = [
+        Thread(
+            target=ws._ensure_extension,
+            args=('constraints', ('__abp_constraints_project',)),
+        )
+        for _ in range(2)
+    ]
+    for thread in threads:
+        thread.start()
+    for thread in threads:
+        thread.join()
+
+    path = (extension_dir / 'constraints.il').resolve().as_posix()
+    assert channel.commands == [
+        "isCallable('__abp_constraints_project )",
+        f'load({dumps(path)} )',
+        "isCallable('__abp_constraints_project )",
+    ]
+
+
+def test_allegro_workspace_caches_extension_failure(
+    monkeypatch: MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    package = tmp_path / 'server'
+    package.mkdir()
+    monkeypatch.setattr(allegrobridge.server, '__file__', str(package / '__init__.py'))
+    channel = ScriptedChannel('None')
+    ws = AllegroWorkspace(channel=channel, id_=456)
+
+    with raises(ExtensionError) as first:
+        ws._ensure_extension('missing', ('__abp_missing_project',))
+    with raises(ExtensionError) as second:
+        ws._ensure_extension('missing', ('__abp_missing_project',))
+
+    assert second.value is first.value
+    assert channel.commands == ["isCallable('__abp_missing_project )"]
+
+
+def test_allegro_workspace_skips_present_extension() -> None:
+    channel = ScriptedChannel('True')
+    ws = AllegroWorkspace(channel=channel, id_=456)
+
+    ws._ensure_extension('constraints', ('__abp_constraints_project',))
+    ws._ensure_extension('constraints', ('__abp_constraints_project',))
+
+    assert channel.commands == ["isCallable('__abp_constraints_project )"]
+
+
+def test_allegro_workspace_caches_extension_readiness_failure(
+    monkeypatch: MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    package = tmp_path / 'server'
+    extension_dir = package / 'extensions'
+    extension_dir.mkdir(parents=True)
+    (extension_dir / 'broken.il').touch()
+    monkeypatch.setattr(allegrobridge.server, '__file__', str(package / '__init__.py'))
+    channel = ScriptedChannel('None', 'None', 'None')
+    ws = AllegroWorkspace(channel=channel, id_=456)
+
+    with raises(ExtensionError, match='readiness') as first:
+        ws._ensure_extension('broken', ('__abp_broken_project',))
+    with raises(ExtensionError, match='readiness') as second:
+        ws._ensure_extension('broken', ('__abp_broken_project',))
+
+    path = (extension_dir / 'broken.il').resolve().as_posix()
+    assert second.value is first.value
+    assert channel.commands == [
+        "isCallable('__abp_broken_project )",
+        f'load({dumps(path)} )',
+        "isCallable('__abp_broken_project )",
+    ]
+
+
+def test_allegro_workspace_closes_when_core_runtime_stays_incomplete(
     monkeypatch: MonkeyPatch,
 ) -> None:
     channel = ScriptedChannel('True', 'None', 'True', 'None')
@@ -277,8 +365,8 @@ def test_allegro_workspace_closes_when_extension_stays_incomplete(
         lambda _force_tcp: lambda _id: channel,
     )
 
-    with raises(RuntimeError, match='Allegro extension'):
-        AllegroWorkspace.open('incomplete-transaction-extension')
+    with raises(RuntimeError, match='Allegro core runtime'):
+        AllegroWorkspace.open('incomplete-transaction-runtime')
 
     assert channel.closed
 

@@ -9,7 +9,7 @@ from typing import Protocol
 from typing_extensions import Self
 
 from allegrobridge.client.api import Batch, BoardApi, ComponentsApi, NetsApi
-from allegrobridge.client.api._extensions import Extensions
+from allegrobridge.client.api._extensions import _Extensions
 from allegrobridge.client.workspace import Workspace
 
 
@@ -50,12 +50,8 @@ class Session:
         return NetsApi(self)
 
     @cached_property
-    def ext(self) -> Extensions:
-        return Extensions(self)
-
-    @property
-    def extensions(self) -> Extensions:
-        return self.ext
+    def ext(self) -> _Extensions:
+        return _Extensions(self)
 
     def close(self) -> None:
         if self._closed:
