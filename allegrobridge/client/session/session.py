@@ -8,7 +8,7 @@ from typing import Protocol
 
 from typing_extensions import Self
 
-from allegrobridge.client.api import Batch, BoardApi, ComponentsApi, NetsApi
+from allegrobridge.client.api import Batch, BoardApi, ComponentsApi, LayersApi, NetsApi
 from allegrobridge.client.api._extensions import _Extensions
 from allegrobridge.client.workspace import Workspace
 
@@ -37,6 +37,9 @@ class Session:
     def batch(self, description: str = '', *, dry_run: bool = False) -> Batch:
         return Batch(self, description, dry_run=dry_run)
 
+    # --- First-Class Domain APIs ---
+    # Direct access on Session. Heavy or version-sensitive domains (e.g. DRC)
+    # can delegate internally to lazy extension loaders to keep Workspace startup light.
     @cached_property
     def board(self) -> BoardApi:
         return BoardApi(self)
@@ -46,9 +49,14 @@ class Session:
         return ComponentsApi(self)
 
     @cached_property
+    def layers(self) -> LayersApi:
+        return LayersApi(self)
+
+    @cached_property
     def nets(self) -> NetsApi:
         return NetsApi(self)
 
+    # --- Bundled & Custom Extensions ---
     @cached_property
     def ext(self) -> _Extensions:
         return _Extensions(self)

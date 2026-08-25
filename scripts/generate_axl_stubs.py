@@ -875,9 +875,12 @@ def _render_docstring(spec: ApiSpec) -> tuple[str, ...]:
 
 
 def _render_callable(spec: ApiSpec) -> list[str]:
-    lines = [f'class {_callable_class_name(spec.name)}(LiteralRemoteFunction):', '    """']
-    lines.extend(f'    {line}' for line in _render_docstring(spec))
-    lines.append('    """')
+    lines = [f'class {_callable_class_name(spec.name)}(LiteralRemoteFunction):']
+
+    def append_call(parameters: str, return_type: str) -> None:
+        lines.extend((f'    def __call__({parameters}) -> {return_type}:', '        """'))
+        lines.extend(f'        {line}' for line in _render_docstring(spec))
+        lines.extend(('        """', '        ...'))
 
     signatures = [
         (
@@ -888,18 +891,23 @@ def _render_callable(spec: ApiSpec) -> list[str]:
         for parameters in _declaration_variants(declaration)
     ]
     if not signatures:
-        lines.extend((
-            '    def __call__(self, *args: Skill, **kwargs: Skill) -> Skill: ...',
-            '',
-        ))
+        append_call('self, *args: Skill, **kwargs: Skill', 'Skill')
+        lines.append('')
         return lines
 
     overloaded = len(signatures) > 1
     for parameters, return_type in signatures:
         if overloaded:
             lines.append('    @overload')
-        lines.append(f'    def __call__({_render_parameters(parameters)}) -> {return_type}: ...')
+        append_call(_render_parameters(parameters), return_type)
     lines.append('')
+    return lines
+
+
+def _render_member(name: str, spec: ApiSpec) -> list[str]:
+    lines = [f'    {name}: {_callable_class_name(spec.name)}', '    """']
+    lines.extend(f'    {line}' for line in _render_docstring(spec))
+    lines.append('    """')
     return lines
 
 
@@ -941,7 +949,7 @@ def render_stub(specs: Sequence[ApiSpec]) -> str:
     for spec in callable_specs:
         names = _api_names(spec.name)
         if names is not None:
-            flat_members.append(f'    {names[1]}: {_callable_class_name(spec.name)}')
+            flat_members.extend(_render_member(names[1], spec))
     lines.extend(flat_members or ['    pass'])
     lines.append('')
 
@@ -950,9 +958,7 @@ def render_stub(specs: Sequence[ApiSpec]) -> str:
         names = _api_names(spec.name)
         if names is None or not names[2] or keyword.iskeyword(names[2]):
             continue
-        domain_members.setdefault(names[0], []).append(
-            f'    {names[2]}: {_callable_class_name(spec.name)}'
-        )
+        domain_members.setdefault(names[0], []).extend(_render_member(names[2], spec))
     for domain in sorted(domain_members):
         lines.append(f'class {domain_classes[domain]}(FunctionCollection):')
         lines.extend(domain_members[domain])

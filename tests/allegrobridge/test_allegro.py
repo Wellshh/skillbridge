@@ -24,6 +24,7 @@ from allegrobridge.client.api import (
     Command,
     CommandResult,
     ComponentsApi,
+    LayerInfo,
     RpcArgs,
     SessionApi,
     extension,
@@ -371,6 +372,8 @@ class TestReadApi:
             'CommandResult',
             'ComponentInfo',
             'ComponentsApi',
+            'LayerInfo',
+            'LayersApi',
             'NetInfo',
             'NetsApi',
             'RpcArgs',
@@ -389,6 +392,7 @@ class TestReadApi:
             '__abProjectBoard',
             '__abProjectComponents',
             '__abMoveComponent',
+            '__abProjectLayers',
             '__abProjectNets',
         )
 
@@ -450,6 +454,50 @@ class TestReadApi:
         assert session.components()[0].session_generation == session.generation
         with pytest.raises(AllegroProtocolError, match='__abProjectNets'):
             session.nets()
+
+    def test_layers_delegate_filters_and_lookup_to_one_projection(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.return_value = [
+            {
+                'name': 'ETCH/TOP',
+                'class_name': 'ETCH',
+                'subclass': 'TOP',
+                'number': 1,
+            }
+        ]
+        session = Session(Mock(workspace=workspace))
+
+        assert session.layers(etch_only=True) == [
+            LayerInfo(
+                name='ETCH/TOP',
+                class_name='ETCH',
+                subclass='TOP',
+                number=1,
+                session_generation=session.generation,
+            )
+        ]
+        assert session.layers is session.layers
+        etch_only = True
+        workspace.__getitem__.return_value.assert_called_once_with(None, etch_only)
+
+        assert session.layers['ETCH/TOP'].name == 'ETCH/TOP'
+        etch_only = False
+        workspace.__getitem__.return_value.assert_called_with('ETCH/TOP', etch_only)
+        assert not LayerInfo(
+            name='BOARD GEOMETRY/OUTLINE',
+            class_name='BOARD GEOMETRY',
+            subclass='OUTLINE',
+            number=0,
+            session_generation=session.generation,
+        ).is_etch
+
+    def test_layers_getitem_raises_when_name_is_missing(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.return_value = None
+        session = Session(Mock(workspace=workspace))
+
+        with pytest.raises(KeyError, match='ETCH/__MISSING__'):
+            _ = session.layers['ETCH/__MISSING__']
 
 
 class TestWriteApi:

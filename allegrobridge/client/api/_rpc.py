@@ -28,6 +28,9 @@ class SessionApi:
     _session: Session
 
 
+# Note: Procedures registered via @_core_api are collected into _ensure_core_runtime()
+# and verified on every Workspace connection. Only mark procedures that are strictly
+# essential for basic sessions here. Heavy or optional domain APIs should use lazy loading.
 def _core_api(api: type[ApiT]) -> type[ApiT]:
     """Register a built-in API class and its underlying SKILL procedures."""
     for procedure in _api_procedures(api):

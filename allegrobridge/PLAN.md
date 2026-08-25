@@ -19,6 +19,7 @@
 | **3. 领域写操作与批处理 (Phase 6)** | **单写即时原子 + `with session.batch():` 延迟复合事务** | 单个写方法（如 `components.move()`）立即发起单次 RPC 原子提交；多操作组合时支持客户端上下文管理器收集指令，退出上下文时编译为单个 SKILL 复合事务一次性提交（All-or-Nothing）。 |
 | **4. 交互冲突策略 (Active Command)** | **严格非侵入式 (Fail-Fast)** | 若 Allegro 正忙（`axlOKToProceed` 为 `nil`），立即抛出 `BUSY_ACTIVE_COMMAND`，**绝不自动发送 done/cancel 中断用户前台交互**，保障人工设计安全。 |
 | **5. SDK 入口与命名空间** | **分层封装 (`Allegro` + `Session`)** | 顶层统一从 `allegrobridge` 导出 `Allegro` 与 `Session`；领域 API 位于 `allegrobridge.client.api`，底层裸 `Workspace` 收敛在 `session.raw` 下供高级调试使用。 |
+| **6. API 分层与加载边界 (Three Tiers)** | **顶层暴露与加载策略彻底解耦** | **Core Runtime**（必需内核，握手阻塞加载）；**First-Class Domain API**（常用稳定，挂在 `session.<api>`，可内部惰性化隔离，如 `session.drc`）；**Bundled Extension**（高危/复杂/版本敏感，挂在 `session.ext.<name>`，如 `rules`）。 |
 
 ---
 

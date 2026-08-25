@@ -9,177 +9,9230 @@ from skillbridge.client.hints import Number, Skill, SkillList, Symbol
 from skillbridge.client.objects import RemoteObject
 
 class _AxlAddAutoAssignNetAlgorithm(LiteralRemoteFunction):
+    def __call__(self, t_algorithm: str, t_display_name: str, /) -> bool | None:
+        """
+        This function allows the user to add custom auto net assignment algorithms to the list in the Logic -> Auto Assign Net command's algorithms list in the APD and SIP IC Packaging tools
+        SKILL: axlAddAutoAssignNetAlgorithm(t_algorithm t_displayName)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:783
+        """
+        ...
+
+class _AxlAddSelectAll(LiteralRemoteFunction):
+    def __call__(self, /) -> bool | None:
+        """
+        Finds all the figures in the database that pass the current Find Filter and adds theirdbids to the select set.
+        SKILL: axlAddSelectAll()⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/05selfnd.md:353
+        """
+        ...
+
+class _AxlAddSelectBox(LiteralRemoteFunction):
+    def __call__(self, l_b_box: SkillList | None = ..., /) -> bool | None:
+        """
+        Finds one or more figures inside the rectanglel_bBox according to the current Find Filter, and adds the selected figure dbids in cumulated mode for the select set.
+        SKILL: axlAddSelectBox([l_bBox])⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/05selfnd.md:307
+        """
+        ...
+
+class _AxlAddSelectName(LiteralRemoteFunction):
+    def __call__(self, t_name_type: str, l_names: SkillList, /) -> bool | None:
+        """
+        Adds the named figuredbids to the select set in cumulated mode according to the arguments described below
+        SKILL: axlAddSelectName(t_nameTypel_names)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/05selfnd.md:483
+        """
+        ...
+
+class _AxlAddSelectObject(LiteralRemoteFunction):
+    def __call__(self, lo_dbid: list[RemoteObject], /) -> bool | None:
+        """
+        Adds thedbids in lo_dbid to the select set in cumulated mode, that is, without removing already selected objects
+        SKILL: axlAddSelectObject(lo_dbid)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/05selfnd.md:570
+        """
+        ...
+
+class _AxlAddSelectPoint(LiteralRemoteFunction):
+    def __call__(self, l_point: SkillList | None = ..., /) -> bool | None:
+        """
+        Finds a figure atl_point according to the Find Filter and adds its dbid to the select set in cumulated mode
+        SKILL: axlAddSelectPoint([l_point])⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/05selfnd.md:197
+        """
+        ...
+
+class _AxlAddSimpleMoveDynamics(LiteralRemoteFunction):
+    def __call__(self, l_origin: SkillList, r_path: RemoteObject, t_type: str, /, *, ref_point: SkillList | None = ..., color: Skill = ...) -> bool | None:
+        """
+        Loads cursor buffer dynamics buffer with an element
+        SKILL: axlAddSimpleMoveDynamics(l_originr_patht_type?ref_point l_ref_point?color g_color)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:272
+        """
+        ...
+
+class _AxlAddSimpleRbandDynamics(LiteralRemoteFunction):
+    def __call__(self, l_fixed_point: SkillList, t_type: str, /, *, origin: SkillList | None = ..., var_point: SkillList | None = ..., last_path: SkillList | None = ..., width: float | None = ..., color: Skill = ...) -> bool | None:
+        """
+        Loads rubber band dynamics buffer with an element
+        SKILL: axlAddSimpleRbandDynamics(l_fixed_pointt_type?origin l_origin?var_point l_var_point?lastPath l_lastPath?width f_width?color g_color)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:190
+        """
+        ...
+
+class _AxlAddTaper(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject | list[RemoteObject], /) -> bool | None:
+        """
+        Adds tapered trace
+        SKILL: axlAddTaper(o_dbid/lo_dbid)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:1547
+        """
+        ...
+
+class _AxlAirGap(LiteralRemoteFunction):
+    def __call__(self, o_item1_dbid: RemoteObject, o_item2_dbid: RemoteObject | SkillList, t_layer: str | None = ..., s_mode: Symbol | None = ..., /) -> Skill:
+        """
+        Finds the air gap and location between two given items
+        SKILL: axlAirGap(o_item1DBID o_item2DBID/l_xy [t_layer/nil] [s_mode]) => l_airGapData/nil/(s_error l_airGapData/l_errorData)
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:14
+        """
+        ...
+
+class _AxlAltSymbolList(LiteralRemoteFunction):
+    def __call__(self, t_name: str | RemoteObject, g_layer: Skill, /) -> list[str] | None:
+        """
+        This queries the provided object and returns a list of alternative symbol names.
+        SKILL: axlAltSymbolList(t_name/o_dbid g_layer) => lt_symbols/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:14
+        """
+        ...
+
+class _AxlAltSymbolOK(LiteralRemoteFunction):
+    def __call__(self, t_name: str | RemoteObject, g_layer: Skill, t_symbol: str, /) -> bool | None:
+        """
+        This verifies that symbol is legal for component
+        SKILL: axlAltSymbolOK(t_name/o_dbidg_layert_symbol) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:43
+        """
+        ...
+
+class _AxlAltSymbolReplace(LiteralRemoteFunction):
+    def __call__(self, t_name: str | RemoteObject, t_symbol: str, /) -> bool | None:
+        """
+        This replaces a PLACED component with one of its allowed replacements (ALT\\_SYMBOL)
+        SKILL: axlAltSymbolReplace(t_name/o_dbid t_symbol) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:73
+        """
+        ...
+
+class _AxlAutoOpenFindFilter(LiteralRemoteFunction):
+    def __call__(self, /) -> bool:
+        """
+        This function is no longer required, but is kept for backward compatibility.
+        SKILL: axlAutoOpenFindFilter()⇒ t
+        Version: Allegro 17.2-2016
+        Source: algroskill/05selfnd.md:973
+        """
+        ...
+
+class _AxlBackDrill(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, s_layer: Symbol, /) -> list[Skill] | None:
+        """
+        This interface is obsolete
+        SKILL: axlBackDrill(o_dbids_layer) -> l_result/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:128
+        """
+        ...
+
+class _AxlBackdrillGet(LiteralRemoteFunction):
+    def __call__(self, o_dbid_pin_or_via: RemoteObject | Symbol, /) -> list[str] | Skill | None:
+        """
+        In one mode, when a pin or a via is provided, the command returns the backdrilling result on that pin or via.
+        SKILL: axlBackdrillGet(o_dbidPinOrVia/'status) => lt_backdrillData/g_status/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:110
+        """
+        ...
+
+class _AxlBondFingerDelete(LiteralRemoteFunction):
+    def __call__(self, bond_fingers: Skill, delete_wires: Skill, /) -> bool | None:
+        """
+        Deletes the (list of) bond fingers passed in
+        SKILL: axlBondFingerDelete(bondFingersdeleteWires)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:27
+        """
+        ...
+
+class _AxlBuildClassPopup(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None:
+        """
+        Supports building a form pop-up with a list of classes.
+        SKILL: axlBuildClassPopup(r_formt_field)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/19cmdctl.md:432
+        """
+        ...
+
+class _AxlBuildSubclassPopup(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, t_class: str, /) -> bool | None:
+        """
+        Supports building a form pop-up with a list of subclasses from the indicated class.
+        SKILL: axlBuildSubclassPopup(r_formt_fieldt_class)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/19cmdctl.md:458
+        """
+        ...
+
+class _AxlCNSAssemblyModeGet(LiteralRemoteFunction):
+    @overload
+    def __call__(self, value: None, /) -> list[Symbol]:
+        """
+        This retrieves the current assembly DRC mode(s)
+        SKILL: axlCNSAssemblyModeGet(nil) => ls_constraints
+        SKILL: axlCNSAssemblyModeGet('all) => lls_constraintNModes
+        SKILL: axlCNSAssemblyModeGet(s_name/t_name) => s_mode/nil
+        SKILL: axlCNSAssemblyModeGet(s_name/t_name'print) => t_name/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:75
+        """
+        ...
+    @overload
+    def __call__(self, all: Symbol, /) -> Skill:
+        """
+        This retrieves the current assembly DRC mode(s)
+        SKILL: axlCNSAssemblyModeGet(nil) => ls_constraints
+        SKILL: axlCNSAssemblyModeGet('all) => lls_constraintNModes
+        SKILL: axlCNSAssemblyModeGet(s_name/t_name) => s_mode/nil
+        SKILL: axlCNSAssemblyModeGet(s_name/t_name'print) => t_name/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:75
+        """
+        ...
+    @overload
+    def __call__(self, s_name: Symbol | str, /) -> Symbol | None:
+        """
+        This retrieves the current assembly DRC mode(s)
+        SKILL: axlCNSAssemblyModeGet(nil) => ls_constraints
+        SKILL: axlCNSAssemblyModeGet('all) => lls_constraintNModes
+        SKILL: axlCNSAssemblyModeGet(s_name/t_name) => s_mode/nil
+        SKILL: axlCNSAssemblyModeGet(s_name/t_name'print) => t_name/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:75
+        """
+        ...
+    @overload
+    def __call__(self, s_name: Symbol | str, print: Symbol, /) -> str | None:
+        """
+        This retrieves the current assembly DRC mode(s)
+        SKILL: axlCNSAssemblyModeGet(nil) => ls_constraints
+        SKILL: axlCNSAssemblyModeGet('all) => lls_constraintNModes
+        SKILL: axlCNSAssemblyModeGet(s_name/t_name) => s_mode/nil
+        SKILL: axlCNSAssemblyModeGet(s_name/t_name'print) => t_name/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:75
+        """
+        ...
+
+class _AxlCNSAssemblyModeSet(LiteralRemoteFunction):
+    @overload
+    def __call__(self, t_name: str | Symbol, t_mode: str | Symbol, /) -> bool | None:
+        """
+        This command sets the current DRC modes (on/off) for checks in the area of assembly constraints
+        SKILL: axlCNSAssemblyModeSet(t_name/s_namet_mode/s_mode)=> t/nil
+        SKILL: axlCNSAssemblyModeSet('allt_mode/smode)=> t/nil
+        SKILL: axlCNSAssemblyModeSet(l_constraintNModest_mode/smode)=> t/nil
+        SKILL: axlCNSAssemblyModeSet(ll_constraintNModes)=> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:126
+        """
+        ...
+    @overload
+    def __call__(self, allt_mode: Symbol | Skill, /) -> bool | None:
+        """
+        This command sets the current DRC modes (on/off) for checks in the area of assembly constraints
+        SKILL: axlCNSAssemblyModeSet(t_name/s_namet_mode/s_mode)=> t/nil
+        SKILL: axlCNSAssemblyModeSet('allt_mode/smode)=> t/nil
+        SKILL: axlCNSAssemblyModeSet(l_constraintNModest_mode/smode)=> t/nil
+        SKILL: axlCNSAssemblyModeSet(ll_constraintNModes)=> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:126
+        """
+        ...
+    @overload
+    def __call__(self, l_constraint_n_modes: SkillList, t_mode: str | Skill, /) -> bool | None:
+        """
+        This command sets the current DRC modes (on/off) for checks in the area of assembly constraints
+        SKILL: axlCNSAssemblyModeSet(t_name/s_namet_mode/s_mode)=> t/nil
+        SKILL: axlCNSAssemblyModeSet('allt_mode/smode)=> t/nil
+        SKILL: axlCNSAssemblyModeSet(l_constraintNModest_mode/smode)=> t/nil
+        SKILL: axlCNSAssemblyModeSet(ll_constraintNModes)=> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:126
+        """
+        ...
+    @overload
+    def __call__(self, ll_constraint_n_modes: SkillList, /) -> bool | None:
+        """
+        This command sets the current DRC modes (on/off) for checks in the area of assembly constraints
+        SKILL: axlCNSAssemblyModeSet(t_name/s_namet_mode/s_mode)=> t/nil
+        SKILL: axlCNSAssemblyModeSet('allt_mode/smode)=> t/nil
+        SKILL: axlCNSAssemblyModeSet(l_constraintNModest_mode/smode)=> t/nil
+        SKILL: axlCNSAssemblyModeSet(ll_constraintNModes)=> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:126
+        """
+        ...
+
+class _AxlCNSCreate(LiteralRemoteFunction):
+    def __call__(self, g_domain: Skill, t_name: str, t_copy_name: str, /) -> bool | None:
+        """
+        Creates a new constraint set in the specified domain
+        SKILL: axlCNSCreate(g_domaint_namet_copyName)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:311
+        """
+        ...
+
+class _AxlCNSCsetLock(LiteralRemoteFunction):
+    def __call__(self, g_domain: Skill, t_cset_name: str, g_mode: Skill, /) -> bool | None:
+        """
+        This locks or unlocks a constraint set in the given domain
+        SKILL: axlCNSCsetLock(g_domaint_csetNameg_mode)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:346
+        """
+        ...
+
+class _AxlCNSDelete(LiteralRemoteFunction):
+    def __call__(self, g_domain: Skill, t_name: str | RemoteObject, /) -> bool | None:
+        """
+        Deletes a cset and its references to any objects such as nets, net classes, etc
+        SKILL: axlCNSDelete(g_domaint_name/o_dbidEcset)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:379
+        """
+        ...
+
+class _AxlCNSDesignModeGet(LiteralRemoteFunction):
+    @overload
+    def __call__(self, value: None, /) -> list[Symbol]:
+        """
+        Gets the current DRC modes for checks that fall into the set of design constraints
+        SKILL: axlCNSDesignModeGet(nil)⇒ ls_constraints
+        SKILL: axlCNSDesignModeGet('all)⇒ lls_constraintNModes
+        SKILL: axlCNSDesignModeGet('editable)⇒ t/nil
+        SKILL: axlCNSDesignModeGet(s_name/t_name)⇒ s_mode/nil
+        SKILL: axlCNSDesignModeGet(s_name/t_name'print) ==> t_name/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:510
+        """
+        ...
+    @overload
+    def __call__(self, all: Symbol, /) -> Skill:
+        """
+        Gets the current DRC modes for checks that fall into the set of design constraints
+        SKILL: axlCNSDesignModeGet(nil)⇒ ls_constraints
+        SKILL: axlCNSDesignModeGet('all)⇒ lls_constraintNModes
+        SKILL: axlCNSDesignModeGet('editable)⇒ t/nil
+        SKILL: axlCNSDesignModeGet(s_name/t_name)⇒ s_mode/nil
+        SKILL: axlCNSDesignModeGet(s_name/t_name'print) ==> t_name/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:510
+        """
+        ...
+    @overload
+    def __call__(self, editable: Symbol, /) -> bool | None:
+        """
+        Gets the current DRC modes for checks that fall into the set of design constraints
+        SKILL: axlCNSDesignModeGet(nil)⇒ ls_constraints
+        SKILL: axlCNSDesignModeGet('all)⇒ lls_constraintNModes
+        SKILL: axlCNSDesignModeGet('editable)⇒ t/nil
+        SKILL: axlCNSDesignModeGet(s_name/t_name)⇒ s_mode/nil
+        SKILL: axlCNSDesignModeGet(s_name/t_name'print) ==> t_name/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:510
+        """
+        ...
+    @overload
+    def __call__(self, s_name: Symbol | str, /) -> Symbol | None:
+        """
+        Gets the current DRC modes for checks that fall into the set of design constraints
+        SKILL: axlCNSDesignModeGet(nil)⇒ ls_constraints
+        SKILL: axlCNSDesignModeGet('all)⇒ lls_constraintNModes
+        SKILL: axlCNSDesignModeGet('editable)⇒ t/nil
+        SKILL: axlCNSDesignModeGet(s_name/t_name)⇒ s_mode/nil
+        SKILL: axlCNSDesignModeGet(s_name/t_name'print) ==> t_name/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:510
+        """
+        ...
+    @overload
+    def __call__(self, s_name: Symbol | str, print: Symbol, /) -> str | None:
+        """
+        Gets the current DRC modes for checks that fall into the set of design constraints
+        SKILL: axlCNSDesignModeGet(nil)⇒ ls_constraints
+        SKILL: axlCNSDesignModeGet('all)⇒ lls_constraintNModes
+        SKILL: axlCNSDesignModeGet('editable)⇒ t/nil
+        SKILL: axlCNSDesignModeGet(s_name/t_name)⇒ s_mode/nil
+        SKILL: axlCNSDesignModeGet(s_name/t_name'print) ==> t_name/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:510
+        """
+        ...
+
+class _AxlCNSDesignModeSet(LiteralRemoteFunction):
+    @overload
+    def __call__(self, t_name: str | Symbol, t_mode: str | Symbol, /) -> bool | None:
+        """
+        Sets the current DRC modes for design constraints
+        SKILL: axlCNSDesignModeSet(t_name/s_namet_mode/s_mode)⇒ t/nil
+        SKILL: axlCNSDesignModeSet('allt_mode/smode)⇒ t/nil
+        SKILL: axlCNSDesignModeSet(l_constraintNModest_mode/smode)⇒ t/nil
+        SKILL: axlCNSDesignModeSet(ll_constraintNModes)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:574
+        """
+        ...
+    @overload
+    def __call__(self, allt_mode: Symbol | Skill, /) -> bool | None:
+        """
+        Sets the current DRC modes for design constraints
+        SKILL: axlCNSDesignModeSet(t_name/s_namet_mode/s_mode)⇒ t/nil
+        SKILL: axlCNSDesignModeSet('allt_mode/smode)⇒ t/nil
+        SKILL: axlCNSDesignModeSet(l_constraintNModest_mode/smode)⇒ t/nil
+        SKILL: axlCNSDesignModeSet(ll_constraintNModes)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:574
+        """
+        ...
+    @overload
+    def __call__(self, l_constraint_n_modes: SkillList, t_mode: str | Skill, /) -> bool | None:
+        """
+        Sets the current DRC modes for design constraints
+        SKILL: axlCNSDesignModeSet(t_name/s_namet_mode/s_mode)⇒ t/nil
+        SKILL: axlCNSDesignModeSet('allt_mode/smode)⇒ t/nil
+        SKILL: axlCNSDesignModeSet(l_constraintNModest_mode/smode)⇒ t/nil
+        SKILL: axlCNSDesignModeSet(ll_constraintNModes)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:574
+        """
+        ...
+    @overload
+    def __call__(self, ll_constraint_n_modes: SkillList, /) -> bool | None:
+        """
+        Sets the current DRC modes for design constraints
+        SKILL: axlCNSDesignModeSet(t_name/s_namet_mode/s_mode)⇒ t/nil
+        SKILL: axlCNSDesignModeSet('allt_mode/smode)⇒ t/nil
+        SKILL: axlCNSDesignModeSet(l_constraintNModest_mode/smode)⇒ t/nil
+        SKILL: axlCNSDesignModeSet(ll_constraintNModes)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:574
+        """
+        ...
+
+class _AxlCNSDesignValueCheck(LiteralRemoteFunction):
+    def __call__(self, s_name: Symbol | str, g_value: Skill, /) -> Skill:
+        """
+        Checks the syntax of the given value against the allowed syntax for the given constraint
+        SKILL: axlCNSDesignValueCheck(s_name/t_nameg_value)⇒ (t_string/nil, nil/t_errorMsg)/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:649
+        """
+        ...
+
+class _AxlCNSDesignValueGet(LiteralRemoteFunction):
+    @overload
+    def __call__(self, value: None, g_return_name_string: Skill = ..., /) -> list[Symbol]:
+        """
+        Fetches the values from those design constraints that support values
+        SKILL: axlCNSDesignValueGet(nil[g_returnNameString])⇒ ls_constraints
+        SKILL: axlCNSDesignValueGet('all[g_returnString])⇒ lls_constraintNValues
+        SKILL: axlCNSDesignValueGet(s_name[g_returnString])⇒ f_value/t_value/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:679
+        """
+        ...
+    @overload
+    def __call__(self, all: Symbol, g_return_string: Skill = ..., /) -> Skill:
+        """
+        Fetches the values from those design constraints that support values
+        SKILL: axlCNSDesignValueGet(nil[g_returnNameString])⇒ ls_constraints
+        SKILL: axlCNSDesignValueGet('all[g_returnString])⇒ lls_constraintNValues
+        SKILL: axlCNSDesignValueGet(s_name[g_returnString])⇒ f_value/t_value/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:679
+        """
+        ...
+    @overload
+    def __call__(self, s_name: Symbol, g_return_string: Skill = ..., /) -> float | str | None:
+        """
+        Fetches the values from those design constraints that support values
+        SKILL: axlCNSDesignValueGet(nil[g_returnNameString])⇒ ls_constraints
+        SKILL: axlCNSDesignValueGet('all[g_returnString])⇒ lls_constraintNValues
+        SKILL: axlCNSDesignValueGet(s_name[g_returnString])⇒ f_value/t_value/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:679
+        """
+        ...
+
+class _AxlCNSDesignValueSet(LiteralRemoteFunction):
+    @overload
+    def __call__(self, t_name: str | Symbol, f_value: float | str, /) -> bool | None:
+        """
+        This sets the value of the design constraint.
+        SKILL: axlCNSDesignValueSet(t_name/s_namef_value/t_value)⇒ t/nil
+        SKILL: axlCNSDesignValueSet(ll_constraintNValues)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:737
+        """
+        ...
+    @overload
+    def __call__(self, ll_constraint_n_values: SkillList, /) -> bool | None:
+        """
+        This sets the value of the design constraint.
+        SKILL: axlCNSDesignValueSet(t_name/s_namef_value/t_value)⇒ t/nil
+        SKILL: axlCNSDesignValueSet(ll_constraintNValues)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:737
+        """
+        ...
+
+class _AxlCNSEcsetCreate(LiteralRemoteFunction):
+    def __call__(self, t_name: str, t_copy_name: str | RemoteObject | None = ..., /) -> RemoteObject | None:
+        """
+        Creates a new ECset
+        SKILL: axlCNSEcsetCreate(t_name[t_copyName/o_dbidCopyEcset])⇒ o_dbidEcset/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:797
+        """
+        ...
+
+class _AxlCNSEcsetDelete(LiteralRemoteFunction):
+    def __call__(self, t_name: str | RemoteObject, /) -> bool | None:
+        """
+        Deletes an ECset from the Allegro PCB Editor database and also deletes theELECTRICAL_CONSTRAINT_SET property from any nets assigned this ECset value
+        SKILL: axlCNSEcsetDelete(t_name/o_dbidEcset)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:837
+        """
+        ...
+
+class _AxlCNSEcsetGet(LiteralRemoteFunction):
+    def __call__(self, t_name: str, /) -> RemoteObject | None:
+        """
+        Returns thedbid of the electrical cset when you request it by the ECset name
+        SKILL: axlCNSEcsetGet(t_name)⇒ o_dbidEcset/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:873
+        """
+        ...
+
+class _AxlCNSEcsetModeGet(LiteralRemoteFunction):
+    @overload
+    def __call__(self, value: None, /) -> list[Symbol]:
+        """
+        Returns the current DRC modes for checks that are members of electrical constraints
+        SKILL: axlCNSEcsetModeGet(nil)⇒ ls_constraints
+        SKILL: axlCNSEcsetModeGet('all)⇒ lls_constraintNModes
+        SKILL: axlCNSEcsetModeGet(s_name/t_name)⇒ s_mode/nil
+        SKILL: axlCNSEcsetModeGet(s_name/t_name'print) ==> t_name/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:902
+        """
+        ...
+    @overload
+    def __call__(self, all: Symbol, /) -> Skill:
+        """
+        Returns the current DRC modes for checks that are members of electrical constraints
+        SKILL: axlCNSEcsetModeGet(nil)⇒ ls_constraints
+        SKILL: axlCNSEcsetModeGet('all)⇒ lls_constraintNModes
+        SKILL: axlCNSEcsetModeGet(s_name/t_name)⇒ s_mode/nil
+        SKILL: axlCNSEcsetModeGet(s_name/t_name'print) ==> t_name/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:902
+        """
+        ...
+    @overload
+    def __call__(self, s_name: Symbol | str, /) -> Symbol | None:
+        """
+        Returns the current DRC modes for checks that are members of electrical constraints
+        SKILL: axlCNSEcsetModeGet(nil)⇒ ls_constraints
+        SKILL: axlCNSEcsetModeGet('all)⇒ lls_constraintNModes
+        SKILL: axlCNSEcsetModeGet(s_name/t_name)⇒ s_mode/nil
+        SKILL: axlCNSEcsetModeGet(s_name/t_name'print) ==> t_name/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:902
+        """
+        ...
+    @overload
+    def __call__(self, s_name: Symbol | str, print: Symbol, /) -> str | None:
+        """
+        Returns the current DRC modes for checks that are members of electrical constraints
+        SKILL: axlCNSEcsetModeGet(nil)⇒ ls_constraints
+        SKILL: axlCNSEcsetModeGet('all)⇒ lls_constraintNModes
+        SKILL: axlCNSEcsetModeGet(s_name/t_name)⇒ s_mode/nil
+        SKILL: axlCNSEcsetModeGet(s_name/t_name'print) ==> t_name/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:902
+        """
+        ...
+
+class _AxlCNSEcsetModeSet(LiteralRemoteFunction):
+    @overload
+    def __call__(self, t_name: str | Symbol, t_mode: str | Symbol, /) -> bool | None:
+        """
+        Sets the DRC modes for checks that are members of the electrical constraints set
+        SKILL: axlCNSEcsetModeSet(t_name/s_namet_mode/s_mode)⇒ t/nil
+        SKILL: axlCNSEcsetModeSet(allt_mode/s_mode)⇒ t/nil
+        SKILL: axlCNSEcsetModeSet(l_constraintNModest_mode/s_mode)⇒ t/nil
+        SKILL: axlCNSEcsetModeSet(ll_constraintNModes)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:967
+        """
+        ...
+    @overload
+    def __call__(self, allt_mode: Skill | Symbol, /) -> bool | None:
+        """
+        Sets the DRC modes for checks that are members of the electrical constraints set
+        SKILL: axlCNSEcsetModeSet(t_name/s_namet_mode/s_mode)⇒ t/nil
+        SKILL: axlCNSEcsetModeSet(allt_mode/s_mode)⇒ t/nil
+        SKILL: axlCNSEcsetModeSet(l_constraintNModest_mode/s_mode)⇒ t/nil
+        SKILL: axlCNSEcsetModeSet(ll_constraintNModes)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:967
+        """
+        ...
+    @overload
+    def __call__(self, l_constraint_n_modes: SkillList, t_mode: str | Symbol, /) -> bool | None:
+        """
+        Sets the DRC modes for checks that are members of the electrical constraints set
+        SKILL: axlCNSEcsetModeSet(t_name/s_namet_mode/s_mode)⇒ t/nil
+        SKILL: axlCNSEcsetModeSet(allt_mode/s_mode)⇒ t/nil
+        SKILL: axlCNSEcsetModeSet(l_constraintNModest_mode/s_mode)⇒ t/nil
+        SKILL: axlCNSEcsetModeSet(ll_constraintNModes)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:967
+        """
+        ...
+    @overload
+    def __call__(self, ll_constraint_n_modes: SkillList, /) -> bool | None:
+        """
+        Sets the DRC modes for checks that are members of the electrical constraints set
+        SKILL: axlCNSEcsetModeSet(t_name/s_namet_mode/s_mode)⇒ t/nil
+        SKILL: axlCNSEcsetModeSet(allt_mode/s_mode)⇒ t/nil
+        SKILL: axlCNSEcsetModeSet(l_constraintNModest_mode/s_mode)⇒ t/nil
+        SKILL: axlCNSEcsetModeSet(ll_constraintNModes)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:967
+        """
+        ...
+
+class _AxlCNSEcsetValueCheck(LiteralRemoteFunction):
+    def __call__(self, s_name: Symbol | str, g_value: Skill, /) -> Skill:
+        """
+        Checks the syntax of the given value against the allowed syntax for the given constraint
+        SKILL: axlCNSEcsetValueCheck(s_name/t_nameg_value)⇒ (t/t_errorMsg)/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1040
+        """
+        ...
+
+class _AxlCNSEcsetValueGet(LiteralRemoteFunction):
+    @overload
+    def __call__(self, value: None, g_return_name_string: Skill = ..., /) -> list[Symbol]:
+        """
+        Fetches the constraint values for a given ECset
+        SKILL: axlCNSEcsetValueGet(nil[g_returnNameString])⇒ ls_constraints
+        SKILL: axlCNSEcsetValueGet('all[g_returnString])⇒ lls_constraintNValues
+        SKILL: axlCNSEcsetValueGet(o_ecsetDbid/t_ecsetNames_name[g_returnString])⇒ f_value/t_value/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1070
+        """
+        ...
+    @overload
+    def __call__(self, all: Symbol, g_return_string: Skill = ..., /) -> Skill:
+        """
+        Fetches the constraint values for a given ECset
+        SKILL: axlCNSEcsetValueGet(nil[g_returnNameString])⇒ ls_constraints
+        SKILL: axlCNSEcsetValueGet('all[g_returnString])⇒ lls_constraintNValues
+        SKILL: axlCNSEcsetValueGet(o_ecsetDbid/t_ecsetNames_name[g_returnString])⇒ f_value/t_value/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1070
+        """
+        ...
+    @overload
+    def __call__(self, o_ecset_dbid: RemoteObject | str, s_name: Symbol, g_return_string: Skill = ..., /) -> float | str | None:
+        """
+        Fetches the constraint values for a given ECset
+        SKILL: axlCNSEcsetValueGet(nil[g_returnNameString])⇒ ls_constraints
+        SKILL: axlCNSEcsetValueGet('all[g_returnString])⇒ lls_constraintNValues
+        SKILL: axlCNSEcsetValueGet(o_ecsetDbid/t_ecsetNames_name[g_returnString])⇒ f_value/t_value/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1070
+        """
+        ...
+
+class _AxlCNSEcsetValueSet(LiteralRemoteFunction):
+    @overload
+    def __call__(self, o_ecset_dbid: RemoteObject | str, t_name: str | Symbol, f_value: float, /) -> bool | None:
+        """
+        Sets the value of the ECset DRC
+        SKILL: axlCNSEcsetValueSet(o_ecsetDbid/t_ecsetNamet_name/s_namef_value)⇒ t/nil
+        SKILL: axlCNSEcsetValueSet(o_ecsetDbid/t_ecsetNamell_constraintNValues)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:615
+        """
+        ...
+    @overload
+    def __call__(self, o_ecset_dbid: RemoteObject | str, ll_constraint_n_values: SkillList, /) -> bool | None:
+        """
+        Sets the value of the ECset DRC
+        SKILL: axlCNSEcsetValueSet(o_ecsetDbid/t_ecsetNamet_name/s_namef_value)⇒ t/nil
+        SKILL: axlCNSEcsetValueSet(o_ecsetDbid/t_ecsetNamell_constraintNValues)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:615
+        """
+        ...
+
+class _AxlCNSGetAssembly(LiteralRemoteFunction):
+    @overload
+    def __call__(self, t_cset: str, t_layer: str, s_constraint: Symbol, g_string: Skill = ..., /) -> Skill | None:
+        """
+        Obtains an Assembly cset values
+        SKILL: axlCNSGetAssembly(t_csett_layers_constraint[g_string])=> g_value/nil
+        SKILL: axlCNSGetAssembly(t_csett_layernil[g_string])=> ll_nameValue/nil
+        SKILL: axlCNSGetAssembly(nilnilnil)=> ls_cnsTypes
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:185
+        """
+        ...
+    @overload
+    def __call__(self, t_cset: str, t_layer: str, value: None, g_string: Skill = ..., /) -> list[Skill] | None:
+        """
+        Obtains an Assembly cset values
+        SKILL: axlCNSGetAssembly(t_csett_layers_constraint[g_string])=> g_value/nil
+        SKILL: axlCNSGetAssembly(t_csett_layernil[g_string])=> ll_nameValue/nil
+        SKILL: axlCNSGetAssembly(nilnilnil)=> ls_cnsTypes
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:185
+        """
+        ...
+    @overload
+    def __call__(self, value: None, value_2: None, value_3: None, /) -> list[Symbol]:
+        """
+        Obtains an Assembly cset values
+        SKILL: axlCNSGetAssembly(t_csett_layers_constraint[g_string])=> g_value/nil
+        SKILL: axlCNSGetAssembly(t_csett_layernil[g_string])=> ll_nameValue/nil
+        SKILL: axlCNSGetAssembly(nilnilnil)=> ls_cnsTypes
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:185
+        """
+        ...
+
+class _AxlCNSGetDefaultMinLineWidth(LiteralRemoteFunction):
+    def __call__(self, t_sublass_name: str, /) -> float:
+        """
+        Retrieves the minimum default line width value for the specific subclass.
+        SKILL: axlCNSGetDefaultMinLineWidth(t_sublassName)=> f_minLineWidthValue
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1146
+        """
+        ...
+
+class _AxlCNSGetPhysical(LiteralRemoteFunction):
+    @overload
+    def __call__(self, t_cset: str, t_layer: str, s_constraint: Symbol, g_string: Skill = ..., /) -> Skill | None:
+        """
+        In its first operational mode, obtains the value of a physical constraint given a cset and layer
+        SKILL: axlCNSGetPhysical(t_csett_layers_constraint[g_string])==> g_value/nil
+        SKILL: axlCNSGetPhysical(t_csett_layernil[g_string])==> ll_nameValue/nil
+        SKILL: axlCNSGetPhysical(nilnilnil)==> ls_cnsTypes
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1172
+        """
+        ...
+    @overload
+    def __call__(self, t_cset: str, t_layer: str, value: None, g_string: Skill = ..., /) -> list[Skill] | None:
+        """
+        In its first operational mode, obtains the value of a physical constraint given a cset and layer
+        SKILL: axlCNSGetPhysical(t_csett_layers_constraint[g_string])==> g_value/nil
+        SKILL: axlCNSGetPhysical(t_csett_layernil[g_string])==> ll_nameValue/nil
+        SKILL: axlCNSGetPhysical(nilnilnil)==> ls_cnsTypes
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1172
+        """
+        ...
+    @overload
+    def __call__(self, value: None, value_2: None, value_3: None, /) -> list[Symbol]:
+        """
+        In its first operational mode, obtains the value of a physical constraint given a cset and layer
+        SKILL: axlCNSGetPhysical(t_csett_layers_constraint[g_string])==> g_value/nil
+        SKILL: axlCNSGetPhysical(t_csett_layernil[g_string])==> ll_nameValue/nil
+        SKILL: axlCNSGetPhysical(nilnilnil)==> ls_cnsTypes
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1172
+        """
+        ...
+
+class _AxlCNSGetPinDelayEnabled(LiteralRemoteFunction):
+    def __call__(self, /) -> bool | None:
+        """
+        Returns if pin delay is enabled.
+        SKILL: axlCNSGetPinDelayEnabled() => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1257
+        """
+        ...
+
+class _AxlCNSGetPinDelayPVF(LiteralRemoteFunction):
+    def __call__(self, /) -> str:
+        """
+        Returns the pin delay propagation velocity factor.
+        SKILL: axlCNSGetPinDelayPVF()=> t_pinDelayPVF
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1275
+        """
+        ...
+
+class _AxlCNSGetSameNet(LiteralRemoteFunction):
+    @overload
+    def __call__(self, t_cset: str, t_layer: str, s_constraint: Symbol, g_string: Skill = ..., /) -> Skill | None:
+        """
+        Documentation same as[axlCNSGetSpacing](#1093423 "19").
+        SKILL: axlCNSGetSameNet(t_csett_layers_constraint[g_string])==> g_value/nil
+        SKILL: axlCNSGetSameNet(t_csett_layernil[g_string])==> ll_nameValue/nil
+        SKILL: axlCNSGetSameNet(nilnilnil)==> ls_cnsTypes
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1292
+        """
+        ...
+    @overload
+    def __call__(self, t_cset: str, t_layer: str, value: None, g_string: Skill = ..., /) -> list[Skill] | None:
+        """
+        Documentation same as[axlCNSGetSpacing](#1093423 "19").
+        SKILL: axlCNSGetSameNet(t_csett_layers_constraint[g_string])==> g_value/nil
+        SKILL: axlCNSGetSameNet(t_csett_layernil[g_string])==> ll_nameValue/nil
+        SKILL: axlCNSGetSameNet(nilnilnil)==> ls_cnsTypes
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1292
+        """
+        ...
+    @overload
+    def __call__(self, value: None, value_2: None, value_3: None, /) -> list[Symbol]:
+        """
+        Documentation same as[axlCNSGetSpacing](#1093423 "19").
+        SKILL: axlCNSGetSameNet(t_csett_layers_constraint[g_string])==> g_value/nil
+        SKILL: axlCNSGetSameNet(t_csett_layernil[g_string])==> ll_nameValue/nil
+        SKILL: axlCNSGetSameNet(nilnilnil)==> ls_cnsTypes
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1292
+        """
+        ...
+
+class _AxlCNSGetSameNetXtalkEnabled(LiteralRemoteFunction):
+    def __call__(self, /) -> bool | None:
+        """
+        Returns if Same Net Xtalk is enabled.
+        SKILL: axlCNSGetSameNetXtalkEnabled() => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1354
+        """
+        ...
+
+class _AxlCNSGetSpacing(LiteralRemoteFunction):
+    @overload
+    def __call__(self, t_cset: str, t_layer: str, s_constraint: Symbol, g_string: Skill = ..., /) -> Skill | None:
+        """
+        In its first operational mode, obtains the value of a spacing constraint given a cset and layer
+        SKILL: axlCNSGetSpacing(t_csett_layers_constraint[g_string])==> g_value/nil
+        SKILL: axlCNSGetSpacing(t_csett_layernil[g_string])==> ll_nameValue/nil
+        SKILL: axlCNSGetSpacing(nilnilnil) ==> ls_cnsTypes
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1372
+        """
+        ...
+    @overload
+    def __call__(self, t_cset: str, t_layer: str, value: None, g_string: Skill = ..., /) -> list[Skill] | None:
+        """
+        In its first operational mode, obtains the value of a spacing constraint given a cset and layer
+        SKILL: axlCNSGetSpacing(t_csett_layers_constraint[g_string])==> g_value/nil
+        SKILL: axlCNSGetSpacing(t_csett_layernil[g_string])==> ll_nameValue/nil
+        SKILL: axlCNSGetSpacing(nilnilnil) ==> ls_cnsTypes
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1372
+        """
+        ...
+    @overload
+    def __call__(self, value: None, value_2: None, value_3: None, /) -> list[Symbol]:
+        """
+        In its first operational mode, obtains the value of a spacing constraint given a cset and layer
+        SKILL: axlCNSGetSpacing(t_csett_layers_constraint[g_string])==> g_value/nil
+        SKILL: axlCNSGetSpacing(t_csett_layernil[g_string])==> ll_nameValue/nil
+        SKILL: axlCNSGetSpacing(nilnilnil) ==> ls_cnsTypes
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1372
+        """
+        ...
+
+class _AxlCNSGetViaZEnabled(LiteralRemoteFunction):
+    def __call__(self, /) -> bool | None:
+        """
+        Returns if Via Z is enabled.
+        SKILL: axlCNSGetViaZEnabled() => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1453
+        """
+        ...
+
+class _AxlCNSGetViaZPVF(LiteralRemoteFunction):
+    def __call__(self, /) -> str:
+        """
+        Returns the via Z propagation velocity factor
+        SKILL: axlCNSGetViaZPVF()=> t_viaZPVF
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1471
+        """
+        ...
+
+class _AxlCNSIsCsetLocked(LiteralRemoteFunction):
+    def __call__(self, g_domain: Skill, t_cset_name: str, /) -> bool | None:
+        """
+        This returns if a cset is locked
+        SKILL: axlCNSIsCsetLocked(g_domaint_csetName)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1543
+        """
+        ...
+
+class _AxlCNSIsLockedDomain(LiteralRemoteFunction):
+    def __call__(self, g_domain: Skill, /) -> bool | None:
+        """
+        Used to check if the is constraint domain locked
+        SKILL: axlCNSIsLockedDomain(g_domain)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1578
+        """
+        ...
+
+class _AxlCNSLockDomain(LiteralRemoteFunction):
+    def __call__(self, g_domain: Skill, g_mode: Skill, /) -> bool | None:
+        """
+        This command locks or unlocks a constraint domain.
+        SKILL: axlCNSLockDomain(g_domaing_mode)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1625
+        """
+        ...
+
+class _AxlCNSMapClear(LiteralRemoteFunction):
+    def __call__(self, /) -> bool:
+        """
+        SeeaxlCNSMapUpdate.
+        SKILL: axlCNSMapClear()⇒ t
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:977
+        """
+        ...
+
+class _AxlCNSMapUpdate(LiteralRemoteFunction):
+    def __call__(self, /) -> int | None:
+        """
+        This function andaxlCNSMapClear, which do not support nesting, batch and tune DRC updates from constraint changes made by axlCNS<xxx> functions
+        SKILL: axlCNSMapUpdate()⇒ x_drcCount/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:998
+        """
+        ...
+
+class _AxlCNSPhysicalModeGet(LiteralRemoteFunction):
+    @overload
+    def __call__(self, value: None, /) -> list[Symbol]:
+        """
+        This fetches the current physical drc mode(s)
+        SKILL: axlCNSPhysicalModeGet(nil) ==> ls_constraints
+        SKILL: axlCNSPhysicalModeGet('all) ==> lls_constraintNModes
+        SKILL: axlCNSPhysicalModeGet(s_name/t_name) ==> s_mode/nil
+        SKILL: axlCNSPhysicalModeGet(s_name/t_name'print) ==> t_name/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1488
+        """
+        ...
+    @overload
+    def __call__(self, all: Symbol, /) -> Skill:
+        """
+        This fetches the current physical drc mode(s)
+        SKILL: axlCNSPhysicalModeGet(nil) ==> ls_constraints
+        SKILL: axlCNSPhysicalModeGet('all) ==> lls_constraintNModes
+        SKILL: axlCNSPhysicalModeGet(s_name/t_name) ==> s_mode/nil
+        SKILL: axlCNSPhysicalModeGet(s_name/t_name'print) ==> t_name/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1488
+        """
+        ...
+    @overload
+    def __call__(self, s_name: Symbol | str, /) -> Symbol | None:
+        """
+        This fetches the current physical drc mode(s)
+        SKILL: axlCNSPhysicalModeGet(nil) ==> ls_constraints
+        SKILL: axlCNSPhysicalModeGet('all) ==> lls_constraintNModes
+        SKILL: axlCNSPhysicalModeGet(s_name/t_name) ==> s_mode/nil
+        SKILL: axlCNSPhysicalModeGet(s_name/t_name'print) ==> t_name/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1488
+        """
+        ...
+    @overload
+    def __call__(self, s_name: Symbol | str, print: Symbol, /) -> str | None:
+        """
+        This fetches the current physical drc mode(s)
+        SKILL: axlCNSPhysicalModeGet(nil) ==> ls_constraints
+        SKILL: axlCNSPhysicalModeGet('all) ==> lls_constraintNModes
+        SKILL: axlCNSPhysicalModeGet(s_name/t_name) ==> s_mode/nil
+        SKILL: axlCNSPhysicalModeGet(s_name/t_name'print) ==> t_name/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1488
+        """
+        ...
+
+class _AxlCNSPhysicalModeSet(LiteralRemoteFunction):
+    @overload
+    def __call__(self, t_name: str | Symbol, t_mode: str | Symbol, /) -> bool | None:
+        """
+        This sets the current drc modes (on/off) for checks in the area of physical constraints
+        SKILL: axlCNSPhysicalModeSet(t_name/s_namet_mode/s_mode)==> t/nil
+        SKILL: axlCNSPhysicalModeSet('allt_mode/smode)==> t/nil
+        SKILL: axlCNSPhysicalModeSet(l_constraintNModest_mode/smode)==> t/nil
+        SKILL: axlCNSPhysicalModeSet(ll_constraintNModes)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1657
+        """
+        ...
+    @overload
+    def __call__(self, allt_mode: Symbol | Skill, /) -> bool | None:
+        """
+        This sets the current drc modes (on/off) for checks in the area of physical constraints
+        SKILL: axlCNSPhysicalModeSet(t_name/s_namet_mode/s_mode)==> t/nil
+        SKILL: axlCNSPhysicalModeSet('allt_mode/smode)==> t/nil
+        SKILL: axlCNSPhysicalModeSet(l_constraintNModest_mode/smode)==> t/nil
+        SKILL: axlCNSPhysicalModeSet(ll_constraintNModes)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1657
+        """
+        ...
+    @overload
+    def __call__(self, l_constraint_n_modes: SkillList, t_mode: str | Skill, /) -> bool | None:
+        """
+        This sets the current drc modes (on/off) for checks in the area of physical constraints
+        SKILL: axlCNSPhysicalModeSet(t_name/s_namet_mode/s_mode)==> t/nil
+        SKILL: axlCNSPhysicalModeSet('allt_mode/smode)==> t/nil
+        SKILL: axlCNSPhysicalModeSet(l_constraintNModest_mode/smode)==> t/nil
+        SKILL: axlCNSPhysicalModeSet(ll_constraintNModes)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1657
+        """
+        ...
+    @overload
+    def __call__(self, ll_constraint_n_modes: SkillList, /) -> bool | None:
+        """
+        This sets the current drc modes (on/off) for checks in the area of physical constraints
+        SKILL: axlCNSPhysicalModeSet(t_name/s_namet_mode/s_mode)==> t/nil
+        SKILL: axlCNSPhysicalModeSet('allt_mode/smode)==> t/nil
+        SKILL: axlCNSPhysicalModeSet(l_constraintNModest_mode/smode)==> t/nil
+        SKILL: axlCNSPhysicalModeSet(ll_constraintNModes)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1657
+        """
+        ...
+
+class _AxlCNSSameNetModeGet(LiteralRemoteFunction):
+    @overload
+    def __call__(self, value: None, /) -> list[Symbol]:
+        """
+        Same as[axlCNSSpacingModeGet](#1096197 "19").
+        SKILL: axlCNSSameNetModeGet(nil) ==> ls_constraints
+        SKILL: axlCNSSameNetModeGet('all) ==> lls_constraintNModes
+        SKILL: axlCNSSameNetModeGet(s_name/t_name) ==> s_mode/nil
+        SKILL: axlCNSSameNetModeGet(s_name/t_name'print) ==> t_name/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1710
+        """
+        ...
+    @overload
+    def __call__(self, all: Symbol, /) -> Skill:
+        """
+        Same as[axlCNSSpacingModeGet](#1096197 "19").
+        SKILL: axlCNSSameNetModeGet(nil) ==> ls_constraints
+        SKILL: axlCNSSameNetModeGet('all) ==> lls_constraintNModes
+        SKILL: axlCNSSameNetModeGet(s_name/t_name) ==> s_mode/nil
+        SKILL: axlCNSSameNetModeGet(s_name/t_name'print) ==> t_name/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1710
+        """
+        ...
+    @overload
+    def __call__(self, s_name: Symbol | str, /) -> Symbol | None:
+        """
+        Same as[axlCNSSpacingModeGet](#1096197 "19").
+        SKILL: axlCNSSameNetModeGet(nil) ==> ls_constraints
+        SKILL: axlCNSSameNetModeGet('all) ==> lls_constraintNModes
+        SKILL: axlCNSSameNetModeGet(s_name/t_name) ==> s_mode/nil
+        SKILL: axlCNSSameNetModeGet(s_name/t_name'print) ==> t_name/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1710
+        """
+        ...
+    @overload
+    def __call__(self, s_name: Symbol | str, print: Symbol, /) -> str | None:
+        """
+        Same as[axlCNSSpacingModeGet](#1096197 "19").
+        SKILL: axlCNSSameNetModeGet(nil) ==> ls_constraints
+        SKILL: axlCNSSameNetModeGet('all) ==> lls_constraintNModes
+        SKILL: axlCNSSameNetModeGet(s_name/t_name) ==> s_mode/nil
+        SKILL: axlCNSSameNetModeGet(s_name/t_name'print) ==> t_name/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1710
+        """
+        ...
+
+class _AxlCNSSameNetModeSet(LiteralRemoteFunction):
+    @overload
+    def __call__(self, t_name: str | Symbol, t_mode: str | Symbol, /) -> bool | None:
+        """
+        Same as axlCNSSpacingModeSet.
+        SKILL: axlCNSSameNetModeSet(t_name/s_namet_mode/s_mode)==> t/nil
+        SKILL: axlCNSSameNetModeSet('allt_mode/smode)==> t/nil
+        SKILL: axlCNSSameNetModeSet(l_constraintNModest_mode/smode)==> t/nil
+        SKILL: axlCNSSameNetModeSet(ll_constraintNModes)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1763
+        """
+        ...
+    @overload
+    def __call__(self, allt_mode: Symbol | Skill, /) -> bool | None:
+        """
+        Same as axlCNSSpacingModeSet.
+        SKILL: axlCNSSameNetModeSet(t_name/s_namet_mode/s_mode)==> t/nil
+        SKILL: axlCNSSameNetModeSet('allt_mode/smode)==> t/nil
+        SKILL: axlCNSSameNetModeSet(l_constraintNModest_mode/smode)==> t/nil
+        SKILL: axlCNSSameNetModeSet(ll_constraintNModes)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1763
+        """
+        ...
+    @overload
+    def __call__(self, l_constraint_n_modes: SkillList, t_mode: str | Skill, /) -> bool | None:
+        """
+        Same as axlCNSSpacingModeSet.
+        SKILL: axlCNSSameNetModeSet(t_name/s_namet_mode/s_mode)==> t/nil
+        SKILL: axlCNSSameNetModeSet('allt_mode/smode)==> t/nil
+        SKILL: axlCNSSameNetModeSet(l_constraintNModest_mode/smode)==> t/nil
+        SKILL: axlCNSSameNetModeSet(ll_constraintNModes)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1763
+        """
+        ...
+    @overload
+    def __call__(self, ll_constraint_n_modes: SkillList, /) -> bool | None:
+        """
+        Same as axlCNSSpacingModeSet.
+        SKILL: axlCNSSameNetModeSet(t_name/s_namet_mode/s_mode)==> t/nil
+        SKILL: axlCNSSameNetModeSet('allt_mode/smode)==> t/nil
+        SKILL: axlCNSSameNetModeSet(l_constraintNModest_mode/smode)==> t/nil
+        SKILL: axlCNSSameNetModeSet(ll_constraintNModes)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1763
+        """
+        ...
+
+class _AxlCNSSetAssembly(LiteralRemoteFunction):
+    @overload
+    def __call__(self, t_object: str | None, t_layer: str | None, s_constraint: Symbol, g_value: Skill, s_object_type: Symbol | None = ..., /) -> bool | None:
+        """
+        Updates assembly cset, wire profile or symbol constraint values
+        SKILL: axlCNSSetAssembly(t_object/nilt_layer/nils_constraintg_value[s_object_type] )==> t/nil
+        SKILL: axlCNSSetAssembly(t_object/nilt_layer/nilll_constraintValuesnil[s_object_type] )==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:243
+        """
+        ...
+    @overload
+    def __call__(self, t_object: str | None, t_layer: str | None, ll_constraint_values: SkillList, value: None, s_object_type: Symbol | None = ..., /) -> bool | None:
+        """
+        Updates assembly cset, wire profile or symbol constraint values
+        SKILL: axlCNSSetAssembly(t_object/nilt_layer/nils_constraintg_value[s_object_type] )==> t/nil
+        SKILL: axlCNSSetAssembly(t_object/nilt_layer/nilll_constraintValuesnil[s_object_type] )==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:243
+        """
+        ...
+
+class _AxlCNSSetPhysical(LiteralRemoteFunction):
+    @overload
+    def __call__(self, t_cset: str | None, t_layer: str | None, s_constraint: Symbol, g_value: Skill, /) -> bool | None:
+        """
+        Allows updating physical constraint values
+        SKILL: axlCNSSetPhysical(t_cset/nilt_layer/nils_constraintg_value)==> t/nil
+        SKILL: axlCNSSetPhysical(t_cset/nilt_layer/nilll_constraintValuesnil)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1814
+        """
+        ...
+    @overload
+    def __call__(self, t_cset: str | None, t_layer: str | None, ll_constraint_valuesnil: SkillList, /) -> bool | None:
+        """
+        Allows updating physical constraint values
+        SKILL: axlCNSSetPhysical(t_cset/nilt_layer/nils_constraintg_value)==> t/nil
+        SKILL: axlCNSSetPhysical(t_cset/nilt_layer/nilll_constraintValuesnil)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:1814
+        """
+        ...
+
+class _AxlCNSSetPinDelayEnabled(LiteralRemoteFunction):
+    def __call__(self, g_value: Skill, /) -> bool:
+        """
+        Enables or disables Pin Delay.
+        SKILL: axlCNSSetPinDelayEnabled(g_value) => t
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:147
+        """
+        ...
+
+class _AxlCNSSetPinDelayPVF(LiteralRemoteFunction):
+    def __call__(self, g_value: Skill, /) -> bool | None:
+        """
+        Sets a value for pin delay propagation velocity.
+        SKILL: axlCNSSetPinDelayPVF(g_value) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:164
+        """
+        ...
+
+class _AxlCNSSetSameNet(LiteralRemoteFunction):
+    @overload
+    def __call__(self, t_cset: str | None, t_layer: str | None, s_constraint: Symbol, g_value: Skill, /) -> bool | None:
+        """
+        Documentation same as[axlCNSSetSpacing](#1111453 "19").
+        SKILL: axlCNSSetSameNet(t_cset/nilt_layer/nils_constraintg_value)==> t/nil
+        SKILL: axlCNSSetSameNet(t_cset/nilt_layer/nilll_constraintValuesnil)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:183
+        """
+        ...
+    @overload
+    def __call__(self, t_cset: str | None, t_layer: str | None, ll_constraint_values: SkillList, value: None, /) -> bool | None:
+        """
+        Documentation same as[axlCNSSetSpacing](#1111453 "19").
+        SKILL: axlCNSSetSameNet(t_cset/nilt_layer/nils_constraintg_value)==> t/nil
+        SKILL: axlCNSSetSameNet(t_cset/nilt_layer/nilll_constraintValuesnil)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:183
+        """
+        ...
+
+class _AxlCNSSetSameNetXtalkEnabled(LiteralRemoteFunction):
+    def __call__(self, g_value: Skill, /) -> bool:
+        """
+        Enables or disables Same Net Xtalk.
+        SKILL: axlCNSSetSameNetXtalkEnabled(g_value)=> t
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:231
+        """
+        ...
+
+class _AxlCNSSetSpacing(LiteralRemoteFunction):
+    @overload
+    def __call__(self, t_cset: str | None, t_layer: str | None, s_constraint: Symbol, g_value: Skill, /) -> bool | None:
+        """
+        Allows updating spacing constraint values
+        SKILL: axlCNSSetSpacing(t_cset/nilt_layer/nils_constraintg_value)==> t/nil
+        SKILL: axlCNSSetSpacing(t_cset/nilt_layer/nilll_constraintValuesnil)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:55
+        """
+        ...
+    @overload
+    def __call__(self, t_cset: str | None, t_layer: str | None, ll_constraint_values: SkillList, value: None, /) -> bool | None:
+        """
+        Allows updating spacing constraint values
+        SKILL: axlCNSSetSpacing(t_cset/nilt_layer/nils_constraintg_value)==> t/nil
+        SKILL: axlCNSSetSpacing(t_cset/nilt_layer/nilll_constraintValuesnil)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:55
+        """
+        ...
+
+class _AxlCNSSetViaZEnabled(LiteralRemoteFunction):
+    def __call__(self, g_value: Skill, /) -> bool:
+        """
+        Enables or disables Via Z.
+        SKILL: axlCNSSetViaZEnabled(g_value) => t
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:248
+        """
+        ...
+
+class _AxlCNSSetViaZPVF(LiteralRemoteFunction):
+    def __call__(self, g_value: Skill, /) -> bool | None:
+        """
+        Sets a value for Via Z propagation velocity factor.
+        SKILL: axlCNSSetViaZPVF(g_value)=> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:265
+        """
+        ...
+
+class _AxlCNSSpacingMax(LiteralRemoteFunction):
+    def __call__(self, s_spacing_type: Symbol | None = ..., t_layer: str | None = ..., /) -> float:
+        """
+        Returns maximum spacing in design
+        SKILL: axlCNSSpacingMax([s_spacingType][t_layer])=> f_maxSpacing
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:284
+        """
+        ...
+
+class _AxlCNSSpacingMin(LiteralRemoteFunction):
+    def __call__(self, s_spacing_type: Symbol | None = ..., t_layer: str | None = ..., /) -> float:
+        """
+        Returns minimum spacing value in the design
+        SKILL: axlCNSSpacingMin([s_spacingType][t_layer])=> f_minSpacing
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:323
+        """
+        ...
+
+class _AxlCNSSpacingModeGet(LiteralRemoteFunction):
+    @overload
+    def __call__(self, value: None, /) -> list[Symbol]:
+        """
+        This fetches the current spacing drc mode(s)
+        SKILL: axlCNSSpacingModeGet(nil) ==> ls_constraints
+        SKILL: axlCNSSpacingModeGet('all) ==> lls_constraintNModes
+        SKILL: axlCNSSpacingModeGet(s_name/t_name) ==> s_mode/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:352
+        """
+        ...
+    @overload
+    def __call__(self, all: Symbol, /) -> Skill:
+        """
+        This fetches the current spacing drc mode(s)
+        SKILL: axlCNSSpacingModeGet(nil) ==> ls_constraints
+        SKILL: axlCNSSpacingModeGet('all) ==> lls_constraintNModes
+        SKILL: axlCNSSpacingModeGet(s_name/t_name) ==> s_mode/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:352
+        """
+        ...
+    @overload
+    def __call__(self, s_name: Symbol | str, /) -> Symbol | None:
+        """
+        This fetches the current spacing drc mode(s)
+        SKILL: axlCNSSpacingModeGet(nil) ==> ls_constraints
+        SKILL: axlCNSSpacingModeGet('all) ==> lls_constraintNModes
+        SKILL: axlCNSSpacingModeGet(s_name/t_name) ==> s_mode/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:352
+        """
+        ...
+
+class _AxlCNSSpacingModeSet(LiteralRemoteFunction):
+    @overload
+    def __call__(self, t_name: str | Symbol, t_mode: str | Symbol, /) -> bool | None:
+        """
+        This sets the current drc modes (on/off) for checks in the area of spacing constraints
+        SKILL: axlCNSSpacingModeSet(t_name/s_namet_mode/s_mode)==> t/nil
+        SKILL: axlCNSSpacingModeSet('allt_mode/smode)==> t/nil
+        SKILL: axlCNSSpacingModeSet(l_constraintNModest_mode/smode)==> t/nil
+        SKILL: axlCNSSpacingModeSet(ll_constraintNModes)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:405
+        """
+        ...
+    @overload
+    def __call__(self, allt_mode: Symbol | Skill, /) -> bool | None:
+        """
+        This sets the current drc modes (on/off) for checks in the area of spacing constraints
+        SKILL: axlCNSSpacingModeSet(t_name/s_namet_mode/s_mode)==> t/nil
+        SKILL: axlCNSSpacingModeSet('allt_mode/smode)==> t/nil
+        SKILL: axlCNSSpacingModeSet(l_constraintNModest_mode/smode)==> t/nil
+        SKILL: axlCNSSpacingModeSet(ll_constraintNModes)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:405
+        """
+        ...
+    @overload
+    def __call__(self, l_constraint_n_modes: SkillList, t_mode: str | Skill, /) -> bool | None:
+        """
+        This sets the current drc modes (on/off) for checks in the area of spacing constraints
+        SKILL: axlCNSSpacingModeSet(t_name/s_namet_mode/s_mode)==> t/nil
+        SKILL: axlCNSSpacingModeSet('allt_mode/smode)==> t/nil
+        SKILL: axlCNSSpacingModeSet(l_constraintNModest_mode/smode)==> t/nil
+        SKILL: axlCNSSpacingModeSet(ll_constraintNModes)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:405
+        """
+        ...
+    @overload
+    def __call__(self, ll_constraint_n_modes: SkillList, /) -> bool | None:
+        """
+        This sets the current drc modes (on/off) for checks in the area of spacing constraints
+        SKILL: axlCNSSpacingModeSet(t_name/s_namet_mode/s_mode)==> t/nil
+        SKILL: axlCNSSpacingModeSet('allt_mode/smode)==> t/nil
+        SKILL: axlCNSSpacingModeSet(l_constraintNModest_mode/smode)==> t/nil
+        SKILL: axlCNSSpacingModeSet(ll_constraintNModes)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:405
+        """
+        ...
+
+class _AxlCVFColorChooserDlg(LiteralRemoteFunction):
+    def __call__(self, x_color_index: int | None = ..., g_show_hilite: Skill = ..., x_hilite_flag: int | None = ..., x_bitmap_index: int | None = ..., /) -> bool | None:
+        """
+        Displays color palette modal dialog
+        SKILL: axlCVFColorChooserDlg([x_color_index][g_show_hilite][x_hilite_flag][x_bitmap_index])==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:1436
+        """
+        ...
+
+class _AxlCancelEnterFun(LiteralRemoteFunction):
+    def __call__(self, /) -> bool | None:
+        """
+        Terminates the wait for a user-selected point
+        SKILL: axlCancelEnterFun()⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:425
+        """
+        ...
+
+class _AxlCancelOff(LiteralRemoteFunction):
+    def __call__(self, /) -> bool:
+        """
+        No description available.
+        SKILL: axlCancelOff() => t
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:365
+        """
+        ...
+
+class _AxlCancelOn(LiteralRemoteFunction):
+    def __call__(self, /) -> bool:
+        """
+        Allows Skill code to test for when a user clicks*Cancel*.
+        SKILL: axlCancelOn()⇒ t
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:369
+        """
+        ...
+
+class _AxlCancelTest(LiteralRemoteFunction):
+    def __call__(self, /) -> bool | None:
+        """
+        No description available.
+        SKILL: axlCancelTest() => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:421
+        """
+        ...
+
+class _AxlChangeLayer(LiteralRemoteFunction):
+    def __call__(self, lo_dbid: list[RemoteObject] | RemoteObject, t_new_layer: str, o_pad_stack_dbid: RemoteObject | str | None = ..., /) -> bool | None:
+        """
+        Changes layer for lines, clines or segments, shapes, and text
+        SKILL: axlChangeLayer(lo_dbid/o_dbid t_newLayer [o_padStackDbid/t_padStackName]) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:11
+        """
+        ...
+
+class _AxlChangeLine2Cline(LiteralRemoteFunction):
+    def __call__(self, lo_dbid: list[RemoteObject] | RemoteObject, /) -> int | None:
+        """
+        Changes provided lines to clines
+        SKILL: axlChangeLine2Cline(lo_dbid/o_dbid)==> x_cnt/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:64
+        """
+        ...
+
+class _AxlChangeLineFont(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, x_new_font: int, /) -> list[RemoteObject] | None:
+        """
+        Changes font on a line or segment.
+        SKILL: axlChangeLineFont(o_dbidx_newFont)==> lo_dbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:101
+        """
+        ...
+
+class _AxlChangeNet(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, t_net_name: str | RemoteObject, /) -> bool | None:
+        """
+        Changes the net an object is currently on
+        SKILL: axlChangeNet(o_dbidt_netName/o_netdbid)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:1152
+        """
+        ...
+
+class _AxlChangeWidth(LiteralRemoteFunction):
+    def __call__(self, lo_dbid: list[RemoteObject] | RemoteObject, f_new_width: float, g_invisible: Skill = ..., /) -> list[RemoteObject] | None:
+        """
+        Changes width of lines, clines and segments (arc and line).
+        SKILL: axlChangeWidth(lo_dbid/o_dbidf_newWidth[g_invisible])==> lo_dbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:144
+        """
+        ...
+
+class _AxlCheckString(LiteralRemoteFunction):
+    @overload
+    def __call__(self, t_type: str, t_string: str, /) -> str | None:
+        """
+        Checks the provided string for legal characters and length
+        SKILL: axlCheckString(t_typet_string) -> t_modString/nil
+        SKILL: axlCheckString(nilnil) -> lt_types
+        SKILL: axlCheckString('errornil) -> t_errorMsg/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:11
+        """
+        ...
+    @overload
+    def __call__(self, value: None, value_2: None, /) -> list[str]:
+        """
+        Checks the provided string for legal characters and length
+        SKILL: axlCheckString(t_typet_string) -> t_modString/nil
+        SKILL: axlCheckString(nilnil) -> lt_types
+        SKILL: axlCheckString('errornil) -> t_errorMsg/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:11
+        """
+        ...
+    @overload
+    def __call__(self, errornil: Symbol, /) -> str | None:
+        """
+        Checks the provided string for legal characters and length
+        SKILL: axlCheckString(t_typet_string) -> t_modString/nil
+        SKILL: axlCheckString(nilnil) -> lt_types
+        SKILL: axlCheckString('errornil) -> t_errorMsg/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:11
+        """
+        ...
+
+class _AxlClasses(LiteralRemoteFunction):
+    def __call__(self, /) -> list[str]:
+        """
+        Return list of classes.The is actually just:
+        SKILL: axlClasses() -> lt_classes
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:1737
+        """
+        ...
+
+class _AxlClearDynamics(LiteralRemoteFunction):
+    def __call__(self, /) -> bool:
+        """
+        Clears the dynamic cursor buffer
+        SKILL: axlClearDynamics()⇒ t
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:169
+        """
+        ...
+
+class _AxlClearObjectCustomColor(LiteralRemoteFunction):
+    def __call__(self, lo_dbid: list[RemoteObject] | None = ..., /) -> bool | None:
+        """
+        Clear custom color of dbids
+        SKILL: axlClearObjectCustomColor([lo_dbid])==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:1460
+        """
+        ...
+
+class _AxlClearSelSet(LiteralRemoteFunction):
+    def __call__(self, /) -> bool | None:
+        """
+        Removes alldbids from select set.
+        SKILL: axlClearSelSet()⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/05selfnd.md:729
+        """
+        ...
+
+class _AxlClipboardGetText(LiteralRemoteFunction):
+    def __call__(self, /) -> str | None:
+        """
+        This gets the current text in the system clipboard
+        SKILL: axlClipboardGetText ()=> t_text/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:425
+        """
+        ...
+
+class _AxlClipboardSetText(LiteralRemoteFunction):
+    def __call__(self, t_text: str | None, /) -> bool | None:
+        """
+        Sends indicated text to system clipboard
+        SKILL: axlClipboardSetText(t_text/nil)=> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:453
+        """
+        ...
+
+class _AxlCloseFindFilter(LiteralRemoteFunction):
+    def __call__(self, /) -> bool:
+        """
+        This function is no longer required, but is kept for backward compatibility.
+        SKILL: axlCloseFindFilter()⇒ t
+        Version: Allegro 17.2-2016
+        Source: algroskill/05selfnd.md:1007
+        """
+        ...
+
+class _AxlCmdList(LiteralRemoteFunction):
+    def __call__(self, /) -> list[Skill] | None:
+        """
+        Lists commands registered byaxlCmdRegister
+        SKILL: axlCmdList()⇒ ll_strings/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:81
+        """
+        ...
+
+class _AxlCmdRegister(LiteralRemoteFunction):
+    def __call__(self, t_allegro_cmd: str, ts_callback: Skill, /, *, cmd_type: str | None = ..., done_cmd: Skill = ..., cancel_cmd: Skill = ..., undo: bool | None = ...) -> bool | None:
+        """
+        Registers a command namedt_allegroCmd with the Allegro PCB Editor shell system
+        SKILL: axlCmdRegister(t_allegroCmdts_callback?cmdType t_cmdType?doneCmd ts_doneCmd?cancelCmd ts_cancelCmd?undo t)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/19cmdctl.md:16
+        """
+        ...
+
+class _AxlCmdUnregister(LiteralRemoteFunction):
+    def __call__(self, t_allegro_cmd: str, /) -> bool | None:
+        """
+        Unregisters or removes from the Allegro PCB Editor shell system, a previously registered command namedt_allegroCmd
+        SKILL: axlCmdUnregister(t_allegroCmd)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/19cmdctl.md:149
+        """
+        ...
+
+class _AxlCnsAddVia(LiteralRemoteFunction):
+    def __call__(self, t_cset_name: str, t_padstack_name: str, /) -> bool | None:
+        """
+        Adds padstack to the constraint via list of a physical cset
+        SKILL: axlCnsAddVia(t_csetNamet_padstackName)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:22
+        """
+        ...
+
+class _AxlCnsAssignPurge(LiteralRemoteFunction):
+    def __call__(self, s_table_type: Symbol, /) -> int | None:
+        """
+        Obsolete
+        SKILL: axlCnsAssignPurge(s_tableType) ==> x_delCount/ nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:58
+        """
+        ...
+
+class _AxlCnsClassTableChange(LiteralRemoteFunction):
+    def __call__(self, o_dbid_class_table: RemoteObject, s_cset_type: Symbol | SkillList, t_cset_name: str | None = ..., /) -> RemoteObject | None:
+        """
+        This command changes the Csets associated with an existing net class table entry.
+        SKILL: axlCnsClassTableChange(o_dbidClassTables_csetType/ll_typeAndName[t_csetName]) -> o_dbidClassTable/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:87
+        """
+        ...
+
+class _AxlCnsClassTableCreate(LiteralRemoteFunction):
+    def __call__(self, g_class1: Skill, g_class2: Skill, g_region: Skill, s_cset_type: Symbol | SkillList, t_cset_name: str | None = ..., /) -> RemoteObject | None:
+        """
+        This command creates a class table entry that consists of any of the following:
+        SKILL: axlCnsClassTableCreate(g_class1g_class2g_regions_csetType/ll_typeAndName[t_csetName]) -> o_dbidClassTable/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:127
+        """
+        ...
+
+class _AxlCnsClassTableDelete(LiteralRemoteFunction):
+    def __call__(self, o_dbid_class_table: RemoteObject | list[RemoteObject], /) -> bool | None:
+        """
+        Deletes one or more entries in the class table.
+        SKILL: axlCnsClassTableDelete(o_dbidClassTable/lo_dbidClassTable) -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:201
+        """
+        ...
+
+class _AxlCnsClassTableFind(LiteralRemoteFunction):
+    def __call__(self, s_type: Symbol, o_dbid: RemoteObject | None = ..., /) -> list[RemoteObject] | None:
+        """
+        This command searches the class table for class table entries matching the search criteria.
+        SKILL: axlCnsClassTableFind(s_type[o_dbid]) -> lo_dbidClassTable/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:231
+        """
+        ...
+
+class _AxlCnsClassTableSeek(LiteralRemoteFunction):
+    def __call__(self, g_class1: Skill, g_class2: Skill, g_region: Skill, /) -> RemoteObject | None:
+        """
+        This command seeks a specific class table entry matching exactly the provideddbids
+        SKILL: axlCnsClassTableSeek(g_class1g_class2g_region) -> o_dbidClassTable/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:270
+        """
+        ...
+
+class _AxlCnsDeleteClassClassObjects(LiteralRemoteFunction):
+    def __call__(self, /) -> int:
+        """
+        Delete all Class-Class entries.
+        SKILL: axlCnsDeleteClassClassObjects() => x_delCount
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:410
+        """
+        ...
+
+class _AxlCnsDeleteRegionClassClassObjects(LiteralRemoteFunction):
+    def __call__(self, /) -> int:
+        """
+        Deletes all Region-Class-Class entries.
+        SKILL: axlCnsDeleteRegionClassClassObjects() => x_delCount
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:430
+        """
+        ...
+
+class _AxlCnsDeleteRegionClassObjects(LiteralRemoteFunction):
+    def __call__(self, /) -> int:
+        """
+        Delete all Region-Class entries.
+        SKILL: axlCnsDeleteRegionClassObjects() => x_delCount
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:450
+        """
+        ...
+
+class _AxlCnsDeleteVia(LiteralRemoteFunction):
+    def __call__(self, t_cset_name: str, t_padstack_name: str, /) -> bool | None:
+        """
+        Deletes padstack from the physical via constraint list,t_csetName
+        SKILL: axlCnsDeleteVia(t_csetNamet_padstackName)=> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part01.md:470
+        """
+        ...
+
+class _AxlCnsGetViaList(LiteralRemoteFunction):
+    def __call__(self, t_cset_name: str, /) -> list[str] | None:
+        """
+        Returns padstacks defined in a physical constraint set
+        SKILL: axlCnsGetViaList(t_csetName)==>lt_padstacks/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:669
+        """
+        ...
+
+class _AxlCnsList(LiteralRemoteFunction):
+    def __call__(self, s_cset_domain: Symbol | None, /) -> list[str] | list[Symbol]:
+        """
+        Returns the list of cset names of the domain specified
+        SKILL: axlCnsList(s_csetDomain/nil)==> lt_csetNames/ls_csetsDomain
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:937
+        """
+        ...
+
+class _AxlCnsNetFlattened(LiteralRemoteFunction):
+    def __call__(self, o_net_dbid: RemoteObject | str, t_cns_name: str | Symbol, /) -> str | None:
+        """
+        Permits a view of constraints where explicit pinpair rules are promoted to the net
+        SKILL: axlCnsNetFlattened(o_netDbid/t_netNamet_cnsName/s_name)==> t_cnsValue/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:1042
+        """
+        ...
+
+class _AxlCnsPurgeAll(LiteralRemoteFunction):
+    def __call__(self, /) -> int:
+        """
+        Removes all unused constraint objects and constraint sets
+        SKILL: axlCnsPurgeAll() -> x_purgeCount
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:458
+        """
+        ...
+
+class _AxlCnsPurgeCsets(LiteralRemoteFunction):
+    def __call__(self, list: Skill, l_type: SkillList, /) -> int:
+        """
+        Process all constraint sets of the specified domain and delete those without references.
+        SKILL: axlCnsPurgeCsets(list l_type) -> x_purgeCount
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:482
+        """
+        ...
+
+class _AxlCnsPurgeObjects(LiteralRemoteFunction):
+    def __call__(self, list: Skill, l_type: SkillList, /) -> int:
+        """
+        Process the database and delete all group\\_type objects that have no members; a netclass with no nets, or a region with no shapes.
+        SKILL: axlCnsPurgeObjects(list l_type) -> x_purgeCount
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:510
+        """
+        ...
+
+class _AxlColorGet(LiteralRemoteFunction):
+    @overload
+    def __call__(self, x_number: int | Skill, /) -> list[Skill] | None:
+        """
+        Get color palette
+        SKILL: axlColorGet(x_number/background) -> lx_rgb/nil
+        SKILL: axlColorGet('count)-> x_count
+        SKILL: axlColorGet('all)-> llx_rgb
+        SKILL: axlColorGet('pattern) -> x_count
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:997
+        """
+        ...
+    @overload
+    def __call__(self, count: Symbol, /) -> int:
+        """
+        Get color palette
+        SKILL: axlColorGet(x_number/background) -> lx_rgb/nil
+        SKILL: axlColorGet('count)-> x_count
+        SKILL: axlColorGet('all)-> llx_rgb
+        SKILL: axlColorGet('pattern) -> x_count
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:997
+        """
+        ...
+    @overload
+    def __call__(self, all: Symbol, /) -> Skill:
+        """
+        Get color palette
+        SKILL: axlColorGet(x_number/background) -> lx_rgb/nil
+        SKILL: axlColorGet('count)-> x_count
+        SKILL: axlColorGet('all)-> llx_rgb
+        SKILL: axlColorGet('pattern) -> x_count
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:997
+        """
+        ...
+    @overload
+    def __call__(self, pattern: Symbol, /) -> int:
+        """
+        Get color palette
+        SKILL: axlColorGet(x_number/background) -> lx_rgb/nil
+        SKILL: axlColorGet('count)-> x_count
+        SKILL: axlColorGet('all)-> llx_rgb
+        SKILL: axlColorGet('pattern) -> x_count
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:997
+        """
+        ...
+
+class _AxlColorLoad(LiteralRemoteFunction):
+    def __call__(self, t_file: str | None, /) -> bool | None:
+        """
+        Loads an Allegro PCB Editor color file (default .col file)
+        SKILL: axlColorLoad(t_file/nil) -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:1154
+        """
+        ...
+
+class _AxlColorOnGet(LiteralRemoteFunction):
+    def __call__(self, g_item: Skill, /) -> bool:
+        """
+        This function is obsolete
+        SKILL: axlColorOnGet(g_item) -> t
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:1250
+        """
+        ...
+
+class _AxlColorOnSet(LiteralRemoteFunction):
+    def __call__(self, g_item: Skill, g_state: Skill, /) -> bool:
+        """
+        This is an obsolete command
+        SKILL: axlColorOnSet(g_item g_state) => t
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:1266
+        """
+        ...
+
+class _AxlColorPriorityGet(LiteralRemoteFunction):
+    def __call__(self, g_item: Skill, g_item2: Skill = ..., /) -> None:
+        """
+        Due to the changes in color model of Allegro PCB Editor, this command is now obsolete
+        SKILL: axlColorPriorityGet(g_item[g_item2]) -> nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:1283
+        """
+        ...
+
+class _AxlColorPrioritySet(LiteralRemoteFunction):
+    def __call__(self, g_item: Skill, g_item2: Skill = ..., /) -> bool:
+        """
+        Due to the changes in color model of Allegro PCB Editor, this command is now obsolete
+        SKILL: axlColorPrioritySet(g_item[g_item2]) -> t
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:1303
+        """
+        ...
+
+class _AxlColorSave(LiteralRemoteFunction):
+    def __call__(self, t_file: str | None, /) -> bool | None:
+        """
+        Saves current design colors to specified file.
+        SKILL: axlColorSave(t_file/nil) -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:1323
+        """
+        ...
+
+class _AxlColorSet(LiteralRemoteFunction):
+    @overload
+    def __call__(self, x_number: int | Symbol, /) -> bool | None:
+        """
+        Sets red, green, blue palette for a color number or background.
+        SKILL: axlColorSet(x_number/'backgroundl_rbg) -> t/nil
+        SKILL: axlColorSet('allll_rgb) ->t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:1352
+        """
+        ...
+    @overload
+    def __call__(self, allll_rgb: Symbol, /) -> bool | None:
+        """
+        Sets red, green, blue palette for a color number or background.
+        SKILL: axlColorSet(x_number/'backgroundl_rbg) -> t/nil
+        SKILL: axlColorSet('allll_rgb) ->t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:1352
+        """
+        ...
+
+class _AxlColorShadowGet(LiteralRemoteFunction):
+    def __call__(self, g_option: Skill, /) -> bool | int | None:
+        """
+        Provides the options of shadow mode.
+        SKILL: axlColorShadowGet(g_option) -> t/nil/x_percent
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:1063
+        """
+        ...
+
+class _AxlColorShadowSet(LiteralRemoteFunction):
+    @overload
+    def __call__(self, g_modet: Skill | None, /) -> bool | None:
+        """
+        Sets the shadow mode options
+        SKILL: axlColorShadowSet(g_modet/nil) -> t/nil
+        SKILL: axlColorShadowSet('percentx_percentage) -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:1101
+        """
+        ...
+    @overload
+    def __call__(self, percentx_percentage: Symbol, /) -> bool | None:
+        """
+        Sets the shadow mode options
+        SKILL: axlColorShadowSet(g_modet/nil) -> t/nil
+        SKILL: axlColorShadowSet('percentx_percentage) -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:1101
+        """
+        ...
+
+class _AxlCompAddPin(LiteralRemoteFunction):
+    def __call__(self, o_comp: RemoteObject, g_abs_loc: Skill, o_pin: RemoteObject | list[RemoteObject], /) -> bool | None:
+        """
+        This function adds one or more pins to the specified component
+        SKILL: axlCompAddPin(o_compg_absLoco_pin/lo_pins) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:346
+        """
+        ...
+
+class _AxlCompDeletePin(LiteralRemoteFunction):
+    def __call__(self, o_pin: RemoteObject | list[RemoteObject], /) -> bool | None:
+        """
+        This function deletes the specified pin(s) from the parent component and symbol definition
+        SKILL: axlCompDeletePin(o_pin/lo_pins) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:441
+        """
+        ...
+
+class _AxlCompMovePin(LiteralRemoteFunction):
+    def __call__(self, o_pin: RemoteObject | list[RemoteObject], /, *, move: SkillList | None = ..., group_mirror: bool | None = ..., group_rotation: float | None = ..., rot_origin: SkillList | None = ..., pin_rotation: float | None = ...) -> bool | None:
+        """
+        No description available.
+        SKILL: axlCompMovePin(o_pin/lo_pins?move l_deltaPoint?groupMirror t/nil?groupRotation f_angle?rotOrigin l_rotatePoint?pinRotation f_deltaAngle) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:466
+        """
+        ...
+
+class _AxlCompSetPinAttributes(LiteralRemoteFunction):
+    def __call__(self, o_pin: RemoteObject | list[RemoteObject], /, *, number: str | None = ..., name: str | None = ..., use: str | None = ..., padstack: str | Skill | None = ..., rotation: float | None = ..., swap_code: Number | None = ...) -> bool | None:
+        """
+        This function modifies attributes of the specified pin(s) at the symbol and component definition level
+        SKILL: axlCompSetPinAttributes(o_pin/lo_pins?number t_pinNumber?name t_pinName?use t_pinUse?padstack t_padstack/g_padstack?rotation f_rotation?swapCode n_swapCode) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:558
+        """
+        ...
+
+class _AxlCompileSymbol(LiteralRemoteFunction):
+    def __call__(self, /, *, symbol: str | None = ..., type: str | None = ...) -> str | None:
+        """
+        Compiles and edit checks the current (symbol) design and saves the compiled version on disk under the namet_name
+        SKILL: axlCompileSymbol(?symbol t_name?type t_type)⇒ t_symbolName/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:85
+        """
+        ...
+
+class _AxlComponentChangeClass(LiteralRemoteFunction):
+    def __call__(self, s_dev_type: Symbol | RemoteObject, s_class: Symbol, /) -> str | None:
+        """
+        This command changes the component class of a component definition.
+        SKILL: axlComponentChangeClass(s_devType/o_compDefs_class) -> t_oldClass/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:517
+        """
+        ...
+
+class _AxlConductorBottomLayer(LiteralRemoteFunction):
+    def __call__(self, /) -> str:
+        """
+        Returns the name of the bottom conductor layer.
+        SKILL: axlConductorBottomLayer()⇒ t_name
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part02.md:422
+        """
+        ...
+
+class _AxlConductorTopLayer(LiteralRemoteFunction):
+    def __call__(self, /) -> str:
+        """
+        Returns the name of the top conductor layer.
+        SKILL: axlConductorTopLayer()⇒ t_name
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part02.md:443
+        """
+        ...
+
+class _AxlControlRaise(LiteralRemoteFunction):
+    def __call__(self, g_option: Skill, /) -> bool | None:
+        """
+        Raises a tab in the control panel to the top
+        SKILL: axlControlRaise(g_option)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:911
+        """
+        ...
+
+class _AxlCopyObject(LiteralRemoteFunction):
+    def __call__(self, lo_dbid: list[RemoteObject] | RemoteObject, /, *, move: SkillList | None = ..., mirror: bool | None = ..., angle: float | None = ..., origin: SkillList | None = ..., all_or_none: bool | None = ..., retain_net: bool | None = ...) -> list[RemoteObject] | None:
+        """
+        No description available.
+        SKILL: axlCopyObject(lo_dbid/o_dbid ?move l_deltaPoint ?mirror t/nil ?angle f_angle ?origin l_rotatePoint ?allOrNone t/nil ?retainNet t/nil) => lo_dbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:237
+        """
+        ...
+
+class _AxlCopyProperties(LiteralRemoteFunction):
+    def __call__(self, o_dest_dbid: RemoteObject, o_src_dbid: RemoteObject, /) -> bool | None:
+        """
+        This copies properties from one object to another
+        SKILL: axlCopyProperties(o_destDbido_srcDbid)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:193
+        """
+        ...
+
+class _AxlCreateAttachment(LiteralRemoteFunction):
+    def __call__(self, t_attachment_id: str, t_passwd: str, x_revision: int, s_data_format: Symbol, t_data: str, /) -> RemoteObject | None:
+        """
+        Creates a new Allegro PCB Editor database attachment with the given attachment id
+        SKILL: axlCreateAttachment(t_attachmentIdt_passwdx_revisions_dataFormatt_data)⇒ o_attachment/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/16dbatt.md:14
+        """
+        ...
+
+class _AxlCreateBondFinger(LiteralRemoteFunction):
+    @overload
+    def __call__(self, parent_symbol: Skill, l_finger_data: SkillList, l_placement_data: SkillList, /) -> RemoteObject | None:
+        """
+        This function adds a valid, fully-instantiated bond finger to the database
+        SKILL: axlCreateBondFinger(parentSymbol [fingerName] l_fingerData l_placementData) => o_dbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:993
+        """
+        ...
+    @overload
+    def __call__(self, parent_symbol: Skill, finger_name: Skill, l_finger_data: SkillList, l_placement_data: SkillList, /) -> RemoteObject | None:
+        """
+        This function adds a valid, fully-instantiated bond finger to the database
+        SKILL: axlCreateBondFinger(parentSymbol [fingerName] l_fingerData l_placementData) => o_dbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:993
+        """
+        ...
+
+class _AxlCreateBondWire(LiteralRemoteFunction):
+    @overload
+    def __call__(self, parent_symbol: Skill, l_wire_end: SkillList, l_wire_physical: SkillList, /) -> RemoteObject | None:
+        """
+        This function adds a valid, fully-instantiated bond wire to the database
+        SKILL: axlCreateBondWire(parentSymbol [l_wireStart] l_wireEnd l_wirePhysical) => o_dbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:1035
+        """
+        ...
+    @overload
+    def __call__(self, parent_symbol: Skill, l_wire_start: SkillList, l_wire_end: SkillList, l_wire_physical: SkillList, /) -> RemoteObject | None:
+        """
+        This function adds a valid, fully-instantiated bond wire to the database
+        SKILL: axlCreateBondWire(parentSymbol [l_wireStart] l_wireEnd l_wirePhysical) => o_dbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:1035
+        """
+        ...
+
+class _AxlCreateDeviceFileTemplate(LiteralRemoteFunction):
+    def __call__(self, t_device_name: str, t_class: str, l_pin_list: SkillList, /) -> bool | None:
+        """
+        This creates a template device file providing same functionality as the create device command in the symbol editor
+        SKILL: axlCreateDeviceFileTemplate(t_deviceNamet_CLASSl_pinList) -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:321
+        """
+        ...
+
+class _AxlCreateWirebondGuide(LiteralRemoteFunction):
+    def __call__(self, r_path: RemoteObject, /) -> Skill | None:
+        """
+        This function adds a wirebond guide path into the design, which can then be used to snap fingers through the wirebond tools.
+        SKILL: axlCreateWirebondGuide(r_path)==> dbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part02.md:148
+        """
+        ...
+
+class _AxlCurrentDesign(LiteralRemoteFunction):
+    def __call__(self, /) -> str:
+        """
+        Returns the name of the currently active layout
+        SKILL: axlCurrentDesign()⇒ t_design
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:14
+        """
+        ...
+
+class _AxlCursorGet(LiteralRemoteFunction):
+    def __call__(self, g_pixel: Skill, /) -> list[Skill]:
+        """
+        No description available.
+        SKILL: axlCursorGet (g_pixel) ==> l_xy
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:480
+        """
+        ...
+
+class _AxlCursorWarp(LiteralRemoteFunction):
+    def __call__(self, g_pixel: Skill, l_xy: SkillList, /) -> bool | None:
+        """
+        Use this command to set the cursor position
+        SKILL: axlCursorWarp (g_pixell_xy) ==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:503
+        """
+        ...
+
+class _AxlCustomColorObject(LiteralRemoteFunction):
+    def __call__(self, lo_dbid: list[RemoteObject] | None = ..., g_custom_color: Skill = ..., /) -> bool | None:
+        """
+        Custom color the provided dbid or list of dbids
+        SKILL: axlCustomColorObject([lo_dbid][g_custom_color])==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:1486
+        """
+        ...
+
+class _AxlDB2Path(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, /) -> RemoteObject:
+        """
+        This takes a database id (od_dbId) and converts it to an r\\_path
+        SKILL: axlDB2Path(o_dbid)==> r_path
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:481
+        """
+        ...
+
+class _AxlDBActiveShape(LiteralRemoteFunction):
+    def __call__(self, /) -> RemoteObject | None:
+        """
+        Returns thedbid of the open shape, if any.
+        SKILL: axlDBActiveShape()⇒ o_shape/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:819
+        """
+        ...
+
+class _AxlDBAddGroupObjects(LiteralRemoteFunction):
+    def __call__(self, o_group: RemoteObject, lo_members: list[RemoteObject], /) -> bool | None:
+        """
+        Adds the database objects specified in the new members list to a group
+        SKILL: axlDBAddGroupObjects(o_grouplo_members)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/15dbgrp.md:14
+        """
+        ...
+
+class _AxlDBAddProp(LiteralRemoteFunction):
+    def __call__(self, lo_attach: list[RemoteObject], ll_name_value: SkillList, /) -> list[Skill] | None:
+        """
+        Adds all the property/value pairs listed inll_name_value to all the object dbids listed in lrd_attach
+        SKILL: axlDBAddProp(lo_attachll_name_value)⇒ l_result/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part02.md:254
+        """
+        ...
+
+class _AxlDBAltOrigin(LiteralRemoteFunction):
+    def __call__(self, g_mode: Skill, o_dbid: RemoteObject, /) -> Skill | None:
+        """
+        Returns alternative center for adbid
+        SKILL: axlDBAltOrigin(g_modeo_dbid)⇒ xy/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:290
+        """
+        ...
+
+class _AxlDBAssignNet(LiteralRemoteFunction):
+    def __call__(self, o_object: RemoteObject | list[RemoteObject], o_net: RemoteObject | str, g_ripup: Skill = ..., /) -> bool | None:
+        """
+        Assigns an object or a list of objects to a new net
+        SKILL: axlDBAssignNet(o_object/lo_objecto_net/t_net[g_ripup])⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:14
+        """
+        ...
+
+class _AxlDBChangeDesignExtents(LiteralRemoteFunction):
+    def __call__(self, l_b_box: SkillList, /) -> bool | None:
+        """
+        Changes design extents
+        SKILL: axlDBChangeDesignExtents(l_bBox)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:765
+        """
+        ...
+
+class _AxlDBChangeDesignOrigin(LiteralRemoteFunction):
+    def __call__(self, l_point: SkillList, /) -> bool | None:
+        """
+        Changes the origin of the design
+        SKILL: axlDBChangeDesignOrigin(l_point)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:802
+        """
+        ...
+
+class _AxlDBChangeDesignUnits(LiteralRemoteFunction):
+    def __call__(self, t_units: str | None, x_accuracy: int | None, x_drc_count: int | None, /) -> int | None:
+        """
+        Changes the units and accuracy of the design
+        SKILL: axlDBChangeDesignUnits(t_units/nilx_accuracy/nilx_drcCount/nil)⇒ x_drcCount/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:831
+        """
+        ...
+
+class _AxlDBChangeText(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, t_text: str, r_text_orientation: RemoteObject | int | None = ..., /) -> list[Skill] | None:
+        """
+        Modifies the characteristics of a text string in the layout
+        SKILL: axlDBChangeText(o_dbidt_text[r_textOrientation/x_textBlock])==> l_result/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:351
+        """
+        ...
+
+class _AxlDBCheck(LiteralRemoteFunction):
+    def __call__(self, g_option: Skill | SkillList, p_file: Skill = ..., /) -> Skill:
+        """
+        Runs*dbdoctor* on the current database
+        SKILL: axlDBCheck(g_option/lg_options[p_file])⇒ (x_errors x_warnings)/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:900
+        """
+        ...
+
+class _AxlDBCloak(LiteralRemoteFunction):
+    def __call__(self, g_func: Skill, g_mode: Skill | SkillList | None = ..., /) -> Skill:
+        """
+        Improves performance and program memory use while modifying many items in the database
+        SKILL: axlDBCloak(g_func [g_mode/lg_mode]) => g_return
+        Version: Allegro 17.2-2016
+        Source: algroskill/17dbtran.md:11
+        """
+        ...
+
+class _AxlDBControl(LiteralRemoteFunction):
+    def __call__(self, s_name: Symbol, g_value: Skill = ..., /) -> Skill | list[Symbol]:
+        """
+        Inquires and/or sets the value of a special database control
+        SKILL: axlDBControl(s_name[g_value]) => g_currentValue/ls_names
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:134
+        """
+        ...
+
+class _AxlDBCopyPadstack(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject | str, lt_start_end: list[str], g_dont_trim: Skill = ..., /) -> RemoteObject | None:
+        """
+        Creates a new padstack by copying an existing padstack, with optional removal of layers
+        SKILL: axlDBCopyPadstack(o_dbid/t_padstackNamelt_startEnd[g_dontTrim])⇒ o_dbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:943
+        """
+        ...
+
+class _AxlDBCreateCircle(LiteralRemoteFunction):
+    def __call__(self, l_location: SkillList, f_width: float | None = ..., t_layer: str | None = ..., rd_parent: Skill = ..., /) -> list[Skill] | None:
+        """
+        Create a circle at indicated location and with indicated diameter.
+        SKILL: axlDBCreateCircle(l_location[f_width][t_layer][rd_parent])⇒ l_result/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:622
+        """
+        ...
+
+class _AxlDBCreateCloseShape(LiteralRemoteFunction):
+    def __call__(self, o_shape: RemoteObject, g_force_shape: Skill = ..., /) -> list[Skill] | None:
+        """
+        Closes the current open shape and applies the fill pattern specified inaxlDBCreateOpenShape
+        SKILL: axlDBCreateCloseShape(o_shape[g_forceShape])⇒ l_result/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:794
+        """
+        ...
+
+class _AxlDBCreateComponent(LiteralRemoteFunction):
+    def __call__(self, s_ref_des: Symbol, s_device_name: Symbol, s_package: Symbol | None = ..., s_value: Symbol | None = ..., s_tolerance: Symbol | None = ..., /) -> RemoteObject | None:
+        """
+        Given the information needed to describe a Allegro PCB Editor device, create the Allegro PCB Editor component and return itsdbid
+        SKILL: axlDBCreateComponent(s_refDess_deviceName[s_package][s_value][s_tolerance])==> r_dbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:96
+        """
+        ...
+
+class _AxlDBCreateConceptComponent(LiteralRemoteFunction):
+    def __call__(self, s_refdes: Symbol, s_part_path: Symbol, s_log_name: Symbol, s_prim_name: Symbol, s_ppt_row_name: Symbol | None = ..., /) -> RemoteObject | None:
+        """
+        Given the Concept information needed to describe an Allegro PCB Editor device, create the Allegro PCB Editor component and return itsdbid
+        SKILL: axlDBCreateConceptComponent(s_refdess_partPaths_logNames_primName[s_pptRowName] ) ⇒ r_dbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:65
+        """
+        ...
+
+class _AxlDBCreateExternalDRC(LiteralRemoteFunction):
+    def __call__(self, t_constraint: str | list[str], l_anchor_point: SkillList, t_layer: str | None = ..., lo_dbid: list[RemoteObject] | None = ..., l_second_point: SkillList | None = ..., t_actual_value: str | None = ..., /) -> list[Skill] | None:
+        """
+        Creates an externally-defined (by user) DRC containing the values given in the arguments
+        SKILL: axlDBCreateExternalDRC(t_constraint/lt_constraintl_anchor_point[t_layer][lo_dbid][l_secondPoint][t_actualValue])⇒ l_result/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:1061
+        """
+        ...
+
+class _AxlDBCreateFilmRec(LiteralRemoteFunction):
+    def __call__(self, *args: Skill, **kwargs: Skill) -> Skill:
+        """
+        This interface is obsolete
+        SKILL: signature unavailable; generic fallback
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part02.md:464
+        """
+        ...
+
+class _AxlDBCreateGroup(LiteralRemoteFunction):
+    def __call__(self, t_name: str, t_type: str, lo_group_members: list[RemoteObject], /) -> RemoteObject | None:
+        """
+        Creates a new group database object with members specified bylo_groupMembers.
+        SKILL: axlDBCreateGroup(t_namet_typelo_groupMembers)⇒ o_dbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/15dbgrp.md:38
+        """
+        ...
+
+class _AxlDBCreateLine(LiteralRemoteFunction):
+    def __call__(self, l_points: SkillList, f_width: float | None = ..., t_layer: str | None = ..., t_net_name: str | Symbol | None = ..., o_parent: RemoteObject | None = ..., s_font: Symbol | None = ..., /) -> list[Skill] | None:
+        """
+        Create a path of fixed width straight segments, a line with series of provided points
+        SKILL: axlDBCreateLine(l_points [f_width] [t_layer] [t_netName/'line] [o_parent] [s_font]) => l_result/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:576
+        """
+        ...
+
+class _AxlDBCreateManyModuleInstances(LiteralRemoteFunction):
+    def __call__(self, t_name: str, t_moddef_name: str, x_tile_start_num: int, l_origin: SkillList, l_offset: SkillList, x_num_tiles: int, f_rotation: float, x_logic_method: int, l_net_except: SkillList | None = ..., g_mirror: Skill = ..., /) -> RemoteObject | None:
+        """
+        Creates multiple module instances in the design
+        SKILL: axlDBCreateManyModuleInstances( t_name t_moddefName x_tileStartNum l_origin l_offset x_num_tiles f_rotation x_logicMethod [l_netExcept] [g_mirror] ) ==> o_result/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:143
+        """
+        ...
+
+class _AxlDBCreateModuleDef(LiteralRemoteFunction):
+    def __call__(self, t_name: str, l_origin: SkillList, l_objects: SkillList, /) -> bool | None:
+        """
+        Creates a module based on existing database objects.
+        SKILL: axlDBCreateModuleDef(t_namel_originl_objects ) ⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:210
+        """
+        ...
+
+class _AxlDBCreateModuleInstance(LiteralRemoteFunction):
+    def __call__(self, t_name: str, t_moddef_name: str, l_origin: SkillList, r_rotation: RemoteObject, i_logic_method: Number, l_net_except: SkillList, /) -> RemoteObject | None:
+        """
+        Allows you to use or place a previously defined module.
+        SKILL: axlDBCreateModuleInstance(t_namet_moddef_namel_originr_rotationi_logic_methodl_net_except ) ⇒ o_result/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:255
+        """
+        ...
+
+class _AxlDBCreateNet(LiteralRemoteFunction):
+    def __call__(self, t_net_name: str, /) -> RemoteObject | None:
+        """
+        Creates a net in database if does not exist or returnsdbid of net if it exists.
+        SKILL: axlDBCreateNet(t_netName)==> o_dbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:291
+        """
+        ...
+
+class _AxlDBCreateOpenShape(LiteralRemoteFunction):
+    def __call__(self, o_polygon: RemoteObject, l_r_fill: SkillList | None = ..., t_layer: str | None = ..., t_net_name: str | RemoteObject | None = ..., o_parent: RemoteObject | None = ..., /) -> RemoteObject | None:
+        """
+        Creates a shape based on the characteristic of eithero_polygon orr_path
+        SKILL: axlDBCreateOpenShape(o_polygon/r_path[l_r_fill][t_layer][t_netName/o_netdbid][o_parent])⇒ o_shape/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:689
+        """
+        ...
+
+class _AxlDBCreatePadStack(LiteralRemoteFunction):
+    def __call__(self, t_name: str, r_dril: RemoteObject, ll_pad: SkillList, g_nocheck: Skill = ..., /) -> list[Skill] | None:
+        """
+        Adds a padstackt_name, using drill hole r_drill and pad definition l_pad.
+        SKILL: axlDBCreatePadStack(t_namer_drilll_pad[g_nocheck])⇒ l_result/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:1733
+        """
+        ...
+
+class _AxlDBCreatePath(LiteralRemoteFunction):
+    def __call__(self, r_path: RemoteObject, t_layer: str | None = ..., t_net_name: str | Symbol | None = ..., o_parent: RemoteObject | None = ..., lo_props: list[RemoteObject] | None = ..., s_font: Symbol | None = ..., /) -> list[Skill] | None:
+        """
+        Creates a path figure (line or cline) as specified
+        SKILL: axlDBCreatePath(r_path [t_layer] [t_netName/'line] [o_parent] [lo_props] [s_font]) => l_result/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:511
+        """
+        ...
+
+class _AxlDBCreatePin(LiteralRemoteFunction):
+    def __call__(self, t_padstack: str | RemoteObject, l_anchor_point: SkillList, r_pin_text: RemoteObject | None, f_rotation: float | None = ..., /) -> list[Skill] | None:
+        """
+        Adds a pin with padstackt_padstack, pin name r_pinText at location l_anchorPoint, and rotated by f_rotation degrees.
+        SKILL: axlDBCreatePin(t_padstack/o_padstackDbidl_anchorPointr_pinText/nil[f_rotation])⇒ l_result/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:1165
+        """
+        ...
+
+class _AxlDBCreatePropDictEntry(LiteralRemoteFunction):
+    @overload
+    def __call__(self, t_name: str, t_type: str, lt_objects: list[str] | bool, ln_range: SkillList | None = ..., t_units: str | None = ..., g_hidden: Skill = ..., /) -> RemoteObject | None:
+        """
+        Creates an Allegro user-defined property dictionary entry with given attributes
+        SKILL: axlDBCreatePropDictEntry(t_name t_type lt_objects/t [ln_range] [t_units] [g_hidden]) => od_propDictEntry/nil
+        SKILL: axlDBCreatePropDictEntry(nil) => lt_availbeObject
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part02.md:172
+        """
+        ...
+    @overload
+    def __call__(self, value: None, /) -> list[str]:
+        """
+        Creates an Allegro user-defined property dictionary entry with given attributes
+        SKILL: axlDBCreatePropDictEntry(t_name t_type lt_objects/t [ln_range] [t_units] [g_hidden]) => od_propDictEntry/nil
+        SKILL: axlDBCreatePropDictEntry(nil) => lt_availbeObject
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part02.md:172
+        """
+        ...
+
+class _AxlDBCreateRectangle(LiteralRemoteFunction):
+    def __call__(self, l_b_box: SkillList, g_fill: Skill = ..., t_layer: str | None = ..., t_netname: str | None = ..., o_parent: RemoteObject | None = ..., /) -> list[Skill] | None:
+        """
+        Creates a rectangle with coordinates specified byl_bBox
+        SKILL: axlDBCreateRectangle(l_bBox[g_fill][t_layer][t_netname][o_parent])⇒ l_result/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:935
+        """
+        ...
+
+class _AxlDBCreateShape(LiteralRemoteFunction):
+    def __call__(self, o_polygon: RemoteObject, l_r_fill: SkillList | None = ..., t_layer: str | None = ..., t_net_name: str | None = ..., o_parent: RemoteObject | None = ..., /) -> list[Skill] | None:
+        """
+        Takes the same arguments asaxlDBCreateOpenShape and adds the r_path shape to the database
+        SKILL: axlDBCreateShape(o_polygon/r_path[l_r_fill][t_layer][t_netName][o_parent])⇒ l_result/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:904
+        """
+        ...
+
+class _AxlDBCreateSymDefSkeleton(LiteralRemoteFunction):
+    def __call__(self, l_symbol_data: SkillList, l_extents: SkillList, l_pin_data: SkillList | None = ..., /) -> Skill | None:
+        """
+        Creates a "minimal" symbol definition
+        SKILL: axlDBCreateSymDefSkeleton(l_symbolDatal_extents[l_pinData])==> axlDBID/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:322
+        """
+        ...
+
+class _AxlDBCreateSymbol(LiteralRemoteFunction):
+    @overload
+    def __call__(self, t_refdes: str, l_anchor_point: SkillList, g_mirror: Skill = ..., f_rotation: float | None = ..., t_embedded_layer: str | None = ..., /) -> list[Skill] | None:
+        """
+        Places a symbol instance in the design
+        SKILL: axlDBCreateSymbol(t_refdesl_anchorPoint[g_mirror][f_rotation][t_embeddedLayer])⇒ l_result/nil
+        SKILL: axlDBCreateSymbol(l_symbolDatal_anchorPoint[g_mirror][f_rotation][t_embeddedLayer])⇒ l_result/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:1268
+        """
+        ...
+    @overload
+    def __call__(self, l_symbol_data: SkillList, l_anchor_point: SkillList, g_mirror: Skill = ..., f_rotation: float | None = ..., t_embedded_layer: str | None = ..., /) -> list[Skill] | None:
+        """
+        Places a symbol instance in the design
+        SKILL: axlDBCreateSymbol(t_refdesl_anchorPoint[g_mirror][f_rotation][t_embeddedLayer])⇒ l_result/nil
+        SKILL: axlDBCreateSymbol(l_symbolDatal_anchorPoint[g_mirror][f_rotation][t_embeddedLayer])⇒ l_result/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:1268
+        """
+        ...
+
+class _AxlDBCreateSymbolAutosilk(LiteralRemoteFunction):
+    def __call__(self, o_symbol: RemoteObject, /) -> bool | None:
+        """
+        Creates or updates theAUTOSILK information for the specified symbol, as required
+        SKILL: axlDBCreateSymbolAutosilk(o_symbol)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part02.md:129
+        """
+        ...
+
+class _AxlDBCreateSymbolSkeleton(LiteralRemoteFunction):
+    @overload
+    def __call__(self, t_refdes: str, l_anchor_point: SkillList, g_mirror: Skill, f_rotation: float, l_pin_data: SkillList, t_embedded_layer: str | None = ..., /) -> list[Skill] | None:
+        """
+        Places a skeleton or a minimal symbol instance atl_anchorPoint with mirror and rotation given but no data in the instance, except the pin data given by l_pinData
+        SKILL: axlDBCreateSymbolSkeleton(t_refdesl_anchorPointg_mirrorf_rotationl_pinData[t_embeddedLayer])⇒ l_result/nil
+        SKILL: axlDBCreateSymbolSkeleton(l_symbolDatal_anchorPointg_mirrorf_rotationl_pinData[t_embeddedLayer])⇒ l_result/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:1328
+        """
+        ...
+    @overload
+    def __call__(self, l_symbol_data: SkillList, l_anchor_point: SkillList, g_mirror: Skill, f_rotation: float, l_pin_data: SkillList, t_embedded_layer: str | None = ..., /) -> list[Skill] | None:
+        """
+        Places a skeleton or a minimal symbol instance atl_anchorPoint with mirror and rotation given but no data in the instance, except the pin data given by l_pinData
+        SKILL: axlDBCreateSymbolSkeleton(t_refdesl_anchorPointg_mirrorf_rotationl_pinData[t_embeddedLayer])⇒ l_result/nil
+        SKILL: axlDBCreateSymbolSkeleton(l_symbolDatal_anchorPointg_mirrorf_rotationl_pinData[t_embeddedLayer])⇒ l_result/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:1328
+        """
+        ...
+
+class _AxlDBCreateText(LiteralRemoteFunction):
+    def __call__(self, t_text: str, l_anchor_point: SkillList, r_text_orientation: RemoteObject, t_layer: str | None = ..., o_attach: RemoteObject | None = ..., /) -> list[Skill] | None:
+        """
+        Creates a text string in the layout using the arguments described.
+        SKILL: axlDBCreateText(t_textl_anchorPointr_textOrientation[t_layer][o_attach])⇒ l_result/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part02.md:39
+        """
+        ...
+
+class _AxlDBCreateVia(LiteralRemoteFunction):
+    def __call__(self, t_padstack: str | RemoteObject, l_anchor_point: SkillList, t_net_name: str | None = ..., g_mirror: Skill = ..., f_rotation: float | None = ..., o_parent: RemoteObject | None = ..., /) -> list[Skill] | None:
+        """
+        Creates a via in the layout as specified by the arguments described below.
+        SKILL: axlDBCreateVia(t_padstack/o_padstackDbidl_anchorPoint[t_netName][g_mirror][f_rotation][o_parent])⇒ l_result/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part02.md:90
+        """
+        ...
+
+class _AxlDBCreateVoid(LiteralRemoteFunction):
+    def __call__(self, o_shape: RemoteObject | None, r_path: RemoteObject, /) -> RemoteObject | None:
+        """
+        Adds a void to a shape
+        SKILL: axlDBCreateVoid(o_shape/nilr_path/o_polygon)⇒ o_polygon/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:866
+        """
+        ...
+
+class _AxlDBCreateVoidCircle(LiteralRemoteFunction):
+    def __call__(self, o_shape: RemoteObject, l_location: SkillList, f_width: float | None = ..., /) -> RemoteObject | None:
+        """
+        Creates a circular void in the open shapeo_shape
+        SKILL: axlDBCreateVoidCircle(o_shapel_location[f_width])⇒ o_polygon/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:841
+        """
+        ...
+
+class _AxlDBDelLock(LiteralRemoteFunction):
+    def __call__(self, t_password: str | None = ..., /) -> bool | None:
+        """
+        Deletes a lock on the database
+        SKILL: axlDBDelLock([t_password]) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:983
+        """
+        ...
+
+class _AxlDBDeleteProp(LiteralRemoteFunction):
+    def __call__(self, lo_attach: list[RemoteObject], lt_name: list[str], /) -> list[Skill] | None:
+        """
+        Deletes the properties listed by name, inlt_name, from the objects whose dbids are in lo_attach.
+        SKILL: axlDBDeleteProp(lo_attachlt_name)⇒ l_result/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:512
+        """
+        ...
+
+class _AxlDBDeletePropAll(LiteralRemoteFunction):
+    def __call__(self, t_name: str, /) -> int | None:
+        """
+        Deletes all instances of the property t\\_name in the database
+        SKILL: axlDBDeletePropAll(t_name)==> x_count/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:552
+        """
+        ...
+
+class _AxlDBDeletePropDictEntry(LiteralRemoteFunction):
+    def __call__(self, t_name: str, /) -> bool | None:
+        """
+        No description available.
+        SKILL: axlDBDeletePropDictEntry(t_name)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:581
+        """
+        ...
+
+class _AxlDBDisbandGroup(LiteralRemoteFunction):
+    def __call__(self, o_group: RemoteObject, /) -> bool | None:
+        """
+        Disbands the database group you specify with theo_group argument, thereby immediately removing the group
+        SKILL: axlDBDisbandGroup(o_group)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/15dbgrp.md:125
+        """
+        ...
+
+class _AxlDBDisplayControl(LiteralRemoteFunction):
+    def __call__(self, s_name: Symbol, g_value: Skill = ..., /) -> Skill | list[Symbol]:
+        """
+        This command is used to inquire and set the display database controls
+        SKILL: axlDBDisplayControl(s_name[g_value])==> g_currentValue/ls_names
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:1469
+        """
+        ...
+
+class _AxlDBDummyNet(LiteralRemoteFunction):
+    def __call__(self, g_mode: Skill, /) -> list[RemoteObject] | None:
+        """
+        This command returns all dummy nets in design
+        SKILL: axlDBDummyNet (g_mode)-> lo_dbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:384
+        """
+        ...
+
+class _AxlDBDynamicShapes(LiteralRemoteFunction):
+    def __call__(self, g_value: Skill, /) -> int:
+        """
+        Queries and updates dynamic shapes
+        SKILL: axlDBDynamicShapes(g_value)⇒ x_count
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:939
+        """
+        ...
+
+class _AxlDBFindByName(LiteralRemoteFunction):
+    def __call__(self, s_type: Symbol, t_name: str, /) -> RemoteObject | None:
+        """
+        Findsdbid of an object by name without involving the selection set
+        SKILL: axlDBFindByName(s_typet_name) ⇒ o_dbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/05selfnd.md:1024
+        """
+        ...
+
+class _AxlDBGetAttachedText(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, /) -> list[Skill] | None:
+        """
+        Returns the list ofdbids of text objects attached to the object whose dbid is o_dbid
+        SKILL: axlDBGetAttachedText(o_dbid)⇒ l_dbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:273
+        """
+        ...
+
+class _AxlDBGetConnect(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, t_full: str | None = ..., /) -> list[Skill] | None:
+        """
+        Finds all the elements, including pads and shapes, that are connected to a givendbid
+        SKILL: axlDBGetConnect(o_dbid[t_full])⇒ l_result/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:581
+        """
+        ...
+
+class _AxlDBGetDesign(LiteralRemoteFunction):
+    def __call__(self, /) -> RemoteObject | None:
+        """
+        Returns the root designdbid
+        SKILL: axlDBGetDesign()⇒ o_design/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:179
+        """
+        ...
+
+class _AxlDBGetDesignUnits(LiteralRemoteFunction):
+    def __call__(self, /) -> list[Skill] | None:
+        """
+        Returns the design units and accuracy number of the active design.
+        SKILL: axlDBGetDesignUnits()⇒ l_value/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:495
+        """
+        ...
+
+class _AxlDBGetDrillPlating(LiteralRemoteFunction):
+    def __call__(self, t_padstackname: str, /) -> Symbol | None:
+        """
+        Retrieves the plating type of the padstack passed as an argument to this function.
+        SKILL: axlDBGetDrillPlating(t_padstackname) => s_plating/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:223
+        """
+        ...
+
+class _AxlDBGetExtents(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, g_visible_only: Skill, /) -> Skill | None:
+        """
+        Provides the extents of a physical database object
+        SKILL: axlDBGetExtents(o_dbidg_visibleOnly)==> bBox/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:346
+        """
+        ...
+
+class _AxlDBGetGroupFromItem(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, t_group_type: str, g_promote_to_net: Skill = ..., /) -> list[RemoteObject] | None:
+        """
+        Filter object's group membership by a group type
+        SKILL: axlDBGetGroupFromItem(o_dbidt_groupType[g_promoteToNet]) -> lo_groupDbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/15dbgrp.md:148
+        """
+        ...
+
+class _AxlDBGetLayerType(LiteralRemoteFunction):
+    def __call__(self, t_layername: str, /) -> str | None:
+        """
+        Retrieves the cross-section type of a given layer
+        SKILL: axlDBGetLayerType(t_layername) => t_layertype/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:1763
+        """
+        ...
+
+class _AxlDBGetLength(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, /) -> float | None:
+        """
+        Calculates the length of the given object which may be a NET, CLINE, SEGMENT, or RATSNEST
+        SKILL: axlDBGetLength(o_dbid)==> f_etchlength/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:154
+        """
+        ...
+
+class _AxlDBGetLock(LiteralRemoteFunction):
+    def __call__(self, /) -> list[Skill] | None:
+        """
+        Returns information about a lock on the database
+        SKILL: axlDBGetLock()⇒ nil/l_info
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:1018
+        """
+        ...
+
+class _AxlDBGetLonelyBranches(LiteralRemoteFunction):
+    def __call__(self, /) -> list[Skill] | None:
+        """
+        Returns a list of the*standalone branch* dbids in the design
+        SKILL: axlDBGetLonelyBranches()⇒ l_dbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:555
+        """
+        ...
+
+class _AxlDBGetManhattan(LiteralRemoteFunction):
+    def __call__(self, o_dbi: RemoteObject, d_net: Skill, /) -> list[Skill] | None:
+        """
+        Given a net, calculates an etch, path, and Manhattan length
+        SKILL: axlDBGetManhattan(o_dbid_net)⇒ l_result/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:186
+        """
+        ...
+
+class _AxlDBGetPad(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, t_layer: str, t_type: str, /) -> RemoteObject | None:
+        """
+        For the pin or via specified byo_dbid, gets the pad of type t_type associated with layer t_layer.
+        SKILL: axlDBGetPad(o_dbidt_layert_type)⇒ o_pad/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:304
+        """
+        ...
+
+class _AxlDBGetPropDict(LiteralRemoteFunction):
+    def __call__(self, s_filter: Symbol | None, /) -> list[str]:
+        """
+        Returns a list of property definitions in the current design
+        SKILL: axlDBGetPropDict(S_filter/nil) -> lt_propNames
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:375
+        """
+        ...
+
+class _AxlDBGetPropDictEntry(LiteralRemoteFunction):
+    @overload
+    def __call__(self, t_name: str, /) -> RemoteObject | None:
+        """
+        Gets the property dictionary entry for the property name given by the stringt_name
+        SKILL: axlDBGetPropDictEntry(t_name)⇒ o_propDictEntry/nil
+        SKILL: axlDBGetPropDictEntry(nil)==> lt_validObjects
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:411
+        """
+        ...
+    @overload
+    def __call__(self, value: None, /) -> list[str]:
+        """
+        Gets the property dictionary entry for the property name given by the stringt_name
+        SKILL: axlDBGetPropDictEntry(t_name)⇒ o_propDictEntry/nil
+        SKILL: axlDBGetPropDictEntry(nil)==> lt_validObjects
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:411
+        """
+        ...
+
+class _AxlDBGetProperties(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, lt_type: list[str] | None = ..., /) -> list[Skill] | None:
+        """
+        Gets the properties attached to a specified object
+        SKILL: axlDBGetProperties(o_dbid[lt_type])⇒ l_result/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:449
+        """
+        ...
+
+class _AxlDBGetShapes(LiteralRemoteFunction):
+    def __call__(self, t_layer: str, /) -> list[Skill] | None:
+        """
+        Provides quick access to shapes without access to visibility or find settings.
+        SKILL: axlDBGetShapes(t_layer)⇒ l_dbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:957
+        """
+        ...
+
+class _AxlDBGetSymbolBodyExtent(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, /) -> Skill | None:
+        """
+        This returns the body extent of a symbol
+        SKILL: axlDBGetSymbolBodyExtent(o_dbid)-> bBox/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:225
+        """
+        ...
+
+class _AxlDBGetTextBlockCount(LiteralRemoteFunction):
+    def __call__(self, /) -> int:
+        """
+        Returns a count of the number of text blocks defined.
+        SKILL: axlDBGetTextBlockCount()=> x_textBlockCount
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:50
+        """
+        ...
+
+class _AxlDBGridGet(LiteralRemoteFunction):
+    @overload
+    def __call__(self, value: None, /) -> list[str]:
+        """
+        This command returns current grid values
+        SKILL: axlDBGridGet(nil)==> lt_grids
+        SKILL: axlDBGridGet(t_gridName)==> og_grid
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:73
+        """
+        ...
+    @overload
+    def __call__(self, t_grid_name: str, /) -> Skill:
+        """
+        This command returns current grid values
+        SKILL: axlDBGridGet(nil)==> lt_grids
+        SKILL: axlDBGridGet(t_gridName)==> og_grid
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:73
+        """
+        ...
+
+class _AxlDBGridSet(LiteralRemoteFunction):
+    def __call__(self, og_grid: Skill, /) -> bool | None:
+        """
+        This command modifies the grid settings in the design.
+        SKILL: axlDBGridSet(og_grid)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:130
+        """
+        ...
+
+class _AxlDBGroupRename(LiteralRemoteFunction):
+    def __call__(self, o_group_dbid: RemoteObject, t_new_name: str, /) -> bool | None:
+        """
+        Renames a group
+        SKILL: axlDBGroupRename(o_groupDbidt_newName)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/15dbgrp.md:188
+        """
+        ...
+
+class _AxlDBIgnoreFixed(LiteralRemoteFunction):
+    def __call__(self, g_ignore: Skill = ..., /) -> bool | None:
+        """
+        Provides similar functionality to that offered by many Allegro batch programs which allow FIXED and LOCKED properties to be ignored (for example:netrev -z).
+        SKILL: axlDBIgnoreFixed([g_ignore]) -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:374
+        """
+        ...
+
+class _AxlDBIsBondingWireLayer(LiteralRemoteFunction):
+    def __call__(self, t_layer_name: str, /) -> bool | None:
+        """
+        This is an obsolete function
+        SKILL: axlDBIsBondingWireLayer(t_layerName)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:589
+        """
+        ...
+
+class _AxlDBIsBondpad(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, /) -> bool | None:
+        """
+        Verifies whether or not the given element is a*bondpad*.
+        SKILL: axlDBIsBondpad(o_dbid)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:620
+        """
+        ...
+
+class _AxlDBIsBondwire(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, /) -> bool | None:
+        """
+        Verifies whether or not the given element is a*bonding wire*.
+        SKILL: axlDBIsBondwire(o_dbid)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:641
+        """
+        ...
+
+class _AxlDBIsDiePad(LiteralRemoteFunction):
+    def __call__(self, rd_dbid: Skill, /) -> bool | None:
+        """
+        Verifies whether or not the given element is a*die pad*.
+        SKILL: axlDBIsDiePad(rd_dbid)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:662
+        """
+        ...
+
+class _AxlDBIsDieStackLayer(LiteralRemoteFunction):
+    def __call__(self, t_layer_name: str, /) -> Skill:
+        """
+        Verifies if layer is a die stack layer
+        SKILL: axlDBIsDieStackLayer (t_layerName)==> t or nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:961
+        """
+        ...
+
+class _AxlDBIsFixed(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, g_show_message: Skill = ..., /) -> Skill:
+        """
+        Verifies whether or not the specified database object is fixed
+        SKILL: axlDBIsFixed(o_dbid[g_showMessage])⇒ nil or [dbid of 1st element that makes the item fixed]
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:621
+        """
+        ...
+
+class _AxlDBIsPackagePin(LiteralRemoteFunction):
+    def __call__(self, rd_dbid: Skill, /) -> bool | None:
+        """
+        Verifies whether or not the given element is a*package pin*.
+        SKILL: axlDBIsPackagePin(rd_dbid)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:669
+        """
+        ...
+
+class _AxlDBIsPlatingbarPin(LiteralRemoteFunction):
+    def __call__(self, rd_dbid: Skill, /) -> bool | None:
+        """
+        Verifies whether or not the given element is a*plating bar pin*.
+        SKILL: axlDBIsPlatingbarPin(rd_dbid)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:683
+        """
+        ...
+
+class _AxlDBIsReadOnly(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, /) -> bool | None:
+        """
+        This API command checks if indicated database object is read-only.
+        SKILL: axlDBIsReadOnly(o_dbid) -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:426
+        """
+        ...
+
+class _AxlDBMemoryReclaim(LiteralRemoteFunction):
+    def __call__(self, /) -> int:
+        """
+        Reclaims database memory for reuse by the Allegro database
+        SKILL: axlDBMemoryReclaim( )-> x_sizeReclaimed
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:1052
+        """
+        ...
+
+class _AxlDBOpenShape(LiteralRemoteFunction):
+    def __call__(self, o_shape_dbid: RemoteObject | None, o_polygon: RemoteObject | None = ..., g_close: Skill = ..., /) -> RemoteObject | None:
+        """
+        Opens an existing shape to replace its boundary or to modify its voids.
+        SKILL: axlDBOpenShape(o_shapeDbid/nil[o_polygon/r_path/nil][g_close])==> o_dbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:610
+        """
+        ...
+
+class _AxlDBPinPairLength(LiteralRemoteFunction):
+    def __call__(self, o_pin1: RemoteObject, o_pin2: RemoteObject, /) -> float | None:
+        """
+        Calculate the shortest length between 2 pins
+        SKILL: axlDBPinPairLength(o_pin1o_pin2)==> f_etchlength/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:254
+        """
+        ...
+
+class _AxlDBRefreshId(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject | None, /) -> RemoteObject | None:
+        """
+        Updates the attributes of the object specified byo_dbid
+        SKILL: axlDBRefreshId(o_dbid/nil)⇒ o_dbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:519
+        """
+        ...
+
+class _AxlDBRemoveGroupObjects(LiteralRemoteFunction):
+    def __call__(self, o_group: RemoteObject, lo_members: list[RemoteObject], /) -> bool | None:
+        """
+        Removes the database objects from the specified group
+        SKILL: axlDBRemoveGroupObjects(o_grouplo_members)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/15dbgrp.md:214
+        """
+        ...
+
+class _AxlDBSectorSize(LiteralRemoteFunction):
+    def __call__(self, f_size: float | None = ..., /) -> None:
+        """
+        This is obsolete
+        SKILL: axlDBSectorSize([f_size])==> nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:457
+        """
+        ...
+
+class _AxlDBSetLock(LiteralRemoteFunction):
+    def __call__(self, password: Symbol | None = ..., t_password: str | None = ..., locklevel: Symbol | None = ..., t_locklevel: str | None = ..., expiration: Symbol | None = ..., t_expiration: str | int | None = ..., comments: Symbol | None = ..., t_comments: str | None = ..., use_ntp: Symbol | None = ..., t: bool | None = ..., ntp_server: Symbol | None = ..., t_server: str | None = ..., /) -> bool | None:
+        """
+        Provides a mechanism to lock the database against future changes
+        SKILL: axlDBSetLock(['password t_password]['locklevel t_locklevel]['expiration t_expiration/x_expiration]['comments t_comments]['useNtp t/nil]['ntpServer t_server])⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:1094
+        """
+        ...
+
+class _AxlDBTextBlockCompact(LiteralRemoteFunction):
+    def __call__(self, t: bool | None, /) -> int:
+        """
+        Reports and/or compresses unused database text blocks
+        SKILL: axlDBTextBlockCompact(t/nil)⇒ x_unusedBlocks
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:994
+        """
+        ...
+
+class _AxlDBTextBlockCreate(LiteralRemoteFunction):
+    def __call__(self, x_block_template: int, /, *, width: float | None = ..., height: float | None = ..., line_space: float | None = ..., char_space: float | None = ..., photo_width: float | None = ...) -> Skill:
+        """
+        Creates a new text block from the template block number provided
+        SKILL: axlDBTextBlockCreate(x_blockTemplate?width f_width?height f_height?lineSpace f_lineSpace?charSpace f_charSpace?photoWidth f_photoWidth) => x_textBlock/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:205
+        """
+        ...
+
+class _AxlDBTextBlockFindName(LiteralRemoteFunction):
+    def __call__(self, t_text_block_name: str, /) -> int | None:
+        """
+        Finds a text block based on its name.
+        SKILL: axlDBTextBlockFindName(t_textBlockName)=> x_textBlockNumber/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:239
+        """
+        ...
+
+class _AxlDBTextBlockGetName(LiteralRemoteFunction):
+    def __call__(self, x_text_block_number: int, /) -> str | None:
+        """
+        Returns the name associated with the given text block
+        SKILL: axlDBTextBlockGetName(x_textBlockNumber)=> t_name/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:268
+        """
+        ...
+
+class _AxlDBTextBlockSetName(LiteralRemoteFunction):
+    def __call__(self, x_text_block_number: int, t_name: str, /) -> bool | None:
+        """
+        Defines a name for a given text block.
+        SKILL: axlDBTextBlockSetName(x_textBlockNumbert_name)=> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:291
+        """
+        ...
+
+class _AxlDBTransactionCommit(LiteralRemoteFunction):
+    def __call__(self, x_mark: int, /) -> bool | None:
+        """
+        Commits a database transaction from the last transaction mark.
+        SKILL: axlDBTransactionCommit(x_mark)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/17dbtran.md:127
+        """
+        ...
+
+class _AxlDBTransactionMark(LiteralRemoteFunction):
+    def __call__(self, x_mark: int, /) -> bool | None:
+        """
+        Writes a mark in the database that you can use with[axlDBTransactionOops](#1076373 "18") to rollback database changes to this mark.
+        SKILL: axlDBTransactionMark(x_mark)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/17dbtran.md:150
+        """
+        ...
+
+class _AxlDBTransactionOops(LiteralRemoteFunction):
+    def __call__(self, x_mark: int, /) -> bool | None:
+        """
+        Undoes a transaction back to the last mark, or to start if there are no marks
+        SKILL: axlDBTransactionOops(x_mark)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/17dbtran.md:175
+        """
+        ...
+
+class _AxlDBTransactionRollback(LiteralRemoteFunction):
+    def __call__(self, x_mark: int, /) -> bool | None:
+        """
+        Undo function for a database transaction.
+        SKILL: axlDBTransactionRollback(x_mark)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/17dbtran.md:200
+        """
+        ...
+
+class _AxlDBTransactionStart(LiteralRemoteFunction):
+    def __call__(self, g_undo_mark: Skill = ..., /) -> int | None:
+        """
+        Marks the start of a transaction to the database
+        SKILL: axlDBTransactionStart([g_undoMark])⇒ x_mark/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/17dbtran.md:223
+        """
+        ...
+
+class _AxlDBTuneSectorSize(LiteralRemoteFunction):
+    def __call__(self, /) -> list[Skill] | None:
+        """
+        This tune's Allegro's sector size for better performance
+        SKILL: axlDBTuneSectorSize( )==> nil/l_result
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:1148
+        """
+        ...
+
+class _AxlDMBrowsePath(LiteralRemoteFunction):
+    def __call__(self, t_ads_file_type: str, t_title: str | None = ..., t_help_tag: str | None = ..., /) -> str | None:
+        """
+        Invokes a standard Allegro PCB Editor file browser supporting paths, for example,SCRIPTPATH
+        SKILL: axlDMBrowsePath(t_adsFileType[t_title][t_helpTag])⇒ t_fileName/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/21filacc.md:242
+        """
+        ...
+
+class _AxlDMClose(LiteralRemoteFunction):
+    def __call__(self, p_port: Skill, /) -> bool | None:
+        """
+        Closes a file currently open in Allegro PCB Editor
+        SKILL: axlDMClose(p_port ) ⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/21filacc.md:209
+        """
+        ...
+
+class _AxlDMDirectoryBrowse(LiteralRemoteFunction):
+    def __call__(self, t_starting_directory: str, g_write_flag: Skill, /, *, help_tag: str | None = ..., title: str | None = ...) -> str | None:
+        """
+        Opens a directory browser
+        SKILL: axlDMDirectoryBrowse(t_startingDirectory g_writeFlag ?helpTag t_helpTag ?title t_title) => t_dirName/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/21filacc.md:269
+        """
+        ...
+
+class _AxlDMFileBrowse(LiteralRemoteFunction):
+    def __call__(self, t_file_type: str, g_write_flag: Skill, /, *, default_name: str | None = ..., help_tag: str | None = ..., directory_set: Skill = ..., no_directory_button: Skill = ..., main_file: Skill = ..., no_sticky: Skill = ..., title: str | None = ..., opt_filters: str | None = ...) -> str | None:
+        """
+        Opens a standard file browser
+        SKILL: axlDMFileBrowse(t_fileType g_writeFlag ?defaultName t_defaultName ?helpTag t_helpTag ?directorySet g_directorySet ?noDirectoryButton g_noDirectoryButton ?mainFile g_mainFile ?noSticky g_noSticky ?title t_title ?optFilters t_filters) => t_fileName/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/21filacc.md:299
+        """
+        ...
+
+class _AxlDMFileError(LiteralRemoteFunction):
+    def __call__(self, /) -> str | None:
+        """
+        This returns the error from the lastaxlDMxxx call
+        SKILL: axlDMFileError() -> nil/t_errorMessage
+        Version: Allegro 17.2-2016
+        Source: algroskill/21filacc.md:16
+        """
+        ...
+
+class _AxlDMFileParts(LiteralRemoteFunction):
+    def __call__(self, t_filespec: str, /) -> Skill:
+        """
+        Breaks a filename into it's component parts.
+        SKILL: axlDMFileParts(t_filespec)⇒ (directory file fileWext ext)
+        Version: Allegro 17.2-2016
+        Source: algroskill/21filacc.md:349
+        """
+        ...
+
+class _AxlDMFindFile(LiteralRemoteFunction):
+    def __call__(self, t_id: str, t_name: str, t_mode: str, t_prop: str | None = ..., /) -> str | None:
+        """
+        Opens a file using Allegro PCB Editor conventions
+        SKILL: axlDMFindFile (t_idt_namet_mode[t_prop])⇒ t_name/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/21filacc.md:46
+        """
+        ...
+
+class _AxlDMGetFile(LiteralRemoteFunction):
+    def __call__(self, t_id: str, t_name: str, t_mode: str, t_prop: str | None = ..., /) -> str | None:
+        """
+        Gets the file namet_name using Allegro PCB Editor conventions as described in the arguments
+        SKILL: axlDMGetFile(t_idt_namet_mode[t_prop] ) ⇒ t_name/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/21filacc.md:83
+        """
+        ...
+
+class _AxlDMOpenFile(LiteralRemoteFunction):
+    def __call__(self, t_id: str, t_name: str, t_mode: str, /) -> Skill | None:
+        """
+        Opens a file in conventional Allegro manner; adds an extension and optionally looks it up in an Allegro search path
+        SKILL: axlDMOpenFile(t_idt_namet_mode)⇒ p_port/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/21filacc.md:125
+        """
+        ...
+
+class _AxlDMOpenLog(LiteralRemoteFunction):
+    def __call__(self, t_program: str, /) -> Skill | None:
+        """
+        Opens a file for writing log messages
+        SKILL: axlDMOpenLog(t_program)⇒ p_port/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/21filacc.md:180
+        """
+        ...
+
+class _AxlDRCGetCount(LiteralRemoteFunction):
+    def __call__(self, /) -> int:
+        """
+        Returns the total number of DRCs in the design
+        SKILL: axlDRCGetCount()⇒ x_count
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:824
+        """
+        ...
+
+class _AxlDRCItem(LiteralRemoteFunction):
+    def __call__(self, g_mode: Skill, o_dbid: RemoteObject | list[RemoteObject], /) -> int | list[RemoteObject] | None:
+        """
+        Performs a DRC check on the indicated item(s)
+        SKILL: axlDRCItem(g_modeo_dbid/lo_dbid)⇒ x_cnt/lo_drcDbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:841
+        """
+        ...
+
+class _AxlDRCUpdate(LiteralRemoteFunction):
+    def __call__(self, g_mode: Skill, /) -> int | None:
+        """
+        Performs a DRC check on entire design.
+        SKILL: axlDRCUpdate(g_mode) -> x_cnt/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:730
+        """
+        ...
+
+class _AxlDRCWaive(LiteralRemoteFunction):
+    def __call__(self, g_mode: Skill, o_drc_dbid: RemoteObject | list[RemoteObject], t_comment: str | None = ..., /) -> bool | None:
+        """
+        Manages waive DRC state and access to the waive DRC functionality
+        SKILL: axlDRCWaive(g_modeo_DrcDbid/lo_DrcDbid[t_comment])==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:770
+        """
+        ...
+
+class _AxlDRCWaiveGetCount(LiteralRemoteFunction):
+    def __call__(self, /) -> int:
+        """
+        Returns total number of waived DRCs in the design.
+        SKILL: axlDRCWaiveGetCount()⇒ x_count
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:884
+        """
+        ...
+
+class _AxlDbidName(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, /) -> str | None:
+        """
+        Provides the standard Allegro PCB Editor name of a database object
+        SKILL: axlDbidName( o_dbid ) -> t_name/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:424
+        """
+        ...
+
+class _AxlDebug(LiteralRemoteFunction):
+    def __call__(self, t: bool | None, /) -> bool | None:
+        """
+        This enables/disables AXL debug mode
+        SKILL: axlDebug(t/nil) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:115
+        """
+        ...
+
+class _AxlDegToRad(LiteralRemoteFunction):
+    def __call__(self, n_angle: Number, /) -> float:
+        """
+        Converts an angle in degrees to radians.
+        SKILL: axlDegToRad(n_angle) => f_angle
+        Version: Allegro 17.2-2016
+        Source: algroskill/24mthutl.md:14
+        """
+        ...
+
+class _AxlDehighlightObject(LiteralRemoteFunction):
+    def __call__(self, lo_dbid: list[RemoteObject] | Skill, g_perm_highlight: Skill = ..., /) -> bool | None:
+        """
+        Use this command to turn off highlighting on an object
+        SKILL: axlDehighlightObject(lo_dbid/g_mode[g_permHighlight])⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:705
+        """
+        ...
+
+class _AxlDeleteAttachment(LiteralRemoteFunction):
+    def __call__(self, t_attachment_id: str, t_passwd: str | None = ..., /) -> bool | None:
+        """
+        Deletes the given attachment
+        SKILL: axlDeleteAttachment(t_attachmentId[t_passwd])⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/16dbatt.md:98
+        """
+        ...
+
+class _AxlDeleteBondWire(LiteralRemoteFunction):
+    def __call__(self, bond_wires: Skill, delete_fingers: Skill = ..., /) -> bool | None:
+        """
+        Deletes the (list of) bond wires passed in
+        SKILL: axlDeleteBondWire(bondWires [deleteFingers]) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:45
+        """
+        ...
+
+class _AxlDeleteByLayer(LiteralRemoteFunction):
+    def __call__(self, t_layer_name: str | list[str], value: Symbol | None = ..., /) -> int | None:
+        """
+        Deletes all data on one or more provided layers
+        SKILL: axlDeleteByLayer(t_layerName/lt_layerName[nil/'fixed])==> x_cnt/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:290
+        """
+        ...
+
+class _AxlDeleteFillet(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, /) -> bool | None:
+        """
+        Deletes fillet associated with a PIN, VIA, T, or CLINE
+        SKILL: axlDeleteFillet(o_dbid)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:679
+        """
+        ...
+
+class _AxlDeleteObject(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject | list[RemoteObject], g_mode: Skill = ..., /) -> bool | None:
+        """
+        Deletes single or list of database objects from database
+        SKILL: axlDeleteObject(o_dbid/lo_dbid[g_mode])⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:417
+        """
+        ...
+
+class _AxlDeleteTaper(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, /) -> bool | None:
+        """
+        Deletes tapers
+        SKILL: axlDeleteTaper(o_dbid)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:493
+        """
+        ...
+
+class _AxlDesignFlip(LiteralRemoteFunction):
+    def __call__(self, g_flip: Skill, /) -> bool | None:
+        """
+        Visually flips the design in the 'y' axis
+        SKILL: axlDesignFlip(g_flip) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:304
+        """
+        ...
+
+class _AxlDesignType(LiteralRemoteFunction):
+    def __call__(self, g_option: Skill, /) -> str | list[str]:
+        """
+        Returns the type of design as a string.
+        SKILL: axlDesignType(g_option)⇒ t_type/lt_type
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:41
+        """
+        ...
+
+class _AxlDetailLoad(LiteralRemoteFunction):
+    def __call__(self, t_filename: str, point: Skill, f_scale: float, x_rotation: int, g_mirror: Skill, /) -> bool | None:
+        """
+        This loads a the designatedipf file (t_filename) into the current design at location (point), with scaling (f_scale), rotation (f_rotation) and mirror (g_mirror)
+        SKILL: axlDetailLoad(t_filenamepointf_scalex_rotationg_mirror)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:139
+        """
+        ...
+
+class _AxlDetailSave(LiteralRemoteFunction):
+    def __call__(self, t_filename: str, l_b_box: SkillList, o_dbid: RemoteObject | list[RemoteObject], g_filled_pads: Skill = ..., /) -> bool | None:
+        """
+        This saves a clipping box (l\\_bBox) and the passed set of geometries (lo\\_dbid) to a Allegro ipf file (t\\_filename).
+        SKILL: axlDetailSave(t_filename l_bBox o_dbid/lo_dbid[g_filledPads])==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:196
+        """
+        ...
+
+class _AxlDiffPair(LiteralRemoteFunction):
+    @overload
+    def __call__(self, t_diffpair: str, o_net1: RemoteObject | str, o_net2: RemoteObject | str, /) -> RemoteObject | None:
+        """
+        Creates, modifies, or deletes a differential pair
+        SKILL: axlDiffPair(t_diffpairo_net1/t_net1o_net2/t_net2 ) ⇒ o_diffpair/nil
+        SKILL: axlDiffPair(o_diffpair/t_diffpairo_net1/t_net1o_net2/t_net2 ) ⇒ o_diffpair/nil
+        SKILL: axlDiffPair(o_diffpair/t_diffpair ) ⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:469
+        """
+        ...
+    @overload
+    def __call__(self, o_diffpair: RemoteObject | str, o_net1: RemoteObject | str, o_net2: RemoteObject | str, /) -> RemoteObject | None:
+        """
+        Creates, modifies, or deletes a differential pair
+        SKILL: axlDiffPair(t_diffpairo_net1/t_net1o_net2/t_net2 ) ⇒ o_diffpair/nil
+        SKILL: axlDiffPair(o_diffpair/t_diffpairo_net1/t_net1o_net2/t_net2 ) ⇒ o_diffpair/nil
+        SKILL: axlDiffPair(o_diffpair/t_diffpair ) ⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:469
+        """
+        ...
+    @overload
+    def __call__(self, o_diffpair: RemoteObject | str, /) -> bool | None:
+        """
+        Creates, modifies, or deletes a differential pair
+        SKILL: axlDiffPair(t_diffpairo_net1/t_net1o_net2/t_net2 ) ⇒ o_diffpair/nil
+        SKILL: axlDiffPair(o_diffpair/t_diffpairo_net1/t_net1o_net2/t_net2 ) ⇒ o_diffpair/nil
+        SKILL: axlDiffPair(o_diffpair/t_diffpair ) ⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:469
+        """
+        ...
+
+class _AxlDiffPairAuto(LiteralRemoteFunction):
+    def __call__(self, t_diff_pair_prefix: str, t_pos_net_postfix: str, t_neg_net_postfix: str, g_return_diff_pair_list: Skill = ..., /) -> Skill:
+        """
+        Allows automatic generation of the diffpair
+        SKILL: axlDiffPairAuto(t_diffPairPrefixt_posNetPostfixt_negNetPostfix[g_returnDiffPairList] ) ⇒ x_cnt/(xcnt lo_diffpair)/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:544
+        """
+        ...
+
+class _AxlDiffPairDBID(LiteralRemoteFunction):
+    def __call__(self, t_name: str, /) -> RemoteObject | None:
+        """
+        Returns thedbid of the named diffpair (t_name) if it exists in the database.
+        SKILL: axlDiffPairDBID(t_name)⇒ o_dbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:599
+        """
+        ...
+
+class _AxlDistance(LiteralRemoteFunction):
+    def __call__(self, l_point1: SkillList, l_point2: SkillList, /) -> float:
+        """
+        Returns the distance between two points
+        SKILL: axlDistance(l_point1l_point2)⇒ f_distance
+        Version: Allegro 17.2-2016
+        Source: algroskill/24mthutl.md:42
+        """
+        ...
+
+class _AxlDllCall(LiteralRemoteFunction):
+    def __call__(self, o_plugin_func: RemoteObject, /, *g_args: Skill) -> int | list[Skill] | None:
+        """
+        Calls a symbol that has been imported from a plugin
+        SKILL: axlDllCall(o_pluginFunc [*g_args]) => nil/x_value/lg_data
+        Version: Allegro 17.2-2016
+        Source: algroskill/27plugin.md:197
+        """
+        ...
+
+class _AxlDllCallList(LiteralRemoteFunction):
+    def __call__(self, o_plugin_func: RemoteObject, l_args: SkillList, /) -> int | list[Skill] | None:
+        """
+        This function is identical toaxlDllCall except it takes a list of arguments to pass to the plugin function
+        SKILL: axlDllCallList(o_pluginFunc l_args) => nil/x_value/lg_data
+        Version: Allegro 17.2-2016
+        Source: algroskill/27plugin.md:247
+        """
+        ...
+
+class _AxlDllClose(LiteralRemoteFunction):
+    def __call__(self, o_plugin: RemoteObject, /) -> bool | None:
+        """
+        This closes an open plugin handle
+        SKILL: axlDllClose(o_plugin)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/27plugin.md:285
+        """
+        ...
+
+class _AxlDllDump(LiteralRemoteFunction):
+    def __call__(self, /) -> list[Skill] | None:
+        """
+        This is a debug function that reports all plugins loaded by Skill.
+        SKILL: axlDllDump()==> l_dllLoad/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/27plugin.md:311
+        """
+        ...
+
+class _AxlDllOpen(LiteralRemoteFunction):
+    def __call__(self, t_dllname: str, /) -> RemoteObject | None:
+        """
+        This binds a dll/shared library to the current program
+        SKILL: axlDllOpen(t_dllname)==> o_plugin/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/27plugin.md:335
+        """
+        ...
+
+class _AxlDllSym(LiteralRemoteFunction):
+    def __call__(self, o_plugin: RemoteObject, t_symbol_name: str, /) -> RemoteObject | None:
+        """
+        This imports a symbol from a loaded dll
+        SKILL: axlDllSym(o_plugint_symbolName)==> o_pluginFunc/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/27plugin.md:379
+        """
+        ...
+
+class _AxlDrawObject(LiteralRemoteFunction):
+    def __call__(self, lo_dbid: list[RemoteObject], /) -> bool | None:
+        """
+        Processes a list ofdbids.
+        SKILL: axlDrawObject(lo_dbid)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:831
+        """
+        ...
+
+class _AxlDynamicsObject(LiteralRemoteFunction):
+    def __call__(self, lo_dbid: list[RemoteObject], l_ref_point: SkillList | None = ..., /) -> bool | None:
+        """
+        Adds list of objects to the cursor buffer
+        SKILL: axlDynamicsObject (lo_dbid [l_ref_point])⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:852
+        """
+        ...
+
+class _AxlEmail(LiteralRemoteFunction):
+    def __call__(self, t_to: str, t_cc: str | None, t_subject: str, t_body: str, /) -> bool | None:
+        """
+        Sends an e-mail
+        SKILL: axlEmail(t_tot_cc/nilt_subjectt_body)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:228
+        """
+        ...
+
+class _AxlEndSkillMode(LiteralRemoteFunction):
+    def __call__(self, /) -> bool:
+        """
+        Returns from the SKILL command mode to the program's command line
+        SKILL: axlEndSkillMode()⇒ t
+        Version: Allegro 17.2-2016
+        Source: algroskill/19cmdctl.md:174
+        """
+        ...
+
+class _AxlEnterAngle(LiteralRemoteFunction):
+    def __call__(self, origin: Skill, /, *, prompts: SkillList | None = ..., ref_point: SkillList | None = ..., angle: float | None = ..., lock_angle: Skill = ...) -> float | None:
+        """
+        Optionally prompts the user
+        SKILL: axlEnterAngle(origin?prompts l_prompts?refPoint l_refPoint?angle f_angle?lockAngle g_lockAngle)⇒ f_angle/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:396
+        """
+        ...
+
+class _AxlEnterBox(LiteralRemoteFunction):
+    def __call__(self, /, *, prompts: SkillList | None = ..., points: SkillList | None = ...) -> list[Skill] | None:
+        """
+        Takes two points that define a box and returns them inl_box
+        SKILL: axlEnterBox(?prompts l_prompts?points l_points)⇒ l_box/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:566
+        """
+        ...
+
+class _AxlEnterEvent(LiteralRemoteFunction):
+    def __call__(self, l_event_mask: SkillList, t_prompt: str, g_snap: Skill, /) -> RemoteObject:
+        """
+        A lower level event manager than otheraxlEnter functions
+        SKILL: axlEnterEvent(l_eventMaskt_promptg_snap)⇒ r_eventId
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:936
+        """
+        ...
+
+class _AxlEnterPath(LiteralRemoteFunction):
+    def __call__(self, /, *, prompts: SkillList | None = ..., points: SkillList | None = ..., last_path: RemoteObject | None = ...) -> RemoteObject | None:
+        """
+        Gets the start point and subsequent points for a path, interactively with optional prompting, or from the optional argumentl_points
+        SKILL: axlEnterPath(?prompts l_prompts?points l_points?lastPath r_path)⇒ r_path/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:598
+        """
+        ...
+
+class _AxlEnterPoint(LiteralRemoteFunction):
+    def __call__(self, /, *, prompts: SkillList | None = ..., points: SkillList | None = ..., grid_snap: Skill = ...) -> list[Skill] | None:
+        """
+        Prompts for and receives user-selected point
+        SKILL: axlEnterPoint(?prompts l_prompts?points l_points?gridSnap g_gridSnap)⇒ l_point/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:334
+        """
+        ...
+
+class _AxlEnterString(LiteralRemoteFunction):
+    def __call__(self, /, *, prompts: SkillList | None = ...) -> str | None:
+        """
+        Displays a dialog box that requires first entering a string, and then pressing*Return* on the keyboard or clicking *OK*or *Cancel.* Default prompt in the dialog box is "Enter String."You can supply a prompt string with the ?prompts keyword
+        SKILL: axlEnterString(?prompts l_prompts)⇒ t_string/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:365
+        """
+        ...
+
+class _AxlEraseObject(LiteralRemoteFunction):
+    def __call__(self, lo_dbid: list[RemoteObject], /) -> bool | None:
+        """
+        Processes a list ofdbids and erases them
+        SKILL: axlEraseObject(lo_dbid)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:892
+        """
+        ...
+
+class _AxlEventSetStartPopup(LiteralRemoteFunction):
+    def __call__(self, s_callback: Symbol | None = ..., /) -> bool | None:
+        """
+        Sets a SKILL callback function called prior to a popup being displayed on the screen
+        SKILL: axlEventSetStartPopup([s_callback])⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:1055
+        """
+        ...
+
+class _AxlExportXmlDBRecords(LiteralRemoteFunction):
+    @overload
+    def __call__(self, t_file_name: str, lt_parm_groups: list[str] | None, /) -> bool | None:
+        """
+        This exports an Allegro Parameter file from the current design
+        SKILL: axlExportXmlDBRecords(t_fileNamelt_parmGroups/nil) -> t/nil
+        SKILL: axlExportXmlDBRecords(nil) -> lt_parmGroups
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:317
+        """
+        ...
+    @overload
+    def __call__(self, value: None, /) -> list[str]:
+        """
+        This exports an Allegro Parameter file from the current design
+        SKILL: axlExportXmlDBRecords(t_fileNamelt_parmGroups/nil) -> t/nil
+        SKILL: axlExportXmlDBRecords(nil) -> lt_parmGroups
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:317
+        """
+        ...
+
+class _AxlExtentDB(LiteralRemoteFunction):
+    def __call__(self, /) -> list[Skill] | None:
+        """
+        Determines a design type and returns thebBox extent
+        SKILL: axlExtentDB()⇒ l_bBox/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:331
+        """
+        ...
+
+class _AxlExtentLayout(LiteralRemoteFunction):
+    def __call__(self, /) -> list[Skill] | None:
+        """
+        Obsolete
+        SKILL: axlExtentLayout()⇒ l_bBox/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:349
+        """
+        ...
+
+class _AxlExtentSymbol(LiteralRemoteFunction):
+    def __call__(self, /) -> list[Skill]:
+        """
+        Obsolete
+        SKILL: axlExtentSymbol()⇒ l_bBox
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:381
+        """
+        ...
+
+class _AxlExtractMap(LiteralRemoteFunction):
+    def __call__(self, t_view_file: str, s_apply_func: Symbol | None = ..., g_user_data: Skill = ..., /) -> bool | list[Skill] | None:
+        """
+        Takes a set of Allegro database objects you select using the Allegro extract command file and applies to each object a SKILL function you have chosen
+        SKILL: axlExtractMap(t_viewFile[s_applyFunc][g_userData])⇒ t/l_dbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/22extrct.md:44
+        """
+        ...
+
+class _AxlExtractToFile(LiteralRemoteFunction):
+    def __call__(self, t_view_file: str, lt_result_files: list[str], lt_options: list[str] | None = ..., /) -> bool | None:
+        """
+        Extracts data from the current design into an ASCII file
+        SKILL: axlExtractToFile(t_viewFilelt_resultFiles[lt_options])⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/22extrct.md:14
+        """
+        ...
+
+class _AxlFillet(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, /) -> bool | None:
+        """
+        Adds fillet between cline and pin/via, and at T
+        SKILL: axlFillet (o_dbid)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:700
+        """
+        ...
+
+class _AxlFilletConvert(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, /) -> bool | Skill:
+        """
+        Converts a fillet or taper to a static shape.
+        SKILL: axlFilletConvert(o_dbid) -> t/nilDescription
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:731
+        """
+        ...
+
+class _AxlFilmCreate(LiteralRemoteFunction):
+    def __call__(self, t_filmname: str, /, *, negative: bool | None = ..., undefine_line_width: float | None = ..., sequence: int | None = ..., rotation: int | None = ..., x_offset: float | None = ..., y_offset: float | None = ..., shape_bounding_box: float | None = ..., mirrored: bool | None = ..., full_contact: bool | None = ..., suppress_unconnect_pads: bool | None = ..., draw_missing_pad_apertures: bool | None = ..., use_aperture_rotation: bool | None = ..., suppress_shape_fill: bool | None = ..., vector_based_pad: bool | None = ..., draw_holes_only: bool | None = ..., layers: list[str] | None = ..., domains: list[str] | None = ..., ipc2581: list[str] | None = ..., poly_cut_layer: bool | None = ...) -> bool | None:
+        """
+        Creates a new artwork film or replaces an existing artwork film.
+        SKILL: axlFilmCreate(t_filmname?negative t/nil?undefineLineWidth f_width?sequence x_number?rotation x_angle?xOffset f_x?yOffset f_y?shapeBoundingBox f_value?mirrored t/nil?fullContact t/nil?suppressUnconnectPads t/nil?drawMissingPadApertures t/nil?useApertureRotation t/nil?suppressShapeFill t/nil?vectorBasedPad t/nil?drawHolesOnly t/nil?layers lt_layers?domains lt_domains?ipc2581 lt_ipcDomains?polyCutLayer t/nil) -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:355
+        """
+        ...
+
+class _AxlFindFilterIsOpen(LiteralRemoteFunction):
+    def __call__(self, /) -> bool:
+        """
+        This function is no longer required, but is kept for backward compatibility.
+        SKILL: axlFindFilterIsOpen()⇒ t
+        Version: Allegro 17.2-2016
+        Source: algroskill/05selfnd.md:1063
+        """
+        ...
+
+class _AxlFindPath(LiteralRemoteFunction):
+    def __call__(self, o_one_dbid: RemoteObject, o_two_dbid: RemoteObject, g_alt_path: Skill = ..., /) -> list[RemoteObject] | Skill | None:
+        """
+        Finds an etch path from one object to another
+        SKILL: axlFindPath(o_oneDbido_twoDbid[g_altPath])==> lo_dbid/llo_dbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:404
+        """
+        ...
+
+class _AxlFinishEnterFun(LiteralRemoteFunction):
+    def __call__(self, /) -> bool | None:
+        """
+        Terminates the wait for a user-selected point
+        SKILL: axlFinishEnterFun()⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:447
+        """
+        ...
+
+class _AxlFlushDisplay(LiteralRemoteFunction):
+    def __call__(self, /) -> bool:
+        """
+        Flushes all data from the display buffer to the display screen itself
+        SKILL: axlFlushDisplay()⇒ t
+        Version: Allegro 17.2-2016
+        Source: algroskill/19cmdctl.md:197
+        """
+        ...
+
+class _AxlFormAutoResize(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, /) -> bool | None:
+        """
+        Resizes a form to fit its controls
+        SKILL: axlFormAutoResize(r_form)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part02.md:1566
+        """
+        ...
+
+class _AxlFormBuildPopup(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, l_pairs: SkillList, /) -> bool | None:
+        """
+        This provides the ability to dynamically change popups of fields that have them
+        SKILL: axlFormBuildPopup(r_formt_fieldl_pairs)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part02.md:793
+        """
+        ...
+
+class _AxlFormClearMouseActive(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, /) -> bool | None:
+        """
+        Clears the option to dispatch the MouseActive event on a form.
+        SKILL: axlFormClearMouseActive(r_form)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part02.md:718
+        """
+        ...
+
+class _AxlFormClose(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, /) -> bool | None:
+        """
+        Closes the formr_form
+        SKILL: axlFormClose(r_form)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part02.md:737
+        """
+        ...
+
+class _AxlFormColorize(LiteralRemoteFunction):
+    def __call__(self, o_form: RemoteObject, t_field: str, g_option: Skill, g_color: Skill, /) -> bool | None:
+        """
+        Allows the override of background and/or text color of a control
+        SKILL: axlFormColorize(o_formt_fieldg_optiong_color)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part02.md:1586
+        """
+        ...
+
+class _AxlFormCreate(LiteralRemoteFunction):
+    @overload
+    def __call__(self, s_form_handle: Symbol, g_form_source: Skill, g_form_action: Skill, g_non_block: Skill, g_string_option: Skill, /) -> RemoteObject | None:
+        """
+        Creates a dialog based on the form descriptive filet_formfile
+        SKILL: axlFormCreate(s_formHandle g_formSource [lt_placement] g_formAction g_nonBlock [g_stringOption]) => r_form/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part02.md:638
+        """
+        ...
+    @overload
+    def __call__(self, s_form_handle: Symbol, g_form_source: Skill, lt_placement: list[str], g_form_action: Skill, g_non_block: Skill, g_string_option: Skill, /) -> RemoteObject | None:
+        """
+        Creates a dialog based on the form descriptive filet_formfile
+        SKILL: axlFormCreate(s_formHandle g_formSource [lt_placement] g_formAction g_nonBlock [g_stringOption]) => r_form/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part02.md:638
+        """
+        ...
+
+class _AxlFormDefaultButton(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str | Skill, /) -> bool | None:
+        """
+        Forms normally automatically set a*default* *button* in a form with the DEFAULT section in the form file or with the *OK* and *DONE* labels
+        SKILL: axlFormDefaultButton(r_formt_field/g_mode)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:908
+        """
+        ...
+
+class _AxlFormDisplay(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, /) -> bool | None:
+        """
+        Displays the formr_form already created by axlFormCreate
+        SKILL: axlFormDisplay(r_form)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part02.md:766
+        """
+        ...
+
+class _AxlFormGetActiveField(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, /) -> bool | None:
+        """
+        Gets the form's active field.
+        SKILL: axlFormGetActiveField(r_form)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:68
+        """
+        ...
+
+class _AxlFormGetField(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, /) -> Skill | None:
+        """
+        Gets the value oft_field in the open formr_form
+        SKILL: axlFormGetField(r_formt_field)⇒ g_value/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part02.md:844
+        """
+        ...
+
+class _AxlFormGetFieldType(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, /) -> Skill | None:
+        """
+        Returns the control type for a form field
+        SKILL: axlFormGetFieldType(r_formt_field)⇒ g_fieldType/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:888
+        """
+        ...
+
+class _AxlFormGridBatch(LiteralRemoteFunction):
+    def __call__(self, r_cell: RemoteObject, /) -> bool | None:
+        """
+        Always used withaxlFormGridSetBatch
+        SKILL: axlFormGridBatch(r_cell ) ⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:88
+        """
+        ...
+
+class _AxlFormGridCancelPopup(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None:
+        """
+        After any change to grid content, the application must tell the grid that the changes are complete
+        SKILL: axlFormGridCancelPopup(r_formt_field)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:111
+        """
+        ...
+
+class _AxlFormGridDeleteRows(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, x_row: int, x_number: int, /) -> bool | None:
+        """
+        Deletesx_number rows at x_row number
+        SKILL: axlFormGridDeleteRows(r_formt_fieldx_rowx_number)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:131
+        """
+        ...
+
+class _AxlFormGridEvents(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, g_events: Skill, /) -> bool | None:
+        """
+        Sets user events of interest
+        SKILL: axlFormGridEvents(r_form t_field g_events) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:153
+        """
+        ...
+
+class _AxlFormGridGetCell(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, r_cell: RemoteObject, /) -> RemoteObject | None:
+        """
+        Returns grid cell data for a given row and column
+        SKILL: axlFormGridGetCell(r_formt_fieldr_cell ) ⇒ r_cell/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:225
+        """
+        ...
+
+class _AxlFormGridInsertCol(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, r_form_grid_col: RemoteObject, /) -> bool | None:
+        """
+        Adds a column with the indicated options (g_options) to a grid field
+        SKILL: axlFormGridInsertCol(r_formt_fieldr_formGridCol)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:270
+        """
+        ...
+
+class _AxlFormGridInsertRows(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, x_row: int, x_number: int, /) -> bool | None:
+        """
+        Insertsx_numberrows at x_row number location
+        SKILL: axlFormGridInsertRows(r_formt_fieldx_rowx_number)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:364
+        """
+        ...
+
+class _AxlFormGridNewCell(LiteralRemoteFunction):
+    def __call__(self, /) -> RemoteObject:
+        """
+        Creates a new instance ofr_cell which is required as input to [axlFormGridBatch](#458963 "11") or [axlFormSetField](#425442 "11") for form grid controls
+        SKILL: axlFormGridNewCell()⇒ r_cell
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:386
+        """
+        ...
+
+class _AxlFormGridOptions(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, s_name: Symbol, g_value: Skill = ..., /) -> bool | None:
+        """
+        Miscellaneous grid options
+        SKILL: axlFormGridOptions(r_formt_fields_name[g_value])⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:945
+        """
+        ...
+
+class _AxlFormGridReset(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None:
+        """
+        Resets grid to its unloaded state
+        SKILL: axlFormGridReset(r_formt_field)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:411
+        """
+        ...
+
+class _AxlFormGridSelected(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, /) -> list[Skill] | None:
+        """
+        This returns the selected item in a multi-select grid control
+        SKILL: axlFormGridSelected(r_formt_field) -> lx_selected/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part02.md:880
+        """
+        ...
+
+class _AxlFormGridSelectedCnt(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, /) -> int | None:
+        """
+        This returns the count of rows selected in a multi-select grid control
+        SKILL: axlFormGridSelectedCnt(r_formt_field) -> x_cnt/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part02.md:922
+        """
+        ...
+
+class _AxlFormGridSetBatch(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, s_callback: Symbol, g_pvt_data: Skill, /) -> bool | None:
+        """
+        Changes grid cells much faster thanaxlFormSetField when changing multiple cells
+        SKILL: axlFormGridSetBatch(r_formt_fields_callbackg_pvtData)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:447
+        """
+        ...
+
+class _AxlFormGridSetSelectRows(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, x_min: int, x_max: int, g_option: Skill, /) -> int | None:
+        """
+        This allows setting, clearing or toggling of selection state for a grid in multi-select row mode.
+        SKILL: axlFormGridSetSelectRows(r_formt_fieldx_minx_maxg_option) -> x_cnt/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part02.md:960
+        """
+        ...
+
+class _AxlFormGridUpdate(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None:
+        """
+        Unlike the form lists control you must manually notify the grid control that it must update itself
+        SKILL: axlFormGridUpdate( r_form t_field ) -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:527
+        """
+        ...
+
+class _AxlFormInvalidateField(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None:
+        """
+        Invalidates the form's field
+        SKILL: axlFormInvalidateField(r_formt_field)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:565
+        """
+        ...
+
+class _AxlFormIsFieldEditable(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None:
+        """
+        Checks whether the given form field is editable
+        SKILL: axlFormIsFieldEditable(r_formt_field)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:587
+        """
+        ...
+
+class _AxlFormIsFieldVisible(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None:
+        """
+        Determines whether a form field is visible.
+        SKILL: axlFormIsFieldVisible(r_formt_field ) ⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part02.md:1414
+        """
+        ...
+
+class _AxlFormListAddItem(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, t_list_item: str | list[str] | None, g_index: Skill, /) -> bool | None:
+        """
+        Adds an item to a list at positionx
+        SKILL: axlFormListAddItem(r_formt_fieldt_listItem/lt_listItems/nilg_index)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:607
+        """
+        ...
+
+class _AxlFormListDeleteAll(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None:
+        """
+        Deletes all the items from the form list field,t_field*.* Use axlFormListDeleteAllto clear an entire list field to update it using axlFormSetField, then display it using axlFormSetField on the field with a nil field value.
+        SKILL: axlFormListDeleteAll(r_formt_field)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part02.md:1012
+        """
+        ...
+
+class _AxlFormListDeleteItem(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, t_list_item: str | int | list[str] | None, /) -> bool | int | None:
+        """
+        Deletes indicated item in the list
+        SKILL: axlFormListDeleteItem(r_formt_fieldt_listItem/x_index/lt_listItem/nil)⇒ t/x_index/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:650
+        """
+        ...
+
+class _AxlFormListGetItem(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, x_index: int, /) -> str | None:
+        """
+        Returns the item in the list at index (x_index.) Lists start at index 0
+        SKILL: axlFormListGetItem(r_formt_fieldx_index)⇒ t_listItem/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:681
+        """
+        ...
+
+class _AxlFormListGetSelCount(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, /) -> int | None:
+        """
+        This only applies to a multi-select list box (OPTIONS multiselect in form file)
+        SKILL: axlFormListGetSelCount( r_form t_field )==> x_count/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:702
+        """
+        ...
+
+class _AxlFormListGetSelItems(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, /) -> list[str] | None:
+        """
+        This only applies to a multi-select list box (OPTIONS multiselect in form file).
+        SKILL: axlFormListGetSelItems(r_formt_field)==> lt_selected/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:737
+        """
+        ...
+
+class _AxlFormListOptions(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, g_options: Skill, /) -> bool | None:
+        """
+        Sets options for a list control
+        SKILL: axlFormListOptions(r_form t_field g_options) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:767
+        """
+        ...
+
+class _AxlFormListSelAll(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, g_set: Skill, /) -> bool | None:
+        """
+        This only applies to a multi-select list box (OPTIONS multiselect in form file).
+        SKILL: axlFormListSelAll(r_formt_fieldg_set)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:813
+        """
+        ...
+
+class _AxlFormListSelect(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, t_list_item: str | None, /) -> bool | None:
+        """
+        Highlights, and if not visible in the list, shows the designated item
+        SKILL: axlFormListSelect(r_formt_fieldt_listItem/nil)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part02.md:1067
+        """
+        ...
+
+class _AxlFormMsg(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_message_label: str, /, *g_args: Skill) -> str | None:
+        """
+        Retrieves and prints a message defined in the form file by message label (t_messageLabel.) Form file allows definitions of messages using the "MESSAGE" keyword (see [Using Forms Specification Language](#480398 "11").) Use this to give a...
+        SKILL: axlFormMsg(r_form t_messageLabel [*g_args]) => t_msg/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:849
+        """
+        ...
+
+class _AxlFormRestoreField(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None:
+        """
+        Restores thet_field in the open form r_form to its previous value
+        SKILL: axlFormRestoreField(r_formt_field)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part02.md:1310
+        """
+        ...
+
+class _AxlFormSetActiveField(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None:
+        """
+        Makes the indicated field the active form field.
+        SKILL: axlFormSetActiveField(r_formt_field)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:1001
+        """
+        ...
+
+class _AxlFormSetDecimal(LiteralRemoteFunction):
+    def __call__(self, o_form: RemoteObject, g_field: Skill, x_decimal_places: int, /) -> bool | None:
+        """
+        Sets the decimal precision for real fill-in fields in the form
+        SKILL: axlFormSetDecimal(o_formg_fieldx_decimalPlaces)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:1023
+        """
+        ...
+
+class _AxlFormSetEventAction(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, g_callback: Skill, /) -> bool | None:
+        """
+        This function allows the user to register a callback function to be called whenever the user changes to a new active cell in the form
+        SKILL: axlFormSetEventAction(r_formg_callback) -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part02.md:1088
+        """
+        ...
+
+class _AxlFormSetField(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, g_value: Skill | None, /) -> bool | None:
+        """
+        Setst_field to value g_value in open form r_form
+        SKILL: axlFormSetField(r_formt_fieldg_value/nil)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part02.md:1122
+        """
+        ...
+
+class _AxlFormSetFieldEditable(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, g_editable: Skill, /) -> bool | None:
+        """
+        Sets individual form fields to editable (t) or greyed (nil).
+        SKILL: axlFormSetFieldEditable(r_formt_fieldg_editable)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:1044
+        """
+        ...
+
+class _AxlFormSetFieldLimits(LiteralRemoteFunction):
+    def __call__(self, o_form: RemoteObject, t_field: str, g_min: Skill, g_max: Skill, /) -> bool | None:
+        """
+        Sets the minimum or maximum values a user can enter in an integer or real fill-in field
+        SKILL: axlFormSetFieldLimits(o_formt_fieldg_ming_max)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:1065
+        """
+        ...
+
+class _AxlFormSetFieldVisible(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, x_value: int, /) -> bool | None:
+        """
+        Sets a form field to visible or invisible.
+        SKILL: axlFormSetFieldVisible(r_formt_fieldx_value)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part02.md:1393
+        """
+        ...
+
+class _AxlFormSetInfo(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, t_value: str, /) -> bool | None:
+        """
+        Sets infot_field to value t_value in open form r_form
+        SKILL: axlFormSetInfo(r_formt_fieldt_value)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part02.md:1233
+        """
+        ...
+
+class _AxlFormSetMouseActive(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, /) -> bool | None:
+        """
+        Sets the option to dispatch the MouseActive event on a form.
+        SKILL: axlFormSetMouseActive(r_form)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part02.md:1262
+        """
+        ...
+
+class _AxlFormTest(LiteralRemoteFunction):
+    def __call__(self, t_form_name: str, /) -> RemoteObject | None:
+        """
+        This is a development function for test purposes
+        SKILL: axlFormTest(t_formName) => r_form/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part02.md:1287
+        """
+        ...
+
+class _AxlFormTitle(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_title: str, /) -> bool | None:
+        """
+        Overrides title of the form.
+        SKILL: axlFormTitle(r_formt_title)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part02.md:1340
+        """
+        ...
+
+class _AxlFormTreeViewAddItem(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, t_label: str, g_h_parent: Skill, g_h_insert_after: Skill, g_multi_select_f: Skill = ..., g_h_leaf_image: Skill = ..., g_h_open_image: Skill = ..., g_h_closed_image: Skill = ..., /) -> Skill | None:
+        """
+        Adds an item to a treeview under*parent* and after *insertAfter* sibling
+        SKILL: axlFormTreeViewAddItem(r_formt_fieldt_labelg_hParentg_hInsertAfter[g_multiSelectF][g_hLeafImage][g_hOpenImage][g_hClosedImage])⇒ g_hItem/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:1091
+        """
+        ...
+
+class _AxlFormTreeViewChangeImages(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, g_h_item: Skill, g_h_leaf_image: Skill = ..., g_h_open_image: Skill = ..., g_h_closed_image: Skill = ..., /) -> bool | None:
+        """
+        Modifies various bitmap images associated with a given tree view item.
+        SKILL: axlFormTreeViewChangeImages(r_formt_fieldg_hItem[g_hLeafImage][g_hOpenImage][g_hClosedImage])⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:1150
+        """
+        ...
+
+class _AxlFormTreeViewChangeLabel(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, g_h_item: Skill, t_label: str, /) -> bool | None:
+        """
+        Modifies text of a given treeview item.
+        SKILL: axlFormTreeViewChangeLabel(r_formt_fieldg_hItemt_label)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:1180
+        """
+        ...
+
+class _AxlFormTreeViewGetImages(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, g_h_item: Skill, /) -> list[Skill] | None:
+        """
+        various bitmap image handles that refer to images used by a specified item in the tree view.
+        SKILL: axlFormTreeViewGetImages(r_formt_fieldg_hItem)⇒ l_hImage/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:1202
+        """
+        ...
+
+class _AxlFormTreeViewGetLabel(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, g_h_item: Skill, /) -> str | None:
+        """
+        Returns text of a given treeview item.
+        SKILL: axlFormTreeViewGetLabel(r_formt_fieldg_hItem)⇒ t_label/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:1223
+        """
+        ...
+
+class _AxlFormTreeViewGetParents(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, g_h_item: Skill, /) -> list[Skill] | None:
+        """
+        Returns a list of all the ancestors of a treeview control item, starting from the root of the tree
+        SKILL: axlFormTreeViewGetParents(r_formt_fieldg_hItem)⇒ lg_hItem/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:1244
+        """
+        ...
+
+class _AxlFormTreeViewGetSelectState(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, g_h_item: Skill, /) -> int:
+        """
+        In multi select mode, returns the select state of a treeview item
+        SKILL: axlFormTreeViewGetSelectState(r_formt_fieldg_hItem)⇒ x_selectState
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:1265
+        """
+        ...
+
+class _AxlFormTreeViewLoadBitmaps(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, lt_bitmaps: list[str], /) -> list[Skill] | None:
+        """
+        Allows an application to load one or more bitmaps into Allegro PCB Editor for use in specified tree view.
+        SKILL: axlFormTreeViewLoadBitmaps(r_formt_fieldlt_bitmaps)⇒ l_hImage/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:1289
+        """
+        ...
+
+class _AxlFormTreeViewSet(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, s_option: Symbol, g_h_item: Skill, g_data: Skill = ..., /) -> bool | None:
+        """
+        Allows an application to change global and individual items in a tree view control.
+        SKILL: axlFormTreeViewSet(r_formt_fields_optiong_hItem[g_data])⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:1342
+        """
+        ...
+
+class _AxlFormTreeViewSetSelectState(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, g_h_item: Skill, g_state: Skill, /) -> bool | None:
+        """
+        In multi select mode, sets the select state
+        SKILL: axlFormTreeViewSetSelectState(r_formt_fieldg_hItemg_state)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:1422
+        """
+        ...
+
+class _AxlGRPDrwBitmap(LiteralRemoteFunction):
+    def __call__(self, r_graphics: RemoteObject, t_bitmap: str, /) -> bool | None:
+        """
+        Loads a bitmap into a form draw window (drawing area in the graphics field)
+        SKILL: axlGRPDrwBitmap(r_graphicst_bitmap)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/12draw.md:67
+        """
+        ...
+
+class _AxlGRPDrwCircle(LiteralRemoteFunction):
+    def __call__(self, r_graphics: RemoteObject, l_origin: SkillList, x_radius: int, /) -> bool | None:
+        """
+        Draws a circle into the area identified by ther_graphics handle, at the origin specified, and with the specified radius
+        SKILL: axlGRPDrwCircle(r_graphicsl_originx_radius)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/12draw.md:87
+        """
+        ...
+
+class _AxlGRPDrwInit(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, t_func: str, /) -> RemoteObject | None:
+        """
+        Use this command to set graphics callback in a form field
+        SKILL: axlGRPDrwInit(r_formt_fieldt_func)⇒ r_graphics/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/12draw.md:108
+        """
+        ...
+
+class _AxlGRPDrwLine(LiteralRemoteFunction):
+    def __call__(self, r_graphics: RemoteObject, l_vertices: SkillList, /) -> bool | None:
+        """
+        Draws a line into the area identified by ther_graphics handle and the list of coordinates
+        SKILL: axlGRPDrwLine(r_graphicsl_vertices)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/12draw.md:129
+        """
+        ...
+
+class _AxlGRPDrwMapWindow(LiteralRemoteFunction):
+    def __call__(self, r_graphics: RemoteObject, x_hgt: int, x_width: int, /) -> bool | None:
+        """
+        Forces a draw in a form draw field
+        SKILL: axlGRPDrwMapWindow(r_graphicsx_hgtx_width)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/12draw.md:149
+        """
+        ...
+
+class _AxlGRPDrwPoly(LiteralRemoteFunction):
+    def __call__(self, r_graphics: RemoteObject, l_vertices: SkillList, /) -> bool | None:
+        """
+        Draws a polygon (multi-segment line) into the area identified by ther_graphics handle and the list of coordinates
+        SKILL: axlGRPDrwPoly(r_graphicsl_vertices)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/12draw.md:170
+        """
+        ...
+
+class _AxlGRPDrwRectangle(LiteralRemoteFunction):
+    def __call__(self, r_graphics: RemoteObject, l_upper_left: SkillList, l_lower_right: SkillList, /) -> bool | None:
+        """
+        Draws a rectangle into the area identified by ther_graphics handle and the upper_left and lower_right coordinates
+        SKILL: axlGRPDrwRectangle(r_graphicsl_upper_leftl_lower_right)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/12draw.md:190
+        """
+        ...
+
+class _AxlGRPDrwText(LiteralRemoteFunction):
+    def __call__(self, r_graphics: RemoteObject, l_origin: SkillList, t_text: str, /) -> bool | None:
+        """
+        Draws text into the area identified by ther_graphics handle at the origin specified
+        SKILL: axlGRPDrwText(r_graphicsl_origint_text)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/12draw.md:211
+        """
+        ...
+
+class _AxlGRPDrwUpdate(LiteralRemoteFunction):
+    def __call__(self, r_graphics: RemoteObject, /) -> bool | None:
+        """
+        Force call to register callback function for a draw window
+        SKILL: axlGRPDrwUpdate(r_graphics)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/12draw.md:232
+        """
+        ...
+
+class _AxlGeo2Str(LiteralRemoteFunction):
+    def __call__(self, f_dbrep: float | Skill, /) -> str | None:
+        """
+        When converting floating point numbers to strings you may find the number printed is slightly differently then the value Allegro reports
+        SKILL: axlGeo2Str( f_dbrep/point ) -> t_result/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/24mthutl.md:65
+        """
+        ...
+
+class _AxlGeoArcCenterAngle(LiteralRemoteFunction):
+    def __call__(self, l_start_point: SkillList, l_end_point: SkillList, f_angle: float, g_clockwise: Skill = ..., /) -> list[Skill] | None:
+        """
+        Calculates the center of an arc given the angle between its endpoints
+        SKILL: axlGeoArcCenterAngle(l_startPointl_endPointf_angle[g_clockwise])⇒ l_center/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/24mthutl.md:137
+        """
+        ...
+
+class _AxlGeoArcCenterRadius(LiteralRemoteFunction):
+    def __call__(self, l_start_point: SkillList, l_end_point: SkillList, f_radius: float, g_clockwise: Skill = ..., g_big_arc: Skill = ..., /) -> list[Skill] | None:
+        """
+        Calculates center of an arc given its radius
+        SKILL: axlGeoArcCenterRadius(l_startPointl_endPointf_radius[g_clockwise][g_bigArc])⇒ l_center/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/24mthutl.md:174
+        """
+        ...
+
+class _AxlGeoEqual(LiteralRemoteFunction):
+    def __call__(self, f_one: float, f_two: float, /) -> bool | None:
+        """
+        Performs an equal comparison between two floating point numbers and determines if they are equal within plus or minus the current database accuracy.
+        SKILL: axlGeoEqual(f_onef_two)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/24mthutl.md:260
+        """
+        ...
+
+class _AxlGeoPointInShape(LiteralRemoteFunction):
+    def __call__(self, l_point: SkillList, o_dbid: RemoteObject, g_include_voids: Skill = ..., t: bool | None = ..., /) -> bool | None:
+        """
+        Given a point and a shapedbid, determines whether that point is inside or outside the shape or a polygon
+        SKILL: axlGeoPointInShape(l_pointo_dbid/o_polygon[g_include_voids][t/nil])⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:464
+        """
+        ...
+
+class _AxlGeoPointShapeInfo(LiteralRemoteFunction):
+    def __call__(self, l_point: SkillList, o_dbid: RemoteObject, /) -> Skill:
+        """
+        Given a point and a shape dbid returns relation of point to shape
+        SKILL: axlGeoPointShapeInfo(l_pointo_dbid) ==> (g_state o_dbid)/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:493
+        """
+        ...
+
+class _AxlGeoPointsEqual(LiteralRemoteFunction):
+    def __call__(self, l_point1: SkillList, l_point2: SkillList, /) -> bool | None:
+        """
+        This performs an equal comparison between two xy points and determines if they are equal within db accuracy.
+        SKILL: axlGeoPointsEqual(l_point1l_point2) -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/24mthutl.md:335
+        """
+        ...
+
+class _AxlGeoRotatePt(LiteralRemoteFunction):
+    def __call__(self, f_angle: float, l_xy: SkillList, l_origin: SkillList | None, mirror: Skill = ..., /) -> list[Skill] | None:
+        """
+        Rotates*xy* about an origin by angle
+        SKILL: axlGeoRotatePt(f_anglel_xyl_origin/nil[mirror]) -> l_xyResult/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/24mthutl.md:300
+        """
+        ...
+
+class _AxlGetActiveLayer(LiteralRemoteFunction):
+    def __call__(self, /) -> str:
+        """
+        Retrieves active class and subclass of the design.
+        SKILL: axlGetActiveLayer()⇒ t_layer
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:1376
+        """
+        ...
+
+class _AxlGetActiveTextBlock(LiteralRemoteFunction):
+    def __call__(self, /) -> Skill:
+        """
+        Gets the current active text block, equivalent to the status dialog box.
+        SKILL: axlGetActiveTextBlock()⇒ _textBlock
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:1399
+        """
+        ...
+
+class _AxlGetAlias(LiteralRemoteFunction):
+    def __call__(self, t_alias: str | None, /) -> str | list[str] | None:
+        """
+        Requests the value of the specified Allegro PCB Editor alias,t_alias
+        SKILL: axlGetAlias(t_alias/nil)⇒ t_value/lt_names/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/09cmdshl.md:16
+        """
+        ...
+
+class _AxlGetAllAttachmentNames(LiteralRemoteFunction):
+    def __call__(self, /) -> list[Skill] | None:
+        """
+        Returns a list of the ids for all database attachments in the current Allegro PCB Editor database
+        SKILL: axlGetAllAttachmentNames()⇒ l_attachment/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/16dbatt.md:124
+        """
+        ...
+
+class _AxlGetAllViaList(LiteralRemoteFunction):
+    def __call__(self, g_attr_vias: Skill = ..., /) -> list[RemoteObject]:
+        """
+        Returns a list of all padstacks included in via lists in the design
+        SKILL: axlGetAllViaList([g_attrVias])==> lo_padstack_dbid
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:707
+        """
+        ...
+
+class _AxlGetAllVisibleProfiles(LiteralRemoteFunction):
+    def __call__(self, /) -> Skill | None:
+        """
+        Returns a list of all the bond wire profiles currently visible in the design.
+        SKILL: axlGetAllVisibleProfiles()==> list of profiles / nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:828
+        """
+        ...
+
+class _AxlGetAttachment(LiteralRemoteFunction):
+    def __call__(self, t_attachment_id: str, s_data_format: Symbol | None = ..., /) -> RemoteObject | None:
+        """
+        Returns the database attachment with the given id
+        SKILL: axlGetAttachment(t_attachmentId[s_dataFormat])⇒ o_attachment/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/16dbatt.md:142
+        """
+        ...
+
+class _AxlGetDieData(LiteralRemoteFunction):
+    def __call__(self, g_die_id: Skill, /) -> Skill | None:
+        """
+        Gets the data for the given die and loads it into the a defstruct.
+        SKILL: axlGetDieData (g_dieId)==> die-data defstruct/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:989
+        """
+        ...
+
+class _AxlGetDieStackData(LiteralRemoteFunction):
+    def __call__(self, g_stack_arg: Skill, /) -> Skill | None:
+        """
+        Gets the data for the given die-stack and loads it into a defstruct.
+        SKILL: axlGetDieStackData (g_stackArg)==> stack-data defstruct/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:1063
+        """
+        ...
+
+class _AxlGetDieStackMemberSet(LiteralRemoteFunction):
+    def __call__(self, /) -> Skill | None:
+        """
+        Returns a list of defstructs - one for each member of the given die stack.
+        SKILL: axlGetDieStackMemberSet()==> list of die-stack member defstructs/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:1108
+        """
+        ...
+
+class _AxlGetDieStackNames(LiteralRemoteFunction):
+    def __call__(self, /) -> Skill | None:
+        """
+        Returns a list of the names of all die stacks in the current design.
+        SKILL: axlGetDieStackNames() ==> list of die-stack names/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:1162
+        """
+        ...
+
+class _AxlGetDieType(LiteralRemoteFunction):
+    def __call__(self, o_component_dbid: RemoteObject, /) -> str:
+        """
+        Returns the die attachment type for a given die component in a Cadence packaging tool (APD/SIP)
+        SKILL: axlGetDieType(o_componentDBID)==> t_dieType
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:704
+        """
+        ...
+
+class _AxlGetDrawingName(LiteralRemoteFunction):
+    def __call__(self, /) -> str:
+        """
+        Retrieves the full path of the drawing.
+        SKILL: axlGetDrawingName()⇒ t_drawingPathName
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:465
+        """
+        ...
+
+class _AxlGetDynamicsSegs(LiteralRemoteFunction):
+    def __call__(self, point1: Skill, point2: Skill, last_path: Skill, /) -> list[Skill] | None:
+        """
+        Normally used with dynamics to calculate arc tangency of two picks to a currentr_path
+        SKILL: axlGetDynamicsSegs(point1 point2 lastPath) => l_pointList/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:470
+        """
+        ...
+
+class _AxlGetFindFilter(LiteralRemoteFunction):
+    def __call__(self, on_enabled_f: Skill = ..., /) -> list[str] | None:
+        """
+        Returns the current Find Filter settings as a listpf keyword strings
+        SKILL: axlGetFindFilter([onEnabledF])⇒ lt_filters/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/05selfnd.md:755
+        """
+        ...
+
+class _AxlGetFuncKey(LiteralRemoteFunction):
+    def __call__(self, t_alias: str | None, /) -> str | None:
+        """
+        Requests the value of the specified funckey,t_alias
+        SKILL: axlGetFuncKey(t_alias/nil)==> t_value/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/09cmdshl.md:56
+        """
+        ...
+
+class _AxlGetImpedance(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, /) -> Skill:
+        """
+        No description available.
+        SKILL: axlGetImpedance(o_dbid) => (f_min f_max)/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:525
+        """
+        ...
+
+class _AxlGetIposerData(LiteralRemoteFunction):
+    def __call__(self, g_iposer_id: Skill, /) -> Skill | None:
+        """
+        This function fetches the data for the given iposer and loads it into a defstruct.
+        SKILL: axlGetIposerData(g_iposerId)==> iposer-data defstruct/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:1180
+        """
+        ...
+
+class _AxlGetLastEnterPoint(LiteralRemoteFunction):
+    def __call__(self, /) -> list[Skill] | None:
+        """
+        Gets the last pick location fromaxlEnterPoint.
+        SKILL: axlGetLastEnterPoint ()⇒ l_point/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:770
+        """
+        ...
+
+class _AxlGetLineLock(LiteralRemoteFunction):
+    def __call__(self, s_name: Symbol, g_value: Skill = ..., /) -> Skill | list[Symbol]:
+        """
+        Gets the current settings of the line lock or dynamic control options
+        SKILL: axlGetLineLock(s_name[g_value])==> g_currentValue/ls_names
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:501
+        """
+        ...
+
+class _AxlGetMetalUsageForLayer(LiteralRemoteFunction):
+    def __call__(self, l_layers: SkillList, l_extents: SkillList | None = ..., g_positive: Skill = ..., /) -> Skill | None:
+        """
+        Computes the percentage metal coverage on the layers specified in l\\_layer(s) (combination of all layers listed) in the area specified inl_extents
+        SKILL: axlGetMetalUsageForLayer(l_layers [l_extents][g_positive])==> resultStruct/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:733
+        """
+        ...
+
+class _AxlGetModuleInstanceDefinition(LiteralRemoteFunction):
+    def __call__(self, o_modinst: RemoteObject, /) -> str | None:
+        """
+        AXL interface to the C function that returns the name of the module definition used to create the module instance.
+        SKILL: axlGetModuleInstanceDefinition(o_modinst)⇒ t_moddef/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:690
+        """
+        ...
+
+class _AxlGetModuleInstanceLocation(LiteralRemoteFunction):
+    def __call__(self, o_modinst: RemoteObject, /) -> list[Skill] | None:
+        """
+        AXL interface to the C function that gets the current location of the module instance in the design.
+        SKILL: axlGetModuleInstanceLocation(o_modinst)⇒ l_loc/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:723
+        """
+        ...
+
+class _AxlGetModuleInstanceLogicMethod(LiteralRemoteFunction):
+    def __call__(self, o_modinst: RemoteObject, /) -> Number | None:
+        """
+        AXL interface to the C function that determines the logic method used by the module instance.
+        SKILL: axlGetModuleInstanceLogicMethod(o_modinst) => i_logic/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:756
+        """
+        ...
+
+class _AxlGetModuleInstanceNetExceptions(LiteralRemoteFunction):
+    def __call__(self, o_modinst: RemoteObject, /) -> list[Skill] | None:
+        """
+        AXL interface to the C function that gets the net exception of the module instance in the design.
+        SKILL: axlGetModuleInstanceNetExceptions(o_modinst)⇒ l_nets/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:789
+        """
+        ...
+
+class _AxlGetParam(LiteralRemoteFunction):
+    @overload
+    def __call__(self, t_par: str, m_name: Skill, /) -> Skill | None:
+        """
+        Gets the parameterdbid for a named object
+        SKILL: axlGetParam (t_parm_name)⇒ ﬁo_paramDbid/nil
+        SKILL: axlGetParam (nil) =>lt_params
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:750
+        """
+        ...
+    @overload
+    def __call__(self, value: None, /) -> list[str]:
+        """
+        Gets the parameterdbid for a named object
+        SKILL: axlGetParam (t_parm_name)⇒ ﬁo_paramDbid/nil
+        SKILL: axlGetParam (nil) =>lt_params
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:750
+        """
+        ...
+
+class _AxlGetSelSet(LiteralRemoteFunction):
+    def __call__(self, /) -> list[RemoteObject] | None:
+        """
+        Gets the list of objectdbids in the select set.
+        SKILL: axlGetSelSet()⇒ lo_dbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/05selfnd.md:676
+        """
+        ...
+
+class _AxlGetSelSetCount(LiteralRemoteFunction):
+    def __call__(self, /) -> int:
+        """
+        Returns the number of figuredbids in the select set.
+        SKILL: axlGetSelSetCount()⇒ x_selCount
+        Version: Allegro 17.2-2016
+        Source: algroskill/05selfnd.md:704
+        """
+        ...
+
+class _AxlGetSpacerData(LiteralRemoteFunction):
+    def __call__(self, g_spacer_id: Skill, /) -> Skill | None:
+        """
+        Gets the data for the given spacer and loads it into a defstruct.
+        SKILL: axlGetSpacerData(g_spacerId)==> spacer-data defstruct/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:1231
+        """
+        ...
+
+class _AxlGetTrapBox(LiteralRemoteFunction):
+    def __call__(self, l_point: SkillList, /) -> list[Skill] | None:
+        """
+        Returns coordinates of the*Find* window.
+        SKILL: axlGetTrapBox(l_point)⇒ l_window/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:1133
+        """
+        ...
+
+class _AxlGetVariable(LiteralRemoteFunction):
+    def __call__(self, t_variable: str, /) -> str | None:
+        """
+        Requests the value of the specified Allegro PCB Editor environment variable,t_variable
+        SKILL: axlGetVariable(t_variable )⇒ t_value/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/09cmdshl.md:94
+        """
+        ...
+
+class _AxlGetVariableList(LiteralRemoteFunction):
+    def __call__(self, t_variable: str | None, /) -> str | list[str] | None:
+        """
+        Requests the value of the specified Allegro PCB Editor environment variable,t_variable
+        SKILL: axlGetVariableList(t_variable/nil)==> t_value/lt_value/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/09cmdshl.md:139
+        """
+        ...
+
+class _AxlGetWireProfileColor(LiteralRemoteFunction):
+    def __call__(self, t_profile: str, /) -> Skill | None:
+        """
+        This function will retrieve the color index associated with a bond wire profile
+        SKILL: axlGetWireProfileColor(t_profile)==> color index / nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:1280
+        """
+        ...
+
+class _AxlGetWireProfileDefinition(LiteralRemoteFunction):
+    def __call__(self, profile_name: Skill, /) -> list[Skill] | Symbol:
+        """
+        Given a bonding wire profile name, this will returns its definition information.
+        SKILL: axlGetWireProfileDefinition(profileName) => l_definition/s_error
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:764
+        """
+        ...
+
+class _AxlGetWireProfileDirection(LiteralRemoteFunction):
+    def __call__(self, profile_name: Skill, /) -> Skill | None:
+        """
+        This function returns the direction of a wire profile definition defined in the database
+        SKILL: axlGetWireProfileDirection(profileName)==> "FORWARD"/"REVERSE"/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:807
+        """
+        ...
+
+class _AxlGetWireProfileVisible(LiteralRemoteFunction):
+    def __call__(self, t_profile: str, /) -> bool | None:
+        """
+        This function will retrieve the visibility status of a bond wire profile
+        SKILL: axlGetWireProfileVisible(t_profile)==> t / nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:1299
+        """
+        ...
+
+class _AxlGetXSection(LiteralRemoteFunction):
+    def __call__(self, /) -> list[Skill] | None:
+        """
+        * This is obsolete, use new axlXSectionGet() family of APIs
+        SKILL: axlGetXSection()==> ll_layers/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:1792
+        """
+        ...
+
+class _AxlHighlightObject(LiteralRemoteFunction):
+    def __call__(self, lo_dbid: list[RemoteObject] | None = ..., g_perm_highlight: Skill = ..., /) -> bool | None:
+        """
+        Highlights the figures whosedbids are in lo_dbid.
+        SKILL: axlHighlightObject([lo_dbid][g_permHighlight])⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:625
+        """
+        ...
+
+class _AxlHistory(LiteralRemoteFunction):
+    @overload
+    def __call__(self, x_num: int | None = ..., /) -> bool:
+        """
+        * ***This is a developers aid only
+        SKILL: axlHistory([x_num]) => t
+        SKILL: axlHistory(s_operation t_filename) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:262
+        """
+        ...
+    @overload
+    def __call__(self, s_operation: Symbol, t_filename: str, /) -> bool | None:
+        """
+        * ***This is a developers aid only
+        SKILL: axlHistory([x_num]) => t
+        SKILL: axlHistory(s_operation t_filename) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:262
+        """
+        ...
+
+class _AxlHttp(LiteralRemoteFunction):
+    def __call__(self, t_url: str, /) -> bool:
+        """
+        Displays a URL from Allegro PCB Editor in an external web browser
+        SKILL: axlHttp(t_url)⇒ t
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:349
+        """
+        ...
+
+class _AxlISProductStarted(LiteralRemoteFunction):
+    def __call__(self, *args: Skill, **kwargs: Skill) -> Skill:
+        """
+        * ***This should not be used, use[axlLicIsProductEnabled](#922656 "24").***
+        SKILL: signature unavailable; generic fallback
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:448
+        """
+        ...
+
+class _AxlIgnoreFixed(LiteralRemoteFunction):
+    def __call__(self, *args: Skill, **kwargs: Skill) -> Skill:
+        """
+        No description available.
+        SKILL: signature unavailable; generic fallback
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:490
+        """
+        ...
+
+class _AxlImpdedanceGetLayerBroadsideDPImp(LiteralRemoteFunction):
+    def __call__(self, t_layer1: str | int, t_layer2: str | int, f_width: float, /) -> float | None:
+        """
+        Computes the differential impedance of a broadside-coupled diffpair with the given line width and two specified layers on which the signal lines will be routed
+        SKILL: axlImpdedanceGetLayerBroadsideDPImp(t_layer1/x_layerNum1t_layer2/x_layerNum2f_width) ==> f_diffImpedance/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:548
+        """
+        ...
+
+class _AxlImpdedanceGetLayerBroadsideDPWidth(LiteralRemoteFunction):
+    def __call__(self, t_layer1: str | int, t_layer2: str | int, f_diff_impedance: float, /) -> float | None:
+        """
+        Computes the differential impedance of a broadside-coupled diffpair with the given line width and two specified layers on which the signal lines will be routed
+        SKILL: axlImpdedanceGetLayerBroadsideDPWidth(t_layer1/x_layerNum1t_layer2/x_layerNum2f_diffImpedance)==> f_lineWidth/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:578
+        """
+        ...
+
+class _AxlImpdedanceGetLayerEdgeDPImp(LiteralRemoteFunction):
+    def __call__(self, t_layer: str | int, f_spacing: float, f_width: float, /) -> float | None:
+        """
+        Computes the differential impedance of a edge-coupled diffpair with the given line width and spacing on a specified layer
+        SKILL: axlImpdedanceGetLayerEdgeDPImp(t_layer/x_layerNumf_spacingf_width) ==> f_diffImpedance/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:608
+        """
+        ...
+
+class _AxlImpdedanceGetLayerEdgeDPSpacing(LiteralRemoteFunction):
+    def __call__(self, t_layer: str | int, f_width: float, f_diff_imp: float, /) -> float | None:
+        """
+        Given the line width of the two signal lines of an edge-coupled diffpair on the specified layer, finds the spacing such that the differential impedance is closest to the target value
+        SKILL: axlImpdedanceGetLayerEdgeDPSpacing(t_layer/x_layerNumf_widthf_diffImp)==> f_spacing/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:636
+        """
+        ...
+
+class _AxlImpdedanceGetLayerEdgeDPWidth(LiteralRemoteFunction):
+    def __call__(self, t_layer: str | int, f_spacing: float, f_diff_imp: float, /) -> float | None:
+        """
+        Given the spacing of the two signal lines of an edge-coupled diffpair on the specified layer, finds the line width such that the differential impedance is closest to the target value
+        SKILL: axlImpdedanceGetLayerEdgeDPWidth(t_layer/x_layerNumf_spacingf_diffImp) ==> f_width/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:664
+        """
+        ...
+
+class _AxlImpedance2Width(LiteralRemoteFunction):
+    def __call__(self, t_layer: str | int, f_impedance: float, /) -> float | None:
+        """
+        Converts the given impedance on a specified layer to a line width.
+        SKILL: axlImpedance2Width(t_layer/x_layerNumf_impedance) ==> f_lineWidth/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:692
+        """
+        ...
+
+class _AxlImportWireProfileDefinitions(LiteralRemoteFunction):
+    def __call__(self, xml_file_name: Skill, set_as_master: Skill, /) -> int | None:
+        """
+        This function will import the bond wire profiles defined in the xml file specified
+        SKILL: axlImportWireProfileDefinitions(xmlFileNamesetAsMaster)==> x/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:887
+        """
+        ...
+
+class _AxlImportXmlDBRecords(LiteralRemoteFunction):
+    def __call__(self, t_file_name: str, /) -> bool | None:
+        """
+        This command imports an Allegro Parameter file into the current design
+        SKILL: axlImportXmlDBRecords(t_fileName) -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:420
+        """
+        ...
+
+class _AxlInTrigger(LiteralRemoteFunction):
+    def __call__(self, /) -> bool | None:
+        """
+        Tests if the application or the utility in a axlTrigger callback
+        SKILL: axlInTrigger() ==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:494
+        """
+        ...
+
+class _AxlInTriggerFunc(LiteralRemoteFunction):
+    def __call__(self, /) -> Symbol | None:
+        """
+        If in a trigger callback, reports trigger function symbol.nil, if not in a trigger callback.
+        SKILL: axlInTriggerFunc() -> s_triggerFunc/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:514
+        """
+        ...
+
+class _AxlIsAttachment(LiteralRemoteFunction):
+    def __call__(self, o_attachment: RemoteObject, /) -> bool | None:
+        """
+        Determines if the given object is an AXL attachment.
+        SKILL: axlIsAttachment(o_attachment)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/16dbatt.md:189
+        """
+        ...
+
+class _AxlIsBetween(LiteralRemoteFunction):
+    def __call__(self, l_test_point: SkillList, l_pt1: SkillList, l_pt2: SkillList, /) -> bool | None:
+        """
+        Used to check if a given point lies between two specified points
+        SKILL: axlIsBetween(l_testPointl_pt1, l_pt2) -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/24mthutl.md:365
+        """
+        ...
+
+class _AxlIsCustomColored(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, /) -> int | None:
+        """
+        If object has custom color, will return the object custom color, otherwise nil.
+        SKILL: axlIsCustomColored (o_dbid)==> x_customColor/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:1710
+        """
+        ...
+
+class _AxlIsDBIDType(LiteralRemoteFunction):
+    def __call__(self, g_dbid: Skill, /) -> bool | None:
+        """
+        Determines ifg_dbid is an Allegro PCB Editor database dbid
+        SKILL: axlIsDBIDType(g_dbid)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:242
+        """
+        ...
+
+class _AxlIsDebug(LiteralRemoteFunction):
+    def __call__(self, /) -> bool | None:
+        """
+        This checks if AXL debug mode is enabled
+        SKILL: axlIsDebug() ==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:390
+        """
+        ...
+
+class _AxlIsDummyNet(LiteralRemoteFunction):
+    def __call__(self, net_dbid: Skill, /) -> bool | None:
+        """
+        Determines if a given net is a Dummy net
+        SKILL: axlIsDummyNet(net_dbid)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:822
+        """
+        ...
+
+class _AxlIsEtchLayer(LiteralRemoteFunction):
+    def __call__(self, t_layer: str, /) -> bool | None:
+        """
+        Determines if a layer is associated with the ETCH layers
+        SKILL: axlIsEtchLayer(t_layer)=> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:1831
+        """
+        ...
+
+class _AxlIsFormType(LiteralRemoteFunction):
+    def __call__(self, g_form: Skill, /) -> bool | None:
+        """
+        Tests if argumentg_form is a form dbid.
+        SKILL: axlIsFormType(g_form)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part02.md:1366
+        """
+        ...
+
+class _AxlIsGridCellType(LiteralRemoteFunction):
+    def __call__(self, r_cell: RemoteObject, /) -> bool | None:
+        """
+        Tests the passed symbol to see if its user type is of the form"grid cell".
+        SKILL: axlIsGridCellType(r_cell)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/11frmint.part03.md:345
+        """
+        ...
+
+class _AxlIsHighlighted(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, /) -> int | None:
+        """
+        If the object is permanently highlighted returns the highlight color; otherwisenil.
+        SKILL: axlIsHighlighted(o_dbid)==> x_highlightColor/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:1045
+        """
+        ...
+
+class _AxlIsLayer(LiteralRemoteFunction):
+    def __call__(self, t_layer: str, /) -> bool | None:
+        """
+        Determines if thet_layer exists
+        SKILL: axlIsLayer(t_layer)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:1856
+        """
+        ...
+
+class _AxlIsLayerNegative(LiteralRemoteFunction):
+    def __call__(self, t_layer_name: str, /) -> bool | None:
+        """
+        Determines whether or not the given plane layer is negative.
+        SKILL: axlIsLayerNegative(t_layerName)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:845
+        """
+        ...
+
+class _AxlIsPinUnused(LiteralRemoteFunction):
+    def __call__(self, pin_dbid: Skill, /) -> bool | None:
+        """
+        Determines if the given pin is unused, indicating that it is on a dummy net.
+        SKILL: axlIsPinUnused(pin_dbid)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:874
+        """
+        ...
+
+class _AxlIsPointInsideBox(LiteralRemoteFunction):
+    def __call__(self, l_point: SkillList, l_box: SkillList, /) -> bool | None:
+        """
+        Returnst if a point is inside or on the edge of a box
+        SKILL: axlIsPointInsideBox(l_pointl_box)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/24mthutl.md:387
+        """
+        ...
+
+class _AxlIsPointOnLine(LiteralRemoteFunction):
+    def __call__(self, l_point: SkillList, ll_line: SkillList, f: float | None = ..., near_ness: Skill = ..., /) -> bool | None:
+        """
+        Returnst if point is on a given line or nil if not on the line.
+        SKILL: axlIsPointOnLine(l_pointll_line[f_nearNess])⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/24mthutl.md:415
+        """
+        ...
+
+class _AxlIsPolyType(LiteralRemoteFunction):
+    def __call__(self, g_polygon: Skill, /) -> bool | None:
+        """
+        Tests if argumentg_polygon is a polygon user type.
+        SKILL: axlIsPolyType (g_polygon)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/20plyopr.md:462
+        """
+        ...
+
+class _AxlIsProductLineActive(LiteralRemoteFunction):
+    def __call__(self, t_product_line: str, /) -> bool | None:
+        """
+        This routine determines if a product in a given product line has been started.
+        SKILL: axlIsProductLineActive(t_productLine) -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:422
+        """
+        ...
+
+class _AxlIsProtectAlias(LiteralRemoteFunction):
+    def __call__(self, t_alias: str, /) -> bool | None:
+        """
+        Tests if the alias is read-only (or writeable)
+        SKILL: axlIsProtectAlias(t_alias)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/09cmdshl.md:253
+        """
+        ...
+
+class _AxlIsSymbolEditor(LiteralRemoteFunction):
+    def __call__(self, /) -> bool | None:
+        """
+        Returnst if in symbol editor, nil for all other editors.
+        SKILL: axlIsSymbolEditor() -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:535
+        """
+        ...
+
+class _AxlIsViewFileType(LiteralRemoteFunction):
+    def __call__(self, g_user_type: Skill, /) -> bool | None:
+        """
+        Tests whetherg_userType is a long message window type.
+        SKILL: axlIsViewFileType(g_userType)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:1482
+        """
+        ...
+
+class _AxlIsVisibleLayer(LiteralRemoteFunction):
+    def __call__(self, t_layer: str, /) -> bool | None:
+        """
+        Returns the visibility (t/nil) of a fully qualified layer.
+        SKILL: axlIsVisibleLayer(t_layer)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:1875
+        """
+        ...
+
+class _AxlIsitFill(LiteralRemoteFunction):
+    def __call__(self, t_layer: str, /) -> bool | None:
+        """
+        Determines if fill shape is allowed for a given class subclass.
+        SKILL: axlIsitFill(t_layer)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:897
+        """
+        ...
+
+class _AxlJournal(LiteralRemoteFunction):
+    def __call__(self, g_option: Skill, /) -> Skill | None:
+        """
+        This function manages the program's journal file
+        SKILL: axlJournal(g_option) => g_result/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/09cmdshl.md:178
+        """
+        ...
+
+class _AxlKillDesign(LiteralRemoteFunction):
+    def __call__(self, /) -> bool | None:
+        """
+        Same as (axlOpenDesign<unnamed> "wf"), where <unnamed>is the standard Allegro PCB Editor name provided for an unnamed design
+        SKILL: axlKillDesign()⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:561
+        """
+        ...
+
+class _AxlLastPick(LiteralRemoteFunction):
+    def __call__(self, l_mode: SkillList, /) -> Skill:
+        """
+        This returns the last processed cursor pick
+        SKILL: axlLastPick(l_mode) ⇒ xy
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:791
+        """
+        ...
+
+class _AxlLastPickIsSnapped(LiteralRemoteFunction):
+    def __call__(self, /) -> bool | None:
+        """
+        Normally called after anaxlEnter call to determine if the pick was snapped or unsnapped.
+        SKILL: axlLastPickIsSnapped()-> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/05selfnd.md:1419
+        """
+        ...
+
+class _AxlLayerCreateCrossSection(LiteralRemoteFunction):
+    def __call__(self, t_pre: str, v_layer_name: Skill, t_layer_type: str, t_material_type: str, t_subclass_name: str | None = ..., t_plane_type: str | None = ..., /) -> bool | None:
+        """
+        This is obsolete, use[axlXSectionCreate](#1168694 "3").
+        SKILL: axlLayerCreateCrossSection(t_Prev_layerNamet_layerTypet_materialType[t_subclassName][t_planeType])⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:1898
+        """
+        ...
+
+class _AxlLayerCreateNonConductor(LiteralRemoteFunction):
+    def __call__(self, t_layer_name: str, /) -> bool | None:
+        """
+        Creates a new subclass for non-etch subclasses
+        SKILL: axlLayerCreateNonConductor(t_layerName)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part02.md:24
+        """
+        ...
+
+class _AxlLayerDelete(LiteralRemoteFunction):
+    def __call__(self, t_layer_name: str | int, /) -> bool | None:
+        """
+        This command deletes a cross section layer
+        SKILL: axlLayerDelete(t_layerName/x_layerNumber) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part02.md:49
+        """
+        ...
+
+class _AxlLayerGet(LiteralRemoteFunction):
+    def __call__(self, t_layer: str, /) -> RemoteObject | None:
+        """
+        Gets the layer parameter given the shortcut notation of*<*class*>*/*<*subclass*>*
+        SKILL: axlLayerGet(t_layer)⇒ o_dbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part02.md:89
+        """
+        ...
+
+class _AxlLayerPriorityClearAll(LiteralRemoteFunction):
+    def __call__(self, /) -> bool | None:
+        """
+        Clears all layer priority information in Allegro database
+        SKILL: axlLayerPriorityClearAll() -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:1534
+        """
+        ...
+
+class _AxlLayerPriorityGet(LiteralRemoteFunction):
+    def __call__(self, t_layer: str, /) -> int | str | None:
+        """
+        Obtains layer priority, where 0 is normal (not set)
+        SKILL: axlLayerPriorityGet(t_layer) -> x_priority/t_mapClass/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:1555
+        """
+        ...
+
+class _AxlLayerPriorityRestoreAll(LiteralRemoteFunction):
+    def __call__(self, /) -> bool | None:
+        """
+        Restores previously saved layer priority information
+        SKILL: axlLayerPriorityRestoreAll() -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:1602
+        """
+        ...
+
+class _AxlLayerPrioritySaveAll(LiteralRemoteFunction):
+    def __call__(self, /) -> bool | None:
+        """
+        Saves all layer priority information to be restored later
+        SKILL: axlLayerPrioritySaveAll() -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:1624
+        """
+        ...
+
+class _AxlLayerPrioritySet(LiteralRemoteFunction):
+    def __call__(self, t_layer: str, x_priority: int, /) -> bool | None:
+        """
+        This changes the drawing priority of given layer
+        SKILL: axlLayerPrioritySet(t_layerx_priority) -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:1646
+        """
+        ...
+
+class _AxlLayerSet(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, /) -> RemoteObject | None:
+        """
+        Updates changes to layer parameters
+        SKILL: axlLayerSet(o_dbid)==>o_dbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:900
+        """
+        ...
+
+class _AxlLayerViaLabel(LiteralRemoteFunction):
+    def __call__(self, t_layer_name: str | int, /) -> str | None:
+        """
+        Reports via label for a layer
+        SKILL: axlLayerViaLabel(t_layerName/x_layerNumber) => t_viaLabel/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part02.md:130
+        """
+        ...
+
+class _AxlLicDefaultVersion(LiteralRemoteFunction):
+    def __call__(self, /) -> float:
+        """
+        This returns the default version number used in licensing
+        SKILL: axlLicDefaultVersion()-> f_version
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:456
+        """
+        ...
+
+class _AxlLicFeatureExists(LiteralRemoteFunction):
+    def __call__(self, t_license: str, f_version: float | None = ..., /) -> bool | None:
+        """
+        Checks if license feature exists
+        SKILL: axlLicFeatureExists(t_license[f_version])-> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:472
+        """
+        ...
+
+class _AxlLicIsProductEnabled(LiteralRemoteFunction):
+    @overload
+    def __call__(self, t_license: str, /) -> bool | None:
+        """
+        Checks if license is checked-out by tool.
+        SKILL: axlLicIsProductEnabled(t_license) -> t/nil
+        SKILL: axlLicIsProductEnabled(all) -> lt_licenses
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:494
+        """
+        ...
+    @overload
+    def __call__(self, all: Skill, /) -> list[str]:
+        """
+        Checks if license is checked-out by tool.
+        SKILL: axlLicIsProductEnabled(t_license) -> t/nil
+        SKILL: axlLicIsProductEnabled(all) -> lt_licenses
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:494
+        """
+        ...
+
+class _AxlLineSlope(LiteralRemoteFunction):
+    def __call__(self, ll_line: SkillList, /) -> float:
+        """
+        Returns the slope of a line
+        SKILL: axlLineSlope(ll_line)⇒ f_slope
+        Version: Allegro 17.2-2016
+        Source: algroskill/24mthutl.md:452
+        """
+        ...
+
+class _AxlLineXLine(LiteralRemoteFunction):
+    def __call__(self, l_seg1: SkillList, l_seg2: SkillList, /) -> bool:
+        """
+        This function is no longer required, but is kept for backward compatibility.
+        SKILL: axlLineXLine(l_seg1l_seg2)⇒ t
+        Version: Allegro 17.2-2016
+        Source: algroskill/24mthutl.md:477
+        """
+        ...
+
+class _AxlLoadPadstack(LiteralRemoteFunction):
+    def __call__(self, t_padname: str, /) -> RemoteObject:
+        """
+        Loads a padstack by attempting to find the padstack by name in the existing database
+        SKILL: axlLoadPadstack (t_padname)⇒ o_dbid
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part02.md:292
+        """
+        ...
+
+class _AxlLoadSymbol(LiteralRemoteFunction):
+    def __call__(self, t_sym_kind: str, t_sym_name: str, /) -> RemoteObject | None:
+        """
+        No description available.
+        SKILL: axlLoadSymbol(t_symKind t_symName) -> o_dbidSymDef/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part02.md:317
+        """
+        ...
+
+class _AxlLogHeader(LiteralRemoteFunction):
+    def __call__(self, p_port: Skill, t_title_string: str, t_prefix: str | None = ..., /) -> bool | None:
+        """
+        Writes the standard Allegro PCB Editor log file header to the passed open file
+        SKILL: axlLogHeader(p_portt_titleString[t_prefix])⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:532
+        """
+        ...
+
+class _AxlMKS2UU(LiteralRemoteFunction):
+    def __call__(self, t_mks_string: str, /) -> float | None:
+        """
+        Converts between an MKS string to the current database user units
+        SKILL: axlMKS2UU(t_mksString)⇒ f_value/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:561
+        """
+        ...
+
+class _AxlMKSAlias(LiteralRemoteFunction):
+    def __call__(self, t_mks_alias: str, /) -> str | None:
+        """
+        Searches the MKS unit database for the current definition associated withunitName
+        SKILL: axlMKSAlias(t_mksAlias) => t_def/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:616
+        """
+        ...
+
+class _AxlMKSConvert(LiteralRemoteFunction):
+    @overload
+    def __call__(self, n_input: Number, t_in_units: str, t_out_units: str | None = ..., /) -> float | None:
+        """
+        No description available.
+        SKILL: axlMKSConvert(n_input t_inUnits [t_outUnits]) => f_output/nil
+        SKILL: axlMKSConvert(t_input [t_outUnits]) => f_output/nil
+        SKILL: axlMKSConvert(nil t_inUnits) => t/nil
+        SKILL: axlMKSConvert(n_input) => f_output/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:647
+        """
+        ...
+    @overload
+    def __call__(self, t_input: str, t_out_units: str | None = ..., /) -> float | None:
+        """
+        No description available.
+        SKILL: axlMKSConvert(n_input t_inUnits [t_outUnits]) => f_output/nil
+        SKILL: axlMKSConvert(t_input [t_outUnits]) => f_output/nil
+        SKILL: axlMKSConvert(nil t_inUnits) => t/nil
+        SKILL: axlMKSConvert(n_input) => f_output/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:647
+        """
+        ...
+    @overload
+    def __call__(self, value: None, t_in_units: str, /) -> bool | None:
+        """
+        No description available.
+        SKILL: axlMKSConvert(n_input t_inUnits [t_outUnits]) => f_output/nil
+        SKILL: axlMKSConvert(t_input [t_outUnits]) => f_output/nil
+        SKILL: axlMKSConvert(nil t_inUnits) => t/nil
+        SKILL: axlMKSConvert(n_input) => f_output/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:647
+        """
+        ...
+    @overload
+    def __call__(self, n_input: Number, /) -> float | None:
+        """
+        No description available.
+        SKILL: axlMKSConvert(n_input t_inUnits [t_outUnits]) => f_output/nil
+        SKILL: axlMKSConvert(t_input [t_outUnits]) => f_output/nil
+        SKILL: axlMKSConvert(nil t_inUnits) => t/nil
+        SKILL: axlMKSConvert(n_input) => f_output/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:647
+        """
+        ...
+
+class _AxlMKSStr2UU(LiteralRemoteFunction):
+    def __call__(self, t_string: str, /) -> str | None:
+        """
+        Converts an input string to a MKS string in current database units
+        SKILL: axlMKSStr2UU(t_String)⇒ t_mksString/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:728
+        """
+        ...
+
+class _AxlMPythag(LiteralRemoteFunction):
+    def __call__(self, l: SkillList, pt1: Skill, l_2: SkillList, pt2: Skill, /) -> float | None:
+        """
+        Calculates distance between two points using pythagoras
+        SKILL: axlMPythag(l_pt1l_pt2) -> f_distance/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/24mthutl.md:619
+        """
+        ...
+
+class _AxlMUniVector(LiteralRemoteFunction):
+    def __call__(self, l_pt1: SkillList, l_pt2: SkillList, f_length: float | None = ..., /) -> list[Skill]:
+        """
+        This calculates a unit-vector
+        SKILL: axlMUniVector(l_pt1l_pt2[f_length]) -> l_uniPt1
+        Version: Allegro 17.2-2016
+        Source: algroskill/24mthutl.md:648
+        """
+        ...
+
+class _AxlMXYAdd(LiteralRemoteFunction):
+    def __call__(self, l_pt1: SkillList, l_pt2: SkillList, /) -> list[Skill] | None:
+        """
+        This does al_pt1 + lpt2 and returns the result.
+        SKILL: axlMXYAdd(l_pt1l_pt2) -> l_pt/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/24mthutl.md:690
+        """
+        ...
+
+class _AxlMXYMult(LiteralRemoteFunction):
+    def __call__(self, l_uni_vec: SkillList, f_factor: float, l_origin: SkillList | None = ..., /) -> list[Skill] | None:
+        """
+        This is a convenience function that does al_pt.x * f_factor and lpt.y * factor and returns the result
+        SKILL: axlMXYMult(l_uniVecf_factor[l_origin]) -> l_pt/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/24mthutl.md:718
+        """
+        ...
+
+class _AxlMXYSub(LiteralRemoteFunction):
+    def __call__(self, l_pt1: SkillList, l_pt2: SkillList, /) -> list[Skill] | None:
+        """
+        This does al_pt1 - lpt2 and returns the result.
+        SKILL: axlMXYSub(l_pt1l_pt2) -> l_pt/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/24mthutl.md:751
+        """
+        ...
+
+class _AxlMakeDynamicsPath(LiteralRemoteFunction):
+    def __call__(self, l_formatted_list: SkillList, /) -> RemoteObject | None:
+        """
+        No description available.
+        SKILL: axlMakeDynamicsPath(l_formattedList) => r_path/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:1576
+        """
+        ...
+
+class _AxlMapClassName(LiteralRemoteFunction):
+    def __call__(self, t_old_name: str | list[str], g_map_to_pcb: Skill = ..., /) -> str | list[str]:
+        """
+        Use this function to write a SKILL program that runs in Allegro PCB Editor and APD
+        SKILL: axlMapClassName(t_oldName/lt_oldName[g_mapToPCB])⇒ t_newName/lt_newName
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:765
+        """
+        ...
+
+class _AxlMatchGroupAdd(LiteralRemoteFunction):
+    def __call__(self, o_mgdbid: RemoteObject | str, o_dbid: RemoteObject | list[RemoteObject], /) -> bool | None:
+        """
+        Adds members to a matched group
+        SKILL: axlMatchGroupAdd(o_mgdbid/t_mgNameo_dbid/lo_dbid)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:618
+        """
+        ...
+
+class _AxlMatchGroupCreate(LiteralRemoteFunction):
+    def __call__(self, t_name: str, /) -> RemoteObject:
+        """
+        Creates a new match group
+        SKILL: axlMatchGroupCreate(t_name)==> o_mgdbid
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:666
+        """
+        ...
+
+class _AxlMatchGroupDelete(LiteralRemoteFunction):
+    def __call__(self, o_mgdbid: RemoteObject | str, /) -> bool | None:
+        """
+        This deletes a match group
+        SKILL: axlMatchGroupDelete( o_mgdbid/t_mgName ) -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:743
+        """
+        ...
+
+class _AxlMatchGroupProp(LiteralRemoteFunction):
+    def __call__(self, o_mgdbid: RemoteObject | str, o_dbid: RemoteObject, t_value: str | None, /) -> bool | None:
+        """
+        Adds or removes the RELATIVE\\_PROPAGATION\\_DELAY property from a member of a match group
+        SKILL: axlMatchGroupProp( o_mgdbid/t_mgName o_dbid t_value/nil )==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:785
+        """
+        ...
+
+class _AxlMatchGroupRemove(LiteralRemoteFunction):
+    def __call__(self, o_mgdbid: RemoteObject | str, o_dbid: RemoteObject | list[RemoteObject], /) -> bool | None:
+        """
+        Removes elements from an existing match group
+        SKILL: axlMatchGroupRemove( o_mgdbid/t_mgName o_dbid/lo_dbid )==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:849
+        """
+        ...
+
+class _AxlMaterialGet(LiteralRemoteFunction):
+    @overload
+    def __call__(self, value: None, /) -> list[str]:
+        """
+        Returns various infomation about materials file
+        SKILL: axlMaterialGet(nil)==> lt_materials
+        SKILL: axlMaterialGet(t_materialName)==> og_material
+        SKILL: axlMaterialGet('all)==> log_materials
+        SKILL: axlMaterialGet('file)==> t_file
+        SKILL: axlMaterialGet('path)==> t_pathToFile
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part02.md:156
+        """
+        ...
+    @overload
+    def __call__(self, t_material_name: str, /) -> Skill:
+        """
+        Returns various infomation about materials file
+        SKILL: axlMaterialGet(nil)==> lt_materials
+        SKILL: axlMaterialGet(t_materialName)==> og_material
+        SKILL: axlMaterialGet('all)==> log_materials
+        SKILL: axlMaterialGet('file)==> t_file
+        SKILL: axlMaterialGet('path)==> t_pathToFile
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part02.md:156
+        """
+        ...
+    @overload
+    def __call__(self, all: Symbol, /) -> Skill:
+        """
+        Returns various infomation about materials file
+        SKILL: axlMaterialGet(nil)==> lt_materials
+        SKILL: axlMaterialGet(t_materialName)==> og_material
+        SKILL: axlMaterialGet('all)==> log_materials
+        SKILL: axlMaterialGet('file)==> t_file
+        SKILL: axlMaterialGet('path)==> t_pathToFile
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part02.md:156
+        """
+        ...
+    @overload
+    def __call__(self, file: Symbol, /) -> str:
+        """
+        Returns various infomation about materials file
+        SKILL: axlMaterialGet(nil)==> lt_materials
+        SKILL: axlMaterialGet(t_materialName)==> og_material
+        SKILL: axlMaterialGet('all)==> log_materials
+        SKILL: axlMaterialGet('file)==> t_file
+        SKILL: axlMaterialGet('path)==> t_pathToFile
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part02.md:156
+        """
+        ...
+    @overload
+    def __call__(self, path: Symbol, /) -> str:
+        """
+        Returns various infomation about materials file
+        SKILL: axlMaterialGet(nil)==> lt_materials
+        SKILL: axlMaterialGet(t_materialName)==> og_material
+        SKILL: axlMaterialGet('all)==> log_materials
+        SKILL: axlMaterialGet('file)==> t_file
+        SKILL: axlMaterialGet('path)==> t_pathToFile
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part02.md:156
+        """
+        ...
+
+class _AxlMathDotProduct(LiteralRemoteFunction):
+    def __call__(self, l_pt_a1: SkillList, l_pt_a2: SkillList, l_pt_b1: SkillList, l_pt_b2: SkillList, /) -> float:
+        """
+        This calculates the dot or scaler product.
+        SKILL: axlMathDotProduct(l_ptA1l_ptA2l_ptB1l_ptB2) -> f_dotProduct
+        Version: Allegro 17.2-2016
+        Source: algroskill/24mthutl.md:526
+        """
+        ...
+
+class _AxlMemSize(LiteralRemoteFunction):
+    def __call__(self, /) -> int:
+        """
+        Returns an estimate of memory use
+        SKILL: axlMemSize()⇒ x_size
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:815
+        """
+        ...
+
+class _AxlMeterCreate(LiteralRemoteFunction):
+    def __call__(self, t_title: str, t_info_string: str, g_enable_cancel: Skill, t_formname: str | None = ..., t_info_string2: str | None = ..., g_form_callback: Skill = ..., /) -> bool | None:
+        """
+        Starts progress meter with optional cancel feature.
+        SKILL: axlMeterCreate(t_title t_infoString g_enableCancel [t_formname] [t_infoString2] [g_formCallback]) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:529
+        """
+        ...
+
+class _AxlMeterDestroy(LiteralRemoteFunction):
+    def __call__(self, /) -> bool | None:
+        """
+        Closes the progress meter form and shuts off Cancel mode if enabled.
+        SKILL: axlMeterDestroy() -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:579
+        """
+        ...
+
+class _AxlMeterIsCancelled(LiteralRemoteFunction):
+    def __call__(self, /) -> bool | None:
+        """
+        If cancel was enabled at meter creation, the status of cancel is returned (t if cancelled; otherwise nil).
+        SKILL: axlMeterIsCancelled() -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:599
+        """
+        ...
+
+class _AxlMeterUpdate(LiteralRemoteFunction):
+    def __call__(self, x_percent_done: int, t_info_string: str, t_info_str2: str | None = ..., /) -> bool | None:
+        """
+        Updates progress meter bar and/or info text
+        SKILL: axlMeterUpdate(x_percentDonet_infoString[t_infoStr2]) -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:621
+        """
+        ...
+
+class _AxlMidPointArc(LiteralRemoteFunction):
+    def __call__(self, ll_end_points: SkillList, l_center: SkillList, f_radius: float, g_clockwise: Skill, /) -> list[Skill]:
+        """
+        Returns mid-point on a arc
+        SKILL: axlMidPointArc(ll_endPointsl_centerf_radiusg_clockwise) -> l_midPoint
+        Version: Allegro 17.2-2016
+        Source: algroskill/24mthutl.md:556
+        """
+        ...
+
+class _AxlMidPointLine(LiteralRemoteFunction):
+    def __call__(self, ll_line: SkillList, /) -> list[Skill]:
+        """
+        Returns mid-point of line
+        SKILL: axlMidPointLine(ll_line) -> l_midPoint
+        Version: Allegro 17.2-2016
+        Source: algroskill/24mthutl.md:592
+        """
+        ...
+
+class _AxlMiniStatusLoad(LiteralRemoteFunction):
+    def __call__(self, s_form_handle: Symbol, g_form_source: Skill, g_form_action: Skill, g_string_option: Skill = ..., t_restrict: str | None = ..., /) -> RemoteObject | None:
+        """
+        Loads the Ministatus form with the form file provided in this call
+        SKILL: axlMiniStatusLoad(s_formHandle g_formSource g_formAction [g_stringOption] [t_restrict]) => r_form/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:734
+        """
+        ...
+
+class _AxlMiniStatusReset(LiteralRemoteFunction):
+    def __call__(self, /) -> bool | None:
+        """
+        This resets the Option panel settings and find filter settings to a new design's default.
+        SKILL: axlMiniStatusReset() => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:474
+        """
+        ...
+
+class _AxlMsgCancelPrint(LiteralRemoteFunction):
+    def __call__(self, /) -> bool:
+        """
+        Prints a message informing the user that he requested*cancel*
+        SKILL: axlMsgCancelPrint()⇒ t
+        Version: Allegro 17.2-2016
+        Source: algroskill/13msghnd.md:333
+        """
+        ...
+
+class _AxlMsgCancelSeen(LiteralRemoteFunction):
+    def __call__(self, /) -> bool | None:
+        """
+        Checks to see if theaxlMsgCancelPrint message was printed
+        SKILL: axlMsgCancelSeen()⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/13msghnd.md:360
+        """
+        ...
+
+class _AxlMsgClear(LiteralRemoteFunction):
+    def __call__(self, /) -> bool:
+        """
+        Clears the current error severity level
+        SKILL: axlMsgClear()⇒ t
+        Version: Allegro 17.2-2016
+        Source: algroskill/13msghnd.md:384
+        """
+        ...
+
+class _AxlMsgContextClear(LiteralRemoteFunction):
+    def __call__(self, r_context: RemoteObject, /) -> bool:
+        """
+        Clears the buffered messages for a context.
+        SKILL: axlMsgContextClear(r_context)⇒ t
+        Version: Allegro 17.2-2016
+        Source: algroskill/13msghnd.md:307
+        """
+        ...
+
+class _AxlMsgContextFinish(LiteralRemoteFunction):
+    def __call__(self, r_context: RemoteObject, /) -> bool:
+        """
+        Indicates the finish of a message context
+        SKILL: axlMsgContextFinish(r_context)⇒ t
+        Version: Allegro 17.2-2016
+        Source: algroskill/13msghnd.md:283
+        """
+        ...
+
+class _AxlMsgContextGet(LiteralRemoteFunction):
+    def __call__(self, r_context: RemoteObject, /) -> list[str] | None:
+        """
+        Gets the format strings of the buffered messages
+        SKILL: axlMsgContextGet(r_context)⇒ lt_format_strings/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/13msghnd.md:156
+        """
+        ...
+
+class _AxlMsgContextGetString(LiteralRemoteFunction):
+    def __call__(self, r_context: RemoteObject, /) -> list[str] | None:
+        """
+        Gets the messages in the message buffer and removes them from the buffer
+        SKILL: axlMsgContextGetString(r_context)⇒ lt_messages/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/13msghnd.md:129
+        """
+        ...
+
+class _AxlMsgContextInBuf(LiteralRemoteFunction):
+    def __call__(self, r_context: RemoteObject, t_format_string: str, /) -> bool:
+        """
+        Checks whether messaget_format_string is in the message buffer of context r_context
+        SKILL: axlMsgContextInBuf(r_contextt_format_string)⇒ t
+        Version: Allegro 17.2-2016
+        Source: algroskill/13msghnd.md:207
+        """
+        ...
+
+class _AxlMsgContextPrint(LiteralRemoteFunction):
+    def __call__(self, r_context: RemoteObject, /) -> bool:
+        """
+        Prints the buffered messages and removes them from the message buffer.
+        SKILL: axlMsgContextPrint(r_context)⇒ t
+        Version: Allegro 17.2-2016
+        Source: algroskill/13msghnd.md:97
+        """
+        ...
+
+class _AxlMsgContextRemove(LiteralRemoteFunction):
+    def __call__(self, r_context: RemoteObject, t_format_string: str, /) -> bool:
+        """
+        Removes a message (or messages) from the buffered messages
+        SKILL: axlMsgContextRemove(r_contextt_format_string)⇒ t
+        Version: Allegro 17.2-2016
+        Source: algroskill/13msghnd.md:233
+        """
+        ...
+
+class _AxlMsgContextStart(LiteralRemoteFunction):
+    def __call__(self, g_format_string: Skill, /, *g_args: Skill) -> RemoteObject:
+        """
+        Indicates the start of a message context
+        SKILL: axlMsgContextStart(g_formatString [*g_args]) => r_context
+        Version: Allegro 17.2-2016
+        Source: algroskill/13msghnd.md:258
+        """
+        ...
+
+class _AxlMsgContextTest(LiteralRemoteFunction):
+    def __call__(self, r_context: RemoteObject, /) -> int:
+        """
+        Returns the most severe message class of the messages in the context message buffer
+        SKILL: axlMsgContextTest(r_context)⇒ x_class
+        Version: Allegro 17.2-2016
+        Source: algroskill/13msghnd.md:183
+        """
+        ...
+
+class _AxlMsgPut(LiteralRemoteFunction):
+    def __call__(self, g_message_format: Skill, /, *g_args: Skill) -> bool:
+        """
+        Puts a message in the journal file
+        SKILL: axlMsgPut(g_messageFormat [*g_args]) => t
+        Version: Allegro 17.2-2016
+        Source: algroskill/13msghnd.md:72
+        """
+        ...
+
+class _AxlMsgSet(LiteralRemoteFunction):
+    def __call__(self, x_class: int, /) -> bool:
+        """
+        Sets the current error severity level
+        SKILL: axlMsgSet(x_class)⇒ t
+        Version: Allegro 17.2-2016
+        Source: algroskill/13msghnd.md:407
+        """
+        ...
+
+class _AxlMsgTest(LiteralRemoteFunction):
+    def __call__(self, /) -> int:
+        """
+        Determines the current error severity level
+        SKILL: axlMsgTest()⇒ x_class
+        Version: Allegro 17.2-2016
+        Source: algroskill/13msghnd.md:431
+        """
+        ...
+
+class _AxlNetClassAdd(LiteralRemoteFunction):
+    def __call__(self, o_netclassdbid: RemoteObject | str, o_dbid: RemoteObject | list[RemoteObject], /) -> bool | None:
+        """
+        Adds members to a netclass group
+        SKILL: axlNetClassAdd(o_netclassdbid/t_netclassNameo_dbid/lo_dbid)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/15dbgrp.md:244
+        """
+        ...
+
+class _AxlNetClassCreate(LiteralRemoteFunction):
+    def __call__(self, t_name: str, g_domain: Skill | SkillList, /) -> RemoteObject:
+        """
+        This creates a new netclass group
+        SKILL: axlNetClassCreate(t_nameg_domain/lg_domain)==> o_dbid
+        Version: Allegro 17.2-2016
+        Source: algroskill/15dbgrp.md:292
+        """
+        ...
+
+class _AxlNetClassDelete(LiteralRemoteFunction):
+    def __call__(self, o_netclassdbid: RemoteObject | str | SkillList, /) -> bool | None:
+        """
+        This deletes a net class group
+        SKILL: axlNetClassDelete(o_netclassdbid/t_netclassName/lg_netclassdbid) -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/15dbgrp.md:327
+        """
+        ...
+
+class _AxlNetClassGet(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, s_domain: Symbol, g_hierarchal: Skill, /) -> RemoteObject:
+        """
+        Given a dbid (net, xnet, diffpair or bus) and a domain (spacing, physical or electrical) return its netclass
+        SKILL: axlNetClassGet(o_dbids_domaing_hierarchal)==> o_netclass
+        Version: Allegro 17.2-2016
+        Source: algroskill/15dbgrp.md:366
+        """
+        ...
+
+class _AxlNetClassRemove(LiteralRemoteFunction):
+    def __call__(self, o_netclassdbid: RemoteObject | str, o_dbid: RemoteObject | list[RemoteObject], /) -> bool | None:
+        """
+        Removes elements from an existing net class group
+        SKILL: axlNetClassRemove(o_netclassdbid/t_netclassNameo_dbid/lo_dbid)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/15dbgrp.md:407
+        """
+        ...
+
+class _AxlNetEcsetValueGet(LiteralRemoteFunction):
+    def __call__(self, o_item_dbid: RemoteObject | str, t_cns_name: str | Symbol, /) -> str | None:
+        """
+        Returns the value of a specific electrical constraint that has been assigned to a given net
+        SKILL: axlNetEcsetValueGet(o_itemDbid/t_netNamet_cnsName/s_name)==> t_cnsValue/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:572
+        """
+        ...
+
+class _AxlNetSched(LiteralRemoteFunction):
+    def __call__(self, /) -> bool:
+        """
+        This is the main routine that the command processor calls for thenet schedule command.
+        SKILL: axlNetSched() ==> t
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:891
+        """
+        ...
+
+class _AxlOK2Void(LiteralRemoteFunction):
+    def __call__(self, t_layer: str, /) -> bool | None:
+        """
+        Determines if voids are allowed for a givenclass/subclass
+        SKILL: axlOK2Void(t_layer)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/07dbaccs.md:916
+        """
+        ...
+
+class _AxlOKToProceed(LiteralRemoteFunction):
+    def __call__(self, /) -> bool:
+        """
+        Checks whether Allegro PCB Editor is processing another interactive command or engaged in some process that might interfere with a SKILL command
+        SKILL: axlOKToProceed()⇒ t
+        Version: Allegro 17.2-2016
+        Source: algroskill/19cmdctl.md:234
+        """
+        ...
+
+class _AxlOSBackSlash(LiteralRemoteFunction):
+    def __call__(self, t_directory: str, /) -> str | None:
+        """
+        This changes UNIX style forward slashes to DOS style backslashes
+        SKILL: axlOSBackSlash(t_directory)==> t_directory/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:832
+        """
+        ...
+
+class _AxlOSControl(LiteralRemoteFunction):
+    def __call__(self, s_name: Symbol, g_value: Skill = ..., /) -> Skill | list[Symbol]:
+        """
+        Inquires and/or sets the value dealing with the graphics
+        SKILL: axlOSControl(s_name[g_value])==> g_currentValue/ls_names
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:861
+        """
+        ...
+
+class _AxlOSFileCopy(LiteralRemoteFunction):
+    def __call__(self, t_src: str, t_dest: str, g_append: Skill, /) -> bool | None:
+        """
+        Copies a given source file to a given destination with optional append.
+        SKILL: axlOSFileCopy(t_srct_destg_append)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/21filacc.md:383
+        """
+        ...
+
+class _AxlOSFileMove(LiteralRemoteFunction):
+    def __call__(self, t_src: str, t_dest: str, /) -> bool | None:
+        """
+        Moves the given source file to the given destination.
+        SKILL: axlOSFileMove(t_srct__dest)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/21filacc.md:410
+        """
+        ...
+
+class _AxlOSNtp(LiteralRemoteFunction):
+    def __call__(self, s_mode: Symbol, t_server_name: str | None, /) -> int | str | None:
+        """
+        Reports time from a NTP server.
+        SKILL: axlOSNtp(s_modet_serverName/nil)==> x_nwtime/t_nwtime/t_server/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:909
+        """
+        ...
+
+class _AxlOSSlash(LiteralRemoteFunction):
+    def __call__(self, t_directory: str, /) -> str | None:
+        """
+        Changes DOS style backslashes to UNIX style slashes which are more amenable to SKILL
+        SKILL: axlOSSlash(t_directory)⇒ t_directory/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/21filacc.md:436
+        """
+        ...
+
+class _AxlOpenDesign(LiteralRemoteFunction):
+    def __call__(self, /, *, design: str | None = ..., mode: str | None = ..., no_mru: Skill = ..., ignore_lock: Skill = ...) -> str | None:
+        """
+        Opens a design
+        SKILL: axlOpenDesign(?design t_design?mode t_mode?noMru g_noMru?ignoreLock g_noMru)⇒ t_design/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:587
+        """
+        ...
+
+class _AxlOpenDesignForBatch(LiteralRemoteFunction):
+    def __call__(self, t_design: str, t_mode: str, /) -> str | None:
+        """
+        Opens a design
+        SKILL: axlOpenDesignForBatch(t_designt_mode)==> t_design/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:627
+        """
+        ...
+
+class _AxlOpenFindFilter(LiteralRemoteFunction):
+    def __call__(self, /) -> bool:
+        """
+        This function is no longer required, but is kept for backward compatibility.
+        SKILL: axlOpenFindFilter()⇒ t
+        Version: Allegro 17.2-2016
+        Source: algroskill/05selfnd.md:990
+        """
+        ...
+
+class _AxlPPrint(LiteralRemoteFunction):
+    def __call__(self, t_name: str, /) -> str:
+        """
+        Converts a string with Allegro PCB Editor's pretty print text function as follows:
+        SKILL: axlPPrint(t_name)⇒ t_pname
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:949
+        """
+        ...
+
+class _AxlPackageDesignCheckAddCategory(LiteralRemoteFunction):
+    def __call__(self, t_name: str, t_bitmap: str, t_description: str, /) -> Skill | None:
+        """
+        This function will register a new category inside the IC Packaging tools' "package integrity" command check tree.
+        SKILL: axlPackageDesignCheckAddCategory(t_namet_bitmapt_description)==> g_category / nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:1318
+        """
+        ...
+
+class _AxlPackageDesignCheckAddCheck(LiteralRemoteFunction):
+    def __call__(self, t_category: str, t_name: str, t_bitmap: str, t_description: str, s_run_command: Symbol, g_fixable: Skill, /) -> Skill:
+        """
+        This function will register a new check in the specified category of the IC Packaging tools' "package integrity" command check tree.
+        SKILL: axlPackageDesignCheckAddCheck(t_category t_name t_bitmap t_descriptions_runCommand g_fixable) ==> defstruct defining check.
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:1360
+        """
+        ...
+
+class _AxlPackageDesignCheckDrcError(LiteralRemoteFunction):
+    def __call__(self, l_location: SkillList, o_dbids: RemoteObject, /) -> None:
+        """
+        This function will create an external DRC marker for an error found by the currently running package integrity check
+        SKILL: axlPackageDesignCheckDrcError(l_location o_dbids)==> nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:1421
+        """
+        ...
+
+class _AxlPackageDesignCheckLogError(LiteralRemoteFunction):
+    def __call__(self, t_error_string: str, g_fixed: Skill, g_location: Skill, /) -> None:
+        """
+        This function will log an error found by this function to the log file if the log file is enabled
+        SKILL: axlPackageDesignCheckLogError(t_errorStringg_fixedg_location)==> nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:1451
+        """
+        ...
+
+class _AxlPadFigureTypes(LiteralRemoteFunction):
+    def __call__(self, /) -> list[str]:
+        """
+        Returns list of strings of supported pad figure types.Not all pad types and layers may support a figure type
+        SKILL: axlPadFigureTypes() => lt_names
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part02.md:147
+        """
+        ...
+
+class _AxlPadOnLayer(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, t_layer: str | int, g_no_pad_suppress: Skill = ..., /) -> bool | None:
+        """
+        Tests if a pad is present on an etch layer
+        SKILL: axlPadOnLayer(o_dbidt_layer/x_layerNumber[g_noPadSuppress])==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:730
+        """
+        ...
+
+class _AxlPadSuppressGet(LiteralRemoteFunction):
+    def __call__(self, value: None, /) -> list[Skill]:
+        """
+        Returns pad suppress layer characteristic for a layer or design
+        SKILL: axlPadSuppressGet(nil)==> ll_LayerPadSuppress
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:498
+        """
+        ...
+
+class _AxlPadSuppressOkLayer(LiteralRemoteFunction):
+    def __call__(self, t_layer: str | int, /) -> bool | None:
+        """
+        Indicates if layer can be set for pad suppression
+        SKILL: axlPadSuppressOkLayer(t_layer/x_layerNumber)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:545
+        """
+        ...
+
+class _AxlPadSuppressSet(LiteralRemoteFunction):
+    @overload
+    def __call__(self, g_mode: Skill, ll_layer_pad_suppress: SkillList | Symbol | None, /) -> bool | None:
+        """
+        This modifies the pad suppression settings in the design
+        SKILL: axlPadSuppressSet(g_modell_LayerPadSuppress/'all/'none/nil)==> t/nil
+        SKILL: axlPadSuppressSet(g_modet_layer/x_layerNumberls_options) ==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:575
+        """
+        ...
+    @overload
+    def __call__(self, g_mode: Skill, t_layer: str | int, ls_options: list[Symbol], /) -> bool | None:
+        """
+        This modifies the pad suppression settings in the design
+        SKILL: axlPadSuppressSet(g_modell_LayerPadSuppress/'all/'none/nil)==> t/nil
+        SKILL: axlPadSuppressSet(g_modet_layer/x_layerNumberls_options) ==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:575
+        """
+        ...
+
+class _AxlPadUserMaskLayers(LiteralRemoteFunction):
+    @overload
+    def __call__(self, max: Symbol | None = ..., /) -> list[str] | int:
+        """
+        Supports following modes:
+        SKILL: axlPadUserMaskLayers(['max]) =>lt_names/x_cnt
+        SKILL: axlPadUserMaskLayers('createt_user_mask_layer) =>t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part02.md:348
+        """
+        ...
+    @overload
+    def __call__(self, createt_user_mask_layer: Symbol, /) -> bool | None:
+        """
+        Supports following modes:
+        SKILL: axlPadUserMaskLayers(['max]) =>lt_names/x_cnt
+        SKILL: axlPadUserMaskLayers('createt_user_mask_layer) =>t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part02.md:348
+        """
+        ...
+
+class _AxlPadstackEdit(LiteralRemoteFunction):
+    @overload
+    def __call__(self, g_padstack: Skill, g_attributes: Skill, /) -> list[Skill] | bool | None:
+        """
+        Inquire and set display options
+        SKILL: axlPadstackEdit(g_padstack g_attributes) => l_attributes/t/nil
+        SKILL: axlPadstackEdit(g_padstack s_name g_value) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part02.md:168
+        """
+        ...
+    @overload
+    def __call__(self, g_padstack: Skill, s_name: Symbol, g_value: Skill, /) -> bool | None:
+        """
+        Inquire and set display options
+        SKILL: axlPadstackEdit(g_padstack g_attributes) => l_attributes/t/nil
+        SKILL: axlPadstackEdit(g_padstack s_name g_value) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part02.md:168
+        """
+        ...
+
+class _AxlPadstackSetType(LiteralRemoteFunction):
+    @overload
+    def __call__(self, o_padstack: RemoteObject | str, g_uvia_bbvia: Skill, /) -> bool | None:
+        """
+        Changes a padstack type
+        SKILL: axlPadstackSetType(o_padstack/t_padstackg_uviaBbvia) -> t/nil
+        SKILL: axlPadstackSetType(o_padstack/t_padstackg_typeg_value) -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part02.md:280
+        """
+        ...
+    @overload
+    def __call__(self, o_padstack: RemoteObject | str, g_type: Skill, g_value: Skill, /) -> bool | None:
+        """
+        Changes a padstack type
+        SKILL: axlPadstackSetType(o_padstack/t_padstackg_uviaBbvia) -> t/nil
+        SKILL: axlPadstackSetType(o_padstack/t_padstackg_typeg_value) -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part02.md:280
+        """
+        ...
+
+class _AxlPadstackToDisk(LiteralRemoteFunction):
+    def __call__(self, t_pad_name: str | None = ..., t_out_pad_name: str | None = ..., /) -> bool | None:
+        """
+        Saves a board padstack out to a library.
+        SKILL: axlPadstackToDisk([t_padName][t_outPadName])⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part02.md:355
+        """
+        ...
+
+class _AxlPadstackUsageTypes(LiteralRemoteFunction):
+    def __call__(self, /) -> list[str]:
+        """
+        Returns list of strings of supported padstack usage types
+        SKILL: axlPadstackUsageTypes() => lt_names
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part02.md:328
+        """
+        ...
+
+class _AxlPathArcAngle(LiteralRemoteFunction):
+    def __call__(self, r_path: RemoteObject, f_width: float, l_end_point: SkillList, g_clockwise: Skill, f_angle: float, /) -> RemoteObject | None:
+        """
+        No description available.
+        SKILL: axlPathArcAngle(r_path f_width l_endPoint g_clockwise f_angle) => r_path/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:88
+        """
+        ...
+
+class _AxlPathArcCenter(LiteralRemoteFunction):
+    def __call__(self, r_path: RemoteObject, f_width: float, l_end_point: SkillList, g_clockwise: Skill, l_center: SkillList, /) -> RemoteObject | None:
+        """
+        Each of these functions provides a way to construct an arc segment from the current endpoint ofr_path to the given l_end_point in the direction specified by the Boolean g_clockwise, as described below and shown in [Figure 15-1](#367350 "...
+        SKILL: axlPathArcCenter(r_pathf_widthl_end_pointg_clockwisel_center)⇒ r_path/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:90
+        """
+        ...
+
+class _AxlPathArcRadius(LiteralRemoteFunction):
+    def __call__(self, r_path: RemoteObject, f_width: float, l_end_point: SkillList, g_clockwise: Skill, g_bigarc: Skill, f_radius: float, /) -> RemoteObject | None:
+        """
+        No description available.
+        SKILL: axlPathArcRadius(r_path f_width l_endPoint g_clockwise g_bigarc f_radius) => r_path/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:86
+        """
+        ...
+
+class _AxlPathGetLastPathSeg(LiteralRemoteFunction):
+    def __call__(self, r_path: RemoteObject, /) -> RemoteObject | None:
+        """
+        Gets the last segment of a path structure.
+        SKILL: axlPathGetLastPathSeg(r_path)⇒ r_pathList/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:279
+        """
+        ...
+
+class _AxlPathGetPathSegs(LiteralRemoteFunction):
+    def __call__(self, r_path: RemoteObject, /) -> RemoteObject | None:
+        """
+        Gets a list of the segments of a path structure, in the order they appear in the path.
+        SKILL: axlPathGetPathSegs(r_path)⇒ r_pathList/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:244
+        """
+        ...
+
+class _AxlPathGetWidth(LiteralRemoteFunction):
+    def __call__(self, r_path: RemoteObject, /) -> float | None:
+        """
+        Gets the default width of an existing path structure.
+        SKILL: axlPathGetWidth(r_path)⇒ f_width/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:174
+        """
+        ...
+
+class _AxlPathLine(LiteralRemoteFunction):
+    def __call__(self, r_path: RemoteObject, f_width: float, l_end_point: SkillList, /) -> RemoteObject | None:
+        """
+        Adds a single straight line segment to the end of an existingr_path structure as specified by the arguments
+        SKILL: axlPathLine(r_pathf_widthl_end_point)⇒ r_path/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:149
+        """
+        ...
+
+class _AxlPathOffset(LiteralRemoteFunction):
+    def __call__(self, r_path: RemoteObject, offset: Skill, /) -> RemoteObject:
+        """
+        Adds an offset,xy, to all points within a r_path.
+        SKILL: axlPathOffset(r_path offset) => r_path
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:449
+        """
+        ...
+
+class _AxlPathSegGetArcCenter(LiteralRemoteFunction):
+    def __call__(self, r_path_seg: RemoteObject, /) -> list[Skill] | None:
+        """
+        Gets the center point of a path arc segment.
+        SKILL: axlPathSegGetArcCenter(r_pathSeg)⇒ l_point/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:353
+        """
+        ...
+
+class _AxlPathSegGetArcClockwise(LiteralRemoteFunction):
+    def __call__(self, r_path_seg: RemoteObject, /) -> bool | None:
+        """
+        Gets the clockwise flag (t or nil) of a path segment.
+        SKILL: axlPathSegGetArcClockwise(r_pathSeg)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:388
+        """
+        ...
+
+class _AxlPathSegGetEndPoint(LiteralRemoteFunction):
+    def __call__(self, r_path_seg: RemoteObject, /) -> list[Skill] | None:
+        """
+        Gets the end point of an existing path structure.
+        SKILL: axlPathSegGetEndPoint(r_pathSeg)⇒ l_endPoint/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:316
+        """
+        ...
+
+class _AxlPathSegGetWidth(LiteralRemoteFunction):
+    def __call__(self, r_path_seg: RemoteObject, /) -> float | None:
+        """
+        Gets the width of a single segment in a path structure.
+        SKILL: axlPathSegGetWidth(r_pathSeg)⇒ f_width/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:207
+        """
+        ...
+
+class _AxlPathStart(LiteralRemoteFunction):
+    def __call__(self, l_points: SkillList, f_width: float | None = ..., /) -> RemoteObject | None:
+        """
+        Creates a new path with a startpoint and one or more segments as specified by the listl_points and returns the path dbid
+        SKILL: axlPathStart(l_points[f_width])⇒ r_path/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:63
+        """
+        ...
+
+class _AxlPathStartCircle(LiteralRemoteFunction):
+    def __call__(self, l_location: SkillList, f_width: float, /) -> RemoteObject | None:
+        """
+        Creates anaxlPath structure (r_path) for a circle.
+        SKILL: axlPathStartCircle(l_locationf_width)⇒ r_path/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part01.md:423
+        """
+        ...
+
+class _AxlPdfView(LiteralRemoteFunction):
+    def __call__(self, t_pdf_file: str, /) -> bool:
+        """
+        Displays a PDF file from Allegro PCB Editor
+        SKILL: axlPdfView(t_pdfFile)⇒ t
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:975
+        """
+        ...
+
+class _AxlPinExport(LiteralRemoteFunction):
+    def __call__(self, g_include_text_location: Skill, t_csvfile: str | None = ..., /) -> bool | None:
+        """
+        This exports all pins in the symbol editor in csv format
+        SKILL: axlPinExport(g_includeTextLocation[t_csvfile])--> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:768
+        """
+        ...
+
+class _AxlPinImport(LiteralRemoteFunction):
+    def __call__(self, t_csv_file: str, /) -> list[Skill] | None:
+        """
+        This imports pin csv (comma separated values) file into the symbol editor
+        SKILL: axlPinImport(t_csvFile)--> l_cnt/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:798
+        """
+        ...
+
+class _AxlPinPair(LiteralRemoteFunction):
+    @overload
+    def __call__(self, o_pin1: RemoteObject | str, o_pin2: RemoteObject | str, /) -> RemoteObject:
+        """
+        This creates or deletes a pinpair
+        SKILL: axlPinPair( o_pin1/t_pin1 o_pin2/t_pin2 )==> o_pinpair
+        SKILL: axlPinPair( o_pinpair/lo_pinpair )==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:909
+        """
+        ...
+    @overload
+    def __call__(self, o_pinpair: RemoteObject | list[RemoteObject], /) -> bool | None:
+        """
+        This creates or deletes a pinpair
+        SKILL: axlPinPair( o_pin1/t_pin1 o_pin2/t_pin2 )==> o_pinpair
+        SKILL: axlPinPair( o_pinpair/lo_pinpair )==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:909
+        """
+        ...
+
+class _AxlPinPairSeek(LiteralRemoteFunction):
+    def __call__(self, o_pin1: RemoteObject, o_pin2: RemoteObject, /) -> RemoteObject | None:
+        """
+        Given two pins or ratTs reports if they are part of a pinpair.
+        SKILL: axlPinPairSeek( o_pin1 o_pin2 )==> o_pinpair/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:1009
+        """
+        ...
+
+class _AxlPinsOfNet(LiteralRemoteFunction):
+    def __call__(self, o_net: RemoteObject | str, g_mode: Skill, /) -> list[RemoteObject] | None:
+        """
+        Returns list of pins and ratTs on a net or xnet
+        SKILL: axlPinsOfNet( o_net/t_net g_mode ) -> lo_pins/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:1045
+        """
+        ...
+
+class _AxlPolyErrorGet(LiteralRemoteFunction):
+    def __call__(self, /) -> str | None:
+        """
+        Retrieves the error from the logop core
+        SKILL: axlPolyErrorGet ()⇒ t_error/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/20plyopr.md:520
+        """
+        ...
+
+class _AxlPolyExpand(LiteralRemoteFunction):
+    def __call__(self, o_polygon1: RemoteObject | list[RemoteObject], f_expand_value: float, s_expand_type: Symbol, /) -> list[RemoteObject] | None:
+        """
+        This function yields a list of polys after expanding them by a specified distance
+        SKILL: axlPolyExpand(o_polygon1 / lo_polygon1f_expandValues_expandType)⇒ lo_polygon/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/20plyopr.md:370
+        """
+        ...
+
+class _AxlPolyFromDB(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, /, *, end_cap_type: Symbol | None = ..., layer: str | None = ..., pad_type: Symbol | None = ..., holes: bool | None = ..., line2poly: bool | None = ..., xhatch: bool | None = ...) -> list[RemoteObject] | None:
+        """
+        Creates a list ofo_polygon objects from the dbidor an r_path
+        SKILL: axlPolyFromDB(o_dbid/r_path ?endCapType s_endCapType ?layer t_layer ?padType s_padType ?holes t/nil ?line2poly t/nil ?xhatch t/nil) => lo_polygon/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/20plyopr.md:141
+        """
+        ...
+
+class _AxlPolyFromHole(LiteralRemoteFunction):
+    def __call__(self, o_polygon: RemoteObject, /) -> list[RemoteObject] | None:
+        """
+        Creates a new poly from the vertices of the hole, and sets theisHole attribute of the resulting poly to nil
+        SKILL: axlPolyFromHole (o_polygon)⇒ lo_polygon/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/20plyopr.md:493
+        """
+        ...
+
+class _AxlPolyMemUse(LiteralRemoteFunction):
+    def __call__(self, /) -> list[Skill]:
+        """
+        This returns a list of integers reflecting the internal memory use of theaxlPoly interfaces
+        SKILL: axlPolyMemUse () -> lx_polyCounts
+        Version: Allegro 17.2-2016
+        Source: algroskill/20plyopr.md:240
+        """
+        ...
+
+class _AxlPolyOffset(LiteralRemoteFunction):
+    def __call__(self, o_polygon: RemoteObject | list[RemoteObject], l_xy: SkillList, g_copy: Skill = ..., /) -> RemoteObject:
+        """
+        This offsets the entire poly by the provided xy coordinate
+        SKILL: axlPolyOffset (o_polygon/lo_polygonl_xy[g_copy])=> o_polygon
+        Version: Allegro 17.2-2016
+        Source: algroskill/20plyopr.md:283
+        """
+        ...
+
+class _AxlPolyOperation(LiteralRemoteFunction):
+    def __call__(self, o_polygon1: RemoteObject | list[RemoteObject], o_polygon2: RemoteObject | list[RemoteObject], s_operation: Symbol, /) -> list[RemoteObject] | None:
+        """
+        Performs the logical operation specified on the two sets of polygons
+        SKILL: axlPolyOperation(o_polygon1/lo_polygon1 o_polygon2/lo_polygon2 s_operation) => lo_polygon/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/20plyopr.md:321
+        """
+        ...
+
+class _AxlPrintDbid(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject | list[RemoteObject], o_port: RemoteObject | None = ..., /) -> bool:
+        """
+        This is a debug function to print one or a list of dbids
+        SKILL: axlPrintDbid(o_dbid/lo_dbid[o_port]) -> t
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:1004
+        """
+        ...
+
+class _AxlProtectAlias(LiteralRemoteFunction):
+    def __call__(self, t_alias: str, t: bool | None, /) -> bool | None:
+        """
+        Controls the read-only attribute of an alias.
+        SKILL: axlProtectAlias(t_aliast/nil)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/09cmdshl.md:221
+        """
+        ...
+
+class _AxlPurgePadstacks(LiteralRemoteFunction):
+    def __call__(self, s_mode: Symbol, g_option: Skill, /) -> int:
+        """
+        Purges unused padstacks from the database in the area controlled byS_mode symbol.
+        SKILL: axlPurgePadstacks(s_mode g_option) => x_cnt
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:877
+        """
+        ...
+
+class _AxlRadToDeg(LiteralRemoteFunction):
+    def __call__(self, n_angle: Number, /) -> float:
+        """
+        Converts an angle in radians to degrees.
+        SKILL: axlRadToDeg(n_angle) => f_angle
+        Version: Allegro 17.2-2016
+        Source: algroskill/24mthutl.md:779
+        """
+        ...
+
+class _AxlRatsnestBlank(LiteralRemoteFunction):
+    def __call__(self, rd_net: Skill, /) -> bool | None:
+        """
+        Blanks all ratsnest lines in a net.
+        SKILL: axlRatsnestBlank(rd_net)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:1152
+        """
+        ...
+
+class _AxlRatsnestDisplay(LiteralRemoteFunction):
+    def __call__(self, rd_net: Skill, /) -> bool | None:
+        """
+        Displays all ratsnest lines in a net.
+        SKILL: axlRatsnestDisplay(rd_net)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:1171
+        """
+        ...
+
+class _AxlReadOnlyVariable(LiteralRemoteFunction):
+    def __call__(self, t_variable: str, g_enable: Skill = ..., /) -> bool | None:
+        """
+        This sets, unsets or queries the read-only state of a Allegro PCB Editor environment variable
+        SKILL: axlReadOnlyVariable(t_variable[g_Enable])==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/09cmdshl.md:276
+        """
+        ...
+
+class _AxlRecursiveDelete(LiteralRemoteFunction):
+    def __call__(self, t_directory: str, /) -> bool | None:
+        """
+        Recursively removes directories and subdirectories in the argument list
+        SKILL: axlRecursiveDelete(t_directory)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/21filacc.md:463
+        """
+        ...
+
+class _AxlRefreshSymbol(LiteralRemoteFunction):
+    def __call__(self, t_sym_name: str | RemoteObject, g_options: Skill = ..., /) -> bool | None:
+        """
+        Refreshes a symbol from file on disk which is located by current PSMPATH
+        SKILL: axlRefreshSymbol(t_symName/o_SymDef[g_options])==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/03dbcre8.part02.md:389
+        """
+        ...
+
+class _AxlRegexpIs(LiteralRemoteFunction):
+    def __call__(self, t_exp: str, /) -> bool | None:
+        """
+        Determines whether an environment variable expression contains Allegro PCB Editor compatible wildcard characters
+        SKILL: axlRegexpIs(t_exp)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:1046
+        """
+        ...
+
+class _AxlRegionAdd(LiteralRemoteFunction):
+    def __call__(self, o_regiondbid: RemoteObject | str, o_dbid: RemoteObject | list[RemoteObject], /) -> bool | None:
+        """
+        Adds members to a region group
+        SKILL: axlRegionAdd(o_regiondbid/t_regionNameo_dbid/lo_dbid)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/15dbgrp.md:441
+        """
+        ...
+
+class _AxlRegionCreate(LiteralRemoteFunction):
+    def __call__(self, t_name: str, /) -> RemoteObject:
+        """
+        Creates a new region group
+        SKILL: axlRegionCreate(t_name)==> o_dbid
+        Version: Allegro 17.2-2016
+        Source: algroskill/15dbgrp.md:489
+        """
+        ...
+
+class _AxlRegionDelete(LiteralRemoteFunction):
+    def __call__(self, o_regiondbid: RemoteObject | str | SkillList, /) -> bool | None:
+        """
+        This deletes a region group
+        SKILL: axlRegionDelete(o_regiondbid/t_regionName/lg_regiondbid) -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/15dbgrp.md:524
+        """
+        ...
+
+class _AxlRegionRemove(LiteralRemoteFunction):
+    def __call__(self, o_regiondbid: RemoteObject | str, o_dbid: RemoteObject | list[RemoteObject], /) -> bool | None:
+        """
+        Removes shapes from an existing region group
+        SKILL: axlRegionRemove(o_regiondbid/t_regionNameo_dbid/lo_dbid)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/15dbgrp.md:563
+        """
+        ...
+
+class _AxlRemoveNet(LiteralRemoteFunction):
+    def __call__(self, t_name: str | RemoteObject, g_ripup: Skill = ..., /) -> bool | None:
+        """
+        Removes a net
+        SKILL: axlRemoveNet(t_name/o_dbid[g_ripup])⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:1088
+        """
+        ...
+
+class _AxlRenameDesign(LiteralRemoteFunction):
+    def __call__(self, t_design: str, /) -> str | None:
+        """
+        Changes the current design name
+        SKILL: axlRenameDesign(t_design)⇒ t_design/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:661
+        """
+        ...
+
+class _AxlRenameNet(LiteralRemoteFunction):
+    @overload
+    def __call__(self, t_old_name: str, t_new_name: str, /) -> bool | None:
+        """
+        Renames a net
+        SKILL: axlRenameNet(t_old_namet_new_name)⇒ t/nil
+        SKILL: axlRenameNet(o_dbidt_new_name)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:1115
+        """
+        ...
+    @overload
+    def __call__(self, o_dbid: RemoteObject, t_new_name: str, /) -> bool | None:
+        """
+        Renames a net
+        SKILL: axlRenameNet(t_old_namet_new_name)⇒ t/nil
+        SKILL: axlRenameNet(o_dbidt_new_name)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:1115
+        """
+        ...
+
+class _AxlRenameRefdes(LiteralRemoteFunction):
+    def __call__(self, t_old_name: str | RemoteObject, t_new_name: str | RemoteObject, /) -> bool | None:
+        """
+        Renames a refdes
+        SKILL: axlRenameRefdes(t_old_name/o_oldCompDbidt_new_name/o_newCompDbid ) ⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:1156
+        """
+        ...
+
+class _AxlReplacePadstack(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject | list[RemoteObject], o_padstackdbid: RemoteObject | str, /) -> list[RemoteObject]:
+        """
+        Replaces the padstack on a pin or via (or a list of them)
+        SKILL: axlReplacePadstack (o_dbid/lo_dbido_padstackdbid/t_padname)⇒ lo_dbid
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:851
+        """
+        ...
+
+class _AxlReportList(LiteralRemoteFunction):
+    def __call__(self, /) -> list[Skill] | None:
+        """
+        Lists all the SKILL reports registered to the Allegro PCB Editor report interface
+        SKILL: axlReportList() => ll_reportList/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/22extrct.md:84
+        """
+        ...
+
+class _AxlReportRegister(LiteralRemoteFunction):
+    def __call__(self, g_report_callback: Skill, t_description: str, t_title: str, /) -> bool | None:
+        """
+        Allows registration of user reports using the Allegro PCB Editor report dialog box
+        SKILL: axlReportRegister(g_reportCallbackt_descriptiont_title) ==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/22extrct.md:112
+        """
+        ...
+
+class _AxlReratNet(LiteralRemoteFunction):
+    def __call__(self, t_net_name: str | RemoteObject, /) -> bool | None:
+        """
+        Rerats a net
+        SKILL: axlReratNet(t_netName/o_dbid)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:875
+        """
+        ...
+
+class _AxlRunBatchDBProgram(LiteralRemoteFunction):
+    def __call__(self, t_prog: str, t_cmd_fmt: str, /, *, logfile: str | None = ..., start_msg: str | None = ..., reload_db: bool | None = ..., no_unload: bool | None = ..., silent: bool | None = ..., no_progress: bool | None = ..., warn_program: bool | None = ...) -> bool | int:
+        """
+        Spawns batch jobs that require an open database via an abstract model
+        SKILL: axlRunBatchDBProgram(t_prog t_cmdFmt ?logfile t_logfile ?startMsg t_startMsg ?reloadDB t/nil ?noUnload t/nil ?silent t/nil ?noProgress t/nil ?warnProgram t/nil) => t/x_error
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:1067
+        """
+        ...
+
+class _AxlSaveDesign(LiteralRemoteFunction):
+    def __call__(self, /, *, design: str | None = ..., mode: str | None = ..., no_mru: Skill = ..., no_confirm: Skill = ..., write_model: Skill = ...) -> str | None:
+        """
+        Saves the design with the name specified (t_design)
+        SKILL: axlSaveDesign(?design t_design?mode t_option?noMru g_noMru?noConfirm g_noConfirm?writeModel g_write)⇒ t_design/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:688
+        """
+        ...
+
+class _AxlSaveEnable(LiteralRemoteFunction):
+    def __call__(self, g_save_enable: Skill = ..., /) -> bool | None:
+        """
+        This queries or sets the design to save design
+        SKILL: axlSaveEnable([g_saveEnable]) -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:729
+        """
+        ...
+
+class _AxlSchedule(LiteralRemoteFunction):
+    def __call__(self, o_net: RemoteObject | str, g_user_schedule: Skill = ..., /) -> str | None:
+        """
+        Gets net schedule
+        SKILL: axlSchedule( o_net/t_net [g_userSchedule] ) ==> t_schedule/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:1206
+        """
+        ...
+
+class _AxlScheduleNet(LiteralRemoteFunction):
+    def __call__(self, o_net: RemoteObject | str, t_schedule: str | None, /) -> bool | None:
+        """
+        This applies a user schedule or a partial user schedule to a net
+        SKILL: axlScheduleNet( o_net/t_net t_schedule/nil ) ==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:1261
+        """
+        ...
+
+class _AxlSegDelayAndZ0(LiteralRemoteFunction):
+    def __call__(self, o_cline_seg_dbid: RemoteObject, /) -> Skill:
+        """
+        Returns the delay and impedance of a cline segment
+        SKILL: axlSegDelayAndZ0(o_clineSegDbid)⇒ (f_delay f_z0)/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:1196
+        """
+        ...
+
+class _AxlSelect(LiteralRemoteFunction):
+    def __call__(self, /, *, first_event_callback: Symbol | None = ..., group_mode: bool | None = ..., prompt: str | None = ...) -> bool | None:
+        """
+        General tool for AXL programs to solicit interactive object selections from the user.axlSelect automatically sets up the pop-up to provide any of the possible Allegro PCB Editor selection methods:
+        SKILL: axlSelect(?firstEventCallback s_callback?groupMode t/nil?prompt t_prompt)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/05selfnd.md:626
+        """
+        ...
+
+class _AxlSelectByName(LiteralRemoteFunction):
+    def __call__(self, t_object_type: str, t_name: str | list[str], g_wildcard: Skill = ..., /) -> list[RemoteObject] | None:
+        """
+        Selects database objects by name.
+        SKILL: axlSelectByName (t_objectTypet_name/lt_name[g_wildcard])⇒ lo_dbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/05selfnd.md:1080
+        """
+        ...
+
+class _AxlSelectByProperty(LiteralRemoteFunction):
+    def __call__(self, t_object_type: str, t_property: str, t_value: str | None = ..., g_regular_expression: Skill = ..., /) -> list[RemoteObject] | None:
+        """
+        Selects thedbid set of a particular Allegro PCB Editor database object with the indicated property.
+        SKILL: axlSelectByProperty(t_objectTypet_property[t_value][g_regularExpression])⇒ lo_dbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/05selfnd.md:1278
+        """
+        ...
+
+class _AxlSetActiveLayer(LiteralRemoteFunction):
+    def __call__(self, t_layer: str, /) -> bool | None:
+        """
+        Sets the active class and subclass of the design.
+        SKILL: axlSetActiveLayer(t_layer)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:1416
+        """
+        ...
+
+class _AxlSetAlias(LiteralRemoteFunction):
+    def __call__(self, t_alias: str, g_value: Skill, /) -> bool | None:
+        """
+        You can set the Allegro PCB Editor environment alias with the name given by the stringt_alias to the value g_value using the axlSetAlias function
+        SKILL: axlSetAlias(t_aliasg_value)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/09cmdshl.md:335
+        """
+        ...
+
+class _AxlSetAllProfilesVisible(LiteralRemoteFunction):
+    def __call__(self, visible: Skill, /) -> bool | None:
+        """
+        Turns all wire profiles in the design on or off.
+        SKILL: axlSetAllProfilesVisible(visible)==> t / nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:846
+        """
+        ...
+
+class _AxlSetAttachment(LiteralRemoteFunction):
+    def __call__(self, o_attachment: RemoteObject, t_password: str | None = ..., /) -> RemoteObject | None:
+        """
+        Modifies an existing Allegro PCB Editor database attachment with the data contained in the given AXL attachment id
+        SKILL: axlSetAttachment(o_attachment[t_password])⇒ o_attachment/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/16dbatt.md:212
+        """
+        ...
+
+class _AxlSetBondWireProfile(LiteralRemoteFunction):
+    def __call__(self, bond_wires: Skill, profile_name: Skill, /) -> bool | None:
+        """
+        This command allows you to change the bond wire profile on one or more bond wires in the design
+        SKILL: axlSetBondWireProfile(bondWires profileName) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:863
+        """
+        ...
+
+class _AxlSetDefaultDieInformation(LiteralRemoteFunction):
+    def __call__(self, comp: Skill, /) -> bool | None:
+        """
+        Sets the default die information for a component.
+        SKILL: axlSetDefaultDieInformation(comp)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:1221
+        """
+        ...
+
+class _AxlSetDieData(LiteralRemoteFunction):
+    def __call__(self, g_die_id: Skill, s_data_type: Symbol, g_new_value: Skill, /) -> bool | None:
+        """
+        Sets the given data for the given die.
+        SKILL: axlSetDieData(g_dieIds_dataTypeg_newValue)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:1484
+        """
+        ...
+
+class _AxlSetDieStackData(LiteralRemoteFunction):
+    def __call__(self, g_stack_id: Skill, s_data_type: Symbol, g_new_value: Skill, /) -> bool | None:
+        """
+        This function sets the given data for the specified die.
+        SKILL: axlSetDieStackData(g_stackId s_dataType g_newValue) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:937
+        """
+        ...
+
+class _AxlSetDieType(LiteralRemoteFunction):
+    def __call__(self, o_component_dbid: RemoteObject, t_die_type: str, /) -> bool | None:
+        """
+        This function sets the attachment type for a die component to one of the available types
+        SKILL: axlSetDieType(o_componentDBIDt_dieType)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:1516
+        """
+        ...
+
+class _AxlSetDynamicsMirror(LiteralRemoteFunction):
+    def __call__(self, g_mirror: Skill, /) -> Skill:
+        """
+        Sets the Dynamics mirroring.
+        SKILL: axlSetDynamicsMirror(g_mirror) ==> g_oldmirror
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:1190
+        """
+        ...
+
+class _AxlSetDynamicsRotation(LiteralRemoteFunction):
+    def __call__(self, f_angle: float | None, /) -> float:
+        """
+        Sets the Dynamics rotation
+        SKILL: axlSetDynamicsRotation(f_angle/nil) ==> f_oldangle
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:1218
+        """
+        ...
+
+class _AxlSetFindFilter(LiteralRemoteFunction):
+    def __call__(self, /, *, enabled: list[str] | None = ..., on_buttons: list[str] | None = ...) -> bool | None:
+        """
+        Sets up both the object types to be displayed in the Find Filter, and which types among those are set to*on* in the **Find Filter**.
+        SKILL: axlSetFindFilter(?enabled lt_enabled ?onButtons lt_onButtons) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/05selfnd.md:798
+        """
+        ...
+
+class _AxlSetFunckey(LiteralRemoteFunction):
+    def __call__(self, aliasg_value: Skill, /) -> bool | None:
+        """
+        Works similar toaxlSetAlias except allows alpha-number keys to work like function keys (no Enter key required)
+        SKILL: axlSetFunckey(_aliasg_value)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/09cmdshl.md:471
+        """
+        ...
+
+class _AxlSetIposerData(LiteralRemoteFunction):
+    def __call__(self, g_iposer_id: Skill, s_data_type: Symbol, g_new_value: Skill, /) -> bool | None:
+        """
+        Sets the given data for the given iposer.
+        SKILL: axlSetIposerData(g_iposerIds_dataTypeg_newValue)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:1548
+        """
+        ...
+
+class _AxlSetLineLock(LiteralRemoteFunction):
+    def __call__(self, /, *, arc_enable: Skill = ..., lock_angle: float | None = ..., min_radius: float | None = ..., length45: float | None = ..., fixed45: Skill = ..., length_radius: float | None = ..., fixed_radius: Skill = ..., lock_tangent: Skill = ...) -> bool | None:
+        """
+        Sets one or more of the line lock parameters
+        SKILL: axlSetLineLock(?arcEnable g_arcEnable?lockAngle f_lockAngle?minRadius f_minRadius?length45 f_length45?fixed45 g_fixed45?lengthRadius f_lengthRadius?fixedRadius g_fixedRadius?lockTangent g_lockTangent)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/19cmdctl.md:257
+        """
+        ...
+
+class _AxlSetParam(LiteralRemoteFunction):
+    def __call__(self, od_param_dbid: RemoteObject, /) -> Skill | None:
+        """
+        This allows applications to modify certain aspects of Allegro parameters
+        SKILL: axlSetParam (od_paramDbid)⇒ rd_paramDbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:867
+        """
+        ...
+
+class _AxlSetPlaneType(LiteralRemoteFunction):
+    def __call__(self, t_subclass_name: str, t_plane_type: str, /) -> bool | None:
+        """
+        This changes the photoplot type of a conductor or plane type layer between positive or negative artwork
+        SKILL: axlSetPlaneType(t_subclassNamet_planeType)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part02.md:474
+        """
+        ...
+
+class _AxlSetRotateIncrement(LiteralRemoteFunction):
+    def __call__(self, /, *, angular: float | None = ..., radial: float | None = ...) -> bool | None:
+        """
+        Sets the dynamic rotate angle increment in degrees (f_angular) or radians (f_radial)
+        SKILL: axlSetRotateIncrement(?angular f_angular?radial f_radial)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/19cmdctl.md:293
+        """
+        ...
+
+class _AxlSetSpacerData(LiteralRemoteFunction):
+    def __call__(self, g_spacer_id: Skill, s_data_type: Symbol, g_new_value: Skill, /) -> bool | None:
+        """
+        This function sets the given data for the given spacer.
+        SKILL: axlSetSpacerData(g_spacerIds_dataTypeg_newValue)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:1576
+        """
+        ...
+
+class _AxlSetSymbolType(LiteralRemoteFunction):
+    def __call__(self, t_symbol_type: str, /) -> str | None:
+        """
+        Sets the Allegro PCB Editor symbol type
+        SKILL: axlSetSymbolType(t_symbolType)⇒ t_symbolType/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:107
+        """
+        ...
+
+class _AxlSetVariable(LiteralRemoteFunction):
+    def __call__(self, t_variable: str, g_value: Skill = ..., /) -> bool | None:
+        """
+        Sets the Allegro PCB Editor environment variable with name given by the stringt_variable to the value g_value
+        SKILL: axlSetVariable(t_variable [g_value])⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/09cmdshl.md:509
+        """
+        ...
+
+class _AxlSetVariableFile(LiteralRemoteFunction):
+    def __call__(self, t_variable: str, g_value: Skill, /) -> bool | None:
+        """
+        Sets and saves to file Allegro environment variable
+        SKILL: axlSetVariableFile(t_variableg_value)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/09cmdshl.md:563
+        """
+        ...
+
+class _AxlSetWireProfileColor(LiteralRemoteFunction):
+    def __call__(self, t_profile: str, n_color: Number, /) -> bool | None:
+        """
+        This function will set the color of a wire profile to the given value.
+        SKILL: axlSetWireProfileColor(t_profile n_color)==> t / nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:1601
+        """
+        ...
+
+class _AxlSetWireProfileVisible(LiteralRemoteFunction):
+    def __call__(self, t_profile: str, g_visible: Skill, /) -> bool | None:
+        """
+        No description available.
+        SKILL: axlSetWireProfileVisible(t_profile g_visible)==> t / nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/sipapd.md:1621
+        """
+        ...
+
+class _AxlShapeAutoVoid(LiteralRemoteFunction):
+    def __call__(self, o_shape_id: RemoteObject, s_options: Symbol | list[Symbol] | None = ..., /) -> list[RemoteObject] | None:
+        """
+        Autovoids a static shape using current static shape parameters to control voiding except where options provide an override
+        SKILL: axlShapeAutoVoid(o_shapeId[s_options/ls_options])==> lo_shapeIds/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:915
+        """
+        ...
+
+class _AxlShapeChangeDynamicType(LiteralRemoteFunction):
+    def __call__(self, o_shape_id: RemoteObject, g_dynamic: Skill, g_msgs: Skill, /) -> RemoteObject | list[Skill] | None:
+        """
+        Swaps a connectivity shape from static to dynamic or the reverse
+        SKILL: axlShapeChangeDynamicType(o_shapeIdg_dynamicg_msgs) -> o_dynShapeId/l_staticShapeId/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:958
+        """
+        ...
+
+class _AxlShapeDeleteVoids(LiteralRemoteFunction):
+    def __call__(self, o_shape_id: RemoteObject | list[RemoteObject], /) -> bool | None:
+        """
+        Lets you delete voids in a shape
+        SKILL: axlShapeDeleteVoids(o_shapeId/o_voidId/lo_voidid) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:1010
+        """
+        ...
+
+class _AxlShapeDynamicUpdate(LiteralRemoteFunction):
+    def __call__(self, o_shape_dbid: RemoteObject | None, g_force: Skill, /) -> int | None:
+        """
+        Updates a dynamic shape, or ifnil, all dynamic shapes are updated
+        SKILL: axlShapeDynamicUpdate(o_shapeDbid/nilg_force) -> x_ood/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:1063
+        """
+        ...
+
+class _AxlShapeMerge(LiteralRemoteFunction):
+    def __call__(self, o_shape_id: RemoteObject, lo_shapes: list[RemoteObject], g_options: Skill | SkillList, /) -> RemoteObject | list[Skill] | None:
+        """
+        This merges shapes
+        SKILL: axlShapeMerge(o_shapeIdlo_shapesg_options/lg_options) -> o_dynShapeId/l_staticShapeId/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:1131
+        """
+        ...
+
+class _AxlShapeRaisePriority(LiteralRemoteFunction):
+    def __call__(self, o_shape_id: RemoteObject, /) -> int | None:
+        """
+        Raises the voiding priority of a dynamic shape (o_shapeId) to the highest on the chosen layer
+        SKILL: axlShapeRaisePriority(o_shapeId) -> x_priority/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:1095
+        """
+        ...
+
+class _AxlShell(LiteralRemoteFunction):
+    def __call__(self, t_command: str, /) -> bool:
+        """
+        Issues the Allegro PCB Editor command stringt_commands to the connected editor
+        SKILL: axlShell(t_command)⇒ t
+        Version: Allegro 17.2-2016
+        Source: algroskill/09cmdshl.md:590
+        """
+        ...
+
+class _AxlShellPost(LiteralRemoteFunction):
+    def __call__(self, t_command: str, /) -> bool:
+        """
+        This works similar toaxlShell except it first requires a return from the Skill interpreter before executing the command(s)
+        SKILL: axlShellPost(t_command) ==> t
+        Version: Allegro 17.2-2016
+        Source: algroskill/09cmdshl.md:626
+        """
+        ...
+
+class _AxlShoveItems(LiteralRemoteFunction):
+    def __call__(self, l_item_list: SkillList, /) -> bool | None:
+        """
+        Takes a list ofdbids and shoves them according to the parameters set using axlShoveSetParams.
+        SKILL: axlShoveItems(l_itemList)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:1178
+        """
+        ...
+
+class _AxlShoveSetParams(LiteralRemoteFunction):
+    def __call__(self, l_params: SkillList, /) -> bool | None:
+        """
+        Sets the parameters used for shoving by theaxlShoveItems
+        SKILL: axlShoveSetParams(l_params)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:1219
+        """
+        ...
+
+class _AxlShowObject(LiteralRemoteFunction):
+    def __call__(self, lud_dbid: Skill, /) -> bool | None:
+        """
+        Displays the object data for eachdbid in lud_dbid in a *Show Element* window
+        SKILL: axlShowObject(lud_dbid)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:1247
+        """
+        ...
+
+class _AxlShowObjectToFile(LiteralRemoteFunction):
+    def __call__(self, lo_dbid: list[RemoteObject], t_file_name: str | None = ..., /) -> Skill:
+        """
+        Creates a temporary file with show element information ondbids specified in lo_dbid.
+        SKILL: axlShowObjectToFile(lo_dbid[t_file_name])⇒ (t_file_name x_width x_line_count)
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:1243
+        """
+        ...
+
+class _AxlSingleSelectBox(LiteralRemoteFunction):
+    def __call__(self, l_b_box: SkillList | None = ..., /) -> bool | None:
+        """
+        Clears the select set, finds all figures inside the rectanglel_bBox according to the Find Filter, and adds the selected figure dbids in single mode to the select set.
+        SKILL: axlSingleSelectBox([l_bBox])⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/05selfnd.md:269
+        """
+        ...
+
+class _AxlSingleSelectName(LiteralRemoteFunction):
+    def __call__(self, t_name_type: str, l_names: SkillList, g_wildcard: Skill = ..., /) -> bool | None:
+        """
+        Finds figures by their names
+        SKILL: axlSingleSelectName(t_nameTypel_names[g_wildcard])⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/05selfnd.md:439
+        """
+        ...
+
+class _AxlSingleSelectObject(LiteralRemoteFunction):
+    def __call__(self, lo_dbid: list[RemoteObject], /) -> bool | None:
+        """
+        Clears contents of the select set and adds thedbids in lo_dbid to the select set in single mode
+        SKILL: axlSingleSelectObject(lo_dbid)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/05selfnd.md:541
+        """
+        ...
+
+class _AxlSingleSelectPoint(LiteralRemoteFunction):
+    def __call__(self, l_point: SkillList | None = ..., g_trap_size: Skill = ..., /) -> bool | None:
+        """
+        Clears the select set, finds a figure atl_point according to the Find Filter, and puts the selected figure dbid in the select set
+        SKILL: axlSingleSelectPoint([l_point][g_trapSize])⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/05selfnd.md:157
+        """
+        ...
+
+class _AxlSleep(LiteralRemoteFunction):
+    def __call__(self, x_time: int, /) -> bool | None:
+        """
+        Sleeps specified time.
+        SKILL: axlSleep(x_time)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:1278
+        """
+        ...
+
+class _AxlSmoothDesign(LiteralRemoteFunction):
+    def __call__(self, lx_num_passes: SkillList, /) -> int:
+        """
+        Smooths the entire design
+        SKILL: axlSmoothDesign(lx_numPasses) -> x_change
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:1296
+        """
+        ...
+
+class _AxlSmoothItems(LiteralRemoteFunction):
+    def __call__(self, lo_cline_list: list[RemoteObject], /) -> Skill:
+        """
+        Takes a list of dbids representing clines and/or cline segments and smooths them according to the parameters set using the[axlSmoothSetParams](#832247 "5")() function.
+        SKILL: axlSmoothItems (lo_clineList) ==> (x_list
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:1325
+        """
+        ...
+
+class _AxlSmoothSetParams(LiteralRemoteFunction):
+    def __call__(self, l_params: SkillList, /) -> bool | None:
+        """
+        Sets the parameters used for smoothing the routes
+        SKILL: axlSmoothSetParams(l_params) ==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:1361
+        """
+        ...
+
+class _AxlSnapToObject(LiteralRemoteFunction):
+    def __call__(self, g_mode: Skill, xy: Skill, /) -> Skill | None:
+        """
+        Supports snapping to a logic object's connect point
+        SKILL: axlSnapToObject(g_modexy)⇒ xy/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/05selfnd.md:1332
+        """
+        ...
+
+class _AxlSort(LiteralRemoteFunction):
+    def __call__(self, t_infile: str, t_outfile: str, t_sortfields: str | None = ..., t_sort_options: str | None = ..., /) -> bool | None:
+        """
+        Sorts contents of a given input file and places results in the output file
+        SKILL: axlSort(t_infilet_outfile[t_sortfields][t_sort_options])⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:1298
+        """
+        ...
+
+class _AxlSpreadsheetClose(LiteralRemoteFunction):
+    def __call__(self, /) -> bool:
+        """
+        Releases the spreadsheet document in memory
+        SKILL: axlSpreadsheetClose() ==> t
+        Version: Allegro 17.2-2016
+        Source: algroskill/msexl.md:9
+        """
+        ...
+
+class _AxlSpreadsheetDefineCell(LiteralRemoteFunction):
+    def __call__(self, x_row: int, x_co: int, lt_style: list[str], t_type: str, t_value: str, /) -> bool | None:
+        """
+        Completely defines a single cell in the active worksheet
+        SKILL: axlSpreadsheetDefineCell(x_rowx_colt_stylet_typet_value)==> t / nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/msexl.md:48
+        """
+        ...
+
+class _AxlSpreadsheetGetCell(LiteralRemoteFunction):
+    def __call__(self, x_row: int, x_col: int, /) -> Skill | None:
+        """
+        Retrieves the data from the specified cell.
+        SKILL: axlSpreadsheetGetCell(x_rowx_col)==> g_cellData/ nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/msexl.md:163
+        """
+        ...
+
+class _AxlSpreadsheetGetRGBColorString(LiteralRemoteFunction):
+    def __call__(self, x_red: int, x_green: int, x_blue: int, /) -> str | None:
+        """
+        Given red, green, and blue color values, return an RGB string for use in spreadsheet style definitions in format required for Microsoft open spreadsheet format.
+        SKILL: axlSpreadsheetGetRGBColorString(x_redx_greenx_blue) ==> t_rgb / nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/msexl.md:201
+        """
+        ...
+
+class _AxlSpreadsheetGetRGBForNamedColor(LiteralRemoteFunction):
+    def __call__(self, t_name: str, /) -> str | None:
+        """
+        Spreadsheets have a small set of known, pre-defined color values
+        SKILL: axlSpreadsheetGetRGBForNamedColor(t_name) ==> t_rgb / nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/msexl.md:232
+        """
+        ...
+
+class _AxlSpreadsheetGetStyles(LiteralRemoteFunction):
+    def __call__(self, /) -> list[Skill] | None:
+        """
+        Retrieves a list of all the styles defined for the active spreadsheet
+        SKILL: axlSpreadsheetGetStyles()==> l_styles / nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/msexl.md:261
+        """
+        ...
+
+class _AxlSpreadsheetGetWorksheetSize(LiteralRemoteFunction):
+    def __call__(self, /) -> list[Skill] | None:
+        """
+        Return the "size" of the current worksheet, in terms of the highest row and column which have data.
+        SKILL: axlSpreadsheetGetWorksheetSize()==> l_rowsColumns/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/msexl.md:327
+        """
+        ...
+
+class _AxlSpreadsheetGetWorksheets(LiteralRemoteFunction):
+    def __call__(self, /) -> list[Skill] | None:
+        """
+        Retrieves a list of all the worksheets defined in the active spreadsheet
+        SKILL: axlSpreadsheetGetWorksheets()==> l_worksheets / nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/msexl.md:295
+        """
+        ...
+
+class _AxlSpreadsheetInit(LiteralRemoteFunction):
+    def __call__(self, /) -> bool | None:
+        """
+        Initializes an empty spreadsheet document to begin filling it with worksheets, styles, and cell data
+        SKILL: axlSpreadsheetInit() ==> t / nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/msexl.md:361
+        """
+        ...
+
+class _AxlSpreadsheetRead(LiteralRemoteFunction):
+    def __call__(self, t_file_name: str, /) -> bool | None:
+        """
+        Read a spreadsheet file on disk into memory for data access and manipulation
+        SKILL: axlSpreadsheetRead(t_fileName)==> t / nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/msexl.md:399
+        """
+        ...
+
+class _AxlSpreadsheetReadDelimited(LiteralRemoteFunction):
+    def __call__(self, t_file_name: str, t_delimiter: str, /) -> bool | None:
+        """
+        Read a text file on disk into memory for data access and manipulation as a spreadsheet
+        SKILL: axlSpreadsheetReadDelimited(t_fileName, t_delimiter) ==> t / nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/msexl.md:436
+        """
+        ...
+
+class _AxlSpreadsheetSetCell(LiteralRemoteFunction):
+    def __call__(self, x_row: int, x_col: int, /) -> bool | None:
+        """
+        Make the active row/column of the current worksheet active.
+        SKILL: axlSpreadsheetSetCell(x_rowx_col)==> t / nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/msexl.md:476
+        """
+        ...
+
+class _AxlSpreadsheetSetCellProp(LiteralRemoteFunction):
+    def __call__(self, t_prop_name: str, t_prop_val: str, /) -> bool | None:
+        """
+        Sets a property on the active cell in the spreadsheet.
+        SKILL: axlSpreadsheetSetCellProp(t_propNamet_propVal)==> t / nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/msexl.md:528
+        """
+        ...
+
+class _AxlSpreadsheetSetColumnProp(LiteralRemoteFunction):
+    def __call__(self, x_column: int, t_prop_name: str, t_prop_val: str, /) -> bool | None:
+        """
+        Sets a property for the given column of the active worksheet.
+        SKILL: axlSpreadsheetSetColumnProp(x_columnt_propNamet_propVal)==> t / nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/msexl.md:574
+        """
+        ...
+
+class _AxlSpreadsheetSetDocProp(LiteralRemoteFunction):
+    def __call__(self, t_prop_name: str, t_prop_val: str, /) -> bool | None:
+        """
+        Sets a property on the document (spreadsheet) itself.
+        SKILL: axlSpreadsheetSetDocProp(t_propNamet_propVal)==> t / nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/msexl.md:618
+        """
+        ...
+
+class _AxlSpreadsheetSetRowProp(LiteralRemoteFunction):
+    def __call__(self, x_row: int, t_prop_name: str, t_prop_val: str, /) -> bool | None:
+        """
+        Sets a property for the given row of the active worksheet.
+        SKILL: axlSpreadsheetSetRowProp(x_rowt_propNamet_propVal)==> t / nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/msexl.md:652
+        """
+        ...
+
+class _AxlSpreadsheetSetStyle(LiteralRemoteFunction):
+    def __call__(self, t_id: str, t_name: str, /) -> bool | None:
+        """
+        Defines or activates the specified style in the active spreadsheet
+        SKILL: axlSpreadsheetSetStyle(t_idt_name)==> t / nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/msexl.md:689
+        """
+        ...
+
+class _AxlSpreadsheetSetStyleBorder(LiteralRemoteFunction):
+    def __call__(self, t_position: str, t_color: str, t_line_style: str, t_weight: str, /) -> bool | None:
+        """
+        Sets the cell border properties for a active style definition.
+        SKILL: axlSpreadsheetSetStyleBorder(t_positiont_colort_lineStylet_weight)==> t / nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/msexl.md:721
+        """
+        ...
+
+class _AxlSpreadsheetSetStyleParent(LiteralRemoteFunction):
+    def __call__(self, t_parent: str, /) -> bool | None:
+        """
+        Sets the active style's parent
+        SKILL: axlSpreadsheetSetStyleParent(t_parent)==> t / nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/msexl.md:772
+        """
+        ...
+
+class _AxlSpreadsheetSetStyleProp(LiteralRemoteFunction):
+    def __call__(self, t_type: str, t_prop_name: str, t_prop_val: str, /) -> bool | None:
+        """
+        Sets a specific style property in the active style definition.
+        SKILL: axlSpreadsheetSetStyleProp(t_typet_propNamet_propVal) ==> t / nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/msexl.md:807
+        """
+        ...
+
+class _AxlSpreadsheetSetWorksheet(LiteralRemoteFunction):
+    def __call__(self, t_name: str, /) -> bool | None:
+        """
+        Makes the specified worksheet the active one for future cell references
+        SKILL: axlSpreadsheetSetWorksheet(t_name)==> t / nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/msexl.md:888
+        """
+        ...
+
+class _AxlSpreadsheetWrite(LiteralRemoteFunction):
+    def __call__(self, t_file_name: str, /) -> bool | None:
+        """
+        Write the spreadsheet in memory to file on disk
+        SKILL: axlSpreadsheetWrite(t_fileName)==> t / nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/msexl.md:919
+        """
+        ...
+
+class _AxlStrcmpAlpNum(LiteralRemoteFunction):
+    def __call__(self, t_str1: str, t_str2: str, /) -> bool | None:
+        """
+        Provides an alpha-numeric sort similar toalphalessp with one important distinction
+        SKILL: axlStrcmpAlpNum(t_str1t_str2)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:1418
+        """
+        ...
+
+class _AxlStringCSVParse(LiteralRemoteFunction):
+    def __call__(self, t_string: str, g_strip_white: Skill = ..., t_separator: str | None = ..., /) -> list[str] | None:
+        """
+        Parses a comma delimited line (typical from Excel)
+        SKILL: axlStringCSVParse(t_string[g_stripWhite][t_separator]) -> lt_string/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:1450
+        """
+        ...
+
+class _AxlStringRemoveSpaces(LiteralRemoteFunction):
+    @overload
+    def __call__(self, t_string: str, /) -> str | None:
+        """
+        This will strip leading or trailing whitespace from a string (standard Cilspace() macro)
+        SKILL: axlStringRemoveSpaces(t_string) -> t_modString/nil
+        SKILL: axlStringRemoveSpaces(lt_string) -> lt_modString/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:1499
+        """
+        ...
+    @overload
+    def __call__(self, lt_string: list[str], /) -> list[str] | None:
+        """
+        This will strip leading or trailing whitespace from a string (standard Cilspace() macro)
+        SKILL: axlStringRemoveSpaces(t_string) -> t_modString/nil
+        SKILL: axlStringRemoveSpaces(lt_string) -> lt_modString/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:1499
+        """
+        ...
+
+class _AxlSubSelectAll(LiteralRemoteFunction):
+    def __call__(self, /) -> bool | None:
+        """
+        Finds all figures in the database that pass the current Find Filter and deletes theirdbids from the select set
+        SKILL: axlSubSelectAll()⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/05selfnd.md:379
+        """
+        ...
+
+class _AxlSubSelectBox(LiteralRemoteFunction):
+    def __call__(self, l_b_box: SkillList | None = ..., /) -> bool | None:
+        """
+        Finds one or more figures inside the rectanglel_bBox according to the Find Filter, and deletes their dbids from the select set in *cumulated* mode
+        SKILL: axlSubSelectBox([l_bBox])⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/05selfnd.md:330
+        """
+        ...
+
+class _AxlSubSelectName(LiteralRemoteFunction):
+    def __call__(self, t_name_type: str, l_names: SkillList, /) -> bool | None:
+        """
+        Removesdbids of the named figure from the select set using the arguments described
+        SKILL: axlSubSelectName(t_nameTypel_names)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/05selfnd.md:512
+        """
+        ...
+
+class _AxlSubSelectObject(LiteralRemoteFunction):
+    def __call__(self, lo_dbid: list[RemoteObject], /) -> bool | None:
+        """
+        Removes thedbids in lo_dbid from the select set in cumulated mode
+        SKILL: axlSubSelectObject(lo_dbid)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/05selfnd.md:597
+        """
+        ...
+
+class _AxlSubSelectPoint(LiteralRemoteFunction):
+    def __call__(self, l_point: SkillList | None = ..., /) -> bool | None:
+        """
+        Finds a figure atl_point according to the Find Filter and deletes its dbid from the select set in cumulated mode
+        SKILL: axlSubSelectPoint([l_point])⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/05selfnd.md:224
+        """
+        ...
+
+class _AxlSubclassFormPopup(LiteralRemoteFunction):
+    def __call__(self, r_form: RemoteObject, t_field: str, t_class: str, value: list[str] | None, /) -> bool | None:
+        """
+        Builds a form pop-up for a given Allegro PCB Editor class for a given field ofr_form using the axlSubclassFormPopup function
+        SKILL: axlSubclassFormPopup(r_formt_fieldt_classnil/lt_subclass)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/19cmdctl.md:509
+        """
+        ...
+
+class _AxlSubclassRoute(LiteralRemoteFunction):
+    def __call__(self, /, *, field: Symbol | None = ..., value: Skill = ...) -> list[str]:
+        """
+        Lists subclasses that make up class ETCH.
+        SKILL: axlSubclassRoute(?field s_name?value g_value) -> lt_subclasses
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part02.md:546
+        """
+        ...
+
+class _AxlSubclasses(LiteralRemoteFunction):
+    def __call__(self, t_class: str, /, *, field: Symbol | None = ..., value: Skill = ...) -> list[str]:
+        """
+        Lists subclasses that make up a class
+        SKILL: axlSubclasses(t_class?field s_name?value g_value) -> lt_subclasses
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part02.md:498
+        """
+        ...
+
+class _AxlSymbolAttach(LiteralRemoteFunction):
+    def __call__(self, o_sym_inst_dbid: RemoteObject, o_dbid: RemoteObject | list[RemoteObject], /) -> bool | None:
+        """
+        Attaches an object or list of objects to symbol instance
+        SKILL: axlSymbolAttach(o_symInstDbido_dbid/lo_dbid)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:1423
+        """
+        ...
+
+class _AxlSymbolDetach(LiteralRemoteFunction):
+    def __call__(self, o_sym_inst_dbid: RemoteObject, o_dbid: RemoteObject | list[RemoteObject] | Skill, /) -> bool | None:
+        """
+        Remove an object from a symbol instance
+        SKILL: axlSymbolDetach(o_symInstDbido_dbid/lo_dbid/g_mode)==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:1481
+        """
+        ...
+
+class _AxlTechnologyType(LiteralRemoteFunction):
+    def __call__(self, /) -> str:
+        """
+        Returns the type of design technology in use.
+        SKILL: axlTechnologyType()⇒ t_technology
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:1182
+        """
+        ...
+
+class _AxlTempDirectory(LiteralRemoteFunction):
+    def __call__(self, /) -> str | None:
+        """
+        Returns the temporary directory for the current platform.
+        SKILL: axlTempDirectory()⇒ t_directoryName/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/21filacc.md:505
+        """
+        ...
+
+class _AxlTempFile(LiteralRemoteFunction):
+    def __call__(self, g_local: Skill = ..., /) -> str | None:
+        """
+        Returns a unique temp file name
+        SKILL: axlTempFile([g_local])⇒ t_tempFileName/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/21filacc.md:523
+        """
+        ...
+
+class _AxlTempFileRemove(LiteralRemoteFunction):
+    def __call__(self, t_filename: str, /) -> bool:
+        """
+        Deletes the temporary file and removes the temporary name from the pool
+        SKILL: axlTempFileRemove(t_filename)⇒ t
+        Version: Allegro 17.2-2016
+        Source: algroskill/21filacc.md:544
+        """
+        ...
+
+class _AxlTestPoint(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject, g_mode: Skill, /) -> bool | Symbol | None:
+        """
+        Sets or clears a pin and/or via's test point status
+        SKILL: axlTestPoint(o_dbid g_mode) => t/nil/s_error
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:1075
+        """
+        ...
+
+class _AxlText2Lines(LiteralRemoteFunction):
+    def __call__(self, o_text_dbid: RemoteObject, /) -> Skill | None:
+        """
+        This vectorizes a text dbid into a list of lists ofr_path objects.
+        SKILL: axlText2Lines(o_textDbid)==> llr_path/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:899
+        """
+        ...
+
+class _AxlTextOrientationCopy(LiteralRemoteFunction):
+    def __call__(self, o_text_dbid: RemoteObject, orient: Skill = ..., /) -> Skill | None:
+        """
+        This is a convenience function that updates a TextOrientation defstruct based upon a text dbid
+        SKILL: axlTextOrientationCopy(o_textDbid[orient]) -> orient/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:1566
+        """
+        ...
+
+class _AxlTransformObject(LiteralRemoteFunction):
+    def __call__(self, lo_dbid: list[RemoteObject] | RemoteObject, /, *, move: SkillList | None = ..., mirror: bool | Symbol | None = ..., angle: float | None = ..., origin: SkillList | None = ..., all_or_none: bool | None = ...) -> list[RemoteObject] | None:
+        """
+        Moves, rotates, and/or spins one object or a list of objects
+        SKILL: axlTransformObject(lo_dbid/o_dbid ?move l_deltaPoint ?mirror t/nil/'GEOMETRY ?angle f_angle ?origin l_rotatePoint ?allOrNone t/nil) => lo_dbid/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:1590
+        """
+        ...
+
+class _AxlTriggerClear(LiteralRemoteFunction):
+    def __call__(self, s_trigger: Symbol, s_function: Symbol, /) -> bool | None:
+        """
+        Removes a registered callback trigger
+        SKILL: axlTriggerClear(s_triggers_function)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:1204
+        """
+        ...
+
+class _AxlTriggerPrint(LiteralRemoteFunction):
+    def __call__(self, /) -> bool:
+        """
+        Debug function that prints what is registered for triggers.
+        SKILL: axlTriggerPrint()⇒ t
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:1228
+        """
+        ...
+
+class _AxlTriggerSet(LiteralRemoteFunction):
+    @overload
+    def __call__(self, s_trigger: Symbol, s_function: Symbol, /) -> bool | None:
+        """
+        Allows an application to register interest in events that occur in Allegro PCB Editor
+        SKILL: axlTriggerSet(s_triggers_function)⇒ t/nil
+        SKILL: axlTriggerSet(nilnil)⇒ (ls_listOfSupportTriggers)
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:1245
+        """
+        ...
+    @overload
+    def __call__(self, value: None, value_2: None, /) -> Skill:
+        """
+        Allows an application to register interest in events that occur in Allegro PCB Editor
+        SKILL: axlTriggerSet(s_triggers_function)⇒ t/nil
+        SKILL: axlTriggerSet(nilnil)⇒ (ls_listOfSupportTriggers)
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:1245
+        """
+        ...
+
+class _AxlUICmdPopupSet(LiteralRemoteFunction):
+    def __call__(self, r_popup: RemoteObject, /) -> RemoteObject:
+        """
+        Sets up a popup menu with all menu items required throughout the execution of the command
+        SKILL: axlUICmdPopupSet(r_popup)⇒ r_prevPopup
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:1267
+        """
+        ...
+
+class _AxlUIColorDialog(LiteralRemoteFunction):
+    def __call__(self, r_window: RemoteObject | None, l_rgb: SkillList, /) -> list[Skill] | None:
+        """
+        Invokes standard color selection dialog box
+        SKILL: axlUIColorDialog(r_window/nill_rgb) -> l_rgb/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:705
+        """
+        ...
+
+class _AxlUIConfirm(LiteralRemoteFunction):
+    def __call__(self, t_message: str, s_level: Symbol | None = ..., /) -> bool:
+        """
+        Displays the stringt_message in a confirmer window.
+        SKILL: axlUIConfirm(t_message[s_level])==> t
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:743
+        """
+        ...
+
+class _AxlUIConfirmEx(LiteralRemoteFunction):
+    def __call__(self, t_message: str, t_key: str | None, s_level: Symbol | None = ..., /) -> bool:
+        """
+        Displays the stringt_message in a confirmer window with an optional check box to never show the box again.
+        SKILL: axlUIConfirmEx(t_messaget_key/nil[s_level])==> t
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:780
+        """
+        ...
+
+class _AxlUIControl(LiteralRemoteFunction):
+    def __call__(self, s_name: Symbol, g_value: Skill = ..., /) -> Skill | list[Symbol]:
+        """
+        Inquire about graphics canvas
+        SKILL: axlUIControl(s_name[g_value])==> g_currentValue/ls_names
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:817
+        """
+        ...
+
+class _AxlUIDataBrowse(LiteralRemoteFunction):
+    def __call__(self, s_data_type: Symbol, ls_options: list[Symbol], t_title: str, g_sorted: Skill, t_help_tag: str | None = ..., l_callback: SkillList | None = ..., g_args: Skill = ..., /) -> list[Skill]:
+        """
+        Analyzes all objects requested by the caller function, passing each through the caller's callback function
+        SKILL: axlUIDataBrowse(s_dataTypels_optionst_titleg_sorted[t_helpTag][l_callback][g_args])⇒ lg_return
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part02.md:540
+        """
+        ...
+
+class _AxlUIEditFile(LiteralRemoteFunction):
+    def __call__(self, t_filename: str, t_title: str | None, g_block: Skill, /) -> RemoteObject | bool | None:
+        """
+        Allows the user to edit a file in an OS independent manner (works under both UNIX and Windows.)
+        SKILL: axlUIEditFile(t_filenamet_title/nilg_block ) ⇒ r_window/t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part02.md:82
+        """
+        ...
+
+class _AxlUIGetUserData(LiteralRemoteFunction):
+    def __call__(self, /) -> RemoteObject | None:
+        """
+        Gets the current user data structure from Allegro PCB Editor
+        SKILL: axlUIGetUserData()⇒ r_userData/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/19cmdctl.md:318
+        """
+        ...
+
+class _AxlUIMenuChange(LiteralRemoteFunction):
+    def __call__(self, x_menu_id: int, /, *g_option_pairs: Skill) -> bool | None:
+        """
+        This changes one or more parameters of an existing menu item.
+        SKILL: axlUIMenuChange(x_menuId [*g_optionPairs]) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:886
+        """
+        ...
+
+class _AxlUIMenuDebug(LiteralRemoteFunction):
+    def __call__(self, g_option: Skill = ..., /) -> list[Skill] | bool | None:
+        """
+        A debug function for axl Menu Trigger
+        SKILL: axlUIMenuDebug([g_option]) => ll_menu/t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:935
+        """
+        ...
+
+class _AxlUIMenuDelete(LiteralRemoteFunction):
+    def __call__(self, x_menu_id: int, /) -> bool | None:
+        """
+        This deletes a single menu item or submenu based upon what is the current find menu item.
+        SKILL: axlUIMenuDelete(x_menuId) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:960
+        """
+        ...
+
+class _AxlUIMenuDump(LiteralRemoteFunction):
+    def __call__(self, t_menu_file: str, g_debug: Skill = ..., /) -> str | None:
+        """
+        Dumps the current menu of the main window to thet_menuFilefile
+        SKILL: axlUIMenuDump (t_MenuFile[g_debug]) ⇒ t_previousMenuName/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:677
+        """
+        ...
+
+class _AxlUIMenuFind(LiteralRemoteFunction):
+    def __call__(self, x_menu_id: int | None, t_cmd_name: str | int, g_menu_option: Skill = ..., /) -> int | None:
+        """
+        Finds a menu item by location or a command
+        SKILL: axlUIMenuFind(x_menuId/nilt_cmdName/x_location[g_menuOption]) ==> x_menuId/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:997
+        """
+        ...
+
+class _AxlUIMenuInsert(LiteralRemoteFunction):
+    @overload
+    def __call__(self, x_menu_id: int, t_display: str, t_command: str, /) -> bool | None:
+        """
+        Inserts menu items to an existing menu
+        SKILL: axlUIMenuInsert(x_menuIdt_displayt_command) -> t/nil
+        SKILL: axlUIMenuInsert(x_menuId'separator) -> t/nil
+        SKILL: axlUIMenuInsert(x_menuId'popupt_display) -> x_subMenuId/nil
+        SKILL: axlUIMenuInsert(x_menuId'end) -> t/nil
+        SKILL: axlUIMenuInsert(x_menuIdll_items) -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:1076
+        """
+        ...
+    @overload
+    def __call__(self, x_menu_id: int, separator: Symbol, /) -> bool | None:
+        """
+        Inserts menu items to an existing menu
+        SKILL: axlUIMenuInsert(x_menuIdt_displayt_command) -> t/nil
+        SKILL: axlUIMenuInsert(x_menuId'separator) -> t/nil
+        SKILL: axlUIMenuInsert(x_menuId'popupt_display) -> x_subMenuId/nil
+        SKILL: axlUIMenuInsert(x_menuId'end) -> t/nil
+        SKILL: axlUIMenuInsert(x_menuIdll_items) -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:1076
+        """
+        ...
+    @overload
+    def __call__(self, x_menu_id: int, popupt_display: Symbol, /) -> int | None:
+        """
+        Inserts menu items to an existing menu
+        SKILL: axlUIMenuInsert(x_menuIdt_displayt_command) -> t/nil
+        SKILL: axlUIMenuInsert(x_menuId'separator) -> t/nil
+        SKILL: axlUIMenuInsert(x_menuId'popupt_display) -> x_subMenuId/nil
+        SKILL: axlUIMenuInsert(x_menuId'end) -> t/nil
+        SKILL: axlUIMenuInsert(x_menuIdll_items) -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:1076
+        """
+        ...
+    @overload
+    def __call__(self, x_menu_id: int, end: Symbol, /) -> bool | None:
+        """
+        Inserts menu items to an existing menu
+        SKILL: axlUIMenuInsert(x_menuIdt_displayt_command) -> t/nil
+        SKILL: axlUIMenuInsert(x_menuId'separator) -> t/nil
+        SKILL: axlUIMenuInsert(x_menuId'popupt_display) -> x_subMenuId/nil
+        SKILL: axlUIMenuInsert(x_menuId'end) -> t/nil
+        SKILL: axlUIMenuInsert(x_menuIdll_items) -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:1076
+        """
+        ...
+    @overload
+    def __call__(self, x_menu_id: int, ll_items: SkillList, /) -> bool | None:
+        """
+        Inserts menu items to an existing menu
+        SKILL: axlUIMenuInsert(x_menuIdt_displayt_command) -> t/nil
+        SKILL: axlUIMenuInsert(x_menuId'separator) -> t/nil
+        SKILL: axlUIMenuInsert(x_menuId'popupt_display) -> x_subMenuId/nil
+        SKILL: axlUIMenuInsert(x_menuId'end) -> t/nil
+        SKILL: axlUIMenuInsert(x_menuIdll_items) -> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:1076
+        """
+        ...
+
+class _AxlUIMenuLoad(LiteralRemoteFunction):
+    def __call__(self, t_menufile: str, /) -> str | None:
+        """
+        Loads the main window menu from the filet_menuFile
+        SKILL: axlUIMenuLoad (t_menufile )⇒ t_previousMenuName/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:650
+        """
+        ...
+
+class _AxlUIMenuRegister(LiteralRemoteFunction):
+    def __call__(self, t_command: str | int, ll_menu: SkillList, g_menu_option: Skill = ..., /) -> bool | None:
+        """
+        This allows you to register menu items to be loaded when Allegro loads a new menu
+        SKILL: axlUIMenuRegister(t_command/x_locationll_menu[g_menuOption]) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:1181
+        """
+        ...
+
+class _AxlUIMultipleChoice(LiteralRemoteFunction):
+    def __call__(self, t_question: str, lt_answers: list[str], t_title: str | None = ..., /) -> int | None:
+        """
+        Displays a dialog box containing a question with a set of two or more answers in a list
+        SKILL: axlUIMultipleChoice(t_questionlt_answers[t_title] ) ⇒ x_answer/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part02.md:132
+        """
+        ...
+
+class _AxlUIPopupDefine(LiteralRemoteFunction):
+    def __call__(self, r_popup: RemoteObject, ts_pairs: Skill, /) -> RemoteObject | None:
+        """
+        Creates a pop-up from the name value pair listts_pairs
+        SKILL: axlUIPopupDefine(r_popupts_pairs)⇒ r_popup/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/19cmdctl.md:349
+        """
+        ...
+
+class _AxlUIPopupSet(LiteralRemoteFunction):
+    def __call__(self, r_popup: RemoteObject, /) -> bool | None:
+        """
+        Sets the active pop-up in Allegro PCB Editor
+        SKILL: axlUIPopupSet(r_popup)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/19cmdctl.md:385
+        """
+        ...
+
+class _AxlUIPrompt(LiteralRemoteFunction):
+    def __call__(self, t_message: str, g_default_or_password: Skill = ..., /) -> str | None:
+        """
+        Displays the stringt_message in a form
+        SKILL: axlUIPrompt(t_message [g_defaultOrPassword]) => t_response/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:1237
+        """
+        ...
+
+class _AxlUIViewFileCreate(LiteralRemoteFunction):
+    def __call__(self, t_file: str, t_title: str, g_delete_file: Skill, lx_size: SkillList | None = ..., lt_placement: list[str] | None = ..., g_form_to_expose: Skill = ..., /) -> RemoteObject | None:
+        """
+        Opens a file view window to display a file (t_file), it is an error for file not to exist
+        SKILL: axlUIViewFileCreate(t_filet_titleg_deleteFile[lx_size][lt_placement][g_formToExpose])⇒ r_windowMsg/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:1517
+        """
+        ...
+
+class _AxlUIViewFileReuse(LiteralRemoteFunction):
+    def __call__(self, r_window_msg: RemoteObject, t_file: str, t_title: str, g_delete_file: Skill, g_form_to_expose: Skill = ..., /) -> bool | None:
+        """
+        Reuses the view window to display a file (t\\_file)
+        SKILL: axlUIViewFileReuse(r_windowMsgt_filet_titleg_deleteFile[g_formToExpose])⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:1561
+        """
+        ...
+
+class _AxlUIViewFileScrollTo(LiteralRemoteFunction):
+    def __call__(self, r_window_msg: RemoteObject, x_line: int | None, /) -> int | None:
+        """
+        Scrolls to a specified line in the file viewer
+        SKILL: axlUIViewFileScrollTo(r_windowMsgx_line/nil)⇒ x_lines/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part02.md:163
+        """
+        ...
+
+class _AxlUIWBeep(LiteralRemoteFunction):
+    def __call__(self, /) -> bool:
+        """
+        Sends an alert to the user, usually a beep.
+        SKILL: axlUIWBeep()⇒ t
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part02.md:197
+        """
+        ...
+
+class _AxlUIWBlock(LiteralRemoteFunction):
+    def __call__(self, r_window: RemoteObject, /) -> bool | None:
+        """
+        * ***This function is not compatible with the g\\_nonBlock = nil option to axlFormCreate
+        SKILL: axlUIWBlock(r_window ) ⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part02.md:49
+        """
+        ...
+
+class _AxlUIWClose(LiteralRemoteFunction):
+    def __call__(self, r_window: RemoteObject | str, /) -> bool | None:
+        """
+        Closes a window, if it is open.
+        SKILL: axlUIWClose(r_window/t_window)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:1708
+        """
+        ...
+
+class _AxlUIWCloseAll(LiteralRemoteFunction):
+    def __call__(self, /) -> bool | None:
+        """
+        This closes all temporary windows (dialogs and text view windows)
+        SKILL: axlUIWCloseAll()==> t / nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:1290
+        """
+        ...
+
+class _AxlUIWDisableQuit(LiteralRemoteFunction):
+    def __call__(self, o_window: RemoteObject, /) -> bool | None:
+        """
+        Disables the system menu*Quit* option so the user cannot choose it to close the window.
+        SKILL: axlUIWDisableQuit(o_window) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part02.md:217
+        """
+        ...
+
+class _AxlUIWExpose(LiteralRemoteFunction):
+    def __call__(self, r_window: RemoteObject | None, /) -> bool | None:
+        """
+        Opens and redisplays a hidden or iconified window, bringing it to the front of all other current windows on the display
+        SKILL: axlUIWExpose(r_window/nil)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:1675
+        """
+        ...
+
+class _AxlUIWExposeByName(LiteralRemoteFunction):
+    def __call__(self, t_window_name: str, /) -> bool | None:
+        """
+        Finds a window by name and exposes it (raises it to the top of the window stack and restores it to a window state it if it is an icon).
+        SKILL: axlUIWExposeByName(t_windowName ) ⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part02.md:240
+        """
+        ...
+
+class _AxlUIWHelpRegister(LiteralRemoteFunction):
+    @overload
+    def __call__(self, t_cmd: str, t_help_file: str, /) -> bool | None:
+        """
+        This registers a help document for a user written skill command or form (dialog)
+        SKILL: axlUIWHelpRegister(t_cmd t_helpFile) => t/nil
+        SKILL: axlUIWHelpRegister(g_command) => t_file/lt_cmds/t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:1750
+        """
+        ...
+    @overload
+    def __call__(self, g_command: Skill, /) -> str | list[str] | bool | None:
+        """
+        This registers a help document for a user written skill command or form (dialog)
+        SKILL: axlUIWHelpRegister(t_cmd t_helpFile) => t/nil
+        SKILL: axlUIWHelpRegister(g_command) => t_file/lt_cmds/t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:1750
+        """
+        ...
+
+class _AxlUIWIconify(LiteralRemoteFunction):
+    def __call__(self, r_window: RemoteObject | str, t: bool | None, /) -> bool | None:
+        """
+        This command either creates an icon for a window or open a window from an icon.This is different from[axlUIWExpose](#101852 "10"), which also opens a window from an icon but exposes hidden windows and permits raising a window to the top...
+        SKILL: axlUIWIconify (r_window/t_windowt/nil)=> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:1311
+        """
+        ...
+
+class _AxlUIWIsIconic(LiteralRemoteFunction):
+    def __call__(self, r_window: RemoteObject | str, /) -> bool | None:
+        """
+        Is the window in an icon state.nil may be used for the main window
+        SKILL: axlUIWIsIconic(r_window/t_window)=> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:1342
+        """
+        ...
+
+class _AxlUIWIsWindow(LiteralRemoteFunction):
+    def __call__(self, t_window: str, /) -> bool | None:
+        """
+        Returnst if named window is open
+        SKILL: axlUIWIsWindow (t_window)=> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:1372
+        """
+        ...
+
+class _AxlUIWMove(LiteralRemoteFunction):
+    def __call__(self, r_window: RemoteObject | None, t_window: str, l_xy: SkillList, /) -> bool | None:
+        """
+        Moves a window
+        SKILL: axlUIWMove(r_window/nilt_windowl_xy)-> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:1401
+        """
+        ...
+
+class _AxlUIWPerm(LiteralRemoteFunction):
+    def __call__(self, r_window: RemoteObject, t: bool | None = ..., /) -> bool | None:
+        """
+        Normally forms and other windows close automatically when another database opens
+        SKILL: axlUIWPerm(r_window[t/nil] ) ⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part02.md:269
+        """
+        ...
+
+class _AxlUIWPrint(LiteralRemoteFunction):
+    def __call__(self, r_window: RemoteObject | None, t_format_string: str, /, *g_args: Skill) -> bool | None:
+        """
+        Prints a message to a window other than the main window
+        SKILL: axlUIWPrint(r_window/nil t_formatString [*g_args]) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:1804
+        """
+        ...
+
+class _AxlUIWRedraw(LiteralRemoteFunction):
+    def __call__(self, r_window: RemoteObject | None, /) -> bool | None:
+        """
+        Redraws indicated window
+        SKILL: axlUIWRedraw(r_window/nil) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:1438
+        """
+        ...
+
+class _AxlUIWSetHelpTag(LiteralRemoteFunction):
+    def __call__(self, r_window: RemoteObject, t_tag: str, /) -> bool | None:
+        """
+        This has been mostly replaced by[axlUIWHelpRegister](#404919 "10") that works for commands and forms.
+        SKILL: axlUIWSetHelpTag(r_windowt_tag)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part02.md:313
+        """
+        ...
+
+class _AxlUIWSetParent(LiteralRemoteFunction):
+    def __call__(self, o_child_window: RemoteObject, o_parent_window: RemoteObject | None, /) -> bool | None:
+        """
+        Sets the parent of a window
+        SKILL: axlUIWSetParent(o_childWindowo_parentWindow/nil ) ⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part02.md:346
+        """
+        ...
+
+class _AxlUIWShow(LiteralRemoteFunction):
+    def __call__(self, r_window: RemoteObject | None, s_option: Symbol, /) -> bool | None:
+        """
+        Shows or hides a window depending on the option passed
+        SKILL: axlUIWShow(r_window/nils_option)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part02.md:382
+        """
+        ...
+
+class _AxlUIWSize(LiteralRemoteFunction):
+    def __call__(self, r_window: RemoteObject | None, /) -> list[Skill]:
+        """
+        Returns outer size of a window
+        SKILL: axlUIWSize(r_window/nil)-> ll_rect
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:1457
+        """
+        ...
+
+class _AxlUIWTimerAdd(LiteralRemoteFunction):
+    def __call__(self, o_window: RemoteObject, x_timeout: int, g_oneshot: Skill, u_callback: Skill, /) -> RemoteObject | None:
+        """
+        Adds or removes a callback for an interval timer.
+        SKILL: axlUIWTimerAdd(o_windowx_timeoutg_oneshotu_callback)⇒ o_timerId/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part02.md:412
+        """
+        ...
+
+class _AxlUIWTimerRemove(LiteralRemoteFunction):
+    def __call__(self, o_timer_id: RemoteObject, /) -> bool | None:
+        """
+        Removes a timer added byaxlUIWTimerAdd.
+        SKILL: axlUIWTimerRemove(o_timerId) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part02.md:474
+        """
+        ...
+
+class _AxlUIWUpdate(LiteralRemoteFunction):
+    def __call__(self, r_window: RemoteObject | None, /) -> bool | None:
+        """
+        Forces an update of a window
+        SKILL: axlUIWUpdate(r_window/nil)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part02.md:497
+        """
+        ...
+
+class _AxlUIYesNo(LiteralRemoteFunction):
+    def __call__(self, t_message: str, t_title: str | None = ..., s_default: Symbol | None = ..., /) -> bool | None:
+        """
+        Provides a dialog box displaying the messaget_message
+        SKILL: axlUIYesNo( t_message [t_title] [s_default] ) ==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part01.md:1596
+        """
+        ...
+
+class _AxlUIYesNoCancel(LiteralRemoteFunction):
+    def __call__(self, t_message: str, t_title: str | None = ..., s_default: Symbol | None = ..., /) -> int:
+        """
+        Displays a blocking*Yes*/*No*/*Cancel* dialog box with the prompt message provided.
+        SKILL: axlUIYesNoCancel(t_message[t_title][s_default])⇒ x_result
+        Version: Allegro 17.2-2016
+        Source: algroskill/10usrint.part02.md:518
+        """
+        ...
+
+class _AxlUnfixAll(LiteralRemoteFunction):
+    def __call__(self, /) -> int:
+        """
+        This is a convenience API.
+        SKILL: axlUnfixAll()==> x_count
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:996
+        """
+        ...
+
+class _AxlUnsetVariable(LiteralRemoteFunction):
+    def __call__(self, t_variable: str, /) -> bool:
+        """
+        Unsets the Allegro PCB Editor environment variable with the name given by the stringt_variable
+        SKILL: axlUnsetVariable(t_variable)⇒ t
+        Version: Allegro 17.2-2016
+        Source: algroskill/09cmdshl.md:680
+        """
+        ...
+
+class _AxlUnsetVariableFile(LiteralRemoteFunction):
+    def __call__(self, t_variable: str, /) -> bool:
+        """
+        Unsets the value of specified Allegro environment variable
+        SKILL: axlUnsetVariableFile(t_variable )==> t
+        Version: Allegro 17.2-2016
+        Source: algroskill/09cmdshl.md:712
+        """
+        ...
+
+class _AxlVersion(LiteralRemoteFunction):
+    def __call__(self, s_option: Symbol, /) -> Skill | None:
+        """
+        Returns Allegro PCB Editor or OS dependent data.
+        SKILL: axlVersion(s_option)⇒ g_value/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:1538
+        """
+        ...
+
+class _AxlVersionIdGet(LiteralRemoteFunction):
+    def __call__(self, /) -> int:
+        """
+        Returns an id stamp based upon computer time.
+        SKILL: axlVersionIdGet()⇒ x_time
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:1604
+        """
+        ...
+
+class _AxlVersionIdPrint(LiteralRemoteFunction):
+    def __call__(self, x_time: int | str, /) -> str | None:
+        """
+        Prints version\\_id.
+        SKILL: axlVersionIdPrint(x_time/t_time) => t_printTime/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/23utils.md:1621
+        """
+        ...
+
+class _AxlViaZLength(LiteralRemoteFunction):
+    def __call__(self, t_layer1: str, t_layer2: str, g_inclusion: Skill = ..., /) -> float:
+        """
+        Returns the via length from layer1 to layer2
+        SKILL: axlViaZLength(t_layer1t_layer2[g_inclusion]) -> f_length
+        Version: Allegro 17.2-2016
+        Source: algroskill/18consmgt.part02.md:536
+        """
+        ...
+
+class _AxlVisibleDesign(LiteralRemoteFunction):
+    def __call__(self, g_make_vis: Skill, /) -> bool | None:
+        """
+        Makes entire design visible or invisible
+        SKILL: axlVisibleDesign(g_makeVis)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part02.md:235
+        """
+        ...
+
+class _AxlVisibleGet(LiteralRemoteFunction):
+    def __call__(self, /) -> list[Skill] | None:
+        """
+        Returns the visibility of the entire design - which layers are visible/invisible.
+        SKILL: axlVisibleGet()⇒ l_visList/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part02.md:288
+        """
+        ...
+
+class _AxlVisibleLayer(LiteralRemoteFunction):
+    def __call__(self, t_layer: str, g_make_vis: Skill, /) -> bool | None:
+        """
+        Sets a given layer to visible or invisible
+        SKILL: axlVisibleLayer(t_layerg_makeVis)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part02.md:371
+        """
+        ...
+
+class _AxlVisibleSet(LiteralRemoteFunction):
+    def __call__(self, l_vis_list: SkillList, /) -> bool | None:
+        """
+        Sets the visibility of the entire design.
+        SKILL: axlVisibleSet( l_visList)⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part02.md:397
+        """
+        ...
+
+class _AxlVisibleUpdate(LiteralRemoteFunction):
+    def __call__(self, t_now: str, /) -> bool:
+        """
+        TheaxlVisible family and its base building block permit changing layer color and visibility.
+        SKILL: axlVisibleUpdate(t_now)⇒ t
+        Version: Allegro 17.2-2016
+        Source: algroskill/19cmdctl.md:561
+        """
+        ...
+
+class _AxlWFMAnyExported(LiteralRemoteFunction):
+    def __call__(self, /) -> bool | None:
+        """
+        Reports if there are any exported partitions.
+        SKILL: axlWFMAnyExported()==> t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/14dsnctl.md:1441
+        """
+        ...
+
+class _AxlWidth2Impedance(LiteralRemoteFunction):
+    def __call__(self, t_layer: str | int, f_line_width: float, /) -> float | None:
+        """
+        Converts the given line width on a specified layer to an impedance
+        SKILL: axlWidth2Impedance(t_layer/x_layerNumf_lineWidth) ==> f_impedance/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/25dbmisc.md:1019
+        """
+        ...
+
+class _AxlWindowBoxGet(LiteralRemoteFunction):
+    def __call__(self, /) -> list[Skill]:
+        """
+        Returns the bounding box of the Allegro PCB Editor window currently visible to the user, in design units.
+        SKILL: axlWindowBoxGet()⇒ l_bBox
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:815
+        """
+        ...
+
+class _AxlWindowBoxSet(LiteralRemoteFunction):
+    def __call__(self, l_b_box: SkillList, /) -> list[Skill] | None:
+        """
+        Sets Allegro PCB Editor display to given bBox
+        SKILL: axlWindowBoxSet(l_bBox)⇒ l_bBox/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/06intedt.part01.md:832
+        """
+        ...
+
+class _AxlWindowFit(LiteralRemoteFunction):
+    def __call__(self, /) -> list[Skill]:
+        """
+        Zooms in to (or out of) a design fitting it fully on the window
+        SKILL: axlWindowFit()⇒ l_bBox
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:1289
+        """
+        ...
+
+class _AxlWriteDeviceFile(LiteralRemoteFunction):
+    def __call__(self, o_comp_def_dbid: RemoteObject, t_output_dir: str | None = ..., /) -> bool | None:
+        """
+        Given a component definition, writes out a third party device file
+        SKILL: axlWriteDeviceFile(o_compDefDbid[t_output_dir] ) ⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:1298
+        """
+        ...
+
+class _AxlWritePackageFile(LiteralRemoteFunction):
+    def __call__(self, o_sym_def_dbid: RemoteObject, t_output_dir: str | None = ..., /) -> bool | None:
+        """
+        Given a symbol definition, writes out symbol.dra, .psm and associated padstack files
+        SKILL: axlWritePackageFile(o_symDefDbid[t_output_dir] ) ⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/26logacc.md:1338
+        """
+        ...
+
+class _AxlXSectionCopy(LiteralRemoteFunction):
+    def __call__(self, o_xsection_dbid: RemoteObject, /) -> Skill | None:
+        """
+        This copies dbid xsection to an xsection Skill defstruct.It can be used to duplicate the charactistics of an existing xsection layer to a new layer for use with axlXSectionCreate
+        SKILL: axlXSectionCopy(o_xsectionDBID) => g_xsectionDefstruct/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part02.md:598
+        """
+        ...
+
+class _AxlXSectionCreate(LiteralRemoteFunction):
+    def __call__(self, value: None, g_option: Skill, g_xsection_def_struct: Skill = ..., /) -> RemoteObject | None:
+        """
+        Creates a new cross section entry.
+        SKILL: axlXSectionCreate(nilg_option[g_xsectionDefStruct]) => o_xsectionDBID/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part02.md:628
+        """
+        ...
+
+class _AxlXSectionDelete(LiteralRemoteFunction):
+    def __call__(self, g_option: Skill, /) -> list[str]:
+        """
+        Deletes a cross section layer
+        SKILL: axlXSectionDelete(g_option) => lt_types
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part02.md:709
+        """
+        ...
+
+class _AxlXSectionGet(LiteralRemoteFunction):
+    def __call__(self, g_stackup: Skill | None, g_option: Skill, /) -> Skill | None:
+        """
+        Returns data about the cross-section entry for a design.
+        SKILL: axlXSectionGet(g_stackup/nilg_option)==> g_data/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part02.md:739
+        """
+        ...
+
+class _AxlXSectionLayerFunctions(LiteralRemoteFunction):
+    def __call__(self, /) -> list[str]:
+        """
+        Return list of supported layer function types.Layer functions are a super set of layer types.
+        SKILL: axlXSectionLayerFunctions() => lt_types
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part02.md:861
+        """
+        ...
+
+class _AxlXSectionLayerTypes(LiteralRemoteFunction):
+    def __call__(self, /) -> list[str]:
+        """
+        Return list of supported layer types
+        SKILL: axlXSectionLayerTypes() => lt_types
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part02.md:885
+        """
+        ...
+
+class _AxlXSectionModify(LiteralRemoteFunction):
+    def __call__(self, /, **g_attributes: Skill) -> Skill | None:
+        """
+        This is a wrapper formake_axlXSection() function to createa new defstruct
+        SKILL: axlXSectionModify(**g_attributes) => g_xsectionDefstruct/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part02.md:909
+        """
+        ...
+
+class _AxlXSectionSet(LiteralRemoteFunction):
+    @overload
+    def __call__(self, g_option: Skill, g_xsection_def_struct: Skill = ..., /) -> bool | None:
+        """
+        Modifies an existing cross section entry
+        SKILL: axlXSectionSet(g_option[g_xsectionDefStruct]) => t/nil
+        SKILL: axlXSectionSet('lockednil/l_lockType) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part02.md:942
+        """
+        ...
+    @overload
+    def __call__(self, lockednil: Symbol | SkillList, /) -> bool | None:
+        """
+        Modifies an existing cross section entry
+        SKILL: axlXSectionSet(g_option[g_xsectionDefStruct]) => t/nil
+        SKILL: axlXSectionSet('lockednil/l_lockType) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part02.md:942
+        """
+        ...
+
+class _AxlZoomBbox(LiteralRemoteFunction):
+    def __call__(self, x_window: int, /) -> Skill:
+        """
+        x\\_window: window id or nil to currently active window
+        SKILL: axlZoomBbox (x_window) => bBox
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:1308
+        """
+        ...
+
+class _AxlZoomCenter(LiteralRemoteFunction):
+    def __call__(self, x_window: int, xy: Skill, /) -> bool | None:
+        """
+        Zoom centers on the provided coordinate
+        SKILL: axlZoomCenter(x_window xy) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:1335
+        """
+        ...
+
+class _AxlZoomControl(LiteralRemoteFunction):
+    def __call__(self, s_option: Symbol, g_arg: Skill = ..., /) -> Skill:
+        """
+        Manages the multi-canvas feature
+        SKILL: axlZoomControl(s_option [g_arg]) => g_return
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:1367
+        """
+        ...
+
+class _AxlZoomFit(LiteralRemoteFunction):
+    def __call__(self, x_window: int, s_option: Symbol, /) -> bool | None:
+        """
+        Zoom fits the window
+        SKILL: axlZoomFit (x_windows_option) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:1410
+        """
+        ...
+
+class _AxlZoomInOut(LiteralRemoteFunction):
+    def __call__(self, x_window: int, x_factor: int, xy: Skill = ..., /) -> bool | None:
+        """
+        Zooms window in or out by provided factor around optional coordinate.
+        SKILL: axlZoomInOut (x_windowx_factor[xy]) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:1450
+        """
+        ...
+
+class _AxlZoomPoints(LiteralRemoteFunction):
+    def __call__(self, x_window: int, upper_left_xy: Skill, lower_right_xy: Skill, /) -> bool | None:
+        """
+        Zoom windows by points
+        SKILL: axlZoomPoints (x_windowupperLeft_xylowerRight_xy) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:1481
+        """
+        ...
+
+class _AxlZoomToDbid(LiteralRemoteFunction):
+    def __call__(self, o_dbid: RemoteObject | list[RemoteObject], g_always: Skill, x: int | None = ..., window: Skill = ..., /) -> bool | None:
+        """
+        Processes a list ofdbids and centers and zooms the display around them
+        SKILL: axlZoomToDbid(o_dbid/lo_dbidg_always[x_window])⇒ t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:1512
+        """
+        ...
+
+class _AxlZoomWorld(LiteralRemoteFunction):
+    def __call__(self, x_window: int, /) -> bool | None:
+        """
+        Zoom world a drawing window
+        SKILL: axlZoomWorld (x_window) => t/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/08intprm.md:1547
+        """
+        ...
+
+class _AxlOlOl2(LiteralRemoteFunction):
+    def __call__(self, *args: Skill, **kwargs: Skill) -> Skill:
+        """
+        No description available.
+        SKILL: signature unavailable; generic fallback
+        Version: Allegro 17.2-2016
+        Source: unavailable
+        """
+        ...
+
+class _Axlcreate(LiteralRemoteFunction):
+    def __call__(self, /) -> str | None:
+        """
+        This interface is obsolete
+        SKILL: axlcreate() => t_filmName/nil
+        Version: Allegro 17.2-2016
+        Source: algroskill/04parmgt.part01.md:32
+        """
+        ...
+
+class _Axldo(LiteralRemoteFunction):
+    def __call__(self, g_init_list: Skill, g_terminate_list: Skill, g_body: Skill = ..., /) -> Skill:
+        """
+        No description available.
+        SKILL: axldo(g_initListg_terminateList[g_body]) -> g_result
+        Version: Allegro 17.2-2016
+        Source: algroskill/27langexten.md:9
+        """
+        ...
+
+class Axl(FunctionCollection):
+    add_auto_assign_net_algorithm: _AxlAddAutoAssignNetAlgorithm
     """
     This function allows the user to add custom auto net assignment algorithms to the list in the Logic -> Auto Assign Net command's algorithms list in the APD and SIP IC Packaging tools
     SKILL: axlAddAutoAssignNetAlgorithm(t_algorithm t_displayName)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:783
     """
-    def __call__(self, t_algorithm: str, t_display_name: str, /) -> bool | None: ...
-
-class _AxlAddSelectAll(LiteralRemoteFunction):
+    add_select_all: _AxlAddSelectAll
     """
     Finds all the figures in the database that pass the current Find Filter and adds theirdbids to the select set.
     SKILL: axlAddSelectAll()⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/05selfnd.md:353
     """
-    def __call__(self, /) -> bool | None: ...
-
-class _AxlAddSelectBox(LiteralRemoteFunction):
+    add_select_box: _AxlAddSelectBox
     """
     Finds one or more figures inside the rectanglel_bBox according to the current Find Filter, and adds the selected figure dbids in cumulated mode for the select set.
     SKILL: axlAddSelectBox([l_bBox])⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/05selfnd.md:307
     """
-    def __call__(self, l_b_box: SkillList | None = ..., /) -> bool | None: ...
-
-class _AxlAddSelectName(LiteralRemoteFunction):
+    add_select_name: _AxlAddSelectName
     """
     Adds the named figuredbids to the select set in cumulated mode according to the arguments described below
     SKILL: axlAddSelectName(t_nameTypel_names)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/05selfnd.md:483
     """
-    def __call__(self, t_name_type: str, l_names: SkillList, /) -> bool | None: ...
-
-class _AxlAddSelectObject(LiteralRemoteFunction):
+    add_select_object: _AxlAddSelectObject
     """
     Adds thedbids in lo_dbid to the select set in cumulated mode, that is, without removing already selected objects
     SKILL: axlAddSelectObject(lo_dbid)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/05selfnd.md:570
     """
-    def __call__(self, lo_dbid: list[RemoteObject], /) -> bool | None: ...
-
-class _AxlAddSelectPoint(LiteralRemoteFunction):
+    add_select_point: _AxlAddSelectPoint
     """
     Finds a figure atl_point according to the Find Filter and adds its dbid to the select set in cumulated mode
     SKILL: axlAddSelectPoint([l_point])⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/05selfnd.md:197
     """
-    def __call__(self, l_point: SkillList | None = ..., /) -> bool | None: ...
-
-class _AxlAddSimpleMoveDynamics(LiteralRemoteFunction):
+    add_simple_move_dynamics: _AxlAddSimpleMoveDynamics
     """
     Loads cursor buffer dynamics buffer with an element
     SKILL: axlAddSimpleMoveDynamics(l_originr_patht_type?ref_point l_ref_point?color g_color)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:272
     """
-    def __call__(self, l_origin: SkillList, r_path: RemoteObject, t_type: str, /, *, ref_point: SkillList | None = ..., color: Skill = ...) -> bool | None: ...
-
-class _AxlAddSimpleRbandDynamics(LiteralRemoteFunction):
+    add_simple_rband_dynamics: _AxlAddSimpleRbandDynamics
     """
     Loads rubber band dynamics buffer with an element
     SKILL: axlAddSimpleRbandDynamics(l_fixed_pointt_type?origin l_origin?var_point l_var_point?lastPath l_lastPath?width f_width?color g_color)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:190
     """
-    def __call__(self, l_fixed_point: SkillList, t_type: str, /, *, origin: SkillList | None = ..., var_point: SkillList | None = ..., last_path: SkillList | None = ..., width: float | None = ..., color: Skill = ...) -> bool | None: ...
-
-class _AxlAddTaper(LiteralRemoteFunction):
+    add_taper: _AxlAddTaper
     """
     Adds tapered trace
     SKILL: axlAddTaper(o_dbid/lo_dbid)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:1547
     """
-    def __call__(self, o_dbid: RemoteObject | list[RemoteObject], /) -> bool | None: ...
-
-class _AxlAirGap(LiteralRemoteFunction):
+    air_gap: _AxlAirGap
     """
     Finds the air gap and location between two given items
     SKILL: axlAirGap(o_item1DBID o_item2DBID/l_xy [t_layer/nil] [s_mode]) => l_airGapData/nil/(s_error l_airGapData/l_errorData)
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:14
     """
-    def __call__(self, o_item1_dbid: RemoteObject, o_item2_dbid: RemoteObject | SkillList, t_layer: str | None = ..., s_mode: Symbol | None = ..., /) -> Skill: ...
-
-class _AxlAltSymbolList(LiteralRemoteFunction):
+    alt_symbol_list: _AxlAltSymbolList
     """
     This queries the provided object and returns a list of alternative symbol names.
     SKILL: axlAltSymbolList(t_name/o_dbid g_layer) => lt_symbols/nil
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:14
     """
-    def __call__(self, t_name: str | RemoteObject, g_layer: Skill, /) -> list[str] | None: ...
-
-class _AxlAltSymbolOK(LiteralRemoteFunction):
+    alt_symbol_ok: _AxlAltSymbolOK
     """
     This verifies that symbol is legal for component
     SKILL: axlAltSymbolOK(t_name/o_dbidg_layert_symbol) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:43
     """
-    def __call__(self, t_name: str | RemoteObject, g_layer: Skill, t_symbol: str, /) -> bool | None: ...
-
-class _AxlAltSymbolReplace(LiteralRemoteFunction):
+    alt_symbol_replace: _AxlAltSymbolReplace
     """
     This replaces a PLACED component with one of its allowed replacements (ALT\\_SYMBOL)
     SKILL: axlAltSymbolReplace(t_name/o_dbid t_symbol) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:73
     """
-    def __call__(self, t_name: str | RemoteObject, t_symbol: str, /) -> bool | None: ...
-
-class _AxlAutoOpenFindFilter(LiteralRemoteFunction):
+    auto_open_find_filter: _AxlAutoOpenFindFilter
     """
     This function is no longer required, but is kept for backward compatibility.
     SKILL: axlAutoOpenFindFilter()⇒ t
     Version: Allegro 17.2-2016
     Source: algroskill/05selfnd.md:973
     """
-    def __call__(self, /) -> bool: ...
-
-class _AxlBackDrill(LiteralRemoteFunction):
+    back_drill: _AxlBackDrill
     """
     This interface is obsolete
     SKILL: axlBackDrill(o_dbids_layer) -> l_result/nil
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:128
     """
-    def __call__(self, o_dbid: RemoteObject, s_layer: Symbol, /) -> list[Skill] | None: ...
-
-class _AxlBackdrillGet(LiteralRemoteFunction):
+    backdrill_get: _AxlBackdrillGet
     """
     In one mode, when a pin or a via is provided, the command returns the backdrilling result on that pin or via.
     SKILL: axlBackdrillGet(o_dbidPinOrVia/'status) => lt_backdrillData/g_status/nil
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:110
     """
-    def __call__(self, o_dbid_pin_or_via: RemoteObject | Symbol, /) -> list[str] | Skill | None: ...
-
-class _AxlBondFingerDelete(LiteralRemoteFunction):
+    bond_finger_delete: _AxlBondFingerDelete
     """
     Deletes the (list of) bond fingers passed in
     SKILL: axlBondFingerDelete(bondFingersdeleteWires)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:27
     """
-    def __call__(self, bond_fingers: Skill, delete_wires: Skill, /) -> bool | None: ...
-
-class _AxlBuildClassPopup(LiteralRemoteFunction):
+    build_class_popup: _AxlBuildClassPopup
     """
     Supports building a form pop-up with a list of classes.
     SKILL: axlBuildClassPopup(r_formt_field)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/19cmdctl.md:432
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None: ...
-
-class _AxlBuildSubclassPopup(LiteralRemoteFunction):
+    build_subclass_popup: _AxlBuildSubclassPopup
     """
     Supports building a form pop-up with a list of subclasses from the indicated class.
     SKILL: axlBuildSubclassPopup(r_formt_fieldt_class)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/19cmdctl.md:458
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, t_class: str, /) -> bool | None: ...
-
-class _AxlCNSAssemblyModeGet(LiteralRemoteFunction):
+    cns_assembly_mode_get: _AxlCNSAssemblyModeGet
     """
     This retrieves the current assembly DRC mode(s)
     SKILL: axlCNSAssemblyModeGet(nil) => ls_constraints
@@ -189,16 +9242,7 @@ class _AxlCNSAssemblyModeGet(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:75
     """
-    @overload
-    def __call__(self, value: None, /) -> list[Symbol]: ...
-    @overload
-    def __call__(self, all: Symbol, /) -> Skill: ...
-    @overload
-    def __call__(self, s_name: Symbol | str, /) -> Symbol | None: ...
-    @overload
-    def __call__(self, s_name: Symbol | str, print: Symbol, /) -> str | None: ...
-
-class _AxlCNSAssemblyModeSet(LiteralRemoteFunction):
+    cns_assembly_mode_set: _AxlCNSAssemblyModeSet
     """
     This command sets the current DRC modes (on/off) for checks in the area of assembly constraints
     SKILL: axlCNSAssemblyModeSet(t_name/s_namet_mode/s_mode)=> t/nil
@@ -208,43 +9252,28 @@ class _AxlCNSAssemblyModeSet(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:126
     """
-    @overload
-    def __call__(self, t_name: str | Symbol, t_mode: str | Symbol, /) -> bool | None: ...
-    @overload
-    def __call__(self, allt_mode: Symbol | Skill, /) -> bool | None: ...
-    @overload
-    def __call__(self, l_constraint_n_modes: SkillList, t_mode: str | Skill, /) -> bool | None: ...
-    @overload
-    def __call__(self, ll_constraint_n_modes: SkillList, /) -> bool | None: ...
-
-class _AxlCNSCreate(LiteralRemoteFunction):
+    cns_create: _AxlCNSCreate
     """
     Creates a new constraint set in the specified domain
     SKILL: axlCNSCreate(g_domaint_namet_copyName)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:311
     """
-    def __call__(self, g_domain: Skill, t_name: str, t_copy_name: str, /) -> bool | None: ...
-
-class _AxlCNSCsetLock(LiteralRemoteFunction):
+    cns_cset_lock: _AxlCNSCsetLock
     """
     This locks or unlocks a constraint set in the given domain
     SKILL: axlCNSCsetLock(g_domaint_csetNameg_mode)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:346
     """
-    def __call__(self, g_domain: Skill, t_cset_name: str, g_mode: Skill, /) -> bool | None: ...
-
-class _AxlCNSDelete(LiteralRemoteFunction):
+    cns_delete: _AxlCNSDelete
     """
     Deletes a cset and its references to any objects such as nets, net classes, etc
     SKILL: axlCNSDelete(g_domaint_name/o_dbidEcset)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:379
     """
-    def __call__(self, g_domain: Skill, t_name: str | RemoteObject, /) -> bool | None: ...
-
-class _AxlCNSDesignModeGet(LiteralRemoteFunction):
+    cns_design_mode_get: _AxlCNSDesignModeGet
     """
     Gets the current DRC modes for checks that fall into the set of design constraints
     SKILL: axlCNSDesignModeGet(nil)⇒ ls_constraints
@@ -255,18 +9284,7 @@ class _AxlCNSDesignModeGet(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:510
     """
-    @overload
-    def __call__(self, value: None, /) -> list[Symbol]: ...
-    @overload
-    def __call__(self, all: Symbol, /) -> Skill: ...
-    @overload
-    def __call__(self, editable: Symbol, /) -> bool | None: ...
-    @overload
-    def __call__(self, s_name: Symbol | str, /) -> Symbol | None: ...
-    @overload
-    def __call__(self, s_name: Symbol | str, print: Symbol, /) -> str | None: ...
-
-class _AxlCNSDesignModeSet(LiteralRemoteFunction):
+    cns_design_mode_set: _AxlCNSDesignModeSet
     """
     Sets the current DRC modes for design constraints
     SKILL: axlCNSDesignModeSet(t_name/s_namet_mode/s_mode)⇒ t/nil
@@ -276,25 +9294,14 @@ class _AxlCNSDesignModeSet(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:574
     """
-    @overload
-    def __call__(self, t_name: str | Symbol, t_mode: str | Symbol, /) -> bool | None: ...
-    @overload
-    def __call__(self, allt_mode: Symbol | Skill, /) -> bool | None: ...
-    @overload
-    def __call__(self, l_constraint_n_modes: SkillList, t_mode: str | Skill, /) -> bool | None: ...
-    @overload
-    def __call__(self, ll_constraint_n_modes: SkillList, /) -> bool | None: ...
-
-class _AxlCNSDesignValueCheck(LiteralRemoteFunction):
+    cns_design_value_check: _AxlCNSDesignValueCheck
     """
     Checks the syntax of the given value against the allowed syntax for the given constraint
     SKILL: axlCNSDesignValueCheck(s_name/t_nameg_value)⇒ (t_string/nil, nil/t_errorMsg)/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:649
     """
-    def __call__(self, s_name: Symbol | str, g_value: Skill, /) -> Skill: ...
-
-class _AxlCNSDesignValueGet(LiteralRemoteFunction):
+    cns_design_value_get: _AxlCNSDesignValueGet
     """
     Fetches the values from those design constraints that support values
     SKILL: axlCNSDesignValueGet(nil[g_returnNameString])⇒ ls_constraints
@@ -303,14 +9310,7 @@ class _AxlCNSDesignValueGet(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:679
     """
-    @overload
-    def __call__(self, value: None, g_return_name_string: Skill = ..., /) -> list[Symbol]: ...
-    @overload
-    def __call__(self, all: Symbol, g_return_string: Skill = ..., /) -> Skill: ...
-    @overload
-    def __call__(self, s_name: Symbol, g_return_string: Skill = ..., /) -> float | str | None: ...
-
-class _AxlCNSDesignValueSet(LiteralRemoteFunction):
+    cns_design_value_set: _AxlCNSDesignValueSet
     """
     This sets the value of the design constraint.
     SKILL: axlCNSDesignValueSet(t_name/s_namef_value/t_value)⇒ t/nil
@@ -318,39 +9318,28 @@ class _AxlCNSDesignValueSet(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:737
     """
-    @overload
-    def __call__(self, t_name: str | Symbol, f_value: float | str, /) -> bool | None: ...
-    @overload
-    def __call__(self, ll_constraint_n_values: SkillList, /) -> bool | None: ...
-
-class _AxlCNSEcsetCreate(LiteralRemoteFunction):
+    cns_ecset_create: _AxlCNSEcsetCreate
     """
     Creates a new ECset
     SKILL: axlCNSEcsetCreate(t_name[t_copyName/o_dbidCopyEcset])⇒ o_dbidEcset/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:797
     """
-    def __call__(self, t_name: str, t_copy_name: str | RemoteObject | None = ..., /) -> RemoteObject | None: ...
-
-class _AxlCNSEcsetDelete(LiteralRemoteFunction):
+    cns_ecset_delete: _AxlCNSEcsetDelete
     """
     Deletes an ECset from the Allegro PCB Editor database and also deletes theELECTRICAL_CONSTRAINT_SET property from any nets assigned this ECset value
     SKILL: axlCNSEcsetDelete(t_name/o_dbidEcset)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:837
     """
-    def __call__(self, t_name: str | RemoteObject, /) -> bool | None: ...
-
-class _AxlCNSEcsetGet(LiteralRemoteFunction):
+    cns_ecset_get: _AxlCNSEcsetGet
     """
     Returns thedbid of the electrical cset when you request it by the ECset name
     SKILL: axlCNSEcsetGet(t_name)⇒ o_dbidEcset/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:873
     """
-    def __call__(self, t_name: str, /) -> RemoteObject | None: ...
-
-class _AxlCNSEcsetModeGet(LiteralRemoteFunction):
+    cns_ecset_mode_get: _AxlCNSEcsetModeGet
     """
     Returns the current DRC modes for checks that are members of electrical constraints
     SKILL: axlCNSEcsetModeGet(nil)⇒ ls_constraints
@@ -360,16 +9349,7 @@ class _AxlCNSEcsetModeGet(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:902
     """
-    @overload
-    def __call__(self, value: None, /) -> list[Symbol]: ...
-    @overload
-    def __call__(self, all: Symbol, /) -> Skill: ...
-    @overload
-    def __call__(self, s_name: Symbol | str, /) -> Symbol | None: ...
-    @overload
-    def __call__(self, s_name: Symbol | str, print: Symbol, /) -> str | None: ...
-
-class _AxlCNSEcsetModeSet(LiteralRemoteFunction):
+    cns_ecset_mode_set: _AxlCNSEcsetModeSet
     """
     Sets the DRC modes for checks that are members of the electrical constraints set
     SKILL: axlCNSEcsetModeSet(t_name/s_namet_mode/s_mode)⇒ t/nil
@@ -379,25 +9359,14 @@ class _AxlCNSEcsetModeSet(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:967
     """
-    @overload
-    def __call__(self, t_name: str | Symbol, t_mode: str | Symbol, /) -> bool | None: ...
-    @overload
-    def __call__(self, allt_mode: Skill | Symbol, /) -> bool | None: ...
-    @overload
-    def __call__(self, l_constraint_n_modes: SkillList, t_mode: str | Symbol, /) -> bool | None: ...
-    @overload
-    def __call__(self, ll_constraint_n_modes: SkillList, /) -> bool | None: ...
-
-class _AxlCNSEcsetValueCheck(LiteralRemoteFunction):
+    cns_ecset_value_check: _AxlCNSEcsetValueCheck
     """
     Checks the syntax of the given value against the allowed syntax for the given constraint
     SKILL: axlCNSEcsetValueCheck(s_name/t_nameg_value)⇒ (t/t_errorMsg)/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:1040
     """
-    def __call__(self, s_name: Symbol | str, g_value: Skill, /) -> Skill: ...
-
-class _AxlCNSEcsetValueGet(LiteralRemoteFunction):
+    cns_ecset_value_get: _AxlCNSEcsetValueGet
     """
     Fetches the constraint values for a given ECset
     SKILL: axlCNSEcsetValueGet(nil[g_returnNameString])⇒ ls_constraints
@@ -406,14 +9375,7 @@ class _AxlCNSEcsetValueGet(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:1070
     """
-    @overload
-    def __call__(self, value: None, g_return_name_string: Skill = ..., /) -> list[Symbol]: ...
-    @overload
-    def __call__(self, all: Symbol, g_return_string: Skill = ..., /) -> Skill: ...
-    @overload
-    def __call__(self, o_ecset_dbid: RemoteObject | str, s_name: Symbol, g_return_string: Skill = ..., /) -> float | str | None: ...
-
-class _AxlCNSEcsetValueSet(LiteralRemoteFunction):
+    cns_ecset_value_set: _AxlCNSEcsetValueSet
     """
     Sets the value of the ECset DRC
     SKILL: axlCNSEcsetValueSet(o_ecsetDbid/t_ecsetNamet_name/s_namef_value)⇒ t/nil
@@ -421,12 +9383,7 @@ class _AxlCNSEcsetValueSet(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part02.md:615
     """
-    @overload
-    def __call__(self, o_ecset_dbid: RemoteObject | str, t_name: str | Symbol, f_value: float, /) -> bool | None: ...
-    @overload
-    def __call__(self, o_ecset_dbid: RemoteObject | str, ll_constraint_n_values: SkillList, /) -> bool | None: ...
-
-class _AxlCNSGetAssembly(LiteralRemoteFunction):
+    cns_get_assembly: _AxlCNSGetAssembly
     """
     Obtains an Assembly cset values
     SKILL: axlCNSGetAssembly(t_csett_layers_constraint[g_string])=> g_value/nil
@@ -435,23 +9392,14 @@ class _AxlCNSGetAssembly(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:185
     """
-    @overload
-    def __call__(self, t_cset: str, t_layer: str, s_constraint: Symbol, g_string: Skill = ..., /) -> Skill | None: ...
-    @overload
-    def __call__(self, t_cset: str, t_layer: str, value: None, g_string: Skill = ..., /) -> list[Skill] | None: ...
-    @overload
-    def __call__(self, value: None, value_2: None, value_3: None, /) -> list[Symbol]: ...
-
-class _AxlCNSGetDefaultMinLineWidth(LiteralRemoteFunction):
+    cns_get_default_min_line_width: _AxlCNSGetDefaultMinLineWidth
     """
     Retrieves the minimum default line width value for the specific subclass.
     SKILL: axlCNSGetDefaultMinLineWidth(t_sublassName)=> f_minLineWidthValue
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:1146
     """
-    def __call__(self, t_sublass_name: str, /) -> float: ...
-
-class _AxlCNSGetPhysical(LiteralRemoteFunction):
+    cns_get_physical: _AxlCNSGetPhysical
     """
     In its first operational mode, obtains the value of a physical constraint given a cset and layer
     SKILL: axlCNSGetPhysical(t_csett_layers_constraint[g_string])==> g_value/nil
@@ -460,32 +9408,21 @@ class _AxlCNSGetPhysical(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:1172
     """
-    @overload
-    def __call__(self, t_cset: str, t_layer: str, s_constraint: Symbol, g_string: Skill = ..., /) -> Skill | None: ...
-    @overload
-    def __call__(self, t_cset: str, t_layer: str, value: None, g_string: Skill = ..., /) -> list[Skill] | None: ...
-    @overload
-    def __call__(self, value: None, value_2: None, value_3: None, /) -> list[Symbol]: ...
-
-class _AxlCNSGetPinDelayEnabled(LiteralRemoteFunction):
+    cns_get_pin_delay_enabled: _AxlCNSGetPinDelayEnabled
     """
     Returns if pin delay is enabled.
     SKILL: axlCNSGetPinDelayEnabled() => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:1257
     """
-    def __call__(self, /) -> bool | None: ...
-
-class _AxlCNSGetPinDelayPVF(LiteralRemoteFunction):
+    cns_get_pin_delay_pvf: _AxlCNSGetPinDelayPVF
     """
     Returns the pin delay propagation velocity factor.
     SKILL: axlCNSGetPinDelayPVF()=> t_pinDelayPVF
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:1275
     """
-    def __call__(self, /) -> str: ...
-
-class _AxlCNSGetSameNet(LiteralRemoteFunction):
+    cns_get_same_net: _AxlCNSGetSameNet
     """
     Documentation same as[axlCNSGetSpacing](#1093423 "19").
     SKILL: axlCNSGetSameNet(t_csett_layers_constraint[g_string])==> g_value/nil
@@ -494,23 +9431,14 @@ class _AxlCNSGetSameNet(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:1292
     """
-    @overload
-    def __call__(self, t_cset: str, t_layer: str, s_constraint: Symbol, g_string: Skill = ..., /) -> Skill | None: ...
-    @overload
-    def __call__(self, t_cset: str, t_layer: str, value: None, g_string: Skill = ..., /) -> list[Skill] | None: ...
-    @overload
-    def __call__(self, value: None, value_2: None, value_3: None, /) -> list[Symbol]: ...
-
-class _AxlCNSGetSameNetXtalkEnabled(LiteralRemoteFunction):
+    cns_get_same_net_xtalk_enabled: _AxlCNSGetSameNetXtalkEnabled
     """
     Returns if Same Net Xtalk is enabled.
     SKILL: axlCNSGetSameNetXtalkEnabled() => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:1354
     """
-    def __call__(self, /) -> bool | None: ...
-
-class _AxlCNSGetSpacing(LiteralRemoteFunction):
+    cns_get_spacing: _AxlCNSGetSpacing
     """
     In its first operational mode, obtains the value of a spacing constraint given a cset and layer
     SKILL: axlCNSGetSpacing(t_csett_layers_constraint[g_string])==> g_value/nil
@@ -519,77 +9447,56 @@ class _AxlCNSGetSpacing(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:1372
     """
-    @overload
-    def __call__(self, t_cset: str, t_layer: str, s_constraint: Symbol, g_string: Skill = ..., /) -> Skill | None: ...
-    @overload
-    def __call__(self, t_cset: str, t_layer: str, value: None, g_string: Skill = ..., /) -> list[Skill] | None: ...
-    @overload
-    def __call__(self, value: None, value_2: None, value_3: None, /) -> list[Symbol]: ...
-
-class _AxlCNSGetViaZEnabled(LiteralRemoteFunction):
+    cns_get_via_z_enabled: _AxlCNSGetViaZEnabled
     """
     Returns if Via Z is enabled.
     SKILL: axlCNSGetViaZEnabled() => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:1453
     """
-    def __call__(self, /) -> bool | None: ...
-
-class _AxlCNSGetViaZPVF(LiteralRemoteFunction):
+    cns_get_via_zpvf: _AxlCNSGetViaZPVF
     """
     Returns the via Z propagation velocity factor
     SKILL: axlCNSGetViaZPVF()=> t_viaZPVF
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:1471
     """
-    def __call__(self, /) -> str: ...
-
-class _AxlCNSIsCsetLocked(LiteralRemoteFunction):
+    cns_is_cset_locked: _AxlCNSIsCsetLocked
     """
     This returns if a cset is locked
     SKILL: axlCNSIsCsetLocked(g_domaint_csetName)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:1543
     """
-    def __call__(self, g_domain: Skill, t_cset_name: str, /) -> bool | None: ...
-
-class _AxlCNSIsLockedDomain(LiteralRemoteFunction):
+    cns_is_locked_domain: _AxlCNSIsLockedDomain
     """
     Used to check if the is constraint domain locked
     SKILL: axlCNSIsLockedDomain(g_domain)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:1578
     """
-    def __call__(self, g_domain: Skill, /) -> bool | None: ...
-
-class _AxlCNSLockDomain(LiteralRemoteFunction):
+    cns_lock_domain: _AxlCNSLockDomain
     """
     This command locks or unlocks a constraint domain.
     SKILL: axlCNSLockDomain(g_domaing_mode)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:1625
     """
-    def __call__(self, g_domain: Skill, g_mode: Skill, /) -> bool | None: ...
-
-class _AxlCNSMapClear(LiteralRemoteFunction):
+    cns_map_clear: _AxlCNSMapClear
     """
     SeeaxlCNSMapUpdate.
     SKILL: axlCNSMapClear()⇒ t
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part02.md:977
     """
-    def __call__(self, /) -> bool: ...
-
-class _AxlCNSMapUpdate(LiteralRemoteFunction):
+    cns_map_update: _AxlCNSMapUpdate
     """
     This function andaxlCNSMapClear, which do not support nesting, batch and tune DRC updates from constraint changes made by axlCNS<xxx> functions
     SKILL: axlCNSMapUpdate()⇒ x_drcCount/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part02.md:998
     """
-    def __call__(self, /) -> int | None: ...
-
-class _AxlCNSPhysicalModeGet(LiteralRemoteFunction):
+    cns_physical_mode_get: _AxlCNSPhysicalModeGet
     """
     This fetches the current physical drc mode(s)
     SKILL: axlCNSPhysicalModeGet(nil) ==> ls_constraints
@@ -599,16 +9506,7 @@ class _AxlCNSPhysicalModeGet(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:1488
     """
-    @overload
-    def __call__(self, value: None, /) -> list[Symbol]: ...
-    @overload
-    def __call__(self, all: Symbol, /) -> Skill: ...
-    @overload
-    def __call__(self, s_name: Symbol | str, /) -> Symbol | None: ...
-    @overload
-    def __call__(self, s_name: Symbol | str, print: Symbol, /) -> str | None: ...
-
-class _AxlCNSPhysicalModeSet(LiteralRemoteFunction):
+    cns_physical_mode_set: _AxlCNSPhysicalModeSet
     """
     This sets the current drc modes (on/off) for checks in the area of physical constraints
     SKILL: axlCNSPhysicalModeSet(t_name/s_namet_mode/s_mode)==> t/nil
@@ -618,16 +9516,7 @@ class _AxlCNSPhysicalModeSet(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:1657
     """
-    @overload
-    def __call__(self, t_name: str | Symbol, t_mode: str | Symbol, /) -> bool | None: ...
-    @overload
-    def __call__(self, allt_mode: Symbol | Skill, /) -> bool | None: ...
-    @overload
-    def __call__(self, l_constraint_n_modes: SkillList, t_mode: str | Skill, /) -> bool | None: ...
-    @overload
-    def __call__(self, ll_constraint_n_modes: SkillList, /) -> bool | None: ...
-
-class _AxlCNSSameNetModeGet(LiteralRemoteFunction):
+    cns_same_net_mode_get: _AxlCNSSameNetModeGet
     """
     Same as[axlCNSSpacingModeGet](#1096197 "19").
     SKILL: axlCNSSameNetModeGet(nil) ==> ls_constraints
@@ -637,16 +9526,7 @@ class _AxlCNSSameNetModeGet(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:1710
     """
-    @overload
-    def __call__(self, value: None, /) -> list[Symbol]: ...
-    @overload
-    def __call__(self, all: Symbol, /) -> Skill: ...
-    @overload
-    def __call__(self, s_name: Symbol | str, /) -> Symbol | None: ...
-    @overload
-    def __call__(self, s_name: Symbol | str, print: Symbol, /) -> str | None: ...
-
-class _AxlCNSSameNetModeSet(LiteralRemoteFunction):
+    cns_same_net_mode_set: _AxlCNSSameNetModeSet
     """
     Same as axlCNSSpacingModeSet.
     SKILL: axlCNSSameNetModeSet(t_name/s_namet_mode/s_mode)==> t/nil
@@ -656,16 +9536,7 @@ class _AxlCNSSameNetModeSet(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:1763
     """
-    @overload
-    def __call__(self, t_name: str | Symbol, t_mode: str | Symbol, /) -> bool | None: ...
-    @overload
-    def __call__(self, allt_mode: Symbol | Skill, /) -> bool | None: ...
-    @overload
-    def __call__(self, l_constraint_n_modes: SkillList, t_mode: str | Skill, /) -> bool | None: ...
-    @overload
-    def __call__(self, ll_constraint_n_modes: SkillList, /) -> bool | None: ...
-
-class _AxlCNSSetAssembly(LiteralRemoteFunction):
+    cns_set_assembly: _AxlCNSSetAssembly
     """
     Updates assembly cset, wire profile or symbol constraint values
     SKILL: axlCNSSetAssembly(t_object/nilt_layer/nils_constraintg_value[s_object_type] )==> t/nil
@@ -673,12 +9544,7 @@ class _AxlCNSSetAssembly(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:243
     """
-    @overload
-    def __call__(self, t_object: str | None, t_layer: str | None, s_constraint: Symbol, g_value: Skill, s_object_type: Symbol | None = ..., /) -> bool | None: ...
-    @overload
-    def __call__(self, t_object: str | None, t_layer: str | None, ll_constraint_values: SkillList, value: None, s_object_type: Symbol | None = ..., /) -> bool | None: ...
-
-class _AxlCNSSetPhysical(LiteralRemoteFunction):
+    cns_set_physical: _AxlCNSSetPhysical
     """
     Allows updating physical constraint values
     SKILL: axlCNSSetPhysical(t_cset/nilt_layer/nils_constraintg_value)==> t/nil
@@ -686,30 +9552,21 @@ class _AxlCNSSetPhysical(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:1814
     """
-    @overload
-    def __call__(self, t_cset: str | None, t_layer: str | None, s_constraint: Symbol, g_value: Skill, /) -> bool | None: ...
-    @overload
-    def __call__(self, t_cset: str | None, t_layer: str | None, ll_constraint_valuesnil: SkillList, /) -> bool | None: ...
-
-class _AxlCNSSetPinDelayEnabled(LiteralRemoteFunction):
+    cns_set_pin_delay_enabled: _AxlCNSSetPinDelayEnabled
     """
     Enables or disables Pin Delay.
     SKILL: axlCNSSetPinDelayEnabled(g_value) => t
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part02.md:147
     """
-    def __call__(self, g_value: Skill, /) -> bool: ...
-
-class _AxlCNSSetPinDelayPVF(LiteralRemoteFunction):
+    cns_set_pin_delay_pvf: _AxlCNSSetPinDelayPVF
     """
     Sets a value for pin delay propagation velocity.
     SKILL: axlCNSSetPinDelayPVF(g_value) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part02.md:164
     """
-    def __call__(self, g_value: Skill, /) -> bool | None: ...
-
-class _AxlCNSSetSameNet(LiteralRemoteFunction):
+    cns_set_same_net: _AxlCNSSetSameNet
     """
     Documentation same as[axlCNSSetSpacing](#1111453 "19").
     SKILL: axlCNSSetSameNet(t_cset/nilt_layer/nils_constraintg_value)==> t/nil
@@ -717,21 +9574,14 @@ class _AxlCNSSetSameNet(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part02.md:183
     """
-    @overload
-    def __call__(self, t_cset: str | None, t_layer: str | None, s_constraint: Symbol, g_value: Skill, /) -> bool | None: ...
-    @overload
-    def __call__(self, t_cset: str | None, t_layer: str | None, ll_constraint_values: SkillList, value: None, /) -> bool | None: ...
-
-class _AxlCNSSetSameNetXtalkEnabled(LiteralRemoteFunction):
+    cns_set_same_net_xtalk_enabled: _AxlCNSSetSameNetXtalkEnabled
     """
     Enables or disables Same Net Xtalk.
     SKILL: axlCNSSetSameNetXtalkEnabled(g_value)=> t
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part02.md:231
     """
-    def __call__(self, g_value: Skill, /) -> bool: ...
-
-class _AxlCNSSetSpacing(LiteralRemoteFunction):
+    cns_set_spacing: _AxlCNSSetSpacing
     """
     Allows updating spacing constraint values
     SKILL: axlCNSSetSpacing(t_cset/nilt_layer/nils_constraintg_value)==> t/nil
@@ -739,48 +9589,35 @@ class _AxlCNSSetSpacing(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part02.md:55
     """
-    @overload
-    def __call__(self, t_cset: str | None, t_layer: str | None, s_constraint: Symbol, g_value: Skill, /) -> bool | None: ...
-    @overload
-    def __call__(self, t_cset: str | None, t_layer: str | None, ll_constraint_values: SkillList, value: None, /) -> bool | None: ...
-
-class _AxlCNSSetViaZEnabled(LiteralRemoteFunction):
+    cns_set_via_z_enabled: _AxlCNSSetViaZEnabled
     """
     Enables or disables Via Z.
     SKILL: axlCNSSetViaZEnabled(g_value) => t
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part02.md:248
     """
-    def __call__(self, g_value: Skill, /) -> bool: ...
-
-class _AxlCNSSetViaZPVF(LiteralRemoteFunction):
+    cns_set_via_zpvf: _AxlCNSSetViaZPVF
     """
     Sets a value for Via Z propagation velocity factor.
     SKILL: axlCNSSetViaZPVF(g_value)=> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part02.md:265
     """
-    def __call__(self, g_value: Skill, /) -> bool | None: ...
-
-class _AxlCNSSpacingMax(LiteralRemoteFunction):
+    cns_spacing_max: _AxlCNSSpacingMax
     """
     Returns maximum spacing in design
     SKILL: axlCNSSpacingMax([s_spacingType][t_layer])=> f_maxSpacing
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part02.md:284
     """
-    def __call__(self, s_spacing_type: Symbol | None = ..., t_layer: str | None = ..., /) -> float: ...
-
-class _AxlCNSSpacingMin(LiteralRemoteFunction):
+    cns_spacing_min: _AxlCNSSpacingMin
     """
     Returns minimum spacing value in the design
     SKILL: axlCNSSpacingMin([s_spacingType][t_layer])=> f_minSpacing
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part02.md:323
     """
-    def __call__(self, s_spacing_type: Symbol | None = ..., t_layer: str | None = ..., /) -> float: ...
-
-class _AxlCNSSpacingModeGet(LiteralRemoteFunction):
+    cns_spacing_mode_get: _AxlCNSSpacingModeGet
     """
     This fetches the current spacing drc mode(s)
     SKILL: axlCNSSpacingModeGet(nil) ==> ls_constraints
@@ -789,14 +9626,7 @@ class _AxlCNSSpacingModeGet(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part02.md:352
     """
-    @overload
-    def __call__(self, value: None, /) -> list[Symbol]: ...
-    @overload
-    def __call__(self, all: Symbol, /) -> Skill: ...
-    @overload
-    def __call__(self, s_name: Symbol | str, /) -> Symbol | None: ...
-
-class _AxlCNSSpacingModeSet(LiteralRemoteFunction):
+    cns_spacing_mode_set: _AxlCNSSpacingModeSet
     """
     This sets the current drc modes (on/off) for checks in the area of spacing constraints
     SKILL: axlCNSSpacingModeSet(t_name/s_namet_mode/s_mode)==> t/nil
@@ -806,106 +9636,77 @@ class _AxlCNSSpacingModeSet(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part02.md:405
     """
-    @overload
-    def __call__(self, t_name: str | Symbol, t_mode: str | Symbol, /) -> bool | None: ...
-    @overload
-    def __call__(self, allt_mode: Symbol | Skill, /) -> bool | None: ...
-    @overload
-    def __call__(self, l_constraint_n_modes: SkillList, t_mode: str | Skill, /) -> bool | None: ...
-    @overload
-    def __call__(self, ll_constraint_n_modes: SkillList, /) -> bool | None: ...
-
-class _AxlCVFColorChooserDlg(LiteralRemoteFunction):
+    cvf_color_chooser_dlg: _AxlCVFColorChooserDlg
     """
     Displays color palette modal dialog
     SKILL: axlCVFColorChooserDlg([x_color_index][g_show_hilite][x_hilite_flag][x_bitmap_index])==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:1436
     """
-    def __call__(self, x_color_index: int | None = ..., g_show_hilite: Skill = ..., x_hilite_flag: int | None = ..., x_bitmap_index: int | None = ..., /) -> bool | None: ...
-
-class _AxlCancelEnterFun(LiteralRemoteFunction):
+    cancel_enter_fun: _AxlCancelEnterFun
     """
     Terminates the wait for a user-selected point
     SKILL: axlCancelEnterFun()⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:425
     """
-    def __call__(self, /) -> bool | None: ...
-
-class _AxlCancelOff(LiteralRemoteFunction):
+    cancel_off: _AxlCancelOff
     """
     No description available.
     SKILL: axlCancelOff() => t
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:365
     """
-    def __call__(self, /) -> bool: ...
-
-class _AxlCancelOn(LiteralRemoteFunction):
+    cancel_on: _AxlCancelOn
     """
     Allows Skill code to test for when a user clicks*Cancel*.
     SKILL: axlCancelOn()⇒ t
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:369
     """
-    def __call__(self, /) -> bool: ...
-
-class _AxlCancelTest(LiteralRemoteFunction):
+    cancel_test: _AxlCancelTest
     """
     No description available.
     SKILL: axlCancelTest() => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:421
     """
-    def __call__(self, /) -> bool | None: ...
-
-class _AxlChangeLayer(LiteralRemoteFunction):
+    change_layer: _AxlChangeLayer
     """
     Changes layer for lines, clines or segments, shapes, and text
     SKILL: axlChangeLayer(lo_dbid/o_dbid t_newLayer [o_padStackDbid/t_padStackName]) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:11
     """
-    def __call__(self, lo_dbid: list[RemoteObject] | RemoteObject, t_new_layer: str, o_pad_stack_dbid: RemoteObject | str | None = ..., /) -> bool | None: ...
-
-class _AxlChangeLine2Cline(LiteralRemoteFunction):
+    change_line2_cline: _AxlChangeLine2Cline
     """
     Changes provided lines to clines
     SKILL: axlChangeLine2Cline(lo_dbid/o_dbid)==> x_cnt/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:64
     """
-    def __call__(self, lo_dbid: list[RemoteObject] | RemoteObject, /) -> int | None: ...
-
-class _AxlChangeLineFont(LiteralRemoteFunction):
+    change_line_font: _AxlChangeLineFont
     """
     Changes font on a line or segment.
     SKILL: axlChangeLineFont(o_dbidx_newFont)==> lo_dbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:101
     """
-    def __call__(self, o_dbid: RemoteObject, x_new_font: int, /) -> list[RemoteObject] | None: ...
-
-class _AxlChangeNet(LiteralRemoteFunction):
+    change_net: _AxlChangeNet
     """
     Changes the net an object is currently on
     SKILL: axlChangeNet(o_dbidt_netName/o_netdbid)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:1152
     """
-    def __call__(self, o_dbid: RemoteObject, t_net_name: str | RemoteObject, /) -> bool | None: ...
-
-class _AxlChangeWidth(LiteralRemoteFunction):
+    change_width: _AxlChangeWidth
     """
     Changes width of lines, clines and segments (arc and line).
     SKILL: axlChangeWidth(lo_dbid/o_dbidf_newWidth[g_invisible])==> lo_dbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:144
     """
-    def __call__(self, lo_dbid: list[RemoteObject] | RemoteObject, f_new_width: float, g_invisible: Skill = ..., /) -> list[RemoteObject] | None: ...
-
-class _AxlCheckString(LiteralRemoteFunction):
+    check_string: _AxlCheckString
     """
     Checks the provided string for legal characters and length
     SKILL: axlCheckString(t_typet_string) -> t_modString/nil
@@ -914,257 +9715,196 @@ class _AxlCheckString(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:11
     """
-    @overload
-    def __call__(self, t_type: str, t_string: str, /) -> str | None: ...
-    @overload
-    def __call__(self, value: None, value_2: None, /) -> list[str]: ...
-    @overload
-    def __call__(self, errornil: Symbol, /) -> str | None: ...
-
-class _AxlClasses(LiteralRemoteFunction):
+    classes: _AxlClasses
     """
     Return list of classes.The is actually just:
     SKILL: axlClasses() -> lt_classes
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:1737
     """
-    def __call__(self, /) -> list[str]: ...
-
-class _AxlClearDynamics(LiteralRemoteFunction):
+    clear_dynamics: _AxlClearDynamics
     """
     Clears the dynamic cursor buffer
     SKILL: axlClearDynamics()⇒ t
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:169
     """
-    def __call__(self, /) -> bool: ...
-
-class _AxlClearObjectCustomColor(LiteralRemoteFunction):
+    clear_object_custom_color: _AxlClearObjectCustomColor
     """
     Clear custom color of dbids
     SKILL: axlClearObjectCustomColor([lo_dbid])==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:1460
     """
-    def __call__(self, lo_dbid: list[RemoteObject] | None = ..., /) -> bool | None: ...
-
-class _AxlClearSelSet(LiteralRemoteFunction):
+    clear_sel_set: _AxlClearSelSet
     """
     Removes alldbids from select set.
     SKILL: axlClearSelSet()⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/05selfnd.md:729
     """
-    def __call__(self, /) -> bool | None: ...
-
-class _AxlClipboardGetText(LiteralRemoteFunction):
+    clipboard_get_text: _AxlClipboardGetText
     """
     This gets the current text in the system clipboard
     SKILL: axlClipboardGetText ()=> t_text/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:425
     """
-    def __call__(self, /) -> str | None: ...
-
-class _AxlClipboardSetText(LiteralRemoteFunction):
+    clipboard_set_text: _AxlClipboardSetText
     """
     Sends indicated text to system clipboard
     SKILL: axlClipboardSetText(t_text/nil)=> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:453
     """
-    def __call__(self, t_text: str | None, /) -> bool | None: ...
-
-class _AxlCloseFindFilter(LiteralRemoteFunction):
+    close_find_filter: _AxlCloseFindFilter
     """
     This function is no longer required, but is kept for backward compatibility.
     SKILL: axlCloseFindFilter()⇒ t
     Version: Allegro 17.2-2016
     Source: algroskill/05selfnd.md:1007
     """
-    def __call__(self, /) -> bool: ...
-
-class _AxlCmdList(LiteralRemoteFunction):
+    cmd_list: _AxlCmdList
     """
     Lists commands registered byaxlCmdRegister
     SKILL: axlCmdList()⇒ ll_strings/nil
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:81
     """
-    def __call__(self, /) -> list[Skill] | None: ...
-
-class _AxlCmdRegister(LiteralRemoteFunction):
+    cmd_register: _AxlCmdRegister
     """
     Registers a command namedt_allegroCmd with the Allegro PCB Editor shell system
     SKILL: axlCmdRegister(t_allegroCmdts_callback?cmdType t_cmdType?doneCmd ts_doneCmd?cancelCmd ts_cancelCmd?undo t)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/19cmdctl.md:16
     """
-    def __call__(self, t_allegro_cmd: str, ts_callback: Skill, /, *, cmd_type: str | None = ..., done_cmd: Skill = ..., cancel_cmd: Skill = ..., undo: bool | None = ...) -> bool | None: ...
-
-class _AxlCmdUnregister(LiteralRemoteFunction):
+    cmd_unregister: _AxlCmdUnregister
     """
     Unregisters or removes from the Allegro PCB Editor shell system, a previously registered command namedt_allegroCmd
     SKILL: axlCmdUnregister(t_allegroCmd)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/19cmdctl.md:149
     """
-    def __call__(self, t_allegro_cmd: str, /) -> bool | None: ...
-
-class _AxlCnsAddVia(LiteralRemoteFunction):
+    cns_add_via: _AxlCnsAddVia
     """
     Adds padstack to the constraint via list of a physical cset
     SKILL: axlCnsAddVia(t_csetNamet_padstackName)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:22
     """
-    def __call__(self, t_cset_name: str, t_padstack_name: str, /) -> bool | None: ...
-
-class _AxlCnsAssignPurge(LiteralRemoteFunction):
+    cns_assign_purge: _AxlCnsAssignPurge
     """
     Obsolete
     SKILL: axlCnsAssignPurge(s_tableType) ==> x_delCount/ nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:58
     """
-    def __call__(self, s_table_type: Symbol, /) -> int | None: ...
-
-class _AxlCnsClassTableChange(LiteralRemoteFunction):
+    cns_class_table_change: _AxlCnsClassTableChange
     """
     This command changes the Csets associated with an existing net class table entry.
     SKILL: axlCnsClassTableChange(o_dbidClassTables_csetType/ll_typeAndName[t_csetName]) -> o_dbidClassTable/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:87
     """
-    def __call__(self, o_dbid_class_table: RemoteObject, s_cset_type: Symbol | SkillList, t_cset_name: str | None = ..., /) -> RemoteObject | None: ...
-
-class _AxlCnsClassTableCreate(LiteralRemoteFunction):
+    cns_class_table_create: _AxlCnsClassTableCreate
     """
     This command creates a class table entry that consists of any of the following:
     SKILL: axlCnsClassTableCreate(g_class1g_class2g_regions_csetType/ll_typeAndName[t_csetName]) -> o_dbidClassTable/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:127
     """
-    def __call__(self, g_class1: Skill, g_class2: Skill, g_region: Skill, s_cset_type: Symbol | SkillList, t_cset_name: str | None = ..., /) -> RemoteObject | None: ...
-
-class _AxlCnsClassTableDelete(LiteralRemoteFunction):
+    cns_class_table_delete: _AxlCnsClassTableDelete
     """
     Deletes one or more entries in the class table.
     SKILL: axlCnsClassTableDelete(o_dbidClassTable/lo_dbidClassTable) -> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:201
     """
-    def __call__(self, o_dbid_class_table: RemoteObject | list[RemoteObject], /) -> bool | None: ...
-
-class _AxlCnsClassTableFind(LiteralRemoteFunction):
+    cns_class_table_find: _AxlCnsClassTableFind
     """
     This command searches the class table for class table entries matching the search criteria.
     SKILL: axlCnsClassTableFind(s_type[o_dbid]) -> lo_dbidClassTable/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:231
     """
-    def __call__(self, s_type: Symbol, o_dbid: RemoteObject | None = ..., /) -> list[RemoteObject] | None: ...
-
-class _AxlCnsClassTableSeek(LiteralRemoteFunction):
+    cns_class_table_seek: _AxlCnsClassTableSeek
     """
     This command seeks a specific class table entry matching exactly the provideddbids
     SKILL: axlCnsClassTableSeek(g_class1g_class2g_region) -> o_dbidClassTable/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:270
     """
-    def __call__(self, g_class1: Skill, g_class2: Skill, g_region: Skill, /) -> RemoteObject | None: ...
-
-class _AxlCnsDeleteClassClassObjects(LiteralRemoteFunction):
+    cns_delete_class_class_objects: _AxlCnsDeleteClassClassObjects
     """
     Delete all Class-Class entries.
     SKILL: axlCnsDeleteClassClassObjects() => x_delCount
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:410
     """
-    def __call__(self, /) -> int: ...
-
-class _AxlCnsDeleteRegionClassClassObjects(LiteralRemoteFunction):
+    cns_delete_region_class_class_objects: _AxlCnsDeleteRegionClassClassObjects
     """
     Deletes all Region-Class-Class entries.
     SKILL: axlCnsDeleteRegionClassClassObjects() => x_delCount
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:430
     """
-    def __call__(self, /) -> int: ...
-
-class _AxlCnsDeleteRegionClassObjects(LiteralRemoteFunction):
+    cns_delete_region_class_objects: _AxlCnsDeleteRegionClassObjects
     """
     Delete all Region-Class entries.
     SKILL: axlCnsDeleteRegionClassObjects() => x_delCount
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:450
     """
-    def __call__(self, /) -> int: ...
-
-class _AxlCnsDeleteVia(LiteralRemoteFunction):
+    cns_delete_via: _AxlCnsDeleteVia
     """
     Deletes padstack from the physical via constraint list,t_csetName
     SKILL: axlCnsDeleteVia(t_csetNamet_padstackName)=> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part01.md:470
     """
-    def __call__(self, t_cset_name: str, t_padstack_name: str, /) -> bool | None: ...
-
-class _AxlCnsGetViaList(LiteralRemoteFunction):
+    cns_get_via_list: _AxlCnsGetViaList
     """
     Returns padstacks defined in a physical constraint set
     SKILL: axlCnsGetViaList(t_csetName)==>lt_padstacks/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part02.md:669
     """
-    def __call__(self, t_cset_name: str, /) -> list[str] | None: ...
-
-class _AxlCnsList(LiteralRemoteFunction):
+    cns_list: _AxlCnsList
     """
     Returns the list of cset names of the domain specified
     SKILL: axlCnsList(s_csetDomain/nil)==> lt_csetNames/ls_csetsDomain
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part02.md:937
     """
-    def __call__(self, s_cset_domain: Symbol | None, /) -> list[str] | list[Symbol]: ...
-
-class _AxlCnsNetFlattened(LiteralRemoteFunction):
+    cns_net_flattened: _AxlCnsNetFlattened
     """
     Permits a view of constraints where explicit pinpair rules are promoted to the net
     SKILL: axlCnsNetFlattened(o_netDbid/t_netNamet_cnsName/s_name)==> t_cnsValue/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part02.md:1042
     """
-    def __call__(self, o_net_dbid: RemoteObject | str, t_cns_name: str | Symbol, /) -> str | None: ...
-
-class _AxlCnsPurgeAll(LiteralRemoteFunction):
+    cns_purge_all: _AxlCnsPurgeAll
     """
     Removes all unused constraint objects and constraint sets
     SKILL: axlCnsPurgeAll() -> x_purgeCount
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part02.md:458
     """
-    def __call__(self, /) -> int: ...
-
-class _AxlCnsPurgeCsets(LiteralRemoteFunction):
+    cns_purge_csets: _AxlCnsPurgeCsets
     """
     Process all constraint sets of the specified domain and delete those without references.
     SKILL: axlCnsPurgeCsets(list l_type) -> x_purgeCount
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part02.md:482
     """
-    def __call__(self, list: Skill, l_type: SkillList, /) -> int: ...
-
-class _AxlCnsPurgeObjects(LiteralRemoteFunction):
+    cns_purge_objects: _AxlCnsPurgeObjects
     """
     Process the database and delete all group\\_type objects that have no members; a netclass with no nets, or a region with no shapes.
     SKILL: axlCnsPurgeObjects(list l_type) -> x_purgeCount
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part02.md:510
     """
-    def __call__(self, list: Skill, l_type: SkillList, /) -> int: ...
-
-class _AxlColorGet(LiteralRemoteFunction):
+    color_get: _AxlColorGet
     """
     Get color palette
     SKILL: axlColorGet(x_number/background) -> lx_rgb/nil
@@ -1174,70 +9914,49 @@ class _AxlColorGet(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:997
     """
-    @overload
-    def __call__(self, x_number: int | Skill, /) -> list[Skill] | None: ...
-    @overload
-    def __call__(self, count: Symbol, /) -> int: ...
-    @overload
-    def __call__(self, all: Symbol, /) -> Skill: ...
-    @overload
-    def __call__(self, pattern: Symbol, /) -> int: ...
-
-class _AxlColorLoad(LiteralRemoteFunction):
+    color_load: _AxlColorLoad
     """
     Loads an Allegro PCB Editor color file (default .col file)
     SKILL: axlColorLoad(t_file/nil) -> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:1154
     """
-    def __call__(self, t_file: str | None, /) -> bool | None: ...
-
-class _AxlColorOnGet(LiteralRemoteFunction):
+    color_on_get: _AxlColorOnGet
     """
     This function is obsolete
     SKILL: axlColorOnGet(g_item) -> t
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:1250
     """
-    def __call__(self, g_item: Skill, /) -> bool: ...
-
-class _AxlColorOnSet(LiteralRemoteFunction):
+    color_on_set: _AxlColorOnSet
     """
     This is an obsolete command
     SKILL: axlColorOnSet(g_item g_state) => t
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:1266
     """
-    def __call__(self, g_item: Skill, g_state: Skill, /) -> bool: ...
-
-class _AxlColorPriorityGet(LiteralRemoteFunction):
+    color_priority_get: _AxlColorPriorityGet
     """
     Due to the changes in color model of Allegro PCB Editor, this command is now obsolete
     SKILL: axlColorPriorityGet(g_item[g_item2]) -> nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:1283
     """
-    def __call__(self, g_item: Skill, g_item2: Skill = ..., /) -> None: ...
-
-class _AxlColorPrioritySet(LiteralRemoteFunction):
+    color_priority_set: _AxlColorPrioritySet
     """
     Due to the changes in color model of Allegro PCB Editor, this command is now obsolete
     SKILL: axlColorPrioritySet(g_item[g_item2]) -> t
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:1303
     """
-    def __call__(self, g_item: Skill, g_item2: Skill = ..., /) -> bool: ...
-
-class _AxlColorSave(LiteralRemoteFunction):
+    color_save: _AxlColorSave
     """
     Saves current design colors to specified file.
     SKILL: axlColorSave(t_file/nil) -> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:1323
     """
-    def __call__(self, t_file: str | None, /) -> bool | None: ...
-
-class _AxlColorSet(LiteralRemoteFunction):
+    color_set: _AxlColorSet
     """
     Sets red, green, blue palette for a color number or background.
     SKILL: axlColorSet(x_number/'backgroundl_rbg) -> t/nil
@@ -1245,21 +9964,14 @@ class _AxlColorSet(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:1352
     """
-    @overload
-    def __call__(self, x_number: int | Symbol, /) -> bool | None: ...
-    @overload
-    def __call__(self, allll_rgb: Symbol, /) -> bool | None: ...
-
-class _AxlColorShadowGet(LiteralRemoteFunction):
+    color_shadow_get: _AxlColorShadowGet
     """
     Provides the options of shadow mode.
     SKILL: axlColorShadowGet(g_option) -> t/nil/x_percent
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:1063
     """
-    def __call__(self, g_option: Skill, /) -> bool | int | None: ...
-
-class _AxlColorShadowSet(LiteralRemoteFunction):
+    color_shadow_set: _AxlColorShadowSet
     """
     Sets the shadow mode options
     SKILL: axlColorShadowSet(g_modet/nil) -> t/nil
@@ -1267,468 +9979,357 @@ class _AxlColorShadowSet(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:1101
     """
-    @overload
-    def __call__(self, g_modet: Skill | None, /) -> bool | None: ...
-    @overload
-    def __call__(self, percentx_percentage: Symbol, /) -> bool | None: ...
-
-class _AxlCompAddPin(LiteralRemoteFunction):
+    comp_add_pin: _AxlCompAddPin
     """
     This function adds one or more pins to the specified component
     SKILL: axlCompAddPin(o_compg_absLoco_pin/lo_pins) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:346
     """
-    def __call__(self, o_comp: RemoteObject, g_abs_loc: Skill, o_pin: RemoteObject | list[RemoteObject], /) -> bool | None: ...
-
-class _AxlCompDeletePin(LiteralRemoteFunction):
+    comp_delete_pin: _AxlCompDeletePin
     """
     This function deletes the specified pin(s) from the parent component and symbol definition
     SKILL: axlCompDeletePin(o_pin/lo_pins) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:441
     """
-    def __call__(self, o_pin: RemoteObject | list[RemoteObject], /) -> bool | None: ...
-
-class _AxlCompMovePin(LiteralRemoteFunction):
+    comp_move_pin: _AxlCompMovePin
     """
     No description available.
     SKILL: axlCompMovePin(o_pin/lo_pins?move l_deltaPoint?groupMirror t/nil?groupRotation f_angle?rotOrigin l_rotatePoint?pinRotation f_deltaAngle) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:466
     """
-    def __call__(self, o_pin: RemoteObject | list[RemoteObject], /, *, move: SkillList | None = ..., group_mirror: bool | None = ..., group_rotation: float | None = ..., rot_origin: SkillList | None = ..., pin_rotation: float | None = ...) -> bool | None: ...
-
-class _AxlCompSetPinAttributes(LiteralRemoteFunction):
+    comp_set_pin_attributes: _AxlCompSetPinAttributes
     """
     This function modifies attributes of the specified pin(s) at the symbol and component definition level
     SKILL: axlCompSetPinAttributes(o_pin/lo_pins?number t_pinNumber?name t_pinName?use t_pinUse?padstack t_padstack/g_padstack?rotation f_rotation?swapCode n_swapCode) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:558
     """
-    def __call__(self, o_pin: RemoteObject | list[RemoteObject], /, *, number: str | None = ..., name: str | None = ..., use: str | None = ..., padstack: str | Skill | None = ..., rotation: float | None = ..., swap_code: Number | None = ...) -> bool | None: ...
-
-class _AxlCompileSymbol(LiteralRemoteFunction):
+    compile_symbol: _AxlCompileSymbol
     """
     Compiles and edit checks the current (symbol) design and saves the compiled version on disk under the namet_name
     SKILL: axlCompileSymbol(?symbol t_name?type t_type)⇒ t_symbolName/nil
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:85
     """
-    def __call__(self, /, *, symbol: str | None = ..., type: str | None = ...) -> str | None: ...
-
-class _AxlComponentChangeClass(LiteralRemoteFunction):
+    component_change_class: _AxlComponentChangeClass
     """
     This command changes the component class of a component definition.
     SKILL: axlComponentChangeClass(s_devType/o_compDefs_class) -> t_oldClass/nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:517
     """
-    def __call__(self, s_dev_type: Symbol | RemoteObject, s_class: Symbol, /) -> str | None: ...
-
-class _AxlConductorBottomLayer(LiteralRemoteFunction):
+    conductor_bottom_layer: _AxlConductorBottomLayer
     """
     Returns the name of the bottom conductor layer.
     SKILL: axlConductorBottomLayer()⇒ t_name
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part02.md:422
     """
-    def __call__(self, /) -> str: ...
-
-class _AxlConductorTopLayer(LiteralRemoteFunction):
+    conductor_top_layer: _AxlConductorTopLayer
     """
     Returns the name of the top conductor layer.
     SKILL: axlConductorTopLayer()⇒ t_name
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part02.md:443
     """
-    def __call__(self, /) -> str: ...
-
-class _AxlControlRaise(LiteralRemoteFunction):
+    control_raise: _AxlControlRaise
     """
     Raises a tab in the control panel to the top
     SKILL: axlControlRaise(g_option)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:911
     """
-    def __call__(self, g_option: Skill, /) -> bool | None: ...
-
-class _AxlCopyObject(LiteralRemoteFunction):
+    copy_object: _AxlCopyObject
     """
     No description available.
     SKILL: axlCopyObject(lo_dbid/o_dbid ?move l_deltaPoint ?mirror t/nil ?angle f_angle ?origin l_rotatePoint ?allOrNone t/nil ?retainNet t/nil) => lo_dbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:237
     """
-    def __call__(self, lo_dbid: list[RemoteObject] | RemoteObject, /, *, move: SkillList | None = ..., mirror: bool | None = ..., angle: float | None = ..., origin: SkillList | None = ..., all_or_none: bool | None = ..., retain_net: bool | None = ...) -> list[RemoteObject] | None: ...
-
-class _AxlCopyProperties(LiteralRemoteFunction):
+    copy_properties: _AxlCopyProperties
     """
     This copies properties from one object to another
     SKILL: axlCopyProperties(o_destDbido_srcDbid)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:193
     """
-    def __call__(self, o_dest_dbid: RemoteObject, o_src_dbid: RemoteObject, /) -> bool | None: ...
-
-class _AxlCreateAttachment(LiteralRemoteFunction):
+    create_attachment: _AxlCreateAttachment
     """
     Creates a new Allegro PCB Editor database attachment with the given attachment id
     SKILL: axlCreateAttachment(t_attachmentIdt_passwdx_revisions_dataFormatt_data)⇒ o_attachment/nil
     Version: Allegro 17.2-2016
     Source: algroskill/16dbatt.md:14
     """
-    def __call__(self, t_attachment_id: str, t_passwd: str, x_revision: int, s_data_format: Symbol, t_data: str, /) -> RemoteObject | None: ...
-
-class _AxlCreateBondFinger(LiteralRemoteFunction):
+    create_bond_finger: _AxlCreateBondFinger
     """
     This function adds a valid, fully-instantiated bond finger to the database
     SKILL: axlCreateBondFinger(parentSymbol [fingerName] l_fingerData l_placementData) => o_dbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:993
     """
-    @overload
-    def __call__(self, parent_symbol: Skill, l_finger_data: SkillList, l_placement_data: SkillList, /) -> RemoteObject | None: ...
-    @overload
-    def __call__(self, parent_symbol: Skill, finger_name: Skill, l_finger_data: SkillList, l_placement_data: SkillList, /) -> RemoteObject | None: ...
-
-class _AxlCreateBondWire(LiteralRemoteFunction):
+    create_bond_wire: _AxlCreateBondWire
     """
     This function adds a valid, fully-instantiated bond wire to the database
     SKILL: axlCreateBondWire(parentSymbol [l_wireStart] l_wireEnd l_wirePhysical) => o_dbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:1035
     """
-    @overload
-    def __call__(self, parent_symbol: Skill, l_wire_end: SkillList, l_wire_physical: SkillList, /) -> RemoteObject | None: ...
-    @overload
-    def __call__(self, parent_symbol: Skill, l_wire_start: SkillList, l_wire_end: SkillList, l_wire_physical: SkillList, /) -> RemoteObject | None: ...
-
-class _AxlCreateDeviceFileTemplate(LiteralRemoteFunction):
+    create_device_file_template: _AxlCreateDeviceFileTemplate
     """
     This creates a template device file providing same functionality as the create device command in the symbol editor
     SKILL: axlCreateDeviceFileTemplate(t_deviceNamet_CLASSl_pinList) -> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:321
     """
-    def __call__(self, t_device_name: str, t_class: str, l_pin_list: SkillList, /) -> bool | None: ...
-
-class _AxlCreateWirebondGuide(LiteralRemoteFunction):
+    create_wirebond_guide: _AxlCreateWirebondGuide
     """
     This function adds a wirebond guide path into the design, which can then be used to snap fingers through the wirebond tools.
     SKILL: axlCreateWirebondGuide(r_path)==> dbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part02.md:148
     """
-    def __call__(self, r_path: RemoteObject, /) -> Skill | None: ...
-
-class _AxlCurrentDesign(LiteralRemoteFunction):
+    current_design: _AxlCurrentDesign
     """
     Returns the name of the currently active layout
     SKILL: axlCurrentDesign()⇒ t_design
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:14
     """
-    def __call__(self, /) -> str: ...
-
-class _AxlCursorGet(LiteralRemoteFunction):
+    cursor_get: _AxlCursorGet
     """
     No description available.
     SKILL: axlCursorGet (g_pixel) ==> l_xy
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:480
     """
-    def __call__(self, g_pixel: Skill, /) -> list[Skill]: ...
-
-class _AxlCursorWarp(LiteralRemoteFunction):
+    cursor_warp: _AxlCursorWarp
     """
     Use this command to set the cursor position
     SKILL: axlCursorWarp (g_pixell_xy) ==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:503
     """
-    def __call__(self, g_pixel: Skill, l_xy: SkillList, /) -> bool | None: ...
-
-class _AxlCustomColorObject(LiteralRemoteFunction):
+    custom_color_object: _AxlCustomColorObject
     """
     Custom color the provided dbid or list of dbids
     SKILL: axlCustomColorObject([lo_dbid][g_custom_color])==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:1486
     """
-    def __call__(self, lo_dbid: list[RemoteObject] | None = ..., g_custom_color: Skill = ..., /) -> bool | None: ...
-
-class _AxlDB2Path(LiteralRemoteFunction):
+    d_b2_path: _AxlDB2Path
     """
     This takes a database id (od_dbId) and converts it to an r\\_path
     SKILL: axlDB2Path(o_dbid)==> r_path
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:481
     """
-    def __call__(self, o_dbid: RemoteObject, /) -> RemoteObject: ...
-
-class _AxlDBActiveShape(LiteralRemoteFunction):
+    db_active_shape: _AxlDBActiveShape
     """
     Returns thedbid of the open shape, if any.
     SKILL: axlDBActiveShape()⇒ o_shape/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:819
     """
-    def __call__(self, /) -> RemoteObject | None: ...
-
-class _AxlDBAddGroupObjects(LiteralRemoteFunction):
+    db_add_group_objects: _AxlDBAddGroupObjects
     """
     Adds the database objects specified in the new members list to a group
     SKILL: axlDBAddGroupObjects(o_grouplo_members)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/15dbgrp.md:14
     """
-    def __call__(self, o_group: RemoteObject, lo_members: list[RemoteObject], /) -> bool | None: ...
-
-class _AxlDBAddProp(LiteralRemoteFunction):
+    db_add_prop: _AxlDBAddProp
     """
     Adds all the property/value pairs listed inll_name_value to all the object dbids listed in lrd_attach
     SKILL: axlDBAddProp(lo_attachll_name_value)⇒ l_result/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part02.md:254
     """
-    def __call__(self, lo_attach: list[RemoteObject], ll_name_value: SkillList, /) -> list[Skill] | None: ...
-
-class _AxlDBAltOrigin(LiteralRemoteFunction):
+    db_alt_origin: _AxlDBAltOrigin
     """
     Returns alternative center for adbid
     SKILL: axlDBAltOrigin(g_modeo_dbid)⇒ xy/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:290
     """
-    def __call__(self, g_mode: Skill, o_dbid: RemoteObject, /) -> Skill | None: ...
-
-class _AxlDBAssignNet(LiteralRemoteFunction):
+    db_assign_net: _AxlDBAssignNet
     """
     Assigns an object or a list of objects to a new net
     SKILL: axlDBAssignNet(o_object/lo_objecto_net/t_net[g_ripup])⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/26logacc.md:14
     """
-    def __call__(self, o_object: RemoteObject | list[RemoteObject], o_net: RemoteObject | str, g_ripup: Skill = ..., /) -> bool | None: ...
-
-class _AxlDBChangeDesignExtents(LiteralRemoteFunction):
+    db_change_design_extents: _AxlDBChangeDesignExtents
     """
     Changes design extents
     SKILL: axlDBChangeDesignExtents(l_bBox)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:765
     """
-    def __call__(self, l_b_box: SkillList, /) -> bool | None: ...
-
-class _AxlDBChangeDesignOrigin(LiteralRemoteFunction):
+    db_change_design_origin: _AxlDBChangeDesignOrigin
     """
     Changes the origin of the design
     SKILL: axlDBChangeDesignOrigin(l_point)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:802
     """
-    def __call__(self, l_point: SkillList, /) -> bool | None: ...
-
-class _AxlDBChangeDesignUnits(LiteralRemoteFunction):
+    db_change_design_units: _AxlDBChangeDesignUnits
     """
     Changes the units and accuracy of the design
     SKILL: axlDBChangeDesignUnits(t_units/nilx_accuracy/nilx_drcCount/nil)⇒ x_drcCount/nil
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:831
     """
-    def __call__(self, t_units: str | None, x_accuracy: int | None, x_drc_count: int | None, /) -> int | None: ...
-
-class _AxlDBChangeText(LiteralRemoteFunction):
+    db_change_text: _AxlDBChangeText
     """
     Modifies the characteristics of a text string in the layout
     SKILL: axlDBChangeText(o_dbidt_text[r_textOrientation/x_textBlock])==> l_result/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:351
     """
-    def __call__(self, o_dbid: RemoteObject, t_text: str, r_text_orientation: RemoteObject | int | None = ..., /) -> list[Skill] | None: ...
-
-class _AxlDBCheck(LiteralRemoteFunction):
+    db_check: _AxlDBCheck
     """
     Runs*dbdoctor* on the current database
     SKILL: axlDBCheck(g_option/lg_options[p_file])⇒ (x_errors x_warnings)/nil
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:900
     """
-    def __call__(self, g_option: Skill | SkillList, p_file: Skill = ..., /) -> Skill: ...
-
-class _AxlDBCloak(LiteralRemoteFunction):
+    db_cloak: _AxlDBCloak
     """
     Improves performance and program memory use while modifying many items in the database
     SKILL: axlDBCloak(g_func [g_mode/lg_mode]) => g_return
     Version: Allegro 17.2-2016
     Source: algroskill/17dbtran.md:11
     """
-    def __call__(self, g_func: Skill, g_mode: Skill | SkillList | None = ..., /) -> Skill: ...
-
-class _AxlDBControl(LiteralRemoteFunction):
+    db_control: _AxlDBControl
     """
     Inquires and/or sets the value of a special database control
     SKILL: axlDBControl(s_name[g_value]) => g_currentValue/ls_names
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:134
     """
-    def __call__(self, s_name: Symbol, g_value: Skill = ..., /) -> Skill | list[Symbol]: ...
-
-class _AxlDBCopyPadstack(LiteralRemoteFunction):
+    db_copy_padstack: _AxlDBCopyPadstack
     """
     Creates a new padstack by copying an existing padstack, with optional removal of layers
     SKILL: axlDBCopyPadstack(o_dbid/t_padstackNamelt_startEnd[g_dontTrim])⇒ o_dbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:943
     """
-    def __call__(self, o_dbid: RemoteObject | str, lt_start_end: list[str], g_dont_trim: Skill = ..., /) -> RemoteObject | None: ...
-
-class _AxlDBCreateCircle(LiteralRemoteFunction):
+    db_create_circle: _AxlDBCreateCircle
     """
     Create a circle at indicated location and with indicated diameter.
     SKILL: axlDBCreateCircle(l_location[f_width][t_layer][rd_parent])⇒ l_result/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:622
     """
-    def __call__(self, l_location: SkillList, f_width: float | None = ..., t_layer: str | None = ..., rd_parent: Skill = ..., /) -> list[Skill] | None: ...
-
-class _AxlDBCreateCloseShape(LiteralRemoteFunction):
+    db_create_close_shape: _AxlDBCreateCloseShape
     """
     Closes the current open shape and applies the fill pattern specified inaxlDBCreateOpenShape
     SKILL: axlDBCreateCloseShape(o_shape[g_forceShape])⇒ l_result/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:794
     """
-    def __call__(self, o_shape: RemoteObject, g_force_shape: Skill = ..., /) -> list[Skill] | None: ...
-
-class _AxlDBCreateComponent(LiteralRemoteFunction):
+    db_create_component: _AxlDBCreateComponent
     """
     Given the information needed to describe a Allegro PCB Editor device, create the Allegro PCB Editor component and return itsdbid
     SKILL: axlDBCreateComponent(s_refDess_deviceName[s_package][s_value][s_tolerance])==> r_dbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/26logacc.md:96
     """
-    def __call__(self, s_ref_des: Symbol, s_device_name: Symbol, s_package: Symbol | None = ..., s_value: Symbol | None = ..., s_tolerance: Symbol | None = ..., /) -> RemoteObject | None: ...
-
-class _AxlDBCreateConceptComponent(LiteralRemoteFunction):
+    db_create_concept_component: _AxlDBCreateConceptComponent
     """
     Given the Concept information needed to describe an Allegro PCB Editor device, create the Allegro PCB Editor component and return itsdbid
     SKILL: axlDBCreateConceptComponent(s_refdess_partPaths_logNames_primName[s_pptRowName] ) ⇒ r_dbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/26logacc.md:65
     """
-    def __call__(self, s_refdes: Symbol, s_part_path: Symbol, s_log_name: Symbol, s_prim_name: Symbol, s_ppt_row_name: Symbol | None = ..., /) -> RemoteObject | None: ...
-
-class _AxlDBCreateExternalDRC(LiteralRemoteFunction):
+    db_create_external_drc: _AxlDBCreateExternalDRC
     """
     Creates an externally-defined (by user) DRC containing the values given in the arguments
     SKILL: axlDBCreateExternalDRC(t_constraint/lt_constraintl_anchor_point[t_layer][lo_dbid][l_secondPoint][t_actualValue])⇒ l_result/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:1061
     """
-    def __call__(self, t_constraint: str | list[str], l_anchor_point: SkillList, t_layer: str | None = ..., lo_dbid: list[RemoteObject] | None = ..., l_second_point: SkillList | None = ..., t_actual_value: str | None = ..., /) -> list[Skill] | None: ...
-
-class _AxlDBCreateFilmRec(LiteralRemoteFunction):
+    db_create_film_rec: _AxlDBCreateFilmRec
     """
     This interface is obsolete
     SKILL: signature unavailable; generic fallback
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part02.md:464
     """
-    def __call__(self, *args: Skill, **kwargs: Skill) -> Skill: ...
-
-class _AxlDBCreateGroup(LiteralRemoteFunction):
+    db_create_group: _AxlDBCreateGroup
     """
     Creates a new group database object with members specified bylo_groupMembers.
     SKILL: axlDBCreateGroup(t_namet_typelo_groupMembers)⇒ o_dbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/15dbgrp.md:38
     """
-    def __call__(self, t_name: str, t_type: str, lo_group_members: list[RemoteObject], /) -> RemoteObject | None: ...
-
-class _AxlDBCreateLine(LiteralRemoteFunction):
+    db_create_line: _AxlDBCreateLine
     """
     Create a path of fixed width straight segments, a line with series of provided points
     SKILL: axlDBCreateLine(l_points [f_width] [t_layer] [t_netName/'line] [o_parent] [s_font]) => l_result/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:576
     """
-    def __call__(self, l_points: SkillList, f_width: float | None = ..., t_layer: str | None = ..., t_net_name: str | Symbol | None = ..., o_parent: RemoteObject | None = ..., s_font: Symbol | None = ..., /) -> list[Skill] | None: ...
-
-class _AxlDBCreateManyModuleInstances(LiteralRemoteFunction):
+    db_create_many_module_instances: _AxlDBCreateManyModuleInstances
     """
     Creates multiple module instances in the design
     SKILL: axlDBCreateManyModuleInstances( t_name t_moddefName x_tileStartNum l_origin l_offset x_num_tiles f_rotation x_logicMethod [l_netExcept] [g_mirror] ) ==> o_result/nil
     Version: Allegro 17.2-2016
     Source: algroskill/26logacc.md:143
     """
-    def __call__(self, t_name: str, t_moddef_name: str, x_tile_start_num: int, l_origin: SkillList, l_offset: SkillList, x_num_tiles: int, f_rotation: float, x_logic_method: int, l_net_except: SkillList | None = ..., g_mirror: Skill = ..., /) -> RemoteObject | None: ...
-
-class _AxlDBCreateModuleDef(LiteralRemoteFunction):
+    db_create_module_def: _AxlDBCreateModuleDef
     """
     Creates a module based on existing database objects.
     SKILL: axlDBCreateModuleDef(t_namel_originl_objects ) ⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/26logacc.md:210
     """
-    def __call__(self, t_name: str, l_origin: SkillList, l_objects: SkillList, /) -> bool | None: ...
-
-class _AxlDBCreateModuleInstance(LiteralRemoteFunction):
+    db_create_module_instance: _AxlDBCreateModuleInstance
     """
     Allows you to use or place a previously defined module.
     SKILL: axlDBCreateModuleInstance(t_namet_moddef_namel_originr_rotationi_logic_methodl_net_except ) ⇒ o_result/nil
     Version: Allegro 17.2-2016
     Source: algroskill/26logacc.md:255
     """
-    def __call__(self, t_name: str, t_moddef_name: str, l_origin: SkillList, r_rotation: RemoteObject, i_logic_method: Number, l_net_except: SkillList, /) -> RemoteObject | None: ...
-
-class _AxlDBCreateNet(LiteralRemoteFunction):
+    db_create_net: _AxlDBCreateNet
     """
     Creates a net in database if does not exist or returnsdbid of net if it exists.
     SKILL: axlDBCreateNet(t_netName)==> o_dbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/26logacc.md:291
     """
-    def __call__(self, t_net_name: str, /) -> RemoteObject | None: ...
-
-class _AxlDBCreateOpenShape(LiteralRemoteFunction):
+    db_create_open_shape: _AxlDBCreateOpenShape
     """
     Creates a shape based on the characteristic of eithero_polygon orr_path
     SKILL: axlDBCreateOpenShape(o_polygon/r_path[l_r_fill][t_layer][t_netName/o_netdbid][o_parent])⇒ o_shape/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:689
     """
-    def __call__(self, o_polygon: RemoteObject, l_r_fill: SkillList | None = ..., t_layer: str | None = ..., t_net_name: str | RemoteObject | None = ..., o_parent: RemoteObject | None = ..., /) -> RemoteObject | None: ...
-
-class _AxlDBCreatePadStack(LiteralRemoteFunction):
+    db_create_pad_stack: _AxlDBCreatePadStack
     """
     Adds a padstackt_name, using drill hole r_drill and pad definition l_pad.
     SKILL: axlDBCreatePadStack(t_namer_drilll_pad[g_nocheck])⇒ l_result/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:1733
     """
-    def __call__(self, t_name: str, r_dril: RemoteObject, ll_pad: SkillList, g_nocheck: Skill = ..., /) -> list[Skill] | None: ...
-
-class _AxlDBCreatePath(LiteralRemoteFunction):
+    db_create_path: _AxlDBCreatePath
     """
     Creates a path figure (line or cline) as specified
     SKILL: axlDBCreatePath(r_path [t_layer] [t_netName/'line] [o_parent] [lo_props] [s_font]) => l_result/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:511
     """
-    def __call__(self, r_path: RemoteObject, t_layer: str | None = ..., t_net_name: str | Symbol | None = ..., o_parent: RemoteObject | None = ..., lo_props: list[RemoteObject] | None = ..., s_font: Symbol | None = ..., /) -> list[Skill] | None: ...
-
-class _AxlDBCreatePin(LiteralRemoteFunction):
+    db_create_pin: _AxlDBCreatePin
     """
     Adds a pin with padstackt_padstack, pin name r_pinText at location l_anchorPoint, and rotated by f_rotation degrees.
     SKILL: axlDBCreatePin(t_padstack/o_padstackDbidl_anchorPointr_pinText/nil[f_rotation])⇒ l_result/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:1165
     """
-    def __call__(self, t_padstack: str | RemoteObject, l_anchor_point: SkillList, r_pin_text: RemoteObject | None, f_rotation: float | None = ..., /) -> list[Skill] | None: ...
-
-class _AxlDBCreatePropDictEntry(LiteralRemoteFunction):
+    db_create_prop_dict_entry: _AxlDBCreatePropDictEntry
     """
     Creates an Allegro user-defined property dictionary entry with given attributes
     SKILL: axlDBCreatePropDictEntry(t_name t_type lt_objects/t [ln_range] [t_units] [g_hidden]) => od_propDictEntry/nil
@@ -1736,39 +10337,28 @@ class _AxlDBCreatePropDictEntry(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part02.md:172
     """
-    @overload
-    def __call__(self, t_name: str, t_type: str, lt_objects: list[str] | bool, ln_range: SkillList | None = ..., t_units: str | None = ..., g_hidden: Skill = ..., /) -> RemoteObject | None: ...
-    @overload
-    def __call__(self, value: None, /) -> list[str]: ...
-
-class _AxlDBCreateRectangle(LiteralRemoteFunction):
+    db_create_rectangle: _AxlDBCreateRectangle
     """
     Creates a rectangle with coordinates specified byl_bBox
     SKILL: axlDBCreateRectangle(l_bBox[g_fill][t_layer][t_netname][o_parent])⇒ l_result/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:935
     """
-    def __call__(self, l_b_box: SkillList, g_fill: Skill = ..., t_layer: str | None = ..., t_netname: str | None = ..., o_parent: RemoteObject | None = ..., /) -> list[Skill] | None: ...
-
-class _AxlDBCreateShape(LiteralRemoteFunction):
+    db_create_shape: _AxlDBCreateShape
     """
     Takes the same arguments asaxlDBCreateOpenShape and adds the r_path shape to the database
     SKILL: axlDBCreateShape(o_polygon/r_path[l_r_fill][t_layer][t_netName][o_parent])⇒ l_result/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:904
     """
-    def __call__(self, o_polygon: RemoteObject, l_r_fill: SkillList | None = ..., t_layer: str | None = ..., t_net_name: str | None = ..., o_parent: RemoteObject | None = ..., /) -> list[Skill] | None: ...
-
-class _AxlDBCreateSymDefSkeleton(LiteralRemoteFunction):
+    db_create_sym_def_skeleton: _AxlDBCreateSymDefSkeleton
     """
     Creates a "minimal" symbol definition
     SKILL: axlDBCreateSymDefSkeleton(l_symbolDatal_extents[l_pinData])==> axlDBID/nil
     Version: Allegro 17.2-2016
     Source: algroskill/26logacc.md:322
     """
-    def __call__(self, l_symbol_data: SkillList, l_extents: SkillList, l_pin_data: SkillList | None = ..., /) -> Skill | None: ...
-
-class _AxlDBCreateSymbol(LiteralRemoteFunction):
+    db_create_symbol: _AxlDBCreateSymbol
     """
     Places a symbol instance in the design
     SKILL: axlDBCreateSymbol(t_refdesl_anchorPoint[g_mirror][f_rotation][t_embeddedLayer])⇒ l_result/nil
@@ -1776,21 +10366,14 @@ class _AxlDBCreateSymbol(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:1268
     """
-    @overload
-    def __call__(self, t_refdes: str, l_anchor_point: SkillList, g_mirror: Skill = ..., f_rotation: float | None = ..., t_embedded_layer: str | None = ..., /) -> list[Skill] | None: ...
-    @overload
-    def __call__(self, l_symbol_data: SkillList, l_anchor_point: SkillList, g_mirror: Skill = ..., f_rotation: float | None = ..., t_embedded_layer: str | None = ..., /) -> list[Skill] | None: ...
-
-class _AxlDBCreateSymbolAutosilk(LiteralRemoteFunction):
+    db_create_symbol_autosilk: _AxlDBCreateSymbolAutosilk
     """
     Creates or updates theAUTOSILK information for the specified symbol, as required
     SKILL: axlDBCreateSymbolAutosilk(o_symbol)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part02.md:129
     """
-    def __call__(self, o_symbol: RemoteObject, /) -> bool | None: ...
-
-class _AxlDBCreateSymbolSkeleton(LiteralRemoteFunction):
+    db_create_symbol_skeleton: _AxlDBCreateSymbolSkeleton
     """
     Places a skeleton or a minimal symbol instance atl_anchorPoint with mirror and rotation given but no data in the instance, except the pin data given by l_pinData
     SKILL: axlDBCreateSymbolSkeleton(t_refdesl_anchorPointg_mirrorf_rotationl_pinData[t_embeddedLayer])⇒ l_result/nil
@@ -1798,255 +10381,196 @@ class _AxlDBCreateSymbolSkeleton(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:1328
     """
-    @overload
-    def __call__(self, t_refdes: str, l_anchor_point: SkillList, g_mirror: Skill, f_rotation: float, l_pin_data: SkillList, t_embedded_layer: str | None = ..., /) -> list[Skill] | None: ...
-    @overload
-    def __call__(self, l_symbol_data: SkillList, l_anchor_point: SkillList, g_mirror: Skill, f_rotation: float, l_pin_data: SkillList, t_embedded_layer: str | None = ..., /) -> list[Skill] | None: ...
-
-class _AxlDBCreateText(LiteralRemoteFunction):
+    db_create_text: _AxlDBCreateText
     """
     Creates a text string in the layout using the arguments described.
     SKILL: axlDBCreateText(t_textl_anchorPointr_textOrientation[t_layer][o_attach])⇒ l_result/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part02.md:39
     """
-    def __call__(self, t_text: str, l_anchor_point: SkillList, r_text_orientation: RemoteObject, t_layer: str | None = ..., o_attach: RemoteObject | None = ..., /) -> list[Skill] | None: ...
-
-class _AxlDBCreateVia(LiteralRemoteFunction):
+    db_create_via: _AxlDBCreateVia
     """
     Creates a via in the layout as specified by the arguments described below.
     SKILL: axlDBCreateVia(t_padstack/o_padstackDbidl_anchorPoint[t_netName][g_mirror][f_rotation][o_parent])⇒ l_result/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part02.md:90
     """
-    def __call__(self, t_padstack: str | RemoteObject, l_anchor_point: SkillList, t_net_name: str | None = ..., g_mirror: Skill = ..., f_rotation: float | None = ..., o_parent: RemoteObject | None = ..., /) -> list[Skill] | None: ...
-
-class _AxlDBCreateVoid(LiteralRemoteFunction):
+    db_create_void: _AxlDBCreateVoid
     """
     Adds a void to a shape
     SKILL: axlDBCreateVoid(o_shape/nilr_path/o_polygon)⇒ o_polygon/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:866
     """
-    def __call__(self, o_shape: RemoteObject | None, r_path: RemoteObject, /) -> RemoteObject | None: ...
-
-class _AxlDBCreateVoidCircle(LiteralRemoteFunction):
+    db_create_void_circle: _AxlDBCreateVoidCircle
     """
     Creates a circular void in the open shapeo_shape
     SKILL: axlDBCreateVoidCircle(o_shapel_location[f_width])⇒ o_polygon/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:841
     """
-    def __call__(self, o_shape: RemoteObject, l_location: SkillList, f_width: float | None = ..., /) -> RemoteObject | None: ...
-
-class _AxlDBDelLock(LiteralRemoteFunction):
+    db_del_lock: _AxlDBDelLock
     """
     Deletes a lock on the database
     SKILL: axlDBDelLock([t_password]) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:983
     """
-    def __call__(self, t_password: str | None = ..., /) -> bool | None: ...
-
-class _AxlDBDeleteProp(LiteralRemoteFunction):
+    db_delete_prop: _AxlDBDeleteProp
     """
     Deletes the properties listed by name, inlt_name, from the objects whose dbids are in lo_attach.
     SKILL: axlDBDeleteProp(lo_attachlt_name)⇒ l_result/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:512
     """
-    def __call__(self, lo_attach: list[RemoteObject], lt_name: list[str], /) -> list[Skill] | None: ...
-
-class _AxlDBDeletePropAll(LiteralRemoteFunction):
+    db_delete_prop_all: _AxlDBDeletePropAll
     """
     Deletes all instances of the property t\\_name in the database
     SKILL: axlDBDeletePropAll(t_name)==> x_count/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:552
     """
-    def __call__(self, t_name: str, /) -> int | None: ...
-
-class _AxlDBDeletePropDictEntry(LiteralRemoteFunction):
+    db_delete_prop_dict_entry: _AxlDBDeletePropDictEntry
     """
     No description available.
     SKILL: axlDBDeletePropDictEntry(t_name)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:581
     """
-    def __call__(self, t_name: str, /) -> bool | None: ...
-
-class _AxlDBDisbandGroup(LiteralRemoteFunction):
+    db_disband_group: _AxlDBDisbandGroup
     """
     Disbands the database group you specify with theo_group argument, thereby immediately removing the group
     SKILL: axlDBDisbandGroup(o_group)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/15dbgrp.md:125
     """
-    def __call__(self, o_group: RemoteObject, /) -> bool | None: ...
-
-class _AxlDBDisplayControl(LiteralRemoteFunction):
+    db_display_control: _AxlDBDisplayControl
     """
     This command is used to inquire and set the display database controls
     SKILL: axlDBDisplayControl(s_name[g_value])==> g_currentValue/ls_names
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:1469
     """
-    def __call__(self, s_name: Symbol, g_value: Skill = ..., /) -> Skill | list[Symbol]: ...
-
-class _AxlDBDummyNet(LiteralRemoteFunction):
+    db_dummy_net: _AxlDBDummyNet
     """
     This command returns all dummy nets in design
     SKILL: axlDBDummyNet (g_mode)-> lo_dbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/26logacc.md:384
     """
-    def __call__(self, g_mode: Skill, /) -> list[RemoteObject] | None: ...
-
-class _AxlDBDynamicShapes(LiteralRemoteFunction):
+    db_dynamic_shapes: _AxlDBDynamicShapes
     """
     Queries and updates dynamic shapes
     SKILL: axlDBDynamicShapes(g_value)⇒ x_count
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:939
     """
-    def __call__(self, g_value: Skill, /) -> int: ...
-
-class _AxlDBFindByName(LiteralRemoteFunction):
+    db_find_by_name: _AxlDBFindByName
     """
     Findsdbid of an object by name without involving the selection set
     SKILL: axlDBFindByName(s_typet_name) ⇒ o_dbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/05selfnd.md:1024
     """
-    def __call__(self, s_type: Symbol, t_name: str, /) -> RemoteObject | None: ...
-
-class _AxlDBGetAttachedText(LiteralRemoteFunction):
+    db_get_attached_text: _AxlDBGetAttachedText
     """
     Returns the list ofdbids of text objects attached to the object whose dbid is o_dbid
     SKILL: axlDBGetAttachedText(o_dbid)⇒ l_dbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:273
     """
-    def __call__(self, o_dbid: RemoteObject, /) -> list[Skill] | None: ...
-
-class _AxlDBGetConnect(LiteralRemoteFunction):
+    db_get_connect: _AxlDBGetConnect
     """
     Finds all the elements, including pads and shapes, that are connected to a givendbid
     SKILL: axlDBGetConnect(o_dbid[t_full])⇒ l_result/nil
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:581
     """
-    def __call__(self, o_dbid: RemoteObject, t_full: str | None = ..., /) -> list[Skill] | None: ...
-
-class _AxlDBGetDesign(LiteralRemoteFunction):
+    db_get_design: _AxlDBGetDesign
     """
     Returns the root designdbid
     SKILL: axlDBGetDesign()⇒ o_design/nil
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:179
     """
-    def __call__(self, /) -> RemoteObject | None: ...
-
-class _AxlDBGetDesignUnits(LiteralRemoteFunction):
+    db_get_design_units: _AxlDBGetDesignUnits
     """
     Returns the design units and accuracy number of the active design.
     SKILL: axlDBGetDesignUnits()⇒ l_value/nil
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:495
     """
-    def __call__(self, /) -> list[Skill] | None: ...
-
-class _AxlDBGetDrillPlating(LiteralRemoteFunction):
+    db_get_drill_plating: _AxlDBGetDrillPlating
     """
     Retrieves the plating type of the padstack passed as an argument to this function.
     SKILL: axlDBGetDrillPlating(t_padstackname) => s_plating/nil
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:223
     """
-    def __call__(self, t_padstackname: str, /) -> Symbol | None: ...
-
-class _AxlDBGetExtents(LiteralRemoteFunction):
+    db_get_extents: _AxlDBGetExtents
     """
     Provides the extents of a physical database object
     SKILL: axlDBGetExtents(o_dbidg_visibleOnly)==> bBox/nil
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:346
     """
-    def __call__(self, o_dbid: RemoteObject, g_visible_only: Skill, /) -> Skill | None: ...
-
-class _AxlDBGetGroupFromItem(LiteralRemoteFunction):
+    db_get_group_from_item: _AxlDBGetGroupFromItem
     """
     Filter object's group membership by a group type
     SKILL: axlDBGetGroupFromItem(o_dbidt_groupType[g_promoteToNet]) -> lo_groupDbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/15dbgrp.md:148
     """
-    def __call__(self, o_dbid: RemoteObject, t_group_type: str, g_promote_to_net: Skill = ..., /) -> list[RemoteObject] | None: ...
-
-class _AxlDBGetLayerType(LiteralRemoteFunction):
+    db_get_layer_type: _AxlDBGetLayerType
     """
     Retrieves the cross-section type of a given layer
     SKILL: axlDBGetLayerType(t_layername) => t_layertype/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:1763
     """
-    def __call__(self, t_layername: str, /) -> str | None: ...
-
-class _AxlDBGetLength(LiteralRemoteFunction):
+    db_get_length: _AxlDBGetLength
     """
     Calculates the length of the given object which may be a NET, CLINE, SEGMENT, or RATSNEST
     SKILL: axlDBGetLength(o_dbid)==> f_etchlength/nil
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:154
     """
-    def __call__(self, o_dbid: RemoteObject, /) -> float | None: ...
-
-class _AxlDBGetLock(LiteralRemoteFunction):
+    db_get_lock: _AxlDBGetLock
     """
     Returns information about a lock on the database
     SKILL: axlDBGetLock()⇒ nil/l_info
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:1018
     """
-    def __call__(self, /) -> list[Skill] | None: ...
-
-class _AxlDBGetLonelyBranches(LiteralRemoteFunction):
+    db_get_lonely_branches: _AxlDBGetLonelyBranches
     """
     Returns a list of the*standalone branch* dbids in the design
     SKILL: axlDBGetLonelyBranches()⇒ l_dbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:555
     """
-    def __call__(self, /) -> list[Skill] | None: ...
-
-class _AxlDBGetManhattan(LiteralRemoteFunction):
+    db_get_manhattan: _AxlDBGetManhattan
     """
     Given a net, calculates an etch, path, and Manhattan length
     SKILL: axlDBGetManhattan(o_dbid_net)⇒ l_result/nil
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:186
     """
-    def __call__(self, o_dbi: RemoteObject, d_net: Skill, /) -> list[Skill] | None: ...
-
-class _AxlDBGetPad(LiteralRemoteFunction):
+    db_get_pad: _AxlDBGetPad
     """
     For the pin or via specified byo_dbid, gets the pad of type t_type associated with layer t_layer.
     SKILL: axlDBGetPad(o_dbidt_layert_type)⇒ o_pad/nil
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:304
     """
-    def __call__(self, o_dbid: RemoteObject, t_layer: str, t_type: str, /) -> RemoteObject | None: ...
-
-class _AxlDBGetPropDict(LiteralRemoteFunction):
+    db_get_prop_dict: _AxlDBGetPropDict
     """
     Returns a list of property definitions in the current design
     SKILL: axlDBGetPropDict(S_filter/nil) -> lt_propNames
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:375
     """
-    def __call__(self, s_filter: Symbol | None, /) -> list[str]: ...
-
-class _AxlDBGetPropDictEntry(LiteralRemoteFunction):
+    db_get_prop_dict_entry: _AxlDBGetPropDictEntry
     """
     Gets the property dictionary entry for the property name given by the stringt_name
     SKILL: axlDBGetPropDictEntry(t_name)⇒ o_propDictEntry/nil
@@ -2054,48 +10578,35 @@ class _AxlDBGetPropDictEntry(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:411
     """
-    @overload
-    def __call__(self, t_name: str, /) -> RemoteObject | None: ...
-    @overload
-    def __call__(self, value: None, /) -> list[str]: ...
-
-class _AxlDBGetProperties(LiteralRemoteFunction):
+    db_get_properties: _AxlDBGetProperties
     """
     Gets the properties attached to a specified object
     SKILL: axlDBGetProperties(o_dbid[lt_type])⇒ l_result/nil
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:449
     """
-    def __call__(self, o_dbid: RemoteObject, lt_type: list[str] | None = ..., /) -> list[Skill] | None: ...
-
-class _AxlDBGetShapes(LiteralRemoteFunction):
+    db_get_shapes: _AxlDBGetShapes
     """
     Provides quick access to shapes without access to visibility or find settings.
     SKILL: axlDBGetShapes(t_layer)⇒ l_dbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:957
     """
-    def __call__(self, t_layer: str, /) -> list[Skill] | None: ...
-
-class _AxlDBGetSymbolBodyExtent(LiteralRemoteFunction):
+    db_get_symbol_body_extent: _AxlDBGetSymbolBodyExtent
     """
     This returns the body extent of a symbol
     SKILL: axlDBGetSymbolBodyExtent(o_dbid)-> bBox/nil
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:225
     """
-    def __call__(self, o_dbid: RemoteObject, /) -> Skill | None: ...
-
-class _AxlDBGetTextBlockCount(LiteralRemoteFunction):
+    db_get_text_block_count: _AxlDBGetTextBlockCount
     """
     Returns a count of the number of text blocks defined.
     SKILL: axlDBGetTextBlockCount()=> x_textBlockCount
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:50
     """
-    def __call__(self, /) -> int: ...
-
-class _AxlDBGridGet(LiteralRemoteFunction):
+    db_grid_get: _AxlDBGridGet
     """
     This command returns current grid values
     SKILL: axlDBGridGet(nil)==> lt_grids
@@ -2103,543 +10614,420 @@ class _AxlDBGridGet(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:73
     """
-    @overload
-    def __call__(self, value: None, /) -> list[str]: ...
-    @overload
-    def __call__(self, t_grid_name: str, /) -> Skill: ...
-
-class _AxlDBGridSet(LiteralRemoteFunction):
+    db_grid_set: _AxlDBGridSet
     """
     This command modifies the grid settings in the design.
     SKILL: axlDBGridSet(og_grid)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:130
     """
-    def __call__(self, og_grid: Skill, /) -> bool | None: ...
-
-class _AxlDBGroupRename(LiteralRemoteFunction):
+    db_group_rename: _AxlDBGroupRename
     """
     Renames a group
     SKILL: axlDBGroupRename(o_groupDbidt_newName)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/15dbgrp.md:188
     """
-    def __call__(self, o_group_dbid: RemoteObject, t_new_name: str, /) -> bool | None: ...
-
-class _AxlDBIgnoreFixed(LiteralRemoteFunction):
+    db_ignore_fixed: _AxlDBIgnoreFixed
     """
     Provides similar functionality to that offered by many Allegro batch programs which allow FIXED and LOCKED properties to be ignored (for example:netrev -z).
     SKILL: axlDBIgnoreFixed([g_ignore]) -> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:374
     """
-    def __call__(self, g_ignore: Skill = ..., /) -> bool | None: ...
-
-class _AxlDBIsBondingWireLayer(LiteralRemoteFunction):
+    db_is_bonding_wire_layer: _AxlDBIsBondingWireLayer
     """
     This is an obsolete function
     SKILL: axlDBIsBondingWireLayer(t_layerName)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:589
     """
-    def __call__(self, t_layer_name: str, /) -> bool | None: ...
-
-class _AxlDBIsBondpad(LiteralRemoteFunction):
+    db_is_bondpad: _AxlDBIsBondpad
     """
     Verifies whether or not the given element is a*bondpad*.
     SKILL: axlDBIsBondpad(o_dbid)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:620
     """
-    def __call__(self, o_dbid: RemoteObject, /) -> bool | None: ...
-
-class _AxlDBIsBondwire(LiteralRemoteFunction):
+    db_is_bondwire: _AxlDBIsBondwire
     """
     Verifies whether or not the given element is a*bonding wire*.
     SKILL: axlDBIsBondwire(o_dbid)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:641
     """
-    def __call__(self, o_dbid: RemoteObject, /) -> bool | None: ...
-
-class _AxlDBIsDiePad(LiteralRemoteFunction):
+    db_is_die_pad: _AxlDBIsDiePad
     """
     Verifies whether or not the given element is a*die pad*.
     SKILL: axlDBIsDiePad(rd_dbid)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:662
     """
-    def __call__(self, rd_dbid: Skill, /) -> bool | None: ...
-
-class _AxlDBIsDieStackLayer(LiteralRemoteFunction):
+    db_is_die_stack_layer: _AxlDBIsDieStackLayer
     """
     Verifies if layer is a die stack layer
     SKILL: axlDBIsDieStackLayer (t_layerName)==> t or nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:961
     """
-    def __call__(self, t_layer_name: str, /) -> Skill: ...
-
-class _AxlDBIsFixed(LiteralRemoteFunction):
+    db_is_fixed: _AxlDBIsFixed
     """
     Verifies whether or not the specified database object is fixed
     SKILL: axlDBIsFixed(o_dbid[g_showMessage])⇒ nil or [dbid of 1st element that makes the item fixed]
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:621
     """
-    def __call__(self, o_dbid: RemoteObject, g_show_message: Skill = ..., /) -> Skill: ...
-
-class _AxlDBIsPackagePin(LiteralRemoteFunction):
+    db_is_package_pin: _AxlDBIsPackagePin
     """
     Verifies whether or not the given element is a*package pin*.
     SKILL: axlDBIsPackagePin(rd_dbid)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:669
     """
-    def __call__(self, rd_dbid: Skill, /) -> bool | None: ...
-
-class _AxlDBIsPlatingbarPin(LiteralRemoteFunction):
+    db_is_platingbar_pin: _AxlDBIsPlatingbarPin
     """
     Verifies whether or not the given element is a*plating bar pin*.
     SKILL: axlDBIsPlatingbarPin(rd_dbid)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:683
     """
-    def __call__(self, rd_dbid: Skill, /) -> bool | None: ...
-
-class _AxlDBIsReadOnly(LiteralRemoteFunction):
+    db_is_read_only: _AxlDBIsReadOnly
     """
     This API command checks if indicated database object is read-only.
     SKILL: axlDBIsReadOnly(o_dbid) -> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:426
     """
-    def __call__(self, o_dbid: RemoteObject, /) -> bool | None: ...
-
-class _AxlDBMemoryReclaim(LiteralRemoteFunction):
+    db_memory_reclaim: _AxlDBMemoryReclaim
     """
     Reclaims database memory for reuse by the Allegro database
     SKILL: axlDBMemoryReclaim( )-> x_sizeReclaimed
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:1052
     """
-    def __call__(self, /) -> int: ...
-
-class _AxlDBOpenShape(LiteralRemoteFunction):
+    db_open_shape: _AxlDBOpenShape
     """
     Opens an existing shape to replace its boundary or to modify its voids.
     SKILL: axlDBOpenShape(o_shapeDbid/nil[o_polygon/r_path/nil][g_close])==> o_dbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:610
     """
-    def __call__(self, o_shape_dbid: RemoteObject | None, o_polygon: RemoteObject | None = ..., g_close: Skill = ..., /) -> RemoteObject | None: ...
-
-class _AxlDBPinPairLength(LiteralRemoteFunction):
+    db_pin_pair_length: _AxlDBPinPairLength
     """
     Calculate the shortest length between 2 pins
     SKILL: axlDBPinPairLength(o_pin1o_pin2)==> f_etchlength/nil
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:254
     """
-    def __call__(self, o_pin1: RemoteObject, o_pin2: RemoteObject, /) -> float | None: ...
-
-class _AxlDBRefreshId(LiteralRemoteFunction):
+    db_refresh_id: _AxlDBRefreshId
     """
     Updates the attributes of the object specified byo_dbid
     SKILL: axlDBRefreshId(o_dbid/nil)⇒ o_dbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:519
     """
-    def __call__(self, o_dbid: RemoteObject | None, /) -> RemoteObject | None: ...
-
-class _AxlDBRemoveGroupObjects(LiteralRemoteFunction):
+    db_remove_group_objects: _AxlDBRemoveGroupObjects
     """
     Removes the database objects from the specified group
     SKILL: axlDBRemoveGroupObjects(o_grouplo_members)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/15dbgrp.md:214
     """
-    def __call__(self, o_group: RemoteObject, lo_members: list[RemoteObject], /) -> bool | None: ...
-
-class _AxlDBSectorSize(LiteralRemoteFunction):
+    db_sector_size: _AxlDBSectorSize
     """
     This is obsolete
     SKILL: axlDBSectorSize([f_size])==> nil
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:457
     """
-    def __call__(self, f_size: float | None = ..., /) -> None: ...
-
-class _AxlDBSetLock(LiteralRemoteFunction):
+    db_set_lock: _AxlDBSetLock
     """
     Provides a mechanism to lock the database against future changes
     SKILL: axlDBSetLock(['password t_password]['locklevel t_locklevel]['expiration t_expiration/x_expiration]['comments t_comments]['useNtp t/nil]['ntpServer t_server])⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:1094
     """
-    def __call__(self, password: Symbol | None = ..., t_password: str | None = ..., locklevel: Symbol | None = ..., t_locklevel: str | None = ..., expiration: Symbol | None = ..., t_expiration: str | int | None = ..., comments: Symbol | None = ..., t_comments: str | None = ..., use_ntp: Symbol | None = ..., t: bool | None = ..., ntp_server: Symbol | None = ..., t_server: str | None = ..., /) -> bool | None: ...
-
-class _AxlDBTextBlockCompact(LiteralRemoteFunction):
+    db_text_block_compact: _AxlDBTextBlockCompact
     """
     Reports and/or compresses unused database text blocks
     SKILL: axlDBTextBlockCompact(t/nil)⇒ x_unusedBlocks
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:994
     """
-    def __call__(self, t: bool | None, /) -> int: ...
-
-class _AxlDBTextBlockCreate(LiteralRemoteFunction):
+    db_text_block_create: _AxlDBTextBlockCreate
     """
     Creates a new text block from the template block number provided
     SKILL: axlDBTextBlockCreate(x_blockTemplate?width f_width?height f_height?lineSpace f_lineSpace?charSpace f_charSpace?photoWidth f_photoWidth) => x_textBlock/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:205
     """
-    def __call__(self, x_block_template: int, /, *, width: float | None = ..., height: float | None = ..., line_space: float | None = ..., char_space: float | None = ..., photo_width: float | None = ...) -> Skill: ...
-
-class _AxlDBTextBlockFindName(LiteralRemoteFunction):
+    db_text_block_find_name: _AxlDBTextBlockFindName
     """
     Finds a text block based on its name.
     SKILL: axlDBTextBlockFindName(t_textBlockName)=> x_textBlockNumber/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:239
     """
-    def __call__(self, t_text_block_name: str, /) -> int | None: ...
-
-class _AxlDBTextBlockGetName(LiteralRemoteFunction):
+    db_text_block_get_name: _AxlDBTextBlockGetName
     """
     Returns the name associated with the given text block
     SKILL: axlDBTextBlockGetName(x_textBlockNumber)=> t_name/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:268
     """
-    def __call__(self, x_text_block_number: int, /) -> str | None: ...
-
-class _AxlDBTextBlockSetName(LiteralRemoteFunction):
+    db_text_block_set_name: _AxlDBTextBlockSetName
     """
     Defines a name for a given text block.
     SKILL: axlDBTextBlockSetName(x_textBlockNumbert_name)=> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:291
     """
-    def __call__(self, x_text_block_number: int, t_name: str, /) -> bool | None: ...
-
-class _AxlDBTransactionCommit(LiteralRemoteFunction):
+    db_transaction_commit: _AxlDBTransactionCommit
     """
     Commits a database transaction from the last transaction mark.
     SKILL: axlDBTransactionCommit(x_mark)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/17dbtran.md:127
     """
-    def __call__(self, x_mark: int, /) -> bool | None: ...
-
-class _AxlDBTransactionMark(LiteralRemoteFunction):
+    db_transaction_mark: _AxlDBTransactionMark
     """
     Writes a mark in the database that you can use with[axlDBTransactionOops](#1076373 "18") to rollback database changes to this mark.
     SKILL: axlDBTransactionMark(x_mark)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/17dbtran.md:150
     """
-    def __call__(self, x_mark: int, /) -> bool | None: ...
-
-class _AxlDBTransactionOops(LiteralRemoteFunction):
+    db_transaction_oops: _AxlDBTransactionOops
     """
     Undoes a transaction back to the last mark, or to start if there are no marks
     SKILL: axlDBTransactionOops(x_mark)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/17dbtran.md:175
     """
-    def __call__(self, x_mark: int, /) -> bool | None: ...
-
-class _AxlDBTransactionRollback(LiteralRemoteFunction):
+    db_transaction_rollback: _AxlDBTransactionRollback
     """
     Undo function for a database transaction.
     SKILL: axlDBTransactionRollback(x_mark)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/17dbtran.md:200
     """
-    def __call__(self, x_mark: int, /) -> bool | None: ...
-
-class _AxlDBTransactionStart(LiteralRemoteFunction):
+    db_transaction_start: _AxlDBTransactionStart
     """
     Marks the start of a transaction to the database
     SKILL: axlDBTransactionStart([g_undoMark])⇒ x_mark/nil
     Version: Allegro 17.2-2016
     Source: algroskill/17dbtran.md:223
     """
-    def __call__(self, g_undo_mark: Skill = ..., /) -> int | None: ...
-
-class _AxlDBTuneSectorSize(LiteralRemoteFunction):
+    db_tune_sector_size: _AxlDBTuneSectorSize
     """
     This tune's Allegro's sector size for better performance
     SKILL: axlDBTuneSectorSize( )==> nil/l_result
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:1148
     """
-    def __call__(self, /) -> list[Skill] | None: ...
-
-class _AxlDMBrowsePath(LiteralRemoteFunction):
+    dm_browse_path: _AxlDMBrowsePath
     """
     Invokes a standard Allegro PCB Editor file browser supporting paths, for example,SCRIPTPATH
     SKILL: axlDMBrowsePath(t_adsFileType[t_title][t_helpTag])⇒ t_fileName/nil
     Version: Allegro 17.2-2016
     Source: algroskill/21filacc.md:242
     """
-    def __call__(self, t_ads_file_type: str, t_title: str | None = ..., t_help_tag: str | None = ..., /) -> str | None: ...
-
-class _AxlDMClose(LiteralRemoteFunction):
+    dm_close: _AxlDMClose
     """
     Closes a file currently open in Allegro PCB Editor
     SKILL: axlDMClose(p_port ) ⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/21filacc.md:209
     """
-    def __call__(self, p_port: Skill, /) -> bool | None: ...
-
-class _AxlDMDirectoryBrowse(LiteralRemoteFunction):
+    dm_directory_browse: _AxlDMDirectoryBrowse
     """
     Opens a directory browser
     SKILL: axlDMDirectoryBrowse(t_startingDirectory g_writeFlag ?helpTag t_helpTag ?title t_title) => t_dirName/nil
     Version: Allegro 17.2-2016
     Source: algroskill/21filacc.md:269
     """
-    def __call__(self, t_starting_directory: str, g_write_flag: Skill, /, *, help_tag: str | None = ..., title: str | None = ...) -> str | None: ...
-
-class _AxlDMFileBrowse(LiteralRemoteFunction):
+    dm_file_browse: _AxlDMFileBrowse
     """
     Opens a standard file browser
     SKILL: axlDMFileBrowse(t_fileType g_writeFlag ?defaultName t_defaultName ?helpTag t_helpTag ?directorySet g_directorySet ?noDirectoryButton g_noDirectoryButton ?mainFile g_mainFile ?noSticky g_noSticky ?title t_title ?optFilters t_filters) => t_fileName/nil
     Version: Allegro 17.2-2016
     Source: algroskill/21filacc.md:299
     """
-    def __call__(self, t_file_type: str, g_write_flag: Skill, /, *, default_name: str | None = ..., help_tag: str | None = ..., directory_set: Skill = ..., no_directory_button: Skill = ..., main_file: Skill = ..., no_sticky: Skill = ..., title: str | None = ..., opt_filters: str | None = ...) -> str | None: ...
-
-class _AxlDMFileError(LiteralRemoteFunction):
+    dm_file_error: _AxlDMFileError
     """
     This returns the error from the lastaxlDMxxx call
     SKILL: axlDMFileError() -> nil/t_errorMessage
     Version: Allegro 17.2-2016
     Source: algroskill/21filacc.md:16
     """
-    def __call__(self, /) -> str | None: ...
-
-class _AxlDMFileParts(LiteralRemoteFunction):
+    dm_file_parts: _AxlDMFileParts
     """
     Breaks a filename into it's component parts.
     SKILL: axlDMFileParts(t_filespec)⇒ (directory file fileWext ext)
     Version: Allegro 17.2-2016
     Source: algroskill/21filacc.md:349
     """
-    def __call__(self, t_filespec: str, /) -> Skill: ...
-
-class _AxlDMFindFile(LiteralRemoteFunction):
+    dm_find_file: _AxlDMFindFile
     """
     Opens a file using Allegro PCB Editor conventions
     SKILL: axlDMFindFile (t_idt_namet_mode[t_prop])⇒ t_name/nil
     Version: Allegro 17.2-2016
     Source: algroskill/21filacc.md:46
     """
-    def __call__(self, t_id: str, t_name: str, t_mode: str, t_prop: str | None = ..., /) -> str | None: ...
-
-class _AxlDMGetFile(LiteralRemoteFunction):
+    dm_get_file: _AxlDMGetFile
     """
     Gets the file namet_name using Allegro PCB Editor conventions as described in the arguments
     SKILL: axlDMGetFile(t_idt_namet_mode[t_prop] ) ⇒ t_name/nil
     Version: Allegro 17.2-2016
     Source: algroskill/21filacc.md:83
     """
-    def __call__(self, t_id: str, t_name: str, t_mode: str, t_prop: str | None = ..., /) -> str | None: ...
-
-class _AxlDMOpenFile(LiteralRemoteFunction):
+    dm_open_file: _AxlDMOpenFile
     """
     Opens a file in conventional Allegro manner; adds an extension and optionally looks it up in an Allegro search path
     SKILL: axlDMOpenFile(t_idt_namet_mode)⇒ p_port/nil
     Version: Allegro 17.2-2016
     Source: algroskill/21filacc.md:125
     """
-    def __call__(self, t_id: str, t_name: str, t_mode: str, /) -> Skill | None: ...
-
-class _AxlDMOpenLog(LiteralRemoteFunction):
+    dm_open_log: _AxlDMOpenLog
     """
     Opens a file for writing log messages
     SKILL: axlDMOpenLog(t_program)⇒ p_port/nil
     Version: Allegro 17.2-2016
     Source: algroskill/21filacc.md:180
     """
-    def __call__(self, t_program: str, /) -> Skill | None: ...
-
-class _AxlDRCGetCount(LiteralRemoteFunction):
+    drc_get_count: _AxlDRCGetCount
     """
     Returns the total number of DRCs in the design
     SKILL: axlDRCGetCount()⇒ x_count
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part02.md:824
     """
-    def __call__(self, /) -> int: ...
-
-class _AxlDRCItem(LiteralRemoteFunction):
+    drc_item: _AxlDRCItem
     """
     Performs a DRC check on the indicated item(s)
     SKILL: axlDRCItem(g_modeo_dbid/lo_dbid)⇒ x_cnt/lo_drcDbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part02.md:841
     """
-    def __call__(self, g_mode: Skill, o_dbid: RemoteObject | list[RemoteObject], /) -> int | list[RemoteObject] | None: ...
-
-class _AxlDRCUpdate(LiteralRemoteFunction):
+    drc_update: _AxlDRCUpdate
     """
     Performs a DRC check on entire design.
     SKILL: axlDRCUpdate(g_mode) -> x_cnt/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part02.md:730
     """
-    def __call__(self, g_mode: Skill, /) -> int | None: ...
-
-class _AxlDRCWaive(LiteralRemoteFunction):
+    drc_waive: _AxlDRCWaive
     """
     Manages waive DRC state and access to the waive DRC functionality
     SKILL: axlDRCWaive(g_modeo_DrcDbid/lo_DrcDbid[t_comment])==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part02.md:770
     """
-    def __call__(self, g_mode: Skill, o_drc_dbid: RemoteObject | list[RemoteObject], t_comment: str | None = ..., /) -> bool | None: ...
-
-class _AxlDRCWaiveGetCount(LiteralRemoteFunction):
+    drc_waive_get_count: _AxlDRCWaiveGetCount
     """
     Returns total number of waived DRCs in the design.
     SKILL: axlDRCWaiveGetCount()⇒ x_count
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part02.md:884
     """
-    def __call__(self, /) -> int: ...
-
-class _AxlDbidName(LiteralRemoteFunction):
+    dbid_name: _AxlDbidName
     """
     Provides the standard Allegro PCB Editor name of a database object
     SKILL: axlDbidName( o_dbid ) -> t_name/nil
     Version: Allegro 17.2-2016
     Source: algroskill/26logacc.md:424
     """
-    def __call__(self, o_dbid: RemoteObject, /) -> str | None: ...
-
-class _AxlDebug(LiteralRemoteFunction):
+    debug: _AxlDebug
     """
     This enables/disables AXL debug mode
     SKILL: axlDebug(t/nil) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:115
     """
-    def __call__(self, t: bool | None, /) -> bool | None: ...
-
-class _AxlDegToRad(LiteralRemoteFunction):
+    deg_to_rad: _AxlDegToRad
     """
     Converts an angle in degrees to radians.
     SKILL: axlDegToRad(n_angle) => f_angle
     Version: Allegro 17.2-2016
     Source: algroskill/24mthutl.md:14
     """
-    def __call__(self, n_angle: Number, /) -> float: ...
-
-class _AxlDehighlightObject(LiteralRemoteFunction):
+    dehighlight_object: _AxlDehighlightObject
     """
     Use this command to turn off highlighting on an object
     SKILL: axlDehighlightObject(lo_dbid/g_mode[g_permHighlight])⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:705
     """
-    def __call__(self, lo_dbid: list[RemoteObject] | Skill, g_perm_highlight: Skill = ..., /) -> bool | None: ...
-
-class _AxlDeleteAttachment(LiteralRemoteFunction):
+    delete_attachment: _AxlDeleteAttachment
     """
     Deletes the given attachment
     SKILL: axlDeleteAttachment(t_attachmentId[t_passwd])⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/16dbatt.md:98
     """
-    def __call__(self, t_attachment_id: str, t_passwd: str | None = ..., /) -> bool | None: ...
-
-class _AxlDeleteBondWire(LiteralRemoteFunction):
+    delete_bond_wire: _AxlDeleteBondWire
     """
     Deletes the (list of) bond wires passed in
     SKILL: axlDeleteBondWire(bondWires [deleteFingers]) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:45
     """
-    def __call__(self, bond_wires: Skill, delete_fingers: Skill = ..., /) -> bool | None: ...
-
-class _AxlDeleteByLayer(LiteralRemoteFunction):
+    delete_by_layer: _AxlDeleteByLayer
     """
     Deletes all data on one or more provided layers
     SKILL: axlDeleteByLayer(t_layerName/lt_layerName[nil/'fixed])==> x_cnt/nil
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:290
     """
-    def __call__(self, t_layer_name: str | list[str], value: Symbol | None = ..., /) -> int | None: ...
-
-class _AxlDeleteFillet(LiteralRemoteFunction):
+    delete_fillet: _AxlDeleteFillet
     """
     Deletes fillet associated with a PIN, VIA, T, or CLINE
     SKILL: axlDeleteFillet(o_dbid)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:679
     """
-    def __call__(self, o_dbid: RemoteObject, /) -> bool | None: ...
-
-class _AxlDeleteObject(LiteralRemoteFunction):
+    delete_object: _AxlDeleteObject
     """
     Deletes single or list of database objects from database
     SKILL: axlDeleteObject(o_dbid/lo_dbid[g_mode])⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:417
     """
-    def __call__(self, o_dbid: RemoteObject | list[RemoteObject], g_mode: Skill = ..., /) -> bool | None: ...
-
-class _AxlDeleteTaper(LiteralRemoteFunction):
+    delete_taper: _AxlDeleteTaper
     """
     Deletes tapers
     SKILL: axlDeleteTaper(o_dbid)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:493
     """
-    def __call__(self, o_dbid: RemoteObject, /) -> bool | None: ...
-
-class _AxlDesignFlip(LiteralRemoteFunction):
+    design_flip: _AxlDesignFlip
     """
     Visually flips the design in the 'y' axis
     SKILL: axlDesignFlip(g_flip) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:304
     """
-    def __call__(self, g_flip: Skill, /) -> bool | None: ...
-
-class _AxlDesignType(LiteralRemoteFunction):
+    design_type: _AxlDesignType
     """
     Returns the type of design as a string.
     SKILL: axlDesignType(g_option)⇒ t_type/lt_type
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:41
     """
-    def __call__(self, g_option: Skill, /) -> str | list[str]: ...
-
-class _AxlDetailLoad(LiteralRemoteFunction):
+    detail_load: _AxlDetailLoad
     """
     This loads a the designatedipf file (t_filename) into the current design at location (point), with scaling (f_scale), rotation (f_rotation) and mirror (g_mirror)
     SKILL: axlDetailLoad(t_filenamepointf_scalex_rotationg_mirror)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:139
     """
-    def __call__(self, t_filename: str, point: Skill, f_scale: float, x_rotation: int, g_mirror: Skill, /) -> bool | None: ...
-
-class _AxlDetailSave(LiteralRemoteFunction):
+    detail_save: _AxlDetailSave
     """
     This saves a clipping box (l\\_bBox) and the passed set of geometries (lo\\_dbid) to a Allegro ipf file (t\\_filename).
     SKILL: axlDetailSave(t_filename l_bBox o_dbid/lo_dbid[g_filledPads])==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:196
     """
-    def __call__(self, t_filename: str, l_b_box: SkillList, o_dbid: RemoteObject | list[RemoteObject], g_filled_pads: Skill = ..., /) -> bool | None: ...
-
-class _AxlDiffPair(LiteralRemoteFunction):
+    diff_pair: _AxlDiffPair
     """
     Creates, modifies, or deletes a differential pair
     SKILL: axlDiffPair(t_diffpairo_net1/t_net1o_net2/t_net2 ) ⇒ o_diffpair/nil
@@ -2648,203 +11036,154 @@ class _AxlDiffPair(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/26logacc.md:469
     """
-    @overload
-    def __call__(self, t_diffpair: str, o_net1: RemoteObject | str, o_net2: RemoteObject | str, /) -> RemoteObject | None: ...
-    @overload
-    def __call__(self, o_diffpair: RemoteObject | str, o_net1: RemoteObject | str, o_net2: RemoteObject | str, /) -> RemoteObject | None: ...
-    @overload
-    def __call__(self, o_diffpair: RemoteObject | str, /) -> bool | None: ...
-
-class _AxlDiffPairAuto(LiteralRemoteFunction):
+    diff_pair_auto: _AxlDiffPairAuto
     """
     Allows automatic generation of the diffpair
     SKILL: axlDiffPairAuto(t_diffPairPrefixt_posNetPostfixt_negNetPostfix[g_returnDiffPairList] ) ⇒ x_cnt/(xcnt lo_diffpair)/nil
     Version: Allegro 17.2-2016
     Source: algroskill/26logacc.md:544
     """
-    def __call__(self, t_diff_pair_prefix: str, t_pos_net_postfix: str, t_neg_net_postfix: str, g_return_diff_pair_list: Skill = ..., /) -> Skill: ...
-
-class _AxlDiffPairDBID(LiteralRemoteFunction):
+    diff_pair_dbid: _AxlDiffPairDBID
     """
     Returns thedbid of the named diffpair (t_name) if it exists in the database.
     SKILL: axlDiffPairDBID(t_name)⇒ o_dbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/26logacc.md:599
     """
-    def __call__(self, t_name: str, /) -> RemoteObject | None: ...
-
-class _AxlDistance(LiteralRemoteFunction):
+    distance: _AxlDistance
     """
     Returns the distance between two points
     SKILL: axlDistance(l_point1l_point2)⇒ f_distance
     Version: Allegro 17.2-2016
     Source: algroskill/24mthutl.md:42
     """
-    def __call__(self, l_point1: SkillList, l_point2: SkillList, /) -> float: ...
-
-class _AxlDllCall(LiteralRemoteFunction):
+    dll_call: _AxlDllCall
     """
     Calls a symbol that has been imported from a plugin
     SKILL: axlDllCall(o_pluginFunc [*g_args]) => nil/x_value/lg_data
     Version: Allegro 17.2-2016
     Source: algroskill/27plugin.md:197
     """
-    def __call__(self, o_plugin_func: RemoteObject, /, *g_args: Skill) -> int | list[Skill] | None: ...
-
-class _AxlDllCallList(LiteralRemoteFunction):
+    dll_call_list: _AxlDllCallList
     """
     This function is identical toaxlDllCall except it takes a list of arguments to pass to the plugin function
     SKILL: axlDllCallList(o_pluginFunc l_args) => nil/x_value/lg_data
     Version: Allegro 17.2-2016
     Source: algroskill/27plugin.md:247
     """
-    def __call__(self, o_plugin_func: RemoteObject, l_args: SkillList, /) -> int | list[Skill] | None: ...
-
-class _AxlDllClose(LiteralRemoteFunction):
+    dll_close: _AxlDllClose
     """
     This closes an open plugin handle
     SKILL: axlDllClose(o_plugin)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/27plugin.md:285
     """
-    def __call__(self, o_plugin: RemoteObject, /) -> bool | None: ...
-
-class _AxlDllDump(LiteralRemoteFunction):
+    dll_dump: _AxlDllDump
     """
     This is a debug function that reports all plugins loaded by Skill.
     SKILL: axlDllDump()==> l_dllLoad/nil
     Version: Allegro 17.2-2016
     Source: algroskill/27plugin.md:311
     """
-    def __call__(self, /) -> list[Skill] | None: ...
-
-class _AxlDllOpen(LiteralRemoteFunction):
+    dll_open: _AxlDllOpen
     """
     This binds a dll/shared library to the current program
     SKILL: axlDllOpen(t_dllname)==> o_plugin/nil
     Version: Allegro 17.2-2016
     Source: algroskill/27plugin.md:335
     """
-    def __call__(self, t_dllname: str, /) -> RemoteObject | None: ...
-
-class _AxlDllSym(LiteralRemoteFunction):
+    dll_sym: _AxlDllSym
     """
     This imports a symbol from a loaded dll
     SKILL: axlDllSym(o_plugint_symbolName)==> o_pluginFunc/nil
     Version: Allegro 17.2-2016
     Source: algroskill/27plugin.md:379
     """
-    def __call__(self, o_plugin: RemoteObject, t_symbol_name: str, /) -> RemoteObject | None: ...
-
-class _AxlDrawObject(LiteralRemoteFunction):
+    draw_object: _AxlDrawObject
     """
     Processes a list ofdbids.
     SKILL: axlDrawObject(lo_dbid)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:831
     """
-    def __call__(self, lo_dbid: list[RemoteObject], /) -> bool | None: ...
-
-class _AxlDynamicsObject(LiteralRemoteFunction):
+    dynamics_object: _AxlDynamicsObject
     """
     Adds list of objects to the cursor buffer
     SKILL: axlDynamicsObject (lo_dbid [l_ref_point])⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:852
     """
-    def __call__(self, lo_dbid: list[RemoteObject], l_ref_point: SkillList | None = ..., /) -> bool | None: ...
-
-class _AxlEmail(LiteralRemoteFunction):
+    email: _AxlEmail
     """
     Sends an e-mail
     SKILL: axlEmail(t_tot_cc/nilt_subjectt_body)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:228
     """
-    def __call__(self, t_to: str, t_cc: str | None, t_subject: str, t_body: str, /) -> bool | None: ...
-
-class _AxlEndSkillMode(LiteralRemoteFunction):
+    end_skill_mode: _AxlEndSkillMode
     """
     Returns from the SKILL command mode to the program's command line
     SKILL: axlEndSkillMode()⇒ t
     Version: Allegro 17.2-2016
     Source: algroskill/19cmdctl.md:174
     """
-    def __call__(self, /) -> bool: ...
-
-class _AxlEnterAngle(LiteralRemoteFunction):
+    enter_angle: _AxlEnterAngle
     """
     Optionally prompts the user
     SKILL: axlEnterAngle(origin?prompts l_prompts?refPoint l_refPoint?angle f_angle?lockAngle g_lockAngle)⇒ f_angle/nil
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:396
     """
-    def __call__(self, origin: Skill, /, *, prompts: SkillList | None = ..., ref_point: SkillList | None = ..., angle: float | None = ..., lock_angle: Skill = ...) -> float | None: ...
-
-class _AxlEnterBox(LiteralRemoteFunction):
+    enter_box: _AxlEnterBox
     """
     Takes two points that define a box and returns them inl_box
     SKILL: axlEnterBox(?prompts l_prompts?points l_points)⇒ l_box/nil
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:566
     """
-    def __call__(self, /, *, prompts: SkillList | None = ..., points: SkillList | None = ...) -> list[Skill] | None: ...
-
-class _AxlEnterEvent(LiteralRemoteFunction):
+    enter_event: _AxlEnterEvent
     """
     A lower level event manager than otheraxlEnter functions
     SKILL: axlEnterEvent(l_eventMaskt_promptg_snap)⇒ r_eventId
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:936
     """
-    def __call__(self, l_event_mask: SkillList, t_prompt: str, g_snap: Skill, /) -> RemoteObject: ...
-
-class _AxlEnterPath(LiteralRemoteFunction):
+    enter_path: _AxlEnterPath
     """
     Gets the start point and subsequent points for a path, interactively with optional prompting, or from the optional argumentl_points
     SKILL: axlEnterPath(?prompts l_prompts?points l_points?lastPath r_path)⇒ r_path/nil
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:598
     """
-    def __call__(self, /, *, prompts: SkillList | None = ..., points: SkillList | None = ..., last_path: RemoteObject | None = ...) -> RemoteObject | None: ...
-
-class _AxlEnterPoint(LiteralRemoteFunction):
+    enter_point: _AxlEnterPoint
     """
     Prompts for and receives user-selected point
     SKILL: axlEnterPoint(?prompts l_prompts?points l_points?gridSnap g_gridSnap)⇒ l_point/nil
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:334
     """
-    def __call__(self, /, *, prompts: SkillList | None = ..., points: SkillList | None = ..., grid_snap: Skill = ...) -> list[Skill] | None: ...
-
-class _AxlEnterString(LiteralRemoteFunction):
+    enter_string: _AxlEnterString
     """
     Displays a dialog box that requires first entering a string, and then pressing*Return* on the keyboard or clicking *OK*or *Cancel.* Default prompt in the dialog box is "Enter String."You can supply a prompt string with the ?prompts keyword
     SKILL: axlEnterString(?prompts l_prompts)⇒ t_string/nil
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:365
     """
-    def __call__(self, /, *, prompts: SkillList | None = ...) -> str | None: ...
-
-class _AxlEraseObject(LiteralRemoteFunction):
+    erase_object: _AxlEraseObject
     """
     Processes a list ofdbids and erases them
     SKILL: axlEraseObject(lo_dbid)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:892
     """
-    def __call__(self, lo_dbid: list[RemoteObject], /) -> bool | None: ...
-
-class _AxlEventSetStartPopup(LiteralRemoteFunction):
+    event_set_start_popup: _AxlEventSetStartPopup
     """
     Sets a SKILL callback function called prior to a popup being displayed on the screen
     SKILL: axlEventSetStartPopup([s_callback])⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:1055
     """
-    def __call__(self, s_callback: Symbol | None = ..., /) -> bool | None: ...
-
-class _AxlExportXmlDBRecords(LiteralRemoteFunction):
+    export_xml_db_records: _AxlExportXmlDBRecords
     """
     This exports an Allegro Parameter file from the current design
     SKILL: axlExportXmlDBRecords(t_fileNamelt_parmGroups/nil) -> t/nil
@@ -2852,1050 +11191,812 @@ class _AxlExportXmlDBRecords(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:317
     """
-    @overload
-    def __call__(self, t_file_name: str, lt_parm_groups: list[str] | None, /) -> bool | None: ...
-    @overload
-    def __call__(self, value: None, /) -> list[str]: ...
-
-class _AxlExtentDB(LiteralRemoteFunction):
+    extent_db: _AxlExtentDB
     """
     Determines a design type and returns thebBox extent
     SKILL: axlExtentDB()⇒ l_bBox/nil
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:331
     """
-    def __call__(self, /) -> list[Skill] | None: ...
-
-class _AxlExtentLayout(LiteralRemoteFunction):
+    extent_layout: _AxlExtentLayout
     """
     Obsolete
     SKILL: axlExtentLayout()⇒ l_bBox/nil
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:349
     """
-    def __call__(self, /) -> list[Skill] | None: ...
-
-class _AxlExtentSymbol(LiteralRemoteFunction):
+    extent_symbol: _AxlExtentSymbol
     """
     Obsolete
     SKILL: axlExtentSymbol()⇒ l_bBox
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:381
     """
-    def __call__(self, /) -> list[Skill]: ...
-
-class _AxlExtractMap(LiteralRemoteFunction):
+    extract_map: _AxlExtractMap
     """
     Takes a set of Allegro database objects you select using the Allegro extract command file and applies to each object a SKILL function you have chosen
     SKILL: axlExtractMap(t_viewFile[s_applyFunc][g_userData])⇒ t/l_dbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/22extrct.md:44
     """
-    def __call__(self, t_view_file: str, s_apply_func: Symbol | None = ..., g_user_data: Skill = ..., /) -> bool | list[Skill] | None: ...
-
-class _AxlExtractToFile(LiteralRemoteFunction):
+    extract_to_file: _AxlExtractToFile
     """
     Extracts data from the current design into an ASCII file
     SKILL: axlExtractToFile(t_viewFilelt_resultFiles[lt_options])⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/22extrct.md:14
     """
-    def __call__(self, t_view_file: str, lt_result_files: list[str], lt_options: list[str] | None = ..., /) -> bool | None: ...
-
-class _AxlFillet(LiteralRemoteFunction):
+    fillet: _AxlFillet
     """
     Adds fillet between cline and pin/via, and at T
     SKILL: axlFillet (o_dbid)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:700
     """
-    def __call__(self, o_dbid: RemoteObject, /) -> bool | None: ...
-
-class _AxlFilletConvert(LiteralRemoteFunction):
+    fillet_convert: _AxlFilletConvert
     """
     Converts a fillet or taper to a static shape.
     SKILL: axlFilletConvert(o_dbid) -> t/nilDescription
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:731
     """
-    def __call__(self, o_dbid: RemoteObject, /) -> bool | Skill: ...
-
-class _AxlFilmCreate(LiteralRemoteFunction):
+    film_create: _AxlFilmCreate
     """
     Creates a new artwork film or replaces an existing artwork film.
     SKILL: axlFilmCreate(t_filmname?negative t/nil?undefineLineWidth f_width?sequence x_number?rotation x_angle?xOffset f_x?yOffset f_y?shapeBoundingBox f_value?mirrored t/nil?fullContact t/nil?suppressUnconnectPads t/nil?drawMissingPadApertures t/nil?useApertureRotation t/nil?suppressShapeFill t/nil?vectorBasedPad t/nil?drawHolesOnly t/nil?layers lt_layers?domains lt_domains?ipc2581 lt_ipcDomains?polyCutLayer t/nil) -> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:355
     """
-    def __call__(self, t_filmname: str, /, *, negative: bool | None = ..., undefine_line_width: float | None = ..., sequence: int | None = ..., rotation: int | None = ..., x_offset: float | None = ..., y_offset: float | None = ..., shape_bounding_box: float | None = ..., mirrored: bool | None = ..., full_contact: bool | None = ..., suppress_unconnect_pads: bool | None = ..., draw_missing_pad_apertures: bool | None = ..., use_aperture_rotation: bool | None = ..., suppress_shape_fill: bool | None = ..., vector_based_pad: bool | None = ..., draw_holes_only: bool | None = ..., layers: list[str] | None = ..., domains: list[str] | None = ..., ipc2581: list[str] | None = ..., poly_cut_layer: bool | None = ...) -> bool | None: ...
-
-class _AxlFindFilterIsOpen(LiteralRemoteFunction):
+    find_filter_is_open: _AxlFindFilterIsOpen
     """
     This function is no longer required, but is kept for backward compatibility.
     SKILL: axlFindFilterIsOpen()⇒ t
     Version: Allegro 17.2-2016
     Source: algroskill/05selfnd.md:1063
     """
-    def __call__(self, /) -> bool: ...
-
-class _AxlFindPath(LiteralRemoteFunction):
+    find_path: _AxlFindPath
     """
     Finds an etch path from one object to another
     SKILL: axlFindPath(o_oneDbido_twoDbid[g_altPath])==> lo_dbid/llo_dbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:404
     """
-    def __call__(self, o_one_dbid: RemoteObject, o_two_dbid: RemoteObject, g_alt_path: Skill = ..., /) -> list[RemoteObject] | Skill | None: ...
-
-class _AxlFinishEnterFun(LiteralRemoteFunction):
+    finish_enter_fun: _AxlFinishEnterFun
     """
     Terminates the wait for a user-selected point
     SKILL: axlFinishEnterFun()⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:447
     """
-    def __call__(self, /) -> bool | None: ...
-
-class _AxlFlushDisplay(LiteralRemoteFunction):
+    flush_display: _AxlFlushDisplay
     """
     Flushes all data from the display buffer to the display screen itself
     SKILL: axlFlushDisplay()⇒ t
     Version: Allegro 17.2-2016
     Source: algroskill/19cmdctl.md:197
     """
-    def __call__(self, /) -> bool: ...
-
-class _AxlFormAutoResize(LiteralRemoteFunction):
+    form_auto_resize: _AxlFormAutoResize
     """
     Resizes a form to fit its controls
     SKILL: axlFormAutoResize(r_form)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part02.md:1566
     """
-    def __call__(self, r_form: RemoteObject, /) -> bool | None: ...
-
-class _AxlFormBuildPopup(LiteralRemoteFunction):
+    form_build_popup: _AxlFormBuildPopup
     """
     This provides the ability to dynamically change popups of fields that have them
     SKILL: axlFormBuildPopup(r_formt_fieldl_pairs)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part02.md:793
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, l_pairs: SkillList, /) -> bool | None: ...
-
-class _AxlFormClearMouseActive(LiteralRemoteFunction):
+    form_clear_mouse_active: _AxlFormClearMouseActive
     """
     Clears the option to dispatch the MouseActive event on a form.
     SKILL: axlFormClearMouseActive(r_form)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part02.md:718
     """
-    def __call__(self, r_form: RemoteObject, /) -> bool | None: ...
-
-class _AxlFormClose(LiteralRemoteFunction):
+    form_close: _AxlFormClose
     """
     Closes the formr_form
     SKILL: axlFormClose(r_form)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part02.md:737
     """
-    def __call__(self, r_form: RemoteObject, /) -> bool | None: ...
-
-class _AxlFormColorize(LiteralRemoteFunction):
+    form_colorize: _AxlFormColorize
     """
     Allows the override of background and/or text color of a control
     SKILL: axlFormColorize(o_formt_fieldg_optiong_color)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part02.md:1586
     """
-    def __call__(self, o_form: RemoteObject, t_field: str, g_option: Skill, g_color: Skill, /) -> bool | None: ...
-
-class _AxlFormCreate(LiteralRemoteFunction):
+    form_create: _AxlFormCreate
     """
     Creates a dialog based on the form descriptive filet_formfile
     SKILL: axlFormCreate(s_formHandle g_formSource [lt_placement] g_formAction g_nonBlock [g_stringOption]) => r_form/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part02.md:638
     """
-    @overload
-    def __call__(self, s_form_handle: Symbol, g_form_source: Skill, g_form_action: Skill, g_non_block: Skill, g_string_option: Skill, /) -> RemoteObject | None: ...
-    @overload
-    def __call__(self, s_form_handle: Symbol, g_form_source: Skill, lt_placement: list[str], g_form_action: Skill, g_non_block: Skill, g_string_option: Skill, /) -> RemoteObject | None: ...
-
-class _AxlFormDefaultButton(LiteralRemoteFunction):
+    form_default_button: _AxlFormDefaultButton
     """
     Forms normally automatically set a*default* *button* in a form with the DEFAULT section in the form file or with the *OK* and *DONE* labels
     SKILL: axlFormDefaultButton(r_formt_field/g_mode)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:908
     """
-    def __call__(self, r_form: RemoteObject, t_field: str | Skill, /) -> bool | None: ...
-
-class _AxlFormDisplay(LiteralRemoteFunction):
+    form_display: _AxlFormDisplay
     """
     Displays the formr_form already created by axlFormCreate
     SKILL: axlFormDisplay(r_form)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part02.md:766
     """
-    def __call__(self, r_form: RemoteObject, /) -> bool | None: ...
-
-class _AxlFormGetActiveField(LiteralRemoteFunction):
+    form_get_active_field: _AxlFormGetActiveField
     """
     Gets the form's active field.
     SKILL: axlFormGetActiveField(r_form)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:68
     """
-    def __call__(self, r_form: RemoteObject, /) -> bool | None: ...
-
-class _AxlFormGetField(LiteralRemoteFunction):
+    form_get_field: _AxlFormGetField
     """
     Gets the value oft_field in the open formr_form
     SKILL: axlFormGetField(r_formt_field)⇒ g_value/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part02.md:844
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, /) -> Skill | None: ...
-
-class _AxlFormGetFieldType(LiteralRemoteFunction):
+    form_get_field_type: _AxlFormGetFieldType
     """
     Returns the control type for a form field
     SKILL: axlFormGetFieldType(r_formt_field)⇒ g_fieldType/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:888
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, /) -> Skill | None: ...
-
-class _AxlFormGridBatch(LiteralRemoteFunction):
+    form_grid_batch: _AxlFormGridBatch
     """
     Always used withaxlFormGridSetBatch
     SKILL: axlFormGridBatch(r_cell ) ⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:88
     """
-    def __call__(self, r_cell: RemoteObject, /) -> bool | None: ...
-
-class _AxlFormGridCancelPopup(LiteralRemoteFunction):
+    form_grid_cancel_popup: _AxlFormGridCancelPopup
     """
     After any change to grid content, the application must tell the grid that the changes are complete
     SKILL: axlFormGridCancelPopup(r_formt_field)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:111
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None: ...
-
-class _AxlFormGridDeleteRows(LiteralRemoteFunction):
+    form_grid_delete_rows: _AxlFormGridDeleteRows
     """
     Deletesx_number rows at x_row number
     SKILL: axlFormGridDeleteRows(r_formt_fieldx_rowx_number)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:131
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, x_row: int, x_number: int, /) -> bool | None: ...
-
-class _AxlFormGridEvents(LiteralRemoteFunction):
+    form_grid_events: _AxlFormGridEvents
     """
     Sets user events of interest
     SKILL: axlFormGridEvents(r_form t_field g_events) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:153
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, g_events: Skill, /) -> bool | None: ...
-
-class _AxlFormGridGetCell(LiteralRemoteFunction):
+    form_grid_get_cell: _AxlFormGridGetCell
     """
     Returns grid cell data for a given row and column
     SKILL: axlFormGridGetCell(r_formt_fieldr_cell ) ⇒ r_cell/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:225
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, r_cell: RemoteObject, /) -> RemoteObject | None: ...
-
-class _AxlFormGridInsertCol(LiteralRemoteFunction):
+    form_grid_insert_col: _AxlFormGridInsertCol
     """
     Adds a column with the indicated options (g_options) to a grid field
     SKILL: axlFormGridInsertCol(r_formt_fieldr_formGridCol)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:270
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, r_form_grid_col: RemoteObject, /) -> bool | None: ...
-
-class _AxlFormGridInsertRows(LiteralRemoteFunction):
+    form_grid_insert_rows: _AxlFormGridInsertRows
     """
     Insertsx_numberrows at x_row number location
     SKILL: axlFormGridInsertRows(r_formt_fieldx_rowx_number)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:364
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, x_row: int, x_number: int, /) -> bool | None: ...
-
-class _AxlFormGridNewCell(LiteralRemoteFunction):
+    form_grid_new_cell: _AxlFormGridNewCell
     """
     Creates a new instance ofr_cell which is required as input to [axlFormGridBatch](#458963 "11") or [axlFormSetField](#425442 "11") for form grid controls
     SKILL: axlFormGridNewCell()⇒ r_cell
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:386
     """
-    def __call__(self, /) -> RemoteObject: ...
-
-class _AxlFormGridOptions(LiteralRemoteFunction):
+    form_grid_options: _AxlFormGridOptions
     """
     Miscellaneous grid options
     SKILL: axlFormGridOptions(r_formt_fields_name[g_value])⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:945
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, s_name: Symbol, g_value: Skill = ..., /) -> bool | None: ...
-
-class _AxlFormGridReset(LiteralRemoteFunction):
+    form_grid_reset: _AxlFormGridReset
     """
     Resets grid to its unloaded state
     SKILL: axlFormGridReset(r_formt_field)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:411
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None: ...
-
-class _AxlFormGridSelected(LiteralRemoteFunction):
+    form_grid_selected: _AxlFormGridSelected
     """
     This returns the selected item in a multi-select grid control
     SKILL: axlFormGridSelected(r_formt_field) -> lx_selected/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part02.md:880
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, /) -> list[Skill] | None: ...
-
-class _AxlFormGridSelectedCnt(LiteralRemoteFunction):
+    form_grid_selected_cnt: _AxlFormGridSelectedCnt
     """
     This returns the count of rows selected in a multi-select grid control
     SKILL: axlFormGridSelectedCnt(r_formt_field) -> x_cnt/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part02.md:922
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, /) -> int | None: ...
-
-class _AxlFormGridSetBatch(LiteralRemoteFunction):
+    form_grid_set_batch: _AxlFormGridSetBatch
     """
     Changes grid cells much faster thanaxlFormSetField when changing multiple cells
     SKILL: axlFormGridSetBatch(r_formt_fields_callbackg_pvtData)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:447
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, s_callback: Symbol, g_pvt_data: Skill, /) -> bool | None: ...
-
-class _AxlFormGridSetSelectRows(LiteralRemoteFunction):
+    form_grid_set_select_rows: _AxlFormGridSetSelectRows
     """
     This allows setting, clearing or toggling of selection state for a grid in multi-select row mode.
     SKILL: axlFormGridSetSelectRows(r_formt_fieldx_minx_maxg_option) -> x_cnt/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part02.md:960
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, x_min: int, x_max: int, g_option: Skill, /) -> int | None: ...
-
-class _AxlFormGridUpdate(LiteralRemoteFunction):
+    form_grid_update: _AxlFormGridUpdate
     """
     Unlike the form lists control you must manually notify the grid control that it must update itself
     SKILL: axlFormGridUpdate( r_form t_field ) -> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:527
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None: ...
-
-class _AxlFormInvalidateField(LiteralRemoteFunction):
+    form_invalidate_field: _AxlFormInvalidateField
     """
     Invalidates the form's field
     SKILL: axlFormInvalidateField(r_formt_field)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:565
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None: ...
-
-class _AxlFormIsFieldEditable(LiteralRemoteFunction):
+    form_is_field_editable: _AxlFormIsFieldEditable
     """
     Checks whether the given form field is editable
     SKILL: axlFormIsFieldEditable(r_formt_field)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:587
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None: ...
-
-class _AxlFormIsFieldVisible(LiteralRemoteFunction):
+    form_is_field_visible: _AxlFormIsFieldVisible
     """
     Determines whether a form field is visible.
     SKILL: axlFormIsFieldVisible(r_formt_field ) ⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part02.md:1414
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None: ...
-
-class _AxlFormListAddItem(LiteralRemoteFunction):
+    form_list_add_item: _AxlFormListAddItem
     """
     Adds an item to a list at positionx
     SKILL: axlFormListAddItem(r_formt_fieldt_listItem/lt_listItems/nilg_index)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:607
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, t_list_item: str | list[str] | None, g_index: Skill, /) -> bool | None: ...
-
-class _AxlFormListDeleteAll(LiteralRemoteFunction):
+    form_list_delete_all: _AxlFormListDeleteAll
     """
     Deletes all the items from the form list field,t_field*.* Use axlFormListDeleteAllto clear an entire list field to update it using axlFormSetField, then display it using axlFormSetField on the field with a nil field value.
     SKILL: axlFormListDeleteAll(r_formt_field)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part02.md:1012
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None: ...
-
-class _AxlFormListDeleteItem(LiteralRemoteFunction):
+    form_list_delete_item: _AxlFormListDeleteItem
     """
     Deletes indicated item in the list
     SKILL: axlFormListDeleteItem(r_formt_fieldt_listItem/x_index/lt_listItem/nil)⇒ t/x_index/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:650
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, t_list_item: str | int | list[str] | None, /) -> bool | int | None: ...
-
-class _AxlFormListGetItem(LiteralRemoteFunction):
+    form_list_get_item: _AxlFormListGetItem
     """
     Returns the item in the list at index (x_index.) Lists start at index 0
     SKILL: axlFormListGetItem(r_formt_fieldx_index)⇒ t_listItem/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:681
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, x_index: int, /) -> str | None: ...
-
-class _AxlFormListGetSelCount(LiteralRemoteFunction):
+    form_list_get_sel_count: _AxlFormListGetSelCount
     """
     This only applies to a multi-select list box (OPTIONS multiselect in form file)
     SKILL: axlFormListGetSelCount( r_form t_field )==> x_count/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:702
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, /) -> int | None: ...
-
-class _AxlFormListGetSelItems(LiteralRemoteFunction):
+    form_list_get_sel_items: _AxlFormListGetSelItems
     """
     This only applies to a multi-select list box (OPTIONS multiselect in form file).
     SKILL: axlFormListGetSelItems(r_formt_field)==> lt_selected/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:737
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, /) -> list[str] | None: ...
-
-class _AxlFormListOptions(LiteralRemoteFunction):
+    form_list_options: _AxlFormListOptions
     """
     Sets options for a list control
     SKILL: axlFormListOptions(r_form t_field g_options) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:767
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, g_options: Skill, /) -> bool | None: ...
-
-class _AxlFormListSelAll(LiteralRemoteFunction):
+    form_list_sel_all: _AxlFormListSelAll
     """
     This only applies to a multi-select list box (OPTIONS multiselect in form file).
     SKILL: axlFormListSelAll(r_formt_fieldg_set)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:813
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, g_set: Skill, /) -> bool | None: ...
-
-class _AxlFormListSelect(LiteralRemoteFunction):
+    form_list_select: _AxlFormListSelect
     """
     Highlights, and if not visible in the list, shows the designated item
     SKILL: axlFormListSelect(r_formt_fieldt_listItem/nil)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part02.md:1067
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, t_list_item: str | None, /) -> bool | None: ...
-
-class _AxlFormMsg(LiteralRemoteFunction):
+    form_msg: _AxlFormMsg
     """
     Retrieves and prints a message defined in the form file by message label (t_messageLabel.) Form file allows definitions of messages using the "MESSAGE" keyword (see [Using Forms Specification Language](#480398 "11").) Use this to give a...
     SKILL: axlFormMsg(r_form t_messageLabel [*g_args]) => t_msg/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:849
     """
-    def __call__(self, r_form: RemoteObject, t_message_label: str, /, *g_args: Skill) -> str | None: ...
-
-class _AxlFormRestoreField(LiteralRemoteFunction):
+    form_restore_field: _AxlFormRestoreField
     """
     Restores thet_field in the open form r_form to its previous value
     SKILL: axlFormRestoreField(r_formt_field)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part02.md:1310
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None: ...
-
-class _AxlFormSetActiveField(LiteralRemoteFunction):
+    form_set_active_field: _AxlFormSetActiveField
     """
     Makes the indicated field the active form field.
     SKILL: axlFormSetActiveField(r_formt_field)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:1001
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None: ...
-
-class _AxlFormSetDecimal(LiteralRemoteFunction):
+    form_set_decimal: _AxlFormSetDecimal
     """
     Sets the decimal precision for real fill-in fields in the form
     SKILL: axlFormSetDecimal(o_formg_fieldx_decimalPlaces)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:1023
     """
-    def __call__(self, o_form: RemoteObject, g_field: Skill, x_decimal_places: int, /) -> bool | None: ...
-
-class _AxlFormSetEventAction(LiteralRemoteFunction):
+    form_set_event_action: _AxlFormSetEventAction
     """
     This function allows the user to register a callback function to be called whenever the user changes to a new active cell in the form
     SKILL: axlFormSetEventAction(r_formg_callback) -> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part02.md:1088
     """
-    def __call__(self, r_form: RemoteObject, g_callback: Skill, /) -> bool | None: ...
-
-class _AxlFormSetField(LiteralRemoteFunction):
+    form_set_field: _AxlFormSetField
     """
     Setst_field to value g_value in open form r_form
     SKILL: axlFormSetField(r_formt_fieldg_value/nil)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part02.md:1122
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, g_value: Skill | None, /) -> bool | None: ...
-
-class _AxlFormSetFieldEditable(LiteralRemoteFunction):
+    form_set_field_editable: _AxlFormSetFieldEditable
     """
     Sets individual form fields to editable (t) or greyed (nil).
     SKILL: axlFormSetFieldEditable(r_formt_fieldg_editable)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:1044
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, g_editable: Skill, /) -> bool | None: ...
-
-class _AxlFormSetFieldLimits(LiteralRemoteFunction):
+    form_set_field_limits: _AxlFormSetFieldLimits
     """
     Sets the minimum or maximum values a user can enter in an integer or real fill-in field
     SKILL: axlFormSetFieldLimits(o_formt_fieldg_ming_max)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:1065
     """
-    def __call__(self, o_form: RemoteObject, t_field: str, g_min: Skill, g_max: Skill, /) -> bool | None: ...
-
-class _AxlFormSetFieldVisible(LiteralRemoteFunction):
+    form_set_field_visible: _AxlFormSetFieldVisible
     """
     Sets a form field to visible or invisible.
     SKILL: axlFormSetFieldVisible(r_formt_fieldx_value)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part02.md:1393
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, x_value: int, /) -> bool | None: ...
-
-class _AxlFormSetInfo(LiteralRemoteFunction):
+    form_set_info: _AxlFormSetInfo
     """
     Sets infot_field to value t_value in open form r_form
     SKILL: axlFormSetInfo(r_formt_fieldt_value)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part02.md:1233
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, t_value: str, /) -> bool | None: ...
-
-class _AxlFormSetMouseActive(LiteralRemoteFunction):
+    form_set_mouse_active: _AxlFormSetMouseActive
     """
     Sets the option to dispatch the MouseActive event on a form.
     SKILL: axlFormSetMouseActive(r_form)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part02.md:1262
     """
-    def __call__(self, r_form: RemoteObject, /) -> bool | None: ...
-
-class _AxlFormTest(LiteralRemoteFunction):
+    form_test: _AxlFormTest
     """
     This is a development function for test purposes
     SKILL: axlFormTest(t_formName) => r_form/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part02.md:1287
     """
-    def __call__(self, t_form_name: str, /) -> RemoteObject | None: ...
-
-class _AxlFormTitle(LiteralRemoteFunction):
+    form_title: _AxlFormTitle
     """
     Overrides title of the form.
     SKILL: axlFormTitle(r_formt_title)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part02.md:1340
     """
-    def __call__(self, r_form: RemoteObject, t_title: str, /) -> bool | None: ...
-
-class _AxlFormTreeViewAddItem(LiteralRemoteFunction):
+    form_tree_view_add_item: _AxlFormTreeViewAddItem
     """
     Adds an item to a treeview under*parent* and after *insertAfter* sibling
     SKILL: axlFormTreeViewAddItem(r_formt_fieldt_labelg_hParentg_hInsertAfter[g_multiSelectF][g_hLeafImage][g_hOpenImage][g_hClosedImage])⇒ g_hItem/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:1091
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, t_label: str, g_h_parent: Skill, g_h_insert_after: Skill, g_multi_select_f: Skill = ..., g_h_leaf_image: Skill = ..., g_h_open_image: Skill = ..., g_h_closed_image: Skill = ..., /) -> Skill | None: ...
-
-class _AxlFormTreeViewChangeImages(LiteralRemoteFunction):
+    form_tree_view_change_images: _AxlFormTreeViewChangeImages
     """
     Modifies various bitmap images associated with a given tree view item.
     SKILL: axlFormTreeViewChangeImages(r_formt_fieldg_hItem[g_hLeafImage][g_hOpenImage][g_hClosedImage])⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:1150
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, g_h_item: Skill, g_h_leaf_image: Skill = ..., g_h_open_image: Skill = ..., g_h_closed_image: Skill = ..., /) -> bool | None: ...
-
-class _AxlFormTreeViewChangeLabel(LiteralRemoteFunction):
+    form_tree_view_change_label: _AxlFormTreeViewChangeLabel
     """
     Modifies text of a given treeview item.
     SKILL: axlFormTreeViewChangeLabel(r_formt_fieldg_hItemt_label)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:1180
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, g_h_item: Skill, t_label: str, /) -> bool | None: ...
-
-class _AxlFormTreeViewGetImages(LiteralRemoteFunction):
+    form_tree_view_get_images: _AxlFormTreeViewGetImages
     """
     various bitmap image handles that refer to images used by a specified item in the tree view.
     SKILL: axlFormTreeViewGetImages(r_formt_fieldg_hItem)⇒ l_hImage/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:1202
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, g_h_item: Skill, /) -> list[Skill] | None: ...
-
-class _AxlFormTreeViewGetLabel(LiteralRemoteFunction):
+    form_tree_view_get_label: _AxlFormTreeViewGetLabel
     """
     Returns text of a given treeview item.
     SKILL: axlFormTreeViewGetLabel(r_formt_fieldg_hItem)⇒ t_label/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:1223
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, g_h_item: Skill, /) -> str | None: ...
-
-class _AxlFormTreeViewGetParents(LiteralRemoteFunction):
+    form_tree_view_get_parents: _AxlFormTreeViewGetParents
     """
     Returns a list of all the ancestors of a treeview control item, starting from the root of the tree
     SKILL: axlFormTreeViewGetParents(r_formt_fieldg_hItem)⇒ lg_hItem/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:1244
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, g_h_item: Skill, /) -> list[Skill] | None: ...
-
-class _AxlFormTreeViewGetSelectState(LiteralRemoteFunction):
+    form_tree_view_get_select_state: _AxlFormTreeViewGetSelectState
     """
     In multi select mode, returns the select state of a treeview item
     SKILL: axlFormTreeViewGetSelectState(r_formt_fieldg_hItem)⇒ x_selectState
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:1265
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, g_h_item: Skill, /) -> int: ...
-
-class _AxlFormTreeViewLoadBitmaps(LiteralRemoteFunction):
+    form_tree_view_load_bitmaps: _AxlFormTreeViewLoadBitmaps
     """
     Allows an application to load one or more bitmaps into Allegro PCB Editor for use in specified tree view.
     SKILL: axlFormTreeViewLoadBitmaps(r_formt_fieldlt_bitmaps)⇒ l_hImage/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:1289
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, lt_bitmaps: list[str], /) -> list[Skill] | None: ...
-
-class _AxlFormTreeViewSet(LiteralRemoteFunction):
+    form_tree_view_set: _AxlFormTreeViewSet
     """
     Allows an application to change global and individual items in a tree view control.
     SKILL: axlFormTreeViewSet(r_formt_fields_optiong_hItem[g_data])⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:1342
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, s_option: Symbol, g_h_item: Skill, g_data: Skill = ..., /) -> bool | None: ...
-
-class _AxlFormTreeViewSetSelectState(LiteralRemoteFunction):
+    form_tree_view_set_select_state: _AxlFormTreeViewSetSelectState
     """
     In multi select mode, sets the select state
     SKILL: axlFormTreeViewSetSelectState(r_formt_fieldg_hItemg_state)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:1422
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, g_h_item: Skill, g_state: Skill, /) -> bool | None: ...
-
-class _AxlGRPDrwBitmap(LiteralRemoteFunction):
+    grp_drw_bitmap: _AxlGRPDrwBitmap
     """
     Loads a bitmap into a form draw window (drawing area in the graphics field)
     SKILL: axlGRPDrwBitmap(r_graphicst_bitmap)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/12draw.md:67
     """
-    def __call__(self, r_graphics: RemoteObject, t_bitmap: str, /) -> bool | None: ...
-
-class _AxlGRPDrwCircle(LiteralRemoteFunction):
+    grp_drw_circle: _AxlGRPDrwCircle
     """
     Draws a circle into the area identified by ther_graphics handle, at the origin specified, and with the specified radius
     SKILL: axlGRPDrwCircle(r_graphicsl_originx_radius)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/12draw.md:87
     """
-    def __call__(self, r_graphics: RemoteObject, l_origin: SkillList, x_radius: int, /) -> bool | None: ...
-
-class _AxlGRPDrwInit(LiteralRemoteFunction):
+    grp_drw_init: _AxlGRPDrwInit
     """
     Use this command to set graphics callback in a form field
     SKILL: axlGRPDrwInit(r_formt_fieldt_func)⇒ r_graphics/nil
     Version: Allegro 17.2-2016
     Source: algroskill/12draw.md:108
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, t_func: str, /) -> RemoteObject | None: ...
-
-class _AxlGRPDrwLine(LiteralRemoteFunction):
+    grp_drw_line: _AxlGRPDrwLine
     """
     Draws a line into the area identified by ther_graphics handle and the list of coordinates
     SKILL: axlGRPDrwLine(r_graphicsl_vertices)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/12draw.md:129
     """
-    def __call__(self, r_graphics: RemoteObject, l_vertices: SkillList, /) -> bool | None: ...
-
-class _AxlGRPDrwMapWindow(LiteralRemoteFunction):
+    grp_drw_map_window: _AxlGRPDrwMapWindow
     """
     Forces a draw in a form draw field
     SKILL: axlGRPDrwMapWindow(r_graphicsx_hgtx_width)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/12draw.md:149
     """
-    def __call__(self, r_graphics: RemoteObject, x_hgt: int, x_width: int, /) -> bool | None: ...
-
-class _AxlGRPDrwPoly(LiteralRemoteFunction):
+    grp_drw_poly: _AxlGRPDrwPoly
     """
     Draws a polygon (multi-segment line) into the area identified by ther_graphics handle and the list of coordinates
     SKILL: axlGRPDrwPoly(r_graphicsl_vertices)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/12draw.md:170
     """
-    def __call__(self, r_graphics: RemoteObject, l_vertices: SkillList, /) -> bool | None: ...
-
-class _AxlGRPDrwRectangle(LiteralRemoteFunction):
+    grp_drw_rectangle: _AxlGRPDrwRectangle
     """
     Draws a rectangle into the area identified by ther_graphics handle and the upper_left and lower_right coordinates
     SKILL: axlGRPDrwRectangle(r_graphicsl_upper_leftl_lower_right)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/12draw.md:190
     """
-    def __call__(self, r_graphics: RemoteObject, l_upper_left: SkillList, l_lower_right: SkillList, /) -> bool | None: ...
-
-class _AxlGRPDrwText(LiteralRemoteFunction):
+    grp_drw_text: _AxlGRPDrwText
     """
     Draws text into the area identified by ther_graphics handle at the origin specified
     SKILL: axlGRPDrwText(r_graphicsl_origint_text)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/12draw.md:211
     """
-    def __call__(self, r_graphics: RemoteObject, l_origin: SkillList, t_text: str, /) -> bool | None: ...
-
-class _AxlGRPDrwUpdate(LiteralRemoteFunction):
+    grp_drw_update: _AxlGRPDrwUpdate
     """
     Force call to register callback function for a draw window
     SKILL: axlGRPDrwUpdate(r_graphics)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/12draw.md:232
     """
-    def __call__(self, r_graphics: RemoteObject, /) -> bool | None: ...
-
-class _AxlGeo2Str(LiteralRemoteFunction):
+    geo2_str: _AxlGeo2Str
     """
     When converting floating point numbers to strings you may find the number printed is slightly differently then the value Allegro reports
     SKILL: axlGeo2Str( f_dbrep/point ) -> t_result/nil
     Version: Allegro 17.2-2016
     Source: algroskill/24mthutl.md:65
     """
-    def __call__(self, f_dbrep: float | Skill, /) -> str | None: ...
-
-class _AxlGeoArcCenterAngle(LiteralRemoteFunction):
+    geo_arc_center_angle: _AxlGeoArcCenterAngle
     """
     Calculates the center of an arc given the angle between its endpoints
     SKILL: axlGeoArcCenterAngle(l_startPointl_endPointf_angle[g_clockwise])⇒ l_center/nil
     Version: Allegro 17.2-2016
     Source: algroskill/24mthutl.md:137
     """
-    def __call__(self, l_start_point: SkillList, l_end_point: SkillList, f_angle: float, g_clockwise: Skill = ..., /) -> list[Skill] | None: ...
-
-class _AxlGeoArcCenterRadius(LiteralRemoteFunction):
+    geo_arc_center_radius: _AxlGeoArcCenterRadius
     """
     Calculates center of an arc given its radius
     SKILL: axlGeoArcCenterRadius(l_startPointl_endPointf_radius[g_clockwise][g_bigArc])⇒ l_center/nil
     Version: Allegro 17.2-2016
     Source: algroskill/24mthutl.md:174
     """
-    def __call__(self, l_start_point: SkillList, l_end_point: SkillList, f_radius: float, g_clockwise: Skill = ..., g_big_arc: Skill = ..., /) -> list[Skill] | None: ...
-
-class _AxlGeoEqual(LiteralRemoteFunction):
+    geo_equal: _AxlGeoEqual
     """
     Performs an equal comparison between two floating point numbers and determines if they are equal within plus or minus the current database accuracy.
     SKILL: axlGeoEqual(f_onef_two)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/24mthutl.md:260
     """
-    def __call__(self, f_one: float, f_two: float, /) -> bool | None: ...
-
-class _AxlGeoPointInShape(LiteralRemoteFunction):
+    geo_point_in_shape: _AxlGeoPointInShape
     """
     Given a point and a shapedbid, determines whether that point is inside or outside the shape or a polygon
     SKILL: axlGeoPointInShape(l_pointo_dbid/o_polygon[g_include_voids][t/nil])⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:464
     """
-    def __call__(self, l_point: SkillList, o_dbid: RemoteObject, g_include_voids: Skill = ..., t: bool | None = ..., /) -> bool | None: ...
-
-class _AxlGeoPointShapeInfo(LiteralRemoteFunction):
+    geo_point_shape_info: _AxlGeoPointShapeInfo
     """
     Given a point and a shape dbid returns relation of point to shape
     SKILL: axlGeoPointShapeInfo(l_pointo_dbid) ==> (g_state o_dbid)/nil
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:493
     """
-    def __call__(self, l_point: SkillList, o_dbid: RemoteObject, /) -> Skill: ...
-
-class _AxlGeoPointsEqual(LiteralRemoteFunction):
+    geo_points_equal: _AxlGeoPointsEqual
     """
     This performs an equal comparison between two xy points and determines if they are equal within db accuracy.
     SKILL: axlGeoPointsEqual(l_point1l_point2) -> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/24mthutl.md:335
     """
-    def __call__(self, l_point1: SkillList, l_point2: SkillList, /) -> bool | None: ...
-
-class _AxlGeoRotatePt(LiteralRemoteFunction):
+    geo_rotate_pt: _AxlGeoRotatePt
     """
     Rotates*xy* about an origin by angle
     SKILL: axlGeoRotatePt(f_anglel_xyl_origin/nil[mirror]) -> l_xyResult/nil
     Version: Allegro 17.2-2016
     Source: algroskill/24mthutl.md:300
     """
-    def __call__(self, f_angle: float, l_xy: SkillList, l_origin: SkillList | None, mirror: Skill = ..., /) -> list[Skill] | None: ...
-
-class _AxlGetActiveLayer(LiteralRemoteFunction):
+    get_active_layer: _AxlGetActiveLayer
     """
     Retrieves active class and subclass of the design.
     SKILL: axlGetActiveLayer()⇒ t_layer
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:1376
     """
-    def __call__(self, /) -> str: ...
-
-class _AxlGetActiveTextBlock(LiteralRemoteFunction):
+    get_active_text_block: _AxlGetActiveTextBlock
     """
     Gets the current active text block, equivalent to the status dialog box.
     SKILL: axlGetActiveTextBlock()⇒ _textBlock
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:1399
     """
-    def __call__(self, /) -> Skill: ...
-
-class _AxlGetAlias(LiteralRemoteFunction):
+    get_alias: _AxlGetAlias
     """
     Requests the value of the specified Allegro PCB Editor alias,t_alias
     SKILL: axlGetAlias(t_alias/nil)⇒ t_value/lt_names/nil
     Version: Allegro 17.2-2016
     Source: algroskill/09cmdshl.md:16
     """
-    def __call__(self, t_alias: str | None, /) -> str | list[str] | None: ...
-
-class _AxlGetAllAttachmentNames(LiteralRemoteFunction):
+    get_all_attachment_names: _AxlGetAllAttachmentNames
     """
     Returns a list of the ids for all database attachments in the current Allegro PCB Editor database
     SKILL: axlGetAllAttachmentNames()⇒ l_attachment/nil
     Version: Allegro 17.2-2016
     Source: algroskill/16dbatt.md:124
     """
-    def __call__(self, /) -> list[Skill] | None: ...
-
-class _AxlGetAllViaList(LiteralRemoteFunction):
+    get_all_via_list: _AxlGetAllViaList
     """
     Returns a list of all padstacks included in via lists in the design
     SKILL: axlGetAllViaList([g_attrVias])==> lo_padstack_dbid
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part02.md:707
     """
-    def __call__(self, g_attr_vias: Skill = ..., /) -> list[RemoteObject]: ...
-
-class _AxlGetAllVisibleProfiles(LiteralRemoteFunction):
+    get_all_visible_profiles: _AxlGetAllVisibleProfiles
     """
     Returns a list of all the bond wire profiles currently visible in the design.
     SKILL: axlGetAllVisibleProfiles()==> list of profiles / nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:828
     """
-    def __call__(self, /) -> Skill | None: ...
-
-class _AxlGetAttachment(LiteralRemoteFunction):
+    get_attachment: _AxlGetAttachment
     """
     Returns the database attachment with the given id
     SKILL: axlGetAttachment(t_attachmentId[s_dataFormat])⇒ o_attachment/nil
     Version: Allegro 17.2-2016
     Source: algroskill/16dbatt.md:142
     """
-    def __call__(self, t_attachment_id: str, s_data_format: Symbol | None = ..., /) -> RemoteObject | None: ...
-
-class _AxlGetDieData(LiteralRemoteFunction):
+    get_die_data: _AxlGetDieData
     """
     Gets the data for the given die and loads it into the a defstruct.
     SKILL: axlGetDieData (g_dieId)==> die-data defstruct/nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:989
     """
-    def __call__(self, g_die_id: Skill, /) -> Skill | None: ...
-
-class _AxlGetDieStackData(LiteralRemoteFunction):
+    get_die_stack_data: _AxlGetDieStackData
     """
     Gets the data for the given die-stack and loads it into a defstruct.
     SKILL: axlGetDieStackData (g_stackArg)==> stack-data defstruct/nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:1063
     """
-    def __call__(self, g_stack_arg: Skill, /) -> Skill | None: ...
-
-class _AxlGetDieStackMemberSet(LiteralRemoteFunction):
+    get_die_stack_member_set: _AxlGetDieStackMemberSet
     """
     Returns a list of defstructs - one for each member of the given die stack.
     SKILL: axlGetDieStackMemberSet()==> list of die-stack member defstructs/nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:1108
     """
-    def __call__(self, /) -> Skill | None: ...
-
-class _AxlGetDieStackNames(LiteralRemoteFunction):
+    get_die_stack_names: _AxlGetDieStackNames
     """
     Returns a list of the names of all die stacks in the current design.
     SKILL: axlGetDieStackNames() ==> list of die-stack names/nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:1162
     """
-    def __call__(self, /) -> Skill | None: ...
-
-class _AxlGetDieType(LiteralRemoteFunction):
+    get_die_type: _AxlGetDieType
     """
     Returns the die attachment type for a given die component in a Cadence packaging tool (APD/SIP)
     SKILL: axlGetDieType(o_componentDBID)==> t_dieType
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:704
     """
-    def __call__(self, o_component_dbid: RemoteObject, /) -> str: ...
-
-class _AxlGetDrawingName(LiteralRemoteFunction):
+    get_drawing_name: _AxlGetDrawingName
     """
     Retrieves the full path of the drawing.
     SKILL: axlGetDrawingName()⇒ t_drawingPathName
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:465
     """
-    def __call__(self, /) -> str: ...
-
-class _AxlGetDynamicsSegs(LiteralRemoteFunction):
+    get_dynamics_segs: _AxlGetDynamicsSegs
     """
     Normally used with dynamics to calculate arc tangency of two picks to a currentr_path
     SKILL: axlGetDynamicsSegs(point1 point2 lastPath) => l_pointList/nil
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:470
     """
-    def __call__(self, point1: Skill, point2: Skill, last_path: Skill, /) -> list[Skill] | None: ...
-
-class _AxlGetFindFilter(LiteralRemoteFunction):
+    get_find_filter: _AxlGetFindFilter
     """
     Returns the current Find Filter settings as a listpf keyword strings
     SKILL: axlGetFindFilter([onEnabledF])⇒ lt_filters/nil
     Version: Allegro 17.2-2016
     Source: algroskill/05selfnd.md:755
     """
-    def __call__(self, on_enabled_f: Skill = ..., /) -> list[str] | None: ...
-
-class _AxlGetFuncKey(LiteralRemoteFunction):
+    get_func_key: _AxlGetFuncKey
     """
     Requests the value of the specified funckey,t_alias
     SKILL: axlGetFuncKey(t_alias/nil)==> t_value/nil
     Version: Allegro 17.2-2016
     Source: algroskill/09cmdshl.md:56
     """
-    def __call__(self, t_alias: str | None, /) -> str | None: ...
-
-class _AxlGetImpedance(LiteralRemoteFunction):
+    get_impedance: _AxlGetImpedance
     """
     No description available.
     SKILL: axlGetImpedance(o_dbid) => (f_min f_max)/nil
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:525
     """
-    def __call__(self, o_dbid: RemoteObject, /) -> Skill: ...
-
-class _AxlGetIposerData(LiteralRemoteFunction):
+    get_iposer_data: _AxlGetIposerData
     """
     This function fetches the data for the given iposer and loads it into a defstruct.
     SKILL: axlGetIposerData(g_iposerId)==> iposer-data defstruct/nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:1180
     """
-    def __call__(self, g_iposer_id: Skill, /) -> Skill | None: ...
-
-class _AxlGetLastEnterPoint(LiteralRemoteFunction):
+    get_last_enter_point: _AxlGetLastEnterPoint
     """
     Gets the last pick location fromaxlEnterPoint.
     SKILL: axlGetLastEnterPoint ()⇒ l_point/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:770
     """
-    def __call__(self, /) -> list[Skill] | None: ...
-
-class _AxlGetLineLock(LiteralRemoteFunction):
+    get_line_lock: _AxlGetLineLock
     """
     Gets the current settings of the line lock or dynamic control options
     SKILL: axlGetLineLock(s_name[g_value])==> g_currentValue/ls_names
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:501
     """
-    def __call__(self, s_name: Symbol, g_value: Skill = ..., /) -> Skill | list[Symbol]: ...
-
-class _AxlGetMetalUsageForLayer(LiteralRemoteFunction):
+    get_metal_usage_for_layer: _AxlGetMetalUsageForLayer
     """
     Computes the percentage metal coverage on the layers specified in l\\_layer(s) (combination of all layers listed) in the area specified inl_extents
     SKILL: axlGetMetalUsageForLayer(l_layers [l_extents][g_positive])==> resultStruct/nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:733
     """
-    def __call__(self, l_layers: SkillList, l_extents: SkillList | None = ..., g_positive: Skill = ..., /) -> Skill | None: ...
-
-class _AxlGetModuleInstanceDefinition(LiteralRemoteFunction):
+    get_module_instance_definition: _AxlGetModuleInstanceDefinition
     """
     AXL interface to the C function that returns the name of the module definition used to create the module instance.
     SKILL: axlGetModuleInstanceDefinition(o_modinst)⇒ t_moddef/nil
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:690
     """
-    def __call__(self, o_modinst: RemoteObject, /) -> str | None: ...
-
-class _AxlGetModuleInstanceLocation(LiteralRemoteFunction):
+    get_module_instance_location: _AxlGetModuleInstanceLocation
     """
     AXL interface to the C function that gets the current location of the module instance in the design.
     SKILL: axlGetModuleInstanceLocation(o_modinst)⇒ l_loc/nil
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:723
     """
-    def __call__(self, o_modinst: RemoteObject, /) -> list[Skill] | None: ...
-
-class _AxlGetModuleInstanceLogicMethod(LiteralRemoteFunction):
+    get_module_instance_logic_method: _AxlGetModuleInstanceLogicMethod
     """
     AXL interface to the C function that determines the logic method used by the module instance.
     SKILL: axlGetModuleInstanceLogicMethod(o_modinst) => i_logic/nil
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:756
     """
-    def __call__(self, o_modinst: RemoteObject, /) -> Number | None: ...
-
-class _AxlGetModuleInstanceNetExceptions(LiteralRemoteFunction):
+    get_module_instance_net_exceptions: _AxlGetModuleInstanceNetExceptions
     """
     AXL interface to the C function that gets the net exception of the module instance in the design.
     SKILL: axlGetModuleInstanceNetExceptions(o_modinst)⇒ l_nets/nil
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:789
     """
-    def __call__(self, o_modinst: RemoteObject, /) -> list[Skill] | None: ...
-
-class _AxlGetParam(LiteralRemoteFunction):
+    get_param: _AxlGetParam
     """
     Gets the parameterdbid for a named object
     SKILL: axlGetParam (t_parm_name)⇒ ﬁo_paramDbid/nil
@@ -3903,120 +12004,91 @@ class _AxlGetParam(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:750
     """
-    @overload
-    def __call__(self, t_par: str, m_name: Skill, /) -> Skill | None: ...
-    @overload
-    def __call__(self, value: None, /) -> list[str]: ...
-
-class _AxlGetSelSet(LiteralRemoteFunction):
+    get_sel_set: _AxlGetSelSet
     """
     Gets the list of objectdbids in the select set.
     SKILL: axlGetSelSet()⇒ lo_dbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/05selfnd.md:676
     """
-    def __call__(self, /) -> list[RemoteObject] | None: ...
-
-class _AxlGetSelSetCount(LiteralRemoteFunction):
+    get_sel_set_count: _AxlGetSelSetCount
     """
     Returns the number of figuredbids in the select set.
     SKILL: axlGetSelSetCount()⇒ x_selCount
     Version: Allegro 17.2-2016
     Source: algroskill/05selfnd.md:704
     """
-    def __call__(self, /) -> int: ...
-
-class _AxlGetSpacerData(LiteralRemoteFunction):
+    get_spacer_data: _AxlGetSpacerData
     """
     Gets the data for the given spacer and loads it into a defstruct.
     SKILL: axlGetSpacerData(g_spacerId)==> spacer-data defstruct/nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:1231
     """
-    def __call__(self, g_spacer_id: Skill, /) -> Skill | None: ...
-
-class _AxlGetTrapBox(LiteralRemoteFunction):
+    get_trap_box: _AxlGetTrapBox
     """
     Returns coordinates of the*Find* window.
     SKILL: axlGetTrapBox(l_point)⇒ l_window/nil
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:1133
     """
-    def __call__(self, l_point: SkillList, /) -> list[Skill] | None: ...
-
-class _AxlGetVariable(LiteralRemoteFunction):
+    get_variable: _AxlGetVariable
     """
     Requests the value of the specified Allegro PCB Editor environment variable,t_variable
     SKILL: axlGetVariable(t_variable )⇒ t_value/nil
     Version: Allegro 17.2-2016
     Source: algroskill/09cmdshl.md:94
     """
-    def __call__(self, t_variable: str, /) -> str | None: ...
-
-class _AxlGetVariableList(LiteralRemoteFunction):
+    get_variable_list: _AxlGetVariableList
     """
     Requests the value of the specified Allegro PCB Editor environment variable,t_variable
     SKILL: axlGetVariableList(t_variable/nil)==> t_value/lt_value/nil
     Version: Allegro 17.2-2016
     Source: algroskill/09cmdshl.md:139
     """
-    def __call__(self, t_variable: str | None, /) -> str | list[str] | None: ...
-
-class _AxlGetWireProfileColor(LiteralRemoteFunction):
+    get_wire_profile_color: _AxlGetWireProfileColor
     """
     This function will retrieve the color index associated with a bond wire profile
     SKILL: axlGetWireProfileColor(t_profile)==> color index / nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:1280
     """
-    def __call__(self, t_profile: str, /) -> Skill | None: ...
-
-class _AxlGetWireProfileDefinition(LiteralRemoteFunction):
+    get_wire_profile_definition: _AxlGetWireProfileDefinition
     """
     Given a bonding wire profile name, this will returns its definition information.
     SKILL: axlGetWireProfileDefinition(profileName) => l_definition/s_error
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:764
     """
-    def __call__(self, profile_name: Skill, /) -> list[Skill] | Symbol: ...
-
-class _AxlGetWireProfileDirection(LiteralRemoteFunction):
+    get_wire_profile_direction: _AxlGetWireProfileDirection
     """
     This function returns the direction of a wire profile definition defined in the database
     SKILL: axlGetWireProfileDirection(profileName)==> "FORWARD"/"REVERSE"/nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:807
     """
-    def __call__(self, profile_name: Skill, /) -> Skill | None: ...
-
-class _AxlGetWireProfileVisible(LiteralRemoteFunction):
+    get_wire_profile_visible: _AxlGetWireProfileVisible
     """
     This function will retrieve the visibility status of a bond wire profile
     SKILL: axlGetWireProfileVisible(t_profile)==> t / nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:1299
     """
-    def __call__(self, t_profile: str, /) -> bool | None: ...
-
-class _AxlGetXSection(LiteralRemoteFunction):
+    get_x_section: _AxlGetXSection
     """
     * This is obsolete, use new axlXSectionGet() family of APIs
     SKILL: axlGetXSection()==> ll_layers/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:1792
     """
-    def __call__(self, /) -> list[Skill] | None: ...
-
-class _AxlHighlightObject(LiteralRemoteFunction):
+    highlight_object: _AxlHighlightObject
     """
     Highlights the figures whosedbids are in lo_dbid.
     SKILL: axlHighlightObject([lo_dbid][g_permHighlight])⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:625
     """
-    def __call__(self, lo_dbid: list[RemoteObject] | None = ..., g_perm_highlight: Skill = ..., /) -> bool | None: ...
-
-class _AxlHistory(LiteralRemoteFunction):
+    history: _AxlHistory
     """
     * ***This is a developers aid only
     SKILL: axlHistory([x_num]) => t
@@ -4024,480 +12096,371 @@ class _AxlHistory(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:262
     """
-    @overload
-    def __call__(self, x_num: int | None = ..., /) -> bool: ...
-    @overload
-    def __call__(self, s_operation: Symbol, t_filename: str, /) -> bool | None: ...
-
-class _AxlHttp(LiteralRemoteFunction):
+    http: _AxlHttp
     """
     Displays a URL from Allegro PCB Editor in an external web browser
     SKILL: axlHttp(t_url)⇒ t
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:349
     """
-    def __call__(self, t_url: str, /) -> bool: ...
-
-class _AxlISProductStarted(LiteralRemoteFunction):
+    is_product_started: _AxlISProductStarted
     """
     * ***This should not be used, use[axlLicIsProductEnabled](#922656 "24").***
     SKILL: signature unavailable; generic fallback
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:448
     """
-    def __call__(self, *args: Skill, **kwargs: Skill) -> Skill: ...
-
-class _AxlIgnoreFixed(LiteralRemoteFunction):
+    ignore_fixed: _AxlIgnoreFixed
     """
     No description available.
     SKILL: signature unavailable; generic fallback
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:490
     """
-    def __call__(self, *args: Skill, **kwargs: Skill) -> Skill: ...
-
-class _AxlImpdedanceGetLayerBroadsideDPImp(LiteralRemoteFunction):
+    impdedance_get_layer_broadside_dp_imp: _AxlImpdedanceGetLayerBroadsideDPImp
     """
     Computes the differential impedance of a broadside-coupled diffpair with the given line width and two specified layers on which the signal lines will be routed
     SKILL: axlImpdedanceGetLayerBroadsideDPImp(t_layer1/x_layerNum1t_layer2/x_layerNum2f_width) ==> f_diffImpedance/nil
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:548
     """
-    def __call__(self, t_layer1: str | int, t_layer2: str | int, f_width: float, /) -> float | None: ...
-
-class _AxlImpdedanceGetLayerBroadsideDPWidth(LiteralRemoteFunction):
+    impdedance_get_layer_broadside_dp_width: _AxlImpdedanceGetLayerBroadsideDPWidth
     """
     Computes the differential impedance of a broadside-coupled diffpair with the given line width and two specified layers on which the signal lines will be routed
     SKILL: axlImpdedanceGetLayerBroadsideDPWidth(t_layer1/x_layerNum1t_layer2/x_layerNum2f_diffImpedance)==> f_lineWidth/nil
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:578
     """
-    def __call__(self, t_layer1: str | int, t_layer2: str | int, f_diff_impedance: float, /) -> float | None: ...
-
-class _AxlImpdedanceGetLayerEdgeDPImp(LiteralRemoteFunction):
+    impdedance_get_layer_edge_dp_imp: _AxlImpdedanceGetLayerEdgeDPImp
     """
     Computes the differential impedance of a edge-coupled diffpair with the given line width and spacing on a specified layer
     SKILL: axlImpdedanceGetLayerEdgeDPImp(t_layer/x_layerNumf_spacingf_width) ==> f_diffImpedance/nil
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:608
     """
-    def __call__(self, t_layer: str | int, f_spacing: float, f_width: float, /) -> float | None: ...
-
-class _AxlImpdedanceGetLayerEdgeDPSpacing(LiteralRemoteFunction):
+    impdedance_get_layer_edge_dp_spacing: _AxlImpdedanceGetLayerEdgeDPSpacing
     """
     Given the line width of the two signal lines of an edge-coupled diffpair on the specified layer, finds the spacing such that the differential impedance is closest to the target value
     SKILL: axlImpdedanceGetLayerEdgeDPSpacing(t_layer/x_layerNumf_widthf_diffImp)==> f_spacing/nil
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:636
     """
-    def __call__(self, t_layer: str | int, f_width: float, f_diff_imp: float, /) -> float | None: ...
-
-class _AxlImpdedanceGetLayerEdgeDPWidth(LiteralRemoteFunction):
+    impdedance_get_layer_edge_dp_width: _AxlImpdedanceGetLayerEdgeDPWidth
     """
     Given the spacing of the two signal lines of an edge-coupled diffpair on the specified layer, finds the line width such that the differential impedance is closest to the target value
     SKILL: axlImpdedanceGetLayerEdgeDPWidth(t_layer/x_layerNumf_spacingf_diffImp) ==> f_width/nil
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:664
     """
-    def __call__(self, t_layer: str | int, f_spacing: float, f_diff_imp: float, /) -> float | None: ...
-
-class _AxlImpedance2Width(LiteralRemoteFunction):
+    impedance2_width: _AxlImpedance2Width
     """
     Converts the given impedance on a specified layer to a line width.
     SKILL: axlImpedance2Width(t_layer/x_layerNumf_impedance) ==> f_lineWidth/nil
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:692
     """
-    def __call__(self, t_layer: str | int, f_impedance: float, /) -> float | None: ...
-
-class _AxlImportWireProfileDefinitions(LiteralRemoteFunction):
+    import_wire_profile_definitions: _AxlImportWireProfileDefinitions
     """
     This function will import the bond wire profiles defined in the xml file specified
     SKILL: axlImportWireProfileDefinitions(xmlFileNamesetAsMaster)==> x/nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:887
     """
-    def __call__(self, xml_file_name: Skill, set_as_master: Skill, /) -> int | None: ...
-
-class _AxlImportXmlDBRecords(LiteralRemoteFunction):
+    import_xml_db_records: _AxlImportXmlDBRecords
     """
     This command imports an Allegro Parameter file into the current design
     SKILL: axlImportXmlDBRecords(t_fileName) -> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:420
     """
-    def __call__(self, t_file_name: str, /) -> bool | None: ...
-
-class _AxlInTrigger(LiteralRemoteFunction):
+    in_trigger: _AxlInTrigger
     """
     Tests if the application or the utility in a axlTrigger callback
     SKILL: axlInTrigger() ==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:494
     """
-    def __call__(self, /) -> bool | None: ...
-
-class _AxlInTriggerFunc(LiteralRemoteFunction):
+    in_trigger_func: _AxlInTriggerFunc
     """
     If in a trigger callback, reports trigger function symbol.nil, if not in a trigger callback.
     SKILL: axlInTriggerFunc() -> s_triggerFunc/nil
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:514
     """
-    def __call__(self, /) -> Symbol | None: ...
-
-class _AxlIsAttachment(LiteralRemoteFunction):
+    is_attachment: _AxlIsAttachment
     """
     Determines if the given object is an AXL attachment.
     SKILL: axlIsAttachment(o_attachment)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/16dbatt.md:189
     """
-    def __call__(self, o_attachment: RemoteObject, /) -> bool | None: ...
-
-class _AxlIsBetween(LiteralRemoteFunction):
+    is_between: _AxlIsBetween
     """
     Used to check if a given point lies between two specified points
     SKILL: axlIsBetween(l_testPointl_pt1, l_pt2) -> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/24mthutl.md:365
     """
-    def __call__(self, l_test_point: SkillList, l_pt1: SkillList, l_pt2: SkillList, /) -> bool | None: ...
-
-class _AxlIsCustomColored(LiteralRemoteFunction):
+    is_custom_colored: _AxlIsCustomColored
     """
     If object has custom color, will return the object custom color, otherwise nil.
     SKILL: axlIsCustomColored (o_dbid)==> x_customColor/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:1710
     """
-    def __call__(self, o_dbid: RemoteObject, /) -> int | None: ...
-
-class _AxlIsDBIDType(LiteralRemoteFunction):
+    is_dbid_type: _AxlIsDBIDType
     """
     Determines ifg_dbid is an Allegro PCB Editor database dbid
     SKILL: axlIsDBIDType(g_dbid)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:242
     """
-    def __call__(self, g_dbid: Skill, /) -> bool | None: ...
-
-class _AxlIsDebug(LiteralRemoteFunction):
+    is_debug: _AxlIsDebug
     """
     This checks if AXL debug mode is enabled
     SKILL: axlIsDebug() ==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:390
     """
-    def __call__(self, /) -> bool | None: ...
-
-class _AxlIsDummyNet(LiteralRemoteFunction):
+    is_dummy_net: _AxlIsDummyNet
     """
     Determines if a given net is a Dummy net
     SKILL: axlIsDummyNet(net_dbid)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:822
     """
-    def __call__(self, net_dbid: Skill, /) -> bool | None: ...
-
-class _AxlIsEtchLayer(LiteralRemoteFunction):
+    is_etch_layer: _AxlIsEtchLayer
     """
     Determines if a layer is associated with the ETCH layers
     SKILL: axlIsEtchLayer(t_layer)=> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:1831
     """
-    def __call__(self, t_layer: str, /) -> bool | None: ...
-
-class _AxlIsFormType(LiteralRemoteFunction):
+    is_form_type: _AxlIsFormType
     """
     Tests if argumentg_form is a form dbid.
     SKILL: axlIsFormType(g_form)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part02.md:1366
     """
-    def __call__(self, g_form: Skill, /) -> bool | None: ...
-
-class _AxlIsGridCellType(LiteralRemoteFunction):
+    is_grid_cell_type: _AxlIsGridCellType
     """
     Tests the passed symbol to see if its user type is of the form"grid cell".
     SKILL: axlIsGridCellType(r_cell)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/11frmint.part03.md:345
     """
-    def __call__(self, r_cell: RemoteObject, /) -> bool | None: ...
-
-class _AxlIsHighlighted(LiteralRemoteFunction):
+    is_highlighted: _AxlIsHighlighted
     """
     If the object is permanently highlighted returns the highlight color; otherwisenil.
     SKILL: axlIsHighlighted(o_dbid)==> x_highlightColor/nil
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:1045
     """
-    def __call__(self, o_dbid: RemoteObject, /) -> int | None: ...
-
-class _AxlIsLayer(LiteralRemoteFunction):
+    is_layer: _AxlIsLayer
     """
     Determines if thet_layer exists
     SKILL: axlIsLayer(t_layer)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:1856
     """
-    def __call__(self, t_layer: str, /) -> bool | None: ...
-
-class _AxlIsLayerNegative(LiteralRemoteFunction):
+    is_layer_negative: _AxlIsLayerNegative
     """
     Determines whether or not the given plane layer is negative.
     SKILL: axlIsLayerNegative(t_layerName)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:845
     """
-    def __call__(self, t_layer_name: str, /) -> bool | None: ...
-
-class _AxlIsPinUnused(LiteralRemoteFunction):
+    is_pin_unused: _AxlIsPinUnused
     """
     Determines if the given pin is unused, indicating that it is on a dummy net.
     SKILL: axlIsPinUnused(pin_dbid)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:874
     """
-    def __call__(self, pin_dbid: Skill, /) -> bool | None: ...
-
-class _AxlIsPointInsideBox(LiteralRemoteFunction):
+    is_point_inside_box: _AxlIsPointInsideBox
     """
     Returnst if a point is inside or on the edge of a box
     SKILL: axlIsPointInsideBox(l_pointl_box)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/24mthutl.md:387
     """
-    def __call__(self, l_point: SkillList, l_box: SkillList, /) -> bool | None: ...
-
-class _AxlIsPointOnLine(LiteralRemoteFunction):
+    is_point_on_line: _AxlIsPointOnLine
     """
     Returnst if point is on a given line or nil if not on the line.
     SKILL: axlIsPointOnLine(l_pointll_line[f_nearNess])⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/24mthutl.md:415
     """
-    def __call__(self, l_point: SkillList, ll_line: SkillList, f: float | None = ..., near_ness: Skill = ..., /) -> bool | None: ...
-
-class _AxlIsPolyType(LiteralRemoteFunction):
+    is_poly_type: _AxlIsPolyType
     """
     Tests if argumentg_polygon is a polygon user type.
     SKILL: axlIsPolyType (g_polygon)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/20plyopr.md:462
     """
-    def __call__(self, g_polygon: Skill, /) -> bool | None: ...
-
-class _AxlIsProductLineActive(LiteralRemoteFunction):
+    is_product_line_active: _AxlIsProductLineActive
     """
     This routine determines if a product in a given product line has been started.
     SKILL: axlIsProductLineActive(t_productLine) -> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:422
     """
-    def __call__(self, t_product_line: str, /) -> bool | None: ...
-
-class _AxlIsProtectAlias(LiteralRemoteFunction):
+    is_protect_alias: _AxlIsProtectAlias
     """
     Tests if the alias is read-only (or writeable)
     SKILL: axlIsProtectAlias(t_alias)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/09cmdshl.md:253
     """
-    def __call__(self, t_alias: str, /) -> bool | None: ...
-
-class _AxlIsSymbolEditor(LiteralRemoteFunction):
+    is_symbol_editor: _AxlIsSymbolEditor
     """
     Returnst if in symbol editor, nil for all other editors.
     SKILL: axlIsSymbolEditor() -> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:535
     """
-    def __call__(self, /) -> bool | None: ...
-
-class _AxlIsViewFileType(LiteralRemoteFunction):
+    is_view_file_type: _AxlIsViewFileType
     """
     Tests whetherg_userType is a long message window type.
     SKILL: axlIsViewFileType(g_userType)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:1482
     """
-    def __call__(self, g_user_type: Skill, /) -> bool | None: ...
-
-class _AxlIsVisibleLayer(LiteralRemoteFunction):
+    is_visible_layer: _AxlIsVisibleLayer
     """
     Returns the visibility (t/nil) of a fully qualified layer.
     SKILL: axlIsVisibleLayer(t_layer)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:1875
     """
-    def __call__(self, t_layer: str, /) -> bool | None: ...
-
-class _AxlIsitFill(LiteralRemoteFunction):
+    isit_fill: _AxlIsitFill
     """
     Determines if fill shape is allowed for a given class subclass.
     SKILL: axlIsitFill(t_layer)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:897
     """
-    def __call__(self, t_layer: str, /) -> bool | None: ...
-
-class _AxlJournal(LiteralRemoteFunction):
+    journal: _AxlJournal
     """
     This function manages the program's journal file
     SKILL: axlJournal(g_option) => g_result/nil
     Version: Allegro 17.2-2016
     Source: algroskill/09cmdshl.md:178
     """
-    def __call__(self, g_option: Skill, /) -> Skill | None: ...
-
-class _AxlKillDesign(LiteralRemoteFunction):
+    kill_design: _AxlKillDesign
     """
     Same as (axlOpenDesign<unnamed> "wf"), where <unnamed>is the standard Allegro PCB Editor name provided for an unnamed design
     SKILL: axlKillDesign()⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:561
     """
-    def __call__(self, /) -> bool | None: ...
-
-class _AxlLastPick(LiteralRemoteFunction):
+    last_pick: _AxlLastPick
     """
     This returns the last processed cursor pick
     SKILL: axlLastPick(l_mode) ⇒ xy
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:791
     """
-    def __call__(self, l_mode: SkillList, /) -> Skill: ...
-
-class _AxlLastPickIsSnapped(LiteralRemoteFunction):
+    last_pick_is_snapped: _AxlLastPickIsSnapped
     """
     Normally called after anaxlEnter call to determine if the pick was snapped or unsnapped.
     SKILL: axlLastPickIsSnapped()-> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/05selfnd.md:1419
     """
-    def __call__(self, /) -> bool | None: ...
-
-class _AxlLayerCreateCrossSection(LiteralRemoteFunction):
+    layer_create_cross_section: _AxlLayerCreateCrossSection
     """
     This is obsolete, use[axlXSectionCreate](#1168694 "3").
     SKILL: axlLayerCreateCrossSection(t_Prev_layerNamet_layerTypet_materialType[t_subclassName][t_planeType])⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:1898
     """
-    def __call__(self, t_pre: str, v_layer_name: Skill, t_layer_type: str, t_material_type: str, t_subclass_name: str | None = ..., t_plane_type: str | None = ..., /) -> bool | None: ...
-
-class _AxlLayerCreateNonConductor(LiteralRemoteFunction):
+    layer_create_non_conductor: _AxlLayerCreateNonConductor
     """
     Creates a new subclass for non-etch subclasses
     SKILL: axlLayerCreateNonConductor(t_layerName)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part02.md:24
     """
-    def __call__(self, t_layer_name: str, /) -> bool | None: ...
-
-class _AxlLayerDelete(LiteralRemoteFunction):
+    layer_delete: _AxlLayerDelete
     """
     This command deletes a cross section layer
     SKILL: axlLayerDelete(t_layerName/x_layerNumber) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part02.md:49
     """
-    def __call__(self, t_layer_name: str | int, /) -> bool | None: ...
-
-class _AxlLayerGet(LiteralRemoteFunction):
+    layer_get: _AxlLayerGet
     """
     Gets the layer parameter given the shortcut notation of*<*class*>*/*<*subclass*>*
     SKILL: axlLayerGet(t_layer)⇒ o_dbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part02.md:89
     """
-    def __call__(self, t_layer: str, /) -> RemoteObject | None: ...
-
-class _AxlLayerPriorityClearAll(LiteralRemoteFunction):
+    layer_priority_clear_all: _AxlLayerPriorityClearAll
     """
     Clears all layer priority information in Allegro database
     SKILL: axlLayerPriorityClearAll() -> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:1534
     """
-    def __call__(self, /) -> bool | None: ...
-
-class _AxlLayerPriorityGet(LiteralRemoteFunction):
+    layer_priority_get: _AxlLayerPriorityGet
     """
     Obtains layer priority, where 0 is normal (not set)
     SKILL: axlLayerPriorityGet(t_layer) -> x_priority/t_mapClass/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:1555
     """
-    def __call__(self, t_layer: str, /) -> int | str | None: ...
-
-class _AxlLayerPriorityRestoreAll(LiteralRemoteFunction):
+    layer_priority_restore_all: _AxlLayerPriorityRestoreAll
     """
     Restores previously saved layer priority information
     SKILL: axlLayerPriorityRestoreAll() -> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:1602
     """
-    def __call__(self, /) -> bool | None: ...
-
-class _AxlLayerPrioritySaveAll(LiteralRemoteFunction):
+    layer_priority_save_all: _AxlLayerPrioritySaveAll
     """
     Saves all layer priority information to be restored later
     SKILL: axlLayerPrioritySaveAll() -> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:1624
     """
-    def __call__(self, /) -> bool | None: ...
-
-class _AxlLayerPrioritySet(LiteralRemoteFunction):
+    layer_priority_set: _AxlLayerPrioritySet
     """
     This changes the drawing priority of given layer
     SKILL: axlLayerPrioritySet(t_layerx_priority) -> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:1646
     """
-    def __call__(self, t_layer: str, x_priority: int, /) -> bool | None: ...
-
-class _AxlLayerSet(LiteralRemoteFunction):
+    layer_set: _AxlLayerSet
     """
     Updates changes to layer parameters
     SKILL: axlLayerSet(o_dbid)==>o_dbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part02.md:900
     """
-    def __call__(self, o_dbid: RemoteObject, /) -> RemoteObject | None: ...
-
-class _AxlLayerViaLabel(LiteralRemoteFunction):
+    layer_via_label: _AxlLayerViaLabel
     """
     Reports via label for a layer
     SKILL: axlLayerViaLabel(t_layerName/x_layerNumber) => t_viaLabel/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part02.md:130
     """
-    def __call__(self, t_layer_name: str | int, /) -> str | None: ...
-
-class _AxlLicDefaultVersion(LiteralRemoteFunction):
+    lic_default_version: _AxlLicDefaultVersion
     """
     This returns the default version number used in licensing
     SKILL: axlLicDefaultVersion()-> f_version
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:456
     """
-    def __call__(self, /) -> float: ...
-
-class _AxlLicFeatureExists(LiteralRemoteFunction):
+    lic_feature_exists: _AxlLicFeatureExists
     """
     Checks if license feature exists
     SKILL: axlLicFeatureExists(t_license[f_version])-> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:472
     """
-    def __call__(self, t_license: str, f_version: float | None = ..., /) -> bool | None: ...
-
-class _AxlLicIsProductEnabled(LiteralRemoteFunction):
+    lic_is_product_enabled: _AxlLicIsProductEnabled
     """
     Checks if license is checked-out by tool.
     SKILL: axlLicIsProductEnabled(t_license) -> t/nil
@@ -4505,75 +12468,56 @@ class _AxlLicIsProductEnabled(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:494
     """
-    @overload
-    def __call__(self, t_license: str, /) -> bool | None: ...
-    @overload
-    def __call__(self, all: Skill, /) -> list[str]: ...
-
-class _AxlLineSlope(LiteralRemoteFunction):
+    line_slope: _AxlLineSlope
     """
     Returns the slope of a line
     SKILL: axlLineSlope(ll_line)⇒ f_slope
     Version: Allegro 17.2-2016
     Source: algroskill/24mthutl.md:452
     """
-    def __call__(self, ll_line: SkillList, /) -> float: ...
-
-class _AxlLineXLine(LiteralRemoteFunction):
+    line_x_line: _AxlLineXLine
     """
     This function is no longer required, but is kept for backward compatibility.
     SKILL: axlLineXLine(l_seg1l_seg2)⇒ t
     Version: Allegro 17.2-2016
     Source: algroskill/24mthutl.md:477
     """
-    def __call__(self, l_seg1: SkillList, l_seg2: SkillList, /) -> bool: ...
-
-class _AxlLoadPadstack(LiteralRemoteFunction):
+    load_padstack: _AxlLoadPadstack
     """
     Loads a padstack by attempting to find the padstack by name in the existing database
     SKILL: axlLoadPadstack (t_padname)⇒ o_dbid
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part02.md:292
     """
-    def __call__(self, t_padname: str, /) -> RemoteObject: ...
-
-class _AxlLoadSymbol(LiteralRemoteFunction):
+    load_symbol: _AxlLoadSymbol
     """
     No description available.
     SKILL: axlLoadSymbol(t_symKind t_symName) -> o_dbidSymDef/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part02.md:317
     """
-    def __call__(self, t_sym_kind: str, t_sym_name: str, /) -> RemoteObject | None: ...
-
-class _AxlLogHeader(LiteralRemoteFunction):
+    log_header: _AxlLogHeader
     """
     Writes the standard Allegro PCB Editor log file header to the passed open file
     SKILL: axlLogHeader(p_portt_titleString[t_prefix])⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:532
     """
-    def __call__(self, p_port: Skill, t_title_string: str, t_prefix: str | None = ..., /) -> bool | None: ...
-
-class _AxlMKS2UU(LiteralRemoteFunction):
+    mk_s2_uu: _AxlMKS2UU
     """
     Converts between an MKS string to the current database user units
     SKILL: axlMKS2UU(t_mksString)⇒ f_value/nil
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:561
     """
-    def __call__(self, t_mks_string: str, /) -> float | None: ...
-
-class _AxlMKSAlias(LiteralRemoteFunction):
+    mks_alias: _AxlMKSAlias
     """
     Searches the MKS unit database for the current definition associated withunitName
     SKILL: axlMKSAlias(t_mksAlias) => t_def/nil
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:616
     """
-    def __call__(self, t_mks_alias: str, /) -> str | None: ...
-
-class _AxlMKSConvert(LiteralRemoteFunction):
+    mks_convert: _AxlMKSConvert
     """
     No description available.
     SKILL: axlMKSConvert(n_input t_inUnits [t_outUnits]) => f_output/nil
@@ -4583,133 +12527,98 @@ class _AxlMKSConvert(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:647
     """
-    @overload
-    def __call__(self, n_input: Number, t_in_units: str, t_out_units: str | None = ..., /) -> float | None: ...
-    @overload
-    def __call__(self, t_input: str, t_out_units: str | None = ..., /) -> float | None: ...
-    @overload
-    def __call__(self, value: None, t_in_units: str, /) -> bool | None: ...
-    @overload
-    def __call__(self, n_input: Number, /) -> float | None: ...
-
-class _AxlMKSStr2UU(LiteralRemoteFunction):
+    mks_str2_uu: _AxlMKSStr2UU
     """
     Converts an input string to a MKS string in current database units
     SKILL: axlMKSStr2UU(t_String)⇒ t_mksString/nil
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:728
     """
-    def __call__(self, t_string: str, /) -> str | None: ...
-
-class _AxlMPythag(LiteralRemoteFunction):
+    m_pythag: _AxlMPythag
     """
     Calculates distance between two points using pythagoras
     SKILL: axlMPythag(l_pt1l_pt2) -> f_distance/nil
     Version: Allegro 17.2-2016
     Source: algroskill/24mthutl.md:619
     """
-    def __call__(self, l: SkillList, pt1: Skill, l_2: SkillList, pt2: Skill, /) -> float | None: ...
-
-class _AxlMUniVector(LiteralRemoteFunction):
+    m_uni_vector: _AxlMUniVector
     """
     This calculates a unit-vector
     SKILL: axlMUniVector(l_pt1l_pt2[f_length]) -> l_uniPt1
     Version: Allegro 17.2-2016
     Source: algroskill/24mthutl.md:648
     """
-    def __call__(self, l_pt1: SkillList, l_pt2: SkillList, f_length: float | None = ..., /) -> list[Skill]: ...
-
-class _AxlMXYAdd(LiteralRemoteFunction):
+    mxy_add: _AxlMXYAdd
     """
     This does al_pt1 + lpt2 and returns the result.
     SKILL: axlMXYAdd(l_pt1l_pt2) -> l_pt/nil
     Version: Allegro 17.2-2016
     Source: algroskill/24mthutl.md:690
     """
-    def __call__(self, l_pt1: SkillList, l_pt2: SkillList, /) -> list[Skill] | None: ...
-
-class _AxlMXYMult(LiteralRemoteFunction):
+    mxy_mult: _AxlMXYMult
     """
     This is a convenience function that does al_pt.x * f_factor and lpt.y * factor and returns the result
     SKILL: axlMXYMult(l_uniVecf_factor[l_origin]) -> l_pt/nil
     Version: Allegro 17.2-2016
     Source: algroskill/24mthutl.md:718
     """
-    def __call__(self, l_uni_vec: SkillList, f_factor: float, l_origin: SkillList | None = ..., /) -> list[Skill] | None: ...
-
-class _AxlMXYSub(LiteralRemoteFunction):
+    mxy_sub: _AxlMXYSub
     """
     This does al_pt1 - lpt2 and returns the result.
     SKILL: axlMXYSub(l_pt1l_pt2) -> l_pt/nil
     Version: Allegro 17.2-2016
     Source: algroskill/24mthutl.md:751
     """
-    def __call__(self, l_pt1: SkillList, l_pt2: SkillList, /) -> list[Skill] | None: ...
-
-class _AxlMakeDynamicsPath(LiteralRemoteFunction):
+    make_dynamics_path: _AxlMakeDynamicsPath
     """
     No description available.
     SKILL: axlMakeDynamicsPath(l_formattedList) => r_path/nil
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:1576
     """
-    def __call__(self, l_formatted_list: SkillList, /) -> RemoteObject | None: ...
-
-class _AxlMapClassName(LiteralRemoteFunction):
+    map_class_name: _AxlMapClassName
     """
     Use this function to write a SKILL program that runs in Allegro PCB Editor and APD
     SKILL: axlMapClassName(t_oldName/lt_oldName[g_mapToPCB])⇒ t_newName/lt_newName
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:765
     """
-    def __call__(self, t_old_name: str | list[str], g_map_to_pcb: Skill = ..., /) -> str | list[str]: ...
-
-class _AxlMatchGroupAdd(LiteralRemoteFunction):
+    match_group_add: _AxlMatchGroupAdd
     """
     Adds members to a matched group
     SKILL: axlMatchGroupAdd(o_mgdbid/t_mgNameo_dbid/lo_dbid)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/26logacc.md:618
     """
-    def __call__(self, o_mgdbid: RemoteObject | str, o_dbid: RemoteObject | list[RemoteObject], /) -> bool | None: ...
-
-class _AxlMatchGroupCreate(LiteralRemoteFunction):
+    match_group_create: _AxlMatchGroupCreate
     """
     Creates a new match group
     SKILL: axlMatchGroupCreate(t_name)==> o_mgdbid
     Version: Allegro 17.2-2016
     Source: algroskill/26logacc.md:666
     """
-    def __call__(self, t_name: str, /) -> RemoteObject: ...
-
-class _AxlMatchGroupDelete(LiteralRemoteFunction):
+    match_group_delete: _AxlMatchGroupDelete
     """
     This deletes a match group
     SKILL: axlMatchGroupDelete( o_mgdbid/t_mgName ) -> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/26logacc.md:743
     """
-    def __call__(self, o_mgdbid: RemoteObject | str, /) -> bool | None: ...
-
-class _AxlMatchGroupProp(LiteralRemoteFunction):
+    match_group_prop: _AxlMatchGroupProp
     """
     Adds or removes the RELATIVE\\_PROPAGATION\\_DELAY property from a member of a match group
     SKILL: axlMatchGroupProp( o_mgdbid/t_mgName o_dbid t_value/nil )==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/26logacc.md:785
     """
-    def __call__(self, o_mgdbid: RemoteObject | str, o_dbid: RemoteObject, t_value: str | None, /) -> bool | None: ...
-
-class _AxlMatchGroupRemove(LiteralRemoteFunction):
+    match_group_remove: _AxlMatchGroupRemove
     """
     Removes elements from an existing match group
     SKILL: axlMatchGroupRemove( o_mgdbid/t_mgName o_dbid/lo_dbid )==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/26logacc.md:849
     """
-    def __call__(self, o_mgdbid: RemoteObject | str, o_dbid: RemoteObject | list[RemoteObject], /) -> bool | None: ...
-
-class _AxlMaterialGet(LiteralRemoteFunction):
+    material_get: _AxlMaterialGet
     """
     Returns various infomation about materials file
     SKILL: axlMaterialGet(nil)==> lt_materials
@@ -4720,486 +12629,371 @@ class _AxlMaterialGet(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part02.md:156
     """
-    @overload
-    def __call__(self, value: None, /) -> list[str]: ...
-    @overload
-    def __call__(self, t_material_name: str, /) -> Skill: ...
-    @overload
-    def __call__(self, all: Symbol, /) -> Skill: ...
-    @overload
-    def __call__(self, file: Symbol, /) -> str: ...
-    @overload
-    def __call__(self, path: Symbol, /) -> str: ...
-
-class _AxlMathDotProduct(LiteralRemoteFunction):
+    math_dot_product: _AxlMathDotProduct
     """
     This calculates the dot or scaler product.
     SKILL: axlMathDotProduct(l_ptA1l_ptA2l_ptB1l_ptB2) -> f_dotProduct
     Version: Allegro 17.2-2016
     Source: algroskill/24mthutl.md:526
     """
-    def __call__(self, l_pt_a1: SkillList, l_pt_a2: SkillList, l_pt_b1: SkillList, l_pt_b2: SkillList, /) -> float: ...
-
-class _AxlMemSize(LiteralRemoteFunction):
+    mem_size: _AxlMemSize
     """
     Returns an estimate of memory use
     SKILL: axlMemSize()⇒ x_size
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:815
     """
-    def __call__(self, /) -> int: ...
-
-class _AxlMeterCreate(LiteralRemoteFunction):
+    meter_create: _AxlMeterCreate
     """
     Starts progress meter with optional cancel feature.
     SKILL: axlMeterCreate(t_title t_infoString g_enableCancel [t_formname] [t_infoString2] [g_formCallback]) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:529
     """
-    def __call__(self, t_title: str, t_info_string: str, g_enable_cancel: Skill, t_formname: str | None = ..., t_info_string2: str | None = ..., g_form_callback: Skill = ..., /) -> bool | None: ...
-
-class _AxlMeterDestroy(LiteralRemoteFunction):
+    meter_destroy: _AxlMeterDestroy
     """
     Closes the progress meter form and shuts off Cancel mode if enabled.
     SKILL: axlMeterDestroy() -> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:579
     """
-    def __call__(self, /) -> bool | None: ...
-
-class _AxlMeterIsCancelled(LiteralRemoteFunction):
+    meter_is_cancelled: _AxlMeterIsCancelled
     """
     If cancel was enabled at meter creation, the status of cancel is returned (t if cancelled; otherwise nil).
     SKILL: axlMeterIsCancelled() -> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:599
     """
-    def __call__(self, /) -> bool | None: ...
-
-class _AxlMeterUpdate(LiteralRemoteFunction):
+    meter_update: _AxlMeterUpdate
     """
     Updates progress meter bar and/or info text
     SKILL: axlMeterUpdate(x_percentDonet_infoString[t_infoStr2]) -> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:621
     """
-    def __call__(self, x_percent_done: int, t_info_string: str, t_info_str2: str | None = ..., /) -> bool | None: ...
-
-class _AxlMidPointArc(LiteralRemoteFunction):
+    mid_point_arc: _AxlMidPointArc
     """
     Returns mid-point on a arc
     SKILL: axlMidPointArc(ll_endPointsl_centerf_radiusg_clockwise) -> l_midPoint
     Version: Allegro 17.2-2016
     Source: algroskill/24mthutl.md:556
     """
-    def __call__(self, ll_end_points: SkillList, l_center: SkillList, f_radius: float, g_clockwise: Skill, /) -> list[Skill]: ...
-
-class _AxlMidPointLine(LiteralRemoteFunction):
+    mid_point_line: _AxlMidPointLine
     """
     Returns mid-point of line
     SKILL: axlMidPointLine(ll_line) -> l_midPoint
     Version: Allegro 17.2-2016
     Source: algroskill/24mthutl.md:592
     """
-    def __call__(self, ll_line: SkillList, /) -> list[Skill]: ...
-
-class _AxlMiniStatusLoad(LiteralRemoteFunction):
+    mini_status_load: _AxlMiniStatusLoad
     """
     Loads the Ministatus form with the form file provided in this call
     SKILL: axlMiniStatusLoad(s_formHandle g_formSource g_formAction [g_stringOption] [t_restrict]) => r_form/nil
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:734
     """
-    def __call__(self, s_form_handle: Symbol, g_form_source: Skill, g_form_action: Skill, g_string_option: Skill = ..., t_restrict: str | None = ..., /) -> RemoteObject | None: ...
-
-class _AxlMiniStatusReset(LiteralRemoteFunction):
+    mini_status_reset: _AxlMiniStatusReset
     """
     This resets the Option panel settings and find filter settings to a new design's default.
     SKILL: axlMiniStatusReset() => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:474
     """
-    def __call__(self, /) -> bool | None: ...
-
-class _AxlMsgCancelPrint(LiteralRemoteFunction):
+    msg_cancel_print: _AxlMsgCancelPrint
     """
     Prints a message informing the user that he requested*cancel*
     SKILL: axlMsgCancelPrint()⇒ t
     Version: Allegro 17.2-2016
     Source: algroskill/13msghnd.md:333
     """
-    def __call__(self, /) -> bool: ...
-
-class _AxlMsgCancelSeen(LiteralRemoteFunction):
+    msg_cancel_seen: _AxlMsgCancelSeen
     """
     Checks to see if theaxlMsgCancelPrint message was printed
     SKILL: axlMsgCancelSeen()⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/13msghnd.md:360
     """
-    def __call__(self, /) -> bool | None: ...
-
-class _AxlMsgClear(LiteralRemoteFunction):
+    msg_clear: _AxlMsgClear
     """
     Clears the current error severity level
     SKILL: axlMsgClear()⇒ t
     Version: Allegro 17.2-2016
     Source: algroskill/13msghnd.md:384
     """
-    def __call__(self, /) -> bool: ...
-
-class _AxlMsgContextClear(LiteralRemoteFunction):
+    msg_context_clear: _AxlMsgContextClear
     """
     Clears the buffered messages for a context.
     SKILL: axlMsgContextClear(r_context)⇒ t
     Version: Allegro 17.2-2016
     Source: algroskill/13msghnd.md:307
     """
-    def __call__(self, r_context: RemoteObject, /) -> bool: ...
-
-class _AxlMsgContextFinish(LiteralRemoteFunction):
+    msg_context_finish: _AxlMsgContextFinish
     """
     Indicates the finish of a message context
     SKILL: axlMsgContextFinish(r_context)⇒ t
     Version: Allegro 17.2-2016
     Source: algroskill/13msghnd.md:283
     """
-    def __call__(self, r_context: RemoteObject, /) -> bool: ...
-
-class _AxlMsgContextGet(LiteralRemoteFunction):
+    msg_context_get: _AxlMsgContextGet
     """
     Gets the format strings of the buffered messages
     SKILL: axlMsgContextGet(r_context)⇒ lt_format_strings/nil
     Version: Allegro 17.2-2016
     Source: algroskill/13msghnd.md:156
     """
-    def __call__(self, r_context: RemoteObject, /) -> list[str] | None: ...
-
-class _AxlMsgContextGetString(LiteralRemoteFunction):
+    msg_context_get_string: _AxlMsgContextGetString
     """
     Gets the messages in the message buffer and removes them from the buffer
     SKILL: axlMsgContextGetString(r_context)⇒ lt_messages/nil
     Version: Allegro 17.2-2016
     Source: algroskill/13msghnd.md:129
     """
-    def __call__(self, r_context: RemoteObject, /) -> list[str] | None: ...
-
-class _AxlMsgContextInBuf(LiteralRemoteFunction):
+    msg_context_in_buf: _AxlMsgContextInBuf
     """
     Checks whether messaget_format_string is in the message buffer of context r_context
     SKILL: axlMsgContextInBuf(r_contextt_format_string)⇒ t
     Version: Allegro 17.2-2016
     Source: algroskill/13msghnd.md:207
     """
-    def __call__(self, r_context: RemoteObject, t_format_string: str, /) -> bool: ...
-
-class _AxlMsgContextPrint(LiteralRemoteFunction):
+    msg_context_print: _AxlMsgContextPrint
     """
     Prints the buffered messages and removes them from the message buffer.
     SKILL: axlMsgContextPrint(r_context)⇒ t
     Version: Allegro 17.2-2016
     Source: algroskill/13msghnd.md:97
     """
-    def __call__(self, r_context: RemoteObject, /) -> bool: ...
-
-class _AxlMsgContextRemove(LiteralRemoteFunction):
+    msg_context_remove: _AxlMsgContextRemove
     """
     Removes a message (or messages) from the buffered messages
     SKILL: axlMsgContextRemove(r_contextt_format_string)⇒ t
     Version: Allegro 17.2-2016
     Source: algroskill/13msghnd.md:233
     """
-    def __call__(self, r_context: RemoteObject, t_format_string: str, /) -> bool: ...
-
-class _AxlMsgContextStart(LiteralRemoteFunction):
+    msg_context_start: _AxlMsgContextStart
     """
     Indicates the start of a message context
     SKILL: axlMsgContextStart(g_formatString [*g_args]) => r_context
     Version: Allegro 17.2-2016
     Source: algroskill/13msghnd.md:258
     """
-    def __call__(self, g_format_string: Skill, /, *g_args: Skill) -> RemoteObject: ...
-
-class _AxlMsgContextTest(LiteralRemoteFunction):
+    msg_context_test: _AxlMsgContextTest
     """
     Returns the most severe message class of the messages in the context message buffer
     SKILL: axlMsgContextTest(r_context)⇒ x_class
     Version: Allegro 17.2-2016
     Source: algroskill/13msghnd.md:183
     """
-    def __call__(self, r_context: RemoteObject, /) -> int: ...
-
-class _AxlMsgPut(LiteralRemoteFunction):
+    msg_put: _AxlMsgPut
     """
     Puts a message in the journal file
     SKILL: axlMsgPut(g_messageFormat [*g_args]) => t
     Version: Allegro 17.2-2016
     Source: algroskill/13msghnd.md:72
     """
-    def __call__(self, g_message_format: Skill, /, *g_args: Skill) -> bool: ...
-
-class _AxlMsgSet(LiteralRemoteFunction):
+    msg_set: _AxlMsgSet
     """
     Sets the current error severity level
     SKILL: axlMsgSet(x_class)⇒ t
     Version: Allegro 17.2-2016
     Source: algroskill/13msghnd.md:407
     """
-    def __call__(self, x_class: int, /) -> bool: ...
-
-class _AxlMsgTest(LiteralRemoteFunction):
+    msg_test: _AxlMsgTest
     """
     Determines the current error severity level
     SKILL: axlMsgTest()⇒ x_class
     Version: Allegro 17.2-2016
     Source: algroskill/13msghnd.md:431
     """
-    def __call__(self, /) -> int: ...
-
-class _AxlNetClassAdd(LiteralRemoteFunction):
+    net_class_add: _AxlNetClassAdd
     """
     Adds members to a netclass group
     SKILL: axlNetClassAdd(o_netclassdbid/t_netclassNameo_dbid/lo_dbid)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/15dbgrp.md:244
     """
-    def __call__(self, o_netclassdbid: RemoteObject | str, o_dbid: RemoteObject | list[RemoteObject], /) -> bool | None: ...
-
-class _AxlNetClassCreate(LiteralRemoteFunction):
+    net_class_create: _AxlNetClassCreate
     """
     This creates a new netclass group
     SKILL: axlNetClassCreate(t_nameg_domain/lg_domain)==> o_dbid
     Version: Allegro 17.2-2016
     Source: algroskill/15dbgrp.md:292
     """
-    def __call__(self, t_name: str, g_domain: Skill | SkillList, /) -> RemoteObject: ...
-
-class _AxlNetClassDelete(LiteralRemoteFunction):
+    net_class_delete: _AxlNetClassDelete
     """
     This deletes a net class group
     SKILL: axlNetClassDelete(o_netclassdbid/t_netclassName/lg_netclassdbid) -> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/15dbgrp.md:327
     """
-    def __call__(self, o_netclassdbid: RemoteObject | str | SkillList, /) -> bool | None: ...
-
-class _AxlNetClassGet(LiteralRemoteFunction):
+    net_class_get: _AxlNetClassGet
     """
     Given a dbid (net, xnet, diffpair or bus) and a domain (spacing, physical or electrical) return its netclass
     SKILL: axlNetClassGet(o_dbids_domaing_hierarchal)==> o_netclass
     Version: Allegro 17.2-2016
     Source: algroskill/15dbgrp.md:366
     """
-    def __call__(self, o_dbid: RemoteObject, s_domain: Symbol, g_hierarchal: Skill, /) -> RemoteObject: ...
-
-class _AxlNetClassRemove(LiteralRemoteFunction):
+    net_class_remove: _AxlNetClassRemove
     """
     Removes elements from an existing net class group
     SKILL: axlNetClassRemove(o_netclassdbid/t_netclassNameo_dbid/lo_dbid)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/15dbgrp.md:407
     """
-    def __call__(self, o_netclassdbid: RemoteObject | str, o_dbid: RemoteObject | list[RemoteObject], /) -> bool | None: ...
-
-class _AxlNetEcsetValueGet(LiteralRemoteFunction):
+    net_ecset_value_get: _AxlNetEcsetValueGet
     """
     Returns the value of a specific electrical constraint that has been assigned to a given net
     SKILL: axlNetEcsetValueGet(o_itemDbid/t_netNamet_cnsName/s_name)==> t_cnsValue/nil
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part02.md:572
     """
-    def __call__(self, o_item_dbid: RemoteObject | str, t_cns_name: str | Symbol, /) -> str | None: ...
-
-class _AxlNetSched(LiteralRemoteFunction):
+    net_sched: _AxlNetSched
     """
     This is the main routine that the command processor calls for thenet schedule command.
     SKILL: axlNetSched() ==> t
     Version: Allegro 17.2-2016
     Source: algroskill/26logacc.md:891
     """
-    def __call__(self, /) -> bool: ...
-
-class _AxlOK2Void(LiteralRemoteFunction):
+    o_k2_void: _AxlOK2Void
     """
     Determines if voids are allowed for a givenclass/subclass
     SKILL: axlOK2Void(t_layer)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/07dbaccs.md:916
     """
-    def __call__(self, t_layer: str, /) -> bool | None: ...
-
-class _AxlOKToProceed(LiteralRemoteFunction):
+    ok_to_proceed: _AxlOKToProceed
     """
     Checks whether Allegro PCB Editor is processing another interactive command or engaged in some process that might interfere with a SKILL command
     SKILL: axlOKToProceed()⇒ t
     Version: Allegro 17.2-2016
     Source: algroskill/19cmdctl.md:234
     """
-    def __call__(self, /) -> bool: ...
-
-class _AxlOSBackSlash(LiteralRemoteFunction):
+    os_back_slash: _AxlOSBackSlash
     """
     This changes UNIX style forward slashes to DOS style backslashes
     SKILL: axlOSBackSlash(t_directory)==> t_directory/nil
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:832
     """
-    def __call__(self, t_directory: str, /) -> str | None: ...
-
-class _AxlOSControl(LiteralRemoteFunction):
+    os_control: _AxlOSControl
     """
     Inquires and/or sets the value dealing with the graphics
     SKILL: axlOSControl(s_name[g_value])==> g_currentValue/ls_names
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:861
     """
-    def __call__(self, s_name: Symbol, g_value: Skill = ..., /) -> Skill | list[Symbol]: ...
-
-class _AxlOSFileCopy(LiteralRemoteFunction):
+    os_file_copy: _AxlOSFileCopy
     """
     Copies a given source file to a given destination with optional append.
     SKILL: axlOSFileCopy(t_srct_destg_append)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/21filacc.md:383
     """
-    def __call__(self, t_src: str, t_dest: str, g_append: Skill, /) -> bool | None: ...
-
-class _AxlOSFileMove(LiteralRemoteFunction):
+    os_file_move: _AxlOSFileMove
     """
     Moves the given source file to the given destination.
     SKILL: axlOSFileMove(t_srct__dest)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/21filacc.md:410
     """
-    def __call__(self, t_src: str, t_dest: str, /) -> bool | None: ...
-
-class _AxlOSNtp(LiteralRemoteFunction):
+    os_ntp: _AxlOSNtp
     """
     Reports time from a NTP server.
     SKILL: axlOSNtp(s_modet_serverName/nil)==> x_nwtime/t_nwtime/t_server/nil
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:909
     """
-    def __call__(self, s_mode: Symbol, t_server_name: str | None, /) -> int | str | None: ...
-
-class _AxlOSSlash(LiteralRemoteFunction):
+    os_slash: _AxlOSSlash
     """
     Changes DOS style backslashes to UNIX style slashes which are more amenable to SKILL
     SKILL: axlOSSlash(t_directory)⇒ t_directory/nil
     Version: Allegro 17.2-2016
     Source: algroskill/21filacc.md:436
     """
-    def __call__(self, t_directory: str, /) -> str | None: ...
-
-class _AxlOpenDesign(LiteralRemoteFunction):
+    open_design: _AxlOpenDesign
     """
     Opens a design
     SKILL: axlOpenDesign(?design t_design?mode t_mode?noMru g_noMru?ignoreLock g_noMru)⇒ t_design/nil
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:587
     """
-    def __call__(self, /, *, design: str | None = ..., mode: str | None = ..., no_mru: Skill = ..., ignore_lock: Skill = ...) -> str | None: ...
-
-class _AxlOpenDesignForBatch(LiteralRemoteFunction):
+    open_design_for_batch: _AxlOpenDesignForBatch
     """
     Opens a design
     SKILL: axlOpenDesignForBatch(t_designt_mode)==> t_design/nil
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:627
     """
-    def __call__(self, t_design: str, t_mode: str, /) -> str | None: ...
-
-class _AxlOpenFindFilter(LiteralRemoteFunction):
+    open_find_filter: _AxlOpenFindFilter
     """
     This function is no longer required, but is kept for backward compatibility.
     SKILL: axlOpenFindFilter()⇒ t
     Version: Allegro 17.2-2016
     Source: algroskill/05selfnd.md:990
     """
-    def __call__(self, /) -> bool: ...
-
-class _AxlPPrint(LiteralRemoteFunction):
+    p_print: _AxlPPrint
     """
     Converts a string with Allegro PCB Editor's pretty print text function as follows:
     SKILL: axlPPrint(t_name)⇒ t_pname
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:949
     """
-    def __call__(self, t_name: str, /) -> str: ...
-
-class _AxlPackageDesignCheckAddCategory(LiteralRemoteFunction):
+    package_design_check_add_category: _AxlPackageDesignCheckAddCategory
     """
     This function will register a new category inside the IC Packaging tools' "package integrity" command check tree.
     SKILL: axlPackageDesignCheckAddCategory(t_namet_bitmapt_description)==> g_category / nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:1318
     """
-    def __call__(self, t_name: str, t_bitmap: str, t_description: str, /) -> Skill | None: ...
-
-class _AxlPackageDesignCheckAddCheck(LiteralRemoteFunction):
+    package_design_check_add_check: _AxlPackageDesignCheckAddCheck
     """
     This function will register a new check in the specified category of the IC Packaging tools' "package integrity" command check tree.
     SKILL: axlPackageDesignCheckAddCheck(t_category t_name t_bitmap t_descriptions_runCommand g_fixable) ==> defstruct defining check.
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:1360
     """
-    def __call__(self, t_category: str, t_name: str, t_bitmap: str, t_description: str, s_run_command: Symbol, g_fixable: Skill, /) -> Skill: ...
-
-class _AxlPackageDesignCheckDrcError(LiteralRemoteFunction):
+    package_design_check_drc_error: _AxlPackageDesignCheckDrcError
     """
     This function will create an external DRC marker for an error found by the currently running package integrity check
     SKILL: axlPackageDesignCheckDrcError(l_location o_dbids)==> nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:1421
     """
-    def __call__(self, l_location: SkillList, o_dbids: RemoteObject, /) -> None: ...
-
-class _AxlPackageDesignCheckLogError(LiteralRemoteFunction):
+    package_design_check_log_error: _AxlPackageDesignCheckLogError
     """
     This function will log an error found by this function to the log file if the log file is enabled
     SKILL: axlPackageDesignCheckLogError(t_errorStringg_fixedg_location)==> nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:1451
     """
-    def __call__(self, t_error_string: str, g_fixed: Skill, g_location: Skill, /) -> None: ...
-
-class _AxlPadFigureTypes(LiteralRemoteFunction):
+    pad_figure_types: _AxlPadFigureTypes
     """
     Returns list of strings of supported pad figure types.Not all pad types and layers may support a figure type
     SKILL: axlPadFigureTypes() => lt_names
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part02.md:147
     """
-    def __call__(self, /) -> list[str]: ...
-
-class _AxlPadOnLayer(LiteralRemoteFunction):
+    pad_on_layer: _AxlPadOnLayer
     """
     Tests if a pad is present on an etch layer
     SKILL: axlPadOnLayer(o_dbidt_layer/x_layerNumber[g_noPadSuppress])==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:730
     """
-    def __call__(self, o_dbid: RemoteObject, t_layer: str | int, g_no_pad_suppress: Skill = ..., /) -> bool | None: ...
-
-class _AxlPadSuppressGet(LiteralRemoteFunction):
+    pad_suppress_get: _AxlPadSuppressGet
     """
     Returns pad suppress layer characteristic for a layer or design
     SKILL: axlPadSuppressGet(nil)==> ll_LayerPadSuppress
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:498
     """
-    def __call__(self, value: None, /) -> list[Skill]: ...
-
-class _AxlPadSuppressOkLayer(LiteralRemoteFunction):
+    pad_suppress_ok_layer: _AxlPadSuppressOkLayer
     """
     Indicates if layer can be set for pad suppression
     SKILL: axlPadSuppressOkLayer(t_layer/x_layerNumber)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:545
     """
-    def __call__(self, t_layer: str | int, /) -> bool | None: ...
-
-class _AxlPadSuppressSet(LiteralRemoteFunction):
+    pad_suppress_set: _AxlPadSuppressSet
     """
     This modifies the pad suppression settings in the design
     SKILL: axlPadSuppressSet(g_modell_LayerPadSuppress/'all/'none/nil)==> t/nil
@@ -5207,12 +13001,7 @@ class _AxlPadSuppressSet(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:575
     """
-    @overload
-    def __call__(self, g_mode: Skill, ll_layer_pad_suppress: SkillList | Symbol | None, /) -> bool | None: ...
-    @overload
-    def __call__(self, g_mode: Skill, t_layer: str | int, ls_options: list[Symbol], /) -> bool | None: ...
-
-class _AxlPadUserMaskLayers(LiteralRemoteFunction):
+    pad_user_mask_layers: _AxlPadUserMaskLayers
     """
     Supports following modes:
     SKILL: axlPadUserMaskLayers(['max]) =>lt_names/x_cnt
@@ -5220,12 +13009,7 @@ class _AxlPadUserMaskLayers(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part02.md:348
     """
-    @overload
-    def __call__(self, max: Symbol | None = ..., /) -> list[str] | int: ...
-    @overload
-    def __call__(self, createt_user_mask_layer: Symbol, /) -> bool | None: ...
-
-class _AxlPadstackEdit(LiteralRemoteFunction):
+    padstack_edit: _AxlPadstackEdit
     """
     Inquire and set display options
     SKILL: axlPadstackEdit(g_padstack g_attributes) => l_attributes/t/nil
@@ -5233,12 +13017,7 @@ class _AxlPadstackEdit(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part02.md:168
     """
-    @overload
-    def __call__(self, g_padstack: Skill, g_attributes: Skill, /) -> list[Skill] | bool | None: ...
-    @overload
-    def __call__(self, g_padstack: Skill, s_name: Symbol, g_value: Skill, /) -> bool | None: ...
-
-class _AxlPadstackSetType(LiteralRemoteFunction):
+    padstack_set_type: _AxlPadstackSetType
     """
     Changes a padstack type
     SKILL: axlPadstackSetType(o_padstack/t_padstackg_uviaBbvia) -> t/nil
@@ -5246,183 +13025,140 @@ class _AxlPadstackSetType(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part02.md:280
     """
-    @overload
-    def __call__(self, o_padstack: RemoteObject | str, g_uvia_bbvia: Skill, /) -> bool | None: ...
-    @overload
-    def __call__(self, o_padstack: RemoteObject | str, g_type: Skill, g_value: Skill, /) -> bool | None: ...
-
-class _AxlPadstackToDisk(LiteralRemoteFunction):
+    padstack_to_disk: _AxlPadstackToDisk
     """
     Saves a board padstack out to a library.
     SKILL: axlPadstackToDisk([t_padName][t_outPadName])⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part02.md:355
     """
-    def __call__(self, t_pad_name: str | None = ..., t_out_pad_name: str | None = ..., /) -> bool | None: ...
-
-class _AxlPadstackUsageTypes(LiteralRemoteFunction):
+    padstack_usage_types: _AxlPadstackUsageTypes
     """
     Returns list of strings of supported padstack usage types
     SKILL: axlPadstackUsageTypes() => lt_names
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part02.md:328
     """
-    def __call__(self, /) -> list[str]: ...
-
-class _AxlPathArcAngle(LiteralRemoteFunction):
+    path_arc_angle: _AxlPathArcAngle
     """
     No description available.
     SKILL: axlPathArcAngle(r_path f_width l_endPoint g_clockwise f_angle) => r_path/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:88
     """
-    def __call__(self, r_path: RemoteObject, f_width: float, l_end_point: SkillList, g_clockwise: Skill, f_angle: float, /) -> RemoteObject | None: ...
-
-class _AxlPathArcCenter(LiteralRemoteFunction):
+    path_arc_center: _AxlPathArcCenter
     """
     Each of these functions provides a way to construct an arc segment from the current endpoint ofr_path to the given l_end_point in the direction specified by the Boolean g_clockwise, as described below and shown in [Figure 15-1](#367350 "...
     SKILL: axlPathArcCenter(r_pathf_widthl_end_pointg_clockwisel_center)⇒ r_path/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:90
     """
-    def __call__(self, r_path: RemoteObject, f_width: float, l_end_point: SkillList, g_clockwise: Skill, l_center: SkillList, /) -> RemoteObject | None: ...
-
-class _AxlPathArcRadius(LiteralRemoteFunction):
+    path_arc_radius: _AxlPathArcRadius
     """
     No description available.
     SKILL: axlPathArcRadius(r_path f_width l_endPoint g_clockwise g_bigarc f_radius) => r_path/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:86
     """
-    def __call__(self, r_path: RemoteObject, f_width: float, l_end_point: SkillList, g_clockwise: Skill, g_bigarc: Skill, f_radius: float, /) -> RemoteObject | None: ...
-
-class _AxlPathGetLastPathSeg(LiteralRemoteFunction):
+    path_get_last_path_seg: _AxlPathGetLastPathSeg
     """
     Gets the last segment of a path structure.
     SKILL: axlPathGetLastPathSeg(r_path)⇒ r_pathList/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:279
     """
-    def __call__(self, r_path: RemoteObject, /) -> RemoteObject | None: ...
-
-class _AxlPathGetPathSegs(LiteralRemoteFunction):
+    path_get_path_segs: _AxlPathGetPathSegs
     """
     Gets a list of the segments of a path structure, in the order they appear in the path.
     SKILL: axlPathGetPathSegs(r_path)⇒ r_pathList/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:244
     """
-    def __call__(self, r_path: RemoteObject, /) -> RemoteObject | None: ...
-
-class _AxlPathGetWidth(LiteralRemoteFunction):
+    path_get_width: _AxlPathGetWidth
     """
     Gets the default width of an existing path structure.
     SKILL: axlPathGetWidth(r_path)⇒ f_width/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:174
     """
-    def __call__(self, r_path: RemoteObject, /) -> float | None: ...
-
-class _AxlPathLine(LiteralRemoteFunction):
+    path_line: _AxlPathLine
     """
     Adds a single straight line segment to the end of an existingr_path structure as specified by the arguments
     SKILL: axlPathLine(r_pathf_widthl_end_point)⇒ r_path/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:149
     """
-    def __call__(self, r_path: RemoteObject, f_width: float, l_end_point: SkillList, /) -> RemoteObject | None: ...
-
-class _AxlPathOffset(LiteralRemoteFunction):
+    path_offset: _AxlPathOffset
     """
     Adds an offset,xy, to all points within a r_path.
     SKILL: axlPathOffset(r_path offset) => r_path
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:449
     """
-    def __call__(self, r_path: RemoteObject, offset: Skill, /) -> RemoteObject: ...
-
-class _AxlPathSegGetArcCenter(LiteralRemoteFunction):
+    path_seg_get_arc_center: _AxlPathSegGetArcCenter
     """
     Gets the center point of a path arc segment.
     SKILL: axlPathSegGetArcCenter(r_pathSeg)⇒ l_point/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:353
     """
-    def __call__(self, r_path_seg: RemoteObject, /) -> list[Skill] | None: ...
-
-class _AxlPathSegGetArcClockwise(LiteralRemoteFunction):
+    path_seg_get_arc_clockwise: _AxlPathSegGetArcClockwise
     """
     Gets the clockwise flag (t or nil) of a path segment.
     SKILL: axlPathSegGetArcClockwise(r_pathSeg)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:388
     """
-    def __call__(self, r_path_seg: RemoteObject, /) -> bool | None: ...
-
-class _AxlPathSegGetEndPoint(LiteralRemoteFunction):
+    path_seg_get_end_point: _AxlPathSegGetEndPoint
     """
     Gets the end point of an existing path structure.
     SKILL: axlPathSegGetEndPoint(r_pathSeg)⇒ l_endPoint/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:316
     """
-    def __call__(self, r_path_seg: RemoteObject, /) -> list[Skill] | None: ...
-
-class _AxlPathSegGetWidth(LiteralRemoteFunction):
+    path_seg_get_width: _AxlPathSegGetWidth
     """
     Gets the width of a single segment in a path structure.
     SKILL: axlPathSegGetWidth(r_pathSeg)⇒ f_width/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:207
     """
-    def __call__(self, r_path_seg: RemoteObject, /) -> float | None: ...
-
-class _AxlPathStart(LiteralRemoteFunction):
+    path_start: _AxlPathStart
     """
     Creates a new path with a startpoint and one or more segments as specified by the listl_points and returns the path dbid
     SKILL: axlPathStart(l_points[f_width])⇒ r_path/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:63
     """
-    def __call__(self, l_points: SkillList, f_width: float | None = ..., /) -> RemoteObject | None: ...
-
-class _AxlPathStartCircle(LiteralRemoteFunction):
+    path_start_circle: _AxlPathStartCircle
     """
     Creates anaxlPath structure (r_path) for a circle.
     SKILL: axlPathStartCircle(l_locationf_width)⇒ r_path/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part01.md:423
     """
-    def __call__(self, l_location: SkillList, f_width: float, /) -> RemoteObject | None: ...
-
-class _AxlPdfView(LiteralRemoteFunction):
+    pdf_view: _AxlPdfView
     """
     Displays a PDF file from Allegro PCB Editor
     SKILL: axlPdfView(t_pdfFile)⇒ t
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:975
     """
-    def __call__(self, t_pdf_file: str, /) -> bool: ...
-
-class _AxlPinExport(LiteralRemoteFunction):
+    pin_export: _AxlPinExport
     """
     This exports all pins in the symbol editor in csv format
     SKILL: axlPinExport(g_includeTextLocation[t_csvfile])--> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:768
     """
-    def __call__(self, g_include_text_location: Skill, t_csvfile: str | None = ..., /) -> bool | None: ...
-
-class _AxlPinImport(LiteralRemoteFunction):
+    pin_import: _AxlPinImport
     """
     This imports pin csv (comma separated values) file into the symbol editor
     SKILL: axlPinImport(t_csvFile)--> l_cnt/nil
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:798
     """
-    def __call__(self, t_csv_file: str, /) -> list[Skill] | None: ...
-
-class _AxlPinPair(LiteralRemoteFunction):
+    pin_pair: _AxlPinPair
     """
     This creates or deletes a pinpair
     SKILL: axlPinPair( o_pin1/t_pin1 o_pin2/t_pin2 )==> o_pinpair
@@ -5430,237 +13166,182 @@ class _AxlPinPair(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/26logacc.md:909
     """
-    @overload
-    def __call__(self, o_pin1: RemoteObject | str, o_pin2: RemoteObject | str, /) -> RemoteObject: ...
-    @overload
-    def __call__(self, o_pinpair: RemoteObject | list[RemoteObject], /) -> bool | None: ...
-
-class _AxlPinPairSeek(LiteralRemoteFunction):
+    pin_pair_seek: _AxlPinPairSeek
     """
     Given two pins or ratTs reports if they are part of a pinpair.
     SKILL: axlPinPairSeek( o_pin1 o_pin2 )==> o_pinpair/nil
     Version: Allegro 17.2-2016
     Source: algroskill/26logacc.md:1009
     """
-    def __call__(self, o_pin1: RemoteObject, o_pin2: RemoteObject, /) -> RemoteObject | None: ...
-
-class _AxlPinsOfNet(LiteralRemoteFunction):
+    pins_of_net: _AxlPinsOfNet
     """
     Returns list of pins and ratTs on a net or xnet
     SKILL: axlPinsOfNet( o_net/t_net g_mode ) -> lo_pins/nil
     Version: Allegro 17.2-2016
     Source: algroskill/26logacc.md:1045
     """
-    def __call__(self, o_net: RemoteObject | str, g_mode: Skill, /) -> list[RemoteObject] | None: ...
-
-class _AxlPolyErrorGet(LiteralRemoteFunction):
+    poly_error_get: _AxlPolyErrorGet
     """
     Retrieves the error from the logop core
     SKILL: axlPolyErrorGet ()⇒ t_error/nil
     Version: Allegro 17.2-2016
     Source: algroskill/20plyopr.md:520
     """
-    def __call__(self, /) -> str | None: ...
-
-class _AxlPolyExpand(LiteralRemoteFunction):
+    poly_expand: _AxlPolyExpand
     """
     This function yields a list of polys after expanding them by a specified distance
     SKILL: axlPolyExpand(o_polygon1 / lo_polygon1f_expandValues_expandType)⇒ lo_polygon/nil
     Version: Allegro 17.2-2016
     Source: algroskill/20plyopr.md:370
     """
-    def __call__(self, o_polygon1: RemoteObject | list[RemoteObject], f_expand_value: float, s_expand_type: Symbol, /) -> list[RemoteObject] | None: ...
-
-class _AxlPolyFromDB(LiteralRemoteFunction):
+    poly_from_db: _AxlPolyFromDB
     """
     Creates a list ofo_polygon objects from the dbidor an r_path
     SKILL: axlPolyFromDB(o_dbid/r_path ?endCapType s_endCapType ?layer t_layer ?padType s_padType ?holes t/nil ?line2poly t/nil ?xhatch t/nil) => lo_polygon/nil
     Version: Allegro 17.2-2016
     Source: algroskill/20plyopr.md:141
     """
-    def __call__(self, o_dbid: RemoteObject, /, *, end_cap_type: Symbol | None = ..., layer: str | None = ..., pad_type: Symbol | None = ..., holes: bool | None = ..., line2poly: bool | None = ..., xhatch: bool | None = ...) -> list[RemoteObject] | None: ...
-
-class _AxlPolyFromHole(LiteralRemoteFunction):
+    poly_from_hole: _AxlPolyFromHole
     """
     Creates a new poly from the vertices of the hole, and sets theisHole attribute of the resulting poly to nil
     SKILL: axlPolyFromHole (o_polygon)⇒ lo_polygon/nil
     Version: Allegro 17.2-2016
     Source: algroskill/20plyopr.md:493
     """
-    def __call__(self, o_polygon: RemoteObject, /) -> list[RemoteObject] | None: ...
-
-class _AxlPolyMemUse(LiteralRemoteFunction):
+    poly_mem_use: _AxlPolyMemUse
     """
     This returns a list of integers reflecting the internal memory use of theaxlPoly interfaces
     SKILL: axlPolyMemUse () -> lx_polyCounts
     Version: Allegro 17.2-2016
     Source: algroskill/20plyopr.md:240
     """
-    def __call__(self, /) -> list[Skill]: ...
-
-class _AxlPolyOffset(LiteralRemoteFunction):
+    poly_offset: _AxlPolyOffset
     """
     This offsets the entire poly by the provided xy coordinate
     SKILL: axlPolyOffset (o_polygon/lo_polygonl_xy[g_copy])=> o_polygon
     Version: Allegro 17.2-2016
     Source: algroskill/20plyopr.md:283
     """
-    def __call__(self, o_polygon: RemoteObject | list[RemoteObject], l_xy: SkillList, g_copy: Skill = ..., /) -> RemoteObject: ...
-
-class _AxlPolyOperation(LiteralRemoteFunction):
+    poly_operation: _AxlPolyOperation
     """
     Performs the logical operation specified on the two sets of polygons
     SKILL: axlPolyOperation(o_polygon1/lo_polygon1 o_polygon2/lo_polygon2 s_operation) => lo_polygon/nil
     Version: Allegro 17.2-2016
     Source: algroskill/20plyopr.md:321
     """
-    def __call__(self, o_polygon1: RemoteObject | list[RemoteObject], o_polygon2: RemoteObject | list[RemoteObject], s_operation: Symbol, /) -> list[RemoteObject] | None: ...
-
-class _AxlPrintDbid(LiteralRemoteFunction):
+    print_dbid: _AxlPrintDbid
     """
     This is a debug function to print one or a list of dbids
     SKILL: axlPrintDbid(o_dbid/lo_dbid[o_port]) -> t
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:1004
     """
-    def __call__(self, o_dbid: RemoteObject | list[RemoteObject], o_port: RemoteObject | None = ..., /) -> bool: ...
-
-class _AxlProtectAlias(LiteralRemoteFunction):
+    protect_alias: _AxlProtectAlias
     """
     Controls the read-only attribute of an alias.
     SKILL: axlProtectAlias(t_aliast/nil)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/09cmdshl.md:221
     """
-    def __call__(self, t_alias: str, t: bool | None, /) -> bool | None: ...
-
-class _AxlPurgePadstacks(LiteralRemoteFunction):
+    purge_padstacks: _AxlPurgePadstacks
     """
     Purges unused padstacks from the database in the area controlled byS_mode symbol.
     SKILL: axlPurgePadstacks(s_mode g_option) => x_cnt
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:877
     """
-    def __call__(self, s_mode: Symbol, g_option: Skill, /) -> int: ...
-
-class _AxlRadToDeg(LiteralRemoteFunction):
+    rad_to_deg: _AxlRadToDeg
     """
     Converts an angle in radians to degrees.
     SKILL: axlRadToDeg(n_angle) => f_angle
     Version: Allegro 17.2-2016
     Source: algroskill/24mthutl.md:779
     """
-    def __call__(self, n_angle: Number, /) -> float: ...
-
-class _AxlRatsnestBlank(LiteralRemoteFunction):
+    ratsnest_blank: _AxlRatsnestBlank
     """
     Blanks all ratsnest lines in a net.
     SKILL: axlRatsnestBlank(rd_net)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:1152
     """
-    def __call__(self, rd_net: Skill, /) -> bool | None: ...
-
-class _AxlRatsnestDisplay(LiteralRemoteFunction):
+    ratsnest_display: _AxlRatsnestDisplay
     """
     Displays all ratsnest lines in a net.
     SKILL: axlRatsnestDisplay(rd_net)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:1171
     """
-    def __call__(self, rd_net: Skill, /) -> bool | None: ...
-
-class _AxlReadOnlyVariable(LiteralRemoteFunction):
+    read_only_variable: _AxlReadOnlyVariable
     """
     This sets, unsets or queries the read-only state of a Allegro PCB Editor environment variable
     SKILL: axlReadOnlyVariable(t_variable[g_Enable])==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/09cmdshl.md:276
     """
-    def __call__(self, t_variable: str, g_enable: Skill = ..., /) -> bool | None: ...
-
-class _AxlRecursiveDelete(LiteralRemoteFunction):
+    recursive_delete: _AxlRecursiveDelete
     """
     Recursively removes directories and subdirectories in the argument list
     SKILL: axlRecursiveDelete(t_directory)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/21filacc.md:463
     """
-    def __call__(self, t_directory: str, /) -> bool | None: ...
-
-class _AxlRefreshSymbol(LiteralRemoteFunction):
+    refresh_symbol: _AxlRefreshSymbol
     """
     Refreshes a symbol from file on disk which is located by current PSMPATH
     SKILL: axlRefreshSymbol(t_symName/o_SymDef[g_options])==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/03dbcre8.part02.md:389
     """
-    def __call__(self, t_sym_name: str | RemoteObject, g_options: Skill = ..., /) -> bool | None: ...
-
-class _AxlRegexpIs(LiteralRemoteFunction):
+    regexp_is: _AxlRegexpIs
     """
     Determines whether an environment variable expression contains Allegro PCB Editor compatible wildcard characters
     SKILL: axlRegexpIs(t_exp)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:1046
     """
-    def __call__(self, t_exp: str, /) -> bool | None: ...
-
-class _AxlRegionAdd(LiteralRemoteFunction):
+    region_add: _AxlRegionAdd
     """
     Adds members to a region group
     SKILL: axlRegionAdd(o_regiondbid/t_regionNameo_dbid/lo_dbid)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/15dbgrp.md:441
     """
-    def __call__(self, o_regiondbid: RemoteObject | str, o_dbid: RemoteObject | list[RemoteObject], /) -> bool | None: ...
-
-class _AxlRegionCreate(LiteralRemoteFunction):
+    region_create: _AxlRegionCreate
     """
     Creates a new region group
     SKILL: axlRegionCreate(t_name)==> o_dbid
     Version: Allegro 17.2-2016
     Source: algroskill/15dbgrp.md:489
     """
-    def __call__(self, t_name: str, /) -> RemoteObject: ...
-
-class _AxlRegionDelete(LiteralRemoteFunction):
+    region_delete: _AxlRegionDelete
     """
     This deletes a region group
     SKILL: axlRegionDelete(o_regiondbid/t_regionName/lg_regiondbid) -> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/15dbgrp.md:524
     """
-    def __call__(self, o_regiondbid: RemoteObject | str | SkillList, /) -> bool | None: ...
-
-class _AxlRegionRemove(LiteralRemoteFunction):
+    region_remove: _AxlRegionRemove
     """
     Removes shapes from an existing region group
     SKILL: axlRegionRemove(o_regiondbid/t_regionNameo_dbid/lo_dbid)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/15dbgrp.md:563
     """
-    def __call__(self, o_regiondbid: RemoteObject | str, o_dbid: RemoteObject | list[RemoteObject], /) -> bool | None: ...
-
-class _AxlRemoveNet(LiteralRemoteFunction):
+    remove_net: _AxlRemoveNet
     """
     Removes a net
     SKILL: axlRemoveNet(t_name/o_dbid[g_ripup])⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/26logacc.md:1088
     """
-    def __call__(self, t_name: str | RemoteObject, g_ripup: Skill = ..., /) -> bool | None: ...
-
-class _AxlRenameDesign(LiteralRemoteFunction):
+    rename_design: _AxlRenameDesign
     """
     Changes the current design name
     SKILL: axlRenameDesign(t_design)⇒ t_design/nil
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:661
     """
-    def __call__(self, t_design: str, /) -> str | None: ...
-
-class _AxlRenameNet(LiteralRemoteFunction):
+    rename_net: _AxlRenameNet
     """
     Renames a net
     SKILL: axlRenameNet(t_old_namet_new_name)⇒ t/nil
@@ -5668,768 +13349,595 @@ class _AxlRenameNet(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/26logacc.md:1115
     """
-    @overload
-    def __call__(self, t_old_name: str, t_new_name: str, /) -> bool | None: ...
-    @overload
-    def __call__(self, o_dbid: RemoteObject, t_new_name: str, /) -> bool | None: ...
-
-class _AxlRenameRefdes(LiteralRemoteFunction):
+    rename_refdes: _AxlRenameRefdes
     """
     Renames a refdes
     SKILL: axlRenameRefdes(t_old_name/o_oldCompDbidt_new_name/o_newCompDbid ) ⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/26logacc.md:1156
     """
-    def __call__(self, t_old_name: str | RemoteObject, t_new_name: str | RemoteObject, /) -> bool | None: ...
-
-class _AxlReplacePadstack(LiteralRemoteFunction):
+    replace_padstack: _AxlReplacePadstack
     """
     Replaces the padstack on a pin or via (or a list of them)
     SKILL: axlReplacePadstack (o_dbid/lo_dbido_padstackdbid/t_padname)⇒ lo_dbid
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:851
     """
-    def __call__(self, o_dbid: RemoteObject | list[RemoteObject], o_padstackdbid: RemoteObject | str, /) -> list[RemoteObject]: ...
-
-class _AxlReportList(LiteralRemoteFunction):
+    report_list: _AxlReportList
     """
     Lists all the SKILL reports registered to the Allegro PCB Editor report interface
     SKILL: axlReportList() => ll_reportList/nil
     Version: Allegro 17.2-2016
     Source: algroskill/22extrct.md:84
     """
-    def __call__(self, /) -> list[Skill] | None: ...
-
-class _AxlReportRegister(LiteralRemoteFunction):
+    report_register: _AxlReportRegister
     """
     Allows registration of user reports using the Allegro PCB Editor report dialog box
     SKILL: axlReportRegister(g_reportCallbackt_descriptiont_title) ==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/22extrct.md:112
     """
-    def __call__(self, g_report_callback: Skill, t_description: str, t_title: str, /) -> bool | None: ...
-
-class _AxlReratNet(LiteralRemoteFunction):
+    rerat_net: _AxlReratNet
     """
     Rerats a net
     SKILL: axlReratNet(t_netName/o_dbid)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:875
     """
-    def __call__(self, t_net_name: str | RemoteObject, /) -> bool | None: ...
-
-class _AxlRunBatchDBProgram(LiteralRemoteFunction):
+    run_batch_db_program: _AxlRunBatchDBProgram
     """
     Spawns batch jobs that require an open database via an abstract model
     SKILL: axlRunBatchDBProgram(t_prog t_cmdFmt ?logfile t_logfile ?startMsg t_startMsg ?reloadDB t/nil ?noUnload t/nil ?silent t/nil ?noProgress t/nil ?warnProgram t/nil) => t/x_error
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:1067
     """
-    def __call__(self, t_prog: str, t_cmd_fmt: str, /, *, logfile: str | None = ..., start_msg: str | None = ..., reload_db: bool | None = ..., no_unload: bool | None = ..., silent: bool | None = ..., no_progress: bool | None = ..., warn_program: bool | None = ...) -> bool | int: ...
-
-class _AxlSaveDesign(LiteralRemoteFunction):
+    save_design: _AxlSaveDesign
     """
     Saves the design with the name specified (t_design)
     SKILL: axlSaveDesign(?design t_design?mode t_option?noMru g_noMru?noConfirm g_noConfirm?writeModel g_write)⇒ t_design/nil
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:688
     """
-    def __call__(self, /, *, design: str | None = ..., mode: str | None = ..., no_mru: Skill = ..., no_confirm: Skill = ..., write_model: Skill = ...) -> str | None: ...
-
-class _AxlSaveEnable(LiteralRemoteFunction):
+    save_enable: _AxlSaveEnable
     """
     This queries or sets the design to save design
     SKILL: axlSaveEnable([g_saveEnable]) -> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:729
     """
-    def __call__(self, g_save_enable: Skill = ..., /) -> bool | None: ...
-
-class _AxlSchedule(LiteralRemoteFunction):
+    schedule: _AxlSchedule
     """
     Gets net schedule
     SKILL: axlSchedule( o_net/t_net [g_userSchedule] ) ==> t_schedule/nil
     Version: Allegro 17.2-2016
     Source: algroskill/26logacc.md:1206
     """
-    def __call__(self, o_net: RemoteObject | str, g_user_schedule: Skill = ..., /) -> str | None: ...
-
-class _AxlScheduleNet(LiteralRemoteFunction):
+    schedule_net: _AxlScheduleNet
     """
     This applies a user schedule or a partial user schedule to a net
     SKILL: axlScheduleNet( o_net/t_net t_schedule/nil ) ==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/26logacc.md:1261
     """
-    def __call__(self, o_net: RemoteObject | str, t_schedule: str | None, /) -> bool | None: ...
-
-class _AxlSegDelayAndZ0(LiteralRemoteFunction):
+    seg_delay_and_z0: _AxlSegDelayAndZ0
     """
     Returns the delay and impedance of a cline segment
     SKILL: axlSegDelayAndZ0(o_clineSegDbid)⇒ (f_delay f_z0)/nil
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:1196
     """
-    def __call__(self, o_cline_seg_dbid: RemoteObject, /) -> Skill: ...
-
-class _AxlSelect(LiteralRemoteFunction):
+    select: _AxlSelect
     """
     General tool for AXL programs to solicit interactive object selections from the user.axlSelect automatically sets up the pop-up to provide any of the possible Allegro PCB Editor selection methods:
     SKILL: axlSelect(?firstEventCallback s_callback?groupMode t/nil?prompt t_prompt)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/05selfnd.md:626
     """
-    def __call__(self, /, *, first_event_callback: Symbol | None = ..., group_mode: bool | None = ..., prompt: str | None = ...) -> bool | None: ...
-
-class _AxlSelectByName(LiteralRemoteFunction):
+    select_by_name: _AxlSelectByName
     """
     Selects database objects by name.
     SKILL: axlSelectByName (t_objectTypet_name/lt_name[g_wildcard])⇒ lo_dbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/05selfnd.md:1080
     """
-    def __call__(self, t_object_type: str, t_name: str | list[str], g_wildcard: Skill = ..., /) -> list[RemoteObject] | None: ...
-
-class _AxlSelectByProperty(LiteralRemoteFunction):
+    select_by_property: _AxlSelectByProperty
     """
     Selects thedbid set of a particular Allegro PCB Editor database object with the indicated property.
     SKILL: axlSelectByProperty(t_objectTypet_property[t_value][g_regularExpression])⇒ lo_dbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/05selfnd.md:1278
     """
-    def __call__(self, t_object_type: str, t_property: str, t_value: str | None = ..., g_regular_expression: Skill = ..., /) -> list[RemoteObject] | None: ...
-
-class _AxlSetActiveLayer(LiteralRemoteFunction):
+    set_active_layer: _AxlSetActiveLayer
     """
     Sets the active class and subclass of the design.
     SKILL: axlSetActiveLayer(t_layer)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:1416
     """
-    def __call__(self, t_layer: str, /) -> bool | None: ...
-
-class _AxlSetAlias(LiteralRemoteFunction):
+    set_alias: _AxlSetAlias
     """
     You can set the Allegro PCB Editor environment alias with the name given by the stringt_alias to the value g_value using the axlSetAlias function
     SKILL: axlSetAlias(t_aliasg_value)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/09cmdshl.md:335
     """
-    def __call__(self, t_alias: str, g_value: Skill, /) -> bool | None: ...
-
-class _AxlSetAllProfilesVisible(LiteralRemoteFunction):
+    set_all_profiles_visible: _AxlSetAllProfilesVisible
     """
     Turns all wire profiles in the design on or off.
     SKILL: axlSetAllProfilesVisible(visible)==> t / nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:846
     """
-    def __call__(self, visible: Skill, /) -> bool | None: ...
-
-class _AxlSetAttachment(LiteralRemoteFunction):
+    set_attachment: _AxlSetAttachment
     """
     Modifies an existing Allegro PCB Editor database attachment with the data contained in the given AXL attachment id
     SKILL: axlSetAttachment(o_attachment[t_password])⇒ o_attachment/nil
     Version: Allegro 17.2-2016
     Source: algroskill/16dbatt.md:212
     """
-    def __call__(self, o_attachment: RemoteObject, t_password: str | None = ..., /) -> RemoteObject | None: ...
-
-class _AxlSetBondWireProfile(LiteralRemoteFunction):
+    set_bond_wire_profile: _AxlSetBondWireProfile
     """
     This command allows you to change the bond wire profile on one or more bond wires in the design
     SKILL: axlSetBondWireProfile(bondWires profileName) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:863
     """
-    def __call__(self, bond_wires: Skill, profile_name: Skill, /) -> bool | None: ...
-
-class _AxlSetDefaultDieInformation(LiteralRemoteFunction):
+    set_default_die_information: _AxlSetDefaultDieInformation
     """
     Sets the default die information for a component.
     SKILL: axlSetDefaultDieInformation(comp)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:1221
     """
-    def __call__(self, comp: Skill, /) -> bool | None: ...
-
-class _AxlSetDieData(LiteralRemoteFunction):
+    set_die_data: _AxlSetDieData
     """
     Sets the given data for the given die.
     SKILL: axlSetDieData(g_dieIds_dataTypeg_newValue)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:1484
     """
-    def __call__(self, g_die_id: Skill, s_data_type: Symbol, g_new_value: Skill, /) -> bool | None: ...
-
-class _AxlSetDieStackData(LiteralRemoteFunction):
+    set_die_stack_data: _AxlSetDieStackData
     """
     This function sets the given data for the specified die.
     SKILL: axlSetDieStackData(g_stackId s_dataType g_newValue) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:937
     """
-    def __call__(self, g_stack_id: Skill, s_data_type: Symbol, g_new_value: Skill, /) -> bool | None: ...
-
-class _AxlSetDieType(LiteralRemoteFunction):
+    set_die_type: _AxlSetDieType
     """
     This function sets the attachment type for a die component to one of the available types
     SKILL: axlSetDieType(o_componentDBIDt_dieType)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:1516
     """
-    def __call__(self, o_component_dbid: RemoteObject, t_die_type: str, /) -> bool | None: ...
-
-class _AxlSetDynamicsMirror(LiteralRemoteFunction):
+    set_dynamics_mirror: _AxlSetDynamicsMirror
     """
     Sets the Dynamics mirroring.
     SKILL: axlSetDynamicsMirror(g_mirror) ==> g_oldmirror
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:1190
     """
-    def __call__(self, g_mirror: Skill, /) -> Skill: ...
-
-class _AxlSetDynamicsRotation(LiteralRemoteFunction):
+    set_dynamics_rotation: _AxlSetDynamicsRotation
     """
     Sets the Dynamics rotation
     SKILL: axlSetDynamicsRotation(f_angle/nil) ==> f_oldangle
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:1218
     """
-    def __call__(self, f_angle: float | None, /) -> float: ...
-
-class _AxlSetFindFilter(LiteralRemoteFunction):
+    set_find_filter: _AxlSetFindFilter
     """
     Sets up both the object types to be displayed in the Find Filter, and which types among those are set to*on* in the **Find Filter**.
     SKILL: axlSetFindFilter(?enabled lt_enabled ?onButtons lt_onButtons) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/05selfnd.md:798
     """
-    def __call__(self, /, *, enabled: list[str] | None = ..., on_buttons: list[str] | None = ...) -> bool | None: ...
-
-class _AxlSetFunckey(LiteralRemoteFunction):
+    set_funckey: _AxlSetFunckey
     """
     Works similar toaxlSetAlias except allows alpha-number keys to work like function keys (no Enter key required)
     SKILL: axlSetFunckey(_aliasg_value)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/09cmdshl.md:471
     """
-    def __call__(self, aliasg_value: Skill, /) -> bool | None: ...
-
-class _AxlSetIposerData(LiteralRemoteFunction):
+    set_iposer_data: _AxlSetIposerData
     """
     Sets the given data for the given iposer.
     SKILL: axlSetIposerData(g_iposerIds_dataTypeg_newValue)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:1548
     """
-    def __call__(self, g_iposer_id: Skill, s_data_type: Symbol, g_new_value: Skill, /) -> bool | None: ...
-
-class _AxlSetLineLock(LiteralRemoteFunction):
+    set_line_lock: _AxlSetLineLock
     """
     Sets one or more of the line lock parameters
     SKILL: axlSetLineLock(?arcEnable g_arcEnable?lockAngle f_lockAngle?minRadius f_minRadius?length45 f_length45?fixed45 g_fixed45?lengthRadius f_lengthRadius?fixedRadius g_fixedRadius?lockTangent g_lockTangent)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/19cmdctl.md:257
     """
-    def __call__(self, /, *, arc_enable: Skill = ..., lock_angle: float | None = ..., min_radius: float | None = ..., length45: float | None = ..., fixed45: Skill = ..., length_radius: float | None = ..., fixed_radius: Skill = ..., lock_tangent: Skill = ...) -> bool | None: ...
-
-class _AxlSetParam(LiteralRemoteFunction):
+    set_param: _AxlSetParam
     """
     This allows applications to modify certain aspects of Allegro parameters
     SKILL: axlSetParam (od_paramDbid)⇒ rd_paramDbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part01.md:867
     """
-    def __call__(self, od_param_dbid: RemoteObject, /) -> Skill | None: ...
-
-class _AxlSetPlaneType(LiteralRemoteFunction):
+    set_plane_type: _AxlSetPlaneType
     """
     This changes the photoplot type of a conductor or plane type layer between positive or negative artwork
     SKILL: axlSetPlaneType(t_subclassNamet_planeType)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part02.md:474
     """
-    def __call__(self, t_subclass_name: str, t_plane_type: str, /) -> bool | None: ...
-
-class _AxlSetRotateIncrement(LiteralRemoteFunction):
+    set_rotate_increment: _AxlSetRotateIncrement
     """
     Sets the dynamic rotate angle increment in degrees (f_angular) or radians (f_radial)
     SKILL: axlSetRotateIncrement(?angular f_angular?radial f_radial)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/19cmdctl.md:293
     """
-    def __call__(self, /, *, angular: float | None = ..., radial: float | None = ...) -> bool | None: ...
-
-class _AxlSetSpacerData(LiteralRemoteFunction):
+    set_spacer_data: _AxlSetSpacerData
     """
     This function sets the given data for the given spacer.
     SKILL: axlSetSpacerData(g_spacerIds_dataTypeg_newValue)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:1576
     """
-    def __call__(self, g_spacer_id: Skill, s_data_type: Symbol, g_new_value: Skill, /) -> bool | None: ...
-
-class _AxlSetSymbolType(LiteralRemoteFunction):
+    set_symbol_type: _AxlSetSymbolType
     """
     Sets the Allegro PCB Editor symbol type
     SKILL: axlSetSymbolType(t_symbolType)⇒ t_symbolType/nil
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:107
     """
-    def __call__(self, t_symbol_type: str, /) -> str | None: ...
-
-class _AxlSetVariable(LiteralRemoteFunction):
+    set_variable: _AxlSetVariable
     """
     Sets the Allegro PCB Editor environment variable with name given by the stringt_variable to the value g_value
     SKILL: axlSetVariable(t_variable [g_value])⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/09cmdshl.md:509
     """
-    def __call__(self, t_variable: str, g_value: Skill = ..., /) -> bool | None: ...
-
-class _AxlSetVariableFile(LiteralRemoteFunction):
+    set_variable_file: _AxlSetVariableFile
     """
     Sets and saves to file Allegro environment variable
     SKILL: axlSetVariableFile(t_variableg_value)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/09cmdshl.md:563
     """
-    def __call__(self, t_variable: str, g_value: Skill, /) -> bool | None: ...
-
-class _AxlSetWireProfileColor(LiteralRemoteFunction):
+    set_wire_profile_color: _AxlSetWireProfileColor
     """
     This function will set the color of a wire profile to the given value.
     SKILL: axlSetWireProfileColor(t_profile n_color)==> t / nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:1601
     """
-    def __call__(self, t_profile: str, n_color: Number, /) -> bool | None: ...
-
-class _AxlSetWireProfileVisible(LiteralRemoteFunction):
+    set_wire_profile_visible: _AxlSetWireProfileVisible
     """
     No description available.
     SKILL: axlSetWireProfileVisible(t_profile g_visible)==> t / nil
     Version: Allegro 17.2-2016
     Source: algroskill/sipapd.md:1621
     """
-    def __call__(self, t_profile: str, g_visible: Skill, /) -> bool | None: ...
-
-class _AxlShapeAutoVoid(LiteralRemoteFunction):
+    shape_auto_void: _AxlShapeAutoVoid
     """
     Autovoids a static shape using current static shape parameters to control voiding except where options provide an override
     SKILL: axlShapeAutoVoid(o_shapeId[s_options/ls_options])==> lo_shapeIds/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:915
     """
-    def __call__(self, o_shape_id: RemoteObject, s_options: Symbol | list[Symbol] | None = ..., /) -> list[RemoteObject] | None: ...
-
-class _AxlShapeChangeDynamicType(LiteralRemoteFunction):
+    shape_change_dynamic_type: _AxlShapeChangeDynamicType
     """
     Swaps a connectivity shape from static to dynamic or the reverse
     SKILL: axlShapeChangeDynamicType(o_shapeIdg_dynamicg_msgs) -> o_dynShapeId/l_staticShapeId/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:958
     """
-    def __call__(self, o_shape_id: RemoteObject, g_dynamic: Skill, g_msgs: Skill, /) -> RemoteObject | list[Skill] | None: ...
-
-class _AxlShapeDeleteVoids(LiteralRemoteFunction):
+    shape_delete_voids: _AxlShapeDeleteVoids
     """
     Lets you delete voids in a shape
     SKILL: axlShapeDeleteVoids(o_shapeId/o_voidId/lo_voidid) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:1010
     """
-    def __call__(self, o_shape_id: RemoteObject | list[RemoteObject], /) -> bool | None: ...
-
-class _AxlShapeDynamicUpdate(LiteralRemoteFunction):
+    shape_dynamic_update: _AxlShapeDynamicUpdate
     """
     Updates a dynamic shape, or ifnil, all dynamic shapes are updated
     SKILL: axlShapeDynamicUpdate(o_shapeDbid/nilg_force) -> x_ood/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:1063
     """
-    def __call__(self, o_shape_dbid: RemoteObject | None, g_force: Skill, /) -> int | None: ...
-
-class _AxlShapeMerge(LiteralRemoteFunction):
+    shape_merge: _AxlShapeMerge
     """
     This merges shapes
     SKILL: axlShapeMerge(o_shapeIdlo_shapesg_options/lg_options) -> o_dynShapeId/l_staticShapeId/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:1131
     """
-    def __call__(self, o_shape_id: RemoteObject, lo_shapes: list[RemoteObject], g_options: Skill | SkillList, /) -> RemoteObject | list[Skill] | None: ...
-
-class _AxlShapeRaisePriority(LiteralRemoteFunction):
+    shape_raise_priority: _AxlShapeRaisePriority
     """
     Raises the voiding priority of a dynamic shape (o_shapeId) to the highest on the chosen layer
     SKILL: axlShapeRaisePriority(o_shapeId) -> x_priority/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:1095
     """
-    def __call__(self, o_shape_id: RemoteObject, /) -> int | None: ...
-
-class _AxlShell(LiteralRemoteFunction):
+    shell: _AxlShell
     """
     Issues the Allegro PCB Editor command stringt_commands to the connected editor
     SKILL: axlShell(t_command)⇒ t
     Version: Allegro 17.2-2016
     Source: algroskill/09cmdshl.md:590
     """
-    def __call__(self, t_command: str, /) -> bool: ...
-
-class _AxlShellPost(LiteralRemoteFunction):
+    shell_post: _AxlShellPost
     """
     This works similar toaxlShell except it first requires a return from the Skill interpreter before executing the command(s)
     SKILL: axlShellPost(t_command) ==> t
     Version: Allegro 17.2-2016
     Source: algroskill/09cmdshl.md:626
     """
-    def __call__(self, t_command: str, /) -> bool: ...
-
-class _AxlShoveItems(LiteralRemoteFunction):
+    shove_items: _AxlShoveItems
     """
     Takes a list ofdbids and shoves them according to the parameters set using axlShoveSetParams.
     SKILL: axlShoveItems(l_itemList)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:1178
     """
-    def __call__(self, l_item_list: SkillList, /) -> bool | None: ...
-
-class _AxlShoveSetParams(LiteralRemoteFunction):
+    shove_set_params: _AxlShoveSetParams
     """
     Sets the parameters used for shoving by theaxlShoveItems
     SKILL: axlShoveSetParams(l_params)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:1219
     """
-    def __call__(self, l_params: SkillList, /) -> bool | None: ...
-
-class _AxlShowObject(LiteralRemoteFunction):
+    show_object: _AxlShowObject
     """
     Displays the object data for eachdbid in lud_dbid in a *Show Element* window
     SKILL: axlShowObject(lud_dbid)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:1247
     """
-    def __call__(self, lud_dbid: Skill, /) -> bool | None: ...
-
-class _AxlShowObjectToFile(LiteralRemoteFunction):
+    show_object_to_file: _AxlShowObjectToFile
     """
     Creates a temporary file with show element information ondbids specified in lo_dbid.
     SKILL: axlShowObjectToFile(lo_dbid[t_file_name])⇒ (t_file_name x_width x_line_count)
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:1243
     """
-    def __call__(self, lo_dbid: list[RemoteObject], t_file_name: str | None = ..., /) -> Skill: ...
-
-class _AxlSingleSelectBox(LiteralRemoteFunction):
+    single_select_box: _AxlSingleSelectBox
     """
     Clears the select set, finds all figures inside the rectanglel_bBox according to the Find Filter, and adds the selected figure dbids in single mode to the select set.
     SKILL: axlSingleSelectBox([l_bBox])⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/05selfnd.md:269
     """
-    def __call__(self, l_b_box: SkillList | None = ..., /) -> bool | None: ...
-
-class _AxlSingleSelectName(LiteralRemoteFunction):
+    single_select_name: _AxlSingleSelectName
     """
     Finds figures by their names
     SKILL: axlSingleSelectName(t_nameTypel_names[g_wildcard])⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/05selfnd.md:439
     """
-    def __call__(self, t_name_type: str, l_names: SkillList, g_wildcard: Skill = ..., /) -> bool | None: ...
-
-class _AxlSingleSelectObject(LiteralRemoteFunction):
+    single_select_object: _AxlSingleSelectObject
     """
     Clears contents of the select set and adds thedbids in lo_dbid to the select set in single mode
     SKILL: axlSingleSelectObject(lo_dbid)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/05selfnd.md:541
     """
-    def __call__(self, lo_dbid: list[RemoteObject], /) -> bool | None: ...
-
-class _AxlSingleSelectPoint(LiteralRemoteFunction):
+    single_select_point: _AxlSingleSelectPoint
     """
     Clears the select set, finds a figure atl_point according to the Find Filter, and puts the selected figure dbid in the select set
     SKILL: axlSingleSelectPoint([l_point][g_trapSize])⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/05selfnd.md:157
     """
-    def __call__(self, l_point: SkillList | None = ..., g_trap_size: Skill = ..., /) -> bool | None: ...
-
-class _AxlSleep(LiteralRemoteFunction):
+    sleep: _AxlSleep
     """
     Sleeps specified time.
     SKILL: axlSleep(x_time)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:1278
     """
-    def __call__(self, x_time: int, /) -> bool | None: ...
-
-class _AxlSmoothDesign(LiteralRemoteFunction):
+    smooth_design: _AxlSmoothDesign
     """
     Smooths the entire design
     SKILL: axlSmoothDesign(lx_numPasses) -> x_change
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:1296
     """
-    def __call__(self, lx_num_passes: SkillList, /) -> int: ...
-
-class _AxlSmoothItems(LiteralRemoteFunction):
+    smooth_items: _AxlSmoothItems
     """
     Takes a list of dbids representing clines and/or cline segments and smooths them according to the parameters set using the[axlSmoothSetParams](#832247 "5")() function.
     SKILL: axlSmoothItems (lo_clineList) ==> (x_list
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:1325
     """
-    def __call__(self, lo_cline_list: list[RemoteObject], /) -> Skill: ...
-
-class _AxlSmoothSetParams(LiteralRemoteFunction):
+    smooth_set_params: _AxlSmoothSetParams
     """
     Sets the parameters used for smoothing the routes
     SKILL: axlSmoothSetParams(l_params) ==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:1361
     """
-    def __call__(self, l_params: SkillList, /) -> bool | None: ...
-
-class _AxlSnapToObject(LiteralRemoteFunction):
+    snap_to_object: _AxlSnapToObject
     """
     Supports snapping to a logic object's connect point
     SKILL: axlSnapToObject(g_modexy)⇒ xy/nil
     Version: Allegro 17.2-2016
     Source: algroskill/05selfnd.md:1332
     """
-    def __call__(self, g_mode: Skill, xy: Skill, /) -> Skill | None: ...
-
-class _AxlSort(LiteralRemoteFunction):
+    sort: _AxlSort
     """
     Sorts contents of a given input file and places results in the output file
     SKILL: axlSort(t_infilet_outfile[t_sortfields][t_sort_options])⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:1298
     """
-    def __call__(self, t_infile: str, t_outfile: str, t_sortfields: str | None = ..., t_sort_options: str | None = ..., /) -> bool | None: ...
-
-class _AxlSpreadsheetClose(LiteralRemoteFunction):
+    spreadsheet_close: _AxlSpreadsheetClose
     """
     Releases the spreadsheet document in memory
     SKILL: axlSpreadsheetClose() ==> t
     Version: Allegro 17.2-2016
     Source: algroskill/msexl.md:9
     """
-    def __call__(self, /) -> bool: ...
-
-class _AxlSpreadsheetDefineCell(LiteralRemoteFunction):
+    spreadsheet_define_cell: _AxlSpreadsheetDefineCell
     """
     Completely defines a single cell in the active worksheet
     SKILL: axlSpreadsheetDefineCell(x_rowx_colt_stylet_typet_value)==> t / nil
     Version: Allegro 17.2-2016
     Source: algroskill/msexl.md:48
     """
-    def __call__(self, x_row: int, x_co: int, lt_style: list[str], t_type: str, t_value: str, /) -> bool | None: ...
-
-class _AxlSpreadsheetGetCell(LiteralRemoteFunction):
+    spreadsheet_get_cell: _AxlSpreadsheetGetCell
     """
     Retrieves the data from the specified cell.
     SKILL: axlSpreadsheetGetCell(x_rowx_col)==> g_cellData/ nil
     Version: Allegro 17.2-2016
     Source: algroskill/msexl.md:163
     """
-    def __call__(self, x_row: int, x_col: int, /) -> Skill | None: ...
-
-class _AxlSpreadsheetGetRGBColorString(LiteralRemoteFunction):
+    spreadsheet_get_rgb_color_string: _AxlSpreadsheetGetRGBColorString
     """
     Given red, green, and blue color values, return an RGB string for use in spreadsheet style definitions in format required for Microsoft open spreadsheet format.
     SKILL: axlSpreadsheetGetRGBColorString(x_redx_greenx_blue) ==> t_rgb / nil
     Version: Allegro 17.2-2016
     Source: algroskill/msexl.md:201
     """
-    def __call__(self, x_red: int, x_green: int, x_blue: int, /) -> str | None: ...
-
-class _AxlSpreadsheetGetRGBForNamedColor(LiteralRemoteFunction):
+    spreadsheet_get_rgb_for_named_color: _AxlSpreadsheetGetRGBForNamedColor
     """
     Spreadsheets have a small set of known, pre-defined color values
     SKILL: axlSpreadsheetGetRGBForNamedColor(t_name) ==> t_rgb / nil
     Version: Allegro 17.2-2016
     Source: algroskill/msexl.md:232
     """
-    def __call__(self, t_name: str, /) -> str | None: ...
-
-class _AxlSpreadsheetGetStyles(LiteralRemoteFunction):
+    spreadsheet_get_styles: _AxlSpreadsheetGetStyles
     """
     Retrieves a list of all the styles defined for the active spreadsheet
     SKILL: axlSpreadsheetGetStyles()==> l_styles / nil
     Version: Allegro 17.2-2016
     Source: algroskill/msexl.md:261
     """
-    def __call__(self, /) -> list[Skill] | None: ...
-
-class _AxlSpreadsheetGetWorksheetSize(LiteralRemoteFunction):
+    spreadsheet_get_worksheet_size: _AxlSpreadsheetGetWorksheetSize
     """
     Return the "size" of the current worksheet, in terms of the highest row and column which have data.
     SKILL: axlSpreadsheetGetWorksheetSize()==> l_rowsColumns/nil
     Version: Allegro 17.2-2016
     Source: algroskill/msexl.md:327
     """
-    def __call__(self, /) -> list[Skill] | None: ...
-
-class _AxlSpreadsheetGetWorksheets(LiteralRemoteFunction):
+    spreadsheet_get_worksheets: _AxlSpreadsheetGetWorksheets
     """
     Retrieves a list of all the worksheets defined in the active spreadsheet
     SKILL: axlSpreadsheetGetWorksheets()==> l_worksheets / nil
     Version: Allegro 17.2-2016
     Source: algroskill/msexl.md:295
     """
-    def __call__(self, /) -> list[Skill] | None: ...
-
-class _AxlSpreadsheetInit(LiteralRemoteFunction):
+    spreadsheet_init: _AxlSpreadsheetInit
     """
     Initializes an empty spreadsheet document to begin filling it with worksheets, styles, and cell data
     SKILL: axlSpreadsheetInit() ==> t / nil
     Version: Allegro 17.2-2016
     Source: algroskill/msexl.md:361
     """
-    def __call__(self, /) -> bool | None: ...
-
-class _AxlSpreadsheetRead(LiteralRemoteFunction):
+    spreadsheet_read: _AxlSpreadsheetRead
     """
     Read a spreadsheet file on disk into memory for data access and manipulation
     SKILL: axlSpreadsheetRead(t_fileName)==> t / nil
     Version: Allegro 17.2-2016
     Source: algroskill/msexl.md:399
     """
-    def __call__(self, t_file_name: str, /) -> bool | None: ...
-
-class _AxlSpreadsheetReadDelimited(LiteralRemoteFunction):
+    spreadsheet_read_delimited: _AxlSpreadsheetReadDelimited
     """
     Read a text file on disk into memory for data access and manipulation as a spreadsheet
     SKILL: axlSpreadsheetReadDelimited(t_fileName, t_delimiter) ==> t / nil
     Version: Allegro 17.2-2016
     Source: algroskill/msexl.md:436
     """
-    def __call__(self, t_file_name: str, t_delimiter: str, /) -> bool | None: ...
-
-class _AxlSpreadsheetSetCell(LiteralRemoteFunction):
+    spreadsheet_set_cell: _AxlSpreadsheetSetCell
     """
     Make the active row/column of the current worksheet active.
     SKILL: axlSpreadsheetSetCell(x_rowx_col)==> t / nil
     Version: Allegro 17.2-2016
     Source: algroskill/msexl.md:476
     """
-    def __call__(self, x_row: int, x_col: int, /) -> bool | None: ...
-
-class _AxlSpreadsheetSetCellProp(LiteralRemoteFunction):
+    spreadsheet_set_cell_prop: _AxlSpreadsheetSetCellProp
     """
     Sets a property on the active cell in the spreadsheet.
     SKILL: axlSpreadsheetSetCellProp(t_propNamet_propVal)==> t / nil
     Version: Allegro 17.2-2016
     Source: algroskill/msexl.md:528
     """
-    def __call__(self, t_prop_name: str, t_prop_val: str, /) -> bool | None: ...
-
-class _AxlSpreadsheetSetColumnProp(LiteralRemoteFunction):
+    spreadsheet_set_column_prop: _AxlSpreadsheetSetColumnProp
     """
     Sets a property for the given column of the active worksheet.
     SKILL: axlSpreadsheetSetColumnProp(x_columnt_propNamet_propVal)==> t / nil
     Version: Allegro 17.2-2016
     Source: algroskill/msexl.md:574
     """
-    def __call__(self, x_column: int, t_prop_name: str, t_prop_val: str, /) -> bool | None: ...
-
-class _AxlSpreadsheetSetDocProp(LiteralRemoteFunction):
+    spreadsheet_set_doc_prop: _AxlSpreadsheetSetDocProp
     """
     Sets a property on the document (spreadsheet) itself.
     SKILL: axlSpreadsheetSetDocProp(t_propNamet_propVal)==> t / nil
     Version: Allegro 17.2-2016
     Source: algroskill/msexl.md:618
     """
-    def __call__(self, t_prop_name: str, t_prop_val: str, /) -> bool | None: ...
-
-class _AxlSpreadsheetSetRowProp(LiteralRemoteFunction):
+    spreadsheet_set_row_prop: _AxlSpreadsheetSetRowProp
     """
     Sets a property for the given row of the active worksheet.
     SKILL: axlSpreadsheetSetRowProp(x_rowt_propNamet_propVal)==> t / nil
     Version: Allegro 17.2-2016
     Source: algroskill/msexl.md:652
     """
-    def __call__(self, x_row: int, t_prop_name: str, t_prop_val: str, /) -> bool | None: ...
-
-class _AxlSpreadsheetSetStyle(LiteralRemoteFunction):
+    spreadsheet_set_style: _AxlSpreadsheetSetStyle
     """
     Defines or activates the specified style in the active spreadsheet
     SKILL: axlSpreadsheetSetStyle(t_idt_name)==> t / nil
     Version: Allegro 17.2-2016
     Source: algroskill/msexl.md:689
     """
-    def __call__(self, t_id: str, t_name: str, /) -> bool | None: ...
-
-class _AxlSpreadsheetSetStyleBorder(LiteralRemoteFunction):
+    spreadsheet_set_style_border: _AxlSpreadsheetSetStyleBorder
     """
     Sets the cell border properties for a active style definition.
     SKILL: axlSpreadsheetSetStyleBorder(t_positiont_colort_lineStylet_weight)==> t / nil
     Version: Allegro 17.2-2016
     Source: algroskill/msexl.md:721
     """
-    def __call__(self, t_position: str, t_color: str, t_line_style: str, t_weight: str, /) -> bool | None: ...
-
-class _AxlSpreadsheetSetStyleParent(LiteralRemoteFunction):
+    spreadsheet_set_style_parent: _AxlSpreadsheetSetStyleParent
     """
     Sets the active style's parent
     SKILL: axlSpreadsheetSetStyleParent(t_parent)==> t / nil
     Version: Allegro 17.2-2016
     Source: algroskill/msexl.md:772
     """
-    def __call__(self, t_parent: str, /) -> bool | None: ...
-
-class _AxlSpreadsheetSetStyleProp(LiteralRemoteFunction):
+    spreadsheet_set_style_prop: _AxlSpreadsheetSetStyleProp
     """
     Sets a specific style property in the active style definition.
     SKILL: axlSpreadsheetSetStyleProp(t_typet_propNamet_propVal) ==> t / nil
     Version: Allegro 17.2-2016
     Source: algroskill/msexl.md:807
     """
-    def __call__(self, t_type: str, t_prop_name: str, t_prop_val: str, /) -> bool | None: ...
-
-class _AxlSpreadsheetSetWorksheet(LiteralRemoteFunction):
+    spreadsheet_set_worksheet: _AxlSpreadsheetSetWorksheet
     """
     Makes the specified worksheet the active one for future cell references
     SKILL: axlSpreadsheetSetWorksheet(t_name)==> t / nil
     Version: Allegro 17.2-2016
     Source: algroskill/msexl.md:888
     """
-    def __call__(self, t_name: str, /) -> bool | None: ...
-
-class _AxlSpreadsheetWrite(LiteralRemoteFunction):
+    spreadsheet_write: _AxlSpreadsheetWrite
     """
     Write the spreadsheet in memory to file on disk
     SKILL: axlSpreadsheetWrite(t_fileName)==> t / nil
     Version: Allegro 17.2-2016
     Source: algroskill/msexl.md:919
     """
-    def __call__(self, t_file_name: str, /) -> bool | None: ...
-
-class _AxlStrcmpAlpNum(LiteralRemoteFunction):
+    strcmp_alp_num: _AxlStrcmpAlpNum
     """
     Provides an alpha-numeric sort similar toalphalessp with one important distinction
     SKILL: axlStrcmpAlpNum(t_str1t_str2)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:1418
     """
-    def __call__(self, t_str1: str, t_str2: str, /) -> bool | None: ...
-
-class _AxlStringCSVParse(LiteralRemoteFunction):
+    string_csv_parse: _AxlStringCSVParse
     """
     Parses a comma delimited line (typical from Excel)
     SKILL: axlStringCSVParse(t_string[g_stripWhite][t_separator]) -> lt_string/nil
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:1450
     """
-    def __call__(self, t_string: str, g_strip_white: Skill = ..., t_separator: str | None = ..., /) -> list[str] | None: ...
-
-class _AxlStringRemoveSpaces(LiteralRemoteFunction):
+    string_remove_spaces: _AxlStringRemoveSpaces
     """
     This will strip leading or trailing whitespace from a string (standard Cilspace() macro)
     SKILL: axlStringRemoveSpaces(t_string) -> t_modString/nil
@@ -6437,192 +13945,147 @@ class _AxlStringRemoveSpaces(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:1499
     """
-    @overload
-    def __call__(self, t_string: str, /) -> str | None: ...
-    @overload
-    def __call__(self, lt_string: list[str], /) -> list[str] | None: ...
-
-class _AxlSubSelectAll(LiteralRemoteFunction):
+    sub_select_all: _AxlSubSelectAll
     """
     Finds all figures in the database that pass the current Find Filter and deletes theirdbids from the select set
     SKILL: axlSubSelectAll()⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/05selfnd.md:379
     """
-    def __call__(self, /) -> bool | None: ...
-
-class _AxlSubSelectBox(LiteralRemoteFunction):
+    sub_select_box: _AxlSubSelectBox
     """
     Finds one or more figures inside the rectanglel_bBox according to the Find Filter, and deletes their dbids from the select set in *cumulated* mode
     SKILL: axlSubSelectBox([l_bBox])⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/05selfnd.md:330
     """
-    def __call__(self, l_b_box: SkillList | None = ..., /) -> bool | None: ...
-
-class _AxlSubSelectName(LiteralRemoteFunction):
+    sub_select_name: _AxlSubSelectName
     """
     Removesdbids of the named figure from the select set using the arguments described
     SKILL: axlSubSelectName(t_nameTypel_names)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/05selfnd.md:512
     """
-    def __call__(self, t_name_type: str, l_names: SkillList, /) -> bool | None: ...
-
-class _AxlSubSelectObject(LiteralRemoteFunction):
+    sub_select_object: _AxlSubSelectObject
     """
     Removes thedbids in lo_dbid from the select set in cumulated mode
     SKILL: axlSubSelectObject(lo_dbid)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/05selfnd.md:597
     """
-    def __call__(self, lo_dbid: list[RemoteObject], /) -> bool | None: ...
-
-class _AxlSubSelectPoint(LiteralRemoteFunction):
+    sub_select_point: _AxlSubSelectPoint
     """
     Finds a figure atl_point according to the Find Filter and deletes its dbid from the select set in cumulated mode
     SKILL: axlSubSelectPoint([l_point])⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/05selfnd.md:224
     """
-    def __call__(self, l_point: SkillList | None = ..., /) -> bool | None: ...
-
-class _AxlSubclassFormPopup(LiteralRemoteFunction):
+    subclass_form_popup: _AxlSubclassFormPopup
     """
     Builds a form pop-up for a given Allegro PCB Editor class for a given field ofr_form using the axlSubclassFormPopup function
     SKILL: axlSubclassFormPopup(r_formt_fieldt_classnil/lt_subclass)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/19cmdctl.md:509
     """
-    def __call__(self, r_form: RemoteObject, t_field: str, t_class: str, value: list[str] | None, /) -> bool | None: ...
-
-class _AxlSubclassRoute(LiteralRemoteFunction):
+    subclass_route: _AxlSubclassRoute
     """
     Lists subclasses that make up class ETCH.
     SKILL: axlSubclassRoute(?field s_name?value g_value) -> lt_subclasses
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part02.md:546
     """
-    def __call__(self, /, *, field: Symbol | None = ..., value: Skill = ...) -> list[str]: ...
-
-class _AxlSubclasses(LiteralRemoteFunction):
+    subclasses: _AxlSubclasses
     """
     Lists subclasses that make up a class
     SKILL: axlSubclasses(t_class?field s_name?value g_value) -> lt_subclasses
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part02.md:498
     """
-    def __call__(self, t_class: str, /, *, field: Symbol | None = ..., value: Skill = ...) -> list[str]: ...
-
-class _AxlSymbolAttach(LiteralRemoteFunction):
+    symbol_attach: _AxlSymbolAttach
     """
     Attaches an object or list of objects to symbol instance
     SKILL: axlSymbolAttach(o_symInstDbido_dbid/lo_dbid)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:1423
     """
-    def __call__(self, o_sym_inst_dbid: RemoteObject, o_dbid: RemoteObject | list[RemoteObject], /) -> bool | None: ...
-
-class _AxlSymbolDetach(LiteralRemoteFunction):
+    symbol_detach: _AxlSymbolDetach
     """
     Remove an object from a symbol instance
     SKILL: axlSymbolDetach(o_symInstDbido_dbid/lo_dbid/g_mode)==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:1481
     """
-    def __call__(self, o_sym_inst_dbid: RemoteObject, o_dbid: RemoteObject | list[RemoteObject] | Skill, /) -> bool | None: ...
-
-class _AxlTechnologyType(LiteralRemoteFunction):
+    technology_type: _AxlTechnologyType
     """
     Returns the type of design technology in use.
     SKILL: axlTechnologyType()⇒ t_technology
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:1182
     """
-    def __call__(self, /) -> str: ...
-
-class _AxlTempDirectory(LiteralRemoteFunction):
+    temp_directory: _AxlTempDirectory
     """
     Returns the temporary directory for the current platform.
     SKILL: axlTempDirectory()⇒ t_directoryName/nil
     Version: Allegro 17.2-2016
     Source: algroskill/21filacc.md:505
     """
-    def __call__(self, /) -> str | None: ...
-
-class _AxlTempFile(LiteralRemoteFunction):
+    temp_file: _AxlTempFile
     """
     Returns a unique temp file name
     SKILL: axlTempFile([g_local])⇒ t_tempFileName/nil
     Version: Allegro 17.2-2016
     Source: algroskill/21filacc.md:523
     """
-    def __call__(self, g_local: Skill = ..., /) -> str | None: ...
-
-class _AxlTempFileRemove(LiteralRemoteFunction):
+    temp_file_remove: _AxlTempFileRemove
     """
     Deletes the temporary file and removes the temporary name from the pool
     SKILL: axlTempFileRemove(t_filename)⇒ t
     Version: Allegro 17.2-2016
     Source: algroskill/21filacc.md:544
     """
-    def __call__(self, t_filename: str, /) -> bool: ...
-
-class _AxlTestPoint(LiteralRemoteFunction):
+    test_point: _AxlTestPoint
     """
     Sets or clears a pin and/or via's test point status
     SKILL: axlTestPoint(o_dbid g_mode) => t/nil/s_error
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:1075
     """
-    def __call__(self, o_dbid: RemoteObject, g_mode: Skill, /) -> bool | Symbol | None: ...
-
-class _AxlText2Lines(LiteralRemoteFunction):
+    text2_lines: _AxlText2Lines
     """
     This vectorizes a text dbid into a list of lists ofr_path objects.
     SKILL: axlText2Lines(o_textDbid)==> llr_path/nil
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:899
     """
-    def __call__(self, o_text_dbid: RemoteObject, /) -> Skill | None: ...
-
-class _AxlTextOrientationCopy(LiteralRemoteFunction):
+    text_orientation_copy: _AxlTextOrientationCopy
     """
     This is a convenience function that updates a TextOrientation defstruct based upon a text dbid
     SKILL: axlTextOrientationCopy(o_textDbid[orient]) -> orient/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:1566
     """
-    def __call__(self, o_text_dbid: RemoteObject, orient: Skill = ..., /) -> Skill | None: ...
-
-class _AxlTransformObject(LiteralRemoteFunction):
+    transform_object: _AxlTransformObject
     """
     Moves, rotates, and/or spins one object or a list of objects
     SKILL: axlTransformObject(lo_dbid/o_dbid ?move l_deltaPoint ?mirror t/nil/'GEOMETRY ?angle f_angle ?origin l_rotatePoint ?allOrNone t/nil) => lo_dbid/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:1590
     """
-    def __call__(self, lo_dbid: list[RemoteObject] | RemoteObject, /, *, move: SkillList | None = ..., mirror: bool | Symbol | None = ..., angle: float | None = ..., origin: SkillList | None = ..., all_or_none: bool | None = ...) -> list[RemoteObject] | None: ...
-
-class _AxlTriggerClear(LiteralRemoteFunction):
+    trigger_clear: _AxlTriggerClear
     """
     Removes a registered callback trigger
     SKILL: axlTriggerClear(s_triggers_function)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:1204
     """
-    def __call__(self, s_trigger: Symbol, s_function: Symbol, /) -> bool | None: ...
-
-class _AxlTriggerPrint(LiteralRemoteFunction):
+    trigger_print: _AxlTriggerPrint
     """
     Debug function that prints what is registered for triggers.
     SKILL: axlTriggerPrint()⇒ t
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:1228
     """
-    def __call__(self, /) -> bool: ...
-
-class _AxlTriggerSet(LiteralRemoteFunction):
+    trigger_set: _AxlTriggerSet
     """
     Allows an application to register interest in events that occur in Allegro PCB Editor
     SKILL: axlTriggerSet(s_triggers_function)⇒ t/nil
@@ -6630,129 +14093,98 @@ class _AxlTriggerSet(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:1245
     """
-    @overload
-    def __call__(self, s_trigger: Symbol, s_function: Symbol, /) -> bool | None: ...
-    @overload
-    def __call__(self, value: None, value_2: None, /) -> Skill: ...
-
-class _AxlUICmdPopupSet(LiteralRemoteFunction):
+    ui_cmd_popup_set: _AxlUICmdPopupSet
     """
     Sets up a popup menu with all menu items required throughout the execution of the command
     SKILL: axlUICmdPopupSet(r_popup)⇒ r_prevPopup
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:1267
     """
-    def __call__(self, r_popup: RemoteObject, /) -> RemoteObject: ...
-
-class _AxlUIColorDialog(LiteralRemoteFunction):
+    ui_color_dialog: _AxlUIColorDialog
     """
     Invokes standard color selection dialog box
     SKILL: axlUIColorDialog(r_window/nill_rgb) -> l_rgb/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:705
     """
-    def __call__(self, r_window: RemoteObject | None, l_rgb: SkillList, /) -> list[Skill] | None: ...
-
-class _AxlUIConfirm(LiteralRemoteFunction):
+    ui_confirm: _AxlUIConfirm
     """
     Displays the stringt_message in a confirmer window.
     SKILL: axlUIConfirm(t_message[s_level])==> t
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:743
     """
-    def __call__(self, t_message: str, s_level: Symbol | None = ..., /) -> bool: ...
-
-class _AxlUIConfirmEx(LiteralRemoteFunction):
+    ui_confirm_ex: _AxlUIConfirmEx
     """
     Displays the stringt_message in a confirmer window with an optional check box to never show the box again.
     SKILL: axlUIConfirmEx(t_messaget_key/nil[s_level])==> t
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:780
     """
-    def __call__(self, t_message: str, t_key: str | None, s_level: Symbol | None = ..., /) -> bool: ...
-
-class _AxlUIControl(LiteralRemoteFunction):
+    ui_control: _AxlUIControl
     """
     Inquire about graphics canvas
     SKILL: axlUIControl(s_name[g_value])==> g_currentValue/ls_names
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:817
     """
-    def __call__(self, s_name: Symbol, g_value: Skill = ..., /) -> Skill | list[Symbol]: ...
-
-class _AxlUIDataBrowse(LiteralRemoteFunction):
+    ui_data_browse: _AxlUIDataBrowse
     """
     Analyzes all objects requested by the caller function, passing each through the caller's callback function
     SKILL: axlUIDataBrowse(s_dataTypels_optionst_titleg_sorted[t_helpTag][l_callback][g_args])⇒ lg_return
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part02.md:540
     """
-    def __call__(self, s_data_type: Symbol, ls_options: list[Symbol], t_title: str, g_sorted: Skill, t_help_tag: str | None = ..., l_callback: SkillList | None = ..., g_args: Skill = ..., /) -> list[Skill]: ...
-
-class _AxlUIEditFile(LiteralRemoteFunction):
+    ui_edit_file: _AxlUIEditFile
     """
     Allows the user to edit a file in an OS independent manner (works under both UNIX and Windows.)
     SKILL: axlUIEditFile(t_filenamet_title/nilg_block ) ⇒ r_window/t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part02.md:82
     """
-    def __call__(self, t_filename: str, t_title: str | None, g_block: Skill, /) -> RemoteObject | bool | None: ...
-
-class _AxlUIGetUserData(LiteralRemoteFunction):
+    ui_get_user_data: _AxlUIGetUserData
     """
     Gets the current user data structure from Allegro PCB Editor
     SKILL: axlUIGetUserData()⇒ r_userData/nil
     Version: Allegro 17.2-2016
     Source: algroskill/19cmdctl.md:318
     """
-    def __call__(self, /) -> RemoteObject | None: ...
-
-class _AxlUIMenuChange(LiteralRemoteFunction):
+    ui_menu_change: _AxlUIMenuChange
     """
     This changes one or more parameters of an existing menu item.
     SKILL: axlUIMenuChange(x_menuId [*g_optionPairs]) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:886
     """
-    def __call__(self, x_menu_id: int, /, *g_option_pairs: Skill) -> bool | None: ...
-
-class _AxlUIMenuDebug(LiteralRemoteFunction):
+    ui_menu_debug: _AxlUIMenuDebug
     """
     A debug function for axl Menu Trigger
     SKILL: axlUIMenuDebug([g_option]) => ll_menu/t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:935
     """
-    def __call__(self, g_option: Skill = ..., /) -> list[Skill] | bool | None: ...
-
-class _AxlUIMenuDelete(LiteralRemoteFunction):
+    ui_menu_delete: _AxlUIMenuDelete
     """
     This deletes a single menu item or submenu based upon what is the current find menu item.
     SKILL: axlUIMenuDelete(x_menuId) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:960
     """
-    def __call__(self, x_menu_id: int, /) -> bool | None: ...
-
-class _AxlUIMenuDump(LiteralRemoteFunction):
+    ui_menu_dump: _AxlUIMenuDump
     """
     Dumps the current menu of the main window to thet_menuFilefile
     SKILL: axlUIMenuDump (t_MenuFile[g_debug]) ⇒ t_previousMenuName/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:677
     """
-    def __call__(self, t_menu_file: str, g_debug: Skill = ..., /) -> str | None: ...
-
-class _AxlUIMenuFind(LiteralRemoteFunction):
+    ui_menu_find: _AxlUIMenuFind
     """
     Finds a menu item by location or a command
     SKILL: axlUIMenuFind(x_menuId/nilt_cmdName/x_location[g_menuOption]) ==> x_menuId/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:997
     """
-    def __call__(self, x_menu_id: int | None, t_cmd_name: str | int, g_menu_option: Skill = ..., /) -> int | None: ...
-
-class _AxlUIMenuInsert(LiteralRemoteFunction):
+    ui_menu_insert: _AxlUIMenuInsert
     """
     Inserts menu items to an existing menu
     SKILL: axlUIMenuInsert(x_menuIdt_displayt_command) -> t/nil
@@ -6763,162 +14195,119 @@ class _AxlUIMenuInsert(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:1076
     """
-    @overload
-    def __call__(self, x_menu_id: int, t_display: str, t_command: str, /) -> bool | None: ...
-    @overload
-    def __call__(self, x_menu_id: int, separator: Symbol, /) -> bool | None: ...
-    @overload
-    def __call__(self, x_menu_id: int, popupt_display: Symbol, /) -> int | None: ...
-    @overload
-    def __call__(self, x_menu_id: int, end: Symbol, /) -> bool | None: ...
-    @overload
-    def __call__(self, x_menu_id: int, ll_items: SkillList, /) -> bool | None: ...
-
-class _AxlUIMenuLoad(LiteralRemoteFunction):
+    ui_menu_load: _AxlUIMenuLoad
     """
     Loads the main window menu from the filet_menuFile
     SKILL: axlUIMenuLoad (t_menufile )⇒ t_previousMenuName/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:650
     """
-    def __call__(self, t_menufile: str, /) -> str | None: ...
-
-class _AxlUIMenuRegister(LiteralRemoteFunction):
+    ui_menu_register: _AxlUIMenuRegister
     """
     This allows you to register menu items to be loaded when Allegro loads a new menu
     SKILL: axlUIMenuRegister(t_command/x_locationll_menu[g_menuOption]) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:1181
     """
-    def __call__(self, t_command: str | int, ll_menu: SkillList, g_menu_option: Skill = ..., /) -> bool | None: ...
-
-class _AxlUIMultipleChoice(LiteralRemoteFunction):
+    ui_multiple_choice: _AxlUIMultipleChoice
     """
     Displays a dialog box containing a question with a set of two or more answers in a list
     SKILL: axlUIMultipleChoice(t_questionlt_answers[t_title] ) ⇒ x_answer/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part02.md:132
     """
-    def __call__(self, t_question: str, lt_answers: list[str], t_title: str | None = ..., /) -> int | None: ...
-
-class _AxlUIPopupDefine(LiteralRemoteFunction):
+    ui_popup_define: _AxlUIPopupDefine
     """
     Creates a pop-up from the name value pair listts_pairs
     SKILL: axlUIPopupDefine(r_popupts_pairs)⇒ r_popup/nil
     Version: Allegro 17.2-2016
     Source: algroskill/19cmdctl.md:349
     """
-    def __call__(self, r_popup: RemoteObject, ts_pairs: Skill, /) -> RemoteObject | None: ...
-
-class _AxlUIPopupSet(LiteralRemoteFunction):
+    ui_popup_set: _AxlUIPopupSet
     """
     Sets the active pop-up in Allegro PCB Editor
     SKILL: axlUIPopupSet(r_popup)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/19cmdctl.md:385
     """
-    def __call__(self, r_popup: RemoteObject, /) -> bool | None: ...
-
-class _AxlUIPrompt(LiteralRemoteFunction):
+    ui_prompt: _AxlUIPrompt
     """
     Displays the stringt_message in a form
     SKILL: axlUIPrompt(t_message [g_defaultOrPassword]) => t_response/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:1237
     """
-    def __call__(self, t_message: str, g_default_or_password: Skill = ..., /) -> str | None: ...
-
-class _AxlUIViewFileCreate(LiteralRemoteFunction):
+    ui_view_file_create: _AxlUIViewFileCreate
     """
     Opens a file view window to display a file (t_file), it is an error for file not to exist
     SKILL: axlUIViewFileCreate(t_filet_titleg_deleteFile[lx_size][lt_placement][g_formToExpose])⇒ r_windowMsg/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:1517
     """
-    def __call__(self, t_file: str, t_title: str, g_delete_file: Skill, lx_size: SkillList | None = ..., lt_placement: list[str] | None = ..., g_form_to_expose: Skill = ..., /) -> RemoteObject | None: ...
-
-class _AxlUIViewFileReuse(LiteralRemoteFunction):
+    ui_view_file_reuse: _AxlUIViewFileReuse
     """
     Reuses the view window to display a file (t\\_file)
     SKILL: axlUIViewFileReuse(r_windowMsgt_filet_titleg_deleteFile[g_formToExpose])⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:1561
     """
-    def __call__(self, r_window_msg: RemoteObject, t_file: str, t_title: str, g_delete_file: Skill, g_form_to_expose: Skill = ..., /) -> bool | None: ...
-
-class _AxlUIViewFileScrollTo(LiteralRemoteFunction):
+    ui_view_file_scroll_to: _AxlUIViewFileScrollTo
     """
     Scrolls to a specified line in the file viewer
     SKILL: axlUIViewFileScrollTo(r_windowMsgx_line/nil)⇒ x_lines/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part02.md:163
     """
-    def __call__(self, r_window_msg: RemoteObject, x_line: int | None, /) -> int | None: ...
-
-class _AxlUIWBeep(LiteralRemoteFunction):
+    uiw_beep: _AxlUIWBeep
     """
     Sends an alert to the user, usually a beep.
     SKILL: axlUIWBeep()⇒ t
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part02.md:197
     """
-    def __call__(self, /) -> bool: ...
-
-class _AxlUIWBlock(LiteralRemoteFunction):
+    uiw_block: _AxlUIWBlock
     """
     * ***This function is not compatible with the g\\_nonBlock = nil option to axlFormCreate
     SKILL: axlUIWBlock(r_window ) ⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part02.md:49
     """
-    def __call__(self, r_window: RemoteObject, /) -> bool | None: ...
-
-class _AxlUIWClose(LiteralRemoteFunction):
+    uiw_close: _AxlUIWClose
     """
     Closes a window, if it is open.
     SKILL: axlUIWClose(r_window/t_window)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:1708
     """
-    def __call__(self, r_window: RemoteObject | str, /) -> bool | None: ...
-
-class _AxlUIWCloseAll(LiteralRemoteFunction):
+    uiw_close_all: _AxlUIWCloseAll
     """
     This closes all temporary windows (dialogs and text view windows)
     SKILL: axlUIWCloseAll()==> t / nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:1290
     """
-    def __call__(self, /) -> bool | None: ...
-
-class _AxlUIWDisableQuit(LiteralRemoteFunction):
+    uiw_disable_quit: _AxlUIWDisableQuit
     """
     Disables the system menu*Quit* option so the user cannot choose it to close the window.
     SKILL: axlUIWDisableQuit(o_window) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part02.md:217
     """
-    def __call__(self, o_window: RemoteObject, /) -> bool | None: ...
-
-class _AxlUIWExpose(LiteralRemoteFunction):
+    uiw_expose: _AxlUIWExpose
     """
     Opens and redisplays a hidden or iconified window, bringing it to the front of all other current windows on the display
     SKILL: axlUIWExpose(r_window/nil)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:1675
     """
-    def __call__(self, r_window: RemoteObject | None, /) -> bool | None: ...
-
-class _AxlUIWExposeByName(LiteralRemoteFunction):
+    uiw_expose_by_name: _AxlUIWExposeByName
     """
     Finds a window by name and exposes it (raises it to the top of the window stack and restores it to a window state it if it is an icon).
     SKILL: axlUIWExposeByName(t_windowName ) ⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part02.md:240
     """
-    def __call__(self, t_window_name: str, /) -> bool | None: ...
-
-class _AxlUIWHelpRegister(LiteralRemoteFunction):
+    uiw_help_register: _AxlUIWHelpRegister
     """
     This registers a help document for a user written skill command or form (dialog)
     SKILL: axlUIWHelpRegister(t_cmd t_helpFile) => t/nil
@@ -6926,390 +14315,301 @@ class _AxlUIWHelpRegister(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:1750
     """
-    @overload
-    def __call__(self, t_cmd: str, t_help_file: str, /) -> bool | None: ...
-    @overload
-    def __call__(self, g_command: Skill, /) -> str | list[str] | bool | None: ...
-
-class _AxlUIWIconify(LiteralRemoteFunction):
+    uiw_iconify: _AxlUIWIconify
     """
     This command either creates an icon for a window or open a window from an icon.This is different from[axlUIWExpose](#101852 "10"), which also opens a window from an icon but exposes hidden windows and permits raising a window to the top...
     SKILL: axlUIWIconify (r_window/t_windowt/nil)=> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:1311
     """
-    def __call__(self, r_window: RemoteObject | str, t: bool | None, /) -> bool | None: ...
-
-class _AxlUIWIsIconic(LiteralRemoteFunction):
+    uiw_is_iconic: _AxlUIWIsIconic
     """
     Is the window in an icon state.nil may be used for the main window
     SKILL: axlUIWIsIconic(r_window/t_window)=> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:1342
     """
-    def __call__(self, r_window: RemoteObject | str, /) -> bool | None: ...
-
-class _AxlUIWIsWindow(LiteralRemoteFunction):
+    uiw_is_window: _AxlUIWIsWindow
     """
     Returnst if named window is open
     SKILL: axlUIWIsWindow (t_window)=> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:1372
     """
-    def __call__(self, t_window: str, /) -> bool | None: ...
-
-class _AxlUIWMove(LiteralRemoteFunction):
+    uiw_move: _AxlUIWMove
     """
     Moves a window
     SKILL: axlUIWMove(r_window/nilt_windowl_xy)-> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:1401
     """
-    def __call__(self, r_window: RemoteObject | None, t_window: str, l_xy: SkillList, /) -> bool | None: ...
-
-class _AxlUIWPerm(LiteralRemoteFunction):
+    uiw_perm: _AxlUIWPerm
     """
     Normally forms and other windows close automatically when another database opens
     SKILL: axlUIWPerm(r_window[t/nil] ) ⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part02.md:269
     """
-    def __call__(self, r_window: RemoteObject, t: bool | None = ..., /) -> bool | None: ...
-
-class _AxlUIWPrint(LiteralRemoteFunction):
+    uiw_print: _AxlUIWPrint
     """
     Prints a message to a window other than the main window
     SKILL: axlUIWPrint(r_window/nil t_formatString [*g_args]) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:1804
     """
-    def __call__(self, r_window: RemoteObject | None, t_format_string: str, /, *g_args: Skill) -> bool | None: ...
-
-class _AxlUIWRedraw(LiteralRemoteFunction):
+    uiw_redraw: _AxlUIWRedraw
     """
     Redraws indicated window
     SKILL: axlUIWRedraw(r_window/nil) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:1438
     """
-    def __call__(self, r_window: RemoteObject | None, /) -> bool | None: ...
-
-class _AxlUIWSetHelpTag(LiteralRemoteFunction):
+    uiw_set_help_tag: _AxlUIWSetHelpTag
     """
     This has been mostly replaced by[axlUIWHelpRegister](#404919 "10") that works for commands and forms.
     SKILL: axlUIWSetHelpTag(r_windowt_tag)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part02.md:313
     """
-    def __call__(self, r_window: RemoteObject, t_tag: str, /) -> bool | None: ...
-
-class _AxlUIWSetParent(LiteralRemoteFunction):
+    uiw_set_parent: _AxlUIWSetParent
     """
     Sets the parent of a window
     SKILL: axlUIWSetParent(o_childWindowo_parentWindow/nil ) ⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part02.md:346
     """
-    def __call__(self, o_child_window: RemoteObject, o_parent_window: RemoteObject | None, /) -> bool | None: ...
-
-class _AxlUIWShow(LiteralRemoteFunction):
+    uiw_show: _AxlUIWShow
     """
     Shows or hides a window depending on the option passed
     SKILL: axlUIWShow(r_window/nils_option)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part02.md:382
     """
-    def __call__(self, r_window: RemoteObject | None, s_option: Symbol, /) -> bool | None: ...
-
-class _AxlUIWSize(LiteralRemoteFunction):
+    uiw_size: _AxlUIWSize
     """
     Returns outer size of a window
     SKILL: axlUIWSize(r_window/nil)-> ll_rect
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:1457
     """
-    def __call__(self, r_window: RemoteObject | None, /) -> list[Skill]: ...
-
-class _AxlUIWTimerAdd(LiteralRemoteFunction):
+    uiw_timer_add: _AxlUIWTimerAdd
     """
     Adds or removes a callback for an interval timer.
     SKILL: axlUIWTimerAdd(o_windowx_timeoutg_oneshotu_callback)⇒ o_timerId/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part02.md:412
     """
-    def __call__(self, o_window: RemoteObject, x_timeout: int, g_oneshot: Skill, u_callback: Skill, /) -> RemoteObject | None: ...
-
-class _AxlUIWTimerRemove(LiteralRemoteFunction):
+    uiw_timer_remove: _AxlUIWTimerRemove
     """
     Removes a timer added byaxlUIWTimerAdd.
     SKILL: axlUIWTimerRemove(o_timerId) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part02.md:474
     """
-    def __call__(self, o_timer_id: RemoteObject, /) -> bool | None: ...
-
-class _AxlUIWUpdate(LiteralRemoteFunction):
+    uiw_update: _AxlUIWUpdate
     """
     Forces an update of a window
     SKILL: axlUIWUpdate(r_window/nil)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part02.md:497
     """
-    def __call__(self, r_window: RemoteObject | None, /) -> bool | None: ...
-
-class _AxlUIYesNo(LiteralRemoteFunction):
+    ui_yes_no: _AxlUIYesNo
     """
     Provides a dialog box displaying the messaget_message
     SKILL: axlUIYesNo( t_message [t_title] [s_default] ) ==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part01.md:1596
     """
-    def __call__(self, t_message: str, t_title: str | None = ..., s_default: Symbol | None = ..., /) -> bool | None: ...
-
-class _AxlUIYesNoCancel(LiteralRemoteFunction):
+    ui_yes_no_cancel: _AxlUIYesNoCancel
     """
     Displays a blocking*Yes*/*No*/*Cancel* dialog box with the prompt message provided.
     SKILL: axlUIYesNoCancel(t_message[t_title][s_default])⇒ x_result
     Version: Allegro 17.2-2016
     Source: algroskill/10usrint.part02.md:518
     """
-    def __call__(self, t_message: str, t_title: str | None = ..., s_default: Symbol | None = ..., /) -> int: ...
-
-class _AxlUnfixAll(LiteralRemoteFunction):
+    unfix_all: _AxlUnfixAll
     """
     This is a convenience API.
     SKILL: axlUnfixAll()==> x_count
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:996
     """
-    def __call__(self, /) -> int: ...
-
-class _AxlUnsetVariable(LiteralRemoteFunction):
+    unset_variable: _AxlUnsetVariable
     """
     Unsets the Allegro PCB Editor environment variable with the name given by the stringt_variable
     SKILL: axlUnsetVariable(t_variable)⇒ t
     Version: Allegro 17.2-2016
     Source: algroskill/09cmdshl.md:680
     """
-    def __call__(self, t_variable: str, /) -> bool: ...
-
-class _AxlUnsetVariableFile(LiteralRemoteFunction):
+    unset_variable_file: _AxlUnsetVariableFile
     """
     Unsets the value of specified Allegro environment variable
     SKILL: axlUnsetVariableFile(t_variable )==> t
     Version: Allegro 17.2-2016
     Source: algroskill/09cmdshl.md:712
     """
-    def __call__(self, t_variable: str, /) -> bool: ...
-
-class _AxlVersion(LiteralRemoteFunction):
+    version: _AxlVersion
     """
     Returns Allegro PCB Editor or OS dependent data.
     SKILL: axlVersion(s_option)⇒ g_value/nil
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:1538
     """
-    def __call__(self, s_option: Symbol, /) -> Skill | None: ...
-
-class _AxlVersionIdGet(LiteralRemoteFunction):
+    version_id_get: _AxlVersionIdGet
     """
     Returns an id stamp based upon computer time.
     SKILL: axlVersionIdGet()⇒ x_time
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:1604
     """
-    def __call__(self, /) -> int: ...
-
-class _AxlVersionIdPrint(LiteralRemoteFunction):
+    version_id_print: _AxlVersionIdPrint
     """
     Prints version\\_id.
     SKILL: axlVersionIdPrint(x_time/t_time) => t_printTime/nil
     Version: Allegro 17.2-2016
     Source: algroskill/23utils.md:1621
     """
-    def __call__(self, x_time: int | str, /) -> str | None: ...
-
-class _AxlViaZLength(LiteralRemoteFunction):
+    via_z_length: _AxlViaZLength
     """
     Returns the via length from layer1 to layer2
     SKILL: axlViaZLength(t_layer1t_layer2[g_inclusion]) -> f_length
     Version: Allegro 17.2-2016
     Source: algroskill/18consmgt.part02.md:536
     """
-    def __call__(self, t_layer1: str, t_layer2: str, g_inclusion: Skill = ..., /) -> float: ...
-
-class _AxlVisibleDesign(LiteralRemoteFunction):
+    visible_design: _AxlVisibleDesign
     """
     Makes entire design visible or invisible
     SKILL: axlVisibleDesign(g_makeVis)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part02.md:235
     """
-    def __call__(self, g_make_vis: Skill, /) -> bool | None: ...
-
-class _AxlVisibleGet(LiteralRemoteFunction):
+    visible_get: _AxlVisibleGet
     """
     Returns the visibility of the entire design - which layers are visible/invisible.
     SKILL: axlVisibleGet()⇒ l_visList/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part02.md:288
     """
-    def __call__(self, /) -> list[Skill] | None: ...
-
-class _AxlVisibleLayer(LiteralRemoteFunction):
+    visible_layer: _AxlVisibleLayer
     """
     Sets a given layer to visible or invisible
     SKILL: axlVisibleLayer(t_layerg_makeVis)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part02.md:371
     """
-    def __call__(self, t_layer: str, g_make_vis: Skill, /) -> bool | None: ...
-
-class _AxlVisibleSet(LiteralRemoteFunction):
+    visible_set: _AxlVisibleSet
     """
     Sets the visibility of the entire design.
     SKILL: axlVisibleSet( l_visList)⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part02.md:397
     """
-    def __call__(self, l_vis_list: SkillList, /) -> bool | None: ...
-
-class _AxlVisibleUpdate(LiteralRemoteFunction):
+    visible_update: _AxlVisibleUpdate
     """
     TheaxlVisible family and its base building block permit changing layer color and visibility.
     SKILL: axlVisibleUpdate(t_now)⇒ t
     Version: Allegro 17.2-2016
     Source: algroskill/19cmdctl.md:561
     """
-    def __call__(self, t_now: str, /) -> bool: ...
-
-class _AxlWFMAnyExported(LiteralRemoteFunction):
+    wfm_any_exported: _AxlWFMAnyExported
     """
     Reports if there are any exported partitions.
     SKILL: axlWFMAnyExported()==> t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/14dsnctl.md:1441
     """
-    def __call__(self, /) -> bool | None: ...
-
-class _AxlWidth2Impedance(LiteralRemoteFunction):
+    width2_impedance: _AxlWidth2Impedance
     """
     Converts the given line width on a specified layer to an impedance
     SKILL: axlWidth2Impedance(t_layer/x_layerNumf_lineWidth) ==> f_impedance/nil
     Version: Allegro 17.2-2016
     Source: algroskill/25dbmisc.md:1019
     """
-    def __call__(self, t_layer: str | int, f_line_width: float, /) -> float | None: ...
-
-class _AxlWindowBoxGet(LiteralRemoteFunction):
+    window_box_get: _AxlWindowBoxGet
     """
     Returns the bounding box of the Allegro PCB Editor window currently visible to the user, in design units.
     SKILL: axlWindowBoxGet()⇒ l_bBox
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:815
     """
-    def __call__(self, /) -> list[Skill]: ...
-
-class _AxlWindowBoxSet(LiteralRemoteFunction):
+    window_box_set: _AxlWindowBoxSet
     """
     Sets Allegro PCB Editor display to given bBox
     SKILL: axlWindowBoxSet(l_bBox)⇒ l_bBox/nil
     Version: Allegro 17.2-2016
     Source: algroskill/06intedt.part01.md:832
     """
-    def __call__(self, l_b_box: SkillList, /) -> list[Skill] | None: ...
-
-class _AxlWindowFit(LiteralRemoteFunction):
+    window_fit: _AxlWindowFit
     """
     Zooms in to (or out of) a design fitting it fully on the window
     SKILL: axlWindowFit()⇒ l_bBox
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:1289
     """
-    def __call__(self, /) -> list[Skill]: ...
-
-class _AxlWriteDeviceFile(LiteralRemoteFunction):
+    write_device_file: _AxlWriteDeviceFile
     """
     Given a component definition, writes out a third party device file
     SKILL: axlWriteDeviceFile(o_compDefDbid[t_output_dir] ) ⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/26logacc.md:1298
     """
-    def __call__(self, o_comp_def_dbid: RemoteObject, t_output_dir: str | None = ..., /) -> bool | None: ...
-
-class _AxlWritePackageFile(LiteralRemoteFunction):
+    write_package_file: _AxlWritePackageFile
     """
     Given a symbol definition, writes out symbol.dra, .psm and associated padstack files
     SKILL: axlWritePackageFile(o_symDefDbid[t_output_dir] ) ⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/26logacc.md:1338
     """
-    def __call__(self, o_sym_def_dbid: RemoteObject, t_output_dir: str | None = ..., /) -> bool | None: ...
-
-class _AxlXSectionCopy(LiteralRemoteFunction):
+    x_section_copy: _AxlXSectionCopy
     """
     This copies dbid xsection to an xsection Skill defstruct.It can be used to duplicate the charactistics of an existing xsection layer to a new layer for use with axlXSectionCreate
     SKILL: axlXSectionCopy(o_xsectionDBID) => g_xsectionDefstruct/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part02.md:598
     """
-    def __call__(self, o_xsection_dbid: RemoteObject, /) -> Skill | None: ...
-
-class _AxlXSectionCreate(LiteralRemoteFunction):
+    x_section_create: _AxlXSectionCreate
     """
     Creates a new cross section entry.
     SKILL: axlXSectionCreate(nilg_option[g_xsectionDefStruct]) => o_xsectionDBID/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part02.md:628
     """
-    def __call__(self, value: None, g_option: Skill, g_xsection_def_struct: Skill = ..., /) -> RemoteObject | None: ...
-
-class _AxlXSectionDelete(LiteralRemoteFunction):
+    x_section_delete: _AxlXSectionDelete
     """
     Deletes a cross section layer
     SKILL: axlXSectionDelete(g_option) => lt_types
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part02.md:709
     """
-    def __call__(self, g_option: Skill, /) -> list[str]: ...
-
-class _AxlXSectionGet(LiteralRemoteFunction):
+    x_section_get: _AxlXSectionGet
     """
     Returns data about the cross-section entry for a design.
     SKILL: axlXSectionGet(g_stackup/nilg_option)==> g_data/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part02.md:739
     """
-    def __call__(self, g_stackup: Skill | None, g_option: Skill, /) -> Skill | None: ...
-
-class _AxlXSectionLayerFunctions(LiteralRemoteFunction):
+    x_section_layer_functions: _AxlXSectionLayerFunctions
     """
     Return list of supported layer function types.Layer functions are a super set of layer types.
     SKILL: axlXSectionLayerFunctions() => lt_types
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part02.md:861
     """
-    def __call__(self, /) -> list[str]: ...
-
-class _AxlXSectionLayerTypes(LiteralRemoteFunction):
+    x_section_layer_types: _AxlXSectionLayerTypes
     """
     Return list of supported layer types
     SKILL: axlXSectionLayerTypes() => lt_types
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part02.md:885
     """
-    def __call__(self, /) -> list[str]: ...
-
-class _AxlXSectionModify(LiteralRemoteFunction):
+    x_section_modify: _AxlXSectionModify
     """
     This is a wrapper formake_axlXSection() function to createa new defstruct
     SKILL: axlXSectionModify(**g_attributes) => g_xsectionDefstruct/nil
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part02.md:909
     """
-    def __call__(self, /, **g_attributes: Skill) -> Skill | None: ...
-
-class _AxlXSectionSet(LiteralRemoteFunction):
+    x_section_set: _AxlXSectionSet
     """
     Modifies an existing cross section entry
     SKILL: axlXSectionSet(g_option[g_xsectionDefStruct]) => t/nil
@@ -7317,1971 +14617,5833 @@ class _AxlXSectionSet(LiteralRemoteFunction):
     Version: Allegro 17.2-2016
     Source: algroskill/04parmgt.part02.md:942
     """
-    @overload
-    def __call__(self, g_option: Skill, g_xsection_def_struct: Skill = ..., /) -> bool | None: ...
-    @overload
-    def __call__(self, lockednil: Symbol | SkillList, /) -> bool | None: ...
-
-class _AxlZoomBbox(LiteralRemoteFunction):
+    zoom_bbox: _AxlZoomBbox
     """
     x\\_window: window id or nil to currently active window
     SKILL: axlZoomBbox (x_window) => bBox
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:1308
     """
-    def __call__(self, x_window: int, /) -> Skill: ...
-
-class _AxlZoomCenter(LiteralRemoteFunction):
+    zoom_center: _AxlZoomCenter
     """
     Zoom centers on the provided coordinate
     SKILL: axlZoomCenter(x_window xy) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:1335
     """
-    def __call__(self, x_window: int, xy: Skill, /) -> bool | None: ...
-
-class _AxlZoomControl(LiteralRemoteFunction):
+    zoom_control: _AxlZoomControl
     """
     Manages the multi-canvas feature
     SKILL: axlZoomControl(s_option [g_arg]) => g_return
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:1367
     """
-    def __call__(self, s_option: Symbol, g_arg: Skill = ..., /) -> Skill: ...
-
-class _AxlZoomFit(LiteralRemoteFunction):
+    zoom_fit: _AxlZoomFit
     """
     Zoom fits the window
     SKILL: axlZoomFit (x_windows_option) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:1410
     """
-    def __call__(self, x_window: int, s_option: Symbol, /) -> bool | None: ...
-
-class _AxlZoomInOut(LiteralRemoteFunction):
+    zoom_in_out: _AxlZoomInOut
     """
     Zooms window in or out by provided factor around optional coordinate.
     SKILL: axlZoomInOut (x_windowx_factor[xy]) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:1450
     """
-    def __call__(self, x_window: int, x_factor: int, xy: Skill = ..., /) -> bool | None: ...
-
-class _AxlZoomPoints(LiteralRemoteFunction):
+    zoom_points: _AxlZoomPoints
     """
     Zoom windows by points
     SKILL: axlZoomPoints (x_windowupperLeft_xylowerRight_xy) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:1481
     """
-    def __call__(self, x_window: int, upper_left_xy: Skill, lower_right_xy: Skill, /) -> bool | None: ...
-
-class _AxlZoomToDbid(LiteralRemoteFunction):
+    zoom_to_dbid: _AxlZoomToDbid
     """
     Processes a list ofdbids and centers and zooms the display around them
     SKILL: axlZoomToDbid(o_dbid/lo_dbidg_always[x_window])⇒ t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:1512
     """
-    def __call__(self, o_dbid: RemoteObject | list[RemoteObject], g_always: Skill, x: int | None = ..., window: Skill = ..., /) -> bool | None: ...
-
-class _AxlZoomWorld(LiteralRemoteFunction):
+    zoom_world: _AxlZoomWorld
     """
     Zoom world a drawing window
     SKILL: axlZoomWorld (x_window) => t/nil
     Version: Allegro 17.2-2016
     Source: algroskill/08intprm.md:1547
     """
-    def __call__(self, x_window: int, /) -> bool | None: ...
-
-class _AxlOlOl2(LiteralRemoteFunction):
+    ol_ol2: _AxlOlOl2
     """
     No description available.
     SKILL: signature unavailable; generic fallback
     Version: Allegro 17.2-2016
     Source: unavailable
     """
-    def __call__(self, *args: Skill, **kwargs: Skill) -> Skill: ...
-
-class _Axlcreate(LiteralRemoteFunction):
-    """
-    This interface is obsolete
-    SKILL: axlcreate() => t_filmName/nil
-    Version: Allegro 17.2-2016
-    Source: algroskill/04parmgt.part01.md:32
-    """
-    def __call__(self, /) -> str | None: ...
-
-class _Axldo(LiteralRemoteFunction):
-    """
-    No description available.
-    SKILL: axldo(g_initListg_terminateList[g_body]) -> g_result
-    Version: Allegro 17.2-2016
-    Source: algroskill/27langexten.md:9
-    """
-    def __call__(self, g_init_list: Skill, g_terminate_list: Skill, g_body: Skill = ..., /) -> Skill: ...
-
-class Axl(FunctionCollection):
-    add_auto_assign_net_algorithm: _AxlAddAutoAssignNetAlgorithm
-    add_select_all: _AxlAddSelectAll
-    add_select_box: _AxlAddSelectBox
-    add_select_name: _AxlAddSelectName
-    add_select_object: _AxlAddSelectObject
-    add_select_point: _AxlAddSelectPoint
-    add_simple_move_dynamics: _AxlAddSimpleMoveDynamics
-    add_simple_rband_dynamics: _AxlAddSimpleRbandDynamics
-    add_taper: _AxlAddTaper
-    air_gap: _AxlAirGap
-    alt_symbol_list: _AxlAltSymbolList
-    alt_symbol_ok: _AxlAltSymbolOK
-    alt_symbol_replace: _AxlAltSymbolReplace
-    auto_open_find_filter: _AxlAutoOpenFindFilter
-    back_drill: _AxlBackDrill
-    backdrill_get: _AxlBackdrillGet
-    bond_finger_delete: _AxlBondFingerDelete
-    build_class_popup: _AxlBuildClassPopup
-    build_subclass_popup: _AxlBuildSubclassPopup
-    cns_assembly_mode_get: _AxlCNSAssemblyModeGet
-    cns_assembly_mode_set: _AxlCNSAssemblyModeSet
-    cns_create: _AxlCNSCreate
-    cns_cset_lock: _AxlCNSCsetLock
-    cns_delete: _AxlCNSDelete
-    cns_design_mode_get: _AxlCNSDesignModeGet
-    cns_design_mode_set: _AxlCNSDesignModeSet
-    cns_design_value_check: _AxlCNSDesignValueCheck
-    cns_design_value_get: _AxlCNSDesignValueGet
-    cns_design_value_set: _AxlCNSDesignValueSet
-    cns_ecset_create: _AxlCNSEcsetCreate
-    cns_ecset_delete: _AxlCNSEcsetDelete
-    cns_ecset_get: _AxlCNSEcsetGet
-    cns_ecset_mode_get: _AxlCNSEcsetModeGet
-    cns_ecset_mode_set: _AxlCNSEcsetModeSet
-    cns_ecset_value_check: _AxlCNSEcsetValueCheck
-    cns_ecset_value_get: _AxlCNSEcsetValueGet
-    cns_ecset_value_set: _AxlCNSEcsetValueSet
-    cns_get_assembly: _AxlCNSGetAssembly
-    cns_get_default_min_line_width: _AxlCNSGetDefaultMinLineWidth
-    cns_get_physical: _AxlCNSGetPhysical
-    cns_get_pin_delay_enabled: _AxlCNSGetPinDelayEnabled
-    cns_get_pin_delay_pvf: _AxlCNSGetPinDelayPVF
-    cns_get_same_net: _AxlCNSGetSameNet
-    cns_get_same_net_xtalk_enabled: _AxlCNSGetSameNetXtalkEnabled
-    cns_get_spacing: _AxlCNSGetSpacing
-    cns_get_via_z_enabled: _AxlCNSGetViaZEnabled
-    cns_get_via_zpvf: _AxlCNSGetViaZPVF
-    cns_is_cset_locked: _AxlCNSIsCsetLocked
-    cns_is_locked_domain: _AxlCNSIsLockedDomain
-    cns_lock_domain: _AxlCNSLockDomain
-    cns_map_clear: _AxlCNSMapClear
-    cns_map_update: _AxlCNSMapUpdate
-    cns_physical_mode_get: _AxlCNSPhysicalModeGet
-    cns_physical_mode_set: _AxlCNSPhysicalModeSet
-    cns_same_net_mode_get: _AxlCNSSameNetModeGet
-    cns_same_net_mode_set: _AxlCNSSameNetModeSet
-    cns_set_assembly: _AxlCNSSetAssembly
-    cns_set_physical: _AxlCNSSetPhysical
-    cns_set_pin_delay_enabled: _AxlCNSSetPinDelayEnabled
-    cns_set_pin_delay_pvf: _AxlCNSSetPinDelayPVF
-    cns_set_same_net: _AxlCNSSetSameNet
-    cns_set_same_net_xtalk_enabled: _AxlCNSSetSameNetXtalkEnabled
-    cns_set_spacing: _AxlCNSSetSpacing
-    cns_set_via_z_enabled: _AxlCNSSetViaZEnabled
-    cns_set_via_zpvf: _AxlCNSSetViaZPVF
-    cns_spacing_max: _AxlCNSSpacingMax
-    cns_spacing_min: _AxlCNSSpacingMin
-    cns_spacing_mode_get: _AxlCNSSpacingModeGet
-    cns_spacing_mode_set: _AxlCNSSpacingModeSet
-    cvf_color_chooser_dlg: _AxlCVFColorChooserDlg
-    cancel_enter_fun: _AxlCancelEnterFun
-    cancel_off: _AxlCancelOff
-    cancel_on: _AxlCancelOn
-    cancel_test: _AxlCancelTest
-    change_layer: _AxlChangeLayer
-    change_line2_cline: _AxlChangeLine2Cline
-    change_line_font: _AxlChangeLineFont
-    change_net: _AxlChangeNet
-    change_width: _AxlChangeWidth
-    check_string: _AxlCheckString
-    classes: _AxlClasses
-    clear_dynamics: _AxlClearDynamics
-    clear_object_custom_color: _AxlClearObjectCustomColor
-    clear_sel_set: _AxlClearSelSet
-    clipboard_get_text: _AxlClipboardGetText
-    clipboard_set_text: _AxlClipboardSetText
-    close_find_filter: _AxlCloseFindFilter
-    cmd_list: _AxlCmdList
-    cmd_register: _AxlCmdRegister
-    cmd_unregister: _AxlCmdUnregister
-    cns_add_via: _AxlCnsAddVia
-    cns_assign_purge: _AxlCnsAssignPurge
-    cns_class_table_change: _AxlCnsClassTableChange
-    cns_class_table_create: _AxlCnsClassTableCreate
-    cns_class_table_delete: _AxlCnsClassTableDelete
-    cns_class_table_find: _AxlCnsClassTableFind
-    cns_class_table_seek: _AxlCnsClassTableSeek
-    cns_delete_class_class_objects: _AxlCnsDeleteClassClassObjects
-    cns_delete_region_class_class_objects: _AxlCnsDeleteRegionClassClassObjects
-    cns_delete_region_class_objects: _AxlCnsDeleteRegionClassObjects
-    cns_delete_via: _AxlCnsDeleteVia
-    cns_get_via_list: _AxlCnsGetViaList
-    cns_list: _AxlCnsList
-    cns_net_flattened: _AxlCnsNetFlattened
-    cns_purge_all: _AxlCnsPurgeAll
-    cns_purge_csets: _AxlCnsPurgeCsets
-    cns_purge_objects: _AxlCnsPurgeObjects
-    color_get: _AxlColorGet
-    color_load: _AxlColorLoad
-    color_on_get: _AxlColorOnGet
-    color_on_set: _AxlColorOnSet
-    color_priority_get: _AxlColorPriorityGet
-    color_priority_set: _AxlColorPrioritySet
-    color_save: _AxlColorSave
-    color_set: _AxlColorSet
-    color_shadow_get: _AxlColorShadowGet
-    color_shadow_set: _AxlColorShadowSet
-    comp_add_pin: _AxlCompAddPin
-    comp_delete_pin: _AxlCompDeletePin
-    comp_move_pin: _AxlCompMovePin
-    comp_set_pin_attributes: _AxlCompSetPinAttributes
-    compile_symbol: _AxlCompileSymbol
-    component_change_class: _AxlComponentChangeClass
-    conductor_bottom_layer: _AxlConductorBottomLayer
-    conductor_top_layer: _AxlConductorTopLayer
-    control_raise: _AxlControlRaise
-    copy_object: _AxlCopyObject
-    copy_properties: _AxlCopyProperties
-    create_attachment: _AxlCreateAttachment
-    create_bond_finger: _AxlCreateBondFinger
-    create_bond_wire: _AxlCreateBondWire
-    create_device_file_template: _AxlCreateDeviceFileTemplate
-    create_wirebond_guide: _AxlCreateWirebondGuide
-    current_design: _AxlCurrentDesign
-    cursor_get: _AxlCursorGet
-    cursor_warp: _AxlCursorWarp
-    custom_color_object: _AxlCustomColorObject
-    d_b2_path: _AxlDB2Path
-    db_active_shape: _AxlDBActiveShape
-    db_add_group_objects: _AxlDBAddGroupObjects
-    db_add_prop: _AxlDBAddProp
-    db_alt_origin: _AxlDBAltOrigin
-    db_assign_net: _AxlDBAssignNet
-    db_change_design_extents: _AxlDBChangeDesignExtents
-    db_change_design_origin: _AxlDBChangeDesignOrigin
-    db_change_design_units: _AxlDBChangeDesignUnits
-    db_change_text: _AxlDBChangeText
-    db_check: _AxlDBCheck
-    db_cloak: _AxlDBCloak
-    db_control: _AxlDBControl
-    db_copy_padstack: _AxlDBCopyPadstack
-    db_create_circle: _AxlDBCreateCircle
-    db_create_close_shape: _AxlDBCreateCloseShape
-    db_create_component: _AxlDBCreateComponent
-    db_create_concept_component: _AxlDBCreateConceptComponent
-    db_create_external_drc: _AxlDBCreateExternalDRC
-    db_create_film_rec: _AxlDBCreateFilmRec
-    db_create_group: _AxlDBCreateGroup
-    db_create_line: _AxlDBCreateLine
-    db_create_many_module_instances: _AxlDBCreateManyModuleInstances
-    db_create_module_def: _AxlDBCreateModuleDef
-    db_create_module_instance: _AxlDBCreateModuleInstance
-    db_create_net: _AxlDBCreateNet
-    db_create_open_shape: _AxlDBCreateOpenShape
-    db_create_pad_stack: _AxlDBCreatePadStack
-    db_create_path: _AxlDBCreatePath
-    db_create_pin: _AxlDBCreatePin
-    db_create_prop_dict_entry: _AxlDBCreatePropDictEntry
-    db_create_rectangle: _AxlDBCreateRectangle
-    db_create_shape: _AxlDBCreateShape
-    db_create_sym_def_skeleton: _AxlDBCreateSymDefSkeleton
-    db_create_symbol: _AxlDBCreateSymbol
-    db_create_symbol_autosilk: _AxlDBCreateSymbolAutosilk
-    db_create_symbol_skeleton: _AxlDBCreateSymbolSkeleton
-    db_create_text: _AxlDBCreateText
-    db_create_via: _AxlDBCreateVia
-    db_create_void: _AxlDBCreateVoid
-    db_create_void_circle: _AxlDBCreateVoidCircle
-    db_del_lock: _AxlDBDelLock
-    db_delete_prop: _AxlDBDeleteProp
-    db_delete_prop_all: _AxlDBDeletePropAll
-    db_delete_prop_dict_entry: _AxlDBDeletePropDictEntry
-    db_disband_group: _AxlDBDisbandGroup
-    db_display_control: _AxlDBDisplayControl
-    db_dummy_net: _AxlDBDummyNet
-    db_dynamic_shapes: _AxlDBDynamicShapes
-    db_find_by_name: _AxlDBFindByName
-    db_get_attached_text: _AxlDBGetAttachedText
-    db_get_connect: _AxlDBGetConnect
-    db_get_design: _AxlDBGetDesign
-    db_get_design_units: _AxlDBGetDesignUnits
-    db_get_drill_plating: _AxlDBGetDrillPlating
-    db_get_extents: _AxlDBGetExtents
-    db_get_group_from_item: _AxlDBGetGroupFromItem
-    db_get_layer_type: _AxlDBGetLayerType
-    db_get_length: _AxlDBGetLength
-    db_get_lock: _AxlDBGetLock
-    db_get_lonely_branches: _AxlDBGetLonelyBranches
-    db_get_manhattan: _AxlDBGetManhattan
-    db_get_pad: _AxlDBGetPad
-    db_get_prop_dict: _AxlDBGetPropDict
-    db_get_prop_dict_entry: _AxlDBGetPropDictEntry
-    db_get_properties: _AxlDBGetProperties
-    db_get_shapes: _AxlDBGetShapes
-    db_get_symbol_body_extent: _AxlDBGetSymbolBodyExtent
-    db_get_text_block_count: _AxlDBGetTextBlockCount
-    db_grid_get: _AxlDBGridGet
-    db_grid_set: _AxlDBGridSet
-    db_group_rename: _AxlDBGroupRename
-    db_ignore_fixed: _AxlDBIgnoreFixed
-    db_is_bonding_wire_layer: _AxlDBIsBondingWireLayer
-    db_is_bondpad: _AxlDBIsBondpad
-    db_is_bondwire: _AxlDBIsBondwire
-    db_is_die_pad: _AxlDBIsDiePad
-    db_is_die_stack_layer: _AxlDBIsDieStackLayer
-    db_is_fixed: _AxlDBIsFixed
-    db_is_package_pin: _AxlDBIsPackagePin
-    db_is_platingbar_pin: _AxlDBIsPlatingbarPin
-    db_is_read_only: _AxlDBIsReadOnly
-    db_memory_reclaim: _AxlDBMemoryReclaim
-    db_open_shape: _AxlDBOpenShape
-    db_pin_pair_length: _AxlDBPinPairLength
-    db_refresh_id: _AxlDBRefreshId
-    db_remove_group_objects: _AxlDBRemoveGroupObjects
-    db_sector_size: _AxlDBSectorSize
-    db_set_lock: _AxlDBSetLock
-    db_text_block_compact: _AxlDBTextBlockCompact
-    db_text_block_create: _AxlDBTextBlockCreate
-    db_text_block_find_name: _AxlDBTextBlockFindName
-    db_text_block_get_name: _AxlDBTextBlockGetName
-    db_text_block_set_name: _AxlDBTextBlockSetName
-    db_transaction_commit: _AxlDBTransactionCommit
-    db_transaction_mark: _AxlDBTransactionMark
-    db_transaction_oops: _AxlDBTransactionOops
-    db_transaction_rollback: _AxlDBTransactionRollback
-    db_transaction_start: _AxlDBTransactionStart
-    db_tune_sector_size: _AxlDBTuneSectorSize
-    dm_browse_path: _AxlDMBrowsePath
-    dm_close: _AxlDMClose
-    dm_directory_browse: _AxlDMDirectoryBrowse
-    dm_file_browse: _AxlDMFileBrowse
-    dm_file_error: _AxlDMFileError
-    dm_file_parts: _AxlDMFileParts
-    dm_find_file: _AxlDMFindFile
-    dm_get_file: _AxlDMGetFile
-    dm_open_file: _AxlDMOpenFile
-    dm_open_log: _AxlDMOpenLog
-    drc_get_count: _AxlDRCGetCount
-    drc_item: _AxlDRCItem
-    drc_update: _AxlDRCUpdate
-    drc_waive: _AxlDRCWaive
-    drc_waive_get_count: _AxlDRCWaiveGetCount
-    dbid_name: _AxlDbidName
-    debug: _AxlDebug
-    deg_to_rad: _AxlDegToRad
-    dehighlight_object: _AxlDehighlightObject
-    delete_attachment: _AxlDeleteAttachment
-    delete_bond_wire: _AxlDeleteBondWire
-    delete_by_layer: _AxlDeleteByLayer
-    delete_fillet: _AxlDeleteFillet
-    delete_object: _AxlDeleteObject
-    delete_taper: _AxlDeleteTaper
-    design_flip: _AxlDesignFlip
-    design_type: _AxlDesignType
-    detail_load: _AxlDetailLoad
-    detail_save: _AxlDetailSave
-    diff_pair: _AxlDiffPair
-    diff_pair_auto: _AxlDiffPairAuto
-    diff_pair_dbid: _AxlDiffPairDBID
-    distance: _AxlDistance
-    dll_call: _AxlDllCall
-    dll_call_list: _AxlDllCallList
-    dll_close: _AxlDllClose
-    dll_dump: _AxlDllDump
-    dll_open: _AxlDllOpen
-    dll_sym: _AxlDllSym
-    draw_object: _AxlDrawObject
-    dynamics_object: _AxlDynamicsObject
-    email: _AxlEmail
-    end_skill_mode: _AxlEndSkillMode
-    enter_angle: _AxlEnterAngle
-    enter_box: _AxlEnterBox
-    enter_event: _AxlEnterEvent
-    enter_path: _AxlEnterPath
-    enter_point: _AxlEnterPoint
-    enter_string: _AxlEnterString
-    erase_object: _AxlEraseObject
-    event_set_start_popup: _AxlEventSetStartPopup
-    export_xml_db_records: _AxlExportXmlDBRecords
-    extent_db: _AxlExtentDB
-    extent_layout: _AxlExtentLayout
-    extent_symbol: _AxlExtentSymbol
-    extract_map: _AxlExtractMap
-    extract_to_file: _AxlExtractToFile
-    fillet: _AxlFillet
-    fillet_convert: _AxlFilletConvert
-    film_create: _AxlFilmCreate
-    find_filter_is_open: _AxlFindFilterIsOpen
-    find_path: _AxlFindPath
-    finish_enter_fun: _AxlFinishEnterFun
-    flush_display: _AxlFlushDisplay
-    form_auto_resize: _AxlFormAutoResize
-    form_build_popup: _AxlFormBuildPopup
-    form_clear_mouse_active: _AxlFormClearMouseActive
-    form_close: _AxlFormClose
-    form_colorize: _AxlFormColorize
-    form_create: _AxlFormCreate
-    form_default_button: _AxlFormDefaultButton
-    form_display: _AxlFormDisplay
-    form_get_active_field: _AxlFormGetActiveField
-    form_get_field: _AxlFormGetField
-    form_get_field_type: _AxlFormGetFieldType
-    form_grid_batch: _AxlFormGridBatch
-    form_grid_cancel_popup: _AxlFormGridCancelPopup
-    form_grid_delete_rows: _AxlFormGridDeleteRows
-    form_grid_events: _AxlFormGridEvents
-    form_grid_get_cell: _AxlFormGridGetCell
-    form_grid_insert_col: _AxlFormGridInsertCol
-    form_grid_insert_rows: _AxlFormGridInsertRows
-    form_grid_new_cell: _AxlFormGridNewCell
-    form_grid_options: _AxlFormGridOptions
-    form_grid_reset: _AxlFormGridReset
-    form_grid_selected: _AxlFormGridSelected
-    form_grid_selected_cnt: _AxlFormGridSelectedCnt
-    form_grid_set_batch: _AxlFormGridSetBatch
-    form_grid_set_select_rows: _AxlFormGridSetSelectRows
-    form_grid_update: _AxlFormGridUpdate
-    form_invalidate_field: _AxlFormInvalidateField
-    form_is_field_editable: _AxlFormIsFieldEditable
-    form_is_field_visible: _AxlFormIsFieldVisible
-    form_list_add_item: _AxlFormListAddItem
-    form_list_delete_all: _AxlFormListDeleteAll
-    form_list_delete_item: _AxlFormListDeleteItem
-    form_list_get_item: _AxlFormListGetItem
-    form_list_get_sel_count: _AxlFormListGetSelCount
-    form_list_get_sel_items: _AxlFormListGetSelItems
-    form_list_options: _AxlFormListOptions
-    form_list_sel_all: _AxlFormListSelAll
-    form_list_select: _AxlFormListSelect
-    form_msg: _AxlFormMsg
-    form_restore_field: _AxlFormRestoreField
-    form_set_active_field: _AxlFormSetActiveField
-    form_set_decimal: _AxlFormSetDecimal
-    form_set_event_action: _AxlFormSetEventAction
-    form_set_field: _AxlFormSetField
-    form_set_field_editable: _AxlFormSetFieldEditable
-    form_set_field_limits: _AxlFormSetFieldLimits
-    form_set_field_visible: _AxlFormSetFieldVisible
-    form_set_info: _AxlFormSetInfo
-    form_set_mouse_active: _AxlFormSetMouseActive
-    form_test: _AxlFormTest
-    form_title: _AxlFormTitle
-    form_tree_view_add_item: _AxlFormTreeViewAddItem
-    form_tree_view_change_images: _AxlFormTreeViewChangeImages
-    form_tree_view_change_label: _AxlFormTreeViewChangeLabel
-    form_tree_view_get_images: _AxlFormTreeViewGetImages
-    form_tree_view_get_label: _AxlFormTreeViewGetLabel
-    form_tree_view_get_parents: _AxlFormTreeViewGetParents
-    form_tree_view_get_select_state: _AxlFormTreeViewGetSelectState
-    form_tree_view_load_bitmaps: _AxlFormTreeViewLoadBitmaps
-    form_tree_view_set: _AxlFormTreeViewSet
-    form_tree_view_set_select_state: _AxlFormTreeViewSetSelectState
-    grp_drw_bitmap: _AxlGRPDrwBitmap
-    grp_drw_circle: _AxlGRPDrwCircle
-    grp_drw_init: _AxlGRPDrwInit
-    grp_drw_line: _AxlGRPDrwLine
-    grp_drw_map_window: _AxlGRPDrwMapWindow
-    grp_drw_poly: _AxlGRPDrwPoly
-    grp_drw_rectangle: _AxlGRPDrwRectangle
-    grp_drw_text: _AxlGRPDrwText
-    grp_drw_update: _AxlGRPDrwUpdate
-    geo2_str: _AxlGeo2Str
-    geo_arc_center_angle: _AxlGeoArcCenterAngle
-    geo_arc_center_radius: _AxlGeoArcCenterRadius
-    geo_equal: _AxlGeoEqual
-    geo_point_in_shape: _AxlGeoPointInShape
-    geo_point_shape_info: _AxlGeoPointShapeInfo
-    geo_points_equal: _AxlGeoPointsEqual
-    geo_rotate_pt: _AxlGeoRotatePt
-    get_active_layer: _AxlGetActiveLayer
-    get_active_text_block: _AxlGetActiveTextBlock
-    get_alias: _AxlGetAlias
-    get_all_attachment_names: _AxlGetAllAttachmentNames
-    get_all_via_list: _AxlGetAllViaList
-    get_all_visible_profiles: _AxlGetAllVisibleProfiles
-    get_attachment: _AxlGetAttachment
-    get_die_data: _AxlGetDieData
-    get_die_stack_data: _AxlGetDieStackData
-    get_die_stack_member_set: _AxlGetDieStackMemberSet
-    get_die_stack_names: _AxlGetDieStackNames
-    get_die_type: _AxlGetDieType
-    get_drawing_name: _AxlGetDrawingName
-    get_dynamics_segs: _AxlGetDynamicsSegs
-    get_find_filter: _AxlGetFindFilter
-    get_func_key: _AxlGetFuncKey
-    get_impedance: _AxlGetImpedance
-    get_iposer_data: _AxlGetIposerData
-    get_last_enter_point: _AxlGetLastEnterPoint
-    get_line_lock: _AxlGetLineLock
-    get_metal_usage_for_layer: _AxlGetMetalUsageForLayer
-    get_module_instance_definition: _AxlGetModuleInstanceDefinition
-    get_module_instance_location: _AxlGetModuleInstanceLocation
-    get_module_instance_logic_method: _AxlGetModuleInstanceLogicMethod
-    get_module_instance_net_exceptions: _AxlGetModuleInstanceNetExceptions
-    get_param: _AxlGetParam
-    get_sel_set: _AxlGetSelSet
-    get_sel_set_count: _AxlGetSelSetCount
-    get_spacer_data: _AxlGetSpacerData
-    get_trap_box: _AxlGetTrapBox
-    get_variable: _AxlGetVariable
-    get_variable_list: _AxlGetVariableList
-    get_wire_profile_color: _AxlGetWireProfileColor
-    get_wire_profile_definition: _AxlGetWireProfileDefinition
-    get_wire_profile_direction: _AxlGetWireProfileDirection
-    get_wire_profile_visible: _AxlGetWireProfileVisible
-    get_x_section: _AxlGetXSection
-    highlight_object: _AxlHighlightObject
-    history: _AxlHistory
-    http: _AxlHttp
-    is_product_started: _AxlISProductStarted
-    ignore_fixed: _AxlIgnoreFixed
-    impdedance_get_layer_broadside_dp_imp: _AxlImpdedanceGetLayerBroadsideDPImp
-    impdedance_get_layer_broadside_dp_width: _AxlImpdedanceGetLayerBroadsideDPWidth
-    impdedance_get_layer_edge_dp_imp: _AxlImpdedanceGetLayerEdgeDPImp
-    impdedance_get_layer_edge_dp_spacing: _AxlImpdedanceGetLayerEdgeDPSpacing
-    impdedance_get_layer_edge_dp_width: _AxlImpdedanceGetLayerEdgeDPWidth
-    impedance2_width: _AxlImpedance2Width
-    import_wire_profile_definitions: _AxlImportWireProfileDefinitions
-    import_xml_db_records: _AxlImportXmlDBRecords
-    in_trigger: _AxlInTrigger
-    in_trigger_func: _AxlInTriggerFunc
-    is_attachment: _AxlIsAttachment
-    is_between: _AxlIsBetween
-    is_custom_colored: _AxlIsCustomColored
-    is_dbid_type: _AxlIsDBIDType
-    is_debug: _AxlIsDebug
-    is_dummy_net: _AxlIsDummyNet
-    is_etch_layer: _AxlIsEtchLayer
-    is_form_type: _AxlIsFormType
-    is_grid_cell_type: _AxlIsGridCellType
-    is_highlighted: _AxlIsHighlighted
-    is_layer: _AxlIsLayer
-    is_layer_negative: _AxlIsLayerNegative
-    is_pin_unused: _AxlIsPinUnused
-    is_point_inside_box: _AxlIsPointInsideBox
-    is_point_on_line: _AxlIsPointOnLine
-    is_poly_type: _AxlIsPolyType
-    is_product_line_active: _AxlIsProductLineActive
-    is_protect_alias: _AxlIsProtectAlias
-    is_symbol_editor: _AxlIsSymbolEditor
-    is_view_file_type: _AxlIsViewFileType
-    is_visible_layer: _AxlIsVisibleLayer
-    isit_fill: _AxlIsitFill
-    journal: _AxlJournal
-    kill_design: _AxlKillDesign
-    last_pick: _AxlLastPick
-    last_pick_is_snapped: _AxlLastPickIsSnapped
-    layer_create_cross_section: _AxlLayerCreateCrossSection
-    layer_create_non_conductor: _AxlLayerCreateNonConductor
-    layer_delete: _AxlLayerDelete
-    layer_get: _AxlLayerGet
-    layer_priority_clear_all: _AxlLayerPriorityClearAll
-    layer_priority_get: _AxlLayerPriorityGet
-    layer_priority_restore_all: _AxlLayerPriorityRestoreAll
-    layer_priority_save_all: _AxlLayerPrioritySaveAll
-    layer_priority_set: _AxlLayerPrioritySet
-    layer_set: _AxlLayerSet
-    layer_via_label: _AxlLayerViaLabel
-    lic_default_version: _AxlLicDefaultVersion
-    lic_feature_exists: _AxlLicFeatureExists
-    lic_is_product_enabled: _AxlLicIsProductEnabled
-    line_slope: _AxlLineSlope
-    line_x_line: _AxlLineXLine
-    load_padstack: _AxlLoadPadstack
-    load_symbol: _AxlLoadSymbol
-    log_header: _AxlLogHeader
-    mk_s2_uu: _AxlMKS2UU
-    mks_alias: _AxlMKSAlias
-    mks_convert: _AxlMKSConvert
-    mks_str2_uu: _AxlMKSStr2UU
-    m_pythag: _AxlMPythag
-    m_uni_vector: _AxlMUniVector
-    mxy_add: _AxlMXYAdd
-    mxy_mult: _AxlMXYMult
-    mxy_sub: _AxlMXYSub
-    make_dynamics_path: _AxlMakeDynamicsPath
-    map_class_name: _AxlMapClassName
-    match_group_add: _AxlMatchGroupAdd
-    match_group_create: _AxlMatchGroupCreate
-    match_group_delete: _AxlMatchGroupDelete
-    match_group_prop: _AxlMatchGroupProp
-    match_group_remove: _AxlMatchGroupRemove
-    material_get: _AxlMaterialGet
-    math_dot_product: _AxlMathDotProduct
-    mem_size: _AxlMemSize
-    meter_create: _AxlMeterCreate
-    meter_destroy: _AxlMeterDestroy
-    meter_is_cancelled: _AxlMeterIsCancelled
-    meter_update: _AxlMeterUpdate
-    mid_point_arc: _AxlMidPointArc
-    mid_point_line: _AxlMidPointLine
-    mini_status_load: _AxlMiniStatusLoad
-    mini_status_reset: _AxlMiniStatusReset
-    msg_cancel_print: _AxlMsgCancelPrint
-    msg_cancel_seen: _AxlMsgCancelSeen
-    msg_clear: _AxlMsgClear
-    msg_context_clear: _AxlMsgContextClear
-    msg_context_finish: _AxlMsgContextFinish
-    msg_context_get: _AxlMsgContextGet
-    msg_context_get_string: _AxlMsgContextGetString
-    msg_context_in_buf: _AxlMsgContextInBuf
-    msg_context_print: _AxlMsgContextPrint
-    msg_context_remove: _AxlMsgContextRemove
-    msg_context_start: _AxlMsgContextStart
-    msg_context_test: _AxlMsgContextTest
-    msg_put: _AxlMsgPut
-    msg_set: _AxlMsgSet
-    msg_test: _AxlMsgTest
-    net_class_add: _AxlNetClassAdd
-    net_class_create: _AxlNetClassCreate
-    net_class_delete: _AxlNetClassDelete
-    net_class_get: _AxlNetClassGet
-    net_class_remove: _AxlNetClassRemove
-    net_ecset_value_get: _AxlNetEcsetValueGet
-    net_sched: _AxlNetSched
-    o_k2_void: _AxlOK2Void
-    ok_to_proceed: _AxlOKToProceed
-    os_back_slash: _AxlOSBackSlash
-    os_control: _AxlOSControl
-    os_file_copy: _AxlOSFileCopy
-    os_file_move: _AxlOSFileMove
-    os_ntp: _AxlOSNtp
-    os_slash: _AxlOSSlash
-    open_design: _AxlOpenDesign
-    open_design_for_batch: _AxlOpenDesignForBatch
-    open_find_filter: _AxlOpenFindFilter
-    p_print: _AxlPPrint
-    package_design_check_add_category: _AxlPackageDesignCheckAddCategory
-    package_design_check_add_check: _AxlPackageDesignCheckAddCheck
-    package_design_check_drc_error: _AxlPackageDesignCheckDrcError
-    package_design_check_log_error: _AxlPackageDesignCheckLogError
-    pad_figure_types: _AxlPadFigureTypes
-    pad_on_layer: _AxlPadOnLayer
-    pad_suppress_get: _AxlPadSuppressGet
-    pad_suppress_ok_layer: _AxlPadSuppressOkLayer
-    pad_suppress_set: _AxlPadSuppressSet
-    pad_user_mask_layers: _AxlPadUserMaskLayers
-    padstack_edit: _AxlPadstackEdit
-    padstack_set_type: _AxlPadstackSetType
-    padstack_to_disk: _AxlPadstackToDisk
-    padstack_usage_types: _AxlPadstackUsageTypes
-    path_arc_angle: _AxlPathArcAngle
-    path_arc_center: _AxlPathArcCenter
-    path_arc_radius: _AxlPathArcRadius
-    path_get_last_path_seg: _AxlPathGetLastPathSeg
-    path_get_path_segs: _AxlPathGetPathSegs
-    path_get_width: _AxlPathGetWidth
-    path_line: _AxlPathLine
-    path_offset: _AxlPathOffset
-    path_seg_get_arc_center: _AxlPathSegGetArcCenter
-    path_seg_get_arc_clockwise: _AxlPathSegGetArcClockwise
-    path_seg_get_end_point: _AxlPathSegGetEndPoint
-    path_seg_get_width: _AxlPathSegGetWidth
-    path_start: _AxlPathStart
-    path_start_circle: _AxlPathStartCircle
-    pdf_view: _AxlPdfView
-    pin_export: _AxlPinExport
-    pin_import: _AxlPinImport
-    pin_pair: _AxlPinPair
-    pin_pair_seek: _AxlPinPairSeek
-    pins_of_net: _AxlPinsOfNet
-    poly_error_get: _AxlPolyErrorGet
-    poly_expand: _AxlPolyExpand
-    poly_from_db: _AxlPolyFromDB
-    poly_from_hole: _AxlPolyFromHole
-    poly_mem_use: _AxlPolyMemUse
-    poly_offset: _AxlPolyOffset
-    poly_operation: _AxlPolyOperation
-    print_dbid: _AxlPrintDbid
-    protect_alias: _AxlProtectAlias
-    purge_padstacks: _AxlPurgePadstacks
-    rad_to_deg: _AxlRadToDeg
-    ratsnest_blank: _AxlRatsnestBlank
-    ratsnest_display: _AxlRatsnestDisplay
-    read_only_variable: _AxlReadOnlyVariable
-    recursive_delete: _AxlRecursiveDelete
-    refresh_symbol: _AxlRefreshSymbol
-    regexp_is: _AxlRegexpIs
-    region_add: _AxlRegionAdd
-    region_create: _AxlRegionCreate
-    region_delete: _AxlRegionDelete
-    region_remove: _AxlRegionRemove
-    remove_net: _AxlRemoveNet
-    rename_design: _AxlRenameDesign
-    rename_net: _AxlRenameNet
-    rename_refdes: _AxlRenameRefdes
-    replace_padstack: _AxlReplacePadstack
-    report_list: _AxlReportList
-    report_register: _AxlReportRegister
-    rerat_net: _AxlReratNet
-    run_batch_db_program: _AxlRunBatchDBProgram
-    save_design: _AxlSaveDesign
-    save_enable: _AxlSaveEnable
-    schedule: _AxlSchedule
-    schedule_net: _AxlScheduleNet
-    seg_delay_and_z0: _AxlSegDelayAndZ0
-    select: _AxlSelect
-    select_by_name: _AxlSelectByName
-    select_by_property: _AxlSelectByProperty
-    set_active_layer: _AxlSetActiveLayer
-    set_alias: _AxlSetAlias
-    set_all_profiles_visible: _AxlSetAllProfilesVisible
-    set_attachment: _AxlSetAttachment
-    set_bond_wire_profile: _AxlSetBondWireProfile
-    set_default_die_information: _AxlSetDefaultDieInformation
-    set_die_data: _AxlSetDieData
-    set_die_stack_data: _AxlSetDieStackData
-    set_die_type: _AxlSetDieType
-    set_dynamics_mirror: _AxlSetDynamicsMirror
-    set_dynamics_rotation: _AxlSetDynamicsRotation
-    set_find_filter: _AxlSetFindFilter
-    set_funckey: _AxlSetFunckey
-    set_iposer_data: _AxlSetIposerData
-    set_line_lock: _AxlSetLineLock
-    set_param: _AxlSetParam
-    set_plane_type: _AxlSetPlaneType
-    set_rotate_increment: _AxlSetRotateIncrement
-    set_spacer_data: _AxlSetSpacerData
-    set_symbol_type: _AxlSetSymbolType
-    set_variable: _AxlSetVariable
-    set_variable_file: _AxlSetVariableFile
-    set_wire_profile_color: _AxlSetWireProfileColor
-    set_wire_profile_visible: _AxlSetWireProfileVisible
-    shape_auto_void: _AxlShapeAutoVoid
-    shape_change_dynamic_type: _AxlShapeChangeDynamicType
-    shape_delete_voids: _AxlShapeDeleteVoids
-    shape_dynamic_update: _AxlShapeDynamicUpdate
-    shape_merge: _AxlShapeMerge
-    shape_raise_priority: _AxlShapeRaisePriority
-    shell: _AxlShell
-    shell_post: _AxlShellPost
-    shove_items: _AxlShoveItems
-    shove_set_params: _AxlShoveSetParams
-    show_object: _AxlShowObject
-    show_object_to_file: _AxlShowObjectToFile
-    single_select_box: _AxlSingleSelectBox
-    single_select_name: _AxlSingleSelectName
-    single_select_object: _AxlSingleSelectObject
-    single_select_point: _AxlSingleSelectPoint
-    sleep: _AxlSleep
-    smooth_design: _AxlSmoothDesign
-    smooth_items: _AxlSmoothItems
-    smooth_set_params: _AxlSmoothSetParams
-    snap_to_object: _AxlSnapToObject
-    sort: _AxlSort
-    spreadsheet_close: _AxlSpreadsheetClose
-    spreadsheet_define_cell: _AxlSpreadsheetDefineCell
-    spreadsheet_get_cell: _AxlSpreadsheetGetCell
-    spreadsheet_get_rgb_color_string: _AxlSpreadsheetGetRGBColorString
-    spreadsheet_get_rgb_for_named_color: _AxlSpreadsheetGetRGBForNamedColor
-    spreadsheet_get_styles: _AxlSpreadsheetGetStyles
-    spreadsheet_get_worksheet_size: _AxlSpreadsheetGetWorksheetSize
-    spreadsheet_get_worksheets: _AxlSpreadsheetGetWorksheets
-    spreadsheet_init: _AxlSpreadsheetInit
-    spreadsheet_read: _AxlSpreadsheetRead
-    spreadsheet_read_delimited: _AxlSpreadsheetReadDelimited
-    spreadsheet_set_cell: _AxlSpreadsheetSetCell
-    spreadsheet_set_cell_prop: _AxlSpreadsheetSetCellProp
-    spreadsheet_set_column_prop: _AxlSpreadsheetSetColumnProp
-    spreadsheet_set_doc_prop: _AxlSpreadsheetSetDocProp
-    spreadsheet_set_row_prop: _AxlSpreadsheetSetRowProp
-    spreadsheet_set_style: _AxlSpreadsheetSetStyle
-    spreadsheet_set_style_border: _AxlSpreadsheetSetStyleBorder
-    spreadsheet_set_style_parent: _AxlSpreadsheetSetStyleParent
-    spreadsheet_set_style_prop: _AxlSpreadsheetSetStyleProp
-    spreadsheet_set_worksheet: _AxlSpreadsheetSetWorksheet
-    spreadsheet_write: _AxlSpreadsheetWrite
-    strcmp_alp_num: _AxlStrcmpAlpNum
-    string_csv_parse: _AxlStringCSVParse
-    string_remove_spaces: _AxlStringRemoveSpaces
-    sub_select_all: _AxlSubSelectAll
-    sub_select_box: _AxlSubSelectBox
-    sub_select_name: _AxlSubSelectName
-    sub_select_object: _AxlSubSelectObject
-    sub_select_point: _AxlSubSelectPoint
-    subclass_form_popup: _AxlSubclassFormPopup
-    subclass_route: _AxlSubclassRoute
-    subclasses: _AxlSubclasses
-    symbol_attach: _AxlSymbolAttach
-    symbol_detach: _AxlSymbolDetach
-    technology_type: _AxlTechnologyType
-    temp_directory: _AxlTempDirectory
-    temp_file: _AxlTempFile
-    temp_file_remove: _AxlTempFileRemove
-    test_point: _AxlTestPoint
-    text2_lines: _AxlText2Lines
-    text_orientation_copy: _AxlTextOrientationCopy
-    transform_object: _AxlTransformObject
-    trigger_clear: _AxlTriggerClear
-    trigger_print: _AxlTriggerPrint
-    trigger_set: _AxlTriggerSet
-    ui_cmd_popup_set: _AxlUICmdPopupSet
-    ui_color_dialog: _AxlUIColorDialog
-    ui_confirm: _AxlUIConfirm
-    ui_confirm_ex: _AxlUIConfirmEx
-    ui_control: _AxlUIControl
-    ui_data_browse: _AxlUIDataBrowse
-    ui_edit_file: _AxlUIEditFile
-    ui_get_user_data: _AxlUIGetUserData
-    ui_menu_change: _AxlUIMenuChange
-    ui_menu_debug: _AxlUIMenuDebug
-    ui_menu_delete: _AxlUIMenuDelete
-    ui_menu_dump: _AxlUIMenuDump
-    ui_menu_find: _AxlUIMenuFind
-    ui_menu_insert: _AxlUIMenuInsert
-    ui_menu_load: _AxlUIMenuLoad
-    ui_menu_register: _AxlUIMenuRegister
-    ui_multiple_choice: _AxlUIMultipleChoice
-    ui_popup_define: _AxlUIPopupDefine
-    ui_popup_set: _AxlUIPopupSet
-    ui_prompt: _AxlUIPrompt
-    ui_view_file_create: _AxlUIViewFileCreate
-    ui_view_file_reuse: _AxlUIViewFileReuse
-    ui_view_file_scroll_to: _AxlUIViewFileScrollTo
-    uiw_beep: _AxlUIWBeep
-    uiw_block: _AxlUIWBlock
-    uiw_close: _AxlUIWClose
-    uiw_close_all: _AxlUIWCloseAll
-    uiw_disable_quit: _AxlUIWDisableQuit
-    uiw_expose: _AxlUIWExpose
-    uiw_expose_by_name: _AxlUIWExposeByName
-    uiw_help_register: _AxlUIWHelpRegister
-    uiw_iconify: _AxlUIWIconify
-    uiw_is_iconic: _AxlUIWIsIconic
-    uiw_is_window: _AxlUIWIsWindow
-    uiw_move: _AxlUIWMove
-    uiw_perm: _AxlUIWPerm
-    uiw_print: _AxlUIWPrint
-    uiw_redraw: _AxlUIWRedraw
-    uiw_set_help_tag: _AxlUIWSetHelpTag
-    uiw_set_parent: _AxlUIWSetParent
-    uiw_show: _AxlUIWShow
-    uiw_size: _AxlUIWSize
-    uiw_timer_add: _AxlUIWTimerAdd
-    uiw_timer_remove: _AxlUIWTimerRemove
-    uiw_update: _AxlUIWUpdate
-    ui_yes_no: _AxlUIYesNo
-    ui_yes_no_cancel: _AxlUIYesNoCancel
-    unfix_all: _AxlUnfixAll
-    unset_variable: _AxlUnsetVariable
-    unset_variable_file: _AxlUnsetVariableFile
-    version: _AxlVersion
-    version_id_get: _AxlVersionIdGet
-    version_id_print: _AxlVersionIdPrint
-    via_z_length: _AxlViaZLength
-    visible_design: _AxlVisibleDesign
-    visible_get: _AxlVisibleGet
-    visible_layer: _AxlVisibleLayer
-    visible_set: _AxlVisibleSet
-    visible_update: _AxlVisibleUpdate
-    wfm_any_exported: _AxlWFMAnyExported
-    width2_impedance: _AxlWidth2Impedance
-    window_box_get: _AxlWindowBoxGet
-    window_box_set: _AxlWindowBoxSet
-    window_fit: _AxlWindowFit
-    write_device_file: _AxlWriteDeviceFile
-    write_package_file: _AxlWritePackageFile
-    x_section_copy: _AxlXSectionCopy
-    x_section_create: _AxlXSectionCreate
-    x_section_delete: _AxlXSectionDelete
-    x_section_get: _AxlXSectionGet
-    x_section_layer_functions: _AxlXSectionLayerFunctions
-    x_section_layer_types: _AxlXSectionLayerTypes
-    x_section_modify: _AxlXSectionModify
-    x_section_set: _AxlXSectionSet
-    zoom_bbox: _AxlZoomBbox
-    zoom_center: _AxlZoomCenter
-    zoom_control: _AxlZoomControl
-    zoom_fit: _AxlZoomFit
-    zoom_in_out: _AxlZoomInOut
-    zoom_points: _AxlZoomPoints
-    zoom_to_dbid: _AxlZoomToDbid
-    zoom_world: _AxlZoomWorld
-    ol_ol2: _AxlOlOl2
 
 class AxlAdd(FunctionCollection):
     auto_assign_net_algorithm: _AxlAddAutoAssignNetAlgorithm
+    """
+    This function allows the user to add custom auto net assignment algorithms to the list in the Logic -> Auto Assign Net command's algorithms list in the APD and SIP IC Packaging tools
+    SKILL: axlAddAutoAssignNetAlgorithm(t_algorithm t_displayName)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:783
+    """
     select_all: _AxlAddSelectAll
+    """
+    Finds all the figures in the database that pass the current Find Filter and adds theirdbids to the select set.
+    SKILL: axlAddSelectAll()⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/05selfnd.md:353
+    """
     select_box: _AxlAddSelectBox
+    """
+    Finds one or more figures inside the rectanglel_bBox according to the current Find Filter, and adds the selected figure dbids in cumulated mode for the select set.
+    SKILL: axlAddSelectBox([l_bBox])⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/05selfnd.md:307
+    """
     select_name: _AxlAddSelectName
+    """
+    Adds the named figuredbids to the select set in cumulated mode according to the arguments described below
+    SKILL: axlAddSelectName(t_nameTypel_names)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/05selfnd.md:483
+    """
     select_object: _AxlAddSelectObject
+    """
+    Adds thedbids in lo_dbid to the select set in cumulated mode, that is, without removing already selected objects
+    SKILL: axlAddSelectObject(lo_dbid)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/05selfnd.md:570
+    """
     select_point: _AxlAddSelectPoint
+    """
+    Finds a figure atl_point according to the Find Filter and adds its dbid to the select set in cumulated mode
+    SKILL: axlAddSelectPoint([l_point])⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/05selfnd.md:197
+    """
     simple_move_dynamics: _AxlAddSimpleMoveDynamics
+    """
+    Loads cursor buffer dynamics buffer with an element
+    SKILL: axlAddSimpleMoveDynamics(l_originr_patht_type?ref_point l_ref_point?color g_color)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:272
+    """
     simple_rband_dynamics: _AxlAddSimpleRbandDynamics
+    """
+    Loads rubber band dynamics buffer with an element
+    SKILL: axlAddSimpleRbandDynamics(l_fixed_pointt_type?origin l_origin?var_point l_var_point?lastPath l_lastPath?width f_width?color g_color)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:190
+    """
     taper: _AxlAddTaper
+    """
+    Adds tapered trace
+    SKILL: axlAddTaper(o_dbid/lo_dbid)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:1547
+    """
 
 class AxlAir(FunctionCollection):
     gap: _AxlAirGap
+    """
+    Finds the air gap and location between two given items
+    SKILL: axlAirGap(o_item1DBID o_item2DBID/l_xy [t_layer/nil] [s_mode]) => l_airGapData/nil/(s_error l_airGapData/l_errorData)
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:14
+    """
 
 class AxlAlt(FunctionCollection):
     symbol_list: _AxlAltSymbolList
+    """
+    This queries the provided object and returns a list of alternative symbol names.
+    SKILL: axlAltSymbolList(t_name/o_dbid g_layer) => lt_symbols/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:14
+    """
     symbol_ok: _AxlAltSymbolOK
+    """
+    This verifies that symbol is legal for component
+    SKILL: axlAltSymbolOK(t_name/o_dbidg_layert_symbol) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:43
+    """
     symbol_replace: _AxlAltSymbolReplace
+    """
+    This replaces a PLACED component with one of its allowed replacements (ALT\\_SYMBOL)
+    SKILL: axlAltSymbolReplace(t_name/o_dbid t_symbol) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:73
+    """
 
 class AxlAuto(FunctionCollection):
     open_find_filter: _AxlAutoOpenFindFilter
+    """
+    This function is no longer required, but is kept for backward compatibility.
+    SKILL: axlAutoOpenFindFilter()⇒ t
+    Version: Allegro 17.2-2016
+    Source: algroskill/05selfnd.md:973
+    """
 
 class AxlBack(FunctionCollection):
     drill: _AxlBackDrill
+    """
+    This interface is obsolete
+    SKILL: axlBackDrill(o_dbids_layer) -> l_result/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:128
+    """
 
 class AxlBackdrill(FunctionCollection):
     get: _AxlBackdrillGet
+    """
+    In one mode, when a pin or a via is provided, the command returns the backdrilling result on that pin or via.
+    SKILL: axlBackdrillGet(o_dbidPinOrVia/'status) => lt_backdrillData/g_status/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:110
+    """
 
 class AxlBond(FunctionCollection):
     finger_delete: _AxlBondFingerDelete
+    """
+    Deletes the (list of) bond fingers passed in
+    SKILL: axlBondFingerDelete(bondFingersdeleteWires)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:27
+    """
 
 class AxlBuild(FunctionCollection):
     class_popup: _AxlBuildClassPopup
+    """
+    Supports building a form pop-up with a list of classes.
+    SKILL: axlBuildClassPopup(r_formt_field)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/19cmdctl.md:432
+    """
     subclass_popup: _AxlBuildSubclassPopup
+    """
+    Supports building a form pop-up with a list of subclasses from the indicated class.
+    SKILL: axlBuildSubclassPopup(r_formt_fieldt_class)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/19cmdctl.md:458
+    """
 
 class AxlCancel(FunctionCollection):
     enter_fun: _AxlCancelEnterFun
+    """
+    Terminates the wait for a user-selected point
+    SKILL: axlCancelEnterFun()⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:425
+    """
     off: _AxlCancelOff
+    """
+    No description available.
+    SKILL: axlCancelOff() => t
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:365
+    """
     on: _AxlCancelOn
+    """
+    Allows Skill code to test for when a user clicks*Cancel*.
+    SKILL: axlCancelOn()⇒ t
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:369
+    """
     test: _AxlCancelTest
+    """
+    No description available.
+    SKILL: axlCancelTest() => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:421
+    """
 
 class AxlChange(FunctionCollection):
     layer: _AxlChangeLayer
+    """
+    Changes layer for lines, clines or segments, shapes, and text
+    SKILL: axlChangeLayer(lo_dbid/o_dbid t_newLayer [o_padStackDbid/t_padStackName]) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:11
+    """
     line2_cline: _AxlChangeLine2Cline
+    """
+    Changes provided lines to clines
+    SKILL: axlChangeLine2Cline(lo_dbid/o_dbid)==> x_cnt/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:64
+    """
     line_font: _AxlChangeLineFont
+    """
+    Changes font on a line or segment.
+    SKILL: axlChangeLineFont(o_dbidx_newFont)==> lo_dbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:101
+    """
     net: _AxlChangeNet
+    """
+    Changes the net an object is currently on
+    SKILL: axlChangeNet(o_dbidt_netName/o_netdbid)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:1152
+    """
     width: _AxlChangeWidth
+    """
+    Changes width of lines, clines and segments (arc and line).
+    SKILL: axlChangeWidth(lo_dbid/o_dbidf_newWidth[g_invisible])==> lo_dbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:144
+    """
 
 class AxlCheck(FunctionCollection):
     string: _AxlCheckString
+    """
+    Checks the provided string for legal characters and length
+    SKILL: axlCheckString(t_typet_string) -> t_modString/nil
+    SKILL: axlCheckString(nilnil) -> lt_types
+    SKILL: axlCheckString('errornil) -> t_errorMsg/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:11
+    """
 
 class AxlClear(FunctionCollection):
     dynamics: _AxlClearDynamics
+    """
+    Clears the dynamic cursor buffer
+    SKILL: axlClearDynamics()⇒ t
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:169
+    """
     object_custom_color: _AxlClearObjectCustomColor
+    """
+    Clear custom color of dbids
+    SKILL: axlClearObjectCustomColor([lo_dbid])==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:1460
+    """
     sel_set: _AxlClearSelSet
+    """
+    Removes alldbids from select set.
+    SKILL: axlClearSelSet()⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/05selfnd.md:729
+    """
 
 class AxlClipboard(FunctionCollection):
     get_text: _AxlClipboardGetText
+    """
+    This gets the current text in the system clipboard
+    SKILL: axlClipboardGetText ()=> t_text/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:425
+    """
     set_text: _AxlClipboardSetText
+    """
+    Sends indicated text to system clipboard
+    SKILL: axlClipboardSetText(t_text/nil)=> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:453
+    """
 
 class AxlClose(FunctionCollection):
     find_filter: _AxlCloseFindFilter
+    """
+    This function is no longer required, but is kept for backward compatibility.
+    SKILL: axlCloseFindFilter()⇒ t
+    Version: Allegro 17.2-2016
+    Source: algroskill/05selfnd.md:1007
+    """
 
 class AxlCmd(FunctionCollection):
     list: _AxlCmdList
+    """
+    Lists commands registered byaxlCmdRegister
+    SKILL: axlCmdList()⇒ ll_strings/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:81
+    """
     register: _AxlCmdRegister
+    """
+    Registers a command namedt_allegroCmd with the Allegro PCB Editor shell system
+    SKILL: axlCmdRegister(t_allegroCmdts_callback?cmdType t_cmdType?doneCmd ts_doneCmd?cancelCmd ts_cancelCmd?undo t)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/19cmdctl.md:16
+    """
     unregister: _AxlCmdUnregister
+    """
+    Unregisters or removes from the Allegro PCB Editor shell system, a previously registered command namedt_allegroCmd
+    SKILL: axlCmdUnregister(t_allegroCmd)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/19cmdctl.md:149
+    """
 
 class AxlCNS(FunctionCollection):
     assembly_mode_get: _AxlCNSAssemblyModeGet
+    """
+    This retrieves the current assembly DRC mode(s)
+    SKILL: axlCNSAssemblyModeGet(nil) => ls_constraints
+    SKILL: axlCNSAssemblyModeGet('all) => lls_constraintNModes
+    SKILL: axlCNSAssemblyModeGet(s_name/t_name) => s_mode/nil
+    SKILL: axlCNSAssemblyModeGet(s_name/t_name'print) => t_name/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:75
+    """
     assembly_mode_set: _AxlCNSAssemblyModeSet
+    """
+    This command sets the current DRC modes (on/off) for checks in the area of assembly constraints
+    SKILL: axlCNSAssemblyModeSet(t_name/s_namet_mode/s_mode)=> t/nil
+    SKILL: axlCNSAssemblyModeSet('allt_mode/smode)=> t/nil
+    SKILL: axlCNSAssemblyModeSet(l_constraintNModest_mode/smode)=> t/nil
+    SKILL: axlCNSAssemblyModeSet(ll_constraintNModes)=> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:126
+    """
     create: _AxlCNSCreate
+    """
+    Creates a new constraint set in the specified domain
+    SKILL: axlCNSCreate(g_domaint_namet_copyName)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:311
+    """
     cset_lock: _AxlCNSCsetLock
+    """
+    This locks or unlocks a constraint set in the given domain
+    SKILL: axlCNSCsetLock(g_domaint_csetNameg_mode)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:346
+    """
     delete: _AxlCNSDelete
+    """
+    Deletes a cset and its references to any objects such as nets, net classes, etc
+    SKILL: axlCNSDelete(g_domaint_name/o_dbidEcset)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:379
+    """
     design_mode_get: _AxlCNSDesignModeGet
+    """
+    Gets the current DRC modes for checks that fall into the set of design constraints
+    SKILL: axlCNSDesignModeGet(nil)⇒ ls_constraints
+    SKILL: axlCNSDesignModeGet('all)⇒ lls_constraintNModes
+    SKILL: axlCNSDesignModeGet('editable)⇒ t/nil
+    SKILL: axlCNSDesignModeGet(s_name/t_name)⇒ s_mode/nil
+    SKILL: axlCNSDesignModeGet(s_name/t_name'print) ==> t_name/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:510
+    """
     design_mode_set: _AxlCNSDesignModeSet
+    """
+    Sets the current DRC modes for design constraints
+    SKILL: axlCNSDesignModeSet(t_name/s_namet_mode/s_mode)⇒ t/nil
+    SKILL: axlCNSDesignModeSet('allt_mode/smode)⇒ t/nil
+    SKILL: axlCNSDesignModeSet(l_constraintNModest_mode/smode)⇒ t/nil
+    SKILL: axlCNSDesignModeSet(ll_constraintNModes)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:574
+    """
     design_value_check: _AxlCNSDesignValueCheck
+    """
+    Checks the syntax of the given value against the allowed syntax for the given constraint
+    SKILL: axlCNSDesignValueCheck(s_name/t_nameg_value)⇒ (t_string/nil, nil/t_errorMsg)/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:649
+    """
     design_value_get: _AxlCNSDesignValueGet
+    """
+    Fetches the values from those design constraints that support values
+    SKILL: axlCNSDesignValueGet(nil[g_returnNameString])⇒ ls_constraints
+    SKILL: axlCNSDesignValueGet('all[g_returnString])⇒ lls_constraintNValues
+    SKILL: axlCNSDesignValueGet(s_name[g_returnString])⇒ f_value/t_value/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:679
+    """
     design_value_set: _AxlCNSDesignValueSet
+    """
+    This sets the value of the design constraint.
+    SKILL: axlCNSDesignValueSet(t_name/s_namef_value/t_value)⇒ t/nil
+    SKILL: axlCNSDesignValueSet(ll_constraintNValues)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:737
+    """
     ecset_create: _AxlCNSEcsetCreate
+    """
+    Creates a new ECset
+    SKILL: axlCNSEcsetCreate(t_name[t_copyName/o_dbidCopyEcset])⇒ o_dbidEcset/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:797
+    """
     ecset_delete: _AxlCNSEcsetDelete
+    """
+    Deletes an ECset from the Allegro PCB Editor database and also deletes theELECTRICAL_CONSTRAINT_SET property from any nets assigned this ECset value
+    SKILL: axlCNSEcsetDelete(t_name/o_dbidEcset)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:837
+    """
     ecset_get: _AxlCNSEcsetGet
+    """
+    Returns thedbid of the electrical cset when you request it by the ECset name
+    SKILL: axlCNSEcsetGet(t_name)⇒ o_dbidEcset/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:873
+    """
     ecset_mode_get: _AxlCNSEcsetModeGet
+    """
+    Returns the current DRC modes for checks that are members of electrical constraints
+    SKILL: axlCNSEcsetModeGet(nil)⇒ ls_constraints
+    SKILL: axlCNSEcsetModeGet('all)⇒ lls_constraintNModes
+    SKILL: axlCNSEcsetModeGet(s_name/t_name)⇒ s_mode/nil
+    SKILL: axlCNSEcsetModeGet(s_name/t_name'print) ==> t_name/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:902
+    """
     ecset_mode_set: _AxlCNSEcsetModeSet
+    """
+    Sets the DRC modes for checks that are members of the electrical constraints set
+    SKILL: axlCNSEcsetModeSet(t_name/s_namet_mode/s_mode)⇒ t/nil
+    SKILL: axlCNSEcsetModeSet(allt_mode/s_mode)⇒ t/nil
+    SKILL: axlCNSEcsetModeSet(l_constraintNModest_mode/s_mode)⇒ t/nil
+    SKILL: axlCNSEcsetModeSet(ll_constraintNModes)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:967
+    """
     ecset_value_check: _AxlCNSEcsetValueCheck
+    """
+    Checks the syntax of the given value against the allowed syntax for the given constraint
+    SKILL: axlCNSEcsetValueCheck(s_name/t_nameg_value)⇒ (t/t_errorMsg)/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:1040
+    """
     ecset_value_get: _AxlCNSEcsetValueGet
+    """
+    Fetches the constraint values for a given ECset
+    SKILL: axlCNSEcsetValueGet(nil[g_returnNameString])⇒ ls_constraints
+    SKILL: axlCNSEcsetValueGet('all[g_returnString])⇒ lls_constraintNValues
+    SKILL: axlCNSEcsetValueGet(o_ecsetDbid/t_ecsetNames_name[g_returnString])⇒ f_value/t_value/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:1070
+    """
     ecset_value_set: _AxlCNSEcsetValueSet
+    """
+    Sets the value of the ECset DRC
+    SKILL: axlCNSEcsetValueSet(o_ecsetDbid/t_ecsetNamet_name/s_namef_value)⇒ t/nil
+    SKILL: axlCNSEcsetValueSet(o_ecsetDbid/t_ecsetNamell_constraintNValues)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part02.md:615
+    """
     get_assembly: _AxlCNSGetAssembly
+    """
+    Obtains an Assembly cset values
+    SKILL: axlCNSGetAssembly(t_csett_layers_constraint[g_string])=> g_value/nil
+    SKILL: axlCNSGetAssembly(t_csett_layernil[g_string])=> ll_nameValue/nil
+    SKILL: axlCNSGetAssembly(nilnilnil)=> ls_cnsTypes
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:185
+    """
     get_default_min_line_width: _AxlCNSGetDefaultMinLineWidth
+    """
+    Retrieves the minimum default line width value for the specific subclass.
+    SKILL: axlCNSGetDefaultMinLineWidth(t_sublassName)=> f_minLineWidthValue
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:1146
+    """
     get_physical: _AxlCNSGetPhysical
+    """
+    In its first operational mode, obtains the value of a physical constraint given a cset and layer
+    SKILL: axlCNSGetPhysical(t_csett_layers_constraint[g_string])==> g_value/nil
+    SKILL: axlCNSGetPhysical(t_csett_layernil[g_string])==> ll_nameValue/nil
+    SKILL: axlCNSGetPhysical(nilnilnil)==> ls_cnsTypes
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:1172
+    """
     get_pin_delay_enabled: _AxlCNSGetPinDelayEnabled
+    """
+    Returns if pin delay is enabled.
+    SKILL: axlCNSGetPinDelayEnabled() => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:1257
+    """
     get_pin_delay_pvf: _AxlCNSGetPinDelayPVF
+    """
+    Returns the pin delay propagation velocity factor.
+    SKILL: axlCNSGetPinDelayPVF()=> t_pinDelayPVF
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:1275
+    """
     get_same_net: _AxlCNSGetSameNet
+    """
+    Documentation same as[axlCNSGetSpacing](#1093423 "19").
+    SKILL: axlCNSGetSameNet(t_csett_layers_constraint[g_string])==> g_value/nil
+    SKILL: axlCNSGetSameNet(t_csett_layernil[g_string])==> ll_nameValue/nil
+    SKILL: axlCNSGetSameNet(nilnilnil)==> ls_cnsTypes
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:1292
+    """
     get_same_net_xtalk_enabled: _AxlCNSGetSameNetXtalkEnabled
+    """
+    Returns if Same Net Xtalk is enabled.
+    SKILL: axlCNSGetSameNetXtalkEnabled() => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:1354
+    """
     get_spacing: _AxlCNSGetSpacing
+    """
+    In its first operational mode, obtains the value of a spacing constraint given a cset and layer
+    SKILL: axlCNSGetSpacing(t_csett_layers_constraint[g_string])==> g_value/nil
+    SKILL: axlCNSGetSpacing(t_csett_layernil[g_string])==> ll_nameValue/nil
+    SKILL: axlCNSGetSpacing(nilnilnil) ==> ls_cnsTypes
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:1372
+    """
     get_via_z_enabled: _AxlCNSGetViaZEnabled
+    """
+    Returns if Via Z is enabled.
+    SKILL: axlCNSGetViaZEnabled() => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:1453
+    """
     get_via_zpvf: _AxlCNSGetViaZPVF
+    """
+    Returns the via Z propagation velocity factor
+    SKILL: axlCNSGetViaZPVF()=> t_viaZPVF
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:1471
+    """
     is_cset_locked: _AxlCNSIsCsetLocked
+    """
+    This returns if a cset is locked
+    SKILL: axlCNSIsCsetLocked(g_domaint_csetName)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:1543
+    """
     is_locked_domain: _AxlCNSIsLockedDomain
+    """
+    Used to check if the is constraint domain locked
+    SKILL: axlCNSIsLockedDomain(g_domain)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:1578
+    """
     lock_domain: _AxlCNSLockDomain
+    """
+    This command locks or unlocks a constraint domain.
+    SKILL: axlCNSLockDomain(g_domaing_mode)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:1625
+    """
     map_clear: _AxlCNSMapClear
+    """
+    SeeaxlCNSMapUpdate.
+    SKILL: axlCNSMapClear()⇒ t
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part02.md:977
+    """
     map_update: _AxlCNSMapUpdate
+    """
+    This function andaxlCNSMapClear, which do not support nesting, batch and tune DRC updates from constraint changes made by axlCNS<xxx> functions
+    SKILL: axlCNSMapUpdate()⇒ x_drcCount/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part02.md:998
+    """
     physical_mode_get: _AxlCNSPhysicalModeGet
+    """
+    This fetches the current physical drc mode(s)
+    SKILL: axlCNSPhysicalModeGet(nil) ==> ls_constraints
+    SKILL: axlCNSPhysicalModeGet('all) ==> lls_constraintNModes
+    SKILL: axlCNSPhysicalModeGet(s_name/t_name) ==> s_mode/nil
+    SKILL: axlCNSPhysicalModeGet(s_name/t_name'print) ==> t_name/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:1488
+    """
     physical_mode_set: _AxlCNSPhysicalModeSet
+    """
+    This sets the current drc modes (on/off) for checks in the area of physical constraints
+    SKILL: axlCNSPhysicalModeSet(t_name/s_namet_mode/s_mode)==> t/nil
+    SKILL: axlCNSPhysicalModeSet('allt_mode/smode)==> t/nil
+    SKILL: axlCNSPhysicalModeSet(l_constraintNModest_mode/smode)==> t/nil
+    SKILL: axlCNSPhysicalModeSet(ll_constraintNModes)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:1657
+    """
     same_net_mode_get: _AxlCNSSameNetModeGet
+    """
+    Same as[axlCNSSpacingModeGet](#1096197 "19").
+    SKILL: axlCNSSameNetModeGet(nil) ==> ls_constraints
+    SKILL: axlCNSSameNetModeGet('all) ==> lls_constraintNModes
+    SKILL: axlCNSSameNetModeGet(s_name/t_name) ==> s_mode/nil
+    SKILL: axlCNSSameNetModeGet(s_name/t_name'print) ==> t_name/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:1710
+    """
     same_net_mode_set: _AxlCNSSameNetModeSet
+    """
+    Same as axlCNSSpacingModeSet.
+    SKILL: axlCNSSameNetModeSet(t_name/s_namet_mode/s_mode)==> t/nil
+    SKILL: axlCNSSameNetModeSet('allt_mode/smode)==> t/nil
+    SKILL: axlCNSSameNetModeSet(l_constraintNModest_mode/smode)==> t/nil
+    SKILL: axlCNSSameNetModeSet(ll_constraintNModes)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:1763
+    """
     set_assembly: _AxlCNSSetAssembly
+    """
+    Updates assembly cset, wire profile or symbol constraint values
+    SKILL: axlCNSSetAssembly(t_object/nilt_layer/nils_constraintg_value[s_object_type] )==> t/nil
+    SKILL: axlCNSSetAssembly(t_object/nilt_layer/nilll_constraintValuesnil[s_object_type] )==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:243
+    """
     set_physical: _AxlCNSSetPhysical
+    """
+    Allows updating physical constraint values
+    SKILL: axlCNSSetPhysical(t_cset/nilt_layer/nils_constraintg_value)==> t/nil
+    SKILL: axlCNSSetPhysical(t_cset/nilt_layer/nilll_constraintValuesnil)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:1814
+    """
     set_pin_delay_enabled: _AxlCNSSetPinDelayEnabled
+    """
+    Enables or disables Pin Delay.
+    SKILL: axlCNSSetPinDelayEnabled(g_value) => t
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part02.md:147
+    """
     set_pin_delay_pvf: _AxlCNSSetPinDelayPVF
+    """
+    Sets a value for pin delay propagation velocity.
+    SKILL: axlCNSSetPinDelayPVF(g_value) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part02.md:164
+    """
     set_same_net: _AxlCNSSetSameNet
+    """
+    Documentation same as[axlCNSSetSpacing](#1111453 "19").
+    SKILL: axlCNSSetSameNet(t_cset/nilt_layer/nils_constraintg_value)==> t/nil
+    SKILL: axlCNSSetSameNet(t_cset/nilt_layer/nilll_constraintValuesnil)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part02.md:183
+    """
     set_same_net_xtalk_enabled: _AxlCNSSetSameNetXtalkEnabled
+    """
+    Enables or disables Same Net Xtalk.
+    SKILL: axlCNSSetSameNetXtalkEnabled(g_value)=> t
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part02.md:231
+    """
     set_spacing: _AxlCNSSetSpacing
+    """
+    Allows updating spacing constraint values
+    SKILL: axlCNSSetSpacing(t_cset/nilt_layer/nils_constraintg_value)==> t/nil
+    SKILL: axlCNSSetSpacing(t_cset/nilt_layer/nilll_constraintValuesnil)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part02.md:55
+    """
     set_via_z_enabled: _AxlCNSSetViaZEnabled
+    """
+    Enables or disables Via Z.
+    SKILL: axlCNSSetViaZEnabled(g_value) => t
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part02.md:248
+    """
     set_via_zpvf: _AxlCNSSetViaZPVF
+    """
+    Sets a value for Via Z propagation velocity factor.
+    SKILL: axlCNSSetViaZPVF(g_value)=> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part02.md:265
+    """
     spacing_max: _AxlCNSSpacingMax
+    """
+    Returns maximum spacing in design
+    SKILL: axlCNSSpacingMax([s_spacingType][t_layer])=> f_maxSpacing
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part02.md:284
+    """
     spacing_min: _AxlCNSSpacingMin
+    """
+    Returns minimum spacing value in the design
+    SKILL: axlCNSSpacingMin([s_spacingType][t_layer])=> f_minSpacing
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part02.md:323
+    """
     spacing_mode_get: _AxlCNSSpacingModeGet
+    """
+    This fetches the current spacing drc mode(s)
+    SKILL: axlCNSSpacingModeGet(nil) ==> ls_constraints
+    SKILL: axlCNSSpacingModeGet('all) ==> lls_constraintNModes
+    SKILL: axlCNSSpacingModeGet(s_name/t_name) ==> s_mode/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part02.md:352
+    """
     spacing_mode_set: _AxlCNSSpacingModeSet
+    """
+    This sets the current drc modes (on/off) for checks in the area of spacing constraints
+    SKILL: axlCNSSpacingModeSet(t_name/s_namet_mode/s_mode)==> t/nil
+    SKILL: axlCNSSpacingModeSet('allt_mode/smode)==> t/nil
+    SKILL: axlCNSSpacingModeSet(l_constraintNModest_mode/smode)==> t/nil
+    SKILL: axlCNSSpacingModeSet(ll_constraintNModes)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part02.md:405
+    """
     add_via: _AxlCnsAddVia
+    """
+    Adds padstack to the constraint via list of a physical cset
+    SKILL: axlCnsAddVia(t_csetNamet_padstackName)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:22
+    """
     assign_purge: _AxlCnsAssignPurge
+    """
+    Obsolete
+    SKILL: axlCnsAssignPurge(s_tableType) ==> x_delCount/ nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:58
+    """
     class_table_change: _AxlCnsClassTableChange
+    """
+    This command changes the Csets associated with an existing net class table entry.
+    SKILL: axlCnsClassTableChange(o_dbidClassTables_csetType/ll_typeAndName[t_csetName]) -> o_dbidClassTable/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:87
+    """
     class_table_create: _AxlCnsClassTableCreate
+    """
+    This command creates a class table entry that consists of any of the following:
+    SKILL: axlCnsClassTableCreate(g_class1g_class2g_regions_csetType/ll_typeAndName[t_csetName]) -> o_dbidClassTable/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:127
+    """
     class_table_delete: _AxlCnsClassTableDelete
+    """
+    Deletes one or more entries in the class table.
+    SKILL: axlCnsClassTableDelete(o_dbidClassTable/lo_dbidClassTable) -> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:201
+    """
     class_table_find: _AxlCnsClassTableFind
+    """
+    This command searches the class table for class table entries matching the search criteria.
+    SKILL: axlCnsClassTableFind(s_type[o_dbid]) -> lo_dbidClassTable/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:231
+    """
     class_table_seek: _AxlCnsClassTableSeek
+    """
+    This command seeks a specific class table entry matching exactly the provideddbids
+    SKILL: axlCnsClassTableSeek(g_class1g_class2g_region) -> o_dbidClassTable/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:270
+    """
     delete_class_class_objects: _AxlCnsDeleteClassClassObjects
+    """
+    Delete all Class-Class entries.
+    SKILL: axlCnsDeleteClassClassObjects() => x_delCount
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:410
+    """
     delete_region_class_class_objects: _AxlCnsDeleteRegionClassClassObjects
+    """
+    Deletes all Region-Class-Class entries.
+    SKILL: axlCnsDeleteRegionClassClassObjects() => x_delCount
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:430
+    """
     delete_region_class_objects: _AxlCnsDeleteRegionClassObjects
+    """
+    Delete all Region-Class entries.
+    SKILL: axlCnsDeleteRegionClassObjects() => x_delCount
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:450
+    """
     delete_via: _AxlCnsDeleteVia
+    """
+    Deletes padstack from the physical via constraint list,t_csetName
+    SKILL: axlCnsDeleteVia(t_csetNamet_padstackName)=> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part01.md:470
+    """
     get_via_list: _AxlCnsGetViaList
+    """
+    Returns padstacks defined in a physical constraint set
+    SKILL: axlCnsGetViaList(t_csetName)==>lt_padstacks/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part02.md:669
+    """
     list: _AxlCnsList
+    """
+    Returns the list of cset names of the domain specified
+    SKILL: axlCnsList(s_csetDomain/nil)==> lt_csetNames/ls_csetsDomain
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part02.md:937
+    """
     net_flattened: _AxlCnsNetFlattened
+    """
+    Permits a view of constraints where explicit pinpair rules are promoted to the net
+    SKILL: axlCnsNetFlattened(o_netDbid/t_netNamet_cnsName/s_name)==> t_cnsValue/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part02.md:1042
+    """
     purge_all: _AxlCnsPurgeAll
+    """
+    Removes all unused constraint objects and constraint sets
+    SKILL: axlCnsPurgeAll() -> x_purgeCount
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part02.md:458
+    """
     purge_csets: _AxlCnsPurgeCsets
+    """
+    Process all constraint sets of the specified domain and delete those without references.
+    SKILL: axlCnsPurgeCsets(list l_type) -> x_purgeCount
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part02.md:482
+    """
     purge_objects: _AxlCnsPurgeObjects
+    """
+    Process the database and delete all group\\_type objects that have no members; a netclass with no nets, or a region with no shapes.
+    SKILL: axlCnsPurgeObjects(list l_type) -> x_purgeCount
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part02.md:510
+    """
 
 class AxlColor(FunctionCollection):
     get: _AxlColorGet
+    """
+    Get color palette
+    SKILL: axlColorGet(x_number/background) -> lx_rgb/nil
+    SKILL: axlColorGet('count)-> x_count
+    SKILL: axlColorGet('all)-> llx_rgb
+    SKILL: axlColorGet('pattern) -> x_count
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:997
+    """
     load: _AxlColorLoad
+    """
+    Loads an Allegro PCB Editor color file (default .col file)
+    SKILL: axlColorLoad(t_file/nil) -> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:1154
+    """
     on_get: _AxlColorOnGet
+    """
+    This function is obsolete
+    SKILL: axlColorOnGet(g_item) -> t
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:1250
+    """
     on_set: _AxlColorOnSet
+    """
+    This is an obsolete command
+    SKILL: axlColorOnSet(g_item g_state) => t
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:1266
+    """
     priority_get: _AxlColorPriorityGet
+    """
+    Due to the changes in color model of Allegro PCB Editor, this command is now obsolete
+    SKILL: axlColorPriorityGet(g_item[g_item2]) -> nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:1283
+    """
     priority_set: _AxlColorPrioritySet
+    """
+    Due to the changes in color model of Allegro PCB Editor, this command is now obsolete
+    SKILL: axlColorPrioritySet(g_item[g_item2]) -> t
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:1303
+    """
     save: _AxlColorSave
+    """
+    Saves current design colors to specified file.
+    SKILL: axlColorSave(t_file/nil) -> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:1323
+    """
     set: _AxlColorSet
+    """
+    Sets red, green, blue palette for a color number or background.
+    SKILL: axlColorSet(x_number/'backgroundl_rbg) -> t/nil
+    SKILL: axlColorSet('allll_rgb) ->t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:1352
+    """
     shadow_get: _AxlColorShadowGet
+    """
+    Provides the options of shadow mode.
+    SKILL: axlColorShadowGet(g_option) -> t/nil/x_percent
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:1063
+    """
     shadow_set: _AxlColorShadowSet
+    """
+    Sets the shadow mode options
+    SKILL: axlColorShadowSet(g_modet/nil) -> t/nil
+    SKILL: axlColorShadowSet('percentx_percentage) -> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:1101
+    """
 
 class AxlComp(FunctionCollection):
     add_pin: _AxlCompAddPin
+    """
+    This function adds one or more pins to the specified component
+    SKILL: axlCompAddPin(o_compg_absLoco_pin/lo_pins) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:346
+    """
     delete_pin: _AxlCompDeletePin
+    """
+    This function deletes the specified pin(s) from the parent component and symbol definition
+    SKILL: axlCompDeletePin(o_pin/lo_pins) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:441
+    """
     move_pin: _AxlCompMovePin
+    """
+    No description available.
+    SKILL: axlCompMovePin(o_pin/lo_pins?move l_deltaPoint?groupMirror t/nil?groupRotation f_angle?rotOrigin l_rotatePoint?pinRotation f_deltaAngle) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:466
+    """
     set_pin_attributes: _AxlCompSetPinAttributes
+    """
+    This function modifies attributes of the specified pin(s) at the symbol and component definition level
+    SKILL: axlCompSetPinAttributes(o_pin/lo_pins?number t_pinNumber?name t_pinName?use t_pinUse?padstack t_padstack/g_padstack?rotation f_rotation?swapCode n_swapCode) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:558
+    """
 
 class AxlCompile(FunctionCollection):
     symbol: _AxlCompileSymbol
+    """
+    Compiles and edit checks the current (symbol) design and saves the compiled version on disk under the namet_name
+    SKILL: axlCompileSymbol(?symbol t_name?type t_type)⇒ t_symbolName/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:85
+    """
 
 class AxlComponent(FunctionCollection):
     change_class: _AxlComponentChangeClass
+    """
+    This command changes the component class of a component definition.
+    SKILL: axlComponentChangeClass(s_devType/o_compDefs_class) -> t_oldClass/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:517
+    """
 
 class AxlConductor(FunctionCollection):
     bottom_layer: _AxlConductorBottomLayer
+    """
+    Returns the name of the bottom conductor layer.
+    SKILL: axlConductorBottomLayer()⇒ t_name
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part02.md:422
+    """
     top_layer: _AxlConductorTopLayer
+    """
+    Returns the name of the top conductor layer.
+    SKILL: axlConductorTopLayer()⇒ t_name
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part02.md:443
+    """
 
 class AxlCopy(FunctionCollection):
     object: _AxlCopyObject
+    """
+    No description available.
+    SKILL: axlCopyObject(lo_dbid/o_dbid ?move l_deltaPoint ?mirror t/nil ?angle f_angle ?origin l_rotatePoint ?allOrNone t/nil ?retainNet t/nil) => lo_dbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:237
+    """
     properties: _AxlCopyProperties
+    """
+    This copies properties from one object to another
+    SKILL: axlCopyProperties(o_destDbido_srcDbid)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:193
+    """
 
 class AxlCreate(FunctionCollection):
     attachment: _AxlCreateAttachment
+    """
+    Creates a new Allegro PCB Editor database attachment with the given attachment id
+    SKILL: axlCreateAttachment(t_attachmentIdt_passwdx_revisions_dataFormatt_data)⇒ o_attachment/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/16dbatt.md:14
+    """
     bond_finger: _AxlCreateBondFinger
+    """
+    This function adds a valid, fully-instantiated bond finger to the database
+    SKILL: axlCreateBondFinger(parentSymbol [fingerName] l_fingerData l_placementData) => o_dbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:993
+    """
     bond_wire: _AxlCreateBondWire
+    """
+    This function adds a valid, fully-instantiated bond wire to the database
+    SKILL: axlCreateBondWire(parentSymbol [l_wireStart] l_wireEnd l_wirePhysical) => o_dbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:1035
+    """
     device_file_template: _AxlCreateDeviceFileTemplate
+    """
+    This creates a template device file providing same functionality as the create device command in the symbol editor
+    SKILL: axlCreateDeviceFileTemplate(t_deviceNamet_CLASSl_pinList) -> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:321
+    """
     wirebond_guide: _AxlCreateWirebondGuide
+    """
+    This function adds a wirebond guide path into the design, which can then be used to snap fingers through the wirebond tools.
+    SKILL: axlCreateWirebondGuide(r_path)==> dbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part02.md:148
+    """
 
 class AxlCurrent(FunctionCollection):
     design: _AxlCurrentDesign
+    """
+    Returns the name of the currently active layout
+    SKILL: axlCurrentDesign()⇒ t_design
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:14
+    """
 
 class AxlCursor(FunctionCollection):
     get: _AxlCursorGet
+    """
+    No description available.
+    SKILL: axlCursorGet (g_pixel) ==> l_xy
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:480
+    """
     warp: _AxlCursorWarp
+    """
+    Use this command to set the cursor position
+    SKILL: axlCursorWarp (g_pixell_xy) ==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:503
+    """
 
 class AxlCustom(FunctionCollection):
     color_object: _AxlCustomColorObject
+    """
+    Custom color the provided dbid or list of dbids
+    SKILL: axlCustomColorObject([lo_dbid][g_custom_color])==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:1486
+    """
 
 class AxlCVF(FunctionCollection):
     color_chooser_dlg: _AxlCVFColorChooserDlg
+    """
+    Displays color palette modal dialog
+    SKILL: axlCVFColorChooserDlg([x_color_index][g_show_hilite][x_hilite_flag][x_bitmap_index])==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:1436
+    """
 
 class AxlD(FunctionCollection):
     b2_path: _AxlDB2Path
+    """
+    This takes a database id (od_dbId) and converts it to an r\\_path
+    SKILL: axlDB2Path(o_dbid)==> r_path
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:481
+    """
 
 class AxlDB(FunctionCollection):
     active_shape: _AxlDBActiveShape
+    """
+    Returns thedbid of the open shape, if any.
+    SKILL: axlDBActiveShape()⇒ o_shape/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:819
+    """
     add_group_objects: _AxlDBAddGroupObjects
+    """
+    Adds the database objects specified in the new members list to a group
+    SKILL: axlDBAddGroupObjects(o_grouplo_members)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/15dbgrp.md:14
+    """
     add_prop: _AxlDBAddProp
+    """
+    Adds all the property/value pairs listed inll_name_value to all the object dbids listed in lrd_attach
+    SKILL: axlDBAddProp(lo_attachll_name_value)⇒ l_result/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part02.md:254
+    """
     alt_origin: _AxlDBAltOrigin
+    """
+    Returns alternative center for adbid
+    SKILL: axlDBAltOrigin(g_modeo_dbid)⇒ xy/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:290
+    """
     assign_net: _AxlDBAssignNet
+    """
+    Assigns an object or a list of objects to a new net
+    SKILL: axlDBAssignNet(o_object/lo_objecto_net/t_net[g_ripup])⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/26logacc.md:14
+    """
     change_design_extents: _AxlDBChangeDesignExtents
+    """
+    Changes design extents
+    SKILL: axlDBChangeDesignExtents(l_bBox)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:765
+    """
     change_design_origin: _AxlDBChangeDesignOrigin
+    """
+    Changes the origin of the design
+    SKILL: axlDBChangeDesignOrigin(l_point)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:802
+    """
     change_design_units: _AxlDBChangeDesignUnits
+    """
+    Changes the units and accuracy of the design
+    SKILL: axlDBChangeDesignUnits(t_units/nilx_accuracy/nilx_drcCount/nil)⇒ x_drcCount/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:831
+    """
     change_text: _AxlDBChangeText
+    """
+    Modifies the characteristics of a text string in the layout
+    SKILL: axlDBChangeText(o_dbidt_text[r_textOrientation/x_textBlock])==> l_result/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:351
+    """
     check: _AxlDBCheck
+    """
+    Runs*dbdoctor* on the current database
+    SKILL: axlDBCheck(g_option/lg_options[p_file])⇒ (x_errors x_warnings)/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:900
+    """
     cloak: _AxlDBCloak
+    """
+    Improves performance and program memory use while modifying many items in the database
+    SKILL: axlDBCloak(g_func [g_mode/lg_mode]) => g_return
+    Version: Allegro 17.2-2016
+    Source: algroskill/17dbtran.md:11
+    """
     control: _AxlDBControl
+    """
+    Inquires and/or sets the value of a special database control
+    SKILL: axlDBControl(s_name[g_value]) => g_currentValue/ls_names
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:134
+    """
     copy_padstack: _AxlDBCopyPadstack
+    """
+    Creates a new padstack by copying an existing padstack, with optional removal of layers
+    SKILL: axlDBCopyPadstack(o_dbid/t_padstackNamelt_startEnd[g_dontTrim])⇒ o_dbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:943
+    """
     create_circle: _AxlDBCreateCircle
+    """
+    Create a circle at indicated location and with indicated diameter.
+    SKILL: axlDBCreateCircle(l_location[f_width][t_layer][rd_parent])⇒ l_result/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:622
+    """
     create_close_shape: _AxlDBCreateCloseShape
+    """
+    Closes the current open shape and applies the fill pattern specified inaxlDBCreateOpenShape
+    SKILL: axlDBCreateCloseShape(o_shape[g_forceShape])⇒ l_result/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:794
+    """
     create_component: _AxlDBCreateComponent
+    """
+    Given the information needed to describe a Allegro PCB Editor device, create the Allegro PCB Editor component and return itsdbid
+    SKILL: axlDBCreateComponent(s_refDess_deviceName[s_package][s_value][s_tolerance])==> r_dbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/26logacc.md:96
+    """
     create_concept_component: _AxlDBCreateConceptComponent
+    """
+    Given the Concept information needed to describe an Allegro PCB Editor device, create the Allegro PCB Editor component and return itsdbid
+    SKILL: axlDBCreateConceptComponent(s_refdess_partPaths_logNames_primName[s_pptRowName] ) ⇒ r_dbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/26logacc.md:65
+    """
     create_external_drc: _AxlDBCreateExternalDRC
+    """
+    Creates an externally-defined (by user) DRC containing the values given in the arguments
+    SKILL: axlDBCreateExternalDRC(t_constraint/lt_constraintl_anchor_point[t_layer][lo_dbid][l_secondPoint][t_actualValue])⇒ l_result/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:1061
+    """
     create_film_rec: _AxlDBCreateFilmRec
+    """
+    This interface is obsolete
+    SKILL: signature unavailable; generic fallback
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part02.md:464
+    """
     create_group: _AxlDBCreateGroup
+    """
+    Creates a new group database object with members specified bylo_groupMembers.
+    SKILL: axlDBCreateGroup(t_namet_typelo_groupMembers)⇒ o_dbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/15dbgrp.md:38
+    """
     create_line: _AxlDBCreateLine
+    """
+    Create a path of fixed width straight segments, a line with series of provided points
+    SKILL: axlDBCreateLine(l_points [f_width] [t_layer] [t_netName/'line] [o_parent] [s_font]) => l_result/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:576
+    """
     create_many_module_instances: _AxlDBCreateManyModuleInstances
+    """
+    Creates multiple module instances in the design
+    SKILL: axlDBCreateManyModuleInstances( t_name t_moddefName x_tileStartNum l_origin l_offset x_num_tiles f_rotation x_logicMethod [l_netExcept] [g_mirror] ) ==> o_result/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/26logacc.md:143
+    """
     create_module_def: _AxlDBCreateModuleDef
+    """
+    Creates a module based on existing database objects.
+    SKILL: axlDBCreateModuleDef(t_namel_originl_objects ) ⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/26logacc.md:210
+    """
     create_module_instance: _AxlDBCreateModuleInstance
+    """
+    Allows you to use or place a previously defined module.
+    SKILL: axlDBCreateModuleInstance(t_namet_moddef_namel_originr_rotationi_logic_methodl_net_except ) ⇒ o_result/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/26logacc.md:255
+    """
     create_net: _AxlDBCreateNet
+    """
+    Creates a net in database if does not exist or returnsdbid of net if it exists.
+    SKILL: axlDBCreateNet(t_netName)==> o_dbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/26logacc.md:291
+    """
     create_open_shape: _AxlDBCreateOpenShape
+    """
+    Creates a shape based on the characteristic of eithero_polygon orr_path
+    SKILL: axlDBCreateOpenShape(o_polygon/r_path[l_r_fill][t_layer][t_netName/o_netdbid][o_parent])⇒ o_shape/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:689
+    """
     create_pad_stack: _AxlDBCreatePadStack
+    """
+    Adds a padstackt_name, using drill hole r_drill and pad definition l_pad.
+    SKILL: axlDBCreatePadStack(t_namer_drilll_pad[g_nocheck])⇒ l_result/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:1733
+    """
     create_path: _AxlDBCreatePath
+    """
+    Creates a path figure (line or cline) as specified
+    SKILL: axlDBCreatePath(r_path [t_layer] [t_netName/'line] [o_parent] [lo_props] [s_font]) => l_result/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:511
+    """
     create_pin: _AxlDBCreatePin
+    """
+    Adds a pin with padstackt_padstack, pin name r_pinText at location l_anchorPoint, and rotated by f_rotation degrees.
+    SKILL: axlDBCreatePin(t_padstack/o_padstackDbidl_anchorPointr_pinText/nil[f_rotation])⇒ l_result/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:1165
+    """
     create_prop_dict_entry: _AxlDBCreatePropDictEntry
+    """
+    Creates an Allegro user-defined property dictionary entry with given attributes
+    SKILL: axlDBCreatePropDictEntry(t_name t_type lt_objects/t [ln_range] [t_units] [g_hidden]) => od_propDictEntry/nil
+    SKILL: axlDBCreatePropDictEntry(nil) => lt_availbeObject
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part02.md:172
+    """
     create_rectangle: _AxlDBCreateRectangle
+    """
+    Creates a rectangle with coordinates specified byl_bBox
+    SKILL: axlDBCreateRectangle(l_bBox[g_fill][t_layer][t_netname][o_parent])⇒ l_result/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:935
+    """
     create_shape: _AxlDBCreateShape
+    """
+    Takes the same arguments asaxlDBCreateOpenShape and adds the r_path shape to the database
+    SKILL: axlDBCreateShape(o_polygon/r_path[l_r_fill][t_layer][t_netName][o_parent])⇒ l_result/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:904
+    """
     create_sym_def_skeleton: _AxlDBCreateSymDefSkeleton
+    """
+    Creates a "minimal" symbol definition
+    SKILL: axlDBCreateSymDefSkeleton(l_symbolDatal_extents[l_pinData])==> axlDBID/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/26logacc.md:322
+    """
     create_symbol: _AxlDBCreateSymbol
+    """
+    Places a symbol instance in the design
+    SKILL: axlDBCreateSymbol(t_refdesl_anchorPoint[g_mirror][f_rotation][t_embeddedLayer])⇒ l_result/nil
+    SKILL: axlDBCreateSymbol(l_symbolDatal_anchorPoint[g_mirror][f_rotation][t_embeddedLayer])⇒ l_result/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:1268
+    """
     create_symbol_autosilk: _AxlDBCreateSymbolAutosilk
+    """
+    Creates or updates theAUTOSILK information for the specified symbol, as required
+    SKILL: axlDBCreateSymbolAutosilk(o_symbol)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part02.md:129
+    """
     create_symbol_skeleton: _AxlDBCreateSymbolSkeleton
+    """
+    Places a skeleton or a minimal symbol instance atl_anchorPoint with mirror and rotation given but no data in the instance, except the pin data given by l_pinData
+    SKILL: axlDBCreateSymbolSkeleton(t_refdesl_anchorPointg_mirrorf_rotationl_pinData[t_embeddedLayer])⇒ l_result/nil
+    SKILL: axlDBCreateSymbolSkeleton(l_symbolDatal_anchorPointg_mirrorf_rotationl_pinData[t_embeddedLayer])⇒ l_result/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:1328
+    """
     create_text: _AxlDBCreateText
+    """
+    Creates a text string in the layout using the arguments described.
+    SKILL: axlDBCreateText(t_textl_anchorPointr_textOrientation[t_layer][o_attach])⇒ l_result/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part02.md:39
+    """
     create_via: _AxlDBCreateVia
+    """
+    Creates a via in the layout as specified by the arguments described below.
+    SKILL: axlDBCreateVia(t_padstack/o_padstackDbidl_anchorPoint[t_netName][g_mirror][f_rotation][o_parent])⇒ l_result/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part02.md:90
+    """
     create_void: _AxlDBCreateVoid
+    """
+    Adds a void to a shape
+    SKILL: axlDBCreateVoid(o_shape/nilr_path/o_polygon)⇒ o_polygon/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:866
+    """
     create_void_circle: _AxlDBCreateVoidCircle
+    """
+    Creates a circular void in the open shapeo_shape
+    SKILL: axlDBCreateVoidCircle(o_shapel_location[f_width])⇒ o_polygon/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:841
+    """
     del_lock: _AxlDBDelLock
+    """
+    Deletes a lock on the database
+    SKILL: axlDBDelLock([t_password]) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:983
+    """
     delete_prop: _AxlDBDeleteProp
+    """
+    Deletes the properties listed by name, inlt_name, from the objects whose dbids are in lo_attach.
+    SKILL: axlDBDeleteProp(lo_attachlt_name)⇒ l_result/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:512
+    """
     delete_prop_all: _AxlDBDeletePropAll
+    """
+    Deletes all instances of the property t\\_name in the database
+    SKILL: axlDBDeletePropAll(t_name)==> x_count/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:552
+    """
     delete_prop_dict_entry: _AxlDBDeletePropDictEntry
+    """
+    No description available.
+    SKILL: axlDBDeletePropDictEntry(t_name)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:581
+    """
     disband_group: _AxlDBDisbandGroup
+    """
+    Disbands the database group you specify with theo_group argument, thereby immediately removing the group
+    SKILL: axlDBDisbandGroup(o_group)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/15dbgrp.md:125
+    """
     display_control: _AxlDBDisplayControl
+    """
+    This command is used to inquire and set the display database controls
+    SKILL: axlDBDisplayControl(s_name[g_value])==> g_currentValue/ls_names
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:1469
+    """
     dummy_net: _AxlDBDummyNet
+    """
+    This command returns all dummy nets in design
+    SKILL: axlDBDummyNet (g_mode)-> lo_dbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/26logacc.md:384
+    """
     dynamic_shapes: _AxlDBDynamicShapes
+    """
+    Queries and updates dynamic shapes
+    SKILL: axlDBDynamicShapes(g_value)⇒ x_count
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:939
+    """
     find_by_name: _AxlDBFindByName
+    """
+    Findsdbid of an object by name without involving the selection set
+    SKILL: axlDBFindByName(s_typet_name) ⇒ o_dbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/05selfnd.md:1024
+    """
     get_attached_text: _AxlDBGetAttachedText
+    """
+    Returns the list ofdbids of text objects attached to the object whose dbid is o_dbid
+    SKILL: axlDBGetAttachedText(o_dbid)⇒ l_dbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:273
+    """
     get_connect: _AxlDBGetConnect
+    """
+    Finds all the elements, including pads and shapes, that are connected to a givendbid
+    SKILL: axlDBGetConnect(o_dbid[t_full])⇒ l_result/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:581
+    """
     get_design: _AxlDBGetDesign
+    """
+    Returns the root designdbid
+    SKILL: axlDBGetDesign()⇒ o_design/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:179
+    """
     get_design_units: _AxlDBGetDesignUnits
+    """
+    Returns the design units and accuracy number of the active design.
+    SKILL: axlDBGetDesignUnits()⇒ l_value/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:495
+    """
     get_drill_plating: _AxlDBGetDrillPlating
+    """
+    Retrieves the plating type of the padstack passed as an argument to this function.
+    SKILL: axlDBGetDrillPlating(t_padstackname) => s_plating/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:223
+    """
     get_extents: _AxlDBGetExtents
+    """
+    Provides the extents of a physical database object
+    SKILL: axlDBGetExtents(o_dbidg_visibleOnly)==> bBox/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:346
+    """
     get_group_from_item: _AxlDBGetGroupFromItem
+    """
+    Filter object's group membership by a group type
+    SKILL: axlDBGetGroupFromItem(o_dbidt_groupType[g_promoteToNet]) -> lo_groupDbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/15dbgrp.md:148
+    """
     get_layer_type: _AxlDBGetLayerType
+    """
+    Retrieves the cross-section type of a given layer
+    SKILL: axlDBGetLayerType(t_layername) => t_layertype/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:1763
+    """
     get_length: _AxlDBGetLength
+    """
+    Calculates the length of the given object which may be a NET, CLINE, SEGMENT, or RATSNEST
+    SKILL: axlDBGetLength(o_dbid)==> f_etchlength/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:154
+    """
     get_lock: _AxlDBGetLock
+    """
+    Returns information about a lock on the database
+    SKILL: axlDBGetLock()⇒ nil/l_info
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:1018
+    """
     get_lonely_branches: _AxlDBGetLonelyBranches
+    """
+    Returns a list of the*standalone branch* dbids in the design
+    SKILL: axlDBGetLonelyBranches()⇒ l_dbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:555
+    """
     get_manhattan: _AxlDBGetManhattan
+    """
+    Given a net, calculates an etch, path, and Manhattan length
+    SKILL: axlDBGetManhattan(o_dbid_net)⇒ l_result/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:186
+    """
     get_pad: _AxlDBGetPad
+    """
+    For the pin or via specified byo_dbid, gets the pad of type t_type associated with layer t_layer.
+    SKILL: axlDBGetPad(o_dbidt_layert_type)⇒ o_pad/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:304
+    """
     get_prop_dict: _AxlDBGetPropDict
+    """
+    Returns a list of property definitions in the current design
+    SKILL: axlDBGetPropDict(S_filter/nil) -> lt_propNames
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:375
+    """
     get_prop_dict_entry: _AxlDBGetPropDictEntry
+    """
+    Gets the property dictionary entry for the property name given by the stringt_name
+    SKILL: axlDBGetPropDictEntry(t_name)⇒ o_propDictEntry/nil
+    SKILL: axlDBGetPropDictEntry(nil)==> lt_validObjects
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:411
+    """
     get_properties: _AxlDBGetProperties
+    """
+    Gets the properties attached to a specified object
+    SKILL: axlDBGetProperties(o_dbid[lt_type])⇒ l_result/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:449
+    """
     get_shapes: _AxlDBGetShapes
+    """
+    Provides quick access to shapes without access to visibility or find settings.
+    SKILL: axlDBGetShapes(t_layer)⇒ l_dbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:957
+    """
     get_symbol_body_extent: _AxlDBGetSymbolBodyExtent
+    """
+    This returns the body extent of a symbol
+    SKILL: axlDBGetSymbolBodyExtent(o_dbid)-> bBox/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:225
+    """
     get_text_block_count: _AxlDBGetTextBlockCount
+    """
+    Returns a count of the number of text blocks defined.
+    SKILL: axlDBGetTextBlockCount()=> x_textBlockCount
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:50
+    """
     grid_get: _AxlDBGridGet
+    """
+    This command returns current grid values
+    SKILL: axlDBGridGet(nil)==> lt_grids
+    SKILL: axlDBGridGet(t_gridName)==> og_grid
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:73
+    """
     grid_set: _AxlDBGridSet
+    """
+    This command modifies the grid settings in the design.
+    SKILL: axlDBGridSet(og_grid)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:130
+    """
     group_rename: _AxlDBGroupRename
+    """
+    Renames a group
+    SKILL: axlDBGroupRename(o_groupDbidt_newName)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/15dbgrp.md:188
+    """
     ignore_fixed: _AxlDBIgnoreFixed
+    """
+    Provides similar functionality to that offered by many Allegro batch programs which allow FIXED and LOCKED properties to be ignored (for example:netrev -z).
+    SKILL: axlDBIgnoreFixed([g_ignore]) -> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:374
+    """
     is_bonding_wire_layer: _AxlDBIsBondingWireLayer
+    """
+    This is an obsolete function
+    SKILL: axlDBIsBondingWireLayer(t_layerName)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:589
+    """
     is_bondpad: _AxlDBIsBondpad
+    """
+    Verifies whether or not the given element is a*bondpad*.
+    SKILL: axlDBIsBondpad(o_dbid)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:620
+    """
     is_bondwire: _AxlDBIsBondwire
+    """
+    Verifies whether or not the given element is a*bonding wire*.
+    SKILL: axlDBIsBondwire(o_dbid)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:641
+    """
     is_die_pad: _AxlDBIsDiePad
+    """
+    Verifies whether or not the given element is a*die pad*.
+    SKILL: axlDBIsDiePad(rd_dbid)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:662
+    """
     is_die_stack_layer: _AxlDBIsDieStackLayer
+    """
+    Verifies if layer is a die stack layer
+    SKILL: axlDBIsDieStackLayer (t_layerName)==> t or nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:961
+    """
     is_fixed: _AxlDBIsFixed
+    """
+    Verifies whether or not the specified database object is fixed
+    SKILL: axlDBIsFixed(o_dbid[g_showMessage])⇒ nil or [dbid of 1st element that makes the item fixed]
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:621
+    """
     is_package_pin: _AxlDBIsPackagePin
+    """
+    Verifies whether or not the given element is a*package pin*.
+    SKILL: axlDBIsPackagePin(rd_dbid)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:669
+    """
     is_platingbar_pin: _AxlDBIsPlatingbarPin
+    """
+    Verifies whether or not the given element is a*plating bar pin*.
+    SKILL: axlDBIsPlatingbarPin(rd_dbid)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:683
+    """
     is_read_only: _AxlDBIsReadOnly
+    """
+    This API command checks if indicated database object is read-only.
+    SKILL: axlDBIsReadOnly(o_dbid) -> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:426
+    """
     memory_reclaim: _AxlDBMemoryReclaim
+    """
+    Reclaims database memory for reuse by the Allegro database
+    SKILL: axlDBMemoryReclaim( )-> x_sizeReclaimed
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:1052
+    """
     open_shape: _AxlDBOpenShape
+    """
+    Opens an existing shape to replace its boundary or to modify its voids.
+    SKILL: axlDBOpenShape(o_shapeDbid/nil[o_polygon/r_path/nil][g_close])==> o_dbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:610
+    """
     pin_pair_length: _AxlDBPinPairLength
+    """
+    Calculate the shortest length between 2 pins
+    SKILL: axlDBPinPairLength(o_pin1o_pin2)==> f_etchlength/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:254
+    """
     refresh_id: _AxlDBRefreshId
+    """
+    Updates the attributes of the object specified byo_dbid
+    SKILL: axlDBRefreshId(o_dbid/nil)⇒ o_dbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:519
+    """
     remove_group_objects: _AxlDBRemoveGroupObjects
+    """
+    Removes the database objects from the specified group
+    SKILL: axlDBRemoveGroupObjects(o_grouplo_members)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/15dbgrp.md:214
+    """
     sector_size: _AxlDBSectorSize
+    """
+    This is obsolete
+    SKILL: axlDBSectorSize([f_size])==> nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:457
+    """
     set_lock: _AxlDBSetLock
+    """
+    Provides a mechanism to lock the database against future changes
+    SKILL: axlDBSetLock(['password t_password]['locklevel t_locklevel]['expiration t_expiration/x_expiration]['comments t_comments]['useNtp t/nil]['ntpServer t_server])⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:1094
+    """
     text_block_compact: _AxlDBTextBlockCompact
+    """
+    Reports and/or compresses unused database text blocks
+    SKILL: axlDBTextBlockCompact(t/nil)⇒ x_unusedBlocks
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:994
+    """
     text_block_create: _AxlDBTextBlockCreate
+    """
+    Creates a new text block from the template block number provided
+    SKILL: axlDBTextBlockCreate(x_blockTemplate?width f_width?height f_height?lineSpace f_lineSpace?charSpace f_charSpace?photoWidth f_photoWidth) => x_textBlock/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:205
+    """
     text_block_find_name: _AxlDBTextBlockFindName
+    """
+    Finds a text block based on its name.
+    SKILL: axlDBTextBlockFindName(t_textBlockName)=> x_textBlockNumber/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:239
+    """
     text_block_get_name: _AxlDBTextBlockGetName
+    """
+    Returns the name associated with the given text block
+    SKILL: axlDBTextBlockGetName(x_textBlockNumber)=> t_name/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:268
+    """
     text_block_set_name: _AxlDBTextBlockSetName
+    """
+    Defines a name for a given text block.
+    SKILL: axlDBTextBlockSetName(x_textBlockNumbert_name)=> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:291
+    """
     transaction_commit: _AxlDBTransactionCommit
+    """
+    Commits a database transaction from the last transaction mark.
+    SKILL: axlDBTransactionCommit(x_mark)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/17dbtran.md:127
+    """
     transaction_mark: _AxlDBTransactionMark
+    """
+    Writes a mark in the database that you can use with[axlDBTransactionOops](#1076373 "18") to rollback database changes to this mark.
+    SKILL: axlDBTransactionMark(x_mark)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/17dbtran.md:150
+    """
     transaction_oops: _AxlDBTransactionOops
+    """
+    Undoes a transaction back to the last mark, or to start if there are no marks
+    SKILL: axlDBTransactionOops(x_mark)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/17dbtran.md:175
+    """
     transaction_rollback: _AxlDBTransactionRollback
+    """
+    Undo function for a database transaction.
+    SKILL: axlDBTransactionRollback(x_mark)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/17dbtran.md:200
+    """
     transaction_start: _AxlDBTransactionStart
+    """
+    Marks the start of a transaction to the database
+    SKILL: axlDBTransactionStart([g_undoMark])⇒ x_mark/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/17dbtran.md:223
+    """
     tune_sector_size: _AxlDBTuneSectorSize
+    """
+    This tune's Allegro's sector size for better performance
+    SKILL: axlDBTuneSectorSize( )==> nil/l_result
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:1148
+    """
 
 class AxlDbid(FunctionCollection):
     name: _AxlDbidName
+    """
+    Provides the standard Allegro PCB Editor name of a database object
+    SKILL: axlDbidName( o_dbid ) -> t_name/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/26logacc.md:424
+    """
 
 class AxlDeg(FunctionCollection):
     to_rad: _AxlDegToRad
+    """
+    Converts an angle in degrees to radians.
+    SKILL: axlDegToRad(n_angle) => f_angle
+    Version: Allegro 17.2-2016
+    Source: algroskill/24mthutl.md:14
+    """
 
 class AxlDehighlight(FunctionCollection):
     object: _AxlDehighlightObject
+    """
+    Use this command to turn off highlighting on an object
+    SKILL: axlDehighlightObject(lo_dbid/g_mode[g_permHighlight])⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:705
+    """
 
 class AxlDelete(FunctionCollection):
     attachment: _AxlDeleteAttachment
+    """
+    Deletes the given attachment
+    SKILL: axlDeleteAttachment(t_attachmentId[t_passwd])⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/16dbatt.md:98
+    """
     bond_wire: _AxlDeleteBondWire
+    """
+    Deletes the (list of) bond wires passed in
+    SKILL: axlDeleteBondWire(bondWires [deleteFingers]) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:45
+    """
     by_layer: _AxlDeleteByLayer
+    """
+    Deletes all data on one or more provided layers
+    SKILL: axlDeleteByLayer(t_layerName/lt_layerName[nil/'fixed])==> x_cnt/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:290
+    """
     fillet: _AxlDeleteFillet
+    """
+    Deletes fillet associated with a PIN, VIA, T, or CLINE
+    SKILL: axlDeleteFillet(o_dbid)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:679
+    """
     object: _AxlDeleteObject
+    """
+    Deletes single or list of database objects from database
+    SKILL: axlDeleteObject(o_dbid/lo_dbid[g_mode])⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:417
+    """
     taper: _AxlDeleteTaper
+    """
+    Deletes tapers
+    SKILL: axlDeleteTaper(o_dbid)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:493
+    """
 
 class AxlDesign(FunctionCollection):
     flip: _AxlDesignFlip
+    """
+    Visually flips the design in the 'y' axis
+    SKILL: axlDesignFlip(g_flip) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:304
+    """
     type: _AxlDesignType
+    """
+    Returns the type of design as a string.
+    SKILL: axlDesignType(g_option)⇒ t_type/lt_type
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:41
+    """
 
 class AxlDetail(FunctionCollection):
     load: _AxlDetailLoad
+    """
+    This loads a the designatedipf file (t_filename) into the current design at location (point), with scaling (f_scale), rotation (f_rotation) and mirror (g_mirror)
+    SKILL: axlDetailLoad(t_filenamepointf_scalex_rotationg_mirror)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:139
+    """
     save: _AxlDetailSave
+    """
+    This saves a clipping box (l\\_bBox) and the passed set of geometries (lo\\_dbid) to a Allegro ipf file (t\\_filename).
+    SKILL: axlDetailSave(t_filename l_bBox o_dbid/lo_dbid[g_filledPads])==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:196
+    """
 
 class AxlDiff(FunctionCollection):
     pair: _AxlDiffPair
+    """
+    Creates, modifies, or deletes a differential pair
+    SKILL: axlDiffPair(t_diffpairo_net1/t_net1o_net2/t_net2 ) ⇒ o_diffpair/nil
+    SKILL: axlDiffPair(o_diffpair/t_diffpairo_net1/t_net1o_net2/t_net2 ) ⇒ o_diffpair/nil
+    SKILL: axlDiffPair(o_diffpair/t_diffpair ) ⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/26logacc.md:469
+    """
     pair_auto: _AxlDiffPairAuto
+    """
+    Allows automatic generation of the diffpair
+    SKILL: axlDiffPairAuto(t_diffPairPrefixt_posNetPostfixt_negNetPostfix[g_returnDiffPairList] ) ⇒ x_cnt/(xcnt lo_diffpair)/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/26logacc.md:544
+    """
     pair_dbid: _AxlDiffPairDBID
+    """
+    Returns thedbid of the named diffpair (t_name) if it exists in the database.
+    SKILL: axlDiffPairDBID(t_name)⇒ o_dbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/26logacc.md:599
+    """
 
 class AxlDll(FunctionCollection):
     call: _AxlDllCall
+    """
+    Calls a symbol that has been imported from a plugin
+    SKILL: axlDllCall(o_pluginFunc [*g_args]) => nil/x_value/lg_data
+    Version: Allegro 17.2-2016
+    Source: algroskill/27plugin.md:197
+    """
     call_list: _AxlDllCallList
+    """
+    This function is identical toaxlDllCall except it takes a list of arguments to pass to the plugin function
+    SKILL: axlDllCallList(o_pluginFunc l_args) => nil/x_value/lg_data
+    Version: Allegro 17.2-2016
+    Source: algroskill/27plugin.md:247
+    """
     close: _AxlDllClose
+    """
+    This closes an open plugin handle
+    SKILL: axlDllClose(o_plugin)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/27plugin.md:285
+    """
     dump: _AxlDllDump
+    """
+    This is a debug function that reports all plugins loaded by Skill.
+    SKILL: axlDllDump()==> l_dllLoad/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/27plugin.md:311
+    """
     open: _AxlDllOpen
+    """
+    This binds a dll/shared library to the current program
+    SKILL: axlDllOpen(t_dllname)==> o_plugin/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/27plugin.md:335
+    """
     sym: _AxlDllSym
+    """
+    This imports a symbol from a loaded dll
+    SKILL: axlDllSym(o_plugint_symbolName)==> o_pluginFunc/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/27plugin.md:379
+    """
 
 class AxlDM(FunctionCollection):
     browse_path: _AxlDMBrowsePath
+    """
+    Invokes a standard Allegro PCB Editor file browser supporting paths, for example,SCRIPTPATH
+    SKILL: axlDMBrowsePath(t_adsFileType[t_title][t_helpTag])⇒ t_fileName/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/21filacc.md:242
+    """
     close: _AxlDMClose
+    """
+    Closes a file currently open in Allegro PCB Editor
+    SKILL: axlDMClose(p_port ) ⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/21filacc.md:209
+    """
     directory_browse: _AxlDMDirectoryBrowse
+    """
+    Opens a directory browser
+    SKILL: axlDMDirectoryBrowse(t_startingDirectory g_writeFlag ?helpTag t_helpTag ?title t_title) => t_dirName/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/21filacc.md:269
+    """
     file_browse: _AxlDMFileBrowse
+    """
+    Opens a standard file browser
+    SKILL: axlDMFileBrowse(t_fileType g_writeFlag ?defaultName t_defaultName ?helpTag t_helpTag ?directorySet g_directorySet ?noDirectoryButton g_noDirectoryButton ?mainFile g_mainFile ?noSticky g_noSticky ?title t_title ?optFilters t_filters) => t_fileName/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/21filacc.md:299
+    """
     file_error: _AxlDMFileError
+    """
+    This returns the error from the lastaxlDMxxx call
+    SKILL: axlDMFileError() -> nil/t_errorMessage
+    Version: Allegro 17.2-2016
+    Source: algroskill/21filacc.md:16
+    """
     file_parts: _AxlDMFileParts
+    """
+    Breaks a filename into it's component parts.
+    SKILL: axlDMFileParts(t_filespec)⇒ (directory file fileWext ext)
+    Version: Allegro 17.2-2016
+    Source: algroskill/21filacc.md:349
+    """
     find_file: _AxlDMFindFile
+    """
+    Opens a file using Allegro PCB Editor conventions
+    SKILL: axlDMFindFile (t_idt_namet_mode[t_prop])⇒ t_name/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/21filacc.md:46
+    """
     get_file: _AxlDMGetFile
+    """
+    Gets the file namet_name using Allegro PCB Editor conventions as described in the arguments
+    SKILL: axlDMGetFile(t_idt_namet_mode[t_prop] ) ⇒ t_name/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/21filacc.md:83
+    """
     open_file: _AxlDMOpenFile
+    """
+    Opens a file in conventional Allegro manner; adds an extension and optionally looks it up in an Allegro search path
+    SKILL: axlDMOpenFile(t_idt_namet_mode)⇒ p_port/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/21filacc.md:125
+    """
     open_log: _AxlDMOpenLog
+    """
+    Opens a file for writing log messages
+    SKILL: axlDMOpenLog(t_program)⇒ p_port/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/21filacc.md:180
+    """
 
 class AxlDraw(FunctionCollection):
     object: _AxlDrawObject
+    """
+    Processes a list ofdbids.
+    SKILL: axlDrawObject(lo_dbid)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:831
+    """
 
 class AxlDRC(FunctionCollection):
     get_count: _AxlDRCGetCount
+    """
+    Returns the total number of DRCs in the design
+    SKILL: axlDRCGetCount()⇒ x_count
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part02.md:824
+    """
     item: _AxlDRCItem
+    """
+    Performs a DRC check on the indicated item(s)
+    SKILL: axlDRCItem(g_modeo_dbid/lo_dbid)⇒ x_cnt/lo_drcDbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part02.md:841
+    """
     update: _AxlDRCUpdate
+    """
+    Performs a DRC check on entire design.
+    SKILL: axlDRCUpdate(g_mode) -> x_cnt/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part02.md:730
+    """
     waive: _AxlDRCWaive
+    """
+    Manages waive DRC state and access to the waive DRC functionality
+    SKILL: axlDRCWaive(g_modeo_DrcDbid/lo_DrcDbid[t_comment])==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part02.md:770
+    """
     waive_get_count: _AxlDRCWaiveGetCount
+    """
+    Returns total number of waived DRCs in the design.
+    SKILL: axlDRCWaiveGetCount()⇒ x_count
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part02.md:884
+    """
 
 class AxlDynamics(FunctionCollection):
     object: _AxlDynamicsObject
+    """
+    Adds list of objects to the cursor buffer
+    SKILL: axlDynamicsObject (lo_dbid [l_ref_point])⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:852
+    """
 
 class AxlEnd(FunctionCollection):
     skill_mode: _AxlEndSkillMode
+    """
+    Returns from the SKILL command mode to the program's command line
+    SKILL: axlEndSkillMode()⇒ t
+    Version: Allegro 17.2-2016
+    Source: algroskill/19cmdctl.md:174
+    """
 
 class AxlEnter(FunctionCollection):
     angle: _AxlEnterAngle
+    """
+    Optionally prompts the user
+    SKILL: axlEnterAngle(origin?prompts l_prompts?refPoint l_refPoint?angle f_angle?lockAngle g_lockAngle)⇒ f_angle/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:396
+    """
     box: _AxlEnterBox
+    """
+    Takes two points that define a box and returns them inl_box
+    SKILL: axlEnterBox(?prompts l_prompts?points l_points)⇒ l_box/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:566
+    """
     event: _AxlEnterEvent
+    """
+    A lower level event manager than otheraxlEnter functions
+    SKILL: axlEnterEvent(l_eventMaskt_promptg_snap)⇒ r_eventId
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:936
+    """
     path: _AxlEnterPath
+    """
+    Gets the start point and subsequent points for a path, interactively with optional prompting, or from the optional argumentl_points
+    SKILL: axlEnterPath(?prompts l_prompts?points l_points?lastPath r_path)⇒ r_path/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:598
+    """
     point: _AxlEnterPoint
+    """
+    Prompts for and receives user-selected point
+    SKILL: axlEnterPoint(?prompts l_prompts?points l_points?gridSnap g_gridSnap)⇒ l_point/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:334
+    """
     string: _AxlEnterString
+    """
+    Displays a dialog box that requires first entering a string, and then pressing*Return* on the keyboard or clicking *OK*or *Cancel.* Default prompt in the dialog box is "Enter String."You can supply a prompt string with the ?prompts keyword
+    SKILL: axlEnterString(?prompts l_prompts)⇒ t_string/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:365
+    """
 
 class AxlErase(FunctionCollection):
     object: _AxlEraseObject
+    """
+    Processes a list ofdbids and erases them
+    SKILL: axlEraseObject(lo_dbid)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:892
+    """
 
 class AxlEvent(FunctionCollection):
     set_start_popup: _AxlEventSetStartPopup
+    """
+    Sets a SKILL callback function called prior to a popup being displayed on the screen
+    SKILL: axlEventSetStartPopup([s_callback])⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:1055
+    """
 
 class AxlExport(FunctionCollection):
     xml_db_records: _AxlExportXmlDBRecords
+    """
+    This exports an Allegro Parameter file from the current design
+    SKILL: axlExportXmlDBRecords(t_fileNamelt_parmGroups/nil) -> t/nil
+    SKILL: axlExportXmlDBRecords(nil) -> lt_parmGroups
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:317
+    """
 
 class AxlExtent(FunctionCollection):
     db: _AxlExtentDB
+    """
+    Determines a design type and returns thebBox extent
+    SKILL: axlExtentDB()⇒ l_bBox/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:331
+    """
     layout: _AxlExtentLayout
+    """
+    Obsolete
+    SKILL: axlExtentLayout()⇒ l_bBox/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:349
+    """
     symbol: _AxlExtentSymbol
+    """
+    Obsolete
+    SKILL: axlExtentSymbol()⇒ l_bBox
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:381
+    """
 
 class AxlExtract(FunctionCollection):
     map: _AxlExtractMap
+    """
+    Takes a set of Allegro database objects you select using the Allegro extract command file and applies to each object a SKILL function you have chosen
+    SKILL: axlExtractMap(t_viewFile[s_applyFunc][g_userData])⇒ t/l_dbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/22extrct.md:44
+    """
     to_file: _AxlExtractToFile
+    """
+    Extracts data from the current design into an ASCII file
+    SKILL: axlExtractToFile(t_viewFilelt_resultFiles[lt_options])⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/22extrct.md:14
+    """
 
 class AxlFillet(FunctionCollection):
     convert: _AxlFilletConvert
+    """
+    Converts a fillet or taper to a static shape.
+    SKILL: axlFilletConvert(o_dbid) -> t/nilDescription
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:731
+    """
 
 class AxlFilm(FunctionCollection):
     create: _AxlFilmCreate
+    """
+    Creates a new artwork film or replaces an existing artwork film.
+    SKILL: axlFilmCreate(t_filmname?negative t/nil?undefineLineWidth f_width?sequence x_number?rotation x_angle?xOffset f_x?yOffset f_y?shapeBoundingBox f_value?mirrored t/nil?fullContact t/nil?suppressUnconnectPads t/nil?drawMissingPadApertures t/nil?useApertureRotation t/nil?suppressShapeFill t/nil?vectorBasedPad t/nil?drawHolesOnly t/nil?layers lt_layers?domains lt_domains?ipc2581 lt_ipcDomains?polyCutLayer t/nil) -> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:355
+    """
 
 class AxlFind(FunctionCollection):
     filter_is_open: _AxlFindFilterIsOpen
+    """
+    This function is no longer required, but is kept for backward compatibility.
+    SKILL: axlFindFilterIsOpen()⇒ t
+    Version: Allegro 17.2-2016
+    Source: algroskill/05selfnd.md:1063
+    """
     path: _AxlFindPath
+    """
+    Finds an etch path from one object to another
+    SKILL: axlFindPath(o_oneDbido_twoDbid[g_altPath])==> lo_dbid/llo_dbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:404
+    """
 
 class AxlFinish(FunctionCollection):
     enter_fun: _AxlFinishEnterFun
+    """
+    Terminates the wait for a user-selected point
+    SKILL: axlFinishEnterFun()⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:447
+    """
 
 class AxlFlush(FunctionCollection):
     display: _AxlFlushDisplay
+    """
+    Flushes all data from the display buffer to the display screen itself
+    SKILL: axlFlushDisplay()⇒ t
+    Version: Allegro 17.2-2016
+    Source: algroskill/19cmdctl.md:197
+    """
 
 class AxlForm(FunctionCollection):
     auto_resize: _AxlFormAutoResize
+    """
+    Resizes a form to fit its controls
+    SKILL: axlFormAutoResize(r_form)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part02.md:1566
+    """
     build_popup: _AxlFormBuildPopup
+    """
+    This provides the ability to dynamically change popups of fields that have them
+    SKILL: axlFormBuildPopup(r_formt_fieldl_pairs)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part02.md:793
+    """
     clear_mouse_active: _AxlFormClearMouseActive
+    """
+    Clears the option to dispatch the MouseActive event on a form.
+    SKILL: axlFormClearMouseActive(r_form)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part02.md:718
+    """
     close: _AxlFormClose
+    """
+    Closes the formr_form
+    SKILL: axlFormClose(r_form)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part02.md:737
+    """
     colorize: _AxlFormColorize
+    """
+    Allows the override of background and/or text color of a control
+    SKILL: axlFormColorize(o_formt_fieldg_optiong_color)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part02.md:1586
+    """
     create: _AxlFormCreate
+    """
+    Creates a dialog based on the form descriptive filet_formfile
+    SKILL: axlFormCreate(s_formHandle g_formSource [lt_placement] g_formAction g_nonBlock [g_stringOption]) => r_form/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part02.md:638
+    """
     default_button: _AxlFormDefaultButton
+    """
+    Forms normally automatically set a*default* *button* in a form with the DEFAULT section in the form file or with the *OK* and *DONE* labels
+    SKILL: axlFormDefaultButton(r_formt_field/g_mode)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:908
+    """
     display: _AxlFormDisplay
+    """
+    Displays the formr_form already created by axlFormCreate
+    SKILL: axlFormDisplay(r_form)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part02.md:766
+    """
     get_active_field: _AxlFormGetActiveField
+    """
+    Gets the form's active field.
+    SKILL: axlFormGetActiveField(r_form)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:68
+    """
     get_field: _AxlFormGetField
+    """
+    Gets the value oft_field in the open formr_form
+    SKILL: axlFormGetField(r_formt_field)⇒ g_value/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part02.md:844
+    """
     get_field_type: _AxlFormGetFieldType
+    """
+    Returns the control type for a form field
+    SKILL: axlFormGetFieldType(r_formt_field)⇒ g_fieldType/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:888
+    """
     grid_batch: _AxlFormGridBatch
+    """
+    Always used withaxlFormGridSetBatch
+    SKILL: axlFormGridBatch(r_cell ) ⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:88
+    """
     grid_cancel_popup: _AxlFormGridCancelPopup
+    """
+    After any change to grid content, the application must tell the grid that the changes are complete
+    SKILL: axlFormGridCancelPopup(r_formt_field)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:111
+    """
     grid_delete_rows: _AxlFormGridDeleteRows
+    """
+    Deletesx_number rows at x_row number
+    SKILL: axlFormGridDeleteRows(r_formt_fieldx_rowx_number)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:131
+    """
     grid_events: _AxlFormGridEvents
+    """
+    Sets user events of interest
+    SKILL: axlFormGridEvents(r_form t_field g_events) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:153
+    """
     grid_get_cell: _AxlFormGridGetCell
+    """
+    Returns grid cell data for a given row and column
+    SKILL: axlFormGridGetCell(r_formt_fieldr_cell ) ⇒ r_cell/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:225
+    """
     grid_insert_col: _AxlFormGridInsertCol
+    """
+    Adds a column with the indicated options (g_options) to a grid field
+    SKILL: axlFormGridInsertCol(r_formt_fieldr_formGridCol)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:270
+    """
     grid_insert_rows: _AxlFormGridInsertRows
+    """
+    Insertsx_numberrows at x_row number location
+    SKILL: axlFormGridInsertRows(r_formt_fieldx_rowx_number)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:364
+    """
     grid_new_cell: _AxlFormGridNewCell
+    """
+    Creates a new instance ofr_cell which is required as input to [axlFormGridBatch](#458963 "11") or [axlFormSetField](#425442 "11") for form grid controls
+    SKILL: axlFormGridNewCell()⇒ r_cell
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:386
+    """
     grid_options: _AxlFormGridOptions
+    """
+    Miscellaneous grid options
+    SKILL: axlFormGridOptions(r_formt_fields_name[g_value])⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:945
+    """
     grid_reset: _AxlFormGridReset
+    """
+    Resets grid to its unloaded state
+    SKILL: axlFormGridReset(r_formt_field)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:411
+    """
     grid_selected: _AxlFormGridSelected
+    """
+    This returns the selected item in a multi-select grid control
+    SKILL: axlFormGridSelected(r_formt_field) -> lx_selected/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part02.md:880
+    """
     grid_selected_cnt: _AxlFormGridSelectedCnt
+    """
+    This returns the count of rows selected in a multi-select grid control
+    SKILL: axlFormGridSelectedCnt(r_formt_field) -> x_cnt/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part02.md:922
+    """
     grid_set_batch: _AxlFormGridSetBatch
+    """
+    Changes grid cells much faster thanaxlFormSetField when changing multiple cells
+    SKILL: axlFormGridSetBatch(r_formt_fields_callbackg_pvtData)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:447
+    """
     grid_set_select_rows: _AxlFormGridSetSelectRows
+    """
+    This allows setting, clearing or toggling of selection state for a grid in multi-select row mode.
+    SKILL: axlFormGridSetSelectRows(r_formt_fieldx_minx_maxg_option) -> x_cnt/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part02.md:960
+    """
     grid_update: _AxlFormGridUpdate
+    """
+    Unlike the form lists control you must manually notify the grid control that it must update itself
+    SKILL: axlFormGridUpdate( r_form t_field ) -> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:527
+    """
     invalidate_field: _AxlFormInvalidateField
+    """
+    Invalidates the form's field
+    SKILL: axlFormInvalidateField(r_formt_field)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:565
+    """
     is_field_editable: _AxlFormIsFieldEditable
+    """
+    Checks whether the given form field is editable
+    SKILL: axlFormIsFieldEditable(r_formt_field)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:587
+    """
     is_field_visible: _AxlFormIsFieldVisible
+    """
+    Determines whether a form field is visible.
+    SKILL: axlFormIsFieldVisible(r_formt_field ) ⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part02.md:1414
+    """
     list_add_item: _AxlFormListAddItem
+    """
+    Adds an item to a list at positionx
+    SKILL: axlFormListAddItem(r_formt_fieldt_listItem/lt_listItems/nilg_index)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:607
+    """
     list_delete_all: _AxlFormListDeleteAll
+    """
+    Deletes all the items from the form list field,t_field*.* Use axlFormListDeleteAllto clear an entire list field to update it using axlFormSetField, then display it using axlFormSetField on the field with a nil field value.
+    SKILL: axlFormListDeleteAll(r_formt_field)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part02.md:1012
+    """
     list_delete_item: _AxlFormListDeleteItem
+    """
+    Deletes indicated item in the list
+    SKILL: axlFormListDeleteItem(r_formt_fieldt_listItem/x_index/lt_listItem/nil)⇒ t/x_index/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:650
+    """
     list_get_item: _AxlFormListGetItem
+    """
+    Returns the item in the list at index (x_index.) Lists start at index 0
+    SKILL: axlFormListGetItem(r_formt_fieldx_index)⇒ t_listItem/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:681
+    """
     list_get_sel_count: _AxlFormListGetSelCount
+    """
+    This only applies to a multi-select list box (OPTIONS multiselect in form file)
+    SKILL: axlFormListGetSelCount( r_form t_field )==> x_count/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:702
+    """
     list_get_sel_items: _AxlFormListGetSelItems
+    """
+    This only applies to a multi-select list box (OPTIONS multiselect in form file).
+    SKILL: axlFormListGetSelItems(r_formt_field)==> lt_selected/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:737
+    """
     list_options: _AxlFormListOptions
+    """
+    Sets options for a list control
+    SKILL: axlFormListOptions(r_form t_field g_options) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:767
+    """
     list_sel_all: _AxlFormListSelAll
+    """
+    This only applies to a multi-select list box (OPTIONS multiselect in form file).
+    SKILL: axlFormListSelAll(r_formt_fieldg_set)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:813
+    """
     list_select: _AxlFormListSelect
+    """
+    Highlights, and if not visible in the list, shows the designated item
+    SKILL: axlFormListSelect(r_formt_fieldt_listItem/nil)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part02.md:1067
+    """
     msg: _AxlFormMsg
+    """
+    Retrieves and prints a message defined in the form file by message label (t_messageLabel.) Form file allows definitions of messages using the "MESSAGE" keyword (see [Using Forms Specification Language](#480398 "11").) Use this to give a...
+    SKILL: axlFormMsg(r_form t_messageLabel [*g_args]) => t_msg/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:849
+    """
     restore_field: _AxlFormRestoreField
+    """
+    Restores thet_field in the open form r_form to its previous value
+    SKILL: axlFormRestoreField(r_formt_field)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part02.md:1310
+    """
     set_active_field: _AxlFormSetActiveField
+    """
+    Makes the indicated field the active form field.
+    SKILL: axlFormSetActiveField(r_formt_field)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:1001
+    """
     set_decimal: _AxlFormSetDecimal
+    """
+    Sets the decimal precision for real fill-in fields in the form
+    SKILL: axlFormSetDecimal(o_formg_fieldx_decimalPlaces)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:1023
+    """
     set_event_action: _AxlFormSetEventAction
+    """
+    This function allows the user to register a callback function to be called whenever the user changes to a new active cell in the form
+    SKILL: axlFormSetEventAction(r_formg_callback) -> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part02.md:1088
+    """
     set_field: _AxlFormSetField
+    """
+    Setst_field to value g_value in open form r_form
+    SKILL: axlFormSetField(r_formt_fieldg_value/nil)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part02.md:1122
+    """
     set_field_editable: _AxlFormSetFieldEditable
+    """
+    Sets individual form fields to editable (t) or greyed (nil).
+    SKILL: axlFormSetFieldEditable(r_formt_fieldg_editable)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:1044
+    """
     set_field_limits: _AxlFormSetFieldLimits
+    """
+    Sets the minimum or maximum values a user can enter in an integer or real fill-in field
+    SKILL: axlFormSetFieldLimits(o_formt_fieldg_ming_max)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:1065
+    """
     set_field_visible: _AxlFormSetFieldVisible
+    """
+    Sets a form field to visible or invisible.
+    SKILL: axlFormSetFieldVisible(r_formt_fieldx_value)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part02.md:1393
+    """
     set_info: _AxlFormSetInfo
+    """
+    Sets infot_field to value t_value in open form r_form
+    SKILL: axlFormSetInfo(r_formt_fieldt_value)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part02.md:1233
+    """
     set_mouse_active: _AxlFormSetMouseActive
+    """
+    Sets the option to dispatch the MouseActive event on a form.
+    SKILL: axlFormSetMouseActive(r_form)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part02.md:1262
+    """
     test: _AxlFormTest
+    """
+    This is a development function for test purposes
+    SKILL: axlFormTest(t_formName) => r_form/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part02.md:1287
+    """
     title: _AxlFormTitle
+    """
+    Overrides title of the form.
+    SKILL: axlFormTitle(r_formt_title)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part02.md:1340
+    """
     tree_view_add_item: _AxlFormTreeViewAddItem
+    """
+    Adds an item to a treeview under*parent* and after *insertAfter* sibling
+    SKILL: axlFormTreeViewAddItem(r_formt_fieldt_labelg_hParentg_hInsertAfter[g_multiSelectF][g_hLeafImage][g_hOpenImage][g_hClosedImage])⇒ g_hItem/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:1091
+    """
     tree_view_change_images: _AxlFormTreeViewChangeImages
+    """
+    Modifies various bitmap images associated with a given tree view item.
+    SKILL: axlFormTreeViewChangeImages(r_formt_fieldg_hItem[g_hLeafImage][g_hOpenImage][g_hClosedImage])⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:1150
+    """
     tree_view_change_label: _AxlFormTreeViewChangeLabel
+    """
+    Modifies text of a given treeview item.
+    SKILL: axlFormTreeViewChangeLabel(r_formt_fieldg_hItemt_label)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:1180
+    """
     tree_view_get_images: _AxlFormTreeViewGetImages
+    """
+    various bitmap image handles that refer to images used by a specified item in the tree view.
+    SKILL: axlFormTreeViewGetImages(r_formt_fieldg_hItem)⇒ l_hImage/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:1202
+    """
     tree_view_get_label: _AxlFormTreeViewGetLabel
+    """
+    Returns text of a given treeview item.
+    SKILL: axlFormTreeViewGetLabel(r_formt_fieldg_hItem)⇒ t_label/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:1223
+    """
     tree_view_get_parents: _AxlFormTreeViewGetParents
+    """
+    Returns a list of all the ancestors of a treeview control item, starting from the root of the tree
+    SKILL: axlFormTreeViewGetParents(r_formt_fieldg_hItem)⇒ lg_hItem/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:1244
+    """
     tree_view_get_select_state: _AxlFormTreeViewGetSelectState
+    """
+    In multi select mode, returns the select state of a treeview item
+    SKILL: axlFormTreeViewGetSelectState(r_formt_fieldg_hItem)⇒ x_selectState
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:1265
+    """
     tree_view_load_bitmaps: _AxlFormTreeViewLoadBitmaps
+    """
+    Allows an application to load one or more bitmaps into Allegro PCB Editor for use in specified tree view.
+    SKILL: axlFormTreeViewLoadBitmaps(r_formt_fieldlt_bitmaps)⇒ l_hImage/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:1289
+    """
     tree_view_set: _AxlFormTreeViewSet
+    """
+    Allows an application to change global and individual items in a tree view control.
+    SKILL: axlFormTreeViewSet(r_formt_fields_optiong_hItem[g_data])⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:1342
+    """
     tree_view_set_select_state: _AxlFormTreeViewSetSelectState
+    """
+    In multi select mode, sets the select state
+    SKILL: axlFormTreeViewSetSelectState(r_formt_fieldg_hItemg_state)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:1422
+    """
 
 class AxlGeo(FunctionCollection):
     arc_center_angle: _AxlGeoArcCenterAngle
+    """
+    Calculates the center of an arc given the angle between its endpoints
+    SKILL: axlGeoArcCenterAngle(l_startPointl_endPointf_angle[g_clockwise])⇒ l_center/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/24mthutl.md:137
+    """
     arc_center_radius: _AxlGeoArcCenterRadius
+    """
+    Calculates center of an arc given its radius
+    SKILL: axlGeoArcCenterRadius(l_startPointl_endPointf_radius[g_clockwise][g_bigArc])⇒ l_center/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/24mthutl.md:174
+    """
     equal: _AxlGeoEqual
+    """
+    Performs an equal comparison between two floating point numbers and determines if they are equal within plus or minus the current database accuracy.
+    SKILL: axlGeoEqual(f_onef_two)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/24mthutl.md:260
+    """
     point_in_shape: _AxlGeoPointInShape
+    """
+    Given a point and a shapedbid, determines whether that point is inside or outside the shape or a polygon
+    SKILL: axlGeoPointInShape(l_pointo_dbid/o_polygon[g_include_voids][t/nil])⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:464
+    """
     point_shape_info: _AxlGeoPointShapeInfo
+    """
+    Given a point and a shape dbid returns relation of point to shape
+    SKILL: axlGeoPointShapeInfo(l_pointo_dbid) ==> (g_state o_dbid)/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:493
+    """
     points_equal: _AxlGeoPointsEqual
+    """
+    This performs an equal comparison between two xy points and determines if they are equal within db accuracy.
+    SKILL: axlGeoPointsEqual(l_point1l_point2) -> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/24mthutl.md:335
+    """
     rotate_pt: _AxlGeoRotatePt
+    """
+    Rotates*xy* about an origin by angle
+    SKILL: axlGeoRotatePt(f_anglel_xyl_origin/nil[mirror]) -> l_xyResult/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/24mthutl.md:300
+    """
 
 class AxlGeo2(FunctionCollection):
     str: _AxlGeo2Str
+    """
+    When converting floating point numbers to strings you may find the number printed is slightly differently then the value Allegro reports
+    SKILL: axlGeo2Str( f_dbrep/point ) -> t_result/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/24mthutl.md:65
+    """
 
 class AxlGet(FunctionCollection):
     active_layer: _AxlGetActiveLayer
+    """
+    Retrieves active class and subclass of the design.
+    SKILL: axlGetActiveLayer()⇒ t_layer
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:1376
+    """
     active_text_block: _AxlGetActiveTextBlock
+    """
+    Gets the current active text block, equivalent to the status dialog box.
+    SKILL: axlGetActiveTextBlock()⇒ _textBlock
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:1399
+    """
     alias: _AxlGetAlias
+    """
+    Requests the value of the specified Allegro PCB Editor alias,t_alias
+    SKILL: axlGetAlias(t_alias/nil)⇒ t_value/lt_names/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/09cmdshl.md:16
+    """
     all_attachment_names: _AxlGetAllAttachmentNames
+    """
+    Returns a list of the ids for all database attachments in the current Allegro PCB Editor database
+    SKILL: axlGetAllAttachmentNames()⇒ l_attachment/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/16dbatt.md:124
+    """
     all_via_list: _AxlGetAllViaList
+    """
+    Returns a list of all padstacks included in via lists in the design
+    SKILL: axlGetAllViaList([g_attrVias])==> lo_padstack_dbid
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part02.md:707
+    """
     all_visible_profiles: _AxlGetAllVisibleProfiles
+    """
+    Returns a list of all the bond wire profiles currently visible in the design.
+    SKILL: axlGetAllVisibleProfiles()==> list of profiles / nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:828
+    """
     attachment: _AxlGetAttachment
+    """
+    Returns the database attachment with the given id
+    SKILL: axlGetAttachment(t_attachmentId[s_dataFormat])⇒ o_attachment/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/16dbatt.md:142
+    """
     die_data: _AxlGetDieData
+    """
+    Gets the data for the given die and loads it into the a defstruct.
+    SKILL: axlGetDieData (g_dieId)==> die-data defstruct/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:989
+    """
     die_stack_data: _AxlGetDieStackData
+    """
+    Gets the data for the given die-stack and loads it into a defstruct.
+    SKILL: axlGetDieStackData (g_stackArg)==> stack-data defstruct/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:1063
+    """
     die_stack_member_set: _AxlGetDieStackMemberSet
+    """
+    Returns a list of defstructs - one for each member of the given die stack.
+    SKILL: axlGetDieStackMemberSet()==> list of die-stack member defstructs/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:1108
+    """
     die_stack_names: _AxlGetDieStackNames
+    """
+    Returns a list of the names of all die stacks in the current design.
+    SKILL: axlGetDieStackNames() ==> list of die-stack names/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:1162
+    """
     die_type: _AxlGetDieType
+    """
+    Returns the die attachment type for a given die component in a Cadence packaging tool (APD/SIP)
+    SKILL: axlGetDieType(o_componentDBID)==> t_dieType
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:704
+    """
     drawing_name: _AxlGetDrawingName
+    """
+    Retrieves the full path of the drawing.
+    SKILL: axlGetDrawingName()⇒ t_drawingPathName
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:465
+    """
     dynamics_segs: _AxlGetDynamicsSegs
+    """
+    Normally used with dynamics to calculate arc tangency of two picks to a currentr_path
+    SKILL: axlGetDynamicsSegs(point1 point2 lastPath) => l_pointList/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:470
+    """
     find_filter: _AxlGetFindFilter
+    """
+    Returns the current Find Filter settings as a listpf keyword strings
+    SKILL: axlGetFindFilter([onEnabledF])⇒ lt_filters/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/05selfnd.md:755
+    """
     func_key: _AxlGetFuncKey
+    """
+    Requests the value of the specified funckey,t_alias
+    SKILL: axlGetFuncKey(t_alias/nil)==> t_value/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/09cmdshl.md:56
+    """
     impedance: _AxlGetImpedance
+    """
+    No description available.
+    SKILL: axlGetImpedance(o_dbid) => (f_min f_max)/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:525
+    """
     iposer_data: _AxlGetIposerData
+    """
+    This function fetches the data for the given iposer and loads it into a defstruct.
+    SKILL: axlGetIposerData(g_iposerId)==> iposer-data defstruct/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:1180
+    """
     last_enter_point: _AxlGetLastEnterPoint
+    """
+    Gets the last pick location fromaxlEnterPoint.
+    SKILL: axlGetLastEnterPoint ()⇒ l_point/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:770
+    """
     line_lock: _AxlGetLineLock
+    """
+    Gets the current settings of the line lock or dynamic control options
+    SKILL: axlGetLineLock(s_name[g_value])==> g_currentValue/ls_names
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:501
+    """
     metal_usage_for_layer: _AxlGetMetalUsageForLayer
+    """
+    Computes the percentage metal coverage on the layers specified in l\\_layer(s) (combination of all layers listed) in the area specified inl_extents
+    SKILL: axlGetMetalUsageForLayer(l_layers [l_extents][g_positive])==> resultStruct/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:733
+    """
     module_instance_definition: _AxlGetModuleInstanceDefinition
+    """
+    AXL interface to the C function that returns the name of the module definition used to create the module instance.
+    SKILL: axlGetModuleInstanceDefinition(o_modinst)⇒ t_moddef/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:690
+    """
     module_instance_location: _AxlGetModuleInstanceLocation
+    """
+    AXL interface to the C function that gets the current location of the module instance in the design.
+    SKILL: axlGetModuleInstanceLocation(o_modinst)⇒ l_loc/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:723
+    """
     module_instance_logic_method: _AxlGetModuleInstanceLogicMethod
+    """
+    AXL interface to the C function that determines the logic method used by the module instance.
+    SKILL: axlGetModuleInstanceLogicMethod(o_modinst) => i_logic/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:756
+    """
     module_instance_net_exceptions: _AxlGetModuleInstanceNetExceptions
+    """
+    AXL interface to the C function that gets the net exception of the module instance in the design.
+    SKILL: axlGetModuleInstanceNetExceptions(o_modinst)⇒ l_nets/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:789
+    """
     param: _AxlGetParam
+    """
+    Gets the parameterdbid for a named object
+    SKILL: axlGetParam (t_parm_name)⇒ ﬁo_paramDbid/nil
+    SKILL: axlGetParam (nil) =>lt_params
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:750
+    """
     sel_set: _AxlGetSelSet
+    """
+    Gets the list of objectdbids in the select set.
+    SKILL: axlGetSelSet()⇒ lo_dbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/05selfnd.md:676
+    """
     sel_set_count: _AxlGetSelSetCount
+    """
+    Returns the number of figuredbids in the select set.
+    SKILL: axlGetSelSetCount()⇒ x_selCount
+    Version: Allegro 17.2-2016
+    Source: algroskill/05selfnd.md:704
+    """
     spacer_data: _AxlGetSpacerData
+    """
+    Gets the data for the given spacer and loads it into a defstruct.
+    SKILL: axlGetSpacerData(g_spacerId)==> spacer-data defstruct/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:1231
+    """
     trap_box: _AxlGetTrapBox
+    """
+    Returns coordinates of the*Find* window.
+    SKILL: axlGetTrapBox(l_point)⇒ l_window/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:1133
+    """
     variable: _AxlGetVariable
+    """
+    Requests the value of the specified Allegro PCB Editor environment variable,t_variable
+    SKILL: axlGetVariable(t_variable )⇒ t_value/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/09cmdshl.md:94
+    """
     variable_list: _AxlGetVariableList
+    """
+    Requests the value of the specified Allegro PCB Editor environment variable,t_variable
+    SKILL: axlGetVariableList(t_variable/nil)==> t_value/lt_value/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/09cmdshl.md:139
+    """
     wire_profile_color: _AxlGetWireProfileColor
+    """
+    This function will retrieve the color index associated with a bond wire profile
+    SKILL: axlGetWireProfileColor(t_profile)==> color index / nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:1280
+    """
     wire_profile_definition: _AxlGetWireProfileDefinition
+    """
+    Given a bonding wire profile name, this will returns its definition information.
+    SKILL: axlGetWireProfileDefinition(profileName) => l_definition/s_error
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:764
+    """
     wire_profile_direction: _AxlGetWireProfileDirection
+    """
+    This function returns the direction of a wire profile definition defined in the database
+    SKILL: axlGetWireProfileDirection(profileName)==> "FORWARD"/"REVERSE"/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:807
+    """
     wire_profile_visible: _AxlGetWireProfileVisible
+    """
+    This function will retrieve the visibility status of a bond wire profile
+    SKILL: axlGetWireProfileVisible(t_profile)==> t / nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:1299
+    """
     x_section: _AxlGetXSection
+    """
+    * This is obsolete, use new axlXSectionGet() family of APIs
+    SKILL: axlGetXSection()==> ll_layers/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:1792
+    """
 
 class AxlGRP(FunctionCollection):
     drw_bitmap: _AxlGRPDrwBitmap
+    """
+    Loads a bitmap into a form draw window (drawing area in the graphics field)
+    SKILL: axlGRPDrwBitmap(r_graphicst_bitmap)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/12draw.md:67
+    """
     drw_circle: _AxlGRPDrwCircle
+    """
+    Draws a circle into the area identified by ther_graphics handle, at the origin specified, and with the specified radius
+    SKILL: axlGRPDrwCircle(r_graphicsl_originx_radius)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/12draw.md:87
+    """
     drw_init: _AxlGRPDrwInit
+    """
+    Use this command to set graphics callback in a form field
+    SKILL: axlGRPDrwInit(r_formt_fieldt_func)⇒ r_graphics/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/12draw.md:108
+    """
     drw_line: _AxlGRPDrwLine
+    """
+    Draws a line into the area identified by ther_graphics handle and the list of coordinates
+    SKILL: axlGRPDrwLine(r_graphicsl_vertices)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/12draw.md:129
+    """
     drw_map_window: _AxlGRPDrwMapWindow
+    """
+    Forces a draw in a form draw field
+    SKILL: axlGRPDrwMapWindow(r_graphicsx_hgtx_width)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/12draw.md:149
+    """
     drw_poly: _AxlGRPDrwPoly
+    """
+    Draws a polygon (multi-segment line) into the area identified by ther_graphics handle and the list of coordinates
+    SKILL: axlGRPDrwPoly(r_graphicsl_vertices)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/12draw.md:170
+    """
     drw_rectangle: _AxlGRPDrwRectangle
+    """
+    Draws a rectangle into the area identified by ther_graphics handle and the upper_left and lower_right coordinates
+    SKILL: axlGRPDrwRectangle(r_graphicsl_upper_leftl_lower_right)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/12draw.md:190
+    """
     drw_text: _AxlGRPDrwText
+    """
+    Draws text into the area identified by ther_graphics handle at the origin specified
+    SKILL: axlGRPDrwText(r_graphicsl_origint_text)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/12draw.md:211
+    """
     drw_update: _AxlGRPDrwUpdate
+    """
+    Force call to register callback function for a draw window
+    SKILL: axlGRPDrwUpdate(r_graphics)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/12draw.md:232
+    """
 
 class AxlHighlight(FunctionCollection):
     object: _AxlHighlightObject
+    """
+    Highlights the figures whosedbids are in lo_dbid.
+    SKILL: axlHighlightObject([lo_dbid][g_permHighlight])⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:625
+    """
 
 class AxlIgnore(FunctionCollection):
     fixed: _AxlIgnoreFixed
+    """
+    No description available.
+    SKILL: signature unavailable; generic fallback
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:490
+    """
 
 class AxlImpdedance(FunctionCollection):
     get_layer_broadside_dp_imp: _AxlImpdedanceGetLayerBroadsideDPImp
+    """
+    Computes the differential impedance of a broadside-coupled diffpair with the given line width and two specified layers on which the signal lines will be routed
+    SKILL: axlImpdedanceGetLayerBroadsideDPImp(t_layer1/x_layerNum1t_layer2/x_layerNum2f_width) ==> f_diffImpedance/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:548
+    """
     get_layer_broadside_dp_width: _AxlImpdedanceGetLayerBroadsideDPWidth
+    """
+    Computes the differential impedance of a broadside-coupled diffpair with the given line width and two specified layers on which the signal lines will be routed
+    SKILL: axlImpdedanceGetLayerBroadsideDPWidth(t_layer1/x_layerNum1t_layer2/x_layerNum2f_diffImpedance)==> f_lineWidth/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:578
+    """
     get_layer_edge_dp_imp: _AxlImpdedanceGetLayerEdgeDPImp
+    """
+    Computes the differential impedance of a edge-coupled diffpair with the given line width and spacing on a specified layer
+    SKILL: axlImpdedanceGetLayerEdgeDPImp(t_layer/x_layerNumf_spacingf_width) ==> f_diffImpedance/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:608
+    """
     get_layer_edge_dp_spacing: _AxlImpdedanceGetLayerEdgeDPSpacing
+    """
+    Given the line width of the two signal lines of an edge-coupled diffpair on the specified layer, finds the spacing such that the differential impedance is closest to the target value
+    SKILL: axlImpdedanceGetLayerEdgeDPSpacing(t_layer/x_layerNumf_widthf_diffImp)==> f_spacing/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:636
+    """
     get_layer_edge_dp_width: _AxlImpdedanceGetLayerEdgeDPWidth
+    """
+    Given the spacing of the two signal lines of an edge-coupled diffpair on the specified layer, finds the line width such that the differential impedance is closest to the target value
+    SKILL: axlImpdedanceGetLayerEdgeDPWidth(t_layer/x_layerNumf_spacingf_diffImp) ==> f_width/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:664
+    """
 
 class AxlImpedance2(FunctionCollection):
     width: _AxlImpedance2Width
+    """
+    Converts the given impedance on a specified layer to a line width.
+    SKILL: axlImpedance2Width(t_layer/x_layerNumf_impedance) ==> f_lineWidth/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:692
+    """
 
 class AxlImport(FunctionCollection):
     wire_profile_definitions: _AxlImportWireProfileDefinitions
+    """
+    This function will import the bond wire profiles defined in the xml file specified
+    SKILL: axlImportWireProfileDefinitions(xmlFileNamesetAsMaster)==> x/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:887
+    """
     xml_db_records: _AxlImportXmlDBRecords
+    """
+    This command imports an Allegro Parameter file into the current design
+    SKILL: axlImportXmlDBRecords(t_fileName) -> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:420
+    """
 
 class AxlIn(FunctionCollection):
     trigger: _AxlInTrigger
+    """
+    Tests if the application or the utility in a axlTrigger callback
+    SKILL: axlInTrigger() ==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:494
+    """
     trigger_func: _AxlInTriggerFunc
+    """
+    If in a trigger callback, reports trigger function symbol.nil, if not in a trigger callback.
+    SKILL: axlInTriggerFunc() -> s_triggerFunc/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:514
+    """
 
 class AxlIS(FunctionCollection):
     product_started: _AxlISProductStarted
+    """
+    * ***This should not be used, use[axlLicIsProductEnabled](#922656 "24").***
+    SKILL: signature unavailable; generic fallback
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:448
+    """
     attachment: _AxlIsAttachment
+    """
+    Determines if the given object is an AXL attachment.
+    SKILL: axlIsAttachment(o_attachment)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/16dbatt.md:189
+    """
     between: _AxlIsBetween
+    """
+    Used to check if a given point lies between two specified points
+    SKILL: axlIsBetween(l_testPointl_pt1, l_pt2) -> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/24mthutl.md:365
+    """
     custom_colored: _AxlIsCustomColored
+    """
+    If object has custom color, will return the object custom color, otherwise nil.
+    SKILL: axlIsCustomColored (o_dbid)==> x_customColor/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:1710
+    """
     dbid_type: _AxlIsDBIDType
+    """
+    Determines ifg_dbid is an Allegro PCB Editor database dbid
+    SKILL: axlIsDBIDType(g_dbid)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:242
+    """
     debug: _AxlIsDebug
+    """
+    This checks if AXL debug mode is enabled
+    SKILL: axlIsDebug() ==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:390
+    """
     dummy_net: _AxlIsDummyNet
+    """
+    Determines if a given net is a Dummy net
+    SKILL: axlIsDummyNet(net_dbid)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:822
+    """
     etch_layer: _AxlIsEtchLayer
+    """
+    Determines if a layer is associated with the ETCH layers
+    SKILL: axlIsEtchLayer(t_layer)=> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:1831
+    """
     form_type: _AxlIsFormType
+    """
+    Tests if argumentg_form is a form dbid.
+    SKILL: axlIsFormType(g_form)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part02.md:1366
+    """
     grid_cell_type: _AxlIsGridCellType
+    """
+    Tests the passed symbol to see if its user type is of the form"grid cell".
+    SKILL: axlIsGridCellType(r_cell)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/11frmint.part03.md:345
+    """
     highlighted: _AxlIsHighlighted
+    """
+    If the object is permanently highlighted returns the highlight color; otherwisenil.
+    SKILL: axlIsHighlighted(o_dbid)==> x_highlightColor/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:1045
+    """
     layer: _AxlIsLayer
+    """
+    Determines if thet_layer exists
+    SKILL: axlIsLayer(t_layer)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:1856
+    """
     layer_negative: _AxlIsLayerNegative
+    """
+    Determines whether or not the given plane layer is negative.
+    SKILL: axlIsLayerNegative(t_layerName)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:845
+    """
     pin_unused: _AxlIsPinUnused
+    """
+    Determines if the given pin is unused, indicating that it is on a dummy net.
+    SKILL: axlIsPinUnused(pin_dbid)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:874
+    """
     point_inside_box: _AxlIsPointInsideBox
+    """
+    Returnst if a point is inside or on the edge of a box
+    SKILL: axlIsPointInsideBox(l_pointl_box)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/24mthutl.md:387
+    """
     point_on_line: _AxlIsPointOnLine
+    """
+    Returnst if point is on a given line or nil if not on the line.
+    SKILL: axlIsPointOnLine(l_pointll_line[f_nearNess])⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/24mthutl.md:415
+    """
     poly_type: _AxlIsPolyType
+    """
+    Tests if argumentg_polygon is a polygon user type.
+    SKILL: axlIsPolyType (g_polygon)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/20plyopr.md:462
+    """
     product_line_active: _AxlIsProductLineActive
+    """
+    This routine determines if a product in a given product line has been started.
+    SKILL: axlIsProductLineActive(t_productLine) -> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:422
+    """
     protect_alias: _AxlIsProtectAlias
+    """
+    Tests if the alias is read-only (or writeable)
+    SKILL: axlIsProtectAlias(t_alias)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/09cmdshl.md:253
+    """
     symbol_editor: _AxlIsSymbolEditor
+    """
+    Returnst if in symbol editor, nil for all other editors.
+    SKILL: axlIsSymbolEditor() -> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:535
+    """
     view_file_type: _AxlIsViewFileType
+    """
+    Tests whetherg_userType is a long message window type.
+    SKILL: axlIsViewFileType(g_userType)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:1482
+    """
     visible_layer: _AxlIsVisibleLayer
+    """
+    Returns the visibility (t/nil) of a fully qualified layer.
+    SKILL: axlIsVisibleLayer(t_layer)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:1875
+    """
 
 class AxlIsit(FunctionCollection):
     fill: _AxlIsitFill
+    """
+    Determines if fill shape is allowed for a given class subclass.
+    SKILL: axlIsitFill(t_layer)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:897
+    """
 
 class AxlKill(FunctionCollection):
     design: _AxlKillDesign
+    """
+    Same as (axlOpenDesign<unnamed> "wf"), where <unnamed>is the standard Allegro PCB Editor name provided for an unnamed design
+    SKILL: axlKillDesign()⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:561
+    """
 
 class AxlLast(FunctionCollection):
     pick: _AxlLastPick
+    """
+    This returns the last processed cursor pick
+    SKILL: axlLastPick(l_mode) ⇒ xy
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:791
+    """
     pick_is_snapped: _AxlLastPickIsSnapped
+    """
+    Normally called after anaxlEnter call to determine if the pick was snapped or unsnapped.
+    SKILL: axlLastPickIsSnapped()-> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/05selfnd.md:1419
+    """
 
 class AxlLayer(FunctionCollection):
     create_cross_section: _AxlLayerCreateCrossSection
+    """
+    This is obsolete, use[axlXSectionCreate](#1168694 "3").
+    SKILL: axlLayerCreateCrossSection(t_Prev_layerNamet_layerTypet_materialType[t_subclassName][t_planeType])⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:1898
+    """
     create_non_conductor: _AxlLayerCreateNonConductor
+    """
+    Creates a new subclass for non-etch subclasses
+    SKILL: axlLayerCreateNonConductor(t_layerName)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part02.md:24
+    """
     delete: _AxlLayerDelete
+    """
+    This command deletes a cross section layer
+    SKILL: axlLayerDelete(t_layerName/x_layerNumber) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part02.md:49
+    """
     get: _AxlLayerGet
+    """
+    Gets the layer parameter given the shortcut notation of*<*class*>*/*<*subclass*>*
+    SKILL: axlLayerGet(t_layer)⇒ o_dbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part02.md:89
+    """
     priority_clear_all: _AxlLayerPriorityClearAll
+    """
+    Clears all layer priority information in Allegro database
+    SKILL: axlLayerPriorityClearAll() -> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:1534
+    """
     priority_get: _AxlLayerPriorityGet
+    """
+    Obtains layer priority, where 0 is normal (not set)
+    SKILL: axlLayerPriorityGet(t_layer) -> x_priority/t_mapClass/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:1555
+    """
     priority_restore_all: _AxlLayerPriorityRestoreAll
+    """
+    Restores previously saved layer priority information
+    SKILL: axlLayerPriorityRestoreAll() -> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:1602
+    """
     priority_save_all: _AxlLayerPrioritySaveAll
+    """
+    Saves all layer priority information to be restored later
+    SKILL: axlLayerPrioritySaveAll() -> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:1624
+    """
     priority_set: _AxlLayerPrioritySet
+    """
+    This changes the drawing priority of given layer
+    SKILL: axlLayerPrioritySet(t_layerx_priority) -> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:1646
+    """
     set: _AxlLayerSet
+    """
+    Updates changes to layer parameters
+    SKILL: axlLayerSet(o_dbid)==>o_dbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part02.md:900
+    """
     via_label: _AxlLayerViaLabel
+    """
+    Reports via label for a layer
+    SKILL: axlLayerViaLabel(t_layerName/x_layerNumber) => t_viaLabel/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part02.md:130
+    """
 
 class AxlLic(FunctionCollection):
     default_version: _AxlLicDefaultVersion
+    """
+    This returns the default version number used in licensing
+    SKILL: axlLicDefaultVersion()-> f_version
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:456
+    """
     feature_exists: _AxlLicFeatureExists
+    """
+    Checks if license feature exists
+    SKILL: axlLicFeatureExists(t_license[f_version])-> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:472
+    """
     is_product_enabled: _AxlLicIsProductEnabled
+    """
+    Checks if license is checked-out by tool.
+    SKILL: axlLicIsProductEnabled(t_license) -> t/nil
+    SKILL: axlLicIsProductEnabled(all) -> lt_licenses
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:494
+    """
 
 class AxlLine(FunctionCollection):
     slope: _AxlLineSlope
+    """
+    Returns the slope of a line
+    SKILL: axlLineSlope(ll_line)⇒ f_slope
+    Version: Allegro 17.2-2016
+    Source: algroskill/24mthutl.md:452
+    """
     x_line: _AxlLineXLine
+    """
+    This function is no longer required, but is kept for backward compatibility.
+    SKILL: axlLineXLine(l_seg1l_seg2)⇒ t
+    Version: Allegro 17.2-2016
+    Source: algroskill/24mthutl.md:477
+    """
 
 class AxlLoad(FunctionCollection):
     padstack: _AxlLoadPadstack
+    """
+    Loads a padstack by attempting to find the padstack by name in the existing database
+    SKILL: axlLoadPadstack (t_padname)⇒ o_dbid
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part02.md:292
+    """
     symbol: _AxlLoadSymbol
+    """
+    No description available.
+    SKILL: axlLoadSymbol(t_symKind t_symName) -> o_dbidSymDef/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part02.md:317
+    """
 
 class AxlLog(FunctionCollection):
     header: _AxlLogHeader
+    """
+    Writes the standard Allegro PCB Editor log file header to the passed open file
+    SKILL: axlLogHeader(p_portt_titleString[t_prefix])⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:532
+    """
 
 class AxlM(FunctionCollection):
     pythag: _AxlMPythag
+    """
+    Calculates distance between two points using pythagoras
+    SKILL: axlMPythag(l_pt1l_pt2) -> f_distance/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/24mthutl.md:619
+    """
     uni_vector: _AxlMUniVector
+    """
+    This calculates a unit-vector
+    SKILL: axlMUniVector(l_pt1l_pt2[f_length]) -> l_uniPt1
+    Version: Allegro 17.2-2016
+    Source: algroskill/24mthutl.md:648
+    """
 
 class AxlMake(FunctionCollection):
     dynamics_path: _AxlMakeDynamicsPath
+    """
+    No description available.
+    SKILL: axlMakeDynamicsPath(l_formattedList) => r_path/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:1576
+    """
 
 class AxlMap(FunctionCollection):
     class_name: _AxlMapClassName
+    """
+    Use this function to write a SKILL program that runs in Allegro PCB Editor and APD
+    SKILL: axlMapClassName(t_oldName/lt_oldName[g_mapToPCB])⇒ t_newName/lt_newName
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:765
+    """
 
 class AxlMatch(FunctionCollection):
     group_add: _AxlMatchGroupAdd
+    """
+    Adds members to a matched group
+    SKILL: axlMatchGroupAdd(o_mgdbid/t_mgNameo_dbid/lo_dbid)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/26logacc.md:618
+    """
     group_create: _AxlMatchGroupCreate
+    """
+    Creates a new match group
+    SKILL: axlMatchGroupCreate(t_name)==> o_mgdbid
+    Version: Allegro 17.2-2016
+    Source: algroskill/26logacc.md:666
+    """
     group_delete: _AxlMatchGroupDelete
+    """
+    This deletes a match group
+    SKILL: axlMatchGroupDelete( o_mgdbid/t_mgName ) -> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/26logacc.md:743
+    """
     group_prop: _AxlMatchGroupProp
+    """
+    Adds or removes the RELATIVE\\_PROPAGATION\\_DELAY property from a member of a match group
+    SKILL: axlMatchGroupProp( o_mgdbid/t_mgName o_dbid t_value/nil )==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/26logacc.md:785
+    """
     group_remove: _AxlMatchGroupRemove
+    """
+    Removes elements from an existing match group
+    SKILL: axlMatchGroupRemove( o_mgdbid/t_mgName o_dbid/lo_dbid )==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/26logacc.md:849
+    """
 
 class AxlMaterial(FunctionCollection):
     get: _AxlMaterialGet
+    """
+    Returns various infomation about materials file
+    SKILL: axlMaterialGet(nil)==> lt_materials
+    SKILL: axlMaterialGet(t_materialName)==> og_material
+    SKILL: axlMaterialGet('all)==> log_materials
+    SKILL: axlMaterialGet('file)==> t_file
+    SKILL: axlMaterialGet('path)==> t_pathToFile
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part02.md:156
+    """
 
 class AxlMath(FunctionCollection):
     dot_product: _AxlMathDotProduct
+    """
+    This calculates the dot or scaler product.
+    SKILL: axlMathDotProduct(l_ptA1l_ptA2l_ptB1l_ptB2) -> f_dotProduct
+    Version: Allegro 17.2-2016
+    Source: algroskill/24mthutl.md:526
+    """
 
 class AxlMem(FunctionCollection):
     size: _AxlMemSize
+    """
+    Returns an estimate of memory use
+    SKILL: axlMemSize()⇒ x_size
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:815
+    """
 
 class AxlMeter(FunctionCollection):
     create: _AxlMeterCreate
+    """
+    Starts progress meter with optional cancel feature.
+    SKILL: axlMeterCreate(t_title t_infoString g_enableCancel [t_formname] [t_infoString2] [g_formCallback]) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:529
+    """
     destroy: _AxlMeterDestroy
+    """
+    Closes the progress meter form and shuts off Cancel mode if enabled.
+    SKILL: axlMeterDestroy() -> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:579
+    """
     is_cancelled: _AxlMeterIsCancelled
+    """
+    If cancel was enabled at meter creation, the status of cancel is returned (t if cancelled; otherwise nil).
+    SKILL: axlMeterIsCancelled() -> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:599
+    """
     update: _AxlMeterUpdate
+    """
+    Updates progress meter bar and/or info text
+    SKILL: axlMeterUpdate(x_percentDonet_infoString[t_infoStr2]) -> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:621
+    """
 
 class AxlMid(FunctionCollection):
     point_arc: _AxlMidPointArc
+    """
+    Returns mid-point on a arc
+    SKILL: axlMidPointArc(ll_endPointsl_centerf_radiusg_clockwise) -> l_midPoint
+    Version: Allegro 17.2-2016
+    Source: algroskill/24mthutl.md:556
+    """
     point_line: _AxlMidPointLine
+    """
+    Returns mid-point of line
+    SKILL: axlMidPointLine(ll_line) -> l_midPoint
+    Version: Allegro 17.2-2016
+    Source: algroskill/24mthutl.md:592
+    """
 
 class AxlMini(FunctionCollection):
     status_load: _AxlMiniStatusLoad
+    """
+    Loads the Ministatus form with the form file provided in this call
+    SKILL: axlMiniStatusLoad(s_formHandle g_formSource g_formAction [g_stringOption] [t_restrict]) => r_form/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:734
+    """
     status_reset: _AxlMiniStatusReset
+    """
+    This resets the Option panel settings and find filter settings to a new design's default.
+    SKILL: axlMiniStatusReset() => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:474
+    """
 
 class AxlMK(FunctionCollection):
     s2_uu: _AxlMKS2UU
+    """
+    Converts between an MKS string to the current database user units
+    SKILL: axlMKS2UU(t_mksString)⇒ f_value/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:561
+    """
 
 class AxlMKS(FunctionCollection):
     alias: _AxlMKSAlias
+    """
+    Searches the MKS unit database for the current definition associated withunitName
+    SKILL: axlMKSAlias(t_mksAlias) => t_def/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:616
+    """
     convert: _AxlMKSConvert
+    """
+    No description available.
+    SKILL: axlMKSConvert(n_input t_inUnits [t_outUnits]) => f_output/nil
+    SKILL: axlMKSConvert(t_input [t_outUnits]) => f_output/nil
+    SKILL: axlMKSConvert(nil t_inUnits) => t/nil
+    SKILL: axlMKSConvert(n_input) => f_output/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:647
+    """
     str2_uu: _AxlMKSStr2UU
+    """
+    Converts an input string to a MKS string in current database units
+    SKILL: axlMKSStr2UU(t_String)⇒ t_mksString/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:728
+    """
 
 class AxlMsg(FunctionCollection):
     cancel_print: _AxlMsgCancelPrint
+    """
+    Prints a message informing the user that he requested*cancel*
+    SKILL: axlMsgCancelPrint()⇒ t
+    Version: Allegro 17.2-2016
+    Source: algroskill/13msghnd.md:333
+    """
     cancel_seen: _AxlMsgCancelSeen
+    """
+    Checks to see if theaxlMsgCancelPrint message was printed
+    SKILL: axlMsgCancelSeen()⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/13msghnd.md:360
+    """
     clear: _AxlMsgClear
+    """
+    Clears the current error severity level
+    SKILL: axlMsgClear()⇒ t
+    Version: Allegro 17.2-2016
+    Source: algroskill/13msghnd.md:384
+    """
     context_clear: _AxlMsgContextClear
+    """
+    Clears the buffered messages for a context.
+    SKILL: axlMsgContextClear(r_context)⇒ t
+    Version: Allegro 17.2-2016
+    Source: algroskill/13msghnd.md:307
+    """
     context_finish: _AxlMsgContextFinish
+    """
+    Indicates the finish of a message context
+    SKILL: axlMsgContextFinish(r_context)⇒ t
+    Version: Allegro 17.2-2016
+    Source: algroskill/13msghnd.md:283
+    """
     context_get: _AxlMsgContextGet
+    """
+    Gets the format strings of the buffered messages
+    SKILL: axlMsgContextGet(r_context)⇒ lt_format_strings/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/13msghnd.md:156
+    """
     context_get_string: _AxlMsgContextGetString
+    """
+    Gets the messages in the message buffer and removes them from the buffer
+    SKILL: axlMsgContextGetString(r_context)⇒ lt_messages/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/13msghnd.md:129
+    """
     context_in_buf: _AxlMsgContextInBuf
+    """
+    Checks whether messaget_format_string is in the message buffer of context r_context
+    SKILL: axlMsgContextInBuf(r_contextt_format_string)⇒ t
+    Version: Allegro 17.2-2016
+    Source: algroskill/13msghnd.md:207
+    """
     context_print: _AxlMsgContextPrint
+    """
+    Prints the buffered messages and removes them from the message buffer.
+    SKILL: axlMsgContextPrint(r_context)⇒ t
+    Version: Allegro 17.2-2016
+    Source: algroskill/13msghnd.md:97
+    """
     context_remove: _AxlMsgContextRemove
+    """
+    Removes a message (or messages) from the buffered messages
+    SKILL: axlMsgContextRemove(r_contextt_format_string)⇒ t
+    Version: Allegro 17.2-2016
+    Source: algroskill/13msghnd.md:233
+    """
     context_start: _AxlMsgContextStart
+    """
+    Indicates the start of a message context
+    SKILL: axlMsgContextStart(g_formatString [*g_args]) => r_context
+    Version: Allegro 17.2-2016
+    Source: algroskill/13msghnd.md:258
+    """
     context_test: _AxlMsgContextTest
+    """
+    Returns the most severe message class of the messages in the context message buffer
+    SKILL: axlMsgContextTest(r_context)⇒ x_class
+    Version: Allegro 17.2-2016
+    Source: algroskill/13msghnd.md:183
+    """
     put: _AxlMsgPut
+    """
+    Puts a message in the journal file
+    SKILL: axlMsgPut(g_messageFormat [*g_args]) => t
+    Version: Allegro 17.2-2016
+    Source: algroskill/13msghnd.md:72
+    """
     set: _AxlMsgSet
+    """
+    Sets the current error severity level
+    SKILL: axlMsgSet(x_class)⇒ t
+    Version: Allegro 17.2-2016
+    Source: algroskill/13msghnd.md:407
+    """
     test: _AxlMsgTest
+    """
+    Determines the current error severity level
+    SKILL: axlMsgTest()⇒ x_class
+    Version: Allegro 17.2-2016
+    Source: algroskill/13msghnd.md:431
+    """
 
 class AxlMXY(FunctionCollection):
     add: _AxlMXYAdd
+    """
+    This does al_pt1 + lpt2 and returns the result.
+    SKILL: axlMXYAdd(l_pt1l_pt2) -> l_pt/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/24mthutl.md:690
+    """
     mult: _AxlMXYMult
+    """
+    This is a convenience function that does al_pt.x * f_factor and lpt.y * factor and returns the result
+    SKILL: axlMXYMult(l_uniVecf_factor[l_origin]) -> l_pt/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/24mthutl.md:718
+    """
     sub: _AxlMXYSub
+    """
+    This does al_pt1 - lpt2 and returns the result.
+    SKILL: axlMXYSub(l_pt1l_pt2) -> l_pt/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/24mthutl.md:751
+    """
 
 class AxlNet(FunctionCollection):
     class_add: _AxlNetClassAdd
+    """
+    Adds members to a netclass group
+    SKILL: axlNetClassAdd(o_netclassdbid/t_netclassNameo_dbid/lo_dbid)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/15dbgrp.md:244
+    """
     class_create: _AxlNetClassCreate
+    """
+    This creates a new netclass group
+    SKILL: axlNetClassCreate(t_nameg_domain/lg_domain)==> o_dbid
+    Version: Allegro 17.2-2016
+    Source: algroskill/15dbgrp.md:292
+    """
     class_delete: _AxlNetClassDelete
+    """
+    This deletes a net class group
+    SKILL: axlNetClassDelete(o_netclassdbid/t_netclassName/lg_netclassdbid) -> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/15dbgrp.md:327
+    """
     class_get: _AxlNetClassGet
+    """
+    Given a dbid (net, xnet, diffpair or bus) and a domain (spacing, physical or electrical) return its netclass
+    SKILL: axlNetClassGet(o_dbids_domaing_hierarchal)==> o_netclass
+    Version: Allegro 17.2-2016
+    Source: algroskill/15dbgrp.md:366
+    """
     class_remove: _AxlNetClassRemove
+    """
+    Removes elements from an existing net class group
+    SKILL: axlNetClassRemove(o_netclassdbid/t_netclassNameo_dbid/lo_dbid)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/15dbgrp.md:407
+    """
     ecset_value_get: _AxlNetEcsetValueGet
+    """
+    Returns the value of a specific electrical constraint that has been assigned to a given net
+    SKILL: axlNetEcsetValueGet(o_itemDbid/t_netNamet_cnsName/s_name)==> t_cnsValue/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part02.md:572
+    """
     sched: _AxlNetSched
+    """
+    This is the main routine that the command processor calls for thenet schedule command.
+    SKILL: axlNetSched() ==> t
+    Version: Allegro 17.2-2016
+    Source: algroskill/26logacc.md:891
+    """
 
 class AxlO(FunctionCollection):
     k2_void: _AxlOK2Void
+    """
+    Determines if voids are allowed for a givenclass/subclass
+    SKILL: axlOK2Void(t_layer)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/07dbaccs.md:916
+    """
 
 class AxlOK(FunctionCollection):
     to_proceed: _AxlOKToProceed
+    """
+    Checks whether Allegro PCB Editor is processing another interactive command or engaged in some process that might interfere with a SKILL command
+    SKILL: axlOKToProceed()⇒ t
+    Version: Allegro 17.2-2016
+    Source: algroskill/19cmdctl.md:234
+    """
 
 class AxlOl(FunctionCollection):
     ol2: _AxlOlOl2
+    """
+    No description available.
+    SKILL: signature unavailable; generic fallback
+    Version: Allegro 17.2-2016
+    Source: unavailable
+    """
 
 class AxlOpen(FunctionCollection):
     design: _AxlOpenDesign
+    """
+    Opens a design
+    SKILL: axlOpenDesign(?design t_design?mode t_mode?noMru g_noMru?ignoreLock g_noMru)⇒ t_design/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:587
+    """
     design_for_batch: _AxlOpenDesignForBatch
+    """
+    Opens a design
+    SKILL: axlOpenDesignForBatch(t_designt_mode)==> t_design/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:627
+    """
     find_filter: _AxlOpenFindFilter
+    """
+    This function is no longer required, but is kept for backward compatibility.
+    SKILL: axlOpenFindFilter()⇒ t
+    Version: Allegro 17.2-2016
+    Source: algroskill/05selfnd.md:990
+    """
 
 class AxlOS(FunctionCollection):
     back_slash: _AxlOSBackSlash
+    """
+    This changes UNIX style forward slashes to DOS style backslashes
+    SKILL: axlOSBackSlash(t_directory)==> t_directory/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:832
+    """
     control: _AxlOSControl
+    """
+    Inquires and/or sets the value dealing with the graphics
+    SKILL: axlOSControl(s_name[g_value])==> g_currentValue/ls_names
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:861
+    """
     file_copy: _AxlOSFileCopy
+    """
+    Copies a given source file to a given destination with optional append.
+    SKILL: axlOSFileCopy(t_srct_destg_append)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/21filacc.md:383
+    """
     file_move: _AxlOSFileMove
+    """
+    Moves the given source file to the given destination.
+    SKILL: axlOSFileMove(t_srct__dest)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/21filacc.md:410
+    """
     ntp: _AxlOSNtp
+    """
+    Reports time from a NTP server.
+    SKILL: axlOSNtp(s_modet_serverName/nil)==> x_nwtime/t_nwtime/t_server/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:909
+    """
     slash: _AxlOSSlash
+    """
+    Changes DOS style backslashes to UNIX style slashes which are more amenable to SKILL
+    SKILL: axlOSSlash(t_directory)⇒ t_directory/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/21filacc.md:436
+    """
 
 class AxlP(FunctionCollection):
     print: _AxlPPrint
+    """
+    Converts a string with Allegro PCB Editor's pretty print text function as follows:
+    SKILL: axlPPrint(t_name)⇒ t_pname
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:949
+    """
 
 class AxlPackage(FunctionCollection):
     design_check_add_category: _AxlPackageDesignCheckAddCategory
+    """
+    This function will register a new category inside the IC Packaging tools' "package integrity" command check tree.
+    SKILL: axlPackageDesignCheckAddCategory(t_namet_bitmapt_description)==> g_category / nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:1318
+    """
     design_check_add_check: _AxlPackageDesignCheckAddCheck
+    """
+    This function will register a new check in the specified category of the IC Packaging tools' "package integrity" command check tree.
+    SKILL: axlPackageDesignCheckAddCheck(t_category t_name t_bitmap t_descriptions_runCommand g_fixable) ==> defstruct defining check.
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:1360
+    """
     design_check_drc_error: _AxlPackageDesignCheckDrcError
+    """
+    This function will create an external DRC marker for an error found by the currently running package integrity check
+    SKILL: axlPackageDesignCheckDrcError(l_location o_dbids)==> nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:1421
+    """
     design_check_log_error: _AxlPackageDesignCheckLogError
+    """
+    This function will log an error found by this function to the log file if the log file is enabled
+    SKILL: axlPackageDesignCheckLogError(t_errorStringg_fixedg_location)==> nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:1451
+    """
 
 class AxlPad(FunctionCollection):
     figure_types: _AxlPadFigureTypes
+    """
+    Returns list of strings of supported pad figure types.Not all pad types and layers may support a figure type
+    SKILL: axlPadFigureTypes() => lt_names
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part02.md:147
+    """
     on_layer: _AxlPadOnLayer
+    """
+    Tests if a pad is present on an etch layer
+    SKILL: axlPadOnLayer(o_dbidt_layer/x_layerNumber[g_noPadSuppress])==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:730
+    """
     suppress_get: _AxlPadSuppressGet
+    """
+    Returns pad suppress layer characteristic for a layer or design
+    SKILL: axlPadSuppressGet(nil)==> ll_LayerPadSuppress
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:498
+    """
     suppress_ok_layer: _AxlPadSuppressOkLayer
+    """
+    Indicates if layer can be set for pad suppression
+    SKILL: axlPadSuppressOkLayer(t_layer/x_layerNumber)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:545
+    """
     suppress_set: _AxlPadSuppressSet
+    """
+    This modifies the pad suppression settings in the design
+    SKILL: axlPadSuppressSet(g_modell_LayerPadSuppress/'all/'none/nil)==> t/nil
+    SKILL: axlPadSuppressSet(g_modet_layer/x_layerNumberls_options) ==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:575
+    """
     user_mask_layers: _AxlPadUserMaskLayers
+    """
+    Supports following modes:
+    SKILL: axlPadUserMaskLayers(['max]) =>lt_names/x_cnt
+    SKILL: axlPadUserMaskLayers('createt_user_mask_layer) =>t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part02.md:348
+    """
 
 class AxlPadstack(FunctionCollection):
     edit: _AxlPadstackEdit
+    """
+    Inquire and set display options
+    SKILL: axlPadstackEdit(g_padstack g_attributes) => l_attributes/t/nil
+    SKILL: axlPadstackEdit(g_padstack s_name g_value) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part02.md:168
+    """
     set_type: _AxlPadstackSetType
+    """
+    Changes a padstack type
+    SKILL: axlPadstackSetType(o_padstack/t_padstackg_uviaBbvia) -> t/nil
+    SKILL: axlPadstackSetType(o_padstack/t_padstackg_typeg_value) -> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part02.md:280
+    """
     to_disk: _AxlPadstackToDisk
+    """
+    Saves a board padstack out to a library.
+    SKILL: axlPadstackToDisk([t_padName][t_outPadName])⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part02.md:355
+    """
     usage_types: _AxlPadstackUsageTypes
+    """
+    Returns list of strings of supported padstack usage types
+    SKILL: axlPadstackUsageTypes() => lt_names
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part02.md:328
+    """
 
 class AxlPath(FunctionCollection):
     arc_angle: _AxlPathArcAngle
+    """
+    No description available.
+    SKILL: axlPathArcAngle(r_path f_width l_endPoint g_clockwise f_angle) => r_path/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:88
+    """
     arc_center: _AxlPathArcCenter
+    """
+    Each of these functions provides a way to construct an arc segment from the current endpoint ofr_path to the given l_end_point in the direction specified by the Boolean g_clockwise, as described below and shown in [Figure 15-1](#367350 "...
+    SKILL: axlPathArcCenter(r_pathf_widthl_end_pointg_clockwisel_center)⇒ r_path/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:90
+    """
     arc_radius: _AxlPathArcRadius
+    """
+    No description available.
+    SKILL: axlPathArcRadius(r_path f_width l_endPoint g_clockwise g_bigarc f_radius) => r_path/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:86
+    """
     get_last_path_seg: _AxlPathGetLastPathSeg
+    """
+    Gets the last segment of a path structure.
+    SKILL: axlPathGetLastPathSeg(r_path)⇒ r_pathList/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:279
+    """
     get_path_segs: _AxlPathGetPathSegs
+    """
+    Gets a list of the segments of a path structure, in the order they appear in the path.
+    SKILL: axlPathGetPathSegs(r_path)⇒ r_pathList/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:244
+    """
     get_width: _AxlPathGetWidth
+    """
+    Gets the default width of an existing path structure.
+    SKILL: axlPathGetWidth(r_path)⇒ f_width/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:174
+    """
     line: _AxlPathLine
+    """
+    Adds a single straight line segment to the end of an existingr_path structure as specified by the arguments
+    SKILL: axlPathLine(r_pathf_widthl_end_point)⇒ r_path/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:149
+    """
     offset: _AxlPathOffset
+    """
+    Adds an offset,xy, to all points within a r_path.
+    SKILL: axlPathOffset(r_path offset) => r_path
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:449
+    """
     seg_get_arc_center: _AxlPathSegGetArcCenter
+    """
+    Gets the center point of a path arc segment.
+    SKILL: axlPathSegGetArcCenter(r_pathSeg)⇒ l_point/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:353
+    """
     seg_get_arc_clockwise: _AxlPathSegGetArcClockwise
+    """
+    Gets the clockwise flag (t or nil) of a path segment.
+    SKILL: axlPathSegGetArcClockwise(r_pathSeg)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:388
+    """
     seg_get_end_point: _AxlPathSegGetEndPoint
+    """
+    Gets the end point of an existing path structure.
+    SKILL: axlPathSegGetEndPoint(r_pathSeg)⇒ l_endPoint/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:316
+    """
     seg_get_width: _AxlPathSegGetWidth
+    """
+    Gets the width of a single segment in a path structure.
+    SKILL: axlPathSegGetWidth(r_pathSeg)⇒ f_width/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:207
+    """
     start: _AxlPathStart
+    """
+    Creates a new path with a startpoint and one or more segments as specified by the listl_points and returns the path dbid
+    SKILL: axlPathStart(l_points[f_width])⇒ r_path/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:63
+    """
     start_circle: _AxlPathStartCircle
+    """
+    Creates anaxlPath structure (r_path) for a circle.
+    SKILL: axlPathStartCircle(l_locationf_width)⇒ r_path/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part01.md:423
+    """
 
 class AxlPdf(FunctionCollection):
     view: _AxlPdfView
+    """
+    Displays a PDF file from Allegro PCB Editor
+    SKILL: axlPdfView(t_pdfFile)⇒ t
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:975
+    """
 
 class AxlPin(FunctionCollection):
     export: _AxlPinExport
+    """
+    This exports all pins in the symbol editor in csv format
+    SKILL: axlPinExport(g_includeTextLocation[t_csvfile])--> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:768
+    """
     pair: _AxlPinPair
+    """
+    This creates or deletes a pinpair
+    SKILL: axlPinPair( o_pin1/t_pin1 o_pin2/t_pin2 )==> o_pinpair
+    SKILL: axlPinPair( o_pinpair/lo_pinpair )==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/26logacc.md:909
+    """
     pair_seek: _AxlPinPairSeek
+    """
+    Given two pins or ratTs reports if they are part of a pinpair.
+    SKILL: axlPinPairSeek( o_pin1 o_pin2 )==> o_pinpair/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/26logacc.md:1009
+    """
 
 class AxlPins(FunctionCollection):
     of_net: _AxlPinsOfNet
+    """
+    Returns list of pins and ratTs on a net or xnet
+    SKILL: axlPinsOfNet( o_net/t_net g_mode ) -> lo_pins/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/26logacc.md:1045
+    """
 
 class AxlPoly(FunctionCollection):
     error_get: _AxlPolyErrorGet
+    """
+    Retrieves the error from the logop core
+    SKILL: axlPolyErrorGet ()⇒ t_error/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/20plyopr.md:520
+    """
     expand: _AxlPolyExpand
+    """
+    This function yields a list of polys after expanding them by a specified distance
+    SKILL: axlPolyExpand(o_polygon1 / lo_polygon1f_expandValues_expandType)⇒ lo_polygon/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/20plyopr.md:370
+    """
     from_db: _AxlPolyFromDB
+    """
+    Creates a list ofo_polygon objects from the dbidor an r_path
+    SKILL: axlPolyFromDB(o_dbid/r_path ?endCapType s_endCapType ?layer t_layer ?padType s_padType ?holes t/nil ?line2poly t/nil ?xhatch t/nil) => lo_polygon/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/20plyopr.md:141
+    """
     from_hole: _AxlPolyFromHole
+    """
+    Creates a new poly from the vertices of the hole, and sets theisHole attribute of the resulting poly to nil
+    SKILL: axlPolyFromHole (o_polygon)⇒ lo_polygon/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/20plyopr.md:493
+    """
     mem_use: _AxlPolyMemUse
+    """
+    This returns a list of integers reflecting the internal memory use of theaxlPoly interfaces
+    SKILL: axlPolyMemUse () -> lx_polyCounts
+    Version: Allegro 17.2-2016
+    Source: algroskill/20plyopr.md:240
+    """
     offset: _AxlPolyOffset
+    """
+    This offsets the entire poly by the provided xy coordinate
+    SKILL: axlPolyOffset (o_polygon/lo_polygonl_xy[g_copy])=> o_polygon
+    Version: Allegro 17.2-2016
+    Source: algroskill/20plyopr.md:283
+    """
     operation: _AxlPolyOperation
+    """
+    Performs the logical operation specified on the two sets of polygons
+    SKILL: axlPolyOperation(o_polygon1/lo_polygon1 o_polygon2/lo_polygon2 s_operation) => lo_polygon/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/20plyopr.md:321
+    """
 
 class AxlPrint(FunctionCollection):
     dbid: _AxlPrintDbid
+    """
+    This is a debug function to print one or a list of dbids
+    SKILL: axlPrintDbid(o_dbid/lo_dbid[o_port]) -> t
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:1004
+    """
 
 class AxlProtect(FunctionCollection):
     alias: _AxlProtectAlias
+    """
+    Controls the read-only attribute of an alias.
+    SKILL: axlProtectAlias(t_aliast/nil)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/09cmdshl.md:221
+    """
 
 class AxlPurge(FunctionCollection):
     padstacks: _AxlPurgePadstacks
+    """
+    Purges unused padstacks from the database in the area controlled byS_mode symbol.
+    SKILL: axlPurgePadstacks(s_mode g_option) => x_cnt
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:877
+    """
 
 class AxlRad(FunctionCollection):
     to_deg: _AxlRadToDeg
+    """
+    Converts an angle in radians to degrees.
+    SKILL: axlRadToDeg(n_angle) => f_angle
+    Version: Allegro 17.2-2016
+    Source: algroskill/24mthutl.md:779
+    """
 
 class AxlRatsnest(FunctionCollection):
     blank: _AxlRatsnestBlank
+    """
+    Blanks all ratsnest lines in a net.
+    SKILL: axlRatsnestBlank(rd_net)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:1152
+    """
     display: _AxlRatsnestDisplay
+    """
+    Displays all ratsnest lines in a net.
+    SKILL: axlRatsnestDisplay(rd_net)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:1171
+    """
 
 class AxlRead(FunctionCollection):
     only_variable: _AxlReadOnlyVariable
+    """
+    This sets, unsets or queries the read-only state of a Allegro PCB Editor environment variable
+    SKILL: axlReadOnlyVariable(t_variable[g_Enable])==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/09cmdshl.md:276
+    """
 
 class AxlRecursive(FunctionCollection):
     delete: _AxlRecursiveDelete
+    """
+    Recursively removes directories and subdirectories in the argument list
+    SKILL: axlRecursiveDelete(t_directory)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/21filacc.md:463
+    """
 
 class AxlRefresh(FunctionCollection):
     symbol: _AxlRefreshSymbol
+    """
+    Refreshes a symbol from file on disk which is located by current PSMPATH
+    SKILL: axlRefreshSymbol(t_symName/o_SymDef[g_options])==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/03dbcre8.part02.md:389
+    """
 
 class AxlRegion(FunctionCollection):
     add: _AxlRegionAdd
+    """
+    Adds members to a region group
+    SKILL: axlRegionAdd(o_regiondbid/t_regionNameo_dbid/lo_dbid)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/15dbgrp.md:441
+    """
     create: _AxlRegionCreate
+    """
+    Creates a new region group
+    SKILL: axlRegionCreate(t_name)==> o_dbid
+    Version: Allegro 17.2-2016
+    Source: algroskill/15dbgrp.md:489
+    """
     delete: _AxlRegionDelete
+    """
+    This deletes a region group
+    SKILL: axlRegionDelete(o_regiondbid/t_regionName/lg_regiondbid) -> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/15dbgrp.md:524
+    """
     remove: _AxlRegionRemove
+    """
+    Removes shapes from an existing region group
+    SKILL: axlRegionRemove(o_regiondbid/t_regionNameo_dbid/lo_dbid)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/15dbgrp.md:563
+    """
 
 class AxlRemove(FunctionCollection):
     net: _AxlRemoveNet
+    """
+    Removes a net
+    SKILL: axlRemoveNet(t_name/o_dbid[g_ripup])⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/26logacc.md:1088
+    """
 
 class AxlRename(FunctionCollection):
     design: _AxlRenameDesign
+    """
+    Changes the current design name
+    SKILL: axlRenameDesign(t_design)⇒ t_design/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:661
+    """
     net: _AxlRenameNet
+    """
+    Renames a net
+    SKILL: axlRenameNet(t_old_namet_new_name)⇒ t/nil
+    SKILL: axlRenameNet(o_dbidt_new_name)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/26logacc.md:1115
+    """
     refdes: _AxlRenameRefdes
+    """
+    Renames a refdes
+    SKILL: axlRenameRefdes(t_old_name/o_oldCompDbidt_new_name/o_newCompDbid ) ⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/26logacc.md:1156
+    """
 
 class AxlReplace(FunctionCollection):
     padstack: _AxlReplacePadstack
+    """
+    Replaces the padstack on a pin or via (or a list of them)
+    SKILL: axlReplacePadstack (o_dbid/lo_dbido_padstackdbid/t_padname)⇒ lo_dbid
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:851
+    """
 
 class AxlReport(FunctionCollection):
     list: _AxlReportList
+    """
+    Lists all the SKILL reports registered to the Allegro PCB Editor report interface
+    SKILL: axlReportList() => ll_reportList/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/22extrct.md:84
+    """
     register: _AxlReportRegister
+    """
+    Allows registration of user reports using the Allegro PCB Editor report dialog box
+    SKILL: axlReportRegister(g_reportCallbackt_descriptiont_title) ==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/22extrct.md:112
+    """
 
 class AxlRerat(FunctionCollection):
     net: _AxlReratNet
+    """
+    Rerats a net
+    SKILL: axlReratNet(t_netName/o_dbid)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:875
+    """
 
 class AxlRun(FunctionCollection):
     batch_db_program: _AxlRunBatchDBProgram
+    """
+    Spawns batch jobs that require an open database via an abstract model
+    SKILL: axlRunBatchDBProgram(t_prog t_cmdFmt ?logfile t_logfile ?startMsg t_startMsg ?reloadDB t/nil ?noUnload t/nil ?silent t/nil ?noProgress t/nil ?warnProgram t/nil) => t/x_error
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:1067
+    """
 
 class AxlSave(FunctionCollection):
     design: _AxlSaveDesign
+    """
+    Saves the design with the name specified (t_design)
+    SKILL: axlSaveDesign(?design t_design?mode t_option?noMru g_noMru?noConfirm g_noConfirm?writeModel g_write)⇒ t_design/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:688
+    """
     enable: _AxlSaveEnable
+    """
+    This queries or sets the design to save design
+    SKILL: axlSaveEnable([g_saveEnable]) -> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:729
+    """
 
 class AxlSchedule(FunctionCollection):
     net: _AxlScheduleNet
+    """
+    This applies a user schedule or a partial user schedule to a net
+    SKILL: axlScheduleNet( o_net/t_net t_schedule/nil ) ==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/26logacc.md:1261
+    """
 
 class AxlSeg(FunctionCollection):
     delay_and_z0: _AxlSegDelayAndZ0
+    """
+    Returns the delay and impedance of a cline segment
+    SKILL: axlSegDelayAndZ0(o_clineSegDbid)⇒ (f_delay f_z0)/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:1196
+    """
 
 class AxlSelect(FunctionCollection):
     by_name: _AxlSelectByName
+    """
+    Selects database objects by name.
+    SKILL: axlSelectByName (t_objectTypet_name/lt_name[g_wildcard])⇒ lo_dbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/05selfnd.md:1080
+    """
     by_property: _AxlSelectByProperty
+    """
+    Selects thedbid set of a particular Allegro PCB Editor database object with the indicated property.
+    SKILL: axlSelectByProperty(t_objectTypet_property[t_value][g_regularExpression])⇒ lo_dbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/05selfnd.md:1278
+    """
 
 class AxlSet(FunctionCollection):
     active_layer: _AxlSetActiveLayer
+    """
+    Sets the active class and subclass of the design.
+    SKILL: axlSetActiveLayer(t_layer)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:1416
+    """
     alias: _AxlSetAlias
+    """
+    You can set the Allegro PCB Editor environment alias with the name given by the stringt_alias to the value g_value using the axlSetAlias function
+    SKILL: axlSetAlias(t_aliasg_value)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/09cmdshl.md:335
+    """
     all_profiles_visible: _AxlSetAllProfilesVisible
+    """
+    Turns all wire profiles in the design on or off.
+    SKILL: axlSetAllProfilesVisible(visible)==> t / nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:846
+    """
     attachment: _AxlSetAttachment
+    """
+    Modifies an existing Allegro PCB Editor database attachment with the data contained in the given AXL attachment id
+    SKILL: axlSetAttachment(o_attachment[t_password])⇒ o_attachment/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/16dbatt.md:212
+    """
     bond_wire_profile: _AxlSetBondWireProfile
+    """
+    This command allows you to change the bond wire profile on one or more bond wires in the design
+    SKILL: axlSetBondWireProfile(bondWires profileName) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:863
+    """
     default_die_information: _AxlSetDefaultDieInformation
+    """
+    Sets the default die information for a component.
+    SKILL: axlSetDefaultDieInformation(comp)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:1221
+    """
     die_data: _AxlSetDieData
+    """
+    Sets the given data for the given die.
+    SKILL: axlSetDieData(g_dieIds_dataTypeg_newValue)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:1484
+    """
     die_stack_data: _AxlSetDieStackData
+    """
+    This function sets the given data for the specified die.
+    SKILL: axlSetDieStackData(g_stackId s_dataType g_newValue) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:937
+    """
     die_type: _AxlSetDieType
+    """
+    This function sets the attachment type for a die component to one of the available types
+    SKILL: axlSetDieType(o_componentDBIDt_dieType)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:1516
+    """
     dynamics_mirror: _AxlSetDynamicsMirror
+    """
+    Sets the Dynamics mirroring.
+    SKILL: axlSetDynamicsMirror(g_mirror) ==> g_oldmirror
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:1190
+    """
     dynamics_rotation: _AxlSetDynamicsRotation
+    """
+    Sets the Dynamics rotation
+    SKILL: axlSetDynamicsRotation(f_angle/nil) ==> f_oldangle
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:1218
+    """
     find_filter: _AxlSetFindFilter
+    """
+    Sets up both the object types to be displayed in the Find Filter, and which types among those are set to*on* in the **Find Filter**.
+    SKILL: axlSetFindFilter(?enabled lt_enabled ?onButtons lt_onButtons) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/05selfnd.md:798
+    """
     funckey: _AxlSetFunckey
+    """
+    Works similar toaxlSetAlias except allows alpha-number keys to work like function keys (no Enter key required)
+    SKILL: axlSetFunckey(_aliasg_value)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/09cmdshl.md:471
+    """
     iposer_data: _AxlSetIposerData
+    """
+    Sets the given data for the given iposer.
+    SKILL: axlSetIposerData(g_iposerIds_dataTypeg_newValue)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:1548
+    """
     line_lock: _AxlSetLineLock
+    """
+    Sets one or more of the line lock parameters
+    SKILL: axlSetLineLock(?arcEnable g_arcEnable?lockAngle f_lockAngle?minRadius f_minRadius?length45 f_length45?fixed45 g_fixed45?lengthRadius f_lengthRadius?fixedRadius g_fixedRadius?lockTangent g_lockTangent)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/19cmdctl.md:257
+    """
     param: _AxlSetParam
+    """
+    This allows applications to modify certain aspects of Allegro parameters
+    SKILL: axlSetParam (od_paramDbid)⇒ rd_paramDbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part01.md:867
+    """
     plane_type: _AxlSetPlaneType
+    """
+    This changes the photoplot type of a conductor or plane type layer between positive or negative artwork
+    SKILL: axlSetPlaneType(t_subclassNamet_planeType)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part02.md:474
+    """
     rotate_increment: _AxlSetRotateIncrement
+    """
+    Sets the dynamic rotate angle increment in degrees (f_angular) or radians (f_radial)
+    SKILL: axlSetRotateIncrement(?angular f_angular?radial f_radial)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/19cmdctl.md:293
+    """
     spacer_data: _AxlSetSpacerData
+    """
+    This function sets the given data for the given spacer.
+    SKILL: axlSetSpacerData(g_spacerIds_dataTypeg_newValue)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:1576
+    """
     symbol_type: _AxlSetSymbolType
+    """
+    Sets the Allegro PCB Editor symbol type
+    SKILL: axlSetSymbolType(t_symbolType)⇒ t_symbolType/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:107
+    """
     variable: _AxlSetVariable
+    """
+    Sets the Allegro PCB Editor environment variable with name given by the stringt_variable to the value g_value
+    SKILL: axlSetVariable(t_variable [g_value])⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/09cmdshl.md:509
+    """
     variable_file: _AxlSetVariableFile
+    """
+    Sets and saves to file Allegro environment variable
+    SKILL: axlSetVariableFile(t_variableg_value)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/09cmdshl.md:563
+    """
     wire_profile_color: _AxlSetWireProfileColor
+    """
+    This function will set the color of a wire profile to the given value.
+    SKILL: axlSetWireProfileColor(t_profile n_color)==> t / nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:1601
+    """
     wire_profile_visible: _AxlSetWireProfileVisible
+    """
+    No description available.
+    SKILL: axlSetWireProfileVisible(t_profile g_visible)==> t / nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/sipapd.md:1621
+    """
 
 class AxlShape(FunctionCollection):
     auto_void: _AxlShapeAutoVoid
+    """
+    Autovoids a static shape using current static shape parameters to control voiding except where options provide an override
+    SKILL: axlShapeAutoVoid(o_shapeId[s_options/ls_options])==> lo_shapeIds/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:915
+    """
     change_dynamic_type: _AxlShapeChangeDynamicType
+    """
+    Swaps a connectivity shape from static to dynamic or the reverse
+    SKILL: axlShapeChangeDynamicType(o_shapeIdg_dynamicg_msgs) -> o_dynShapeId/l_staticShapeId/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:958
+    """
     delete_voids: _AxlShapeDeleteVoids
+    """
+    Lets you delete voids in a shape
+    SKILL: axlShapeDeleteVoids(o_shapeId/o_voidId/lo_voidid) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:1010
+    """
     dynamic_update: _AxlShapeDynamicUpdate
+    """
+    Updates a dynamic shape, or ifnil, all dynamic shapes are updated
+    SKILL: axlShapeDynamicUpdate(o_shapeDbid/nilg_force) -> x_ood/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:1063
+    """
     merge: _AxlShapeMerge
+    """
+    This merges shapes
+    SKILL: axlShapeMerge(o_shapeIdlo_shapesg_options/lg_options) -> o_dynShapeId/l_staticShapeId/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:1131
+    """
     raise_priority: _AxlShapeRaisePriority
+    """
+    Raises the voiding priority of a dynamic shape (o_shapeId) to the highest on the chosen layer
+    SKILL: axlShapeRaisePriority(o_shapeId) -> x_priority/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:1095
+    """
 
 class AxlShell(FunctionCollection):
     post: _AxlShellPost
+    """
+    This works similar toaxlShell except it first requires a return from the Skill interpreter before executing the command(s)
+    SKILL: axlShellPost(t_command) ==> t
+    Version: Allegro 17.2-2016
+    Source: algroskill/09cmdshl.md:626
+    """
 
 class AxlShove(FunctionCollection):
     items: _AxlShoveItems
+    """
+    Takes a list ofdbids and shoves them according to the parameters set using axlShoveSetParams.
+    SKILL: axlShoveItems(l_itemList)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:1178
+    """
     set_params: _AxlShoveSetParams
+    """
+    Sets the parameters used for shoving by theaxlShoveItems
+    SKILL: axlShoveSetParams(l_params)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:1219
+    """
 
 class AxlShow(FunctionCollection):
     object: _AxlShowObject
+    """
+    Displays the object data for eachdbid in lud_dbid in a *Show Element* window
+    SKILL: axlShowObject(lud_dbid)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:1247
+    """
     object_to_file: _AxlShowObjectToFile
+    """
+    Creates a temporary file with show element information ondbids specified in lo_dbid.
+    SKILL: axlShowObjectToFile(lo_dbid[t_file_name])⇒ (t_file_name x_width x_line_count)
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:1243
+    """
 
 class AxlSingle(FunctionCollection):
     select_box: _AxlSingleSelectBox
+    """
+    Clears the select set, finds all figures inside the rectanglel_bBox according to the Find Filter, and adds the selected figure dbids in single mode to the select set.
+    SKILL: axlSingleSelectBox([l_bBox])⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/05selfnd.md:269
+    """
     select_name: _AxlSingleSelectName
+    """
+    Finds figures by their names
+    SKILL: axlSingleSelectName(t_nameTypel_names[g_wildcard])⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/05selfnd.md:439
+    """
     select_object: _AxlSingleSelectObject
+    """
+    Clears contents of the select set and adds thedbids in lo_dbid to the select set in single mode
+    SKILL: axlSingleSelectObject(lo_dbid)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/05selfnd.md:541
+    """
     select_point: _AxlSingleSelectPoint
+    """
+    Clears the select set, finds a figure atl_point according to the Find Filter, and puts the selected figure dbid in the select set
+    SKILL: axlSingleSelectPoint([l_point][g_trapSize])⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/05selfnd.md:157
+    """
 
 class AxlSmooth(FunctionCollection):
     design: _AxlSmoothDesign
+    """
+    Smooths the entire design
+    SKILL: axlSmoothDesign(lx_numPasses) -> x_change
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:1296
+    """
     items: _AxlSmoothItems
+    """
+    Takes a list of dbids representing clines and/or cline segments and smooths them according to the parameters set using the[axlSmoothSetParams](#832247 "5")() function.
+    SKILL: axlSmoothItems (lo_clineList) ==> (x_list
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:1325
+    """
     set_params: _AxlSmoothSetParams
+    """
+    Sets the parameters used for smoothing the routes
+    SKILL: axlSmoothSetParams(l_params) ==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:1361
+    """
 
 class AxlSnap(FunctionCollection):
     to_object: _AxlSnapToObject
+    """
+    Supports snapping to a logic object's connect point
+    SKILL: axlSnapToObject(g_modexy)⇒ xy/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/05selfnd.md:1332
+    """
 
 class AxlSpreadsheet(FunctionCollection):
     close: _AxlSpreadsheetClose
+    """
+    Releases the spreadsheet document in memory
+    SKILL: axlSpreadsheetClose() ==> t
+    Version: Allegro 17.2-2016
+    Source: algroskill/msexl.md:9
+    """
     define_cell: _AxlSpreadsheetDefineCell
+    """
+    Completely defines a single cell in the active worksheet
+    SKILL: axlSpreadsheetDefineCell(x_rowx_colt_stylet_typet_value)==> t / nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/msexl.md:48
+    """
     get_cell: _AxlSpreadsheetGetCell
+    """
+    Retrieves the data from the specified cell.
+    SKILL: axlSpreadsheetGetCell(x_rowx_col)==> g_cellData/ nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/msexl.md:163
+    """
     get_rgb_color_string: _AxlSpreadsheetGetRGBColorString
+    """
+    Given red, green, and blue color values, return an RGB string for use in spreadsheet style definitions in format required for Microsoft open spreadsheet format.
+    SKILL: axlSpreadsheetGetRGBColorString(x_redx_greenx_blue) ==> t_rgb / nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/msexl.md:201
+    """
     get_rgb_for_named_color: _AxlSpreadsheetGetRGBForNamedColor
+    """
+    Spreadsheets have a small set of known, pre-defined color values
+    SKILL: axlSpreadsheetGetRGBForNamedColor(t_name) ==> t_rgb / nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/msexl.md:232
+    """
     get_styles: _AxlSpreadsheetGetStyles
+    """
+    Retrieves a list of all the styles defined for the active spreadsheet
+    SKILL: axlSpreadsheetGetStyles()==> l_styles / nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/msexl.md:261
+    """
     get_worksheet_size: _AxlSpreadsheetGetWorksheetSize
+    """
+    Return the "size" of the current worksheet, in terms of the highest row and column which have data.
+    SKILL: axlSpreadsheetGetWorksheetSize()==> l_rowsColumns/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/msexl.md:327
+    """
     get_worksheets: _AxlSpreadsheetGetWorksheets
+    """
+    Retrieves a list of all the worksheets defined in the active spreadsheet
+    SKILL: axlSpreadsheetGetWorksheets()==> l_worksheets / nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/msexl.md:295
+    """
     init: _AxlSpreadsheetInit
+    """
+    Initializes an empty spreadsheet document to begin filling it with worksheets, styles, and cell data
+    SKILL: axlSpreadsheetInit() ==> t / nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/msexl.md:361
+    """
     read: _AxlSpreadsheetRead
+    """
+    Read a spreadsheet file on disk into memory for data access and manipulation
+    SKILL: axlSpreadsheetRead(t_fileName)==> t / nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/msexl.md:399
+    """
     read_delimited: _AxlSpreadsheetReadDelimited
+    """
+    Read a text file on disk into memory for data access and manipulation as a spreadsheet
+    SKILL: axlSpreadsheetReadDelimited(t_fileName, t_delimiter) ==> t / nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/msexl.md:436
+    """
     set_cell: _AxlSpreadsheetSetCell
+    """
+    Make the active row/column of the current worksheet active.
+    SKILL: axlSpreadsheetSetCell(x_rowx_col)==> t / nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/msexl.md:476
+    """
     set_cell_prop: _AxlSpreadsheetSetCellProp
+    """
+    Sets a property on the active cell in the spreadsheet.
+    SKILL: axlSpreadsheetSetCellProp(t_propNamet_propVal)==> t / nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/msexl.md:528
+    """
     set_column_prop: _AxlSpreadsheetSetColumnProp
+    """
+    Sets a property for the given column of the active worksheet.
+    SKILL: axlSpreadsheetSetColumnProp(x_columnt_propNamet_propVal)==> t / nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/msexl.md:574
+    """
     set_doc_prop: _AxlSpreadsheetSetDocProp
+    """
+    Sets a property on the document (spreadsheet) itself.
+    SKILL: axlSpreadsheetSetDocProp(t_propNamet_propVal)==> t / nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/msexl.md:618
+    """
     set_row_prop: _AxlSpreadsheetSetRowProp
+    """
+    Sets a property for the given row of the active worksheet.
+    SKILL: axlSpreadsheetSetRowProp(x_rowt_propNamet_propVal)==> t / nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/msexl.md:652
+    """
     set_style: _AxlSpreadsheetSetStyle
+    """
+    Defines or activates the specified style in the active spreadsheet
+    SKILL: axlSpreadsheetSetStyle(t_idt_name)==> t / nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/msexl.md:689
+    """
     set_style_border: _AxlSpreadsheetSetStyleBorder
+    """
+    Sets the cell border properties for a active style definition.
+    SKILL: axlSpreadsheetSetStyleBorder(t_positiont_colort_lineStylet_weight)==> t / nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/msexl.md:721
+    """
     set_style_parent: _AxlSpreadsheetSetStyleParent
+    """
+    Sets the active style's parent
+    SKILL: axlSpreadsheetSetStyleParent(t_parent)==> t / nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/msexl.md:772
+    """
     set_style_prop: _AxlSpreadsheetSetStyleProp
+    """
+    Sets a specific style property in the active style definition.
+    SKILL: axlSpreadsheetSetStyleProp(t_typet_propNamet_propVal) ==> t / nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/msexl.md:807
+    """
     set_worksheet: _AxlSpreadsheetSetWorksheet
+    """
+    Makes the specified worksheet the active one for future cell references
+    SKILL: axlSpreadsheetSetWorksheet(t_name)==> t / nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/msexl.md:888
+    """
     write: _AxlSpreadsheetWrite
+    """
+    Write the spreadsheet in memory to file on disk
+    SKILL: axlSpreadsheetWrite(t_fileName)==> t / nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/msexl.md:919
+    """
 
 class AxlStrcmp(FunctionCollection):
     alp_num: _AxlStrcmpAlpNum
+    """
+    Provides an alpha-numeric sort similar toalphalessp with one important distinction
+    SKILL: axlStrcmpAlpNum(t_str1t_str2)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:1418
+    """
 
 class AxlString(FunctionCollection):
     csv_parse: _AxlStringCSVParse
+    """
+    Parses a comma delimited line (typical from Excel)
+    SKILL: axlStringCSVParse(t_string[g_stripWhite][t_separator]) -> lt_string/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:1450
+    """
     remove_spaces: _AxlStringRemoveSpaces
+    """
+    This will strip leading or trailing whitespace from a string (standard Cilspace() macro)
+    SKILL: axlStringRemoveSpaces(t_string) -> t_modString/nil
+    SKILL: axlStringRemoveSpaces(lt_string) -> lt_modString/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:1499
+    """
 
 class AxlSub(FunctionCollection):
     select_all: _AxlSubSelectAll
+    """
+    Finds all figures in the database that pass the current Find Filter and deletes theirdbids from the select set
+    SKILL: axlSubSelectAll()⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/05selfnd.md:379
+    """
     select_box: _AxlSubSelectBox
+    """
+    Finds one or more figures inside the rectanglel_bBox according to the Find Filter, and deletes their dbids from the select set in *cumulated* mode
+    SKILL: axlSubSelectBox([l_bBox])⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/05selfnd.md:330
+    """
     select_name: _AxlSubSelectName
+    """
+    Removesdbids of the named figure from the select set using the arguments described
+    SKILL: axlSubSelectName(t_nameTypel_names)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/05selfnd.md:512
+    """
     select_object: _AxlSubSelectObject
+    """
+    Removes thedbids in lo_dbid from the select set in cumulated mode
+    SKILL: axlSubSelectObject(lo_dbid)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/05selfnd.md:597
+    """
     select_point: _AxlSubSelectPoint
+    """
+    Finds a figure atl_point according to the Find Filter and deletes its dbid from the select set in cumulated mode
+    SKILL: axlSubSelectPoint([l_point])⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/05selfnd.md:224
+    """
 
 class AxlSubclass(FunctionCollection):
     form_popup: _AxlSubclassFormPopup
+    """
+    Builds a form pop-up for a given Allegro PCB Editor class for a given field ofr_form using the axlSubclassFormPopup function
+    SKILL: axlSubclassFormPopup(r_formt_fieldt_classnil/lt_subclass)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/19cmdctl.md:509
+    """
     route: _AxlSubclassRoute
+    """
+    Lists subclasses that make up class ETCH.
+    SKILL: axlSubclassRoute(?field s_name?value g_value) -> lt_subclasses
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part02.md:546
+    """
 
 class AxlSymbol(FunctionCollection):
     attach: _AxlSymbolAttach
+    """
+    Attaches an object or list of objects to symbol instance
+    SKILL: axlSymbolAttach(o_symInstDbido_dbid/lo_dbid)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:1423
+    """
     detach: _AxlSymbolDetach
+    """
+    Remove an object from a symbol instance
+    SKILL: axlSymbolDetach(o_symInstDbido_dbid/lo_dbid/g_mode)==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:1481
+    """
 
 class AxlTechnology(FunctionCollection):
     type: _AxlTechnologyType
+    """
+    Returns the type of design technology in use.
+    SKILL: axlTechnologyType()⇒ t_technology
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:1182
+    """
 
 class AxlTemp(FunctionCollection):
     directory: _AxlTempDirectory
+    """
+    Returns the temporary directory for the current platform.
+    SKILL: axlTempDirectory()⇒ t_directoryName/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/21filacc.md:505
+    """
     file: _AxlTempFile
+    """
+    Returns a unique temp file name
+    SKILL: axlTempFile([g_local])⇒ t_tempFileName/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/21filacc.md:523
+    """
     file_remove: _AxlTempFileRemove
+    """
+    Deletes the temporary file and removes the temporary name from the pool
+    SKILL: axlTempFileRemove(t_filename)⇒ t
+    Version: Allegro 17.2-2016
+    Source: algroskill/21filacc.md:544
+    """
 
 class AxlTest(FunctionCollection):
     point: _AxlTestPoint
+    """
+    Sets or clears a pin and/or via's test point status
+    SKILL: axlTestPoint(o_dbid g_mode) => t/nil/s_error
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:1075
+    """
 
 class AxlText(FunctionCollection):
     orientation_copy: _AxlTextOrientationCopy
+    """
+    This is a convenience function that updates a TextOrientation defstruct based upon a text dbid
+    SKILL: axlTextOrientationCopy(o_textDbid[orient]) -> orient/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:1566
+    """
 
 class AxlText2(FunctionCollection):
     lines: _AxlText2Lines
+    """
+    This vectorizes a text dbid into a list of lists ofr_path objects.
+    SKILL: axlText2Lines(o_textDbid)==> llr_path/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:899
+    """
 
 class AxlTransform(FunctionCollection):
     object: _AxlTransformObject
+    """
+    Moves, rotates, and/or spins one object or a list of objects
+    SKILL: axlTransformObject(lo_dbid/o_dbid ?move l_deltaPoint ?mirror t/nil/'GEOMETRY ?angle f_angle ?origin l_rotatePoint ?allOrNone t/nil) => lo_dbid/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:1590
+    """
 
 class AxlTrigger(FunctionCollection):
     clear: _AxlTriggerClear
+    """
+    Removes a registered callback trigger
+    SKILL: axlTriggerClear(s_triggers_function)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:1204
+    """
     print: _AxlTriggerPrint
+    """
+    Debug function that prints what is registered for triggers.
+    SKILL: axlTriggerPrint()⇒ t
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:1228
+    """
     set: _AxlTriggerSet
+    """
+    Allows an application to register interest in events that occur in Allegro PCB Editor
+    SKILL: axlTriggerSet(s_triggers_function)⇒ t/nil
+    SKILL: axlTriggerSet(nilnil)⇒ (ls_listOfSupportTriggers)
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:1245
+    """
 
 class AxlUI(FunctionCollection):
     cmd_popup_set: _AxlUICmdPopupSet
+    """
+    Sets up a popup menu with all menu items required throughout the execution of the command
+    SKILL: axlUICmdPopupSet(r_popup)⇒ r_prevPopup
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:1267
+    """
     color_dialog: _AxlUIColorDialog
+    """
+    Invokes standard color selection dialog box
+    SKILL: axlUIColorDialog(r_window/nill_rgb) -> l_rgb/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:705
+    """
     confirm: _AxlUIConfirm
+    """
+    Displays the stringt_message in a confirmer window.
+    SKILL: axlUIConfirm(t_message[s_level])==> t
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:743
+    """
     confirm_ex: _AxlUIConfirmEx
+    """
+    Displays the stringt_message in a confirmer window with an optional check box to never show the box again.
+    SKILL: axlUIConfirmEx(t_messaget_key/nil[s_level])==> t
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:780
+    """
     control: _AxlUIControl
+    """
+    Inquire about graphics canvas
+    SKILL: axlUIControl(s_name[g_value])==> g_currentValue/ls_names
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:817
+    """
     data_browse: _AxlUIDataBrowse
+    """
+    Analyzes all objects requested by the caller function, passing each through the caller's callback function
+    SKILL: axlUIDataBrowse(s_dataTypels_optionst_titleg_sorted[t_helpTag][l_callback][g_args])⇒ lg_return
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part02.md:540
+    """
     edit_file: _AxlUIEditFile
+    """
+    Allows the user to edit a file in an OS independent manner (works under both UNIX and Windows.)
+    SKILL: axlUIEditFile(t_filenamet_title/nilg_block ) ⇒ r_window/t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part02.md:82
+    """
     get_user_data: _AxlUIGetUserData
+    """
+    Gets the current user data structure from Allegro PCB Editor
+    SKILL: axlUIGetUserData()⇒ r_userData/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/19cmdctl.md:318
+    """
     menu_change: _AxlUIMenuChange
+    """
+    This changes one or more parameters of an existing menu item.
+    SKILL: axlUIMenuChange(x_menuId [*g_optionPairs]) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:886
+    """
     menu_debug: _AxlUIMenuDebug
+    """
+    A debug function for axl Menu Trigger
+    SKILL: axlUIMenuDebug([g_option]) => ll_menu/t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:935
+    """
     menu_delete: _AxlUIMenuDelete
+    """
+    This deletes a single menu item or submenu based upon what is the current find menu item.
+    SKILL: axlUIMenuDelete(x_menuId) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:960
+    """
     menu_dump: _AxlUIMenuDump
+    """
+    Dumps the current menu of the main window to thet_menuFilefile
+    SKILL: axlUIMenuDump (t_MenuFile[g_debug]) ⇒ t_previousMenuName/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:677
+    """
     menu_find: _AxlUIMenuFind
+    """
+    Finds a menu item by location or a command
+    SKILL: axlUIMenuFind(x_menuId/nilt_cmdName/x_location[g_menuOption]) ==> x_menuId/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:997
+    """
     menu_insert: _AxlUIMenuInsert
+    """
+    Inserts menu items to an existing menu
+    SKILL: axlUIMenuInsert(x_menuIdt_displayt_command) -> t/nil
+    SKILL: axlUIMenuInsert(x_menuId'separator) -> t/nil
+    SKILL: axlUIMenuInsert(x_menuId'popupt_display) -> x_subMenuId/nil
+    SKILL: axlUIMenuInsert(x_menuId'end) -> t/nil
+    SKILL: axlUIMenuInsert(x_menuIdll_items) -> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:1076
+    """
     menu_load: _AxlUIMenuLoad
+    """
+    Loads the main window menu from the filet_menuFile
+    SKILL: axlUIMenuLoad (t_menufile )⇒ t_previousMenuName/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:650
+    """
     menu_register: _AxlUIMenuRegister
+    """
+    This allows you to register menu items to be loaded when Allegro loads a new menu
+    SKILL: axlUIMenuRegister(t_command/x_locationll_menu[g_menuOption]) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:1181
+    """
     multiple_choice: _AxlUIMultipleChoice
+    """
+    Displays a dialog box containing a question with a set of two or more answers in a list
+    SKILL: axlUIMultipleChoice(t_questionlt_answers[t_title] ) ⇒ x_answer/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part02.md:132
+    """
     popup_define: _AxlUIPopupDefine
+    """
+    Creates a pop-up from the name value pair listts_pairs
+    SKILL: axlUIPopupDefine(r_popupts_pairs)⇒ r_popup/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/19cmdctl.md:349
+    """
     popup_set: _AxlUIPopupSet
+    """
+    Sets the active pop-up in Allegro PCB Editor
+    SKILL: axlUIPopupSet(r_popup)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/19cmdctl.md:385
+    """
     prompt: _AxlUIPrompt
+    """
+    Displays the stringt_message in a form
+    SKILL: axlUIPrompt(t_message [g_defaultOrPassword]) => t_response/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:1237
+    """
     view_file_create: _AxlUIViewFileCreate
+    """
+    Opens a file view window to display a file (t_file), it is an error for file not to exist
+    SKILL: axlUIViewFileCreate(t_filet_titleg_deleteFile[lx_size][lt_placement][g_formToExpose])⇒ r_windowMsg/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:1517
+    """
     view_file_reuse: _AxlUIViewFileReuse
+    """
+    Reuses the view window to display a file (t\\_file)
+    SKILL: axlUIViewFileReuse(r_windowMsgt_filet_titleg_deleteFile[g_formToExpose])⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:1561
+    """
     view_file_scroll_to: _AxlUIViewFileScrollTo
+    """
+    Scrolls to a specified line in the file viewer
+    SKILL: axlUIViewFileScrollTo(r_windowMsgx_line/nil)⇒ x_lines/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part02.md:163
+    """
     yes_no: _AxlUIYesNo
+    """
+    Provides a dialog box displaying the messaget_message
+    SKILL: axlUIYesNo( t_message [t_title] [s_default] ) ==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:1596
+    """
     yes_no_cancel: _AxlUIYesNoCancel
+    """
+    Displays a blocking*Yes*/*No*/*Cancel* dialog box with the prompt message provided.
+    SKILL: axlUIYesNoCancel(t_message[t_title][s_default])⇒ x_result
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part02.md:518
+    """
 
 class AxlUIW(FunctionCollection):
     beep: _AxlUIWBeep
+    """
+    Sends an alert to the user, usually a beep.
+    SKILL: axlUIWBeep()⇒ t
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part02.md:197
+    """
     block: _AxlUIWBlock
+    """
+    * ***This function is not compatible with the g\\_nonBlock = nil option to axlFormCreate
+    SKILL: axlUIWBlock(r_window ) ⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part02.md:49
+    """
     close: _AxlUIWClose
+    """
+    Closes a window, if it is open.
+    SKILL: axlUIWClose(r_window/t_window)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:1708
+    """
     close_all: _AxlUIWCloseAll
+    """
+    This closes all temporary windows (dialogs and text view windows)
+    SKILL: axlUIWCloseAll()==> t / nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:1290
+    """
     disable_quit: _AxlUIWDisableQuit
+    """
+    Disables the system menu*Quit* option so the user cannot choose it to close the window.
+    SKILL: axlUIWDisableQuit(o_window) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part02.md:217
+    """
     expose: _AxlUIWExpose
+    """
+    Opens and redisplays a hidden or iconified window, bringing it to the front of all other current windows on the display
+    SKILL: axlUIWExpose(r_window/nil)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:1675
+    """
     expose_by_name: _AxlUIWExposeByName
+    """
+    Finds a window by name and exposes it (raises it to the top of the window stack and restores it to a window state it if it is an icon).
+    SKILL: axlUIWExposeByName(t_windowName ) ⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part02.md:240
+    """
     help_register: _AxlUIWHelpRegister
+    """
+    This registers a help document for a user written skill command or form (dialog)
+    SKILL: axlUIWHelpRegister(t_cmd t_helpFile) => t/nil
+    SKILL: axlUIWHelpRegister(g_command) => t_file/lt_cmds/t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:1750
+    """
     iconify: _AxlUIWIconify
+    """
+    This command either creates an icon for a window or open a window from an icon.This is different from[axlUIWExpose](#101852 "10"), which also opens a window from an icon but exposes hidden windows and permits raising a window to the top...
+    SKILL: axlUIWIconify (r_window/t_windowt/nil)=> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:1311
+    """
     is_iconic: _AxlUIWIsIconic
+    """
+    Is the window in an icon state.nil may be used for the main window
+    SKILL: axlUIWIsIconic(r_window/t_window)=> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:1342
+    """
     is_window: _AxlUIWIsWindow
+    """
+    Returnst if named window is open
+    SKILL: axlUIWIsWindow (t_window)=> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:1372
+    """
     move: _AxlUIWMove
+    """
+    Moves a window
+    SKILL: axlUIWMove(r_window/nilt_windowl_xy)-> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:1401
+    """
     perm: _AxlUIWPerm
+    """
+    Normally forms and other windows close automatically when another database opens
+    SKILL: axlUIWPerm(r_window[t/nil] ) ⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part02.md:269
+    """
     print: _AxlUIWPrint
+    """
+    Prints a message to a window other than the main window
+    SKILL: axlUIWPrint(r_window/nil t_formatString [*g_args]) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:1804
+    """
     redraw: _AxlUIWRedraw
+    """
+    Redraws indicated window
+    SKILL: axlUIWRedraw(r_window/nil) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:1438
+    """
     set_help_tag: _AxlUIWSetHelpTag
+    """
+    This has been mostly replaced by[axlUIWHelpRegister](#404919 "10") that works for commands and forms.
+    SKILL: axlUIWSetHelpTag(r_windowt_tag)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part02.md:313
+    """
     set_parent: _AxlUIWSetParent
+    """
+    Sets the parent of a window
+    SKILL: axlUIWSetParent(o_childWindowo_parentWindow/nil ) ⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part02.md:346
+    """
     show: _AxlUIWShow
+    """
+    Shows or hides a window depending on the option passed
+    SKILL: axlUIWShow(r_window/nils_option)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part02.md:382
+    """
     size: _AxlUIWSize
+    """
+    Returns outer size of a window
+    SKILL: axlUIWSize(r_window/nil)-> ll_rect
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part01.md:1457
+    """
     timer_add: _AxlUIWTimerAdd
+    """
+    Adds or removes a callback for an interval timer.
+    SKILL: axlUIWTimerAdd(o_windowx_timeoutg_oneshotu_callback)⇒ o_timerId/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part02.md:412
+    """
     timer_remove: _AxlUIWTimerRemove
+    """
+    Removes a timer added byaxlUIWTimerAdd.
+    SKILL: axlUIWTimerRemove(o_timerId) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part02.md:474
+    """
     update: _AxlUIWUpdate
+    """
+    Forces an update of a window
+    SKILL: axlUIWUpdate(r_window/nil)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/10usrint.part02.md:497
+    """
 
 class AxlUnfix(FunctionCollection):
     all: _AxlUnfixAll
+    """
+    This is a convenience API.
+    SKILL: axlUnfixAll()==> x_count
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:996
+    """
 
 class AxlUnset(FunctionCollection):
     variable: _AxlUnsetVariable
+    """
+    Unsets the Allegro PCB Editor environment variable with the name given by the stringt_variable
+    SKILL: axlUnsetVariable(t_variable)⇒ t
+    Version: Allegro 17.2-2016
+    Source: algroskill/09cmdshl.md:680
+    """
     variable_file: _AxlUnsetVariableFile
+    """
+    Unsets the value of specified Allegro environment variable
+    SKILL: axlUnsetVariableFile(t_variable )==> t
+    Version: Allegro 17.2-2016
+    Source: algroskill/09cmdshl.md:712
+    """
 
 class AxlVersion(FunctionCollection):
     id_get: _AxlVersionIdGet
+    """
+    Returns an id stamp based upon computer time.
+    SKILL: axlVersionIdGet()⇒ x_time
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:1604
+    """
     id_print: _AxlVersionIdPrint
+    """
+    Prints version\\_id.
+    SKILL: axlVersionIdPrint(x_time/t_time) => t_printTime/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/23utils.md:1621
+    """
 
 class AxlVia(FunctionCollection):
     z_length: _AxlViaZLength
+    """
+    Returns the via length from layer1 to layer2
+    SKILL: axlViaZLength(t_layer1t_layer2[g_inclusion]) -> f_length
+    Version: Allegro 17.2-2016
+    Source: algroskill/18consmgt.part02.md:536
+    """
 
 class AxlVisible(FunctionCollection):
     design: _AxlVisibleDesign
+    """
+    Makes entire design visible or invisible
+    SKILL: axlVisibleDesign(g_makeVis)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part02.md:235
+    """
     get: _AxlVisibleGet
+    """
+    Returns the visibility of the entire design - which layers are visible/invisible.
+    SKILL: axlVisibleGet()⇒ l_visList/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part02.md:288
+    """
     layer: _AxlVisibleLayer
+    """
+    Sets a given layer to visible or invisible
+    SKILL: axlVisibleLayer(t_layerg_makeVis)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part02.md:371
+    """
     set: _AxlVisibleSet
+    """
+    Sets the visibility of the entire design.
+    SKILL: axlVisibleSet( l_visList)⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part02.md:397
+    """
     update: _AxlVisibleUpdate
+    """
+    TheaxlVisible family and its base building block permit changing layer color and visibility.
+    SKILL: axlVisibleUpdate(t_now)⇒ t
+    Version: Allegro 17.2-2016
+    Source: algroskill/19cmdctl.md:561
+    """
 
 class AxlWFM(FunctionCollection):
     any_exported: _AxlWFMAnyExported
+    """
+    Reports if there are any exported partitions.
+    SKILL: axlWFMAnyExported()==> t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/14dsnctl.md:1441
+    """
 
 class AxlWidth2(FunctionCollection):
     impedance: _AxlWidth2Impedance
+    """
+    Converts the given line width on a specified layer to an impedance
+    SKILL: axlWidth2Impedance(t_layer/x_layerNumf_lineWidth) ==> f_impedance/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/25dbmisc.md:1019
+    """
 
 class AxlWindow(FunctionCollection):
     box_get: _AxlWindowBoxGet
+    """
+    Returns the bounding box of the Allegro PCB Editor window currently visible to the user, in design units.
+    SKILL: axlWindowBoxGet()⇒ l_bBox
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:815
+    """
     box_set: _AxlWindowBoxSet
+    """
+    Sets Allegro PCB Editor display to given bBox
+    SKILL: axlWindowBoxSet(l_bBox)⇒ l_bBox/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/06intedt.part01.md:832
+    """
     fit: _AxlWindowFit
+    """
+    Zooms in to (or out of) a design fitting it fully on the window
+    SKILL: axlWindowFit()⇒ l_bBox
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:1289
+    """
 
 class AxlWrite(FunctionCollection):
     device_file: _AxlWriteDeviceFile
+    """
+    Given a component definition, writes out a third party device file
+    SKILL: axlWriteDeviceFile(o_compDefDbid[t_output_dir] ) ⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/26logacc.md:1298
+    """
     package_file: _AxlWritePackageFile
+    """
+    Given a symbol definition, writes out symbol.dra, .psm and associated padstack files
+    SKILL: axlWritePackageFile(o_symDefDbid[t_output_dir] ) ⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/26logacc.md:1338
+    """
 
 class AxlX(FunctionCollection):
     section_copy: _AxlXSectionCopy
+    """
+    This copies dbid xsection to an xsection Skill defstruct.It can be used to duplicate the charactistics of an existing xsection layer to a new layer for use with axlXSectionCreate
+    SKILL: axlXSectionCopy(o_xsectionDBID) => g_xsectionDefstruct/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part02.md:598
+    """
     section_create: _AxlXSectionCreate
+    """
+    Creates a new cross section entry.
+    SKILL: axlXSectionCreate(nilg_option[g_xsectionDefStruct]) => o_xsectionDBID/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part02.md:628
+    """
     section_delete: _AxlXSectionDelete
+    """
+    Deletes a cross section layer
+    SKILL: axlXSectionDelete(g_option) => lt_types
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part02.md:709
+    """
     section_get: _AxlXSectionGet
+    """
+    Returns data about the cross-section entry for a design.
+    SKILL: axlXSectionGet(g_stackup/nilg_option)==> g_data/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part02.md:739
+    """
     section_layer_functions: _AxlXSectionLayerFunctions
+    """
+    Return list of supported layer function types.Layer functions are a super set of layer types.
+    SKILL: axlXSectionLayerFunctions() => lt_types
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part02.md:861
+    """
     section_layer_types: _AxlXSectionLayerTypes
+    """
+    Return list of supported layer types
+    SKILL: axlXSectionLayerTypes() => lt_types
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part02.md:885
+    """
     section_modify: _AxlXSectionModify
+    """
+    This is a wrapper formake_axlXSection() function to createa new defstruct
+    SKILL: axlXSectionModify(**g_attributes) => g_xsectionDefstruct/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part02.md:909
+    """
     section_set: _AxlXSectionSet
+    """
+    Modifies an existing cross section entry
+    SKILL: axlXSectionSet(g_option[g_xsectionDefStruct]) => t/nil
+    SKILL: axlXSectionSet('lockednil/l_lockType) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/04parmgt.part02.md:942
+    """
 
 class AxlZoom(FunctionCollection):
     bbox: _AxlZoomBbox
+    """
+    x\\_window: window id or nil to currently active window
+    SKILL: axlZoomBbox (x_window) => bBox
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:1308
+    """
     center: _AxlZoomCenter
+    """
+    Zoom centers on the provided coordinate
+    SKILL: axlZoomCenter(x_window xy) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:1335
+    """
     control: _AxlZoomControl
+    """
+    Manages the multi-canvas feature
+    SKILL: axlZoomControl(s_option [g_arg]) => g_return
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:1367
+    """
     fit: _AxlZoomFit
+    """
+    Zoom fits the window
+    SKILL: axlZoomFit (x_windows_option) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:1410
+    """
     in_out: _AxlZoomInOut
+    """
+    Zooms window in or out by provided factor around optional coordinate.
+    SKILL: axlZoomInOut (x_windowx_factor[xy]) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:1450
+    """
     points: _AxlZoomPoints
+    """
+    Zoom windows by points
+    SKILL: axlZoomPoints (x_windowupperLeft_xylowerRight_xy) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:1481
+    """
     to_dbid: _AxlZoomToDbid
+    """
+    Processes a list ofdbids and centers and zooms the display around them
+    SKILL: axlZoomToDbid(o_dbid/lo_dbidg_always[x_window])⇒ t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:1512
+    """
     world: _AxlZoomWorld
+    """
+    Zoom world a drawing window
+    SKILL: axlZoomWorld (x_window) => t/nil
+    Version: Allegro 17.2-2016
+    Source: algroskill/08intprm.md:1547
+    """
 
 class _WorkspaceTypingMixin:
     axl: Axl

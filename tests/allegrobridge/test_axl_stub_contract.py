@@ -71,19 +71,33 @@ def test_generated_stub_declares_axl_contract() -> None:
     }
     assert len(callable_classes) == 786
     get_design = callable_classes['_AxlDBGetDesign']
-    assert 'axlDBGetDesign()' in (ast.get_docstring(get_design) or '')
-    assert 'Allegro 17.2-2016' in (ast.get_docstring(get_design) or '')
-    assert any(
-        isinstance(node, ast.FunctionDef) and node.name == '__call__' for node in get_design.body
+    get_design_call = next(
+        node
+        for node in get_design.body
+        if isinstance(node, ast.FunctionDef) and node.name == '__call__'
     )
+    assert 'axlDBGetDesign()' in (ast.get_docstring(get_design_call) or '')
+    assert 'Allegro 17.2-2016' in (ast.get_docstring(get_design_call) or '')
+
+    axl_body = classes['Axl'].body
+    get_design_member = next(
+        index
+        for index, node in enumerate(axl_body)
+        if isinstance(node, ast.AnnAssign)
+        and isinstance(node.target, ast.Name)
+        and node.target.id == 'db_get_design'
+    )
+    member_doc = axl_body[get_design_member + 1]
+    assert isinstance(member_doc, ast.Expr)
+    assert 'axlDBGetDesign()' in member_doc.value.value
 
     stub = STUB_PATH.read_text(encoding='utf-8')
-    assert 'def __call__(self, /) -> RemoteObject | None: ...' in stub
-    assert 'def __call__(self, s_type: Symbol, t_name: str, /) -> RemoteObject | None: ...' in stub
+    assert 'def __call__(self, /) -> RemoteObject | None:' in stub
+    assert 'def __call__(self, s_type: Symbol, t_name: str, /) -> RemoteObject | None:' in stub
     assert (
         'def __call__(self, x_block_template: int, /, *, width: float | None = ..., '
         'height: float | None = ..., line_space: float | None = ..., '
-        'char_space: float | None = ..., photo_width: float | None = ...) -> Skill: ...' in stub
+        'char_space: float | None = ..., photo_width: float | None = ...) -> Skill:' in stub
     )
 
     assert not DOCUMENT_ONLY_NAMES & literal_names

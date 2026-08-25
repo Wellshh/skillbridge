@@ -100,6 +100,28 @@
         (setq result (cons (__abProjectNet net) result))))
     (reverse result)))
 
+(putd '__abProjectLayer nil)
+(defun __abProjectLayer (layer)
+  (list nil
+        'name (strcat layer->parentname "/" layer->name)
+        'class_name layer->parentname
+        'subclass layer->name
+        'number layer->number))
+
+(putd '__abProjectLayers nil)
+(defun __abProjectLayers (name etchOnly)
+  (let (result)
+    (foreach className (axlClasses)
+      (when (or (null etchOnly)
+                (equal className "ETCH"))
+        (foreach subclass (axlSubclasses className)
+          (letseq ((qualifiedName (strcat className "/" subclass))
+                   (layer (axlLayerGet qualifiedName)))
+            (when (or (null name)
+                      (equal name qualifiedName))
+              (setq result (cons (__abProjectLayer layer) result)))))))
+    (reverse result)))
+
 (putd '__abOKToProceed nil)
 (defun __abOKToProceed ()
   (axlOKToProceed))

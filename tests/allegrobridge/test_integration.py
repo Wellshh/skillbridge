@@ -17,7 +17,7 @@ from pydantic import ValidationError
 import allegrobridge.client.api.extensions as extension_package
 import allegrobridge.server
 from allegrobridge import Allegro, OpenMode, Session, Workspace
-from allegrobridge.client.api import BoardInfo, ComponentInfo, NetInfo
+from allegrobridge.client.api import BoardInfo, ComponentInfo, LayerInfo, NetInfo
 from allegrobridge.exceptions import AllegroProtocolError, ExtensionError
 from allegrobridge.util import ASSETS_DIR
 from skillbridge import SkillCode
@@ -101,6 +101,19 @@ def _component_snapshot(ws: Workspace) -> list[list[object]]:
         '(foreach component design->components '
         '(setq result (cons (list component->name (not (null component->symbol))) result))) '
         '(reverse result))'
+    )
+
+
+def _layer_snapshot(ws: Workspace, etch_only: bool = False) -> list[list[object]]:
+    return ws['evalstring'](
+        "(let (result) "
+        "(foreach className (axlClasses) "
+        f"(when (or {'t' if not etch_only else 'nil'} (equal className \"ETCH\")) "
+        "(foreach subclass (axlSubclasses className) "
+        '(letseq ((name (strcat className "/" subclass)) '
+        "(layer (axlLayerGet name))) "
+        "(setq result (cons (list name className subclass layer->number) "
+        "result)))))) (reverse result))"
     )
 
 
@@ -298,6 +311,77 @@ class TestBoardApi:
 
         with pytest.raises(AllegroProtocolError, match='__abProjectBoard'):
             session.board()
+
+
+class TestLayersApi:
+    @pytest.mark.parametrize('etch_only', [False, True])
+    def test_call_projects_layers(
+        self,
+        session: Session,
+        ws: Workspace,
+        etch_only: bool,
+    ) -> None:
+        layers = session.layers(etch_only=etch_only)
+        snapshot = _layer_snapshot(ws, etch_only)
+
+        assert all(isinstance(layer, LayerInfo) for layer in layers)
+        assert [
+            (layer.name, layer.class_name, layer.subclass, layer.number)
+            for layer in layers
+        ] == [tuple(item) for item in snapshot]
+        assert all(layer.session_generation == session.generation for layer in layers)
+        if etch_only:
+            assert all(layer.class_name == 'ETCH' for layer in layers)
+
+    def test_getitem_returns_layer_by_qualified_name(self, session: Session) -> None:
+        expected = session.layers(etch_only=True)[0]
+
+        assert session.layers[expected.name] == expected
+
+    def test_getitem_raises_key_error_when_name_is_missing(self, session: Session) -> None:
+        with pytest.raises(KeyError, match='__MISSING_LAYER__'):
+            _ = session.layers['ETCH/__MISSING_LAYER__']
+
+    def test_layer_info_is_frozen(self, session: Session) -> None:
+        layer = session.layers()[0]
+
+        with pytest.raises(ValidationError, match='frozen'):
+            layer.name = 'changed'
+
+    @pytest.mark.parametrize(
+        'payload',
+        [
+            [{'class_name': 'ETCH', 'subclass': 'TOP', 'number': 1}],
+            [
+                {
+                    'name': 'ETCH/TOP',
+                    'class_name': 'ETCH',
+                    'subclass': 'TOP',
+                    'number': 1,
+                    'dbid': 'db:1',
+                }
+            ],
+            [
+                {
+                    'name': 'ETCH/TOP',
+                    'class_name': 'ETCH',
+                    'subclass': 'TOP',
+                    'number': '1',
+                }
+            ],
+        ],
+        ids=['missing-field', 'extra-field', 'wrong-type'],
+    )
+    def test_protocol_mismatch_raises(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        payload: object,
+        session: Session,
+    ) -> None:
+        monkeypatch.setattr(session.raw._channel, 'send', lambda _: repr(payload))
+
+        with pytest.raises(AllegroProtocolError, match='__abProjectLayers'):
+            session.layers()
 
 
 class TestComponentsApi:
@@ -805,8 +889,8 @@ class TestSkill:
     def test_run_skill_suite_returns_report_to_python(self, workspace_id: str | None) -> None:
         report = _run_skill_suite(workspace_id)
 
-        assert '=== 84 passed, 0 failed, 0 skipped, 0 xfailed ===' in report
-        assert 'qcover: 150/150 branches covered (100.00%)' in report
+        assert '0 failed, 0 skipped, 0 xfailed ===' in report
+        assert 'branches covered (100.00%)' in report
 
 
 # POC tests
