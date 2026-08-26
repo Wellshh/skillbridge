@@ -3,77 +3,78 @@
 (qcover::load (strcat (qub::scriptDir)
                       "/../../allegrobridge/server/extensions/vias.il"))
 
-(qtest::TestSuite ()
-  (qtest::TestCase test_via_projection_has_stable_attributes
-    (letseq ((via (list nil 'name "VIA12" 'xy '(1.0 2.0) 'rotation 90.0
-                        'isMirrored t 'startEnd '("ETCH/TOP" "ETCH/BOTTOM")
-                        'pads nil 'dbid "db:1"))
-             (projected (__abProjectVia via "GND")))
-      (qtest::assertEqual "VIA12" (get projected 'padstack))
-      (qtest::assertEqual "GND" (get projected 'net))
-      (qtest::assertEqual 1.0 (get projected 'x))
-      (qtest::assertEqual 2.0 (get projected 'y))
-      (qtest::assertEqual 90.0 (get projected 'rotation))
-      (qtest::assertEqual "mirrored" (get projected 'mirroring))
-      (qtest::assertEqual "ETCH/TOP" (get projected 'start_layer))
-      (qtest::assertEqual "ETCH/BOTTOM" (get projected 'end_layer))
-      (qtest::assertNil (get projected 'dbid))))
+(qtest::runSuites
+  (qtest::TestSuite ()
+    (qtest::TestCase test_via_projection_has_stable_attributes
+      (letseq ((via (list nil 'name "VIA12" 'xy '(1.0 2.0) 'rotation 90.0
+                          'isMirrored t 'startEnd '("ETCH/TOP" "ETCH/BOTTOM")
+                          'pads nil 'dbid "db:1"))
+               (projected (__abProjectVia via "GND")))
+        (qtest::assertEqual "VIA12" (get projected 'padstack))
+        (qtest::assertEqual "GND" (get projected 'net))
+        (qtest::assertEqual 1.0 (get projected 'x))
+        (qtest::assertEqual 2.0 (get projected 'y))
+        (qtest::assertEqual 90.0 (get projected 'rotation))
+        (qtest::assertEqual "mirrored" (get projected 'mirroring))
+        (qtest::assertEqual "ETCH/TOP" (get projected 'start_layer))
+        (qtest::assertEqual "ETCH/BOTTOM" (get projected 'end_layer))
+        (qtest::assertNil (get projected 'dbid))))
 
-  (qtest::TestCase test_via_projection_reports_unmirrored
-    (letseq ((via (list nil 'name "VIA12" 'xy '(1.0 2.0) 'rotation 0.0
-                        'isMirrored nil 'startEnd '("TOP" "BOTTOM") 'pads nil))
-             (projected (__abProjectVia via nil)))
-      (qtest::assertEqual "unmirrored" (get projected 'mirroring))
-      (qtest::assertNil (get projected 'net))))
+    (qtest::TestCase test_via_projection_reports_unmirrored
+      (letseq ((via (list nil 'name "VIA12" 'xy '(1.0 2.0) 'rotation 0.0
+                          'isMirrored nil 'startEnd '("TOP" "BOTTOM") 'pads nil))
+               (projected (__abProjectVia via nil)))
+        (qtest::assertEqual "unmirrored" (get projected 'mirroring))
+        (qtest::assertNil (get projected 'net))))
 
-  (qtest::TestCase test_via_layer_filter_uses_actual_pads
-    (letseq ((via (list nil 'pads (list (list nil 'layer "ETCH/TOP")))))
-      (qtest::assertTrue (__abViaOnLayer via nil))
-      (qtest::assertTrue (__abViaOnLayer via "ETCH/TOP"))
-      (qtest::assertNil (__abViaOnLayer via "ETCH/BOTTOM"))))
+    (qtest::TestCase test_via_layer_filter_uses_actual_pads
+      (letseq ((via (list nil 'pads (list (list nil 'layer "ETCH/TOP")))))
+        (qtest::assertTrue (__abViaOnLayer via nil))
+        (qtest::assertTrue (__abViaOnLayer via "ETCH/TOP"))
+        (qtest::assertNil (__abViaOnLayer via "ETCH/BOTTOM"))))
 
-  (qtest::TestCase test_vias_projection_lists_and_filters
-    (letseq ((vias (__abProjectVias nil nil nil))
-             (selected (car vias))
-             netName)
-      (foreach via vias
-        (when (get via 'net)
-          (setq netName (get via 'net))))
-      (qtest::assertTrue vias)
-      (qtest::assertTrue netName)
-      (qtest::assertTrue (__abProjectVias netName nil nil))
-      (qtest::assertNil (__abProjectVias "__MISSING_NET__" nil nil))
-      (qtest::assertTrue (__abProjectVias nil nil (get selected 'padstack)))
-      (qtest::assertTrue (__abProjectVias nil (get selected 'start_layer) nil))
-      (qtest::assertNil (__abProjectVias nil nil "__MISSING_PADSTACK__"))))
+    (qtest::TestCase test_vias_projection_lists_and_filters
+      (letseq ((vias (__abProjectVias nil nil nil))
+               (selected (car vias))
+               netName)
+        (foreach via vias
+          (when (get via 'net)
+            (setq netName (get via 'net))))
+        (qtest::assertTrue vias)
+        (qtest::assertTrue netName)
+        (qtest::assertTrue (__abProjectVias netName nil nil))
+        (qtest::assertNil (__abProjectVias "__MISSING_NET__" nil nil))
+        (qtest::assertTrue (__abProjectVias nil nil (get selected 'padstack)))
+        (qtest::assertTrue (__abProjectVias nil (get selected 'start_layer) nil))
+        (qtest::assertNil (__abProjectVias nil nil "__MISSING_PADSTACK__"))))
 
-  (qtest::TestCase test_create_via_projects_created_object
-    (let ((originalCreate (getd '__abCreateViaObject))
-          result)
-      (unwindProtect
-        (progn
-          (putd '__abCreateViaObject
-                (lambda (padstack at net mirrored rotation)
-                  (list (list nil 'name padstack 'xy at 'rotation rotation
-                              'isMirrored mirrored
-                              'startEnd '("ETCH/TOP" "ETCH/BOTTOM")
-                              'pads nil)
-                        nil)))
-          (setq result (__abCreateVia "VIA12" '(1.0 2.0) "GND" t 45.0)))
-        (putd '__abCreateViaObject originalCreate))
-      (qtest::assertEqual "VIA12" (get result 'padstack))
-      (qtest::assertEqual "GND" (get result 'net))
-      (qtest::assertEqual "mirrored" (get result 'mirroring))))
+    (qtest::TestCase test_create_via_projects_created_object
+      (let ((originalCreate (getd '__abCreateViaObject))
+            result)
+        (unwindProtect
+          (progn
+            (putd '__abCreateViaObject
+                  (lambda (padstack at net mirrored rotation)
+                    (list (list nil 'name padstack 'xy at 'rotation rotation
+                                'isMirrored mirrored
+                                'startEnd '("ETCH/TOP" "ETCH/BOTTOM")
+                                'pads nil)
+                          nil)))
+            (setq result (__abCreateVia "VIA12" '(1.0 2.0) "GND" t 45.0)))
+          (putd '__abCreateViaObject originalCreate))
+        (qtest::assertEqual "VIA12" (get result 'padstack))
+        (qtest::assertEqual "GND" (get result 'net))
+        (qtest::assertEqual "mirrored" (get result 'mirroring))))
 
-  (qtest::TestCase test_create_via_rejects_nil_result
-    (let ((originalCreate (getd '__abCreateViaObject))
-          result
-          failureText)
-      (unwindProtect
-        (progn
-          (putd '__abCreateViaObject (lambda (_padstack _at _net _mirrored _rotation) nil))
-          (setq result (errset (__abCreateVia "MISSING" '(1.0 2.0) nil nil 0.0)))
-          (setq failureText (sprintf nil "%L" errset.errset)))
-        (putd '__abCreateViaObject originalCreate))
-      (qtest::assertNil result)
-      (qtest::assertTrue (index failureText "VIA_CREATE_FAILED")))))
+    (qtest::TestCase test_create_via_rejects_nil_result
+      (let ((originalCreate (getd '__abCreateViaObject))
+            result
+            failureText)
+        (unwindProtect
+          (progn
+            (putd '__abCreateViaObject (lambda (_padstack _at _net _mirrored _rotation) nil))
+            (setq result (errset (__abCreateVia "MISSING" '(1.0 2.0) nil nil 0.0)))
+            (setq failureText (sprintf nil "%L" errset.errset)))
+          (putd '__abCreateViaObject originalCreate))
+        (qtest::assertNil result)
+        (qtest::assertTrue (index failureText "VIA_CREATE_FAILED"))))))

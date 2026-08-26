@@ -190,7 +190,7 @@ def _via_snapshot(ws: Workspace) -> list[list[object]]:
         '(setq result (cons '
         '(list item->name netObject->name (car item->xy) (cadr item->xy) '
         'item->rotation (if item->isMirrored then "mirrored" else "unmirrored") '
-        '(car span) (cadr span) item->pads~>layer) result)))))) '
+        '(car span) (cadr span) item->pads~>layer) result))))))) '
         '(foreach branch (axlDBGetLonelyBranches) '
         '(foreach item branch->children '
         '(when (equal item->objType "via") '
@@ -198,7 +198,7 @@ def _via_snapshot(ws: Workspace) -> list[list[object]]:
         '(setq result (cons '
         '(list item->name nil (car item->xy) (cadr item->xy) '
         'item->rotation (if item->isMirrored then "mirrored" else "unmirrored") '
-        '(car span) (cadr span) item->pads~>layer) result))))) '
+        '(car span) (cadr span) item->pads~>layer) result)))))) '
         '(reverse result))'
     )
 
