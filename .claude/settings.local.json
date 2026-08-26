@@ -88,7 +88,20 @@
       "Bash(git commit -q -m 'Add license headers to qcover sources *)",
       "Bash(.venv/bin/ruff format *)",
       "Bash(.venv/bin/pytest tests/allegrobridge/test_main.py -q -p no:cacheprovider)",
-      "Bash(git commit -q -m 'Tighten docs and add qtest/qcover testing guide *)"
+      "Bash(git commit -q -m 'Tighten docs and add qtest/qcover testing guide *)",
+      "Bash(grep -E '^\\(pre-commit|cz\\)$')",
+      "Bash(.venv/bin/pre-commit --version)",
+      "Bash(git commit -q -m 'chore: add conventional commits gate' -m 'Install conventional-pre-commit at the commit-msg stage only: default_install_hook_types keeps plain '\\\\''pre-commit install'\\\\'' from wiring the heavy local checks into git hooks, so fork-driven sync-bot commits \\(chore\\(sync\\): ...\\) stay fast while both human and bot messages are validated. *)",
+      "Bash(printf 'docs: update readme')",
+      "Bash(echo \"exit=$?\")",
+      "Bash(rm -f /tmp/y.txt)",
+      "Bash(uv add *)",
+      "Bash(.venv/bin/cz version *)",
+      "Bash(git commit -q -m 'chore\\(release\\): configure commitizen for version bumps' -m 'Add commitizen to the dev group and point it at the PEP 621 project.version field, with v-prefixed tags and changelog updates on bump. *)",
+      "Bash(.venv/bin/cz bump *)",
+      "Bash(.venv/bin/cz changelog *)",
+      "Bash(git ls-remote *)",
+      "Bash(xargs git tag -d)"
     ]
   }
 }

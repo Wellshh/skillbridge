@@ -1,0 +1,63 @@
+;;; Copyright (c) 2025-2026 Bai Junyan and contributors.
+;;; SPDX-License-Identifier: LGPL-3.0-or-later
+
+(qcover::load (strcat (qub::scriptDir)
+                      "/../../allegrobridge/server/extensions/drc.il"))
+
+(qtest::runSuites
+  (qtest::TestSuite ()
+    (qtest::TestCase test_drc_projection_returns_stable_fields
+      (letseq ((net (list nil 'objType "net" 'name "VCC"))
+               (symbol (list nil 'objType "symbol" 'refdes "U3"))
+               (pin (list nil 'objType "pin" 'number "14" 'component nil
+                          'parent symbol 'net net))
+               (marker (list nil 'name "Ts Allowed" 'type "PHYSICAL CONSTRAINTS"
+                             'source "VOLTAGE" 'expected "NOT_ALLOWED"
+                             'actual "ANYWHERE" 'layer "DRC ERROR CLASS/GND"
+                             'xy '(1.0 2.0) 'bBox '((0.0 1.0) (2.0 3.0))
+                             'violations (list pin)))
+               (projected (__abProjectDrc marker))
+               (objects (get projected 'objects)))
+        (qtest::assertEqual "Ts Allowed" (get projected 'name))
+        (qtest::assertEqual "PHYSICAL CONSTRAINTS" (get projected 'category))
+        (qtest::assertEqual 1.0 (get (get projected 'location) 'x))
+        (qtest::assertEqual 3.0 (get (get (get projected 'bbox) 'upper_right) 'y))
+        (qtest::assertEqual "pin" (get (car objects) 'kind))
+        (qtest::assertEqual "component" (get (cadr objects) 'kind))
+        (qtest::assertEqual "net" (get (caddr objects) 'kind))
+        (qtest::assertNil (get projected 'violations))))
+
+    (qtest::TestCase test_drc_projection_omits_anonymous_geometry_and_duplicates
+      (letseq ((net (list nil 'objType "net" 'name "GND"))
+               (branch (list nil 'objType "branch" 'net net 'parent net))
+               (tee (list nil 'objType "tee" 'net "GND"))
+               (orphanShape (list nil 'objType "shape" 'net nil))
+               (emptyNetShape (list nil 'objType "shape" 'net ""))
+               (polygon (list nil 'objType "polygon"))
+               (marker (list nil 'name "Spacing" 'type "NET SPACING CONSTRAINTS"
+                             'source "DEFAULT" 'expected "10 MILS" 'actual "5 MILS"
+                             'layer "DRC ERROR CLASS/GND" 'xy '(1.0 2.0)
+                             'bBox '((0.0 1.0) (2.0 3.0))
+                             'violations
+                               (list branch tee orphanShape emptyNetShape polygon)))
+               (objects (get (__abProjectDrc marker) 'objects)))
+        (qtest::assertEqual 1 (length objects))
+        (qtest::assertEqual "net" (get (car objects) 'kind))
+        (qtest::assertEqual "GND" (get (car objects) 'name))))
+
+    (qtest::TestCase test_drc_stable_refs_cover_component_and_component_pin
+      (letseq ((component (list nil 'objType "component" 'name "U1"))
+               (pin (list nil 'objType "pin" 'number "1" 'component component
+                          'parent nil)))
+        (qtest::assertEqual "component" (get (__abDrcStableRef component) 'kind))
+        (qtest::assertEqual "U1" (get (__abDrcStableRef component) 'refdes))
+        (qtest::assertEqual "U1" (get (__abDrcStableRef pin) 'refdes))
+        (qtest::assertNil (__abDrcStableRef (list nil 'objType "polygon")))))
+
+    (qtest::TestCase test_drc_projection_lists_current_design_markers
+      (let ((design (__abFreshDesign))
+            (drcs (__abProjectDrcs)))
+        (qtest::assertTrue drcs)
+        (qtest::assertEqual (length design->drcs) (length drcs))
+        (foreach drc drcs
+          (qtest::assertNil (get drc 'dbid)))))))

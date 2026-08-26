@@ -14,6 +14,7 @@ from allegrobridge.client.api import (
     Batch,
     BoardApi,
     ComponentsApi,
+    DrcApi,
     LayersApi,
     NetsApi,
     PadstacksApi,
@@ -106,6 +107,14 @@ class Session:
             _api_procedures(ShapesApi),
         )
         return ShapesApi(self)
+
+    @cached_property
+    def drc(self) -> DrcApi:
+        self.raw._ensure_extension(  # ruff: ignore[private-member-access]
+            'drc',
+            _api_procedures(DrcApi),
+        )
+        return DrcApi(self)
 
     # --- Bundled & Custom Extensions ---
     @cached_property

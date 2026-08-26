@@ -33,6 +33,14 @@ from allegrobridge.client.api._rpc import (
 )
 from allegrobridge.client.api.board import BoardApi, BoardInfo
 from allegrobridge.client.api.components import ComponentInfo, ComponentsApi
+from allegrobridge.client.api.drc import (
+    ComponentRef,
+    DrcApi,
+    DrcInfo,
+    DrcObjectRef,
+    NetRef,
+    PinRef,
+)
 from allegrobridge.client.api.layers import LayerInfo, LayersApi
 from allegrobridge.client.api.nets import NetInfo, NetsApi
 from allegrobridge.client.api.padstacks import PadstackInfo, PadstacksApi
@@ -50,14 +58,20 @@ __all__ = [
     'Command',
     'CommandResult',
     'ComponentInfo',
+    'ComponentRef',
     'ComponentsApi',
+    'DrcApi',
+    'DrcInfo',
+    'DrcObjectRef',
     'LayerInfo',
     'LayersApi',
     'NetInfo',
+    'NetRef',
     'NetsApi',
     'PadstackInfo',
     'PadstacksApi',
     'PinInfo',
+    'PinRef',
     'PinsApi',
     'Point',
     'RouteInfo',

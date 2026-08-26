@@ -41,6 +41,7 @@
     (load (strcat (qub::scriptDir) "/test_vias.ils"))
     (load (strcat (qub::scriptDir) "/test_routes.ils"))
     (load (strcat (qub::scriptDir) "/test_shapes.ils"))
+    (load (strcat (qub::scriptDir) "/test_drc.ils"))
     (load (strcat (qub::scriptDir) "/test_run.ils"))
     (let ((failed (qtest::printSummary)))
       (when (greaterp failed 0)

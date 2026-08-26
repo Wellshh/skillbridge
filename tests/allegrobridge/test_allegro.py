@@ -26,10 +26,14 @@ from allegrobridge.client.api import (
     BBox,
     Command,
     CommandResult,
+    ComponentRef,
     ComponentsApi,
+    DrcInfo,
     LayerInfo,
+    NetRef,
     PadstackInfo,
     PinInfo,
+    PinRef,
     Point,
     RouteInfo,
     RpcArgs,
@@ -382,15 +386,21 @@ class TestReadApi:
             'BoardInfo',
             'Command',
             'CommandResult',
+            'ComponentRef',
             'ComponentInfo',
             'ComponentsApi',
+            'DrcApi',
+            'DrcInfo',
+            'DrcObjectRef',
             'LayerInfo',
             'LayersApi',
             'NetInfo',
+            'NetRef',
             'NetsApi',
             'PadstackInfo',
             'PadstacksApi',
             'PinInfo',
+            'PinRef',
             'PinsApi',
             'Point',
             'RouteInfo',
@@ -830,6 +840,60 @@ class TestReadApi:
             'ETCH/TOP',
             encoded,
         )
+
+    def test_drc_loads_extension_once_and_projects_stable_references(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.return_value = [
+            {
+                'name': 'Ts Allowed',
+                'category': 'PHYSICAL CONSTRAINTS',
+                'source': 'VOLTAGE',
+                'expected': 'NOT_ALLOWED',
+                'actual': 'ANYWHERE',
+                'layer': 'DRC ERROR CLASS/GND',
+                'location': {'x': 1.0, 'y': 2.0},
+                'bbox': {
+                    'lower_left': {'x': 0.0, 'y': 1.0},
+                    'upper_right': {'x': 2.0, 'y': 3.0},
+                },
+                'objects': [
+                    {'kind': 'pin', 'refdes': 'U3', 'number': '14'},
+                    {'kind': 'component', 'refdes': 'U3'},
+                    {'kind': 'net', 'name': 'VCC'},
+                ],
+            }
+        ]
+        session = Session(Mock(workspace=workspace))
+
+        drcs = session.drc()
+
+        workspace._ensure_extension.assert_called_once_with(
+            'drc',
+            ('__abProjectDrcs',),
+        )
+        assert session.drc is session.drc
+        assert drcs == [
+            DrcInfo(
+                name='Ts Allowed',
+                category='PHYSICAL CONSTRAINTS',
+                source='VOLTAGE',
+                expected='NOT_ALLOWED',
+                actual='ANYWHERE',
+                layer='DRC ERROR CLASS/GND',
+                location=Point(x=1.0, y=2.0),
+                bbox=BBox(
+                    lower_left=Point(x=0.0, y=1.0),
+                    upper_right=Point(x=2.0, y=3.0),
+                ),
+                objects=[
+                    PinRef(kind='pin', refdes='U3', number='14'),
+                    ComponentRef(kind='component', refdes='U3'),
+                    NetRef(kind='net', name='VCC'),
+                ],
+                session_generation=session.generation,
+            )
+        ]
+        workspace.__getitem__.return_value.assert_called_once_with()
 
 
 class TestWriteApi:
