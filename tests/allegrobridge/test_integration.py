@@ -17,7 +17,14 @@ from pydantic import ValidationError
 import allegrobridge.client.api.extensions as extension_package
 import allegrobridge.server
 from allegrobridge import Allegro, OpenMode, Session, Workspace
-from allegrobridge.client.api import BoardInfo, ComponentInfo, LayerInfo, NetInfo, PinInfo
+from allegrobridge.client.api import (
+    BoardInfo,
+    ComponentInfo,
+    LayerInfo,
+    NetInfo,
+    PadstackInfo,
+    PinInfo,
+)
 from allegrobridge.exceptions import AllegroProtocolError, ExtensionError
 from allegrobridge.util import ASSETS_DIR
 from skillbridge import SkillCode
@@ -142,6 +149,18 @@ def _pin_snapshot(ws: Workspace) -> list[list[object]]:
         '(when symbol (car pin->xy)) (when symbol (cadr pin->xy)) '
         '(when symbol pin->rotation) (when span (car span)) (when span (cadr span))) '
         'result))))) (reverse result))'
+    )
+
+
+def _padstack_snapshot(ws: Workspace) -> list[list[object]]:
+    return ws['evalstring'](
+        '(letseq ((design (axlDBRefreshId (axlDBGetDesign))) result) '
+        '(foreach padstack design->padstacks '
+        '(let ((span padstack->startEnd)) '
+        '(setq result (cons '
+        '(list padstack->name padstack->type padstack->usage '
+        '(when span (car span)) (when span (cadr span))) result)))) '
+        '(reverse result))'
     )
 
 
@@ -904,6 +923,89 @@ class TestPinsApi:
 
         with pytest.raises(AllegroProtocolError, match='__abProjectPins'):
             session.pins()
+
+
+class TestPadstacksApi:
+    def test_default_call_projects_padstacks(
+        self,
+        session: Session,
+        ws: Workspace,
+    ) -> None:
+        padstacks = session.padstacks()
+
+        assert all(isinstance(padstack, PadstackInfo) for padstack in padstacks)
+        assert [
+            (
+                padstack.name,
+                padstack.type,
+                padstack.usage,
+                padstack.start_layer,
+                padstack.end_layer,
+            )
+            for padstack in padstacks
+        ] == [tuple(item) for item in _padstack_snapshot(ws)]
+        assert all(
+            padstack.session_generation == session.generation for padstack in padstacks
+        )
+
+    def test_getitem_returns_padstack_by_name(self, session: Session) -> None:
+        expected = session.padstacks()[0]
+
+        assert session.padstacks[expected.name] == expected
+
+    def test_getitem_raises_key_error_when_name_is_missing(self, session: Session) -> None:
+        with pytest.raises(KeyError, match='__MISSING_PADSTACK__'):
+            _ = session.padstacks['__MISSING_PADSTACK__']
+
+    def test_padstack_info_is_frozen(self, session: Session) -> None:
+        padstack = session.padstacks()[0]
+
+        with pytest.raises(ValidationError, match='frozen'):
+            padstack.name = 'changed'
+
+    @pytest.mark.parametrize(
+        'payload',
+        [
+            [
+                {
+                    'type': 'through',
+                    'usage': 'through_via',
+                    'start_layer': 'TOP',
+                    'end_layer': 'BOTTOM',
+                }
+            ],
+            [
+                {
+                    'name': 'VIA12',
+                    'type': 'through',
+                    'usage': 'through_via',
+                    'start_layer': 'TOP',
+                    'end_layer': 'BOTTOM',
+                    'dbid': 'db:1',
+                }
+            ],
+            [
+                {
+                    'name': 'VIA12',
+                    'type': 1,
+                    'usage': 'through_via',
+                    'start_layer': 'TOP',
+                    'end_layer': 'BOTTOM',
+                }
+            ],
+        ],
+        ids=['missing-field', 'extra-field', 'wrong-type'],
+    )
+    def test_protocol_mismatch_raises(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        payload: object,
+        session: Session,
+    ) -> None:
+        monkeypatch.setattr(session.raw._channel, 'send', lambda _: repr(payload))
+
+        with pytest.raises(AllegroProtocolError, match='__abProjectPadstacks'):
+            session.padstacks()
 
 
 @pytest.mark.usefixtures('extension_environment')

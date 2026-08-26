@@ -25,6 +25,7 @@ from allegrobridge.client.api import (
     CommandResult,
     ComponentsApi,
     LayerInfo,
+    PadstackInfo,
     PinInfo,
     RpcArgs,
     SessionApi,
@@ -377,6 +378,8 @@ class TestReadApi:
             'LayersApi',
             'NetInfo',
             'NetsApi',
+            'PadstackInfo',
+            'PadstacksApi',
             'PinInfo',
             'PinsApi',
             'RpcArgs',
@@ -397,6 +400,7 @@ class TestReadApi:
             '__abMoveComponent',
             '__abProjectLayers',
             '__abProjectNets',
+            '__abProjectPadstacks',
             '__abProjectPins',
         )
 
@@ -551,6 +555,45 @@ class TestReadApi:
 
         with pytest.raises(KeyError, match=r"\('U1', '__MISSING__'\)"):
             _ = session.pins['U1', '__MISSING__']
+
+    def test_padstacks_delegate_collection_and_lookup(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.return_value = [
+            {
+                'name': 'VIA12',
+                'type': 'through',
+                'usage': 'through_via',
+                'start_layer': 'TOP',
+                'end_layer': 'BOTTOM',
+            }
+        ]
+        session = Session(Mock(workspace=workspace))
+
+        padstacks = session.padstacks()
+
+        assert padstacks == [
+            PadstackInfo(
+                name='VIA12',
+                type='through',
+                usage='through_via',
+                start_layer='TOP',
+                end_layer='BOTTOM',
+                session_generation=session.generation,
+            )
+        ]
+        assert session.padstacks is session.padstacks
+        workspace.__getitem__.return_value.assert_called_once_with(None)
+
+        assert session.padstacks['VIA12'] == padstacks[0]
+        workspace.__getitem__.return_value.assert_called_with('VIA12')
+
+    def test_padstacks_getitem_raises_when_name_is_missing(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.return_value = None
+        session = Session(Mock(workspace=workspace))
+
+        with pytest.raises(KeyError, match='__MISSING_PADSTACK__'):
+            _ = session.padstacks['__MISSING_PADSTACK__']
 
 
 class TestWriteApi:

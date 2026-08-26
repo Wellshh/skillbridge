@@ -53,7 +53,8 @@
       "Bash(py -m pip show -f py-spy)",
       "Bash(C:/Users/baijunyan/AppData/Local/Programs/Python/Python312/Scripts/py-spy.exe dump *)",
       "Bash(powershell -NoProfile -Command \"Get-NetTCPConnection -LocalPort 7777 -ErrorAction SilentlyContinue | Select-Object LocalPort,RemotePort,State,OwningProcess | Format-Table -AutoSize; Get-NetTCPConnection -RemotePort 7777 -ErrorAction SilentlyContinue | Select-Object LocalPort,RemotePort,State,OwningProcess | Format-Table -AutoSize\")",
-      "Bash(\"C:/Users/baijunyan/AppData/Local/Programs/Python/Python312/Scripts/py-spy.exe\" dump *)"
+      "Bash(\"C:/Users/baijunyan/AppData/Local/Programs/Python/Python312/Scripts/py-spy.exe\" dump *)",
+      "Bash(uv run *)"
     ]
   }
 }

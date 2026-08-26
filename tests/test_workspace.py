@@ -238,6 +238,7 @@ def test_allegro_workspace_open_detects_server(
             "isCallable('__abMoveComponent )",
             "isCallable('__abProjectLayers )",
             "isCallable('__abProjectNets )",
+            "isCallable('__abProjectPadstacks )",
             "isCallable('__abProjectPins )",
         ])
     assert channel.commands == expected_commands
@@ -251,6 +252,7 @@ def test_allegro_workspace_loads_missing_core_runtime(
     channel = ScriptedChannel(
         'True',
         'None',
+        'True',
         'True',
         'True',
         'True',
@@ -284,6 +286,7 @@ def test_allegro_workspace_loads_missing_core_runtime(
         "isCallable('__abMoveComponent )",
         "isCallable('__abProjectLayers )",
         "isCallable('__abProjectNets )",
+        "isCallable('__abProjectPadstacks )",
         "isCallable('__abProjectPins )",
     ]
 

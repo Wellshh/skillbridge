@@ -159,6 +159,26 @@
               (setq result (cons projected result)))))))
     (reverse result)))
 
+(putd '__abProjectPadstack nil)
+(defun __abProjectPadstack (padstack)
+  (let ((span padstack->startEnd))
+    (list nil
+          'name padstack->name
+          'type padstack->type
+          'usage padstack->usage
+          'start_layer (when span (car span))
+          'end_layer (when span (cadr span)))))
+
+(putd '__abProjectPadstacks nil)
+(defun __abProjectPadstacks (name)
+  (letseq ((design (__abFreshDesign))
+           result)
+    (foreach padstack design->padstacks
+      (when (or (null name)
+                (equal name padstack->name))
+        (setq result (cons (__abProjectPadstack padstack) result))))
+    (reverse result)))
+
 (putd '__abOKToProceed nil)
 (defun __abOKToProceed ()
   (axlOKToProceed))

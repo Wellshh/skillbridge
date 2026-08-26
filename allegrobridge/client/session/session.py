@@ -8,7 +8,15 @@ from typing import Protocol
 
 from typing_extensions import Self
 
-from allegrobridge.client.api import Batch, BoardApi, ComponentsApi, LayersApi, NetsApi, PinsApi
+from allegrobridge.client.api import (
+    Batch,
+    BoardApi,
+    ComponentsApi,
+    LayersApi,
+    NetsApi,
+    PadstacksApi,
+    PinsApi,
+)
 from allegrobridge.client.api._extensions import _Extensions
 from allegrobridge.client.workspace import Workspace
 
@@ -55,6 +63,10 @@ class Session:
     @cached_property
     def nets(self) -> NetsApi:
         return NetsApi(self)
+
+    @cached_property
+    def padstacks(self) -> PadstacksApi:
+        return PadstacksApi(self)
 
     @cached_property
     def pins(self) -> PinsApi:

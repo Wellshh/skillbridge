@@ -373,6 +373,36 @@
         (qtest::assertNil (__abProjectPins nil nil "__MISSING_NET__")))))
 
   (qtest::TestSuite ()
+    (qtest::TestCase test_padstack_projection_has_stable_attributes
+      (letseq ((padstack (list nil 'name "VIA12" 'type "through"
+                               'usage "through_via"
+                               'startEnd '("TOP" "BOTTOM") 'dbid "db:1"))
+               (projected (__abProjectPadstack padstack)))
+        (qtest::assertEqual "VIA12" (get projected 'name))
+        (qtest::assertEqual "through" (get projected 'type))
+        (qtest::assertEqual "through_via" (get projected 'usage))
+        (qtest::assertEqual "TOP" (get projected 'start_layer))
+        (qtest::assertEqual "BOTTOM" (get projected 'end_layer))
+        (qtest::assertNil (get projected 'dbid))))
+
+    (qtest::TestCase test_padstack_projection_handles_missing_span
+      (letseq ((padstack (list nil 'name "SMD" 'type "smd"
+                               'usage "surface_pin" 'startEnd nil))
+               (projected (__abProjectPadstack padstack)))
+        (qtest::assertNil (get projected 'start_layer))
+        (qtest::assertNil (get projected 'end_layer))))
+
+    (qtest::TestCase test_padstacks_projection_lists_and_finds_name
+      (letseq ((allPadstacks (__abProjectPadstacks nil))
+               (selected (car allPadstacks))
+               (name (get selected 'name))
+               (matched (__abProjectPadstacks name)))
+        (qtest::assertTrue allPadstacks)
+        (qtest::assertEqual 1 (length matched))
+        (qtest::assertEqual selected (car matched))
+        (qtest::assertNil (__abProjectPadstacks "__MISSING_PADSTACK__")))))
+
+  (qtest::TestSuite ()
     (qtest::TestCase test_transaction_rejects_busy_allegro
       (letseq ((run (__abTestRunTransaction nil 17 t t "42"))
                (failureText (sprintf nil "%L" (cadr run))))
