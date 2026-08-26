@@ -62,7 +62,22 @@
       "Bash(grep -E \"^\\(poetry\\\\.lock|poetry\\\\.toml|uv\\\\.lock\\)$\")",
       "Bash(poetry lock *)",
       "Bash(poetry check *)",
-      "Bash(git filter-repo *)"
+      "Bash(git filter-repo *)",
+      "Bash(git add *)",
+      "Bash(git commit -q -m 'Fix lint blockers: shebang position, stale type-ignore, README formatting *)",
+      "Bash(rm -rf /tmp/ab-venv-test)",
+      "Bash(uv venv *)",
+      "Bash(uv pip *)",
+      "Bash(curl -s -o /dev/null -w '%{http_code}' https://pypi.org/pypi/allegrobridge/json)",
+      "Bash(echo \"PyPI status: $\\(curl -s -o /dev/null -w '%{http_code}' https://pypi.org/pypi/allegrobridge/json\\)\")",
+      "Bash(gh auth *)",
+      "Bash(gh repo *)",
+      "Bash(git remote *)",
+      "Bash(git push *)",
+      "Bash(ssh -o StrictHostKeyChecking=accept-new -T git@github.com)",
+      "Bash(gh api *)",
+      "Bash(gh run *)",
+      "Bash(python3 -)"
     ]
   }
 }

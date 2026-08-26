@@ -1,0 +1,98 @@
+;;; test_routes.ils - Unit tests for the lazy straight-route domain extension.
+
+(qcover::load (strcat (qub::scriptDir)
+                      "/../../allegrobridge/server/extensions/routes.il"))
+
+(qtest::runSuites
+  (qtest::TestSuite ()
+    (qtest::TestCase test_route_projection_has_stable_attributes
+      (letseq ((segment (list nil 'objType "line" 'layer "ETCH/TOP"
+                              'startEnd '((1.0 2.0) (3.0 4.0)) 'width 0.2))
+               (projected (__abProjectRoute segment "GND")))
+        (qtest::assertEqual "GND" (get projected 'net))
+        (qtest::assertEqual "ETCH/TOP" (get projected 'layer))
+        (qtest::assertEqual 1.0 (get (get projected 'start) 'x))
+        (qtest::assertEqual 2.0 (get (get projected 'start) 'y))
+        (qtest::assertEqual 3.0 (get (get projected 'end) 'x))
+        (qtest::assertEqual 4.0 (get (get projected 'end) 'y))
+        (qtest::assertEqual 0.2 (get projected 'width))))
+
+    (qtest::TestCase test_route_collection_filters_non_straight_etch
+      (letseq ((line (list nil 'objType "line" 'layer "ETCH/TOP"
+                           'startEnd '((1.0 2.0) (3.0 4.0)) 'width 0.2))
+               (arc (list nil 'objType "arc" 'layer "ETCH/TOP"))
+               (etchPath (list nil 'objType "path" 'isEtch t
+                               'segments (list line arc)))
+               (linePath (list nil 'objType "path" 'isEtch nil
+                               'segments (list line)))
+               (other (list nil 'objType "via"))
+               (paths (list etchPath linePath other)))
+        (qtest::assertEqual 1 (length (__abCollectRoutePaths paths "GND" nil nil)))
+        (qtest::assertEqual 1
+                            (length (__abCollectRoutePaths paths "GND"
+                                                           "ETCH/TOP" nil)))
+        (qtest::assertNil (__abCollectRoutePaths paths "GND" "ETCH/BOTTOM" nil))))
+
+    (qtest::TestCase test_routes_projection_lists_and_filters
+      (let ((routes (__abProjectRoutes nil nil)))
+        (qtest::assertTrue routes)
+        (qtest::assertTrue (__abProjectRoutes (get (car routes) 'net) nil))
+        (qtest::assertTrue (__abProjectRoutes nil (get (car routes) 'layer)))
+        (qtest::assertNil (__abProjectRoutes "__MISSING_NET__" nil))
+        (qtest::assertNil (__abProjectRoutes nil "__MISSING_LAYER__"))))
+
+    (qtest::TestCase test_create_route_projects_created_segments
+      (let ((originalCreate (getd '__abCreateLineObject))
+            result)
+        (unwindProtect
+          (progn
+            (putd '__abCreateLineObject
+                  (lambda (_points width layer net)
+                    (list
+                      (list
+                        (list nil 'objType "path" 'isEtch t
+                              'net (list nil 'name net)
+                              'segments
+                              (list (list nil 'objType "line" 'layer layer
+                                          'startEnd '((1.0 2.0) (3.0 4.0))
+                                          'width width))))
+                      nil)))
+            (setq result (__abCreateRoute "GND" '((1.0 2.0) (3.0 4.0))
+                                                  "ETCH/TOP" 0.2)))
+          (putd '__abCreateLineObject originalCreate))
+        (qtest::assertEqual 1 (length result))
+        (qtest::assertEqual "GND" (get (car result) 'net))))
+
+    (qtest::TestCase test_create_route_handles_dummy_net
+      (let ((originalCreate (getd '__abCreateLineObject))
+            result)
+        (unwindProtect
+          (progn
+            (putd '__abCreateLineObject
+                  (lambda (_points width layer _net)
+                    (list
+                      (list
+                        (list nil 'objType "path" 'isEtch t 'net ""
+                              'segments
+                              (list (list nil 'objType "line" 'layer layer
+                                          'startEnd '((1.0 2.0) (3.0 4.0))
+                                          'width width))))
+                      nil)))
+            (setq result (__abCreateRoute "GND" '((1.0 2.0) (3.0 4.0))
+                                                  "ETCH/TOP" 0.2)))
+          (putd '__abCreateLineObject originalCreate))
+        (qtest::assertNil (get (car result) 'net))))
+
+    (qtest::TestCase test_create_route_rejects_nil_result
+      (let ((originalCreate (getd '__abCreateLineObject))
+            result
+            failureText)
+        (unwindProtect
+          (progn
+            (putd '__abCreateLineObject (lambda (_points _width _layer _net) nil))
+            (setq result (errset (__abCreateRoute "GND" '((1.0 2.0) (3.0 4.0))
+                                                         "ETCH/TOP" 0.2)))
+            (setq failureText (sprintf nil "%L" errset.errset)))
+          (putd '__abCreateLineObject originalCreate))
+        (qtest::assertNil result)
+        (qtest::assertTrue (index failureText "ROUTE_CREATE_FAILED"))))))

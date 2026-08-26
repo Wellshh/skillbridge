@@ -35,6 +35,7 @@ from allegrobridge.client.api.layers import LayerInfo, LayersApi
 from allegrobridge.client.api.nets import NetInfo, NetsApi
 from allegrobridge.client.api.padstacks import PadstackInfo, PadstacksApi
 from allegrobridge.client.api.pins import PinInfo, PinsApi
+from allegrobridge.client.api.routes import Point, RouteInfo, RoutesApi
 from allegrobridge.client.api.symbols import SymbolInfo, SymbolsApi
 from allegrobridge.client.api.vias import ViaInfo, ViasApi
 
@@ -54,6 +55,9 @@ __all__ = [
     'PadstacksApi',
     'PinInfo',
     'PinsApi',
+    'Point',
+    'RouteInfo',
+    'RoutesApi',
     'RpcArgs',
     'SessionApi',
     'SymbolInfo',

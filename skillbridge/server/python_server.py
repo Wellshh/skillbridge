@@ -197,7 +197,7 @@ def create_server(
         serv_cls = SingleTcpServer if single else ThreadingTcpServer
     else:
         if UnixStreamServer is None:  # pragma: no cover - Windows
-            msg = "Unix domain sockets are unavailable on this platform"  # type: ignore[unreachable]
+            msg = "Unix domain sockets are unavailable on this platform"
             raise RuntimeError(msg)
         serv_cls = SingleUnixServer if single else ThreadingUnixServer
     return serv_cls(

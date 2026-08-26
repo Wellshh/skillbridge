@@ -184,6 +184,7 @@ Different declaration.
     )
 
 
+@pytest.mark.skipif(not REFERENCE_ROOT.is_dir(), reason='Cadence reference docs not available')
 def test_real_allegro_references_cover_the_supported_inventory() -> None:
     specs = build_api_specs(API_NAMES_PATH, REFERENCE_ROOT)
     by_name = {spec.name: spec for spec in specs}
@@ -268,6 +269,7 @@ def test_real_allegro_references_cover_the_supported_inventory() -> None:
     ]
 
 
+@pytest.mark.skipif(not REFERENCE_ROOT.is_dir(), reason='Cadence reference docs not available')
 def test_render_stub_is_deterministic_and_excludes_document_sections() -> None:
     specs = build_api_specs(API_NAMES_PATH, REFERENCE_ROOT)
 

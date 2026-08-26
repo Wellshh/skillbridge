@@ -9,7 +9,7 @@ from socket import socket
 from sys import platform
 from tempfile import TemporaryDirectory
 from time import sleep
-from typing import NewType
+from typing import NewType, cast
 
 import pytest
 from pydantic import ValidationError
@@ -24,6 +24,8 @@ from allegrobridge.client.api import (
     NetInfo,
     PadstackInfo,
     PinInfo,
+    Point,
+    RouteInfo,
     SymbolInfo,
     ViaInfo,
 )
@@ -199,6 +201,34 @@ def _via_snapshot(ws: Workspace) -> list[list[object]]:
         '(list item->name nil (car item->xy) (cadr item->xy) '
         'item->rotation (if item->isMirrored then "mirrored" else "unmirrored") '
         '(car span) (cadr span) item->pads~>layer) result)))))) '
+        '(reverse result))'
+    )
+
+
+def _route_snapshot(ws: Workspace) -> list[list[object]]:
+    return ws['evalstring'](
+        '(letseq ((design (axlDBRefreshId (axlDBGetDesign))) result) '
+        '(foreach netObject design->nets '
+        '(foreach branch netObject->branches '
+        '(foreach path branch->children '
+        '(when (and (equal path->objType "path") path->isEtch) '
+        '(foreach segment path->segments '
+        '(when (equal segment->objType "line") '
+        '(let ((ends segment->startEnd)) '
+        '(setq result (cons '
+        '(list netObject->name segment->layer '
+        '(car (car ends)) (cadr (car ends)) '
+        '(car (cadr ends)) (cadr (cadr ends)) segment->width) result))))))))) '
+        '(foreach branch (axlDBGetLonelyBranches) '
+        '(foreach path branch->children '
+        '(when (and (equal path->objType "path") path->isEtch) '
+        '(foreach segment path->segments '
+        '(when (equal segment->objType "line") '
+        '(let ((ends segment->startEnd)) '
+        '(setq result (cons '
+        '(list nil segment->layer '
+        '(car (car ends)) (cadr (car ends)) '
+        '(car (cadr ends)) (cadr (cadr ends)) segment->width) result)))))))) '
         '(reverse result))'
     )
 
@@ -1356,6 +1386,238 @@ class TestViasApi:
 
         with pytest.raises(AllegroProtocolError, match='__abProjectVias'):
             session.vias()
+
+
+class TestRoutesApi:
+    @staticmethod
+    def _require_writable(allegro: Allegro) -> None:
+        if allegro.mode != 'cli':
+            pytest.skip('route write test requires the Windows board copy')
+
+    @staticmethod
+    def _values(route: RouteInfo) -> tuple[object, ...]:
+        return (
+            route.net,
+            route.layer,
+            route.start.x,
+            route.start.y,
+            route.end.x,
+            route.end.y,
+            route.width,
+        )
+
+    @staticmethod
+    def _source(session: Session) -> tuple[RouteInfo, str]:
+        route = next(route for route in session.routes() if route.net is not None)
+        return route, cast('str', route.net)
+
+    @staticmethod
+    def _new_points(route: RouteInfo, direction: float = 1.0) -> list[tuple[float, float]]:
+        distance = max(route.width * 4.0, 0.1)
+        return [
+            (route.end.x, route.end.y),
+            (route.end.x + distance * direction, route.end.y),
+        ]
+
+    def test_default_call_projects_straight_routes(
+        self,
+        session: Session,
+        ws: Workspace,
+    ) -> None:
+        routes = session.routes()
+        snapshot = _route_snapshot(ws)
+
+        assert routes
+        assert all(isinstance(route, RouteInfo) for route in routes)
+        assert all(isinstance(route.start, Point) for route in routes)
+        assert [self._values(route) for route in routes] == [tuple(item) for item in snapshot]
+        assert all(route.session_generation == session.generation for route in routes)
+
+    def test_filters_match_single_rpc_snapshot(self, session: Session, ws: Workspace) -> None:
+        expected = _route_snapshot(ws)[0]
+        net = cast('str | None', expected[0])
+        layer = cast('str', expected[1])
+
+        routes = session.routes(net=net, layer=layer)
+
+        assert [self._values(route) for route in routes] == [
+            tuple(item)
+            for item in _route_snapshot(ws)
+            if (net is None or item[0] == net) and item[1] == layer
+        ]
+
+    def test_missing_filters_return_empty_collection(self, session: Session) -> None:
+        assert session.routes(net='__MISSING_NET__') == []
+        assert session.routes(layer='__MISSING_LAYER__') == []
+
+    def test_create_commits_and_returns_projections(
+        self,
+        allegro: Allegro,
+        session: Session,
+    ) -> None:
+        self._require_writable(allegro)
+        source, net = self._source(session)
+
+        created = session.routes.create(
+            net,
+            self._new_points(source),
+            source.layer,
+            source.width,
+        )
+
+        assert created
+        assert all(isinstance(route, RouteInfo) for route in created)
+        current = {self._values(route) for route in session.routes()}
+        assert all(self._values(route) in current for route in created)
+
+    def test_create_preview_returns_projections_and_rolls_back(
+        self,
+        allegro: Allegro,
+        session: Session,
+        ws: Workspace,
+    ) -> None:
+        self._require_writable(allegro)
+        source, net = self._source(session)
+        before = _route_snapshot(ws)
+
+        preview = session.routes.create.preview(
+            net,
+            self._new_points(source, -1.0),
+            source.layer,
+            source.width,
+        )
+
+        assert preview
+        assert _route_snapshot(ws) == before
+
+    def test_atomic_batch_commits_in_order(
+        self,
+        allegro: Allegro,
+        session: Session,
+    ) -> None:
+        self._require_writable(allegro)
+        source, net = self._source(session)
+
+        with session.batch('create two routes') as batch:
+            first = batch.add(
+                session.routes.create.command(
+                    net,
+                    self._new_points(source),
+                    source.layer,
+                    source.width,
+                )
+            )
+            second = batch.add(
+                session.routes.create.command(
+                    net,
+                    self._new_points(source, -1.0),
+                    source.layer,
+                    source.width,
+                )
+            )
+
+        assert first.value
+        assert second.value
+
+    def test_atomic_batch_failure_rolls_back_all(
+        self,
+        allegro: Allegro,
+        session: Session,
+        ws: Workspace,
+    ) -> None:
+        self._require_writable(allegro)
+        source, net = self._source(session)
+        before = _route_snapshot(ws)
+
+        def execute() -> None:
+            with session.batch('rollback invalid route') as batch:
+                batch.add(
+                    session.routes.create.command(
+                        net,
+                        self._new_points(source),
+                        source.layer,
+                        source.width,
+                    )
+                )
+                batch.add(
+                    session.routes.create.command(
+                        net,
+                        self._new_points(source),
+                        '__MISSING_LAYER__',
+                        source.width,
+                    )
+                )
+
+        with pytest.raises(RuntimeError):
+            execute()
+
+        assert _route_snapshot(ws) == before
+
+    def test_dry_run_batch_returns_results_and_rolls_back(
+        self,
+        allegro: Allegro,
+        session: Session,
+        ws: Workspace,
+    ) -> None:
+        self._require_writable(allegro)
+        source, net = self._source(session)
+        before = _route_snapshot(ws)
+
+        with session.batch('preview route', dry_run=True) as batch:
+            result = batch.add(
+                session.routes.create.command(
+                    net,
+                    self._new_points(source),
+                    source.layer,
+                    source.width,
+                )
+            )
+
+        assert result.value
+        assert _route_snapshot(ws) == before
+
+    def test_route_info_is_frozen(self, session: Session) -> None:
+        route = session.routes()[0]
+
+        with pytest.raises(ValidationError, match='frozen'):
+            route.layer = 'changed'
+
+    @pytest.mark.parametrize(
+        'payload',
+        [
+            [{'net': 'GND'}],
+            [
+                {
+                    'net': 'GND',
+                    'layer': 'ETCH/TOP',
+                    'start': {'x': 1.0, 'y': 2.0},
+                    'end': {'x': 3.0, 'y': 4.0},
+                    'width': 0.2,
+                    'dbid': 'db:1',
+                }
+            ],
+            [
+                {
+                    'net': 'GND',
+                    'layer': 'ETCH/TOP',
+                    'start': {'x': 'bad', 'y': 2.0},
+                    'end': {'x': 3.0, 'y': 4.0},
+                    'width': 0.2,
+                }
+            ],
+        ],
+        ids=['missing-field', 'extra-field', 'wrong-type'],
+    )
+    def test_protocol_mismatch_raises(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        payload: object,
+        session: Session,
+    ) -> None:
+        monkeypatch.setattr(session.raw._channel, 'send', lambda _: repr(payload))
+
+        with pytest.raises(AllegroProtocolError, match='__abProjectRoutes'):
+            session.routes()
 
 
 @pytest.mark.usefixtures('extension_environment')

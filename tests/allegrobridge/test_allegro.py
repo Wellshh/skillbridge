@@ -27,6 +27,8 @@ from allegrobridge.client.api import (
     LayerInfo,
     PadstackInfo,
     PinInfo,
+    Point,
+    RouteInfo,
     RpcArgs,
     SessionApi,
     SymbolInfo,
@@ -385,6 +387,9 @@ class TestReadApi:
             'PadstacksApi',
             'PinInfo',
             'PinsApi',
+            'Point',
+            'RouteInfo',
+            'RoutesApi',
             'RpcArgs',
             'SessionApi',
             'SymbolInfo',
@@ -692,6 +697,84 @@ class TestReadApi:
         assert command.procedure == '__abCreateVia'
         assert command.expression == SkillCode('__abCreateVia(...)')
         assert remote.lazy.call_args.args == ('VIA12', (1.0, 2.0), 'GND', True, 90.0)
+
+    def test_routes_load_extension_once_and_delegate_filters(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.return_value = [
+            {
+                'net': 'GND',
+                'layer': 'ETCH/TOP',
+                'start': {'x': 1.0, 'y': 2.0},
+                'end': {'x': 3.0, 'y': 4.0},
+                'width': 0.2,
+            }
+        ]
+        session = Session(Mock(workspace=workspace))
+
+        routes = session.routes(net='GND', layer='ETCH/TOP')
+
+        workspace._ensure_extension.assert_called_once_with(
+            'routes',
+            ('__abProjectRoutes', '__abCreateRoute'),
+        )
+        assert session.routes is session.routes
+        assert routes == [
+            RouteInfo(
+                net='GND',
+                layer='ETCH/TOP',
+                start=Point(x=1.0, y=2.0),
+                end=Point(x=3.0, y=4.0),
+                width=0.2,
+                session_generation=session.generation,
+            )
+        ]
+        workspace.__getitem__.return_value.assert_called_once_with('GND', 'ETCH/TOP')
+
+    def test_route_create_command_is_lazy_and_keeps_arguments(self) -> None:
+        workspace = MagicMock()
+        remote = workspace.__getitem__.return_value
+        remote.lazy.return_value = SkillCode('__abCreateRoute(...)')
+        session = Session(Mock(workspace=workspace))
+
+        command = session.routes.create.command(
+            'GND',
+            [(1.0, 2.0), (3.0, 4.0)],
+            'ETCH/TOP',
+            0.2,
+        )
+
+        assert command.procedure == '__abCreateRoute'
+        assert command.expression == SkillCode('__abCreateRoute(...)')
+        assert remote.lazy.call_args.args == (
+            'GND',
+            [(1.0, 2.0), (3.0, 4.0)],
+            'ETCH/TOP',
+            0.2,
+        )
+
+    @pytest.mark.parametrize(
+        ('points', 'width', 'message'),
+        [
+            ([(1.0, 2.0)], 0.2, 'at least two'),
+            ([(1.0, 2.0), (3.0,)], 0.2, 'two coordinates'),
+            ([(1.0, 2.0), (3.0, 4.0)], 0.0, 'positive'),
+        ],
+    )
+    def test_route_create_rejects_invalid_geometry(
+        self,
+        points: list[tuple[float, ...]],
+        width: float,
+        message: str,
+    ) -> None:
+        session = Session(Mock(workspace=MagicMock()))
+
+        with pytest.raises(ValueError, match=message):
+            session.routes.create.command(
+                'GND',
+                points,  # type: ignore[arg-type]
+                'ETCH/TOP',
+                width,
+            )
 
 
 class TestWriteApi:
