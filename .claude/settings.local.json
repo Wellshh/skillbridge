@@ -101,7 +101,14 @@
       "Bash(.venv/bin/cz bump *)",
       "Bash(.venv/bin/cz changelog *)",
       "Bash(git ls-remote *)",
-      "Bash(xargs git tag -d)"
+      "Bash(xargs git tag -d)",
+      "Read(//Users/wells/Documents/02_工作实习/Job/龙旗科技/代码库/allegrobridge-extract/**)",
+      "Bash(mkdir -p docs/assets)",
+      "Bash(ffmpeg -y -v error -i ide_completion.mov -vf \"fps=15,scale=800:-1:flags=lanczos,split[s0][s1];[s0]palettegen=stats_mode=diff[p];[s1][p]paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle\" -loop 0 docs/assets/ide_completion.gif)",
+      "Bash(ffmpeg -y -v error -ss 10 -i ide_completion.mov -frames:v 1 /tmp/ide_frame.png)",
+      "Read(//tmp/**)",
+      "Bash(git commit -q -m 'docs: add IDE autocompletion demo gif' -m '19s screen recording of axl* stub completion, compressed to a 1.7 MB palette-optimized gif \\(800px, 15fps\\) under docs/assets/. Referenced with a relative path; switch to an absolute raw URL when the repo goes public so it also renders on PyPI. Source .mov kept outside the repo. *)",
+      "Bash(git branch *)"
     ]
   }
 }

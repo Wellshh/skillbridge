@@ -28,6 +28,7 @@ from allegrobridge.client.api import (
     CommandResult,
     ComponentRef,
     ComponentsApi,
+    DrcApi,
     DrcInfo,
     LayerInfo,
     NetRef,
@@ -869,7 +870,7 @@ class TestReadApi:
 
         workspace._ensure_extension.assert_called_once_with(
             'drc',
-            ('__abProjectDrcs',),
+            ('__abProjectDrcs', '__abUpdateDrcs'),
         )
         assert session.drc is session.drc
         assert drcs == [
@@ -953,6 +954,56 @@ class TestWriteApi:
         workspace.transaction.preview.assert_called_once_with(
             '__abMoveComponent("R1" 3.0 2.0 nil )'
         )
+
+    def test_drc_update_supports_command_immediate_and_preview(self) -> None:
+        workspace = MagicMock()
+        remote = workspace.__getitem__.return_value
+        remote.lazy.return_value = '__abUpdateDrcs( )'
+        workspace.transaction.return_value = None
+        workspace.transaction.preview.return_value = [
+            {
+                'name': 'Spacing',
+                'category': 'NET SPACING CONSTRAINTS',
+                'source': 'DEFAULT',
+                'expected': '10 MILS',
+                'actual': '5 MILS',
+                'layer': 'DRC ERROR CLASS/TOP',
+                'location': {'x': 1.0, 'y': 2.0},
+                'bbox': {
+                    'lower_left': {'x': 0.0, 'y': 1.0},
+                    'upper_right': {'x': 2.0, 'y': 3.0},
+                },
+                'objects': [],
+            }
+        ]
+        session = Session(Mock(workspace=workspace))
+        drc = session.drc
+        workspace.reset_mock()
+
+        command = drc.update.command()
+
+        assert DrcApi.update.procedure == '__abUpdateDrcs'
+        assert command.procedure == '__abUpdateDrcs'
+        assert command.expression == '__abUpdateDrcs( )'
+        workspace.transaction.assert_not_called()
+        remote.assert_not_called()
+
+        assert drc.update() == []
+        workspace.transaction.assert_called_once_with(command.expression)
+
+        preview = drc.update.preview()
+        assert len(preview) == 1
+        assert preview[0].session_generation == session.generation
+        workspace.transaction.preview.assert_called_once_with(command.expression)
+
+    def test_drc_update_rejects_invalid_payload(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.lazy.return_value = '__abUpdateDrcs( )'
+        workspace.transaction.return_value = [{'name': 'incomplete'}]
+        session = Session(Mock(workspace=workspace))
+
+        with pytest.raises(AllegroProtocolError, match='__abUpdateDrcs'):
+            session.drc.update()
 
 
 class TestBatch:

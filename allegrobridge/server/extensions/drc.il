@@ -70,3 +70,16 @@
     (foreach marker design->drcs
       (setq result (cons (__abProjectDrc marker) result)))
     (reverse result)))
+
+(putd '__abDrcUpdateDesign nil)
+(defun __abDrcUpdateDesign ()
+  (axlDRCUpdate nil))
+
+(putd '__abUpdateDrcs nil)
+(defun __abUpdateDrcs ()
+  (let ((originalEnable (axlDBControl 'drcEnable)))
+    (unwindProtect
+      (progn
+        (__abDrcUpdateDesign)
+        (__abProjectDrcs))
+      (axlDBControl 'drcEnable originalEnable))))

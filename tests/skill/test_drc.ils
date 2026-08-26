@@ -64,4 +64,73 @@
         (qtest::assertTrue
           (and drcs
                (equal (length design->drcs) (length drcs))
-               (null hasDbid)))))))
+               (null hasDbid)))))
+
+    (qtest::TestCase test_drc_update_projects_and_restores_control
+      (let ((originalUpdate (getd '__abDrcUpdateDesign))
+            (originalEnable (axlDBControl 'drcEnable))
+            result restored)
+        (unwindProtect
+          (progn
+            (axlDBControl 'drcEnable nil)
+            (putd '__abDrcUpdateDesign
+                  (lambda ()
+                    (axlDBControl 'drcEnable t)
+                    7))
+            (setq result (__abUpdateDrcs))
+            (setq restored (axlDBControl 'drcEnable)))
+          (progn
+            (putd '__abDrcUpdateDesign originalUpdate)
+            (axlDBControl 'drcEnable originalEnable)))
+        (qtest::assertTrue (and result (null restored)))))
+
+    (qtest::TestCase test_drc_update_seam_runs_design_check
+      (let ((updated (__abDrcUpdateDesign)))
+        (qtest::assertEqual (axlDRCGetCount) updated)))
+
+    (qtest::TestCase test_drc_update_error_restores_control
+      (let ((originalUpdate (getd '__abDrcUpdateDesign))
+            (originalEnable (axlDBControl 'drcEnable))
+            result failureText restored)
+        (unwindProtect
+          (progn
+            (axlDBControl 'drcEnable nil)
+            (putd '__abDrcUpdateDesign
+                  (lambda ()
+                    (axlDBControl 'drcEnable t)
+                    (error "DRC_UPDATE_FAILED")))
+            (setq result (errset (__abUpdateDrcs)))
+            (setq failureText (sprintf nil "%L" errset.errset))
+            (setq restored (axlDBControl 'drcEnable)))
+          (progn
+            (putd '__abDrcUpdateDesign originalUpdate)
+            (axlDBControl 'drcEnable originalEnable)))
+        (qtest::assertTrue
+          (and (null result)
+               (null restored)
+               (index failureText "DRC_UPDATE_FAILED")))))
+
+    (qtest::TestCase test_drc_projection_error_restores_control
+      (let ((originalUpdate (getd '__abDrcUpdateDesign))
+            (originalProject (getd '__abProjectDrcs))
+            (originalEnable (axlDBControl 'drcEnable))
+            result failureText restored)
+        (unwindProtect
+          (progn
+            (axlDBControl 'drcEnable nil)
+            (putd '__abDrcUpdateDesign
+                  (lambda ()
+                    (axlDBControl 'drcEnable t)
+                    7))
+            (putd '__abProjectDrcs (lambda () (error "DRC_PROJECT_FAILED")))
+            (setq result (errset (__abUpdateDrcs)))
+            (setq failureText (sprintf nil "%L" errset.errset))
+            (setq restored (axlDBControl 'drcEnable)))
+          (progn
+            (putd '__abDrcUpdateDesign originalUpdate)
+            (putd '__abProjectDrcs originalProject)
+            (axlDBControl 'drcEnable originalEnable)))
+        (qtest::assertTrue
+          (and (null result)
+               (null restored)
+               (index failureText "DRC_PROJECT_FAILED")))))))

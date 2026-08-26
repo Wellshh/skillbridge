@@ -11,7 +11,7 @@ from socket import socket
 from sys import platform
 from tempfile import TemporaryDirectory
 from time import sleep
-from typing import NewType, cast
+from typing import Any, NewType, cast
 
 import pytest
 from pydantic import ValidationError
@@ -22,6 +22,7 @@ from allegrobridge import Allegro, OpenMode, Session, Workspace
 from allegrobridge.client.api import (
     BBox,
     BoardInfo,
+    CommandResult,
     ComponentInfo,
     ComponentRef,
     DrcInfo,
@@ -1766,6 +1767,47 @@ class TestShapesApi:
 
 
 class TestDrcApi:
+    @staticmethod
+    def _require_writable(allegro: Allegro) -> None:
+        if allegro.mode != 'cli':
+            pytest.skip('DRC write test requires the Windows board copy')
+
+    @staticmethod
+    def _movement_pair(session: Session) -> tuple[ComponentInfo, ComponentInfo]:
+        components = sorted(
+            session.components(include_unplaced=False),
+            key=lambda component: component.refdes,
+        )
+        source = components[0]
+        target = next(
+            component
+            for component in components[1:]
+            if (component.x, component.y) != (source.x, source.y)
+        )
+        assert source.x is not None
+        assert source.y is not None
+        assert source.rotation is not None
+        assert target.x is not None
+        assert target.y is not None
+        assert target.rotation is not None
+        return source, target
+
+    @staticmethod
+    def _snapshot(drcs: list[DrcInfo]) -> list[str]:
+        return sorted(map(repr, drcs))
+
+    @staticmethod
+    def _restore(session: Session, component: ComponentInfo) -> None:
+        assert component.x is not None
+        assert component.y is not None
+        session.components.move(
+            component.refdes,
+            x=component.x,
+            y=component.y,
+            rotation=component.rotation,
+        )
+        session.drc.update()
+
     def test_projects_current_markers(
         self,
         allegro: Allegro,
@@ -1786,6 +1828,127 @@ class TestDrcApi:
             assert any(isinstance(reference, ComponentRef) for reference in references)
             assert any(isinstance(reference, NetRef) for reference in references)
             assert any(isinstance(reference, PinRef) for reference in references)
+
+    def test_update_preview_returns_projection_and_rolls_back(
+        self,
+        allegro: Allegro,
+        session: Session,
+    ) -> None:
+        self._require_writable(allegro)
+        baseline = session.drc.update()
+
+        preview = session.drc.update.preview()
+
+        assert self._snapshot(preview) == self._snapshot(baseline)
+        assert self._snapshot(session.drc()) == self._snapshot(baseline)
+
+    def test_update_commits_current_markers(
+        self,
+        allegro: Allegro,
+        session: Session,
+    ) -> None:
+        self._require_writable(allegro)
+        generation = session.generation
+
+        updated = session.drc.update()
+
+        assert self._snapshot(session.drc()) == self._snapshot(updated)
+        assert session.generation == generation
+        assert all(drc.session_generation == session.generation for drc in updated)
+
+    def test_mixed_batch_commits_move_then_drc_update(
+        self,
+        allegro: Allegro,
+        session: Session,
+    ) -> None:
+        self._require_writable(allegro)
+        source, target = self._movement_pair(session)
+        baseline = session.drc.update()
+
+        try:
+            with session.batch('move then update DRC') as batch:
+                moved = batch.add(
+                    session.components.move.command(
+                        source.refdes,
+                        x=cast('float', target.x),
+                        y=cast('float', target.y),
+                        rotation=cast('float', target.rotation),
+                    )
+                )
+                drcs = batch.add(session.drc.update.command())
+
+            assert moved.value.x == pytest.approx(target.x)
+            assert self._snapshot(drcs.value) != self._snapshot(baseline)
+            assert session.components[source.refdes] == moved.value
+            assert self._snapshot(session.drc()) == self._snapshot(drcs.value)
+        finally:
+            self._restore(session, source)
+
+    def test_mixed_dry_run_returns_results_and_rolls_back(
+        self,
+        allegro: Allegro,
+        session: Session,
+    ) -> None:
+        self._require_writable(allegro)
+        source, target = self._movement_pair(session)
+        baseline = session.drc.update()
+
+        with session.batch('preview move and DRC', dry_run=True) as batch:
+            moved = batch.add(
+                session.components.move.command(
+                    source.refdes,
+                    x=cast('float', target.x),
+                    y=cast('float', target.y),
+                    rotation=cast('float', target.rotation),
+                )
+            )
+            drcs = batch.add(session.drc.update.command())
+
+        assert moved.value.x == pytest.approx(target.x)
+        assert self._snapshot(drcs.value) != self._snapshot(baseline)
+        assert session.components[source.refdes] == source
+        assert self._snapshot(session.drc()) == self._snapshot(baseline)
+
+    def test_failed_mixed_batch_rolls_back_component_and_drc(
+        self,
+        allegro: Allegro,
+        session: Session,
+    ) -> None:
+        self._require_writable(allegro)
+        source, target = self._movement_pair(session)
+        baseline = session.drc.update()
+        results: list[CommandResult[Any]] = []
+
+        def execute() -> None:
+            with session.batch('rollback move and DRC') as batch:
+                results.extend([
+                    batch.add(
+                        session.components.move.command(
+                            source.refdes,
+                            x=cast('float', target.x),
+                            y=cast('float', target.y),
+                            rotation=cast('float', target.rotation),
+                        )
+                    ),
+                    batch.add(session.drc.update.command()),
+                    batch.add(
+                        session.components.move.command(
+                            '__MISSING_COMPONENT__',
+                            x=1.0,
+                            y=2.0,
+                        )
+                    ),
+                ])
+
+        with pytest.raises(RuntimeError, match='COMPONENT_NOT_FOUND') as raised:
+            execute()
+
+        assert session.components[source.refdes] == source
+        assert self._snapshot(session.drc()) == self._snapshot(baseline)
+        for result in results:
+            with pytest.raises(RuntimeError, match='COMPONENT_NOT_FOUND') as stored:
+                _ = result.value
+            assert stored.value is raised.value
 
     @pytest.mark.parametrize(
         'payload',

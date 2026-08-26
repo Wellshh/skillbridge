@@ -7,11 +7,12 @@ from typing import List, Literal, Union
 from pydantic import PositiveInt, TypeAdapter
 
 from allegrobridge.client.api._record import _Record
-from allegrobridge.client.api._rpc import RpcArgs, SessionApi, read
+from allegrobridge.client.api._rpc import RpcArgs, SessionApi, read, write
 from allegrobridge.client.api.routes import Point
 from allegrobridge.client.api.shapes import BBox
 
 _PROCEDURE = '__abProjectDrcs'
+_UPDATE_PROCEDURE = '__abUpdateDrcs'
 
 
 class ComponentRef(_Record):
@@ -54,4 +55,8 @@ _DRCS = TypeAdapter(_DrcList)
 class DrcApi(SessionApi):
     @read(_PROCEDURE, _DRCS, none_as_empty=True)
     def __call__(self) -> RpcArgs:
+        return ()
+
+    @write(_UPDATE_PROCEDURE, _DRCS, none_as_empty=True)
+    def update(self) -> RpcArgs:
         return ()
