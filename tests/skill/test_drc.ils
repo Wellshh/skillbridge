@@ -56,8 +56,12 @@
 
     (qtest::TestCase test_drc_projection_lists_current_design_markers
       (let ((design (__abFreshDesign))
-            (drcs (__abProjectDrcs)))
-        (qtest::assertTrue drcs)
-        (qtest::assertEqual (length design->drcs) (length drcs))
+            (drcs (__abProjectDrcs))
+            hasDbid)
         (foreach drc drcs
-          (qtest::assertNil (get drc 'dbid)))))))
+          (when (get drc 'dbid)
+            (setq hasDbid t)))
+        (qtest::assertTrue
+          (and drcs
+               (equal (length design->drcs) (length drcs))
+               (null hasDbid)))))))

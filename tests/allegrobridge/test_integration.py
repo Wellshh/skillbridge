@@ -2419,7 +2419,9 @@ class TestDrcApi:
         ws: Workspace,
     ) -> None:
         drcs = session.drc()
-        expected_count = ws['evalstring']('length((axlDBRefreshId(axlDBGetDesign))->drcs)')
+        expected_count = ws['evalstring'](
+            '(let ((design (axlDBRefreshId (axlDBGetDesign)))) (length design->drcs))'
+        )
 
         assert len(drcs) == expected_count
         assert all(isinstance(drc, DrcInfo) for drc in drcs)
