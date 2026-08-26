@@ -38,4 +38,11 @@ For both
 
 
 ---- 
+
+Commit messages
+
+- Follow Conventional Commits, enforced by a commit-msg hook: `type(scope): subject` with type in feat, fix, docs, refactor, test, chore, perf, build, ci, style, revert. Scope is optional; separate any body from the subject with a blank line; keep the Co-Authored-By trailer last.
+
+
+---- 
 Specifically, every time writing .il / .ils code, use local `cadence-skill-agent` first to query local api docs.

@@ -4,7 +4,17 @@
 # Install once per clone:  poetry run pre-commit install
 # Run manually:            poetry run pre-commit run --all-files
 
+default_install_hook_types:
+  - pre-commit
+  - commit-msg
+
 repos:
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v4.4.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
+
   - repo: local
     hooks:
       - id: ruff-format

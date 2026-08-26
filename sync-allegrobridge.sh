@@ -36,5 +36,5 @@ fi
 
 hash="$(git -C "$SRC" log -1 --format='%h')"
 subject="$(git -C "$SRC" log -1 --format='%s')"
-git -C "$DST" commit -q -m "sync from skillbridge@$hash: $subject"
+git -C "$DST" commit -q -m "chore(sync): from skillbridge@$hash: $subject"
 echo "sync: mirrored skillbridge@$hash -> allegrobridge-extract"
