@@ -66,6 +66,67 @@
                (equal (length design->drcs) (length drcs))
                (null hasDbid)))))
 
+    (qtest::TestCase test_drc_item_resolves_stable_keys_and_projects_markers
+      (letseq ((otherPin (list nil 'objType "pin" 'number "2"))
+               (pin (list nil 'objType "pin" 'number "1"))
+               (otherComponent (list nil 'objType "component" 'name "R2"
+                                     'pins (list otherPin)))
+               (component (list nil 'objType "component" 'name "R1"
+                                'pins (list otherPin pin)))
+               (otherNet (list nil 'objType "net" 'name "VCC"))
+               (net (list nil 'objType "net" 'name "GND"))
+               (design (list nil 'components (list otherComponent component)
+                             'nets (list otherNet net)))
+               (originalDesign (getd '__abFreshDesign))
+               (originalCheck (getd '__abDrcCheckItem))
+               result)
+        (unwindProtect
+          (progn
+            (putd '__abFreshDesign (lambda () design))
+            (putd '__abDrcCheckItem
+                  (lambda (_target)
+                    (list (list nil 'name "Spacing" 'type "PHYSICAL"
+                                'source "DEFAULT" 'expected "10 MILS"
+                                'actual "5 MILS" 'layer "DRC ERROR CLASS/TOP"
+                                'xy '(1.0 2.0) 'bBox '((0.0 1.0) (2.0 3.0))
+                                'violations nil))))
+            (qtest::assertEqual component (__abFindDrcItem "component" "R1" nil))
+            (qtest::assertEqual net (__abFindDrcItem "net" "GND" nil))
+            (qtest::assertEqual pin (__abFindDrcItem "pin" "R1" "1"))
+            (setq result (__abCheckDrcs "pin" "R1" "1")))
+          (progn
+            (putd '__abFreshDesign originalDesign)
+            (putd '__abDrcCheckItem originalCheck)))
+        (qtest::assertTrue
+          (and (equal 1 (length result))
+               (equal "Spacing" (get (car result) 'name))
+               (null (get (car result) 'dbid))))))
+
+    (qtest::TestCase test_drc_item_returns_nil_without_markers
+      (let ((originalCheck (getd '__abDrcCheckItem))
+            result)
+        (unwindProtect
+          (progn
+            (putd '__abDrcCheckItem (lambda (_target) nil))
+            (setq result (__abCheckDrcs "net" "GND" nil)))
+          (putd '__abDrcCheckItem originalCheck))
+        (qtest::assertNil result)))
+
+    (qtest::TestCase test_drc_item_seam_runs_native_check
+      (letseq ((design (__abFreshDesign))
+               (target (car design->nets))
+               (result (__abDrcCheckItem target)))
+        (__abDrcUpdateDesign)
+        (qtest::assertTrue (or (null result) (listp result)))))
+
+    (qtest::TestCase test_drc_item_rejects_missing_stable_key
+      (let (result failureText)
+        (setq result (errset (__abCheckDrcs "component" "__MISSING__" nil)))
+        (setq failureText (sprintf nil "%L" errset.errset))
+        (qtest::assertTrue
+          (and (null result)
+               (index failureText "DRC_TARGET_NOT_FOUND")))))
+
     (qtest::TestCase test_drc_update_projects_and_restores_control
       (let ((originalUpdate (getd '__abDrcUpdateDesign))
             (originalEnable (axlDBControl 'drcEnable))

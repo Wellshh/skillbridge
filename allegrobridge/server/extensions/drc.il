@@ -83,3 +83,40 @@
         (__abDrcUpdateDesign)
         (__abProjectDrcs))
       (axlDBControl 'drcEnable originalEnable))))
+
+(putd '__abFindDrcItem nil)
+(defun __abFindDrcItem (kind primary secondary)
+  (letseq ((design (__abFreshDesign))
+           target)
+    (cond
+      ((equal kind "component")
+       (foreach component design->components
+         (when (equal component->name primary)
+           (setq target component))))
+      ((equal kind "net")
+       (foreach net design->nets
+         (when (equal net->name primary)
+           (setq target net))))
+      (t
+       (foreach component design->components
+         (when (equal component->name primary)
+           (foreach pin component->pins
+             (when (equal pin->number secondary)
+               (setq target pin)))))))
+    target))
+
+(putd '__abDrcCheckItem nil)
+(defun __abDrcCheckItem (target)
+  (axlDRCItem t target))
+
+(putd '__abCheckDrcs nil)
+(defun __abCheckDrcs (kind primary secondary)
+  (letseq ((target (__abFindDrcItem kind primary secondary))
+           markers result)
+    (unless target
+      (error (sprintf nil "DRC_TARGET_NOT_FOUND: %L/%L/%L"
+                     kind primary secondary)))
+    (setq markers (__abDrcCheckItem target))
+    (foreach marker markers
+      (setq result (cons (__abProjectDrc marker) result)))
+    (reverse result)))

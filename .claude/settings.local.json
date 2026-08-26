@@ -108,7 +108,8 @@
       "Bash(ffmpeg -y -v error -ss 10 -i ide_completion.mov -frames:v 1 /tmp/ide_frame.png)",
       "Read(//tmp/**)",
       "Bash(git commit -q -m 'docs: add IDE autocompletion demo gif' -m '19s screen recording of axl* stub completion, compressed to a 1.7 MB palette-optimized gif \\(800px, 15fps\\) under docs/assets/. Referenced with a relative path; switch to an absolute raw URL when the repo goes public so it also renders on PyPI. Source .mov kept outside the repo. *)",
-      "Bash(git branch *)"
+      "Bash(git branch *)",
+      "Bash(git commit -m 'docs\\(qtest\\): replace upstream readme with vendoring notice *)"
     ]
   }
 }

@@ -228,6 +228,19 @@ def read(
     return decorate
 
 
+def direct(
+    procedure: str,
+    adapter: TypeAdapter[T],
+    *,
+    none_as_empty: bool = False,
+) -> Callable[
+    [Callable[Concatenate[ApiT, P], RpcArgs]],
+    Callable[Concatenate[ApiT, P], T],
+]:
+    """Decorate an immediate RPC operation without transaction affordances."""
+    return read(procedure, adapter, none_as_empty=none_as_empty)
+
+
 class _BoundWrite(Generic[ApiT, P, T]):
     def __init__(self, operation: _Write[ApiT, P, T], instance: ApiT) -> None:
         self._operation = operation

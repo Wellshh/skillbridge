@@ -26,11 +26,13 @@ from allegrobridge.client.api import (
     BBox,
     Command,
     CommandResult,
+    ComponentInfo,
     ComponentRef,
     ComponentsApi,
     DrcApi,
     DrcInfo,
     LayerInfo,
+    NetInfo,
     NetRef,
     PadstackInfo,
     PinInfo,
@@ -870,7 +872,7 @@ class TestReadApi:
 
         workspace._ensure_extension.assert_called_once_with(
             'drc',
-            ('__abProjectDrcs', '__abUpdateDrcs'),
+            ('__abProjectDrcs', '__abUpdateDrcs', '__abCheckDrcs'),
         )
         assert session.drc is session.drc
         assert drcs == [
@@ -895,6 +897,61 @@ class TestReadApi:
             )
         ]
         workspace.__getitem__.return_value.assert_called_once_with()
+
+
+class TestDrcApi:
+    def test_maps_stable_targets_and_executes_directly(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.return_value = None
+        session = Session(Mock(workspace=workspace))
+        drc = session.drc
+        workspace.reset_mock()
+        targets: list[tuple[ComponentInfo | NetInfo | PinInfo, tuple[str, str, str | None]]] = [
+            (
+                ComponentInfo.model_construct(
+                    refdes='R1',
+                ),
+                ('component', 'R1', None),
+            ),
+            (
+                NetInfo.model_construct(
+                    name='GND',
+                ),
+                ('net', 'GND', None),
+            ),
+            (
+                PinInfo.model_construct(
+                    refdes='R1',
+                    number='1',
+                ),
+                ('pin', 'R1', '1'),
+            ),
+        ]
+
+        for target, expected_args in targets:
+            assert drc.check(target) == []
+            workspace.__getitem__.return_value.assert_called_once_with(*expected_args)
+            workspace.__getitem__.return_value.reset_mock()
+
+        workspace.transaction.assert_not_called()
+        assert DrcApi.check.procedure == '__abCheckDrcs'  # type: ignore[attr-defined]
+        assert not hasattr(drc.check, 'preview')
+        assert not hasattr(drc.check, 'command')
+
+    def test_rejects_invalid_target_and_payload(self) -> None:
+        workspace = MagicMock()
+        session = Session(Mock(workspace=workspace))
+        drc = session.drc
+
+        with pytest.raises(TypeError, match='ComponentInfo, NetInfo, or PinInfo'):
+            drc.check(object())  # type: ignore[arg-type]
+
+        workspace.__getitem__.return_value.return_value = [{'name': 'incomplete'}]
+        target = NetInfo.model_construct(
+            name='GND',
+        )
+        with pytest.raises(AllegroProtocolError, match='__abCheckDrcs'):
+            drc.check(target)
 
 
 class TestWriteApi:

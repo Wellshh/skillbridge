@@ -1842,6 +1842,31 @@ class TestDrcApi:
         assert self._snapshot(preview) == self._snapshot(baseline)
         assert self._snapshot(session.drc()) == self._snapshot(baseline)
 
+    def test_check_component_net_and_pin_immediately(
+        self,
+        allegro: Allegro,
+        session: Session,
+    ) -> None:
+        self._require_writable(allegro)
+        pin = next(pin for pin in session.pins() if pin.net)
+        targets: list[ComponentInfo | NetInfo | PinInfo] = [
+            session.components[pin.refdes],
+            session.nets[cast('str', pin.net)],
+            pin,
+        ]
+        generation = session.generation
+
+        try:
+            for target in targets:
+                checked = session.drc.check(target)
+                assert all(isinstance(drc, DrcInfo) for drc in checked)
+                assert all(drc.session_generation == generation for drc in checked)
+                assert 'dbid:' not in repr(checked)
+        finally:
+            session.drc.update()
+
+        assert session.generation == generation
+
     def test_update_commits_current_markers(
         self,
         allegro: Allegro,
