@@ -1,5 +1,6 @@
 include skillbridge/server/python_server.il
 include allegrobridge/server/allegro_server.il
+recursive-include allegrobridge/server/extensions *.il
 include allegrobridge/client/_axl_stubs.pyi
 include allegrobridge/py.typed
 include skillbridge/py.typed

@@ -59,7 +59,10 @@
       "Bash(uv lock *)",
       "Bash(uv sync *)",
       "Bash(poetry --version)",
-      "Bash(grep -E \"^\\(poetry\\\\.lock|poetry\\\\.toml|uv\\\\.lock\\)$\")"
+      "Bash(grep -E \"^\\(poetry\\\\.lock|poetry\\\\.toml|uv\\\\.lock\\)$\")",
+      "Bash(poetry lock *)",
+      "Bash(poetry check *)",
+      "Bash(git filter-repo *)"
     ]
   }
 }

@@ -25,6 +25,7 @@ from allegrobridge.client.api import (
     PadstackInfo,
     PinInfo,
     SymbolInfo,
+    ViaInfo,
 )
 from allegrobridge.exceptions import AllegroProtocolError, ExtensionError
 from allegrobridge.util import ASSETS_DIR
@@ -178,6 +179,30 @@ def _symbol_snapshot(ws: Workspace, type_: str | None = None) -> list[list[objec
     )
 
 
+def _via_snapshot(ws: Workspace) -> list[list[object]]:
+    return ws['evalstring'](
+        '(letseq ((design (axlDBRefreshId (axlDBGetDesign))) result) '
+        '(foreach netObject design->nets '
+        '(foreach branch netObject->branches '
+        '(foreach item branch->children '
+        '(when (equal item->objType "via") '
+        '(let ((span item->startEnd)) '
+        '(setq result (cons '
+        '(list item->name netObject->name (car item->xy) (cadr item->xy) '
+        'item->rotation (if item->isMirrored then "mirrored" else "unmirrored") '
+        '(car span) (cadr span) item->pads~>layer) result)))))) '
+        '(foreach branch (axlDBGetLonelyBranches) '
+        '(foreach item branch->children '
+        '(when (equal item->objType "via") '
+        '(let ((span item->startEnd)) '
+        '(setq result (cons '
+        '(list item->name nil (car item->xy) (cadr item->xy) '
+        'item->rotation (if item->isMirrored then "mirrored" else "unmirrored") '
+        '(car span) (cadr span) item->pads~>layer) result))))) '
+        '(reverse result))'
+    )
+
+
 def _run_skill_suite(workspace_id: str | None) -> str:
     if platform != 'win32':
         pytest.skip('automatic SKILL suite launch requires Windows Allegro')
@@ -187,6 +212,10 @@ def _run_skill_suite(workspace_id: str | None) -> str:
         temporary_repository = Path(temporary_directory)
         skill_tests = copytree(
             repository / 'tests' / 'skill', temporary_repository / 'tests' / 'skill'
+        )
+        copytree(
+            repository / 'allegrobridge' / 'server' / 'extensions',
+            temporary_repository / 'allegrobridge' / 'server' / 'extensions',
         )
         for source in (
             repository / 'skillbridge' / '__init__.py',
@@ -958,9 +987,7 @@ class TestPadstacksApi:
             )
             for padstack in padstacks
         ] == [tuple(item) for item in _padstack_snapshot(ws)]
-        assert all(
-            padstack.session_generation == session.generation for padstack in padstacks
-        )
+        assert all(padstack.session_generation == session.generation for padstack in padstacks)
 
     def test_getitem_returns_padstack_by_name(self, session: Session) -> None:
         expected = session.padstacks()[0]
@@ -1108,6 +1135,227 @@ class TestSymbolsApi:
 
         with pytest.raises(AllegroProtocolError, match='__abProjectSymbols'):
             session.symbols()
+
+
+class TestViasApi:
+    @staticmethod
+    def _require_writable(allegro: Allegro) -> None:
+        if allegro.mode != 'cli':
+            pytest.skip('via write test requires the Windows board copy')
+
+    @staticmethod
+    def _values(via: ViaInfo) -> tuple[object, ...]:
+        return (
+            via.padstack,
+            via.net,
+            via.x,
+            via.y,
+            via.rotation,
+            via.mirroring,
+            via.start_layer,
+            via.end_layer,
+        )
+
+    def test_default_call_projects_vias(self, session: Session, ws: Workspace) -> None:
+        vias = session.vias()
+        snapshot = _via_snapshot(ws)
+
+        assert vias
+        assert all(isinstance(via, ViaInfo) for via in vias)
+        assert [self._values(via) for via in vias] == [tuple(item[:8]) for item in snapshot]
+        assert all(via.session_generation == session.generation for via in vias)
+
+    def test_filters_match_single_rpc_snapshot(self, session: Session, ws: Workspace) -> None:
+        snapshot = _via_snapshot(ws)
+        expected = snapshot[0]
+        padstack, net, _, _, _, _, start_layer, _, pad_layers = expected
+
+        vias = session.vias(net=net, layer=start_layer, padstack=padstack)
+
+        assert [self._values(via) for via in vias] == [
+            tuple(item[:8])
+            for item in snapshot
+            if item[0] == padstack and (net is None or item[1] == net) and start_layer in item[8]
+        ]
+        assert start_layer in pad_layers
+
+    def test_missing_filters_return_empty_collection(self, session: Session) -> None:
+        assert session.vias(padstack='__MISSING_PADSTACK__') == []
+
+    def test_create_commits_and_returns_projection(
+        self,
+        allegro: Allegro,
+        session: Session,
+    ) -> None:
+        self._require_writable(allegro)
+        original = session.vias()[0]
+        at = (original.x + 0.1, original.y + 0.1)
+
+        created = session.vias.create(original.padstack, at=at, net=original.net)
+
+        assert created.padstack == original.padstack
+        assert created.net == original.net
+        assert created.x == pytest.approx(at[0])
+        assert created.y == pytest.approx(at[1])
+        assert any(
+            via.padstack == created.padstack
+            and via.x == pytest.approx(created.x)
+            and via.y == pytest.approx(created.y)
+            for via in session.vias()
+        )
+
+    def test_create_preview_returns_projection_and_rolls_back(
+        self,
+        allegro: Allegro,
+        session: Session,
+        ws: Workspace,
+    ) -> None:
+        self._require_writable(allegro)
+        original = session.vias()[0]
+        before = _via_snapshot(ws)
+
+        preview = session.vias.create.preview(
+            original.padstack,
+            at=(original.x + 0.2, original.y + 0.2),
+            net=original.net,
+            rotation=45.0,
+            mirrored=True,
+        )
+
+        assert preview.rotation == pytest.approx(45.0)
+        assert preview.mirroring == 'mirrored'
+        assert _via_snapshot(ws) == before
+
+    def test_atomic_batch_commits_in_order(
+        self,
+        allegro: Allegro,
+        session: Session,
+    ) -> None:
+        self._require_writable(allegro)
+        original = session.vias()[0]
+        before = len(session.vias())
+
+        with session.batch('create two vias') as batch:
+            first = batch.add(
+                session.vias.create.command(
+                    original.padstack,
+                    at=(original.x + 0.3, original.y + 0.3),
+                    net=original.net,
+                )
+            )
+            second = batch.add(
+                session.vias.create.command(
+                    original.padstack,
+                    at=(original.x + 0.4, original.y + 0.4),
+                    net=original.net,
+                )
+            )
+
+        assert first.value.x == pytest.approx(original.x + 0.3)
+        assert second.value.x == pytest.approx(original.x + 0.4)
+        assert len(session.vias()) == before + 2
+
+    def test_atomic_batch_failure_rolls_back_all(
+        self,
+        allegro: Allegro,
+        session: Session,
+        ws: Workspace,
+    ) -> None:
+        self._require_writable(allegro)
+        original = session.vias()[0]
+        before = _via_snapshot(ws)
+
+        def execute() -> None:
+            with session.batch('rollback invalid via') as batch:
+                batch.add(
+                    session.vias.create.command(
+                        original.padstack,
+                        at=(original.x + 0.5, original.y + 0.5),
+                        net=original.net,
+                    )
+                )
+                batch.add(
+                    session.vias.create.command(
+                        '__MISSING_PADSTACK__',
+                        at=(original.x + 0.6, original.y + 0.6),
+                    )
+                )
+
+        with pytest.raises(RuntimeError):
+            execute()
+
+        assert _via_snapshot(ws) == before
+
+    def test_dry_run_batch_returns_results_and_rolls_back(
+        self,
+        allegro: Allegro,
+        session: Session,
+        ws: Workspace,
+    ) -> None:
+        self._require_writable(allegro)
+        original = session.vias()[0]
+        before = _via_snapshot(ws)
+
+        with session.batch('preview vias', dry_run=True) as batch:
+            result = batch.add(
+                session.vias.create.command(
+                    original.padstack,
+                    at=(original.x + 0.7, original.y + 0.7),
+                    net=original.net,
+                )
+            )
+
+        assert result.value.x == pytest.approx(original.x + 0.7)
+        assert _via_snapshot(ws) == before
+
+    def test_via_info_is_frozen(self, session: Session) -> None:
+        via = session.vias()[0]
+
+        with pytest.raises(ValidationError, match='frozen'):
+            via.padstack = 'changed'
+
+    @pytest.mark.parametrize(
+        'payload',
+        [
+            [{'padstack': 'VIA12'}],
+            [
+                {
+                    'padstack': 'VIA12',
+                    'net': 'GND',
+                    'x': 1.0,
+                    'y': 2.0,
+                    'rotation': 0.0,
+                    'mirroring': 'unmirrored',
+                    'start_layer': 'ETCH/TOP',
+                    'end_layer': 'ETCH/BOTTOM',
+                    'dbid': 'db:1',
+                }
+            ],
+            [
+                {
+                    'padstack': 'VIA12',
+                    'net': 'GND',
+                    'x': 'bad',
+                    'y': 2.0,
+                    'rotation': 0.0,
+                    'mirroring': 'unmirrored',
+                    'start_layer': 'ETCH/TOP',
+                    'end_layer': 'ETCH/BOTTOM',
+                }
+            ],
+        ],
+        ids=['missing-field', 'extra-field', 'wrong-type'],
+    )
+    def test_protocol_mismatch_raises(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        payload: object,
+        session: Session,
+    ) -> None:
+        monkeypatch.setattr(session.raw._channel, 'send', lambda _: repr(payload))
+
+        with pytest.raises(AllegroProtocolError, match='__abProjectVias'):
+            session.vias()
 
 
 @pytest.mark.usefixtures('extension_environment')

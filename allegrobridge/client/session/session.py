@@ -17,8 +17,10 @@ from allegrobridge.client.api import (
     PadstacksApi,
     PinsApi,
     SymbolsApi,
+    ViasApi,
 )
 from allegrobridge.client.api._extensions import _Extensions
+from allegrobridge.client.api._rpc import _api_procedures
 from allegrobridge.client.workspace import Workspace
 
 
@@ -76,6 +78,14 @@ class Session:
     @cached_property
     def symbols(self) -> SymbolsApi:
         return SymbolsApi(self)
+
+    @cached_property
+    def vias(self) -> ViasApi:
+        self.raw._ensure_extension(  # ruff: ignore[private-member-access]
+            'vias',
+            _api_procedures(ViasApi),
+        )
+        return ViasApi(self)
 
     # --- Bundled & Custom Extensions ---
     @cached_property

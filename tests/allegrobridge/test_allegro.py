@@ -30,6 +30,7 @@ from allegrobridge.client.api import (
     RpcArgs,
     SessionApi,
     SymbolInfo,
+    ViaInfo,
     extension,
     read,
 )
@@ -45,6 +46,7 @@ from allegrobridge.exceptions import (
     AllegroTimeoutError,
     ExtensionError,
 )
+from skillbridge import SkillCode
 from skillbridge.exception import ProtocolError, SkillBridgeError
 
 
@@ -387,6 +389,8 @@ class TestReadApi:
             'SessionApi',
             'SymbolInfo',
             'SymbolsApi',
+            'ViaInfo',
+            'ViasApi',
             'extension',
             'read',
             'write',
@@ -628,6 +632,66 @@ class TestReadApi:
         ]
         assert session.symbols is session.symbols
         workspace.__getitem__.return_value.assert_called_once_with('PACKAGE')
+
+    def test_vias_load_extension_once_and_delegate_filters(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.return_value = [
+            {
+                'padstack': 'VIA12',
+                'net': 'GND',
+                'x': 1.0,
+                'y': 2.0,
+                'rotation': 0.0,
+                'mirroring': 'unmirrored',
+                'start_layer': 'ETCH/TOP',
+                'end_layer': 'ETCH/BOTTOM',
+            }
+        ]
+        session = Session(Mock(workspace=workspace))
+
+        vias = session.vias(net='GND', layer='ETCH/TOP', padstack='VIA12')
+
+        workspace._ensure_extension.assert_called_once_with(
+            'vias',
+            ('__abProjectVias', '__abCreateVia'),
+        )
+        assert session.vias is session.vias
+        assert vias == [
+            ViaInfo(
+                padstack='VIA12',
+                net='GND',
+                x=1.0,
+                y=2.0,
+                rotation=0.0,
+                mirroring='unmirrored',
+                start_layer='ETCH/TOP',
+                end_layer='ETCH/BOTTOM',
+                session_generation=session.generation,
+            )
+        ]
+        workspace.__getitem__.return_value.assert_called_once_with(
+            'GND',
+            'ETCH/TOP',
+            'VIA12',
+        )
+
+    def test_via_create_command_is_lazy_and_keeps_arguments(self) -> None:
+        workspace = MagicMock()
+        remote = workspace.__getitem__.return_value
+        remote.lazy.return_value = SkillCode('__abCreateVia(...)')
+        session = Session(Mock(workspace=workspace))
+
+        command = session.vias.create.command(
+            'VIA12',
+            at=(1.0, 2.0),
+            net='GND',
+            rotation=90.0,
+            mirrored=True,
+        )
+
+        assert command.procedure == '__abCreateVia'
+        assert command.expression == SkillCode('__abCreateVia(...)')
+        assert remote.lazy.call_args.args == ('VIA12', (1.0, 2.0), 'GND', True, 90.0)
 
 
 class TestWriteApi:
