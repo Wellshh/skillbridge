@@ -17,7 +17,7 @@ from pydantic import ValidationError
 import allegrobridge.client.api.extensions as extension_package
 import allegrobridge.server
 from allegrobridge import Allegro, OpenMode, Session, Workspace
-from allegrobridge.client.api import BoardInfo, ComponentInfo, LayerInfo, NetInfo
+from allegrobridge.client.api import BoardInfo, ComponentInfo, LayerInfo, NetInfo, PinInfo
 from allegrobridge.exceptions import AllegroProtocolError, ExtensionError
 from allegrobridge.util import ASSETS_DIR
 from skillbridge import SkillCode
@@ -124,6 +124,24 @@ def _net_snapshot(ws: Workspace) -> list[list[object]]:
         '(setq result '
         '(cons (list net->name net->nBranches net->unconnected net->unplaced) result))) '
         '(reverse result))'
+    )
+
+
+def _pin_snapshot(ws: Workspace) -> list[list[object]]:
+    return ws['evalstring'](
+        '(letseq ((design (axlDBRefreshId (axlDBGetDesign))) result) '
+        '(foreach component design->components '
+        '(foreach pin component->pins '
+        '(letseq ((symbol component->symbol) (netObject pin->net) '
+        '(netName (when (and netObject (not (stringp netObject)) '
+        '(not (equal netObject->name ""))) netObject->name)) '
+        '(span (when symbol pin->startEnd))) '
+        '(setq result (cons '
+        '(list component->name pin->number netName pin->name '
+        '(if symbol then "placed" else "unplaced") '
+        '(when symbol (car pin->xy)) (when symbol (cadr pin->xy)) '
+        '(when symbol pin->rotation) (when span (car span)) (when span (cadr span))) '
+        'result))))) (reverse result))'
     )
 
 
@@ -777,6 +795,115 @@ class TestNetsApi:
         with pytest.raises(AllegroProtocolError, match='__abProjectNets'):
             session.nets()
         assert commands == ['__abProjectNets(nil )']
+
+
+class TestPinsApi:
+    def test_default_call_projects_component_pins(
+        self,
+        session: Session,
+        ws: Workspace,
+    ) -> None:
+        pins = session.pins()
+
+        assert all(isinstance(pin, PinInfo) for pin in pins)
+        assert [
+            (
+                pin.refdes,
+                pin.number,
+                pin.net,
+                pin.padstack,
+                pin.placement,
+                pin.x,
+                pin.y,
+                pin.rotation,
+                pin.start_layer,
+                pin.end_layer,
+            )
+            for pin in pins
+        ] == [tuple(item) for item in _pin_snapshot(ws)]
+        assert all(pin.session_generation == session.generation for pin in pins)
+
+    def test_call_filters_by_component_and_net(self, session: Session) -> None:
+        expected = next(pin for pin in session.pins() if pin.net is not None)
+
+        pins = session.pins(component=expected.refdes, net=expected.net)
+
+        assert expected in pins
+        assert all(pin.refdes == expected.refdes and pin.net == expected.net for pin in pins)
+
+    def test_getitem_returns_pin_by_stable_key(self, session: Session) -> None:
+        expected = session.pins()[0]
+
+        assert session.pins[expected.refdes, expected.number] == expected
+
+    def test_getitem_raises_key_error_when_pin_is_missing(self, session: Session) -> None:
+        with pytest.raises(KeyError, match='__MISSING_PIN__'):
+            _ = session.pins['U1', '__MISSING_PIN__']
+
+    def test_pin_info_is_frozen(self, session: Session) -> None:
+        pin = session.pins()[0]
+
+        with pytest.raises(ValidationError, match='frozen'):
+            pin.number = 'changed'
+
+    @pytest.mark.parametrize(
+        'payload',
+        [
+            [
+                {
+                    'number': '1',
+                    'net': 'GND',
+                    'padstack': 'PAD',
+                    'placement': 'placed',
+                    'x': 1.0,
+                    'y': 2.0,
+                    'rotation': 0.0,
+                    'start_layer': 'ETCH/TOP',
+                    'end_layer': 'ETCH/BOTTOM',
+                }
+            ],
+            [
+                {
+                    'refdes': 'U1',
+                    'number': '1',
+                    'net': 'GND',
+                    'padstack': 'PAD',
+                    'placement': 'placed',
+                    'x': 1.0,
+                    'y': 2.0,
+                    'rotation': 0.0,
+                    'start_layer': 'ETCH/TOP',
+                    'end_layer': 'ETCH/BOTTOM',
+                    'dbid': 'db:1',
+                }
+            ],
+            [
+                {
+                    'refdes': 'U1',
+                    'number': 1,
+                    'net': 'GND',
+                    'padstack': 'PAD',
+                    'placement': 'placed',
+                    'x': 1.0,
+                    'y': 2.0,
+                    'rotation': 0.0,
+                    'start_layer': 'ETCH/TOP',
+                    'end_layer': 'ETCH/BOTTOM',
+                }
+            ],
+        ],
+        ids=['missing-field', 'extra-field', 'wrong-type'],
+    )
+    def test_protocol_mismatch_raises(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        payload: object,
+        session: Session,
+    ) -> None:
+        monkeypatch.setattr(session.raw._channel, 'send', lambda _: repr(payload))
+
+        with pytest.raises(AllegroProtocolError, match='__abProjectPins'):
+            session.pins()
 
 
 @pytest.mark.usefixtures('extension_environment')

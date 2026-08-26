@@ -122,6 +122,43 @@
               (setq result (cons (__abProjectLayer layer) result)))))))
     (reverse result)))
 
+(putd '__abProjectPin nil)
+(defun __abProjectPin (component pin)
+  (letseq ((symbol component->symbol)
+           (netObject pin->net)
+           (netName (when (and netObject
+                               (not (stringp netObject))
+                               (not (equal netObject->name "")))
+                      netObject->name))
+           (span (when symbol pin->startEnd)))
+    (list nil
+          'refdes component->name
+          'number pin->number
+          'net netName
+          'padstack pin->name
+          'placement (if symbol then "placed" else "unplaced")
+          'x (when symbol (car pin->xy))
+          'y (when symbol (cadr pin->xy))
+          'rotation (when symbol pin->rotation)
+          'start_layer (when span (car span))
+          'end_layer (when span (cadr span)))))
+
+(putd '__abProjectPins nil)
+(defun __abProjectPins (refdes number net)
+  (letseq ((design (__abFreshDesign))
+           result)
+    (foreach component design->components
+      (when (or (null refdes)
+                (equal refdes component->name))
+        (foreach pin component->pins
+          (let ((projected (__abProjectPin component pin)))
+            (when (and (or (null number)
+                           (equal number pin->number))
+                       (or (null net)
+                           (equal net (get projected 'net))))
+              (setq result (cons projected result)))))))
+    (reverse result)))
+
 (putd '__abOKToProceed nil)
 (defun __abOKToProceed ()
   (axlOKToProceed))

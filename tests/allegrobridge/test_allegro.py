@@ -25,6 +25,7 @@ from allegrobridge.client.api import (
     CommandResult,
     ComponentsApi,
     LayerInfo,
+    PinInfo,
     RpcArgs,
     SessionApi,
     extension,
@@ -376,6 +377,8 @@ class TestReadApi:
             'LayersApi',
             'NetInfo',
             'NetsApi',
+            'PinInfo',
+            'PinsApi',
             'RpcArgs',
             'SessionApi',
             'extension',
@@ -394,6 +397,7 @@ class TestReadApi:
             '__abMoveComponent',
             '__abProjectLayers',
             '__abProjectNets',
+            '__abProjectPins',
         )
 
     def test_declaration_preserves_signature_and_sends_once(self) -> None:
@@ -498,6 +502,55 @@ class TestReadApi:
 
         with pytest.raises(KeyError, match='ETCH/__MISSING__'):
             _ = session.layers['ETCH/__MISSING__']
+
+    def test_pins_delegate_filters_and_stable_lookup(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.return_value = [
+            {
+                'refdes': 'U1',
+                'number': '1',
+                'net': 'GND',
+                'padstack': 'PAD60CIR30D',
+                'placement': 'placed',
+                'x': 1.0,
+                'y': 2.0,
+                'rotation': 0.0,
+                'start_layer': 'ETCH/TOP',
+                'end_layer': 'ETCH/BOTTOM',
+            }
+        ]
+        session = Session(Mock(workspace=workspace))
+
+        pins = session.pins(component='U1', net='GND')
+
+        assert pins == [
+            PinInfo(
+                refdes='U1',
+                number='1',
+                net='GND',
+                padstack='PAD60CIR30D',
+                placement='placed',
+                x=1.0,
+                y=2.0,
+                rotation=0.0,
+                start_layer='ETCH/TOP',
+                end_layer='ETCH/BOTTOM',
+                session_generation=session.generation,
+            )
+        ]
+        assert session.pins is session.pins
+        workspace.__getitem__.return_value.assert_called_once_with('U1', None, 'GND')
+
+        assert session.pins['U1', '1'] == pins[0]
+        workspace.__getitem__.return_value.assert_called_with('U1', '1', None)
+
+    def test_pins_getitem_raises_when_key_is_missing(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.return_value = None
+        session = Session(Mock(workspace=workspace))
+
+        with pytest.raises(KeyError, match=r"\('U1', '__MISSING__'\)"):
+            _ = session.pins['U1', '__MISSING__']
 
 
 class TestWriteApi:

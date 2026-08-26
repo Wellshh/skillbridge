@@ -33,6 +33,7 @@ from allegrobridge.client.api.board import BoardApi, BoardInfo
 from allegrobridge.client.api.components import ComponentInfo, ComponentsApi
 from allegrobridge.client.api.layers import LayerInfo, LayersApi
 from allegrobridge.client.api.nets import NetInfo, NetsApi
+from allegrobridge.client.api.pins import PinInfo, PinsApi
 
 __all__ = [
     'Batch',
@@ -46,6 +47,8 @@ __all__ = [
     'LayersApi',
     'NetInfo',
     'NetsApi',
+    'PinInfo',
+    'PinsApi',
     'RpcArgs',
     'SessionApi',
     'extension',

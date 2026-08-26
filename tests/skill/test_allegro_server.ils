@@ -313,6 +313,66 @@
         (qtest::assertNil (__abProjectLayers "ETCH/__MISSING_LAYER__" nil)))))
 
   (qtest::TestSuite ()
+    (qtest::TestCase test_pin_projection_has_stable_placed_attributes
+      (letseq ((net (list nil 'name "GND"))
+               (pin (list nil 'number "1" 'name "PAD60CIR30D" 'net net
+                          'xy 1.0:2.0 'rotation 90.0
+                          'startEnd '("ETCH/TOP" "ETCH/BOTTOM") 'dbid "db:1"))
+               (component (list nil 'name "U1" 'symbol t))
+               (projected (__abProjectPin component pin)))
+        (qtest::assertEqual "U1" (get projected 'refdes))
+        (qtest::assertEqual "1" (get projected 'number))
+        (qtest::assertEqual "GND" (get projected 'net))
+        (qtest::assertEqual "PAD60CIR30D" (get projected 'padstack))
+        (qtest::assertEqual "placed" (get projected 'placement))
+        (qtest::assertEqual 1.0 (get projected 'x))
+        (qtest::assertEqual 2.0 (get projected 'y))
+        (qtest::assertEqual 90.0 (get projected 'rotation))
+        (qtest::assertEqual "ETCH/TOP" (get projected 'start_layer))
+        (qtest::assertEqual "ETCH/BOTTOM" (get projected 'end_layer))
+        (qtest::assertNil (get projected 'dbid))))
+
+    (qtest::TestCase test_pin_projection_handles_unplaced_and_dummy_net
+      (letseq ((dummyNet (list nil 'name ""))
+               (pin (list nil 'number "2" 'name nil 'net dummyNet))
+               (directDummyPin (list nil 'number "3" 'name nil 'net ""))
+               (component (list nil 'name "U2" 'symbol nil))
+               (projected (__abProjectPin component pin))
+               (directDummy (__abProjectPin component directDummyPin)))
+        (qtest::assertEqual "unplaced" (get projected 'placement))
+        (qtest::assertNil (get projected 'net))
+        (qtest::assertNil (get directDummy 'net))
+        (qtest::assertNil (get projected 'padstack))
+        (qtest::assertNil (get projected 'x))
+        (qtest::assertNil (get projected 'y))
+        (qtest::assertNil (get projected 'rotation))
+        (qtest::assertNil (get projected 'start_layer))
+        (qtest::assertNil (get projected 'end_layer))))
+
+    (qtest::TestCase test_pins_projection_filters_and_finds_stable_key
+      (letseq ((allPins (__abProjectPins nil nil nil))
+               (selected (car allPins))
+               (refdes (get selected 'refdes))
+               (number (get selected 'number))
+               (byComponent (__abProjectPins refdes nil nil))
+               (matched (__abProjectPins refdes number nil))
+               netPin)
+        (qtest::assertTrue allPins)
+        (foreach pin byComponent
+          (qtest::assertEqual refdes (get pin 'refdes)))
+        (qtest::assertEqual 1 (length matched))
+        (qtest::assertEqual selected (car matched))
+        (foreach pin allPins
+          (when (get pin 'net)
+            (setq netPin pin)))
+        (qtest::assertTrue netPin)
+        (foreach pin (__abProjectPins nil nil (get netPin 'net))
+          (qtest::assertEqual (get netPin 'net) (get pin 'net)))
+        (qtest::assertNil (__abProjectPins "__MISSING_COMPONENT__" nil nil))
+        (qtest::assertNil (__abProjectPins refdes "__MISSING_PIN__" nil))
+        (qtest::assertNil (__abProjectPins nil nil "__MISSING_NET__")))))
+
+  (qtest::TestSuite ()
     (qtest::TestCase test_transaction_rejects_busy_allegro
       (letseq ((run (__abTestRunTransaction nil 17 t t "42"))
                (failureText (sprintf nil "%L" (cadr run))))
