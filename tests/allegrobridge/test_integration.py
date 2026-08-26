@@ -20,6 +20,7 @@ import allegrobridge.client.api.extensions as extension_package
 import allegrobridge.server
 from allegrobridge import Allegro, OpenMode, Session, Workspace
 from allegrobridge.client.api import (
+    BBox,
     BoardInfo,
     ComponentInfo,
     LayerInfo,
@@ -28,6 +29,7 @@ from allegrobridge.client.api import (
     PinInfo,
     Point,
     RouteInfo,
+    ShapeInfo,
     SymbolInfo,
     ViaInfo,
 )
@@ -231,6 +233,23 @@ def _route_snapshot(ws: Workspace) -> list[list[object]]:
         '(list nil segment->layer '
         '(car (car ends)) (cadr (car ends)) '
         '(car (cadr ends)) (cadr (cadr ends)) segment->width) result)))))))) '
+        '(reverse result))'
+    )
+
+
+def _shape_snapshot(ws: Workspace) -> list[list[object]]:
+    return ws['evalstring'](
+        '(let (result) '
+        '(foreach shape (axlDBGetShapes nil) '
+        '(letseq ((netObject shape->net) '
+        '(netName (when (and netObject (not (stringp netObject)) '
+        '(not (equal netObject->name ""))) netObject->name)) '
+        '(bbox shape->bBox)) '
+        '(setq result (cons '
+        '(list netName shape->layer '
+        '(if shape->shapeIsBoundary then "dynamic" else "static") '
+        '(car (car bbox)) (cadr (car bbox)) '
+        '(car (cadr bbox)) (cadr (cadr bbox))) result)))) '
         '(reverse result))'
     )
 
@@ -1620,6 +1639,126 @@ class TestRoutesApi:
 
         with pytest.raises(AllegroProtocolError, match='__abProjectRoutes'):
             session.routes()
+
+
+class TestShapesApi:
+    @staticmethod
+    def _values(shape: ShapeInfo) -> tuple[object, ...]:
+        return (
+            shape.net,
+            shape.layer,
+            shape.dynamic,
+            shape.bbox.lower_left.x,
+            shape.bbox.lower_left.y,
+            shape.bbox.upper_right.x,
+            shape.bbox.upper_right.y,
+        )
+
+    def test_default_call_projects_shapes(self, session: Session, ws: Workspace) -> None:
+        shapes = session.shapes()
+        snapshot = _shape_snapshot(ws)
+
+        assert shapes
+        assert all(isinstance(shape, ShapeInfo) for shape in shapes)
+        assert all(isinstance(shape.bbox, BBox) for shape in shapes)
+        assert [self._values(shape) for shape in shapes] == [tuple(item) for item in snapshot]
+        assert all(shape.session_generation == session.generation for shape in shapes)
+
+    @pytest.mark.parametrize('dynamic', [True, False])
+    def test_dynamic_filter_matches_single_rpc_snapshot(
+        self,
+        dynamic: bool,
+        session: Session,
+        ws: Workspace,
+    ) -> None:
+        snapshot = _shape_snapshot(ws)
+        state = 'dynamic' if dynamic else 'static'
+        expected = next(item for item in snapshot if item[2] == state)
+        layer = cast('str', expected[1])
+
+        shapes = session.shapes(layer=layer, dynamic=dynamic)
+
+        assert [self._values(shape) for shape in shapes] == [
+            tuple(item) for item in snapshot if item[1] == layer and item[2] == state
+        ]
+
+    def test_net_and_layer_filters_match_single_rpc_snapshot(
+        self,
+        session: Session,
+        ws: Workspace,
+    ) -> None:
+        snapshot = _shape_snapshot(ws)
+        expected = next(item for item in snapshot if item[0] is not None)
+        net = cast('str', expected[0])
+        layer = cast('str', expected[1])
+
+        shapes = session.shapes(net=net, layer=layer)
+
+        assert [self._values(shape) for shape in shapes] == [
+            tuple(item) for item in snapshot if item[0] == net and item[1] == layer
+        ]
+
+    def test_missing_filters_return_empty_collection(self, session: Session) -> None:
+        assert session.shapes(net='__MISSING_NET__') == []
+        assert session.shapes(layer='__MISSING_LAYER__') == []
+
+    def test_shape_info_is_frozen(self, session: Session) -> None:
+        shape = session.shapes()[0]
+
+        with pytest.raises(ValidationError, match='frozen'):
+            shape.layer = 'changed'
+
+    @pytest.mark.parametrize(
+        'payload',
+        [
+            [{'net': 'GND'}],
+            [
+                {
+                    'net': 'GND',
+                    'layer': 'ETCH/TOP',
+                    'dynamic': 'dynamic',
+                    'bbox': {
+                        'lower_left': {'x': 1.0, 'y': 2.0},
+                        'upper_right': {'x': 3.0, 'y': 4.0},
+                    },
+                    'dbid': 'db:1',
+                }
+            ],
+            [
+                {
+                    'net': 'GND',
+                    'layer': 'ETCH/TOP',
+                    'dynamic': 'bad',
+                    'bbox': {
+                        'lower_left': {'x': 1.0, 'y': 2.0},
+                        'upper_right': {'x': 3.0, 'y': 4.0},
+                    },
+                }
+            ],
+            [
+                {
+                    'net': 'GND',
+                    'layer': 'ETCH/TOP',
+                    'dynamic': 'dynamic',
+                    'bbox': {
+                        'lower_left': {'x': 'bad', 'y': 2.0},
+                        'upper_right': {'x': 3.0, 'y': 4.0},
+                    },
+                }
+            ],
+        ],
+        ids=['missing-field', 'extra-field', 'wrong-state', 'wrong-point-type'],
+    )
+    def test_protocol_mismatch_raises(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        payload: object,
+        session: Session,
+    ) -> None:
+        monkeypatch.setattr(session.raw._channel, 'send', lambda _: repr(payload))
+
+        with pytest.raises(AllegroProtocolError, match='__abProjectShapes'):
+            session.shapes()
 
 
 @pytest.mark.usefixtures('extension_environment')

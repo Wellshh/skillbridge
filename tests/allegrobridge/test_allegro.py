@@ -23,6 +23,7 @@ from allegrobridge.allegro import (
 )
 from allegrobridge.client.api import (
     Batch,
+    BBox,
     Command,
     CommandResult,
     ComponentsApi,
@@ -33,6 +34,7 @@ from allegrobridge.client.api import (
     RouteInfo,
     RpcArgs,
     SessionApi,
+    ShapeInfo,
     SymbolInfo,
     ViaInfo,
     extension,
@@ -375,6 +377,7 @@ class TestReadApi:
     def test_client_api_exports_only_public_declarations(self) -> None:
         assert set(api_module.__all__) == {
             'Batch',
+            'BBox',
             'BoardApi',
             'BoardInfo',
             'Command',
@@ -394,6 +397,8 @@ class TestReadApi:
             'RoutesApi',
             'RpcArgs',
             'SessionApi',
+            'ShapeInfo',
+            'ShapesApi',
             'SymbolInfo',
             'SymbolsApi',
             'ViaInfo',
@@ -777,6 +782,54 @@ class TestReadApi:
                 'ETCH/TOP',
                 width,
             )
+
+    @pytest.mark.parametrize(
+        ('dynamic', 'encoded'),
+        [(None, None), (True, 'dynamic'), (False, 'static')],
+    )
+    def test_shapes_load_extension_once_and_encode_dynamic_filter(
+        self,
+        dynamic: bool | None,
+        encoded: str | None,
+    ) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.return_value = [
+            {
+                'net': 'GND',
+                'layer': 'ETCH/TOP',
+                'dynamic': 'dynamic',
+                'bbox': {
+                    'lower_left': {'x': 1.0, 'y': 2.0},
+                    'upper_right': {'x': 3.0, 'y': 4.0},
+                },
+            }
+        ]
+        session = Session(Mock(workspace=workspace))
+
+        shapes = session.shapes(net='GND', layer='ETCH/TOP', dynamic=dynamic)
+
+        workspace._ensure_extension.assert_called_once_with(
+            'shapes',
+            ('__abProjectShapes',),
+        )
+        assert session.shapes is session.shapes
+        assert shapes == [
+            ShapeInfo(
+                net='GND',
+                layer='ETCH/TOP',
+                dynamic='dynamic',
+                bbox=BBox(
+                    lower_left=Point(x=1.0, y=2.0),
+                    upper_right=Point(x=3.0, y=4.0),
+                ),
+                session_generation=session.generation,
+            )
+        ]
+        workspace.__getitem__.return_value.assert_called_once_with(
+            'GND',
+            'ETCH/TOP',
+            encoded,
+        )
 
 
 class TestWriteApi:

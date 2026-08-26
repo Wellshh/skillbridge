@@ -19,6 +19,7 @@ from allegrobridge.client.api import (
     PadstacksApi,
     PinsApi,
     RoutesApi,
+    ShapesApi,
     SymbolsApi,
     ViasApi,
 )
@@ -97,6 +98,14 @@ class Session:
             _api_procedures(RoutesApi),
         )
         return RoutesApi(self)
+
+    @cached_property
+    def shapes(self) -> ShapesApi:
+        self.raw._ensure_extension(  # ruff: ignore[private-member-access]
+            'shapes',
+            _api_procedures(ShapesApi),
+        )
+        return ShapesApi(self)
 
     # --- Bundled & Custom Extensions ---
     @cached_property
