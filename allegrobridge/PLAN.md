@@ -6,7 +6,7 @@
 
 `skillbridge` 已经具备三个很有价值的基础：Python/SKILL 类型转换、远程对象属性访问，以及 Windows 下的 localhost TCP 通道；它的 `Workspace` 甚至已经预留了 `axl` 函数集合。 
 
-当前通信内核已经具备帧收发、严格串行执行、Windows timeout、超时后响应排空、SKILL callback 缓冲和写请求不自动重发。Python/SKILL 单次 RPC 事务、savepoint batch 与 dry-run 也已通过 Windows Allegro 实机验收。`Allegro` 窗口生命周期、最小内存 `Session` 门面、Phase 5 只读领域 API 和 Phase 6 声明式领域写 API 已完成，并已通过 Windows Allegro 实机验收。当前按需扩展机制已覆盖惰性 Python import、SKILL load、成功路径、混合 core/extension Batch 以及缺失 `.il` 的错误缓存与核心 API 隔离。基础领域 API `layers`、`pins`、`padstacks`、`symbols`，以及惰性加载的 `vias`、直线 `routes`、`session.shapes` 和只读 `session.drc` 查询已完成，并通过 Windows Allegro 实机验收。产品范围固定为 Allegro 17.2-2016 S048；Probe 6 证明 DRC marker 可事务回滚，Probe 7 进一步在 Windows 真机上以 35/35 通过验证 component move 产生 DRC delta，且元件与 marker 可由同一 outer transaction 整体恢复。`session.drc.update()` 已复用现有 `@write` 实现立即执行、`preview`、`command` 和原子 `Batch`，并已通过 Windows Allegro 真机验收；`drcEnable` 由 `unwindProtect` 显式恢复。`session.drc.check(component | net | pin)` 仍须先探测 `axlDRCItem` 的事务语义，随后才按真实需求增加 `session.ext.rules`。CLI 启动已出现旧 listener 被误认作新实例的真实故障，因此允许使用仅在本地启动阶段回读的实例 nonce；它不进入 RPC envelope，不承担认证、授权或请求去重。除此之外，在没有真实需求或故障证据前，不引入 UUID envelope、安全 token、结果缓存或更多恢复状态。
+当前通信内核已经具备帧收发、严格串行执行、Windows timeout、超时后响应排空、SKILL callback 缓冲和写请求不自动重发。Python/SKILL 单次 RPC 事务、savepoint batch 与 dry-run 也已通过 Windows Allegro 实机验收。`Allegro` 窗口生命周期、最小内存 `Session` 门面、Phase 5 只读领域 API 和 Phase 6 声明式领域写 API 已完成，并已通过 Windows Allegro 实机验收。当前按需扩展机制已覆盖惰性 Python import、SKILL load、成功路径、混合 core/extension Batch 以及缺失 `.il` 的错误缓存与核心 API 隔离。基础领域 API `layers`、`pins`、`padstacks`、`symbols`，以及惰性加载的 `vias`、直线 `routes`、`session.shapes` 和只读 `session.drc` 查询已完成，并通过 Windows Allegro 实机验收。产品范围固定为 Allegro 17.2-2016 S048；Probe 6/7 证明全量 `axlDRCUpdate` 的 marker 与领域数据库写入可由同一 outer transaction 整体恢复。`session.drc.update()` 已复用现有 `@write` 实现立即执行、`preview`、`command` 和原子 `Batch`，并已通过 Windows Allegro 真机验收；`drcEnable` 由 `unwindProtect` 显式恢复。后续真机探针证明 `axlDRCItem` 产生的局部 marker 副作用不会随数据库 transaction 可靠回滚，因此 `session.drc.check(component | net | pin)` 只能作为显式非事务操作，不提供 `preview`、`command` 或 `Batch`。CLI 启动已出现旧 listener 被误认作新实例的真实故障，因此允许使用仅在本地启动阶段回读的实例 nonce；它不进入 RPC envelope，不承担认证、授权或请求去重。除此之外，在没有真实需求或故障证据前，不引入 UUID envelope、安全 token、结果缓存或更多恢复状态。
 
 ---
 
@@ -790,7 +790,7 @@ gnd = session.nets["GND"]
 
 `session.shapes` 惰性只读 API 已完成，并已通过 Windows Allegro 实机验收：支持 `net`、`layer`、`dynamic` 过滤；只返回不含 DBID 的快照，不实现创建、修改、删除，也不建立通用 geometry AST。
 
-Windows DRC 探针已完成并经人工审核，已冻结 marker 的最小稳定字段、对象引用和单次全量投影协议。产品范围固定为 Allegro 17.2-2016 S048；Probe 6 实测 `26 → 59 → rollback 26`，Probe 7 在 Windows 真机上 35/35 通过，证明 component move 产生稳定 DRC delta，且元件与 marker 可随同一 outer transaction 整体回滚。惰性 `session.drc()`、`DrcInfo` 及稳定引用已落地；`session.drc.update()` 已使用 `@write` 支持立即执行、`preview`、`command` 和原子 `Batch`，并已通过 Windows Allegro 真机验收。`drcEnable` 等控制状态仍由 `unwindProtect` 显式恢复；其他领域写操作不会自动刷新 DRC，Batch 中的 DRC 结果只反映其添加位置之前的写入。`session.drc.check(component | net | pin)` 仍须先探测 `axlDRCItem` 的事务语义；通信层仍按真实测试或故障证据按需加固。
+Windows DRC 探针已完成并经人工审核，已冻结 marker 的最小稳定字段、对象引用和单次全量投影协议。产品范围固定为 Allegro 17.2-2016 S048；Probe 6 实测 `26 → 59 → rollback 26`，Probe 7 在 Windows 真机上 35/35 通过，证明 component move 与全量 DRC update 可随同一 outer transaction 整体回滚。惰性 `session.drc()`、`DrcInfo` 及稳定引用已落地；`session.drc.update()` 已使用 `@write` 支持立即执行、`preview`、`command` 和原子 `Batch`，并已通过 Windows Allegro 真机验收。`drcEnable` 等控制状态仍由 `unwindProtect` 显式恢复；其他领域写操作不会自动刷新 DRC，Batch 中的 DRC 结果只反映其添加位置之前的写入。后续真机探针确认 `axlDRCItem` 的 marker 副作用不会被数据库 rollback 可靠恢复，因此 `session.drc.check(component | net | pin)` 仅立即执行，事务结束后如需恢复可比较状态只能显式运行全量 update；通信层仍按真实测试或故障证据按需加固。
 
 Bulk 文件通道、通用分页器、缓存、handle table 和 capability negotiation 均不属于首批 API；只有实测数据证明单次投影无法满足帧大小或性能要求时再设计。
 
@@ -1086,7 +1086,7 @@ Python 路径含空格
 | M5 | 声明式领域写操作与原子 Batch（已完成，Windows Allegro 已验收） | 1–2 周 |
 | M6 | 按需增加批处理、Undo 或通信加固 | 按实际需求评估 |
 
-当前 M4/M5 已完成，基础对象与惰性 vias/routes/shapes 切片也已完成，并通过 Windows Allegro 实机验收。Windows DRC Probe 6/7 已完成并经人工审核，`session.drc()` 与事务写操作 `session.drc.update()` 已落地并通过 Windows Allegro 真机验收；下一步探测 `axlDRCItem` 的事务语义。探针通过后实现 `session.drc.check(component | net | pin)`，最后按真实需求增加 `session.ext.rules`。不预先创建虚构业务 extension，也不为尚未出现的部署需求预估通信生产化工期。
+当前 M4/M5 已完成，基础对象与惰性 vias/routes/shapes 切片也已完成，并通过 Windows Allegro 实机验收。Windows DRC 探针已确认：全量 update 可接入事务，而 `axlDRCItem` 的 marker 副作用不可依赖数据库 rollback。`session.drc()` 与事务写操作 `session.drc.update()` 已落地并通过 Windows Allegro 真机验收；下一步实现仅立即执行的 `session.drc.check(component | net | pin)`，最后按真实需求增加 `session.ext.rules`。不预先创建虚构业务 extension，也不为尚未出现的部署需求预估通信生产化工期。
 
 ---
 
@@ -1122,4 +1122,4 @@ doctor、常驻配置和自动修改 allegro.ilinit
 bulk 文件通道
 ```
 
-最合理的执行顺序是：保持 Phase 1–6 的现有实机集成基线；探测 `axlDRCItem` 的事务语义 → 实现 `session.drc.check(component | net | pin)` → 按真实需求增加 `session.ext.rules`。产品只支持 Allegro 17.2-2016 S048，不增加其他版本兼容分支；`drcEnable` 始终由 `unwindProtect` 显式恢复。只有测试或真实使用暴露通信问题时，才进入 Phase 7 加固对应部分。
+最合理的执行顺序是：保持 Phase 1–6 的现有实机集成基线；实现仅立即执行的 `session.drc.check(component | net | pin)` → 按真实需求增加 `session.ext.rules`。产品只支持 Allegro 17.2-2016 S048，不增加其他版本兼容分支；`drcEnable` 始终由 `unwindProtect` 显式恢复，`axlDRCItem` 不进入 transaction、preview 或 Batch。只有测试或真实使用暴露通信问题时，才进入 Phase 7 加固对应部分。

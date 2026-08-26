@@ -87,25 +87,6 @@ def _classify_coupling(
     return 'partial'
 
 
-def _classify_item_scenario(report: dict[str, object]) -> str:
-    if report['status'] != 'completed':
-        return 'failed'
-    before = cast('dict[str, object]', report['before'])
-    after_move = cast('dict[str, object]', report['after_move'])
-    if _marker_fingerprint(cast('dict[str, object]', before['drc'])) != _marker_fingerprint(
-        cast('dict[str, object]', after_move['drc'])
-    ):
-        return 'pre_item_changed'
-    classification = _classify_coupling(
-        before,
-        cast('dict[str, object]', report['during']),
-        cast('dict[str, object]', report['after_terminal']),
-    )
-    if report['mode'] == 'commit' and classification == 'persisted':
-        return 'committed'
-    return classification
-
-
 class DrcProbe:
     def __init__(self, workspace: Workspace) -> None:
         self.workspace = workspace
@@ -296,6 +277,7 @@ class DrcProbe:
             'stable_keys': {kind: keys[kind] for kind in ('component', 'net', 'pin')},
             'objects': observations,
             'missing_objects': missing_observations,
+            'ping': self.workspace['plus'](1, 2),
         }
 
     def cleanup(self) -> dict[str, object]:
@@ -345,7 +327,7 @@ class DrcProbe:
         report['ping'] = self.workspace['plus'](1, 2)
         return report
 
-    def _placed_component_pair(self) -> tuple[dict[str, object], dict[str, object]]:
+    def database_coupling(self) -> dict[str, object]:
         include_unplaced = False
         components = cast(
             'list[dict[str, object]]',
@@ -360,14 +342,10 @@ class DrcProbe:
             if (component['x'], component['y']) != (source['x'], source['y'])
         ]
         assert targets, 'shape1.brd requires two placed components at distinct locations'
-        return source, targets[0]
-
-    def database_coupling(self) -> dict[str, object]:
-        source, target = self._placed_component_pair()
         report = self._call(
             '__abpDrcDatabaseCoupling',
             cast('str', source['refdes']),
-            cast('str', target['refdes']),
+            cast('str', targets[0]['refdes']),
         )
         for phase_name in ('before', 'during', 'after_rollback', 'after_cleanup'):
             phase = report.get(phase_name)
@@ -384,75 +362,3 @@ class DrcProbe:
             report['classification'] = 'failed'
         report['ping'] = self.workspace['plus'](1, 2)
         return report
-
-    def _item_transaction_scenario(
-        self,
-        mode: str,
-        key: dict[str, object],
-        source_refdes: str,
-        target_refdes: str,
-    ) -> dict[str, object]:
-        report = self._call(
-            '__abpDrcItemTransactionScenario',
-            mode,
-            cast('str', key['kind']),
-            cast('str | None', key.get('refdes')),
-            cast('str | None', key.get('name')),
-            cast('str | None', key.get('number')),
-            source_refdes,
-            target_refdes,
-        )
-        for phase_name in ('before', 'after_move', 'during', 'after_terminal', 'after_cleanup'):
-            phase = report.get(phase_name)
-            if isinstance(phase, dict):
-                self._summarize_phase(cast('dict[str, object]', phase['drc']))
-        report['classification'] = _classify_item_scenario(report)
-        report['key'] = key
-        return report
-
-    def item_transaction(self) -> dict[str, object]:
-        source, target = self._placed_component_pair()
-        source_refdes = cast('str', source['refdes'])
-        target_refdes = cast('str', target['refdes'])
-        candidates = cast(
-            'list[dict[str, object]]',
-            self._call('__abpDrcItemCandidates', source_refdes)['candidates'],
-        )
-        discovery = [
-            self._item_transaction_scenario(
-                'rollback',
-                key,
-                source_refdes,
-                target_refdes,
-            )
-            for key in candidates
-        ]
-        selected = next(
-            (
-                cast('dict[str, object]', scenario['key'])
-                for scenario in discovery
-                if scenario['classification'] == 'rolled_back'
-            ),
-            None,
-        )
-        commit = None
-        error = None
-        classification = 'inconclusive'
-        if selected is not None:
-            commit = self._item_transaction_scenario(
-                'commit', selected, source_refdes, target_refdes
-            )
-            error = self._item_transaction_scenario('error', selected, source_refdes, target_refdes)
-            if commit['classification'] == 'committed' and error['classification'] == 'rolled_back':
-                classification = 'verified'
-        return {
-            'allegro_version': discovery[0].get('allegro_version') if discovery else None,
-            'source_refdes': source_refdes,
-            'target_refdes': target_refdes,
-            'classification': classification,
-            'selected': selected,
-            'discovery': discovery,
-            'commit': commit,
-            'error': error,
-            'ping': self.workspace['plus'](1, 2),
-        }

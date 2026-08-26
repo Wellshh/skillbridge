@@ -18,7 +18,6 @@ from allegrobridge.util import ASSETS_DIR
 from tests.allegrobridge.probe.drc import (
     DrcProbe,
     _classify_coupling,
-    _classify_item_scenario,
     _classify_rollback,
     _signature,
 )
@@ -371,6 +370,7 @@ def test_item_resolves_stable_scalar_keys_and_normalizes_markers() -> None:
     workspace = FakeWorkspace({
         '__abpDrcStableKeys': keys,
         '__abpDrcItem': item,
+        'plus': 3,
     })
     probe = DrcProbe(cast('Workspace', workspace))
 
@@ -379,6 +379,7 @@ def test_item_resolves_stable_scalar_keys_and_normalizes_markers() -> None:
     objects = cast('list[dict[str, object]]', report['objects'])
     assert objects[0]['markers'] == []
     assert all(item['count_matches_marker_list_length'] for item in objects[1:])
+    assert report['ping'] == 3
     assert [call[1] for call in workspace.calls if call[0] == '__abpDrcItem'][:3] == [
         ('component', 'U1', None, None),
         ('component', '__MISSING_DRC_COMPONENT__', None, None),
@@ -507,143 +508,6 @@ def test_database_coupling_requires_two_placed_components() -> None:
         probe.database_coupling()
 
 
-def _item_scenario(
-    mode: str,
-    *,
-    changed: bool = True,
-    status: str = 'completed',
-) -> dict[str, object]:
-    before = _coupling_phase(1.0, 'before')
-    after_move = _coupling_phase(2.0, 'before')
-    during = _coupling_phase(2.0, 'during' if changed else 'before')
-    after_terminal = during if mode == 'commit' else before
-    return {
-        'mode': mode,
-        'status': status,
-        'operation_error': 'DRC_ITEM_PROBE_ERROR' if mode == 'error' else None,
-        'before': before,
-        'after_move': after_move,
-        'during': during,
-        'after_terminal': after_terminal,
-        'after_cleanup': before,
-    }
-
-
-@pytest.mark.parametrize(
-    ('mode', 'changed', 'status', 'expected'),
-    [
-        ('commit', True, 'completed', 'committed'),
-        ('rollback', True, 'completed', 'rolled_back'),
-        ('error', True, 'completed', 'rolled_back'),
-        ('rollback', False, 'completed', 'inconclusive'),
-        ('rollback', True, 'operation_failed', 'failed'),
-    ],
-)
-def test_classifies_drc_item_transaction_scenario(
-    mode: str,
-    changed: bool,
-    status: str,
-    expected: str,
-) -> None:
-    assert _classify_item_scenario(_item_scenario(mode, changed=changed, status=status)) == expected
-
-
-def test_rejects_drc_item_scenario_changed_before_item_call() -> None:
-    report = _item_scenario('rollback')
-    report['after_move'] = _coupling_phase(2.0, 'online-change')
-
-    assert _classify_item_scenario(report) == 'pre_item_changed'
-
-
-def test_item_transaction_selects_observable_stable_key() -> None:
-    candidates = {
-        'candidates': [
-            {'kind': 'component', 'refdes': 'R1'},
-            {'kind': 'pin', 'refdes': 'R1', 'number': '1'},
-            {'kind': 'net', 'name': 'GND'},
-        ]
-    }
-
-    def scenario(
-        mode: str,
-        kind: str,
-        _refdes: str | None,
-        _name: str | None,
-        _number: str | None,
-        _source_refdes: str,
-        _target_refdes: str,
-    ) -> dict[str, object]:
-        return _item_scenario(mode, changed=kind == 'pin')
-
-    workspace = FakeWorkspace({
-        '__abProjectComponents': [
-            {'refdes': 'R2', 'x': 2.0, 'y': 2.0},
-            {'refdes': 'R1', 'x': 1.0, 'y': 1.0},
-        ],
-        '__abpDrcItemCandidates': candidates,
-        '__abpDrcItemTransactionScenario': scenario,
-        'plus': 3,
-    })
-    probe = DrcProbe(cast('Workspace', workspace))
-
-    report = probe.item_transaction()
-
-    assert report['classification'] == 'verified'
-    assert report['selected'] == candidates['candidates'][1]
-    assert cast('dict[str, object]', report['commit'])['classification'] == 'committed'
-    assert cast('dict[str, object]', report['error'])['classification'] == 'rolled_back'
-    assert report['ping'] == 3
-
-    def unverified(
-        mode: str,
-        kind: str,
-        refdes: str | None,
-        name: str | None,
-        number: str | None,
-        source_refdes: str,
-        target_refdes: str,
-    ) -> dict[str, object]:
-        result = scenario(mode, kind, refdes, name, number, source_refdes, target_refdes)
-        if mode == 'commit':
-            result['status'] = 'operation_failed'
-        return result
-
-    workspace.payloads['__abpDrcItemTransactionScenario'] = unverified
-    assert probe.item_transaction()['classification'] == 'inconclusive'
-
-
-def test_item_transaction_reports_inconclusive_without_marker_delta() -> None:
-    workspace = FakeWorkspace({
-        '__abProjectComponents': [
-            {'refdes': 'R1', 'x': 1.0, 'y': 1.0},
-            {'refdes': 'R2', 'x': 2.0, 'y': 2.0},
-        ],
-        '__abpDrcItemCandidates': {'candidates': [{'kind': 'component', 'refdes': 'R1'}]},
-        '__abpDrcItemTransactionScenario': _item_scenario('rollback', changed=False),
-        'plus': 3,
-    })
-    probe = DrcProbe(cast('Workspace', workspace))
-
-    report = probe.item_transaction()
-
-    assert report['classification'] == 'inconclusive'
-    assert report['selected'] is None
-    assert report['commit'] is None
-    assert report['error'] is None
-
-    workspace.payloads['__abpDrcItemTransactionScenario'] = {
-        'mode': 'rollback',
-        'status': 'operation_failed',
-        'before': None,
-        'after_move': None,
-        'during': None,
-        'after_terminal': None,
-        'after_cleanup': None,
-    }
-    failed = probe.item_transaction()
-    assert cast('list[dict[str, object]]', failed['discovery'])[0]['classification'] == 'failed'
-
-
 @pytest.mark.allegro
 class TestDrcProbe:
     def test_reports_current_marker_schema(self, drc_probe: DrcProbe) -> None:
@@ -693,6 +557,8 @@ class TestDrcProbe:
         assert all(item['status'] == 'missing' for item in missing_objects)
         assert all(isinstance(item['count'], int) for item in objects)
         assert all(isinstance(item['markers'], list) for item in objects)
+        assert report['ping'] == 3
+        assert len({item['ending_drc_enable'] for item in objects + missing_objects}) == 1
 
     def test_restores_drc_after_error(self, drc_probe: DrcProbe) -> None:
         report = drc_probe.cleanup()
@@ -740,37 +606,3 @@ class TestDrcProbe:
         assert during_drc['marker_fingerprints'] != before_drc['marker_fingerprints']
         assert after_drc['marker_fingerprints'] == before_drc['marker_fingerprints']
         assert after_drc['drc_enable'] == report['original_drc_enable']
-
-    def test_reports_drc_item_transaction_semantics(self, drc_probe: DrcProbe) -> None:
-        report = drc_probe.item_transaction()
-        drc_probe.emit('drc-item-transaction.json', report)
-        assert report['classification'] == 'verified'
-        assert report['selected']
-        assert report['ping'] == 3
-        discovery = cast('list[dict[str, object]]', report['discovery'])
-        assert {cast('dict[str, object]', item['key'])['kind'] for item in discovery} <= {
-            'component',
-            'net',
-            'pin',
-        }
-        rollback = next(item for item in discovery if item['key'] == report['selected'])
-        assert rollback['classification'] == 'rolled_back'
-        rollback_before = cast('dict[str, object]', rollback['before'])
-        rollback_after_move = cast('dict[str, object]', rollback['after_move'])
-        assert (
-            cast('dict[str, object]', rollback_after_move['drc'])['marker_fingerprints']
-            == cast('dict[str, object]', rollback_before['drc'])['marker_fingerprints']
-        )
-        commit = cast('dict[str, object]', report['commit'])
-        assert commit['classification'] == 'committed'
-        error = cast('dict[str, object]', report['error'])
-        assert error['classification'] == 'rolled_back'
-        assert 'DRC_ITEM_PROBE_ERROR' in cast('str', error['operation_error'])
-        for scenario in (commit, error):
-            before = cast('dict[str, object]', scenario['before'])
-            after_cleanup = cast('dict[str, object]', scenario['after_cleanup'])
-            assert after_cleanup['component'] == before['component']
-            before_drc = cast('dict[str, object]', before['drc'])
-            after_drc = cast('dict[str, object]', after_cleanup['drc'])
-            assert after_drc['marker_fingerprints'] == before_drc['marker_fingerprints']
-            assert after_drc['drc_enable'] == scenario['original_drc_enable']
