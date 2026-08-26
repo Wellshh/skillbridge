@@ -5,7 +5,9 @@ from __future__ import annotations
 import sys
 from collections.abc import Iterator
 from json import dumps
+from os import getenv
 from pathlib import Path
+from re import sub
 from shutil import copy2, copytree
 from socket import socket
 from sys import platform
@@ -67,6 +69,25 @@ def allegro(
 @pytest.fixture(scope='class')
 def ws(allegro: Allegro) -> Workspace:
     return allegro.workspace
+
+
+@pytest.fixture
+def drc_allegro(
+    tmp_path_factory: pytest.TempPathFactory,
+) -> Iterator[Allegro]:
+    if platform != 'win32':
+        pytest.skip('DRC probes require the Windows board copy')
+    board = Path(copy2(_TEST_BOARD, tmp_path_factory.mktemp('drc-allegro')))
+    with socket() as listener:
+        listener.bind(('localhost', 0))
+        workspace_id = str(listener.getsockname()[1])
+    with Allegro.open(mode='cli', board=board, workspace_id=workspace_id) as opened:
+        yield opened
+
+
+@pytest.fixture
+def drc_ws(drc_allegro: Allegro) -> Workspace:
+    return drc_allegro.workspace
 
 
 @pytest.fixture(scope='class')
@@ -254,28 +275,567 @@ def _shape_snapshot(ws: Workspace) -> list[list[object]]:
     )
 
 
-def _drc_probe(ws: Workspace) -> dict[str, object]:
-    report = ws['evalstring'](
-        '(letseq ((design (axlDBRefreshId (axlDBGetDesign))) result (index 0)) '
-        '(foreach marker design->drcs '
-        '(when (lessp index 5) '
-        '(letseq ((properties marker->??) attributes) '
-        '(while properties '
-        '(letseq ((name (car properties)) (value (cadr properties))) '
-        '(setq attributes (cons '
-        '(list nil \'name (sprintf nil "%s" name) '
-        "'type (sprintf nil \"%L\" (type value)) "
-        "'value (sprintf nil \"%L\" value)) attributes))) "
-        '(setq properties (cddr properties))) '
-        "(setq result (cons (list nil 'attributes (reverse attributes)) result)))) "
-        '(setq index (plus index 1))) '
-        "(list nil 'reported_count (axlDRCGetCount) "
-        "'design_state (sprintf nil \"%L\" design->drcState) "
-        "'enabled (sprintf nil \"%L\" (axlDBControl 'drcEnable)) "
-        "'markers (reverse result)))"
-    )
+def _sanitize_drc(value: dict[str, object]) -> dict[str, object]:
+    def sanitize(item: object) -> object:
+        if isinstance(item, str):
+            return sub(r'\b[A-Za-z][A-Za-z0-9_]*:[0-9A-Fa-f]+\b', '<dbid>', item)
+        if isinstance(item, list):
+            return [sanitize(child) for child in item]
+        if isinstance(item, dict):
+            return {key: sanitize(child) for key, child in item.items()}
+        return item
+
+    return cast('dict[str, object]', sanitize(value))
+
+
+def _drc_eval(ws: Workspace, source: str) -> dict[str, object]:
+    report = ws['evalstring'](' '.join(line.strip() for line in source.splitlines()))
     assert isinstance(report, dict)
-    return cast('dict[str, object]', report)
+    sanitized = _sanitize_drc(cast('dict[str, object]', report))
+    dumps(sanitized)
+    return sanitized
+
+
+def _emit_drc_report(filename: str, report: dict[str, object]) -> None:
+    payload = dumps(report, sort_keys=True, separators=(',', ':'))
+    print(payload)
+    if output_directory := getenv('ALLEGRO_DRC_PROBE_OUTPUT_DIR'):
+        path = Path(output_directory)
+        path.mkdir(parents=True, exist_ok=True)
+        (path / filename).write_text(payload + '\n', encoding='utf-8')
+
+
+def _aggregate_marker_schema(markers: object) -> list[dict[str, object]]:
+    grouped: dict[str, dict[str, object]] = {}
+    for marker in cast('list[dict[str, object]]', markers or []):
+        signature_values = cast('list[object]', marker['signature'])
+        signature = dict(zip(('type', 'name', 'source', 'layer'), signature_values, strict=True))
+        signature_key = dumps(signature, sort_keys=True)
+        group = grouped.setdefault(
+            signature_key,
+            {'signature': signature, 'count': 0, 'attributes': {}},
+        )
+        group['count'] = cast('int', group['count']) + 1
+        attributes = cast('dict[str, dict[str, object]]', group['attributes'])
+        for attribute in cast('list[dict[str, object]]', marker['attributes']):
+            variant_key = dumps(
+                [attribute['name'], attribute['runtime_type'], attribute['value']],
+                sort_keys=True,
+            )
+            variant = attributes.setdefault(variant_key, {**attribute, 'count': 0})
+            variant['count'] = cast('int', variant['count']) + 1
+    result: list[dict[str, object]] = []
+    for group in grouped.values():
+        group['attributes'] = list(cast('dict[str, object]', group['attributes']).values())
+        result.append(group)
+    return result
+
+
+def _drc_schema_probe(ws: Workspace) -> dict[str, object]:
+    report = _drc_eval(
+        ws,
+        r"""
+        (letseq
+          ((design (axlDBRefreshId (axlDBGetDesign)))
+           (schema
+             (lambda (object)
+               (let ((properties object->??) attributes)
+                 (while properties
+                   (letseq ((name (car properties)) (value (cadr properties)))
+                     (setq attributes
+                       (cons
+                         (list nil
+                           'name (sprintf nil "%s" name)
+                           'runtime_type (sprintf nil "%L" (type value))
+                           'value (sprintf nil "%L" value))
+                         attributes)))
+                   (setq properties (cddr properties)))
+                 (reverse attributes))))
+           current
+           waived)
+          (foreach marker design->drcs
+            (setq current
+              (cons
+                (list nil
+                  'signature (list marker->type marker->name marker->source marker->layer)
+                  'attributes (funcall schema marker))
+                current)))
+          (foreach marker design->waived
+            (setq waived
+              (cons
+                (list nil
+                  'signature (list marker->type marker->name marker->source marker->layer)
+                  'attributes (funcall schema marker))
+                waived)))
+          (list nil
+            'allegro_version (axlVersion 'fullVersion)
+            'reported_count (axlDRCGetCount)
+            'design_state (sprintf nil "%L" design->drcState)
+            'drc_enable (axlDBControl 'drcEnable)
+            'drcs_length (length design->drcs)
+            'waived_length (length design->waived)
+            'current (reverse current)
+            'waived (reverse waived)))
+        """,
+    )
+    report['current'] = _aggregate_marker_schema(report['current'])
+    report['waived'] = _aggregate_marker_schema(report['waived'])
+    all_groups = cast('list[dict[str, object]]', report['current']) + cast(
+        'list[dict[str, object]]', report['waived']
+    )
+    field_types: dict[str, set[str]] = {'actual': set(), 'expected': set()}
+    category_fields: dict[str, list[str]] = {}
+    for group in all_groups:
+        signature_key = dumps(group['signature'], sort_keys=True)
+        names: set[str] = set()
+        for attribute in cast('list[dict[str, object]]', group['attributes']):
+            name = cast('str', attribute['name'])
+            names.add(name)
+            if name.casefold() in field_types:
+                field_types[name.casefold()].add(cast('str', attribute['runtime_type']))
+        category_fields[signature_key] = sorted(names)
+    report['observations'] = {
+        'actual_runtime_types': sorted(field_types['actual']),
+        'expected_runtime_types': sorted(field_types['expected']),
+        'actual_always_string': field_types['actual'] == {'string'},
+        'expected_always_string': field_types['expected'] == {'string'},
+        'category_fields': category_fields,
+        'waived_has_independent_schema': bool(report['waived']),
+    }
+    return report
+
+
+def _drc_violation_probe(ws: Workspace) -> dict[str, object]:
+    report = _drc_eval(
+        ws,
+        r"""
+        (letseq
+          ((design (axlDBRefreshId (axlDBGetDesign)))
+           (schema
+             (lambda (object)
+               (let ((properties object->??) attributes)
+                 (while properties
+                   (letseq ((name (car properties)) (value (cadr properties)))
+                     (setq attributes
+                       (cons
+                         (list nil
+                           'name (sprintf nil "%s" name)
+                           'runtime_type (sprintf nil "%L" (type value))
+                           'value (sprintf nil "%L" value))
+                         attributes)))
+                   (setq properties (cddr properties)))
+                 (reverse attributes))))
+           (reference
+             (lambda (object)
+               (let ((kind object->objType))
+                 (cond
+                   ((equal kind "component")
+                    (list nil 'reference_type "ComponentRef" 'refdes object->name))
+                   ((equal kind "symbol")
+                    (list nil 'reference_type "ComponentRef" 'refdes object->refdes))
+                   ((equal kind "net")
+                    (list nil 'reference_type "NetRef" 'name object->name))
+                   ((equal kind "pin")
+                    (letseq
+                      ((component object->component)
+                       (symbol object->parent)
+                       (refdes
+                         (if component component->name
+                           (when symbol symbol->refdes))))
+                      (list nil 'reference_type "PinRef"
+                        'refdes refdes 'number object->number)))
+                   (t (list nil 'reference_type "Kind" 'kind kind))))))
+           (netReference
+             (lambda (object)
+               (let (net)
+                 (cond
+                   ((equal object->objType "net")
+                    (list nil 'reference_type "NetRef" 'name object->name))
+                   ((member 'net object->?)
+                    (setq net object->net)
+                    (when net
+                      (list nil 'reference_type "NetRef"
+                        'name (if (stringp net) net net->name))))))))
+           (parentOf
+             (lambda (object)
+               (when (member 'parent object->?) object->parent)))
+           markers)
+          (foreach marker design->drcs
+            (let ((violations marker->violations) samples (sampleIndex 0))
+              (while (and violations (lessp sampleIndex 2))
+                (letseq
+                  ((object (car violations))
+                   (objectReference (funcall reference object))
+                   (cursor (funcall parentOf object))
+                   parents
+                   (depth 0))
+                  (while (and cursor (lessp depth 4))
+                    (let ((cursorReference (funcall reference cursor)))
+                      (setq parents
+                        (cons
+                          (list nil
+                            'id (sprintf nil "parent_%d" depth)
+                            'obj_type cursor->objType
+                            'schema (funcall schema cursor)
+                            'stable_ref cursorReference
+                            'net_ref (funcall netReference cursor))
+                          parents))
+                      (if
+                        (or
+                          (equal cursor->objType "design")
+                          (not (equal cursorReference->reference_type "Kind")))
+                        (setq cursor nil)
+                        (setq cursor (funcall parentOf cursor))))
+                    (setq depth (plus depth 1)))
+                  (setq samples
+                    (cons
+                      (list nil
+                        'id (sprintf nil "object_%d" sampleIndex)
+                        'obj_type object->objType
+                        'schema (funcall schema object)
+                        'stable_ref objectReference
+                        'net_ref (funcall netReference object)
+                        'parents (reverse parents))
+                      samples)))
+                (setq violations (cdr violations))
+                (setq sampleIndex (plus sampleIndex 1)))
+              (setq markers
+                (cons
+                  (list nil
+                    'signature (list marker->type marker->name marker->source marker->layer)
+                    'violations (reverse samples))
+                  markers))))
+          (list nil
+            'allegro_version (axlVersion 'fullVersion)
+            'reported_count (axlDRCGetCount)
+            'markers (reverse markers)))
+        """,
+    )
+    grouped: dict[str, dict[str, object]] = {}
+    stable_refs: list[dict[str, object]] = []
+    net_paths: list[dict[str, object]] = []
+    pin_refs: list[dict[str, object]] = []
+    unresolved: set[str] = set()
+    for marker in cast('list[dict[str, object]]', report['markers']):
+        signature_values = cast('list[object]', marker['signature'])
+        signature = dict(zip(('type', 'name', 'source', 'layer'), signature_values, strict=True))
+        signature_key = dumps(signature, sort_keys=True)
+        group = grouped.setdefault(
+            signature_key,
+            {'signature': signature, 'marker_count': 0, 'violation_samples': []},
+        )
+        group['marker_count'] = cast('int', group['marker_count']) + 1
+        samples = cast('list[dict[str, object]]', group['violation_samples'])
+        for violation in cast('list[dict[str, object]]', marker['violations']):
+            if len(samples) < 2:
+                samples.append(violation)
+    for group in grouped.values():
+        for violation in cast('list[dict[str, object]]', group['violation_samples']):
+            nodes = [(violation['id'], violation)] + [
+                (parent['id'], parent)
+                for parent in cast('list[dict[str, object]]', violation['parents'] or [])
+            ]
+            for path, node in nodes:
+                stable_ref = cast('dict[str, object]', node['stable_ref'])
+                if stable_ref['reference_type'] == 'Kind':
+                    unresolved.add(cast('str', stable_ref['kind']))
+                else:
+                    observation = {
+                        'signature': group['signature'],
+                        'path': path,
+                        'reference': stable_ref,
+                    }
+                    stable_refs.append(observation)
+                    if stable_ref['reference_type'] == 'PinRef':
+                        pin_refs.append(observation)
+                if node['net_ref']:
+                    net_paths.append({
+                        'signature': group['signature'],
+                        'path': path,
+                        'reference': node['net_ref'],
+                    })
+    report['markers'] = list(grouped.values())
+    report['reference_summary'] = {
+        'stable_references': stable_refs,
+        'net_resolution_paths': net_paths,
+        'pin_references': pin_refs,
+        'kinds_without_stable_business_key': sorted(unresolved),
+    }
+    return report
+
+
+def _summarize_drc_phase(phase: dict[str, object]) -> None:
+    signatures: dict[str, dict[str, object]] = {}
+    for values in cast('list[list[object]]', phase.pop('markers')):
+        signature = dict(zip(('type', 'name', 'source', 'layer'), values, strict=True))
+        key = dumps(signature, sort_keys=True)
+        group = signatures.setdefault(key, {'signature': signature, 'count': 0})
+        group['count'] = cast('int', group['count']) + 1
+    phase['marker_summary'] = list(signatures.values())
+
+
+def _drc_update_probe(ws: Workspace) -> dict[str, object]:
+    report = _drc_eval(
+        ws,
+        r"""
+        (letseq
+          ((snapshot
+             (lambda ()
+               (letseq
+                 ((design (axlDBRefreshId (axlDBGetDesign))) markers)
+                 (foreach marker design->drcs
+                   (setq markers
+                     (cons
+                       (list marker->type marker->name marker->source marker->layer)
+                       markers)))
+                 (list nil
+                   'drc_enable (axlDBControl 'drcEnable)
+                   'drc_state (sprintf nil "%L" design->drcState)
+                   'reported_count (axlDRCGetCount)
+                   'drcs_length (length design->drcs)
+                   'markers (reverse markers)))))
+           (originalEnable (axlDBControl 'drcEnable))
+           before disabled afterUpdate afterRestore updateResult)
+          (setq before (funcall snapshot))
+          (unwindProtect
+            (progn
+              (axlDBControl 'drcEnable nil)
+              (setq disabled (funcall snapshot))
+              (setq updateResult (axlDRCUpdate nil))
+              (setq afterUpdate (funcall snapshot)))
+            (progn
+              (axlDBControl 'drcEnable originalEnable)
+              (setq afterRestore (funcall snapshot))))
+          (list nil
+            'allegro_version (axlVersion 'fullVersion)
+            'original_drc_enable originalEnable
+            'update_result updateResult
+            'before before
+            'disabled disabled
+            'after_update afterUpdate
+            'after_restore afterRestore))
+        """,
+    )
+    for phase_name in ('before', 'disabled', 'after_update', 'after_restore'):
+        _summarize_drc_phase(cast('dict[str, object]', report[phase_name]))
+    return report
+
+
+def _drc_stable_keys(ws: Workspace) -> dict[str, object]:
+    return _drc_eval(
+        ws,
+        r"""
+        (letseq
+          ((design (axlDBRefreshId (axlDBGetDesign))) component pin net)
+          (foreach candidate design->components
+            (when (and (null component) candidate->name)
+              (setq component candidate))
+            (when (and (null pin) candidate->name candidate->pins)
+              (setq component candidate)
+              (setq pin (car candidate->pins))))
+          (foreach candidate design->nets
+            (when (and (null net) candidate->name)
+              (setq net candidate)))
+          (list nil
+            'allegro_version (axlVersion 'fullVersion)
+            'component (when component (list nil 'refdes component->name))
+            'net (when net (list nil 'name net->name))
+            'pin (when pin
+              (list nil 'refdes component->name 'number pin->number))))
+        """,
+    )
+
+
+def _drc_item_for(
+    ws: Workspace,
+    kind: str,
+    key: dict[str, object],
+) -> dict[str, object]:
+    if kind == 'component':
+        stable_input = f'(list nil \'refdes {dumps(key["refdes"])})'
+        locator = (
+            f'(foreach candidate design->components '
+            f'(when (equal candidate->name {dumps(key["refdes"])}) '
+            '(setq target candidate)))'
+        )
+    elif kind == 'net':
+        stable_input = f'(list nil \'name {dumps(key["name"])})'
+        locator = (
+            f'(foreach candidate design->nets '
+            f'(when (equal candidate->name {dumps(key["name"])}) '
+            '(setq target candidate)))'
+        )
+    else:
+        stable_input = f'(list nil \'refdes {dumps(key["refdes"])} \'number {dumps(key["number"])})'
+        locator = (
+            '(foreach component design->components '
+            f'(when (equal component->name {dumps(key["refdes"])}) '
+            '(foreach candidate component->pins '
+            f'(when (equal candidate->number {dumps(key["number"])}) '
+            '(setq target candidate)))))'
+        )
+    report = _drc_eval(
+        ws,
+        f"""
+        (letseq
+          ((design (axlDBRefreshId (axlDBGetDesign)))
+           (schema
+             (lambda (object)
+               (let ((properties object->??) attributes)
+                 (while properties
+                   (letseq ((name (car properties)) (value (cadr properties)))
+                     (setq attributes
+                       (cons
+                         (list nil
+                           'name (sprintf nil "%s" name)
+                           'runtime_type (sprintf nil "%L" (type value))
+                           'value (sprintf nil "%L" value))
+                         attributes)))
+                   (setq properties (cddr properties)))
+                 (reverse attributes))))
+           target)
+          {locator}
+          (if target
+            (letseq
+              ((beforeDesign (axlDBRefreshId (axlDBGetDesign)))
+               (before
+                 (list nil
+                   'reported_count (axlDRCGetCount)
+                   'drc_state (sprintf nil "%L" beforeDesign->drcState)))
+               (count (axlDRCItem nil target))
+               (markers (axlDRCItem t target))
+               projected
+               (afterDesign (axlDBRefreshId (axlDBGetDesign))))
+              (foreach marker markers
+                (setq projected
+                  (cons
+                    (list nil
+                      'type marker->type
+                      'name marker->name
+                      'source marker->source
+                      'layer marker->layer
+                      'actual marker->actual
+                      'expected marker->expected
+                      'xy marker->xy
+                      'bBox marker->bBox
+                      'attributes (funcall schema marker))
+                    projected)))
+              (list nil
+                'status "found"
+                'kind {dumps(kind)}
+                'stable_input {stable_input}
+                'count count
+                'marker_list_length (length markers)
+                'markers (reverse projected)
+                'before before
+                'after
+                  (list nil
+                    'reported_count (axlDRCGetCount)
+                    'drc_state (sprintf nil "%L" afterDesign->drcState))
+                'ending_drc_enable (axlDBControl 'drcEnable)))
+            (let (countResult countError listResult listError)
+              (setq countResult (errset (axlDRCItem nil target)))
+              (unless countResult
+                (setq countError (sprintf nil "%L" errset.errset)))
+              (setq listResult (errset (axlDRCItem t target)))
+              (unless listResult
+                (setq listError (sprintf nil "%L" errset.errset)))
+              (list nil
+                'status "missing"
+                'kind {dumps(kind)}
+                'stable_input {stable_input}
+                'count_result (when countResult (car countResult))
+                'count_error countError
+                'list_result (when listResult (sprintf nil "%L" (car listResult)))
+                'list_error listError
+                'ending_drc_enable (axlDBControl 'drcEnable)))))
+        """,
+    )
+    if report['status'] == 'found' and report['markers'] is None:
+        report['markers'] = []
+    return report
+
+
+def _drc_item_probe(ws: Workspace) -> dict[str, object]:
+    keys = _drc_stable_keys(ws)
+    observations: list[dict[str, object]] = []
+    missing_observations: list[dict[str, object]] = []
+    missing_keys: dict[str, dict[str, object]] = {
+        'component': {'refdes': '__MISSING_DRC_COMPONENT__'},
+        'net': {'name': '__MISSING_DRC_NET__'},
+        'pin': {'refdes': '__MISSING_DRC_COMPONENT__', 'number': '__MISSING_PIN__'},
+    }
+    for kind in ('component', 'net', 'pin'):
+        key = keys[kind]
+        assert isinstance(key, dict), f'shape1.brd has no stable {kind} key'
+        observations.append(_drc_item_for(ws, kind, cast('dict[str, object]', key)))
+        missing_observations.append(_drc_item_for(ws, kind, missing_keys[kind]))
+    for observation in observations:
+        markers = cast('list[dict[str, object]]', observation['markers'])
+        observation['count_matches_marker_list_length'] = (
+            observation['count'] == observation['marker_list_length']
+        )
+        observation['markers_match_drc_info_fields'] = all(
+            {'type', 'name', 'source', 'layer', 'actual', 'expected', 'xy', 'bBox'} <= marker.keys()
+            for marker in markers
+        )
+    return {
+        'allegro_version': keys['allegro_version'],
+        'stable_keys': {kind: keys[kind] for kind in ('component', 'net', 'pin')},
+        'objects': observations,
+        'missing_objects': missing_observations,
+    }
+
+
+def _drc_cleanup_probe(ws: Workspace) -> dict[str, object]:
+    before = _drc_eval(
+        ws,
+        r"""
+        (letseq ((design (axlDBRefreshId (axlDBGetDesign))))
+          (list nil
+            'allegro_version (axlVersion 'fullVersion)
+            'drc_enable (axlDBControl 'drcEnable)
+            'drc_state (sprintf nil "%L" design->drcState)
+            'reported_count (axlDRCGetCount)))
+        """,
+    )
+    python_error: dict[str, str] = {}
+    try:
+        ws['evalstring'](
+            ' '.join(
+                line.strip()
+                for line in r"""
+                (letseq ((old (axlDBControl 'drcEnable)))
+                  (unwindProtect
+                    (progn
+                      (axlDBControl 'drcEnable nil)
+                      (axlDRCUpdate nil)
+                      (error "DRC_CLEANUP_PROBE_ERROR"))
+                    (axlDBControl 'drcEnable old)))
+                """.splitlines()
+            )
+        )
+    except RuntimeError as error:
+        python_error = {'type': type(error).__name__, 'message': str(error), 'repr': repr(error)}
+    restored = _drc_eval(
+        ws,
+        r"""
+        (letseq ((design (axlDBRefreshId (axlDBGetDesign))))
+          (list nil
+            'drc_enable (axlDBControl 'drcEnable)
+            'drc_state (sprintf nil "%L" design->drcState)
+            'reported_count (axlDRCGetCount)
+            'ping (plus 1 2)))
+        """,
+    )
+    return _sanitize_drc({
+        'allegro_version': before['allegro_version'],
+        'before': before,
+        'python_error': python_error,
+        'restored': restored,
+        'touched_state': ['drcEnable'],
+        'selection_or_find_filter_operations': [],
+    })
 
 
 def _run_skill_suite(workspace_id: str | None) -> str:
@@ -1786,20 +2346,59 @@ class TestShapesApi:
 
 
 class TestDrcProbe:
-    def test_reports_current_marker_schema(self, allegro: Allegro, ws: Workspace) -> None:
-        if allegro.mode != 'cli':
-            pytest.skip('DRC probe requires the Windows board copy')
-
-        report = _drc_probe(ws)
-        markers = cast('list[dict[str, object]]', report['markers'])
-        print(dumps(report, indent=2, sort_keys=True))
-
+    def test_reports_current_marker_schema(self, drc_ws: Workspace) -> None:
+        report = _drc_schema_probe(drc_ws)
+        _emit_drc_report('drc-schema.json', report)
         assert isinstance(report['reported_count'], int)
-        assert isinstance(report['design_state'], str)
-        assert isinstance(report['enabled'], str)
-        assert markers, 'shape1.brd has no current DRC markers to inspect'
-        assert all(marker.keys() == {'attributes'} for marker in markers)
-        assert all(marker['attributes'] for marker in markers)
+        assert isinstance(report['drcs_length'], int)
+        assert isinstance(report['waived_length'], int)
+        assert report['current']
+        assert isinstance(report['observations'], dict)
+
+    def test_reports_violation_schema_and_references(self, drc_ws: Workspace) -> None:
+        report = _drc_violation_probe(drc_ws)
+        _emit_drc_report('drc-violations.json', report)
+        assert isinstance(report['reported_count'], int)
+        assert isinstance(report['markers'], list)
+        assert isinstance(report['reference_summary'], dict)
+
+    def test_updates_drc_and_restores_control(self, drc_ws: Workspace) -> None:
+        report = _drc_update_probe(drc_ws)
+        cleanup = drc_ws['evalstring'](
+            "(list nil 'enabled (axlDBControl 'drcEnable) "
+            "'state (sprintf nil \"%L\" (axlDBRefreshId (axlDBGetDesign))->drcState) "
+            "'count (axlDRCGetCount) 'ping (plus 1 2))"
+        )
+        report['cleanup'] = cleanup
+        _emit_drc_report('drc-update.json', report)
+        assert all(
+            name in report for name in ('before', 'disabled', 'after_update', 'after_restore')
+        )
+        assert isinstance(cleanup, dict)
+        assert cleanup['ping'] == 3
+        before = cast('dict[str, object]', report['before'])
+        assert cleanup['enabled'] == before['drc_enable']
+
+    def test_runs_drc_item_for_component_net_and_pin(self, drc_ws: Workspace) -> None:
+        report = _drc_item_probe(drc_ws)
+        _emit_drc_report('drc-item.json', report)
+        objects = cast('list[dict[str, object]]', report['objects'])
+        missing_objects = cast('list[dict[str, object]]', report['missing_objects'])
+        assert [item['kind'] for item in objects] == ['component', 'net', 'pin']
+        assert all(item['status'] == 'found' for item in objects)
+        assert all(item['status'] == 'missing' for item in missing_objects)
+        assert all(isinstance(item['count'], int) for item in objects)
+        assert all(isinstance(item['markers'], list) for item in objects)
+
+    def test_restores_drc_after_error(self, drc_ws: Workspace) -> None:
+        report = _drc_cleanup_probe(drc_ws)
+        _emit_drc_report('drc-cleanup.json', report)
+        assert report['python_error']
+        assert isinstance(report['restored'], dict)
+        restored = cast('dict[str, object]', report['restored'])
+        before = cast('dict[str, object]', report['before'])
+        assert restored['ping'] == 3
+        assert restored['drc_enable'] == before['drc_enable']
 
 
 @pytest.mark.usefixtures('extension_environment')
