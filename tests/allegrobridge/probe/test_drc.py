@@ -15,7 +15,12 @@ import pytest
 
 from allegrobridge import Allegro
 from allegrobridge.util import ASSETS_DIR
-from tests.allegrobridge.probe.drc import DrcProbe, _classify_rollback, _signature
+from tests.allegrobridge.probe.drc import (
+    DrcProbe,
+    _classify_coupling,
+    _classify_rollback,
+    _signature,
+)
 
 if TYPE_CHECKING:
     from allegrobridge import Workspace
@@ -28,7 +33,7 @@ class FakeWorkspace:
         self.payloads = payloads
         self.calls: list[tuple[str, tuple[object, ...]]] = []
 
-    def __getitem__(self, procedure: str):
+    def __getitem__(self, procedure: str) -> Callable[..., object]:
         def call(*args: object) -> object:
             self.calls.append((procedure, args))
             payload = self.payloads.get(procedure, True)
@@ -107,7 +112,19 @@ def test_rollback_comparison_ignores_reported_count_and_marker_order() -> None:
     during = _snapshot('during')
     after = deepcopy(before)
     after['reported_count'] = 99
-    after['marker_summary'] = list(reversed(after['marker_summary']))
+    after['marker_summary'] = list(
+        reversed(cast('list[dict[str, object]]', after['marker_summary']))
+    )
+
+    assert _classify_rollback(before, during, after) == 'rolled_back'
+
+
+def test_rollback_comparison_prefers_full_marker_fingerprints() -> None:
+    before = _snapshot('before')
+    before['marker_fingerprints'] = [['before', [1.0, 2.0]]]
+    during = _snapshot('during')
+    during['marker_fingerprints'] = [['during', [2.0, 3.0]]]
+    after = deepcopy(before)
 
     assert _classify_rollback(before, during, after) == 'rolled_back'
 
@@ -123,7 +140,7 @@ def test_probe_loads_sibling_skill_file_and_sanitizes_payload() -> None:
 
     assert probe._call('probe') == {'value': '<dbid>'}
     assert workspace.calls[0][0] == 'load'
-    assert workspace.calls[0][1][0].endswith('/probe/drc.il')
+    assert cast('str', workspace.calls[0][1][0]).endswith('/probe/drc.il')
 
 
 def test_probe_rejects_non_mapping_payload() -> None:
@@ -250,6 +267,44 @@ def _raw_phase(marker: str) -> dict[str, object]:
     }
 
 
+def _coupling_phase(
+    x: float,
+    marker: str,
+    *,
+    drc_state: str = 'upToDate',
+) -> dict[str, object]:
+    drc = _raw_phase(marker)
+    drc['drc_state'] = drc_state
+    return {
+        'component': {'refdes': 'R1', 'x': x, 'y': 2.0, 'rotation': 0.0},
+        'drc': drc,
+    }
+
+
+@pytest.mark.parametrize(
+    ('during', 'after', 'expected'),
+    [
+        (_coupling_phase(2.0, 'during'), _coupling_phase(1.0, 'before'), 'rolled_back'),
+        (_coupling_phase(1.0, 'before'), _coupling_phase(1.0, 'before'), 'inconclusive'),
+        (_coupling_phase(2.0, 'before'), _coupling_phase(1.0, 'before'), 'inconclusive'),
+        (_coupling_phase(1.0, 'during'), _coupling_phase(1.0, 'before'), 'inconclusive'),
+        (
+            _coupling_phase(2.0, 'before', drc_state='outOfDate'),
+            _coupling_phase(1.0, 'before'),
+            'inconclusive',
+        ),
+        (_coupling_phase(2.0, 'during'), _coupling_phase(2.0, 'during'), 'persisted'),
+        (_coupling_phase(2.0, 'during'), _coupling_phase(1.0, 'other'), 'partial'),
+    ],
+)
+def test_classifies_database_and_drc_coupling(
+    during: dict[str, object],
+    after: dict[str, object],
+    expected: str,
+) -> None:
+    assert _classify_coupling(_coupling_phase(1.0, 'before'), during, after) == expected
+
+
 def test_update_and_stable_keys_project_reports() -> None:
     update = {
         phase: _raw_phase(phase)
@@ -285,7 +340,12 @@ def test_item_resolves_stable_scalar_keys_and_normalizes_markers() -> None:
         'pin': {'refdes': 'U1', 'number': '1'},
     }
 
-    def item(kind: str, refdes: str | None, name: str | None, number: str | None):
+    def item(
+        kind: str,
+        refdes: str | None,
+        name: str | None,
+        number: str | None,
+    ) -> dict[str, object]:
         missing = any(value and value.startswith('__MISSING') for value in (refdes, name, number))
         if missing:
             return {'status': 'missing', 'kind': kind}
@@ -401,6 +461,51 @@ def test_transaction_report_classifies_completed_and_failed_runs() -> None:
     assert probe.transaction_rollback()['classification'] == 'failed'
 
 
+def test_database_coupling_selects_sorted_components_and_classifies_report() -> None:
+    completed = {
+        'status': 'completed',
+        'before': _coupling_phase(1.0, 'before'),
+        'during': _coupling_phase(2.0, 'during'),
+        'after_rollback': _coupling_phase(1.0, 'before'),
+        'after_cleanup': _coupling_phase(1.0, 'before'),
+    }
+    workspace = FakeWorkspace({
+        '__abProjectComponents': [
+            {'refdes': 'R2', 'x': 2.0, 'y': 2.0},
+            {'refdes': 'R1', 'x': 1.0, 'y': 1.0},
+        ],
+        '__abpDrcDatabaseCoupling': completed,
+        'plus': 3,
+    })
+    probe = DrcProbe(cast('Workspace', workspace))
+
+    report = probe.database_coupling()
+
+    assert report['classification'] == 'rolled_back'
+    assert report['ping'] == 3
+    assert workspace.calls[-2] == ('__abpDrcDatabaseCoupling', ('R1', 'R2'))
+    workspace.payloads['__abpDrcDatabaseCoupling'] = {
+        'status': 'start_failed',
+        'before': _coupling_phase(1.0, 'before'),
+        'during': None,
+        'after_rollback': None,
+        'after_cleanup': _coupling_phase(1.0, 'before'),
+    }
+    assert probe.database_coupling()['classification'] == 'failed'
+
+
+def test_database_coupling_requires_two_placed_components() -> None:
+    probe = DrcProbe(
+        cast(
+            'Workspace',
+            FakeWorkspace({'__abProjectComponents': [{'refdes': 'R1', 'x': 1.0, 'y': 1.0}]}),
+        )
+    )
+
+    with pytest.raises(AssertionError, match='two placed components'):
+        probe.database_coupling()
+
+
 @pytest.mark.allegro
 class TestDrcProbe:
     def test_reports_current_marker_schema(self, drc_probe: DrcProbe) -> None:
@@ -475,3 +580,25 @@ class TestDrcProbe:
         before = cast('dict[str, object]', report['before'])
         after_cleanup = cast('dict[str, object]', report['after_cleanup'])
         assert after_cleanup['drc_enable'] == before['drc_enable']
+
+    def test_reports_database_write_drc_coupling_and_rollback(
+        self,
+        drc_probe: DrcProbe,
+    ) -> None:
+        report = drc_probe.database_coupling()
+        drc_probe.emit('drc-database-coupling.json', report)
+        assert report['status'] == 'completed'
+        assert report['classification'] == 'rolled_back'
+        assert report['ping'] == 3
+        before = cast('dict[str, object]', report['before'])
+        during = cast('dict[str, object]', report['during'])
+        after_cleanup = cast('dict[str, object]', report['after_cleanup'])
+        assert during['component'] != before['component']
+        assert during['drc'] != before['drc']
+        assert after_cleanup['component'] == before['component']
+        before_drc = cast('dict[str, object]', before['drc'])
+        during_drc = cast('dict[str, object]', during['drc'])
+        after_drc = cast('dict[str, object]', after_cleanup['drc'])
+        assert during_drc['marker_fingerprints'] != before_drc['marker_fingerprints']
+        assert after_drc['marker_fingerprints'] == before_drc['marker_fingerprints']
+        assert after_drc['drc_enable'] == report['original_drc_enable']

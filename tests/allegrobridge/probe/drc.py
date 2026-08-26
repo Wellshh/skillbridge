@@ -32,14 +32,22 @@ def _sanitize(value: object) -> object:
     return value
 
 
-def _snapshot_fingerprint(snapshot: dict[str, object]) -> tuple[object, object, tuple[str, ...]]:
-    markers = tuple(
+def _marker_fingerprint(snapshot: dict[str, object]) -> tuple[str, ...]:
+    marker_values = snapshot.get('marker_fingerprints')
+    if marker_values is None:
+        marker_values = snapshot.get('marker_summary')
+    if marker_values is None:
+        marker_values = snapshot['markers']
+    return tuple(
         sorted(
             dumps(marker, sort_keys=True, separators=(',', ':'))
-            for marker in cast('list[dict[str, object]]', snapshot['marker_summary'])
+            for marker in cast('list[object]', marker_values)
         )
     )
-    return snapshot['drc_state'], snapshot['drcs_length'], markers
+
+
+def _snapshot_fingerprint(snapshot: dict[str, object]) -> tuple[object, object, tuple[str, ...]]:
+    return snapshot['drc_state'], snapshot['drcs_length'], _marker_fingerprint(snapshot)
 
 
 def _classify_rollback(
@@ -55,6 +63,26 @@ def _classify_rollback(
     if after_state == before_state:
         return 'rolled_back'
     if after_state == during_state:
+        return 'persisted'
+    return 'partial'
+
+
+def _classify_coupling(
+    before: dict[str, object],
+    during: dict[str, object],
+    after: dict[str, object],
+) -> str:
+    before_component = dumps(before['component'], sort_keys=True)
+    during_component = dumps(during['component'], sort_keys=True)
+    after_component = dumps(after['component'], sort_keys=True)
+    before_drc = _marker_fingerprint(cast('dict[str, object]', before['drc']))
+    during_drc = _marker_fingerprint(cast('dict[str, object]', during['drc']))
+    after_drc = _marker_fingerprint(cast('dict[str, object]', after['drc']))
+    if during_component == before_component or during_drc == before_drc:
+        return 'inconclusive'
+    if after_component == before_component and after_drc == before_drc:
+        return 'rolled_back'
+    if after_component == during_component and after_drc == during_drc:
         return 'persisted'
     return 'partial'
 
@@ -289,6 +317,42 @@ class DrcProbe:
                 self._summarize_phase(cast('dict[str, object]', phase))
         if report['status'] == 'completed':
             report['classification'] = _classify_rollback(
+                cast('dict[str, object]', report['before']),
+                cast('dict[str, object]', report['during']),
+                cast('dict[str, object]', report['after_rollback']),
+            )
+        else:
+            report['classification'] = 'failed'
+        report['ping'] = self.workspace['plus'](1, 2)
+        return report
+
+    def database_coupling(self) -> dict[str, object]:
+        include_unplaced = False
+        components = cast(
+            'list[dict[str, object]]',
+            self.workspace['__abProjectComponents'](None, include_unplaced),
+        )
+        components.sort(key=lambda component: cast('str', component['refdes']))
+        assert components, 'shape1.brd requires two placed components at distinct locations'
+        source = components[0]
+        targets = [
+            component
+            for component in components[1:]
+            if (component['x'], component['y']) != (source['x'], source['y'])
+        ]
+        assert targets, 'shape1.brd requires two placed components at distinct locations'
+        report = self._call(
+            '__abpDrcDatabaseCoupling',
+            cast('str', source['refdes']),
+            cast('str', targets[0]['refdes']),
+        )
+        for phase_name in ('before', 'during', 'after_rollback', 'after_cleanup'):
+            phase = report.get(phase_name)
+            if isinstance(phase, dict):
+                drc = cast('dict[str, object]', phase['drc'])
+                self._summarize_phase(drc)
+        if report['status'] == 'completed':
+            report['classification'] = _classify_coupling(
                 cast('dict[str, object]', report['before']),
                 cast('dict[str, object]', report['during']),
                 cast('dict[str, object]', report['after_rollback']),

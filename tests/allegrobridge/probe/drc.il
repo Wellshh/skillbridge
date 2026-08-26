@@ -56,18 +56,24 @@
 (putd '__abpDrcSnapshot nil)
 (defun __abpDrcSnapshot ()
   (letseq ((design (axlDBRefreshId (axlDBGetDesign)))
-           markers)
+           markers markerFingerprints)
     (foreach marker design->drcs
       (setq markers
             (cons
               (list marker->type marker->name marker->source marker->layer)
-              markers)))
+              markers))
+      (setq markerFingerprints
+            (cons
+              (list marker->type marker->name marker->source marker->layer
+                    marker->actual marker->expected marker->xy marker->bBox)
+              markerFingerprints)))
     (list nil
           'drc_enable (axlDBControl 'drcEnable)
           'drc_state (sprintf nil "%L" design->drcState)
           'reported_count (axlDRCGetCount)
           'drcs_length (length design->drcs)
-          'markers (reverse markers))))
+          'markers (reverse markers)
+          'marker_fingerprints (reverse markerFingerprints))))
 
 (putd '__abpDrcStatus nil)
 (defun __abpDrcStatus ()
@@ -332,6 +338,73 @@
           'allegro_version (axlVersion 'fullVersion)
           'status status
           'operation_result (when operationResult (car operationResult))
+          'operation_error operationError
+          'rollback_result rollbackResult
+          'before before
+          'during during
+          'after_rollback afterRollback
+          'after_cleanup afterCleanup)))
+
+(putd '__abpDrcCouplingPhase nil)
+(defun __abpDrcCouplingPhase (refdes)
+  (list nil
+        'component (car (__abProjectComponents refdes nil))
+        'drc (__abpDrcSnapshot)))
+
+(putd '__abpDrcDatabaseCoupling nil)
+(defun __abpDrcDatabaseCoupling (sourceRefdes targetRefdes)
+  (letseq ((originalEnable (axlDBControl 'drcEnable))
+           baselineResult baselineError target before mark terminalAttempted
+           operationResult operationError moveResult updateResult during
+           rollbackResult afterRollback afterCleanup status)
+    (unwindProtect
+      (progn
+        (setq baselineResult (errset (axlDRCUpdate nil)))
+        (unless baselineResult
+          (setq baselineError (sprintf nil "%L" errset.errset)))
+        (when baselineResult
+          (setq target (car (__abProjectComponents targetRefdes nil)))
+          (setq before (__abpDrcCouplingPhase sourceRefdes))
+          (setq mark (axlDBTransactionStart))
+          (when mark
+            (setq operationResult
+                  (errset
+                    (progn
+                      (setq moveResult
+                            (__abMoveComponent
+                              sourceRefdes
+                              (get target 'x)
+                              (get target 'y)
+                              (get target 'rotation)))
+                      (setq updateResult (axlDRCUpdate nil))
+                      (setq during (__abpDrcCouplingPhase sourceRefdes)))))
+            (unless operationResult
+              (setq operationError (sprintf nil "%L" errset.errset)))
+            (setq terminalAttempted t)
+            (setq rollbackResult (axlDBTransactionRollback mark))
+            (setq afterRollback (__abpDrcCouplingPhase sourceRefdes)))))
+      (progn
+        (when (and mark (null terminalAttempted))
+          (setq terminalAttempted t)
+          (errset (axlDBTransactionRollback mark)))
+        (axlDBControl 'drcEnable originalEnable)
+        (setq afterCleanup (__abpDrcCouplingPhase sourceRefdes))))
+    (cond
+      ((null baselineResult) (setq status "baseline_failed"))
+      ((null mark) (setq status "start_failed"))
+      ((null operationResult) (setq status "operation_failed"))
+      ((null rollbackResult) (setq status "rollback_failed"))
+      (t (setq status "completed")))
+    (list nil
+          'allegro_version (axlVersion 'fullVersion)
+          'status status
+          'source_refdes sourceRefdes
+          'target_refdes targetRefdes
+          'original_drc_enable originalEnable
+          'baseline_result (when baselineResult (car baselineResult))
+          'baseline_error baselineError
+          'move_result moveResult
+          'update_result updateResult
           'operation_error operationError
           'rollback_result rollbackResult
           'before before

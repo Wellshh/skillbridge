@@ -6,7 +6,7 @@
 
 `skillbridge` 已经具备三个很有价值的基础：Python/SKILL 类型转换、远程对象属性访问，以及 Windows 下的 localhost TCP 通道；它的 `Workspace` 甚至已经预留了 `axl` 函数集合。 
 
-当前通信内核已经具备帧收发、严格串行执行、Windows timeout、超时后响应排空、SKILL callback 缓冲和写请求不自动重发。Python/SKILL 单次 RPC 事务、savepoint batch 与 dry-run 也已通过 Windows Allegro 实机验收。`Allegro` 窗口生命周期、最小内存 `Session` 门面、Phase 5 只读领域 API 和 Phase 6 声明式领域写 API 已完成，并已通过 Windows Allegro 实机验收。当前按需扩展机制已覆盖惰性 Python import、SKILL load、成功路径、混合 core/extension Batch 以及缺失 `.il` 的错误缓存与核心 API 隔离。基础领域 API `layers`、`pins`、`padstacks`、`symbols`，以及惰性加载的 `vias`、直线 `routes`、`session.shapes` 和只读 `session.drc` 查询已完成，并通过 Windows Allegro 实机验收。DRC 探针结果已人工审核并冻结 `DrcInfo`、稳定对象引用和单次全量投影协议；下一步实现显式的非事务 `session.drc.update()`，再实现 `session.drc.check(component | net | pin)`，随后才按真实需求增加 `session.ext.rules`，不预先创建虚构业务 extension。DRC 不接入 `preview`、`command` 或 `Batch`。CLI 启动已出现旧 listener 被误认作新实例的真实故障，因此允许使用仅在本地启动阶段回读的实例 nonce；它不进入 RPC envelope，不承担认证、授权或请求去重。除此之外，在没有真实需求或故障证据前，不引入 UUID envelope、安全 token、结果缓存或更多恢复状态。
+当前通信内核已经具备帧收发、严格串行执行、Windows timeout、超时后响应排空、SKILL callback 缓冲和写请求不自动重发。Python/SKILL 单次 RPC 事务、savepoint batch 与 dry-run 也已通过 Windows Allegro 实机验收。`Allegro` 窗口生命周期、最小内存 `Session` 门面、Phase 5 只读领域 API 和 Phase 6 声明式领域写 API 已完成，并已通过 Windows Allegro 实机验收。当前按需扩展机制已覆盖惰性 Python import、SKILL load、成功路径、混合 core/extension Batch 以及缺失 `.il` 的错误缓存与核心 API 隔离。基础领域 API `layers`、`pins`、`padstacks`、`symbols`，以及惰性加载的 `vias`、直线 `routes`、`session.shapes` 和只读 `session.drc` 查询已完成，并通过 Windows Allegro 实机验收。DRC 探针结果已人工审核并冻结 `DrcInfo`、稳定对象引用和单次全量投影协议；产品范围固定为 Allegro 17.2-2016 S048，Probe 6 已实测确认事务内 `axlDRCUpdate(nil)` 产生的 marker 可由 rollback 从 59 恢复到 26，cleanup 后仍为 26，`drcEnable` 仍必须由 `unwindProtect` 显式恢复。下一审核点是 Probe 7：验证 component move 后 DRC 发生可观察变化，并由同一 outer transaction 同时恢复元件与 marker；通过后 `session.drc.update()` 复用现有 `@write`，支持立即执行、`preview`、`command` 和原子 `Batch`。`session.drc.check(component | net | pin)` 仍须先探测 `axlDRCItem` 的事务语义，随后才按真实需求增加 `session.ext.rules`。CLI 启动已出现旧 listener 被误认作新实例的真实故障，因此允许使用仅在本地启动阶段回读的实例 nonce；它不进入 RPC envelope，不承担认证、授权或请求去重。除此之外，在没有真实需求或故障证据前，不引入 UUID envelope、安全 token、结果缓存或更多恢复状态。
 
 ---
 
@@ -790,7 +790,7 @@ gnd = session.nets["GND"]
 
 `session.shapes` 惰性只读 API 已完成，并已通过 Windows Allegro 实机验收：支持 `net`、`layer`、`dynamic` 过滤；只返回不含 DBID 的快照，不实现创建、修改、删除，也不建立通用 geometry AST。
 
-Windows DRC 探针已完成并经人工审核，已冻结 marker 的最小稳定字段、对象引用和单次全量投影协议；惰性只读 `session.drc()`、`DrcInfo` 及其 `ComponentRef`/`NetRef`/`PinRef` 已落地。下一步实现显式的非事务 `session.drc.update()`，再实现 `session.drc.check(component | net | pin)`；之后才按真实需求增加 `session.ext.rules`。DRC marker 和 DRC 开关不属于数据库事务回滚范围，因此 DRC 不接入 `preview`、`command` 或 `Batch`；通信层仍按真实测试或故障证据按需加固。
+Windows DRC 探针已完成并经人工审核，已冻结 marker 的最小稳定字段、对象引用和单次全量投影协议。产品范围固定为 Allegro 17.2-2016 S048；Probe 6 在当前测试板上实测得到 `before=26`、`during update=59`、`after rollback=26`、`after cleanup=26`，classification 为 `rolled_back`，说明 `axlDRCUpdate(nil)` 产生的 marker 可随 transaction rollback 恢复，`drcEnable` 等控制状态仍必须使用 `unwindProtect` 显式恢复。惰性只读 `session.drc()`、`DrcInfo` 及其 `ComponentRef`/`NetRef`/`PinRef` 已落地。下一步先用 Probe 7 验证 component move → DRC delta → 元件与 marker 整体 rollback；真机结果必须是稳定的 `rolled_back`，否则停在人工审核点。Probe 7 通过后，`session.drc.update()` 使用 `@write` 支持立即执行、`preview`、`command` 和原子 `Batch`；其他领域写操作不会自动刷新 DRC，Batch 中的 DRC 结果只反映其添加位置之前的写入。`session.drc.check(component | net | pin)` 仍须先探测 `axlDRCItem` 的事务语义；通信层仍按真实测试或故障证据按需加固。
 
 Bulk 文件通道、通用分页器、缓存、handle table 和 capability negotiation 均不属于首批 API；只有实测数据证明单次投影无法满足帧大小或性能要求时再设计。
 
@@ -1122,4 +1122,4 @@ doctor、常驻配置和自动修改 allegro.ilinit
 bulk 文件通道
 ```
 
-最合理的执行顺序是：保持 Phase 1–6 的现有实机集成基线；实现并验收非事务 `session.drc.update()` → 实现并验收 `session.drc.check(component | net | pin)` → 按真实需求增加 `session.ext.rules`。DRC 不接入 `preview`、`command` 或 `Batch`，因为 marker 与 DRC 开关不保证随数据库事务回滚；只有测试或真实使用暴露通信问题时，才进入 Phase 7 加固对应部分。
+最合理的执行顺序是：保持 Phase 1–6 的现有实机集成基线；Probe 7 验证 component move 与 DRC 的同事务 rollback → `session.drc.update()` 复用 `@write` 并验收立即执行、`preview`、`command` 和混合 Batch → 探测 `axlDRCItem` 的事务语义 → 实现 `session.drc.check(component | net | pin)` → 按真实需求增加 `session.ext.rules`。产品只支持 Allegro 17.2-2016 S048，不增加其他版本兼容分支；`drcEnable` 始终由 `unwindProtect` 显式恢复。只有测试或真实使用暴露通信问题时，才进入 Phase 7 加固对应部分。
