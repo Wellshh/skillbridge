@@ -1,3 +1,6 @@
+;;; Copyright (c) 2019-2024 the skillbridge authors (Niels Buwen, Tobias Markus)
+;;; Derived from skillbridge (https://github.com/unihd-cag/skillbridge)
+;;; SPDX-License-Identifier: LGPL-3.0-only
 let((_filename _moduleFolder _logDirectory _unbound)
 
     _filename = get_filename(piport)

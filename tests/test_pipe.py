@@ -1,3 +1,5 @@
+# Copyright (c) 2025-2026 Bai Junyan and contributors.
+# SPDX-License-Identifier: LGPL-3.0-or-later
 """Test framework for Pipe; see ``skillbridge/server/SECRET.md`` for its design."""
 
 from __future__ import annotations

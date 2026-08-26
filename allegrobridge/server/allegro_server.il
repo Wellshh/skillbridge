@@ -1,3 +1,5 @@
+;;; Copyright (c) 2025-2026 Bai Junyan and contributors.
+;;; SPDX-License-Identifier: LGPL-3.0-or-later
 ;;; allegro_server.il - Atomic execution against the open Allegro design.
 ;;;
 ;;; Input:  __abRunTransaction(command), where command is one SKILL expression.

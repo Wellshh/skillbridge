@@ -1,3 +1,5 @@
+;;; Copyright (c) 2025-2026 Bai Junyan and contributors.
+;;; SPDX-License-Identifier: LGPL-3.0-or-later
 ;;; test_allegro_server.ils - Unit tests for the Allegro transaction kernel.
 
 (qcover::load (strcat (qub::scriptDir)

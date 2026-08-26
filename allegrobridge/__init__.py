@@ -1,3 +1,5 @@
+# Copyright (c) 2025-2026 Bai Junyan and contributors.
+# SPDX-License-Identifier: LGPL-3.0-or-later
 """Skill bridge adapter for Cadence Allegro 17.2."""
 
 from __future__ import annotations
