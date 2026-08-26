@@ -1,3 +1,5 @@
+;;; Copyright (c) 2025-2026 Bai Junyan and contributors.
+;;; SPDX-License-Identifier: LGPL-3.0-or-later
 ;;; branches.il - Classic SKILL fixture for qcover branch instrumentation.
 
 qcoverFixtureSideEffects = 0
