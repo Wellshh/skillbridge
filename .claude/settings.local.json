@@ -77,7 +77,14 @@
       "Bash(ssh -o StrictHostKeyChecking=accept-new -T git@github.com)",
       "Bash(gh api *)",
       "Bash(gh run *)",
-      "Bash(python3 -)"
+      "Bash(python3 -)",
+      "Bash(python3 -c \"import ast, pathlib; [ast.parse\\(p.read_text\\(\\)\\) for d in \\('skillbridge','allegrobridge','tests','scripts'\\) for p in pathlib.Path\\(d\\).rglob\\('*.py'\\)]; print\\('all .py parse OK'\\)\")",
+      "Bash(git reset *)",
+      "Bash(git commit -q -m 'Add SPDX license headers and allegrobridge sync tooling *)",
+      "Bash(poetry run *)",
+      "Bash(poetry update *)",
+      "Bash(.venv/bin/pytest tests/allegrobridge/test_main.py tests/allegrobridge/test_axl_stub_generator.py -q -p no:cacheprovider)",
+      "Bash(.venv/bin/ruff check *)"
     ]
   }
 }
