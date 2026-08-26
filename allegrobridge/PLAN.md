@@ -6,7 +6,7 @@
 
 `skillbridge` 已经具备三个很有价值的基础：Python/SKILL 类型转换、远程对象属性访问，以及 Windows 下的 localhost TCP 通道；它的 `Workspace` 甚至已经预留了 `axl` 函数集合。 
 
-当前通信内核已经具备帧收发、严格串行执行、Windows timeout、超时后响应排空、SKILL callback 缓冲和写请求不自动重发。Python/SKILL 单次 RPC 事务、savepoint batch 与 dry-run 也已通过 Windows Allegro 实机验收。`Allegro` 窗口生命周期、最小内存 `Session` 门面、Phase 5 只读领域 API 和 Phase 6 声明式领域写 API 已完成，并已通过 Windows Allegro 实机验收。当前按需扩展机制已覆盖惰性 Python import、SKILL load、成功路径、混合 core/extension Batch 以及缺失 `.il` 的错误缓存与核心 API 隔离。基础领域 API `layers`、`pins`、`padstacks`、`symbols`，以及惰性加载的 `vias` 和直线 `routes` 已完成并通过 Windows Allegro 实机验收。下一步实现惰性加载的首个一等几何 API：`session.shapes` 只读查询；不预先创建虚构业务 extension。CLI 启动已出现旧 listener 被误认作新实例的真实故障，因此允许使用仅在本地启动阶段回读的实例 nonce；它不进入 RPC envelope，不承担认证、授权或请求去重。除此之外，在没有真实需求或故障证据前，不引入 UUID envelope、安全 token、结果缓存或更多恢复状态。
+当前通信内核已经具备帧收发、严格串行执行、Windows timeout、超时后响应排空、SKILL callback 缓冲和写请求不自动重发。Python/SKILL 单次 RPC 事务、savepoint batch 与 dry-run 也已通过 Windows Allegro 实机验收。`Allegro` 窗口生命周期、最小内存 `Session` 门面、Phase 5 只读领域 API 和 Phase 6 声明式领域写 API 已完成，并已通过 Windows Allegro 实机验收。当前按需扩展机制已覆盖惰性 Python import、SKILL load、成功路径、混合 core/extension Batch 以及缺失 `.il` 的错误缓存与核心 API 隔离。基础领域 API `layers`、`pins`、`padstacks`、`symbols`，以及惰性加载的 `vias`、直线 `routes` 和 `session.shapes` 只读查询已完成，并通过 Windows Allegro 实机验收。下一步先在 Windows 真机探测 DRC marker 的 DBID 实际字段和行为，人工审核最小稳定字段后，再实现惰性一等 `session.drc`；随后才按真实需求增加 `session.ext.rules`，不预先创建虚构业务 extension。CLI 启动已出现旧 listener 被误认作新实例的真实故障，因此允许使用仅在本地启动阶段回读的实例 nonce；它不进入 RPC envelope，不承担认证、授权或请求去重。除此之外，在没有真实需求或故障证据前，不引入 UUID envelope、安全 token、结果缓存或更多恢复状态。
 
 ---
 
@@ -788,7 +788,9 @@ gnd = session.nets["GND"]
 4. `@read` / `@write` 声明式 API、惰性 `session.ext` 扩展加载与严格协议边界已完成，并通过 Windows Allegro 实机验收。
 5. `layers`、`pins`、`padstacks`、`symbols` 核心只读 API，以及惰性 `vias`、直线 `routes` API 已完成，并通过 Windows Allegro 实机验收。
 
-下一最小切片为惰性 `session.shapes` 只读 API：支持 `net`、`layer`、`dynamic` 过滤；只返回不含 DBID 的快照，不实现创建、修改、删除，也不建立通用 geometry AST。
+`session.shapes` 惰性只读 API 已完成，并已通过 Windows Allegro 实机验收：支持 `net`、`layer`、`dynamic` 过滤；只返回不含 DBID 的快照，不实现创建、修改、删除，也不建立通用 geometry AST。
+
+下一阶段先做 Windows DRC 探针，不公开 `DrcInfo` 或 `session.drc`：确认 marker 的真实 DBID 字段、类型、位置/BBox、约束与关联对象，以及 `axlDRCUpdate`、DRC enable 状态和恢复行为。探针结果须人工审核最小稳定字段后，才实现惰性一等 `session.drc`（包括显式 update/check 语义）；之后才按真实需求增加 `session.ext.rules`。DRC marker 和 DRC 开关不属于数据库事务回滚范围，因此 DRC 不接入 `preview`、`command` 或 `Batch`；通信层仍按真实测试或故障证据按需加固。
 
 Bulk 文件通道、通用分页器、缓存、handle table 和 capability negotiation 均不属于首批 API；只有实测数据证明单次投影无法满足帧大小或性能要求时再设计。
 
@@ -1084,7 +1086,7 @@ Python 路径含空格
 | M5 | 声明式领域写操作与原子 Batch（已完成，Windows Allegro 已验收） | 1–2 周 |
 | M6 | 按需增加批处理、Undo 或通信加固 | 按实际需求评估 |
 
-当前 M4/M5 已完成，基础对象与惰性 vias/routes 切片也已完成。下一步实现惰性 shapes 只读查询；之后先在 Windows 真机探测 DRC DBID 的实际字段，再实现首个一等 `session.drc` API，最后按真实需求增加 `session.ext.rules`。不预先创建虚构业务 extension，也不为尚未出现的部署需求预估通信生产化工期。
+当前 M4/M5 已完成，基础对象与惰性 vias/routes/shapes 切片也已完成，并通过 Windows Allegro 实机验收。下一步先在 Windows 真机探测 DRC DBID 的实际字段与行为；探针结果经人工审核后，再实现首个一等 `session.drc` API，最后按真实需求增加 `session.ext.rules`。不预先创建虚构业务 extension，也不为尚未出现的部署需求预估通信生产化工期。
 
 ---
 
@@ -1120,4 +1122,4 @@ doctor、常驻配置和自动修改 allegro.ilinit
 bulk 文件通道
 ```
 
-最合理的执行顺序是：保持 Phase 1–6 的现有实机集成基线；先完成惰性 shapes 只读切片，再进行 Windows DRC DBID 字段探测，随后实现一等 `session.drc`，最后按真实需求增加 `session.ext.rules`。没有真实需求时不虚构领域插件；只有测试或真实使用暴露通信问题时，才进入 Phase 7 加固对应部分。
+最合理的执行顺序是：保持 Phase 1–6 的现有实机集成基线；Windows DRC DBID/行为探测 → 人工审核最小字段 → 惰性一等 `session.drc` → 按真实需求增加 `session.ext.rules`。DRC 不接入 `preview`、`command` 或 `Batch`，因为 marker 与 DRC 开关不保证随数据库事务回滚；只有测试或真实使用暴露通信问题时，才进入 Phase 7 加固对应部分。

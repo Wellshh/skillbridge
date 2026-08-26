@@ -254,6 +254,30 @@ def _shape_snapshot(ws: Workspace) -> list[list[object]]:
     )
 
 
+def _drc_probe(ws: Workspace) -> dict[str, object]:
+    report = ws['evalstring'](
+        '(letseq ((design (axlDBRefreshId (axlDBGetDesign))) result (index 0)) '
+        '(foreach marker design->drcs '
+        '(when (lessp index 5) '
+        '(letseq ((properties marker->??) attributes) '
+        '(while properties '
+        '(letseq ((name (car properties)) (value (cadr properties))) '
+        '(setq attributes (cons '
+        '(list nil \'name (sprintf nil "%s" name) '
+        "'type (sprintf nil \"%L\" (type value)) "
+        "'value (sprintf nil \"%L\" value)) attributes))) "
+        '(setq properties (cddr properties))) '
+        "(setq result (cons (list nil 'attributes (reverse attributes)) result)))) "
+        '(setq index (plus index 1))) '
+        "(list nil 'reported_count (axlDRCGetCount) "
+        "'design_state (sprintf nil \"%L\" design->drcState) "
+        "'enabled (sprintf nil \"%L\" (axlDBControl 'drcEnable)) "
+        "'markers (reverse result)))"
+    )
+    assert isinstance(report, dict)
+    return cast('dict[str, object]', report)
+
+
 def _run_skill_suite(workspace_id: str | None) -> str:
     if platform != 'win32':
         pytest.skip('automatic SKILL suite launch requires Windows Allegro')
@@ -1759,6 +1783,23 @@ class TestShapesApi:
 
         with pytest.raises(AllegroProtocolError, match='__abProjectShapes'):
             session.shapes()
+
+
+class TestDrcProbe:
+    def test_reports_current_marker_schema(self, allegro: Allegro, ws: Workspace) -> None:
+        if allegro.mode != 'cli':
+            pytest.skip('DRC probe requires the Windows board copy')
+
+        report = _drc_probe(ws)
+        markers = cast('list[dict[str, object]]', report['markers'])
+        print(dumps(report, indent=2, sort_keys=True))
+
+        assert isinstance(report['reported_count'], int)
+        assert isinstance(report['design_state'], str)
+        assert isinstance(report['enabled'], str)
+        assert markers, 'shape1.brd has no current DRC markers to inspect'
+        assert all(marker.keys() == {'attributes'} for marker in markers)
+        assert all(marker['attributes'] for marker in markers)
 
 
 @pytest.mark.usefixtures('extension_environment')
