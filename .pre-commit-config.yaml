@@ -22,12 +22,14 @@ repos:
         entry: poetry run ruff format --check
         language: system
         types: [python]
+        stages: [pre-commit]
 
       - id: ruff
         name: ruff lint
         entry: poetry run ruff check
         language: system
         types: [python]
+        stages: [pre-commit]
 
       - id: mypy
         name: mypy
@@ -35,6 +37,7 @@ repos:
         language: system
         types: [python]
         files: ^(skillbridge|allegrobridge)/
+        stages: [pre-commit]
 
       - id: pytest
         name: pytest
@@ -42,3 +45,4 @@ repos:
         language: system
         types: [python]
         pass_filenames: false
+        stages: [pre-commit]
