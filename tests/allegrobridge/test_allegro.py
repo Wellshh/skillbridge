@@ -29,6 +29,7 @@ from allegrobridge.client.api import (
     PinInfo,
     RpcArgs,
     SessionApi,
+    SymbolInfo,
     extension,
     read,
 )
@@ -384,6 +385,8 @@ class TestReadApi:
             'PinsApi',
             'RpcArgs',
             'SessionApi',
+            'SymbolInfo',
+            'SymbolsApi',
             'extension',
             'read',
             'write',
@@ -402,6 +405,7 @@ class TestReadApi:
             '__abProjectNets',
             '__abProjectPadstacks',
             '__abProjectPins',
+            '__abProjectSymbols',
         )
 
     def test_declaration_preserves_signature_and_sends_once(self) -> None:
@@ -594,6 +598,36 @@ class TestReadApi:
 
         with pytest.raises(KeyError, match='__MISSING_PADSTACK__'):
             _ = session.padstacks['__MISSING_PADSTACK__']
+
+    def test_symbols_delegate_type_filter_to_one_projection(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.return_value = [
+            {
+                'name': 'RES_0402',
+                'type': 'PACKAGE',
+                'refdes': 'R1',
+                'x': 1.0,
+                'y': 2.0,
+                'rotation': 90.0,
+            }
+        ]
+        session = Session(Mock(workspace=workspace))
+
+        symbols = session.symbols(type='PACKAGE')
+
+        assert symbols == [
+            SymbolInfo(
+                name='RES_0402',
+                type='PACKAGE',
+                refdes='R1',
+                x=1.0,
+                y=2.0,
+                rotation=90.0,
+                session_generation=session.generation,
+            )
+        ]
+        assert session.symbols is session.symbols
+        workspace.__getitem__.return_value.assert_called_once_with('PACKAGE')
 
 
 class TestWriteApi:

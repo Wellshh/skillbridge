@@ -24,6 +24,7 @@ from allegrobridge.client.api import (
     NetInfo,
     PadstackInfo,
     PinInfo,
+    SymbolInfo,
 )
 from allegrobridge.exceptions import AllegroProtocolError, ExtensionError
 from allegrobridge.util import ASSETS_DIR
@@ -160,6 +161,19 @@ def _padstack_snapshot(ws: Workspace) -> list[list[object]]:
         '(setq result (cons '
         '(list padstack->name padstack->type padstack->usage '
         '(when span (car span)) (when span (cadr span))) result)))) '
+        '(reverse result))'
+    )
+
+
+def _symbol_snapshot(ws: Workspace, type_: str | None = None) -> list[list[object]]:
+    encoded_type = 'nil' if type_ is None else dumps(type_)
+    return ws['evalstring'](
+        '(letseq ((design (axlDBRefreshId (axlDBGetDesign))) result) '
+        '(foreach symbol design->symbols '
+        f'(when (or (null {encoded_type}) (equal {encoded_type} symbol->type)) '
+        '(setq result (cons '
+        '(list symbol->name symbol->type symbol->refdes '
+        '(car symbol->xy) (cadr symbol->xy) symbol->rotation) result)))) '
         '(reverse result))'
     )
 
@@ -1006,6 +1020,94 @@ class TestPadstacksApi:
 
         with pytest.raises(AllegroProtocolError, match='__abProjectPadstacks'):
             session.padstacks()
+
+
+class TestSymbolsApi:
+    def test_default_call_projects_symbols(
+        self,
+        session: Session,
+        ws: Workspace,
+    ) -> None:
+        symbols = session.symbols()
+
+        assert all(isinstance(symbol, SymbolInfo) for symbol in symbols)
+        assert [
+            (symbol.name, symbol.type, symbol.refdes, symbol.x, symbol.y, symbol.rotation)
+            for symbol in symbols
+        ] == [tuple(item) for item in _symbol_snapshot(ws)]
+        assert all(symbol.session_generation == session.generation for symbol in symbols)
+
+    def test_type_filter_projects_only_matching_symbols(
+        self,
+        session: Session,
+        ws: Workspace,
+    ) -> None:
+        type_ = session.symbols()[0].type
+
+        symbols = session.symbols(type=type_)
+
+        assert symbols
+        assert all(symbol.type == type_ for symbol in symbols)
+        assert [
+            (symbol.name, symbol.type, symbol.refdes, symbol.x, symbol.y, symbol.rotation)
+            for symbol in symbols
+        ] == [tuple(item) for item in _symbol_snapshot(ws, type_)]
+
+    def test_unknown_type_returns_empty_collection(self, session: Session) -> None:
+        assert session.symbols(type='__MISSING_SYMBOL_TYPE__') == []
+
+    def test_symbol_info_is_frozen(self, session: Session) -> None:
+        symbol = session.symbols()[0]
+
+        with pytest.raises(ValidationError, match='frozen'):
+            symbol.name = 'changed'
+
+    @pytest.mark.parametrize(
+        'payload',
+        [
+            [
+                {
+                    'type': 'PACKAGE',
+                    'refdes': 'R1',
+                    'x': 1.0,
+                    'y': 2.0,
+                    'rotation': 0.0,
+                }
+            ],
+            [
+                {
+                    'name': 'RES_0402',
+                    'type': 'PACKAGE',
+                    'refdes': 'R1',
+                    'x': 1.0,
+                    'y': 2.0,
+                    'rotation': 0.0,
+                    'dbid': 'db:1',
+                }
+            ],
+            [
+                {
+                    'name': 'RES_0402',
+                    'type': 'PACKAGE',
+                    'refdes': 'R1',
+                    'x': 'bad',
+                    'y': 2.0,
+                    'rotation': 0.0,
+                }
+            ],
+        ],
+        ids=['missing-field', 'extra-field', 'wrong-type'],
+    )
+    def test_protocol_mismatch_raises(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        payload: object,
+        session: Session,
+    ) -> None:
+        monkeypatch.setattr(session.raw._channel, 'send', lambda _: repr(payload))
+
+        with pytest.raises(AllegroProtocolError, match='__abProjectSymbols'):
+            session.symbols()
 
 
 @pytest.mark.usefixtures('extension_environment')

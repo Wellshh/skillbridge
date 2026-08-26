@@ -16,6 +16,7 @@ from allegrobridge.client.api import (
     NetsApi,
     PadstacksApi,
     PinsApi,
+    SymbolsApi,
 )
 from allegrobridge.client.api._extensions import _Extensions
 from allegrobridge.client.workspace import Workspace
@@ -71,6 +72,10 @@ class Session:
     @cached_property
     def pins(self) -> PinsApi:
         return PinsApi(self)
+
+    @cached_property
+    def symbols(self) -> SymbolsApi:
+        return SymbolsApi(self)
 
     # --- Bundled & Custom Extensions ---
     @cached_property

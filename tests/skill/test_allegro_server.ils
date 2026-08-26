@@ -403,6 +403,31 @@
         (qtest::assertNil (__abProjectPadstacks "__MISSING_PADSTACK__")))))
 
   (qtest::TestSuite ()
+    (qtest::TestCase test_symbol_projection_has_stable_attributes
+      (letseq ((symbol (list nil 'name "RES_0402" 'type "PACKAGE"
+                             'refdes "R1" 'xy '(1.0 2.0) 'rotation 90.0
+                             'dbid "db:1"))
+               (projected (__abProjectSymbol symbol)))
+        (qtest::assertEqual "RES_0402" (get projected 'name))
+        (qtest::assertEqual "PACKAGE" (get projected 'type))
+        (qtest::assertEqual "R1" (get projected 'refdes))
+        (qtest::assertEqual 1.0 (get projected 'x))
+        (qtest::assertEqual 2.0 (get projected 'y))
+        (qtest::assertEqual 90.0 (get projected 'rotation))
+        (qtest::assertNil (get projected 'dbid))))
+
+    (qtest::TestCase test_symbols_projection_lists_and_filters_type
+      (letseq ((allSymbols (__abProjectSymbols nil))
+               (selected (car allSymbols))
+               (type (get selected 'type))
+               (matched (__abProjectSymbols type)))
+        (qtest::assertTrue allSymbols)
+        (qtest::assertTrue matched)
+        (foreach symbol matched
+          (qtest::assertEqual type (get symbol 'type)))
+        (qtest::assertNil (__abProjectSymbols "__MISSING_SYMBOL_TYPE__")))))
+
+  (qtest::TestSuite ()
     (qtest::TestCase test_transaction_rejects_busy_allegro
       (letseq ((run (__abTestRunTransaction nil 17 t t "42"))
                (failureText (sprintf nil "%L" (cadr run))))

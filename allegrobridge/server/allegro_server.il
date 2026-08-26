@@ -179,6 +179,26 @@
         (setq result (cons (__abProjectPadstack padstack) result))))
     (reverse result)))
 
+(putd '__abProjectSymbol nil)
+(defun __abProjectSymbol (symbol)
+  (list nil
+        'name symbol->name
+        'type symbol->type
+        'refdes symbol->refdes
+        'x (car symbol->xy)
+        'y (cadr symbol->xy)
+        'rotation symbol->rotation))
+
+(putd '__abProjectSymbols nil)
+(defun __abProjectSymbols (symbolType)
+  (letseq ((design (__abFreshDesign))
+           result)
+    (foreach symbol design->symbols
+      (when (or (null symbolType)
+                (equal symbolType symbol->type))
+        (setq result (cons (__abProjectSymbol symbol) result))))
+    (reverse result)))
+
 (putd '__abOKToProceed nil)
 (defun __abOKToProceed ()
   (axlOKToProceed))
