@@ -15,7 +15,7 @@ description = "A seamless Python remote bridge to Cadence's Skill in Virtuoso"
 readme = {file = "README.md", content-type = "text/markdown"}
 requires-python = ">=3.10"
 dependencies = [
-    "pydantic>=2.10,<2.11",
+    "pydantic>=2.12,<3",
     "psutil>=7,<8",
     "typing_extensions>=4.6",
 ]
@@ -26,6 +26,9 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
     "Intended Audience :: Information Technology",
@@ -44,7 +47,7 @@ dev = [
     "pytest",
     "pytest-cov",
     "hypothesis",
-    "mypy",
+    "mypy<2",
     "pyright==1.1.411",
     "types-psutil",
     "ruff>=0.2.1",

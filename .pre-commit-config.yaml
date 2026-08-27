@@ -1,5 +1,6 @@
 # Pre-commit hooks: run on `git commit` -- same checks as CI.
-# Mirrors .github/workflows/pythonpackage.yml (ruff format -> ruff -> mypy -> pyright -> pytest).
+# Mirrors .github/workflows/pythonpackage.yml
+# (ruff format -> ruff -> mypy -> pyright -> typing fixtures -> axl stubs -> pytest).
 #
 # Install once per clone:  poetry run pre-commit install
 # Run manually:            poetry run pre-commit run --all-files
@@ -44,6 +45,14 @@ repos:
         entry: poetry run pyright --warnings
         language: system
         types: [python]
+        pass_filenames: false
+        stages: [pre-commit]
+
+      - id: axl-stubs
+        name: Allegro stub drift
+        entry: poetry run python scripts/generate_axl_stubs.py --check
+        language: system
+        files: ^(scripts/generate_axl_stubs\.py|allegrobridge/(assets/api_names\.txt|client/_axl_stubs\.pyi)|\.agents/skills/cadence-skill-agent/skill-references/algroskill/)
         pass_filenames: false
         stages: [pre-commit]
 

@@ -133,6 +133,10 @@ def test_lists_to_skill(encode_simple):
     assert encode_simple([[1, 2], [3, 4]]) == '(list (list 1 2) (list 3 4))'
 
 
+def test_tuples_use_skill_list_wire_format(encode_simple):
+    assert encode_simple((1, 2)) == '(list 1 2)'
+
+
 @given(asciis)
 def test_var_to_skill(encode_simple, a):
     assert (encode_simple(Var(a))) == a

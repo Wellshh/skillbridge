@@ -9,7 +9,7 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.8, 3.9, "3.10", 3.11]
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
 
     steps:
     - uses: actions/checkout@v3
@@ -21,26 +21,41 @@ jobs:
 
     - name: Install Package
       run: |
-        pip install -e .
+        python -m pip install -e ".[dev]"
 
     - name: Check with ruff format
+      if: matrix.python-version == '3.10'
       run: |
-        pip install ruff
         ruff format --check
 
     - name: Check with ruff
+      if: matrix.python-version == '3.10'
       run: |
-        pip install ruff
         ruff check
 
     - name: Check with mypy
+      if: matrix.python-version == '3.10'
       run: |
-        pip install mypy types-dataclasses
-        mypy
+        mypy skillbridge allegrobridge
+
+    - name: Check with pyright
+      if: matrix.python-version == '3.10'
+      run: |
+        pyright --warnings skillbridge allegrobridge
+
+    - name: Check typing fixtures
+      if: matrix.python-version == '3.10'
+      run: |
+        mypy tests/typing_allegrobridge_axl_stubs.py
+        pyright --warnings tests/typing_allegrobridge_axl_stubs.py
+
+    - name: Check generated Allegro stubs
+      if: matrix.python-version == '3.10'
+      run: |
+        python scripts/generate_axl_stubs.py --check
 
     - name: Test with pytest
       run: |
-        pip install -e ".[dev]"
         pytest
 
   build-documentation:
