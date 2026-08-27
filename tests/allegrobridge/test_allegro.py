@@ -9,7 +9,7 @@ from dataclasses import FrozenInstanceError
 from inspect import signature
 from pathlib import Path
 from types import ModuleType
-from typing import Annotated
+from typing import Annotated, TypeVar
 from unittest.mock import MagicMock, Mock
 from weakref import ref
 
@@ -70,6 +70,7 @@ from allegrobridge.exceptions import (
     AllegroServerIdentityError,
     AllegroTimeoutError,
     ExtensionError,
+    RecordIDError,
 )
 from skillbridge import SkillCode
 from skillbridge.exception import ProtocolError, SkillBridgeError
@@ -77,6 +78,14 @@ from skillbridge.exception import ProtocolError, SkillBridgeError
 
 def _assert_id(record: SessionRecord, session: Session) -> None:
     assert record._id == _ID(ref(session), session.generation)
+
+
+RecordT = TypeVar('RecordT', bound=SessionRecord)
+
+
+def _bind_id(record: RecordT, session: Session) -> RecordT:
+    record.model_post_init(_ID(ref(session), session.generation))
+    return record
 
 
 @pytest.fixture
@@ -275,6 +284,11 @@ class TestSession:
         session = Session(Mock(workspace=workspace))
         assert session.raw is workspace
         assert session.generation == 1
+
+        session.refresh()
+
+        assert session.generation == 2
+        assert workspace.mock_calls == []
 
     def test_close_is_idempotent(self) -> None:
         opened = Mock()
@@ -1062,21 +1076,23 @@ class TestDrcApi:
         workspace.reset_mock()
         targets: list[tuple[ComponentInfo | NetInfo | PinInfo, tuple[str, str, str | None]]] = [
             (
-                ComponentInfo.model_construct(
-                    refdes='R1',
+                _bind_id(
+                    ComponentInfo.model_construct(refdes='R1'),
+                    session,
                 ),
                 ('component', 'R1', None),
             ),
             (
-                NetInfo.model_construct(
-                    name='GND',
+                _bind_id(
+                    NetInfo.model_construct(name='GND'),
+                    session,
                 ),
                 ('net', 'GND', None),
             ),
             (
-                PinInfo.model_construct(
-                    refdes='R1',
-                    number='1',
+                _bind_id(
+                    PinInfo.model_construct(refdes='R1', number='1'),
+                    session,
                 ),
                 ('pin', 'R1', '1'),
             ),
@@ -1092,6 +1108,56 @@ class TestDrcApi:
         assert not hasattr(drc.check, 'preview')
         assert not hasattr(drc.check, 'command')
 
+    @pytest.mark.parametrize(
+        ('target', 'message'),
+        [
+            (NetInfo.model_construct(name='GND'), 'not bound'),
+            (None, 'another Session'),
+        ],
+    )
+    def test_rejects_invalid_record_provenance_before_rpc(
+        self,
+        target: NetInfo | None,
+        message: str,
+    ) -> None:
+        workspace = MagicMock()
+        session = Session(Mock(workspace=workspace))
+        drc = session.drc
+        if target is None:
+            owner = Session(Mock())
+            target = _bind_id(NetInfo.model_construct(name='GND'), owner)
+        workspace.reset_mock()
+
+        with pytest.raises(RecordIDError, match=message):
+            drc.check(target)
+
+        assert workspace.mock_calls == []
+
+    def test_rejects_record_from_collected_session_before_rpc(self) -> None:
+        workspace = MagicMock()
+        session = Session(Mock(workspace=workspace))
+        drc = session.drc
+        target = _bind_id(NetInfo.model_construct(name='GND'), Session(Mock()))
+        workspace.reset_mock()
+
+        with pytest.raises(RecordIDError, match='no longer available'):
+            drc.check(target)
+
+        assert workspace.mock_calls == []
+
+    def test_refresh_makes_record_stale_before_rpc(self) -> None:
+        workspace = MagicMock()
+        session = Session(Mock(workspace=workspace))
+        drc = session.drc
+        target = _bind_id(NetInfo.model_construct(name='GND'), session)
+        session.refresh()
+        workspace.reset_mock()
+
+        with pytest.raises(RecordIDError, match='stale'):
+            drc.check(target)
+
+        assert workspace.mock_calls == []
+
     def test_rejects_invalid_target_and_payload(self) -> None:
         workspace = MagicMock()
         session = Session(Mock(workspace=workspace))
@@ -1101,9 +1167,7 @@ class TestDrcApi:
             drc.check(object())  # type: ignore[arg-type]
 
         workspace.__getitem__.return_value.return_value = [{'name': 'incomplete'}]
-        target = NetInfo.model_construct(
-            name='GND',
-        )
+        target = _bind_id(NetInfo.model_construct(name='GND'), session)
         with pytest.raises(AllegroProtocolError, match='__abCheckDrcs'):
             drc.check(target)
 
@@ -1360,3 +1424,4 @@ def test_allegro_errors_share_skillbridge_root() -> None:
     assert issubclass(AllegroLaunchError, AllegroError)
     assert issubclass(AllegroTimeoutError, AllegroLaunchError)
     assert issubclass(ExtensionError, AllegroError)
+    assert issubclass(RecordIDError, (AllegroError, ValueError))

@@ -40,7 +40,11 @@ from allegrobridge.client.api import (
     ViaInfo,
 )
 from allegrobridge.client.base._record import _ID  # ruff: ignore[import-private-name]
-from allegrobridge.exceptions import AllegroProtocolError, ExtensionError
+from allegrobridge.exceptions import (
+    AllegroProtocolError,
+    ExtensionError,
+    RecordIDError,
+)
 from allegrobridge.util import ASSETS_DIR
 from skillbridge import SkillCode
 
@@ -1872,6 +1876,15 @@ class TestDrcApi:
             session.drc.update()
 
         assert session.generation == generation
+
+    def test_refresh_rejects_stale_check_target(self, session: Session) -> None:
+        target = session.nets()[0]
+
+        session.refresh()
+
+        with pytest.raises(RecordIDError, match='stale'):
+            session.drc.check(target)
+        assert session.raw['plus'](1, 2) == 3
 
     def test_update_commits_current_markers(
         self,

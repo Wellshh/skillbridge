@@ -113,7 +113,10 @@
       "Bash(awk '{print $5\" bytes\"}')",
       "Bash(git restore *)",
       "Bash(cd \"/Users/wells/Documents/02_工作实习/Job/龙旗科技/代码库\" && cmp skillbridge/allegrobridge/client/_axl_stubs.pyi allegrobridge-extract/allegrobridge/client/_axl_stubs.pyi && echo STUB_PARITY_OK && cmp skillbridge/scripts/generate_axl_stubs.py allegrobridge-extract/scripts/generate_axl_stubs.py && echo GENERATOR_PARITY_OK)",
-      "Read(//Users/wells/Documents/02_工作实习/Job/龙旗科技/代码库/**)"
+      "Read(//Users/wells/Documents/02_工作实习/Job/龙旗科技/代码库/**)",
+      "Bash(git commit -m 'build: replace unused sphinx doc extras with mkdocs toolchain *)",
+      "Bash(git mv *)",
+      "Bash(git rm *)"
     ]
   }
 }

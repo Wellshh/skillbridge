@@ -77,6 +77,8 @@ class DrcApi(SessionApi):
         from allegrobridge.client.api.nets import NetInfo  # ruff: ignore[import-outside-top-level]
         from allegrobridge.client.api.pins import PinInfo  # ruff: ignore[import-outside-top-level]
 
+        if isinstance(target, (ComponentInfo, NetInfo, PinInfo)):
+            target._check_id(self._session)  # ruff: ignore[private-member-access]
         if isinstance(target, ComponentInfo):
             return 'component', target.refdes, None
         if isinstance(target, NetInfo):

@@ -14,6 +14,7 @@ __all__ = [
     'AllegroServerIdentityError',
     'AllegroTimeoutError',
     'ExtensionError',
+    'RecordIDError',
 ]
 
 
@@ -43,3 +44,7 @@ class AllegroTimeoutError(AllegroLaunchError, TimeoutError):
 
 class ExtensionError(AllegroError, RuntimeError):
     code = 'extension_error'
+
+
+class RecordIDError(AllegroError, ValueError):
+    code = 'record_id_error'

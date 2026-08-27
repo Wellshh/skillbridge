@@ -50,6 +50,9 @@ class Session:
     def generation(self) -> int:
         return self._generation
 
+    def refresh(self) -> None:
+        self._generation += 1
+
     def batch(self, description: str = '', *, dry_run: bool = False) -> Batch:
         return Batch(self, description, dry_run=dry_run)
 
