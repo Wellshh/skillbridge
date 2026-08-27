@@ -17,11 +17,13 @@ from typing import (
     TypeVar,
     overload,
 )
+from weakref import ref
 
 from pydantic import TypeAdapter
 from typing_extensions import ParamSpec, Self
 
 from allegrobridge.client.base._future import Cmd, CmdResult, _validate
+from allegrobridge.client.base._record import _ID
 from allegrobridge.exceptions import AllegroProtocolError
 from skillbridge.client.hints import Skill, SkillCode
 
@@ -89,6 +91,7 @@ class Batch:
         self.description = description
         self.dry_run = dry_run
         self._session = session
+        self._id = _ID(ref(session), session.generation)
         self._cmds: list[Cmd[Any]] = []
         self._results: list[CmdResult[Any]] = []
         self._active = False
@@ -120,8 +123,8 @@ class Batch:
     def add(self, cmd: Cmd[T]) -> CmdResult[T]:
         if not self._active:
             raise RuntimeError('batch is not active')
-        if cmd._session is not self._session:
-            raise ValueError('command belongs to another Session')
+        self._check_id()
+        cmd._check_id(self._session)
         result = CmdResult[T]()
         self._cmds.append(cmd)
         self._results.append(result)
@@ -130,9 +133,12 @@ class Batch:
     def _execute(self) -> None:
         if not self._cmds:
             return
+        self._check_id()
         expr = self._compile()
         transaction = self._session.raw.transaction
         payload = transaction.preview(expr) if self.dry_run else transaction(expr)
+        # catch Session.refresh()
+        self._check_id()
         if not isinstance(payload, list) or len(payload) != len(self._cmds):
             raise AllegroProtocolError('batch returned an invalid payload')
         values = [cmd._validate(item) for cmd, item in zip(self._cmds, payload, strict=True)]
@@ -146,6 +152,9 @@ class Batch:
     def _fail(self, error: BaseException) -> None:
         for result in self._results:
             result._fail(error)
+
+    def _check_id(self) -> None:
+        self._id.check(self._session, 'Batch')
 
 
 def read(
@@ -252,6 +261,7 @@ class _Write(Generic[ApiT, P, T]):
             expr,
             self.spec.proc,
             self._adapter,
+            _ID(ref(instance._session), instance._session.generation),
         )
 
     @overload

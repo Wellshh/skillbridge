@@ -74,11 +74,17 @@ class Cmd(Generic[T]):
     expr: SkillCode
     proc: str
     _adapter: TypeAdapter[T]
+    _id: _ID
 
     def _execute(self, *, preview: bool = False) -> T:
+        self._check_id(self._session)
         transaction = self._session.raw.transaction
         payload = transaction.preview(self.expr) if preview else transaction(self.expr)
+        self._check_id(self._session)
         return self._validate(payload)
+
+    def _check_id(self, session: Session) -> None:
+        self._id.check(session, 'Command')
 
     def _validate(self, payload: object) -> T:
         return _validate(

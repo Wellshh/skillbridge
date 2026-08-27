@@ -116,7 +116,15 @@
       "Read(//Users/wells/Documents/02_工作实习/Job/龙旗科技/代码库/**)",
       "Bash(git commit -m 'build: replace unused sphinx doc extras with mkdocs toolchain *)",
       "Bash(git mv *)",
-      "Bash(git rm *)"
+      "Bash(git rm *)",
+      "Bash(.venv/bin/python --version)",
+      "Bash(python3 --version; ls /opt/homebrew/bin/python3.* 2>/dev/null; which -a python3.11 python3.12 python3.13 2>/dev/null)",
+      "Read(//opt/homebrew/bin/**)",
+      "Bash(poetry env *)",
+      "Bash(git commit -m 'build: require Python >= 3.10, sync with fork toolchain *)",
+      "Bash(poetry install *)",
+      "Bash(.venv/bin/python -c \"import pydantic, mkdocs, mkdocstrings; print\\(pydantic.version.VERSION\\)\")",
+      "Bash(.venv/bin/mkdocs build *)"
     ]
   }
 }

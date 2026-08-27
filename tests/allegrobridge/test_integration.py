@@ -725,6 +725,26 @@ class TestComponentsApi:
         assert result.value.x == pytest.approx(original.x + 1.0)
         assert session.components[original.refdes] == original
 
+    def test_refresh_cancels_pending_batch_before_server(self, session: Session) -> None:
+        component = next(component for component in session.components() if component.x is not None)
+
+        def execute() -> None:
+            with session.batch('stale batch') as batch:
+                batch.add(
+                    session.components.move.command(
+                        component.refdes,
+                        x=cast('float', component.x),
+                        y=cast('float', component.y),
+                        rotation=component.rotation,
+                    )
+                )
+                session.refresh()
+
+        with pytest.raises(RecordIDError, match=r'Batch.*stale'):
+            execute()
+
+        assert session.raw['plus'](1, 2) == 3
+
     def test_component_info_is_frozen(self, session: Session) -> None:
         component = session.components()[0]
 

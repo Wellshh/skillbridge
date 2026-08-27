@@ -1230,6 +1230,35 @@ class TestWriteApi:
             '__abMoveComponent("R1" 3.0 2.0 nil )'
         )
 
+    def test_stale_command_does_not_execute(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.lazy.return_value = 'move1()'
+        session = Session(Mock(workspace=workspace))
+        command = session.components.move.command('R1', x=1.0, y=2.0)
+        session.refresh()
+        workspace.reset_mock()
+
+        with pytest.raises(RecordIDError, match=r'Command.*stale'):
+            command._execute()
+
+        assert workspace.mock_calls == []
+
+    def test_refresh_during_write_rejects_response(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.lazy.return_value = 'move1()'
+        session = Session(Mock(workspace=workspace))
+
+        def refresh_during_transaction(_expr: SkillCode) -> dict[str, object]:
+            session.refresh()
+            return self._component_payload(1.0)
+
+        workspace.transaction.side_effect = refresh_during_transaction
+
+        with pytest.raises(RecordIDError, match=r'Command.*stale'):
+            session.components.move('R1', x=1.0, y=2.0)
+
+        workspace.transaction.assert_called_once()
+
     def test_drc_update_supports_command_immediate_and_preview(self) -> None:
         workspace = MagicMock()
         remote = workspace.__getitem__.return_value
@@ -1341,8 +1370,76 @@ class TestBatch:
         other = Session(Mock(workspace=MagicMock()))
         command = other.components.move.command('R1', x=1.0, y=2.0)
 
-        with session.batch() as batch, pytest.raises(ValueError, match='Session'):
+        with (
+            session.batch() as batch,
+            pytest.raises(
+                RecordIDError,
+                match=r'Command.*another Session',
+            ),
+        ):
             batch.add(command)
+
+    def test_rejects_stale_command_and_batch_before_rpc(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.lazy.return_value = 'move1()'
+        session = Session(Mock(workspace=workspace))
+        command = session.components.move.command('R1', x=1.0, y=2.0)
+        session.refresh()
+        stale_batch = session.batch()
+        session.refresh()
+        current_batch = session.batch()
+        current_command = session.components.move.command('R1', x=1.0, y=2.0)
+        workspace.reset_mock()
+
+        with current_batch, pytest.raises(RecordIDError, match=r'Command.*stale'):
+            current_batch.add(command)
+        with stale_batch, pytest.raises(RecordIDError, match=r'Batch.*stale'):
+            stale_batch.add(current_command)
+
+        assert workspace.mock_calls == []
+
+    def test_refresh_after_add_fails_results_without_sending(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.lazy.return_value = 'move1()'
+        session = Session(Mock(workspace=workspace))
+        results: list[CmdResult[ComponentInfo]] = []
+
+        def execute() -> None:
+            with session.batch() as batch:
+                results.append(batch.add(session.components.move.command('R1', x=1.0, y=2.0)))
+                session.refresh()
+
+        with pytest.raises(RecordIDError, match=r'Batch.*stale') as raised:
+            execute()
+
+        workspace.transaction.assert_not_called()
+        with pytest.raises(RecordIDError) as result_error:
+            _ = results[0].value
+        assert result_error.value is raised.value
+
+    def test_refresh_during_batch_rejects_response(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.lazy.return_value = 'move1()'
+        session = Session(Mock(workspace=workspace))
+
+        def refresh_during_transaction(_expr: SkillCode) -> list[dict[str, object]]:
+            session.refresh()
+            return [self._payload('R1', 1.0)]
+
+        workspace.transaction.side_effect = refresh_during_transaction
+        results: list[CmdResult[ComponentInfo]] = []
+
+        def execute() -> None:
+            with session.batch() as batch:
+                results.append(batch.add(session.components.move.command('R1', x=1.0, y=2.0)))
+
+        with pytest.raises(RecordIDError, match=r'Batch.*stale') as raised:
+            execute()
+
+        workspace.transaction.assert_called_once()
+        with pytest.raises(RecordIDError) as result_error:
+            _ = results[0].value
+        assert result_error.value is raised.value
 
     def test_context_error_cancels_results_without_sending(self) -> None:
         workspace = MagicMock()
