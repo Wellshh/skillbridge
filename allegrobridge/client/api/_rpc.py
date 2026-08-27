@@ -12,6 +12,7 @@ from typing import (
     Any,
     Concatenate,
     Generic,
+    Literal,
     TypeAlias,
     TypeVar,
     cast,
@@ -35,6 +36,13 @@ ApiT = TypeVar('ApiT', bound='SessionApi')
 _CORE_PROCEDURES: list[str] = []
 
 
+@dataclass(frozen=True, slots=True)
+class RpcDef:
+    kind: Literal['read', 'direct', 'write']
+    procedure: str
+    nil_as_empty_list: bool = False
+
+
 @dataclass(frozen=True)
 class SessionApi:
     _session: Session
@@ -54,9 +62,9 @@ def _core_api(api: type[ApiT]) -> type[ApiT]:
 def _api_procedures(api: type[SessionApi]) -> tuple[str, ...]:
     return tuple(
         dict.fromkeys(
-            procedure
+            spec.procedure
             for member in vars(api).values()
-            if isinstance(procedure := getattr(member, 'procedure', None), str)
+            if isinstance(spec := getattr(member, 'spec', None), RpcDef)
         )
     )
 
@@ -218,6 +226,20 @@ def read(
     Callable[Concatenate[ApiT, P], T],
 ]:
     """Decorate a read-only API method to query SKILL and validate the returned payload."""
+    return _immediate('read', procedure, adapter, none_as_empty=none_as_empty)
+
+
+def _immediate(
+    kind: Literal['read', 'direct'],
+    procedure: str,
+    adapter: TypeAdapter[T],
+    *,
+    none_as_empty: bool,
+) -> Callable[
+    [Callable[Concatenate[ApiT, P], RpcArgs]],
+    Callable[Concatenate[ApiT, P], T],
+]:
+    spec = RpcDef(kind, procedure, none_as_empty)
 
     def decorate(
         build_args: Callable[Concatenate[ApiT, P], RpcArgs],
@@ -234,7 +256,7 @@ def read(
                 none_as_empty=none_as_empty,
             )
 
-        call.procedure = procedure  # type: ignore[attr-defined]
+        call.spec = spec  # type: ignore[attr-defined]
         return call
 
     return decorate
@@ -250,7 +272,7 @@ def direct(
     Callable[Concatenate[ApiT, P], T],
 ]:
     """Decorate an immediate RPC operation without transaction affordances."""
-    return read(procedure, adapter, none_as_empty=none_as_empty)
+    return _immediate('direct', procedure, adapter, none_as_empty=none_as_empty)
 
 
 class _BoundWrite(Generic[ApiT, P, T]):
@@ -258,6 +280,7 @@ class _BoundWrite(Generic[ApiT, P, T]):
         self._operation = operation
         self._instance = instance
         update_wrapper(self, operation.declaration)
+        self.spec = operation.spec
         declared = signature(operation.declaration)
         self.__signature__ = declared.replace(parameters=list(declared.parameters.values())[1:])
 
@@ -279,10 +302,9 @@ class _Write(Generic[ApiT, P, T]):
         build_args: Callable[Concatenate[ApiT, P], RpcArgs],
         none_as_empty: bool,
     ) -> None:
-        self.procedure = procedure
+        self.spec = RpcDef('write', procedure, none_as_empty)
         self._adapter = adapter
         self._build_args = build_args
-        self._none_as_empty = none_as_empty
 
     @property
     def declaration(self) -> Callable[Concatenate[ApiT, P], RpcArgs]:
@@ -295,13 +317,13 @@ class _Write(Generic[ApiT, P, T]):
         **kwargs: P.kwargs,
     ) -> Command[T]:
         rpc_args = self._build_args(instance, *args, **kwargs)
-        expression = instance._session.raw[self.procedure].lazy(*rpc_args)
+        expression = instance._session.raw[self.spec.procedure].lazy(*rpc_args)
         return Command(
             instance._session,
             expression,
-            self.procedure,
+            self.spec.procedure,
             self._adapter,
-            self._none_as_empty,
+            self.spec.nil_as_empty_list,
         )
 
     @overload

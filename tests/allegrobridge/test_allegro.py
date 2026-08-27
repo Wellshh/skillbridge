@@ -40,6 +40,7 @@ from allegrobridge.client.api import (
     Point,
     RouteInfo,
     RpcArgs,
+    RpcDef,
     SessionApi,
     ShapeInfo,
     SymbolInfo,
@@ -47,7 +48,10 @@ from allegrobridge.client.api import (
     extension,
     read,
 )
-from allegrobridge.client.api._rpc import _core_procedures  # ruff: ignore[import-private-name]
+from allegrobridge.client.api._rpc import (  # ruff: ignore[import-private-name]
+    _core_api,
+    _core_procedures,
+)
 from allegrobridge.client.session import Session
 from allegrobridge.client.workspace import Workspace
 from allegrobridge.exceptions import (
@@ -409,6 +413,7 @@ class TestReadApi:
             'RouteInfo',
             'RoutesApi',
             'RpcArgs',
+            'RpcDef',
             'SessionApi',
             'ShapeInfo',
             'ShapesApi',
@@ -426,7 +431,7 @@ class TestReadApi:
         assert not hasattr(api_module, '_Record')
 
     def test_core_procedures_are_collected_from_api_declarations(self) -> None:
-        assert _core_procedures() == (
+        procedures = (
             '__abProjectBoard',
             '__abProjectComponents',
             '__abMoveComponent',
@@ -436,6 +441,23 @@ class TestReadApi:
             '__abProjectPins',
             '__abProjectSymbols',
         )
+        assert _core_procedures() == procedures
+        assert _core_api(ComponentsApi) is ComponentsApi
+        assert _core_procedures() == procedures
+
+    def test_operations_expose_immutable_metadata(self) -> None:
+        class ProbeApi(SessionApi):
+            @read('__abProbe', TypeAdapter(int), none_as_empty=True)
+            def project(self) -> RpcArgs:
+                return ()
+
+        assert ProbeApi.project.spec == RpcDef('read', '__abProbe', nil_as_empty_list=True)
+        assert DrcApi.check.spec == RpcDef('direct', '__abCheckDrcs', nil_as_empty_list=True)
+        assert ComponentsApi.move.spec == RpcDef(
+            'write', '__abMoveComponent', nil_as_empty_list=False
+        )
+        with pytest.raises(FrozenInstanceError):
+            ProbeApi.project.spec.kind = 'write'
 
     def test_declaration_preserves_signature_and_sends_once(self) -> None:
         workspace = MagicMock()
@@ -934,7 +956,7 @@ class TestDrcApi:
             workspace.__getitem__.return_value.reset_mock()
 
         workspace.transaction.assert_not_called()
-        assert DrcApi.check.procedure == '__abCheckDrcs'  # type: ignore[attr-defined]
+        assert DrcApi.check.spec.procedure == '__abCheckDrcs'  # type: ignore[attr-defined]
         assert not hasattr(drc.check, 'preview')
         assert not hasattr(drc.check, 'command')
 
@@ -977,7 +999,7 @@ class TestWriteApi:
 
         command = session.components.move.command('R1', x=1.0, y=2.0)
 
-        assert ComponentsApi.move.procedure == '__abMoveComponent'
+        assert ComponentsApi.move.spec.procedure == '__abMoveComponent'
         assert list(signature(session.components.move).parameters) == [
             'refdes',
             'x',
@@ -1039,7 +1061,7 @@ class TestWriteApi:
 
         command = drc.update.command()
 
-        assert DrcApi.update.procedure == '__abUpdateDrcs'
+        assert DrcApi.update.spec.procedure == '__abUpdateDrcs'
         assert command.procedure == '__abUpdateDrcs'
         assert command.expression == '__abUpdateDrcs( )'
         workspace.transaction.assert_not_called()
