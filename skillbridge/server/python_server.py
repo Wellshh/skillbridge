@@ -228,14 +228,17 @@ def main(
     max_payload_size: int = DEFAULT_MAX_PAYLOAD_SIZE,
 ) -> None:
     logger.setLevel(log_level)
-    with Pipe(stdin, stdout) as pipe, create_server(
-        id_,
-        pipe=pipe,
-        single=single,
-        timeout=timeout,
-        force_tcp=force_tcp,
-        max_payload_size=max_payload_size,
-    ) as server:
+    with (
+        Pipe(stdin, stdout) as pipe,
+        create_server(
+            id_,
+            pipe=pipe,
+            single=single,
+            timeout=timeout,
+            force_tcp=force_tcp,
+            max_payload_size=max_payload_size,
+        ) as server,
+    ):
         Thread(
             target=_watch_pipe_death,
             args=(pipe,),

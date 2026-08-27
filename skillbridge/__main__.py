@@ -5,9 +5,10 @@ from __future__ import annotations
 
 from argparse import ArgumentParser
 from code import interact
+from collections.abc import Callable
 from pathlib import Path
 from random import randrange
-from typing import Any, Callable
+from typing import Any
 
 from . import generate_static_completion
 

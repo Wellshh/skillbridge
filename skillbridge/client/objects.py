@@ -3,12 +3,9 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 from __future__ import annotations
 
+from collections.abc import Iterable, Iterator, MutableMapping, Sequence
 from typing import (
     Any,
-    Iterable,
-    Iterator,
-    MutableMapping,
-    Sequence,
     cast,
     overload,
 )

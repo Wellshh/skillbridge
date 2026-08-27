@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 from __future__ import annotations
 
-from typing import List, Literal, Optional
+from typing import Literal
 
 from pydantic import PositiveInt, TypeAdapter
 
@@ -10,8 +10,8 @@ from allegrobridge.client.api._record import _Record
 from allegrobridge.client.api._rpc import RpcArgs, SessionApi, _core_api, read
 
 _PROCEDURE = '__abProjectPins'
-_OptionalFloat = Optional[float]
-_OptionalString = Optional[str]
+_OptionalFloat = float | None
+_OptionalString = str | None
 
 
 class PinInfo(_Record):
@@ -28,7 +28,7 @@ class PinInfo(_Record):
     session_generation: PositiveInt
 
 
-_PinList = List[PinInfo]
+_PinList = list[PinInfo]
 _PINS = TypeAdapter(_PinList)
 
 

@@ -19,7 +19,7 @@ def _signature(values: list[object]) -> dict[str, object]:
         raise ValueError(
             f'expected {len(_SIGNATURE_FIELDS)} DRC signature fields, got {len(values)}'
         )
-    return dict(zip(_SIGNATURE_FIELDS, values))
+    return dict(zip(_SIGNATURE_FIELDS, values, strict=True))
 
 
 def _sanitize(value: object) -> object:

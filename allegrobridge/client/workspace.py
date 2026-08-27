@@ -6,7 +6,7 @@ from collections.abc import Iterable
 from functools import partial
 from pathlib import Path
 from threading import Lock
-from typing import TYPE_CHECKING, Literal, TypedDict, Union, cast
+from typing import TYPE_CHECKING, Literal, TypedDict, cast
 
 from typing_extensions import override
 
@@ -181,4 +181,4 @@ class SavepointFailure(TypedDict):
     error: str
 
 
-SavepointResult = Union[SavepointSuccess, SavepointFailure]
+SavepointResult = SavepointSuccess | SavepointFailure

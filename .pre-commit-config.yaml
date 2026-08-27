@@ -1,5 +1,5 @@
-# Pre-commit hooks: run on `git commit` -- same four checks as CI.
-# Mirrors .github/workflows/pythonpackage.yml (ruff format -> ruff -> mypy -> pytest).
+# Pre-commit hooks: run on `git commit` -- same checks as CI.
+# Mirrors .github/workflows/pythonpackage.yml (ruff format -> ruff -> mypy -> pyright -> pytest).
 #
 # Install once per clone:  poetry run pre-commit install
 # Run manually:            poetry run pre-commit run --all-files
@@ -37,6 +37,14 @@ repos:
         language: system
         types: [python]
         files: ^(skillbridge|allegrobridge)/
+        stages: [pre-commit]
+
+      - id: pyright
+        name: pyright
+        entry: poetry run pyright --warnings
+        language: system
+        types: [python]
+        pass_filenames: false
         stages: [pre-commit]
 
       - id: pytest

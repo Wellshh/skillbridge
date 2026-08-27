@@ -2,14 +2,24 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
 from functools import update_wrapper, wraps
 from inspect import signature
 from types import TracebackType
-from typing import TYPE_CHECKING, Any, Callable, Generic, Tuple, TypeVar, cast, overload
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Concatenate,
+    Generic,
+    TypeAlias,
+    TypeVar,
+    cast,
+    overload,
+)
 
 from pydantic import TypeAdapter, ValidationError
-from typing_extensions import Concatenate, ParamSpec, Self, TypeAlias
+from typing_extensions import ParamSpec, Self
 
 from allegrobridge.exceptions import AllegroProtocolError
 from skillbridge.client.hints import Skill, SkillCode
@@ -17,7 +27,7 @@ from skillbridge.client.hints import Skill, SkillCode
 if TYPE_CHECKING:  # pragma: no cover
     from allegrobridge.client.session.session import Session
 
-RpcArgs: TypeAlias = Tuple[Skill, ...]
+RpcArgs: TypeAlias = tuple[Skill, ...]
 
 P = ParamSpec('P')
 T = TypeVar('T')
@@ -158,8 +168,10 @@ class Batch:
         payload = transaction.preview(expression) if self.dry_run else transaction(expression)
         if not isinstance(payload, list) or len(payload) != len(self._commands):
             raise AllegroProtocolError('batch returned an invalid payload')
-        values = [command._validate(item) for command, item in zip(self._commands, payload)]
-        for result, value in zip(self._results, values):
+        values = [
+            command._validate(item) for command, item in zip(self._commands, payload, strict=True)
+        ]
+        for result, value in zip(self._results, values, strict=True):
             result._resolve(value)
 
     def _compile(self) -> SkillCode:

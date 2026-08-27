@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import os
 import shutil
+from collections.abc import Mapping, Sequence
 from pathlib import Path
 from subprocess import CompletedProcess, run
-from typing import Mapping, Sequence
 
 _SCRIPT = Path(__file__).parent / 'sync-allegrobridge.sh'
 

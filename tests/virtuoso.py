@@ -11,6 +11,7 @@ from threading import Thread
 from tty import setraw
 
 from skillbridge.protocol.response import Response, RespStatus
+from skillbridge.server import python_server
 
 
 class Virtuoso(Thread):
@@ -40,7 +41,7 @@ class Virtuoso(Thread):
             [
                 executable,
                 '-m',
-                'skillbridge.server.python_server',
+                python_server.__name__,
                 self.workspace_id,
                 'DEBUG',
                 '--notify',

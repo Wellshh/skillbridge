@@ -2,13 +2,11 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 from __future__ import annotations
 
-from typing import List
-
 from pydantic import TypeAdapter
 
 from allegrobridge.client.api import ComponentInfo, RpcArgs, SessionApi, extension, read, write
 
-_COMPONENTS = TypeAdapter(List[ComponentInfo])
+_COMPONENTS = TypeAdapter(list[ComponentInfo])
 _COMPONENT = TypeAdapter(ComponentInfo)
 
 

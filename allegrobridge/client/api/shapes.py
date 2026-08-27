@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 from __future__ import annotations
 
-from typing import List, Literal, Optional
+from typing import Literal
 
 from pydantic import PositiveInt, TypeAdapter
 
@@ -11,7 +11,7 @@ from allegrobridge.client.api._rpc import RpcArgs, SessionApi, read
 from allegrobridge.client.api.routes import Point
 
 _PROJECT_PROCEDURE = '__abProjectShapes'
-_OptionalString = Optional[str]
+_OptionalString = str | None
 
 
 class BBox(_Record):
@@ -27,7 +27,7 @@ class ShapeInfo(_Record):
     session_generation: PositiveInt
 
 
-_ShapeList = List[ShapeInfo]
+_ShapeList = list[ShapeInfo]
 _SHAPES = TypeAdapter(_ShapeList)
 
 

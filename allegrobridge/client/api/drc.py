@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List, Literal, Union
+from typing import TYPE_CHECKING, Literal
 
 from pydantic import PositiveInt, TypeAdapter
 
@@ -37,8 +37,8 @@ class PinRef(_Record):
     number: str
 
 
-DrcObjectRef = Union[ComponentRef, NetRef, PinRef]
-_DrcObjectList = List[DrcObjectRef]
+DrcObjectRef = ComponentRef | NetRef | PinRef
+_DrcObjectList = list[DrcObjectRef]
 
 
 class DrcInfo(_Record):
@@ -54,7 +54,7 @@ class DrcInfo(_Record):
     session_generation: PositiveInt
 
 
-_DrcList = List[DrcInfo]
+_DrcList = list[DrcInfo]
 _DRCS = TypeAdapter(_DrcList)
 
 

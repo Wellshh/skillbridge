@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 from __future__ import annotations
 
-from typing import List, Literal, Optional
+from typing import Literal
 
 from pydantic import PositiveInt, TypeAdapter
 
@@ -11,7 +11,7 @@ from allegrobridge.client.api._rpc import RpcArgs, SessionApi, _core_api, read, 
 
 _PROCEDURE = '__abProjectComponents'
 _MOVE_PROCEDURE = '__abMoveComponent'
-_OptionalFloat = Optional[float]
+_OptionalFloat = float | None
 
 
 class ComponentInfo(_Record):
@@ -26,7 +26,7 @@ class ComponentInfo(_Record):
     session_generation: PositiveInt
 
 
-_ComponentList = List[ComponentInfo]
+_ComponentList = list[ComponentInfo]
 _COMPONENTS = TypeAdapter(_ComponentList)
 _COMPONENT = TypeAdapter(ComponentInfo)
 

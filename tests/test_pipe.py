@@ -75,7 +75,7 @@ class Server:
     def _collect_commands(self) -> None:
         try:
             for command in self._command_reader:
-                self._commands.put(command[:-1] if command.endswith('\n') else command)
+                self._commands.put(command.removesuffix('\n'))
         finally:
             self._commands.put(None)
             self._response_writer.close()

@@ -3,9 +3,10 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 from __future__ import annotations
 
+from collections.abc import Callable, Iterable
 from json import dumps, loads
-from re import findall, sub
-from typing import Any, Callable, Iterable, Match, NoReturn, cast
+from re import Match, findall, sub
+from typing import Any, NoReturn, cast
 from warnings import warn_explicit
 
 from .hints import Skill, SkillCode, Symbol
@@ -128,7 +129,9 @@ class Translator:
         args_code = ' '.join(map(python_value_to_skill, args))
         kw_keys = map(snake_to_camel, kwargs)
         kw_values = map(python_value_to_skill, kwargs.values())
-        kwargs_code = ' '.join(f'?{key} {value}' for key, value in zip(kw_keys, kw_values))
+        kwargs_code = ' '.join(
+            f'?{key} {value}' for key, value in zip(kw_keys, kw_values, strict=True)
+        )
         return SkillCode(f'{func_name}({args_code} {kwargs_code})')
 
     @staticmethod

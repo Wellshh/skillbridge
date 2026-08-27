@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 from __future__ import annotations
 
-from typing import List, Optional, Sequence
+from collections.abc import Sequence
 
 from pydantic import PositiveFloat, PositiveInt, TypeAdapter
 
@@ -13,7 +13,7 @@ from skillbridge import SkillList, SkillTuple
 _PROJECT_PROCEDURE = '__abProjectRoutes'
 _CREATE_PROCEDURE = '__abCreateRoute'
 _POINT_SIZE = 2
-_OptionalString = Optional[str]
+_OptionalString = str | None
 
 
 class Point(_Record):
@@ -30,7 +30,7 @@ class RouteInfo(_Record):
     session_generation: PositiveInt
 
 
-_RouteList = List[RouteInfo]
+_RouteList = list[RouteInfo]
 _ROUTES = TypeAdapter(_RouteList)
 
 

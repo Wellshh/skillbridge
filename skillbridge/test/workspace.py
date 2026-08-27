@@ -1,8 +1,9 @@
 # Copyright (c) 2019-2024 the skillbridge authors (Niels Buwen, Tobias Markus)
 # Derived from skillbridge (https://github.com/unihd-cag/skillbridge)
 # SPDX-License-Identifier: LGPL-3.0-only
+from collections.abc import Callable
 from re import match
-from typing import Any, Callable
+from typing import Any
 
 from ..client.workspace import Workspace
 from .channel import DummyChannel

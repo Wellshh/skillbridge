@@ -3,8 +3,9 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 from __future__ import annotations
 
+from collections.abc import Callable
 from string import ascii_letters, ascii_lowercase, ascii_uppercase
-from typing import Any, Callable
+from typing import Any
 
 from hypothesis import given
 from hypothesis.strategies import floats, integers, lists, none, text

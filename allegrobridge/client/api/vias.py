@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 from __future__ import annotations
 
-from typing import List, Literal, Optional
+from typing import Literal
 
 from pydantic import PositiveInt, TypeAdapter
 
@@ -12,7 +12,7 @@ from skillbridge import SkillTuple
 
 _PROJECT_PROCEDURE = '__abProjectVias'
 _CREATE_PROCEDURE = '__abCreateVia'
-_OptionalString = Optional[str]
+_OptionalString = str | None
 
 
 class ViaInfo(_Record):
@@ -27,7 +27,7 @@ class ViaInfo(_Record):
     session_generation: PositiveInt
 
 
-_ViaList = List[ViaInfo]
+_ViaList = list[ViaInfo]
 _VIAS = TypeAdapter(_ViaList)
 _VIA = TypeAdapter(ViaInfo)
 

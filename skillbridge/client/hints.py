@@ -3,10 +3,12 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Dict, List, NamedTuple, NewType, Tuple, Union
+from typing import TYPE_CHECKING, Any, NamedTuple, NewType
 
 if TYPE_CHECKING:  # pragma: no cover
-    from typing_extensions import Protocol, TypeAlias
+    from typing import TypeAlias
+
+    from typing_extensions import Protocol
 else:
 
     class Protocol:
@@ -26,8 +28,8 @@ __all__ = [
     'Symbol',
 ]
 
-Number = Union[int, float]
-SkillComponent = Union[int, str]
+Number = int | float
+SkillComponent = int | str
 SkillCode = NewType('SkillCode', str)
 
 
@@ -45,31 +47,31 @@ class SupportsReprSkill(Protocol):
 if TYPE_CHECKING:  # pragma: no cover
     from .var import Var
 
-    Skill: TypeAlias = Union[
-        Var,
-        SupportsReprSkill,
-        Number,
-        str,
-        bool,
-        'SkillList',
-        'SkillDict',
-        'SkillTuple',
-        None,
-    ]
+    Skill: TypeAlias = (
+        Var
+        | SupportsReprSkill
+        | Number
+        | str
+        | bool
+        | 'SkillList'
+        | 'SkillDict'
+        | 'SkillTuple'
+        | None
+    )
 
 else:
     Skill = Any
 
 
-class SkillList(List[Skill]):
+class SkillList(list[Skill]):
     pass
 
 
-class SkillTuple(Tuple[Skill, ...]):
+class SkillTuple(tuple[Skill, ...]):
     __slots__ = ()
 
 
-class SkillDict(Dict[str, Skill]):
+class SkillDict(dict[str, Skill]):
     pass
 
 

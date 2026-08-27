@@ -2,8 +2,6 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 from __future__ import annotations
 
-from typing import List
-
 from pydantic import PositiveInt, TypeAdapter
 
 from allegrobridge.client.api._record import _Record
@@ -24,7 +22,7 @@ class LayerInfo(_Record):
         return self.class_name == 'ETCH'
 
 
-_LayerList = List[LayerInfo]
+_LayerList = list[LayerInfo]
 _LAYERS = TypeAdapter(_LayerList)
 
 

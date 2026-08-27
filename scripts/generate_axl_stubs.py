@@ -9,11 +9,10 @@ import itertools
 import keyword
 import re
 from collections import Counter
+from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, replace
 from pathlib import Path
-from typing import Iterable, Sequence
-
-from typing_extensions import Literal
+from typing import Literal
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_API_NAMES = ROOT / 'allegrobridge' / 'assets' / 'api_names.txt'
@@ -817,7 +816,7 @@ def _declaration_variants(
 
     variants: list[tuple[ParameterSpec, ...]] = []
     for included in itertools.product((False, True), repeat=len(middle_optional)):
-        choices = dict(zip(middle_optional, included))
+        choices = dict(zip(middle_optional, included, strict=True))
         variant = tuple(
             replace(parameter, optional=False)
             for index, parameter in enumerate(parameters)

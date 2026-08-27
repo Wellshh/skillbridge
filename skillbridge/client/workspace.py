@@ -4,9 +4,10 @@
 from __future__ import annotations
 
 import sys
+from collections.abc import Iterable
 from functools import partial
 from logging import getLogger
-from typing import Any, Iterable, NoReturn, Union, cast
+from typing import Any, NoReturn, cast
 
 from .channel import Channel, DirectChannel, create_channel_class
 from .functions import FunctionCollection, LiteralRemoteFunction
@@ -17,7 +18,7 @@ from .translator import DefaultTranslator, Translator, snake_to_camel
 
 __all__ = ['Workspace', 'current_workspace']
 
-WorkspaceId = Union[str, int, None]
+WorkspaceId = str | int | None
 _open_workspaces: dict[tuple[type[Workspace], WorkspaceId], Workspace] = {}
 
 

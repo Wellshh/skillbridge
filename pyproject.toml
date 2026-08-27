@@ -45,6 +45,7 @@ dev = [
     "pytest-cov",
     "hypothesis",
     "mypy",
+    "pyright==1.1.411",
     "types-psutil",
     "ruff>=0.2.1",
 ]
@@ -58,6 +59,7 @@ dev = [
     "pytest-cov",
     "hypothesis",
     "mypy<2",
+    "pyright==1.1.411",
     "types-psutil",
     "ruff>=0.2.1",
     "pre-commit",
@@ -133,7 +135,7 @@ strict_equality = true
 preview = true
 exclude = ["venv", "env", "build", ".agents", ".claude"]
 line-length = 100
-target-version = "py38"
+target-version = "py310"
 
 [tool.ruff.lint]
 select = ["ALL"]
@@ -163,6 +165,9 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
+"skillbridge/client/hints.py" = [
+    "subclass-builtin",
+]
 "allegrobridge/client/api/_rpc.py" = [
     "private-member-access",
 ]

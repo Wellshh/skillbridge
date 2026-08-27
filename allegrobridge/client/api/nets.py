@@ -2,8 +2,6 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 from __future__ import annotations
 
-from typing import List
-
 from pydantic import NonNegativeInt, PositiveInt, TypeAdapter
 
 from allegrobridge.client.api._record import _Record
@@ -20,7 +18,7 @@ class NetInfo(_Record):
     session_generation: PositiveInt
 
 
-_NetList = List[NetInfo]
+_NetList = list[NetInfo]
 _NETS = TypeAdapter(_NetList)
 
 
