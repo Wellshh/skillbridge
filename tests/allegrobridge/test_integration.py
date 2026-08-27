@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import sys
 from collections.abc import Iterator
+from contextlib import suppress
 from json import dumps
 from pathlib import Path
 from shutil import copy2, copytree
@@ -2298,27 +2299,21 @@ class TestBasicOp:
         assert 'unbound' not in more_lines_than_available.lower()
         assert not log_path.exists()
 
-    def test_server_can_restart(self, ws: Workspace) -> None:
-        try:
-            assert self._single_ping_test(ws)
-            assert ws['pyRestartServer']() is True
+    def test_server_can_restart(self, ws: Workspace, session: Session) -> None:
+        epoch = ws.epoch
+        session_generation = session.generation
+        assert self._single_ping_test(ws)
+        assert ws['pyRestartServer']() is True
 
-        finally:
-            ws.close()
-
-        new_ws = None
         for _ in range(40):
-            try:
-                candidate = Workspace.open(ws.id)
-                if type(candidate) is Workspace and self._single_ping_test(candidate):
-                    new_ws = candidate
-                    break
-                candidate.close()
-            except (OSError, RuntimeError, ConnectionResetError):
-                sleep(0.5)
-                continue
-        assert new_ws is not None, 'server did not come back as an Allegro workspace after restart'
-        try:
-            assert self._single_ping_test(new_ws)
-        finally:
-            new_ws.close()
+            with suppress(OSError, RuntimeError, ConnectionResetError):
+                self._single_ping_test(ws)
+            if ws.epoch > epoch:
+                break
+            sleep(0.5)
+        else:
+            pytest.fail('workspace did not reconnect after server restart')
+
+        assert ws.epoch == epoch + 1
+        assert session.generation == session_generation + 1
+        assert self._single_ping_test(ws)

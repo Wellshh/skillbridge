@@ -88,6 +88,12 @@ def _bind_id(record: RecordT, session: Session) -> RecordT:
     return record
 
 
+def _session(workspace: Mock | None = None) -> Session:
+    workspace = MagicMock() if workspace is None else workspace
+    workspace.epoch = 0
+    return Session(Mock(workspace=workspace))
+
+
 @pytest.fixture
 def executable(tmp_path: Path) -> Path:
     exe = tmp_path / 'allegro.exe'
@@ -279,9 +285,9 @@ class TestSession:
         assert opened.session is opened.session
         assert opened.session.raw is workspace
 
-    def test_exposes_workspace_and_connection_generation(self) -> None:
-        workspace = Mock()
-        session = Session(Mock(workspace=workspace))
+    def test_exposes_workspace_and_epoch(self) -> None:
+        workspace = Mock(epoch=0)
+        session = _session(workspace)
         assert session.raw is workspace
         assert session.generation == 1
 
@@ -289,6 +295,17 @@ class TestSession:
 
         assert session.generation == 2
         assert workspace.mock_calls == []
+
+    def test_sessions_independently_follow_shared_workspace_reconnects(self) -> None:
+        workspace = Mock(epoch=0)
+        first = _session(workspace)
+        second = _session(workspace)
+
+        workspace.epoch = 2
+
+        assert first.generation == 3
+        assert second.generation == 3
+        assert first.generation == 3
 
     def test_close_is_idempotent(self) -> None:
         opened = Mock()
@@ -330,7 +347,7 @@ class TestSessionExtensions:
         module, api = self._module()
         importer = Mock(return_value=module)
         monkeypatch.setattr('allegrobridge.client.base._extensions.import_module', importer)
-        session = Session(Mock(workspace=MagicMock()))
+        session = _session()
         ext = session.ext
         importer.assert_not_called()
 
@@ -352,7 +369,7 @@ class TestSessionExtensions:
             Mock(return_value=module),
         )
         workspace = MagicMock()
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
 
         assert isinstance(session.ext.constraints, api)
         workspace._ensure_extension.assert_called_once_with(
@@ -370,7 +387,7 @@ class TestSessionExtensions:
             'allegrobridge.client.base._extensions.import_module',
             Mock(side_effect=error),
         )
-        ext = Session(Mock(workspace=MagicMock())).ext
+        ext = _session().ext
 
         with pytest.raises(AttributeError, match='missing'):
             _ = ext.missing
@@ -399,7 +416,7 @@ class TestSessionExtensions:
             else Mock(return_value=side_effect)
         )
         monkeypatch.setattr('allegrobridge.client.base._extensions.import_module', importer)
-        session = Session(Mock(workspace=MagicMock()))
+        session = _session()
 
         with pytest.raises(ExtensionError, match='broken') as first:
             _ = session.ext.broken
@@ -416,7 +433,7 @@ class TestCoreKeyedApi:
         net = object()
         monkeypatch.setattr(ComponentsApi, '_project', Mock(side_effect=[[component], None]))
         monkeypatch.setattr(NetsApi, '_project', Mock(side_effect=[[net], None]))
-        session = Session(Mock(workspace=MagicMock()))
+        session = _session()
 
         assert session.components['R1'] is component
         with pytest.raises(KeyError, match='MISSING'):
@@ -526,7 +543,7 @@ class TestReadApi:
     def test_operations_expose_immutable_metadata(self) -> None:
         workspace = MagicMock()
         workspace.__getitem__.return_value.side_effect = [None, None, None, None, None]
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
 
         class ProbeApi(SessionApi):
             @read('__abList', TypeAdapter(list[int]))
@@ -568,7 +585,7 @@ class TestReadApi:
     def test_declaration_preserves_signature_and_sends_once(self) -> None:
         workspace = MagicMock()
         workspace.__getitem__.return_value.return_value = 3
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
 
         class ProbeApi(SessionApi):
             @read('__abProbe', TypeAdapter(int))
@@ -591,7 +608,7 @@ class TestReadApi:
             'symbol_count': 1,
             'net_count': 1,
         }
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
 
         board = session.board()
 
@@ -617,7 +634,7 @@ class TestReadApi:
             ],
             [42],
         ]
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
 
         assert session.components() == []
         component = session.components()[0]
@@ -635,7 +652,7 @@ class TestReadApi:
                 'unplaced_pin_count': 0,
             }
         ]
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
 
         net = session.nets()[0]
 
@@ -673,7 +690,7 @@ class TestReadApi:
                 'number': 1,
             }
         ]
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
 
         layers = session.layers(etch_only=True)
 
@@ -703,7 +720,7 @@ class TestReadApi:
     def test_layers_getitem_raises_when_name_is_missing(self) -> None:
         workspace = MagicMock()
         workspace.__getitem__.return_value.return_value = None
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
 
         with pytest.raises(KeyError, match='ETCH/__MISSING__'):
             _ = session.layers['ETCH/__MISSING__']
@@ -724,7 +741,7 @@ class TestReadApi:
                 'end_layer': 'ETCH/BOTTOM',
             }
         ]
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
 
         pins = session.pins(component='U1', net='GND')
 
@@ -752,7 +769,7 @@ class TestReadApi:
     def test_pins_getitem_raises_when_key_is_missing(self) -> None:
         workspace = MagicMock()
         workspace.__getitem__.return_value.return_value = None
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
 
         with pytest.raises(KeyError, match=r"\('U1', '__MISSING__'\)"):
             _ = session.pins['U1', '__MISSING__']
@@ -768,7 +785,7 @@ class TestReadApi:
                 'end_layer': 'BOTTOM',
             }
         ]
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
 
         padstacks = session.padstacks()
 
@@ -791,7 +808,7 @@ class TestReadApi:
     def test_padstacks_getitem_raises_when_name_is_missing(self) -> None:
         workspace = MagicMock()
         workspace.__getitem__.return_value.return_value = None
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
 
         with pytest.raises(KeyError, match='__MISSING_PADSTACK__'):
             _ = session.padstacks['__MISSING_PADSTACK__']
@@ -808,7 +825,7 @@ class TestReadApi:
                 'rotation': 90.0,
             }
         ]
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
 
         symbols = session.symbols(type='PACKAGE')
 
@@ -840,7 +857,7 @@ class TestReadApi:
                 'end_layer': 'ETCH/BOTTOM',
             }
         ]
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
 
         vias = session.vias(net='GND', layer='ETCH/TOP', padstack='VIA12')
 
@@ -872,7 +889,7 @@ class TestReadApi:
         workspace = MagicMock()
         remote = workspace.__getitem__.return_value
         remote.lazy.return_value = SkillCode('__abCreateVia(...)')
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
 
         command = session.vias.create.command(
             'VIA12',
@@ -897,7 +914,7 @@ class TestReadApi:
                 'width': 0.2,
             }
         ]
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
 
         routes = session.routes(net='GND', layer='ETCH/TOP')
 
@@ -922,7 +939,7 @@ class TestReadApi:
         workspace = MagicMock()
         remote = workspace.__getitem__.return_value
         remote.lazy.return_value = SkillCode('__abCreateRoute(...)')
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
 
         command = session.routes.create.command(
             'GND',
@@ -954,7 +971,7 @@ class TestReadApi:
         width: float,
         message: str,
     ) -> None:
-        session = Session(Mock(workspace=MagicMock()))
+        session = _session()
 
         with pytest.raises(ValueError, match=message):
             session.routes.create.command(
@@ -985,7 +1002,7 @@ class TestReadApi:
                 },
             }
         ]
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
 
         shapes = session.shapes(net='GND', layer='ETCH/TOP', dynamic=dynamic)
 
@@ -1034,7 +1051,7 @@ class TestReadApi:
                 ],
             }
         ]
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
 
         drcs = session.drc()
 
@@ -1071,7 +1088,7 @@ class TestDrcApi:
     def test_maps_stable_targets_and_executes_directly(self) -> None:
         workspace = MagicMock()
         workspace.__getitem__.return_value.return_value = None
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
         drc = session.drc
         workspace.reset_mock()
         targets: list[tuple[ComponentInfo | NetInfo | PinInfo, tuple[str, str, str | None]]] = [
@@ -1121,10 +1138,10 @@ class TestDrcApi:
         message: str,
     ) -> None:
         workspace = MagicMock()
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
         drc = session.drc
         if target is None:
-            owner = Session(Mock())
+            owner = _session()
             target = _bind_id(NetInfo.model_construct(name='GND'), owner)
         workspace.reset_mock()
 
@@ -1135,9 +1152,9 @@ class TestDrcApi:
 
     def test_rejects_record_from_collected_session_before_rpc(self) -> None:
         workspace = MagicMock()
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
         drc = session.drc
-        target = _bind_id(NetInfo.model_construct(name='GND'), Session(Mock()))
+        target = _bind_id(NetInfo.model_construct(name='GND'), _session())
         workspace.reset_mock()
 
         with pytest.raises(RecordIDError, match='no longer available'):
@@ -1147,7 +1164,7 @@ class TestDrcApi:
 
     def test_refresh_makes_record_stale_before_rpc(self) -> None:
         workspace = MagicMock()
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
         drc = session.drc
         target = _bind_id(NetInfo.model_construct(name='GND'), session)
         session.refresh()
@@ -1160,7 +1177,7 @@ class TestDrcApi:
 
     def test_rejects_invalid_target_and_payload(self) -> None:
         workspace = MagicMock()
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
         drc = session.drc
 
         with pytest.raises(TypeError, match='ComponentInfo, NetInfo, or PinInfo'):
@@ -1191,7 +1208,7 @@ class TestWriteApi:
         remote = workspace.__getitem__.return_value
         remote.lazy.return_value = '__abMoveComponent("R1" 1.0 2.0 nil )'
         workspace.transaction.return_value = self._component_payload(1.0)
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
 
         command = session.components.move.command('R1', x=1.0, y=2.0)
 
@@ -1220,7 +1237,7 @@ class TestWriteApi:
         remote = workspace.__getitem__.return_value
         remote.lazy.return_value = '__abMoveComponent("R1" 3.0 2.0 nil )'
         workspace.transaction.preview.return_value = self._component_payload(3.0)
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
 
         preview = session.components.move.preview('R1', x=3.0, y=2.0)
 
@@ -1233,7 +1250,7 @@ class TestWriteApi:
     def test_stale_command_does_not_execute(self) -> None:
         workspace = MagicMock()
         workspace.__getitem__.return_value.lazy.return_value = 'move1()'
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
         command = session.components.move.command('R1', x=1.0, y=2.0)
         session.refresh()
         workspace.reset_mock()
@@ -1246,7 +1263,7 @@ class TestWriteApi:
     def test_refresh_during_write_rejects_response(self) -> None:
         workspace = MagicMock()
         workspace.__getitem__.return_value.lazy.return_value = 'move1()'
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
 
         def refresh_during_transaction(_expr: SkillCode) -> dict[str, object]:
             session.refresh()
@@ -1258,6 +1275,19 @@ class TestWriteApi:
             session.components.move('R1', x=1.0, y=2.0)
 
         workspace.transaction.assert_called_once()
+
+    def test_reconnect_makes_existing_command_stale_before_rpc(self) -> None:
+        workspace = MagicMock(epoch=0)
+        workspace.__getitem__.return_value.lazy.return_value = 'move1()'
+        session = _session(workspace)
+        command = session.components.move.command('R1', x=1.0, y=2.0)
+        workspace.epoch = 1
+        workspace.reset_mock()
+
+        with pytest.raises(RecordIDError, match=r'Command.*stale'):
+            command._execute()
+
+        workspace.transaction.assert_not_called()
 
     def test_drc_update_supports_command_immediate_and_preview(self) -> None:
         workspace = MagicMock()
@@ -1280,7 +1310,7 @@ class TestWriteApi:
                 'objects': [],
             }
         ]
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
         drc = session.drc
         workspace.reset_mock()
 
@@ -1304,7 +1334,7 @@ class TestWriteApi:
         workspace = MagicMock()
         workspace.__getitem__.return_value.lazy.return_value = '__abUpdateDrcs( )'
         workspace.transaction.return_value = [{'name': 'incomplete'}]
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
 
         with pytest.raises(AllegroProtocolError, match='__abUpdateDrcs'):
             session.drc.update()
@@ -1328,7 +1358,7 @@ class TestBatch:
         workspace = MagicMock()
         workspace.__getitem__.return_value.lazy.side_effect = ['move1()', 'move2()']
         workspace.transaction.return_value = [self._payload('R1', 1.0), self._payload('R2', 2.0)]
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
 
         with session.batch('move two') as batch:
             assert isinstance(batch, Batch)
@@ -1350,7 +1380,7 @@ class TestBatch:
         workspace = MagicMock()
         workspace.__getitem__.return_value.lazy.return_value = 'move1()'
         workspace.transaction.preview.return_value = [self._payload('R1', 1.0)]
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
 
         with session.batch(dry_run=True) as batch:
             result = batch.add(session.components.move.command('R1', x=1.0, y=2.0))
@@ -1366,8 +1396,8 @@ class TestBatch:
         workspace.transaction.preview.assert_not_called()
 
     def test_rejects_cross_session_command(self) -> None:
-        session = Session(Mock(workspace=MagicMock()))
-        other = Session(Mock(workspace=MagicMock()))
+        session = _session()
+        other = _session()
         command = other.components.move.command('R1', x=1.0, y=2.0)
 
         with (
@@ -1382,7 +1412,7 @@ class TestBatch:
     def test_rejects_stale_command_and_batch_before_rpc(self) -> None:
         workspace = MagicMock()
         workspace.__getitem__.return_value.lazy.return_value = 'move1()'
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
         command = session.components.move.command('R1', x=1.0, y=2.0)
         session.refresh()
         stale_batch = session.batch()
@@ -1401,7 +1431,7 @@ class TestBatch:
     def test_refresh_after_add_fails_results_without_sending(self) -> None:
         workspace = MagicMock()
         workspace.__getitem__.return_value.lazy.return_value = 'move1()'
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
         results: list[CmdResult[ComponentInfo]] = []
 
         def execute() -> None:
@@ -1420,7 +1450,7 @@ class TestBatch:
     def test_refresh_during_batch_rejects_response(self) -> None:
         workspace = MagicMock()
         workspace.__getitem__.return_value.lazy.return_value = 'move1()'
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
 
         def refresh_during_transaction(_expr: SkillCode) -> list[dict[str, object]]:
             session.refresh()
@@ -1444,7 +1474,7 @@ class TestBatch:
     def test_context_error_cancels_results_without_sending(self) -> None:
         workspace = MagicMock()
         workspace.__getitem__.return_value.lazy.return_value = 'move1()'
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
         error = ValueError('body')
         results: list[CmdResult[object]] = []
 
@@ -1466,7 +1496,7 @@ class TestBatch:
         workspace = MagicMock()
         workspace.__getitem__.return_value.lazy.return_value = 'move1()'
         workspace.transaction.return_value = payload
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
         results: list[CmdResult[object]] = []
 
         def execute() -> None:
@@ -1483,7 +1513,7 @@ class TestBatch:
         workspace = MagicMock()
         workspace.__getitem__.return_value.lazy.side_effect = ['move1()', 'move2()']
         workspace.transaction.return_value = [self._payload('R1', 1.0), None]
-        session = Session(Mock(workspace=workspace))
+        session = _session(workspace)
         results: list[CmdResult[object]] = []
 
         def execute() -> None:
@@ -1500,7 +1530,7 @@ class TestBatch:
                 _ = result.value
 
     def test_batch_is_single_use_and_add_requires_active_context(self) -> None:
-        session = Session(Mock(workspace=MagicMock()))
+        session = _session()
         batch = session.batch()
 
         with pytest.raises(RuntimeError, match='active'):

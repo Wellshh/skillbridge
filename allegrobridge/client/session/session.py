@@ -40,6 +40,7 @@ class Session:
     def __init__(self, allegro: _Allegro) -> None:
         self._allegro = allegro
         self._generation = 1
+        self._epoch = self.raw.epoch
         self._closed = False
 
     @property
@@ -48,6 +49,10 @@ class Session:
 
     @property
     def generation(self) -> int:
+        # Lazily absorb underlying connection reconnects into session generation.
+        epoch = self.raw.epoch
+        self._generation += epoch - self._epoch
+        self._epoch = epoch
         return self._generation
 
     def refresh(self) -> None:

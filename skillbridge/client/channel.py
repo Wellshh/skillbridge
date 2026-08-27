@@ -17,8 +17,13 @@ PORT_RANGE_MAX = 0xFFFF
 
 
 class Channel:
+    _epoch: int
+    """Lifcycle generation number,
+    increments on each successful reconnection to track connection lifetime."""
+
     def __init__(self, max_transmission_length: int) -> None:
         self._max_transmission_length = max_transmission_length
+        self._epoch = 0
 
     def send(self, data: str) -> str:
         raise NotImplementedError  # pragma: no cover
@@ -39,6 +44,10 @@ class Channel:
     @max_transmission_length.setter
     def max_transmission_length(self, value: int) -> None:
         self._max_transmission_length = value
+
+    @property
+    def epoch(self) -> int:
+        return self._epoch
 
     def __del__(self) -> None:
         with suppress(Exception):
@@ -120,6 +129,7 @@ class TcpChannel(Channel):
         self.connected = False
         self.socket = self.start()
         self._socket = Socket(self.socket, max_payload_size=self._max_transmission_length)
+        self._epoch += 1
 
     def _send_only(self, data: str) -> None:
         byte = data.encode()

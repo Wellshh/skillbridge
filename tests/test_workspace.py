@@ -103,6 +103,16 @@ def test_allegro_workspace_decodes_remote_handles() -> None:
     assert result._variable == 'dbobject:123'
 
 
+def test_workspace_exposes_channel_epoch() -> None:
+    channel = DummyChannel(1)
+    ws = Workspace(channel=channel, id_=123, translator=DefaultTranslator())
+
+    assert ws.epoch == 0
+
+    channel._epoch = 2
+    assert ws.epoch == 2
+
+
 def test_allegro_workspace_namespaces_and_chaining() -> None:
     dummy_channel = DummyChannel(1)
     ws = AllegroWorkspace(channel=dummy_channel, id_=456)

@@ -221,6 +221,10 @@ class Workspace:
     def id(self) -> WorkspaceId:
         return self._id
 
+    @property
+    def epoch(self) -> int:
+        return self._channel.epoch
+
     def flush(self) -> None:
         self._channel.flush()
 

@@ -124,7 +124,10 @@
       "Bash(git commit -m 'build: require Python >= 3.10, sync with fork toolchain *)",
       "Bash(poetry install *)",
       "Bash(.venv/bin/python -c \"import pydantic, mkdocs, mkdocstrings; print\\(pydantic.version.VERSION\\)\")",
-      "Bash(.venv/bin/mkdocs build *)"
+      "Bash(.venv/bin/mkdocs build *)",
+      "Bash(.venv/bin/pip list *)",
+      "Bash(.venv/bin/python -)",
+      "mcp__context7__query-docs"
     ]
   }
 }

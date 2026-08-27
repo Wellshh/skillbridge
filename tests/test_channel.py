@@ -61,6 +61,7 @@ def local_tcp_channel() -> Iterator[tuple[TcpChannel, socket]]:
 
     channel = object.__new__(TcpChannel)
     channel._max_transmission_length = 1_000_000
+    channel._epoch = 0
     channel.connected = True
     channel.socket = local
     channel._socket = Socket(local)
@@ -104,6 +105,7 @@ def channel_raising(error: BaseException) -> tuple[TcpChannel, TrackingSocket]:
     raw_socket = TrackingSocket()
     channel = object.__new__(TcpChannel)
     channel._max_transmission_length = 1_000_000
+    channel._epoch = 0
     channel.connected = True
     channel.socket = raw_socket
     channel._socket = RaisingSocketWrapper(error)
@@ -368,8 +370,10 @@ class TestTcpChannelCleanup:
         peer.close()
 
         try:
+            assert channel.epoch == 0
             with raises(RuntimeError, match='unexpectedly died'):
                 channel.send('write()')
+            assert channel.epoch == 1
             assert select([next_peer], [], [], 0)[0] == []
 
             Socket(next_peer).send_frame(b'success ok')
@@ -404,8 +408,10 @@ class TestTcpChannelCleanup:
         dropping.start()
 
         try:
+            assert channel.epoch == 0
             with raises(RuntimeError, match='unexpectedly died'):
                 channel.send('write()')
+            assert channel.epoch == 1
             dropping.join(SOCKET_TIMEOUT_SECONDS)
             assert not dropping.is_alive()
             assert received == [b'write()']
@@ -418,6 +424,24 @@ class TestTcpChannelCleanup:
             channel.connected = False
             next_local.close()
             next_peer.close()
+
+    def test_failed_reconnect_does_not_advance_generation(
+        self,
+        local_tcp_channel: tuple[TcpChannel, socket],
+        monkeypatch,
+    ) -> None:
+        channel, _ = local_tcp_channel
+
+        def start() -> socket:
+            raise OSError('offline')
+
+        monkeypatch.setattr(channel, 'start', start)
+
+        with raises(OSError, match='offline'):
+            channel.reconnect()
+
+        assert channel.epoch == 0
+        assert not channel.connected
 
     def test_close_sends_close_frame_and_releases_socket(
         self,
