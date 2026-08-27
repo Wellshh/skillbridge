@@ -11,7 +11,7 @@ from typing import TYPE_CHECKING, Literal, TypedDict, cast
 from typing_extensions import override
 
 import allegrobridge.server
-from allegrobridge.client.api._rpc import _core_procedures
+from allegrobridge.client.base._rpc import _core_procedures
 from allegrobridge.exceptions import AllegroLaunchError, ExtensionError
 from allegrobridge.util import extract_api_domains
 from skillbridge.client.channel import Channel

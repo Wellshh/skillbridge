@@ -4,12 +4,12 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Literal
 
-from pydantic import PositiveInt, TypeAdapter
+from pydantic import TypeAdapter
 
-from allegrobridge.client.api._record import _Record
-from allegrobridge.client.api._rpc import RpcArgs, SessionApi, direct, read, write
 from allegrobridge.client.api.routes import Point
 from allegrobridge.client.api.shapes import BBox
+from allegrobridge.client.base import BaseRecord, SessionRecord
+from allegrobridge.client.base._rpc import RpcArgs, SessionApi, direct, read, write
 
 if TYPE_CHECKING:  # pragma: no cover
     from allegrobridge.client.api.components import ComponentInfo
@@ -21,17 +21,17 @@ _UPDATE_PROCEDURE = '__abUpdateDrcs'
 _CHECK_PROCEDURE = '__abCheckDrcs'
 
 
-class ComponentRef(_Record):
+class ComponentRef(BaseRecord):
     kind: Literal['component']
     refdes: str
 
 
-class NetRef(_Record):
+class NetRef(BaseRecord):
     kind: Literal['net']
     name: str
 
 
-class PinRef(_Record):
+class PinRef(BaseRecord):
     kind: Literal['pin']
     refdes: str
     number: str
@@ -41,7 +41,7 @@ DrcObjectRef = ComponentRef | NetRef | PinRef
 _DrcObjectList = list[DrcObjectRef]
 
 
-class DrcInfo(_Record):
+class DrcInfo(SessionRecord):
     name: str
     category: str
     source: str
@@ -51,7 +51,6 @@ class DrcInfo(_Record):
     location: Point
     bbox: BBox
     objects: _DrcObjectList
-    session_generation: PositiveInt
 
 
 _DrcList = list[DrcInfo]

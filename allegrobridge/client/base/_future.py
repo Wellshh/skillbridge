@@ -4,9 +4,11 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Generic, TypeVar, cast
+from weakref import ref
 
 from pydantic import TypeAdapter, ValidationError
 
+from allegrobridge.client.base._record import _ID
 from allegrobridge.exceptions import AllegroProtocolError
 from skillbridge.client.hints import SkillCode
 
@@ -46,15 +48,9 @@ def _validate(
     session: Session,
     proc: str,
 ) -> T:
-    if isinstance(payload, dict):
-        payload = {**payload, 'session_generation': session.generation}
-    elif isinstance(payload, list):
-        payload = [
-            {**item, 'session_generation': session.generation} if isinstance(item, dict) else item
-            for item in payload
-        ]
+    context = _ID(ref(session), session.generation)
     try:
-        return adapter.validate_python(payload, strict=True)
+        return adapter.validate_python(payload, strict=True, context=context)
     except ValidationError as error:
         if payload is None:
             # In SKILL, empty lists evaluate to nil (decoded as Python None).
@@ -64,7 +60,7 @@ def _validate(
                 schema = schema['schema']
             if schema['type'] == 'list':
                 try:
-                    return adapter.validate_python([], strict=True)
+                    return adapter.validate_python([], strict=True, context=context)
                 except ValidationError:
                     pass
         raise AllegroProtocolError(f'{proc} returned an invalid payload') from error

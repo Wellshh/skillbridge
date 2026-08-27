@@ -24,8 +24,8 @@ from allegrobridge.client.api import (
     SymbolsApi,
     ViasApi,
 )
-from allegrobridge.client.api._extensions import _Extensions
-from allegrobridge.client.api._rpc import _api_procedures
+from allegrobridge.client.base import Extensions
+from allegrobridge.client.base._rpc import _api_procedures
 from allegrobridge.client.workspace import Workspace
 
 
@@ -118,8 +118,8 @@ class Session:
 
     # --- Bundled & Custom Extensions ---
     @cached_property
-    def ext(self) -> _Extensions:
-        return _Extensions(self)
+    def ext(self) -> Extensions:
+        return Extensions(self)
 
     def close(self) -> None:
         if self._closed:

@@ -21,16 +21,6 @@ API Layering & Loading Principles:
 
 from __future__ import annotations
 
-from allegrobridge.client.api._extensions import extension
-from allegrobridge.client.api._future import Cmd, CmdResult
-from allegrobridge.client.api._rpc import (
-    Batch,
-    RpcArgs,
-    RpcDef,
-    SessionApi,
-    read,
-    write,
-)
 from allegrobridge.client.api.board import BoardApi, BoardInfo
 from allegrobridge.client.api.components import ComponentInfo, ComponentsApi
 from allegrobridge.client.api.drc import (
@@ -49,6 +39,17 @@ from allegrobridge.client.api.routes import Point, RouteInfo, RoutesApi
 from allegrobridge.client.api.shapes import BBox, ShapeInfo, ShapesApi
 from allegrobridge.client.api.symbols import SymbolInfo, SymbolsApi
 from allegrobridge.client.api.vias import ViaInfo, ViasApi
+from allegrobridge.client.base import (
+    Batch,
+    Cmd,
+    CmdResult,
+    RpcArgs,
+    RpcDef,
+    SessionApi,
+    extension,
+    read,
+    write,
+)
 
 __all__ = [
     'BBox',

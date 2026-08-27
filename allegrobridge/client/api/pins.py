@@ -4,17 +4,17 @@ from __future__ import annotations
 
 from typing import Literal
 
-from pydantic import PositiveInt, TypeAdapter
+from pydantic import TypeAdapter
 
-from allegrobridge.client.api._record import _Record
-from allegrobridge.client.api._rpc import RpcArgs, SessionApi, _core_api, read
+from allegrobridge.client.base import SessionRecord
+from allegrobridge.client.base._rpc import RpcArgs, SessionApi, _core_api, read
 
 _PROCEDURE = '__abProjectPins'
 _OptionalFloat = float | None
 _OptionalString = str | None
 
 
-class PinInfo(_Record):
+class PinInfo(SessionRecord):
     refdes: str
     number: str
     net: _OptionalString
@@ -25,7 +25,6 @@ class PinInfo(_Record):
     rotation: _OptionalFloat
     start_layer: _OptionalString
     end_layer: _OptionalString
-    session_generation: PositiveInt
 
 
 _PinList = list[PinInfo]

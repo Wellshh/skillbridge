@@ -7,9 +7,8 @@ from threading import Lock
 from types import ModuleType
 from typing import TYPE_CHECKING, TypeVar
 
+from allegrobridge.client.base._rpc import SessionApi, _api_procedures
 from allegrobridge.exceptions import ExtensionError
-
-from ._rpc import SessionApi, _api_procedures
 
 if TYPE_CHECKING:
     from allegrobridge.client.session.session import Session

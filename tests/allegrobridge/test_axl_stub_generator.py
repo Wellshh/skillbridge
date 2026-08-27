@@ -19,6 +19,7 @@ from scripts.generate_axl_stubs import (
     summarize_specs,
 )
 
+# FILEMOVING: move to outer test
 REFERENCE_ROOT = (
     Path(__file__).parents[2]
     / '.agents'

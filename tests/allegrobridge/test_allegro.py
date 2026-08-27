@@ -11,6 +11,7 @@ from pathlib import Path
 from types import ModuleType
 from typing import Annotated
 from unittest.mock import MagicMock, Mock
+from weakref import ref
 
 import pytest
 from pydantic import Field, TypeAdapter
@@ -26,6 +27,7 @@ from allegrobridge.allegro import (
 from allegrobridge.client.api import (
     Batch,
     BBox,
+    BoardInfo,
     Cmd,
     CmdResult,
     ComponentInfo,
@@ -51,7 +53,9 @@ from allegrobridge.client.api import (
     extension,
     read,
 )
-from allegrobridge.client.api._rpc import (  # ruff: ignore[import-private-name]
+from allegrobridge.client.base import BaseRecord, SessionRecord
+from allegrobridge.client.base._record import _ID  # ruff: ignore[import-private-name]
+from allegrobridge.client.base._rpc import (  # ruff: ignore[import-private-name]
     _api_procedures,
     _core_api,
     _core_procedures,
@@ -69,6 +73,10 @@ from allegrobridge.exceptions import (
 )
 from skillbridge import SkillCode
 from skillbridge.exception import ProtocolError, SkillBridgeError
+
+
+def _assert_id(record: SessionRecord, session: Session) -> None:
+    assert record._id == _ID(ref(session), session.generation)
 
 
 @pytest.fixture
@@ -307,7 +315,7 @@ class TestSessionExtensions:
     ) -> None:
         module, api = self._module()
         importer = Mock(return_value=module)
-        monkeypatch.setattr('allegrobridge.client.api._extensions.import_module', importer)
+        monkeypatch.setattr('allegrobridge.client.base._extensions.import_module', importer)
         session = Session(Mock(workspace=MagicMock()))
         ext = session.ext
         importer.assert_not_called()
@@ -326,7 +334,7 @@ class TestSessionExtensions:
         procedure = '__abp_constraints_project'
         module, api = self._module(procedure=procedure)
         monkeypatch.setattr(
-            'allegrobridge.client.api._extensions.import_module',
+            'allegrobridge.client.base._extensions.import_module',
             Mock(return_value=module),
         )
         workspace = MagicMock()
@@ -345,7 +353,7 @@ class TestSessionExtensions:
         module_name = 'allegrobridge.client.api.extensions.missing'
         error = ModuleNotFoundError(name=module_name)
         monkeypatch.setattr(
-            'allegrobridge.client.api._extensions.import_module',
+            'allegrobridge.client.base._extensions.import_module',
             Mock(side_effect=error),
         )
         ext = Session(Mock(workspace=MagicMock())).ext
@@ -376,7 +384,7 @@ class TestSessionExtensions:
             if isinstance(side_effect, BaseException)
             else Mock(return_value=side_effect)
         )
-        monkeypatch.setattr('allegrobridge.client.api._extensions.import_module', importer)
+        monkeypatch.setattr('allegrobridge.client.base._extensions.import_module', importer)
         session = Session(Mock(workspace=MagicMock()))
 
         with pytest.raises(ExtensionError, match='broken') as first:
@@ -482,8 +490,9 @@ class TestReadApi:
         }
         assert not hasattr(api_module, 'AllegroProtocolError')
         assert not hasattr(api_module, 'core_api')
-        assert not hasattr(api_module, 'Extensions')
         assert not hasattr(api_module, '_Record')
+        assert not hasattr(api_module, 'BaseRecord')
+        assert not hasattr(api_module, 'SessionRecord')
 
     def test_core_procedures_are_collected_from_api_declarations(self) -> None:
         procedures = (
@@ -559,7 +568,7 @@ class TestReadApi:
         workspace.__getitem__.assert_called_once_with('__abProbe')
         workspace.__getitem__.return_value.assert_called_once_with(1, 2)
 
-    def test_read_api_injects_generation_into_records(self) -> None:
+    def test_read_api_binds_private_id(self) -> None:
         workspace = MagicMock()
         workspace.__getitem__.return_value.return_value = {
             'path': 'shape1.brd',
@@ -573,7 +582,7 @@ class TestReadApi:
         board = session.board()
 
         assert board.path == 'shape1.brd'
-        assert board.session_generation == session.generation
+        _assert_id(board, session)
 
     def test_read_api_maps_none_to_empty_and_wraps_validation_errors(self) -> None:
         workspace = MagicMock()
@@ -597,9 +606,48 @@ class TestReadApi:
         session = Session(Mock(workspace=workspace))
 
         assert session.components() == []
-        assert session.components()[0].session_generation == session.generation
+        component = session.components()[0]
+        _assert_id(component, session)
         with pytest.raises(AllegroProtocolError, match='__abProjectNets'):
             session.nets()
+
+    def test_net_records_bind_private_id(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.return_value = [
+            {
+                'name': 'GND',
+                'branch_count': 1,
+                'unconnected_count': 0,
+                'unplaced_pin_count': 0,
+            }
+        ]
+        session = Session(Mock(workspace=workspace))
+
+        net = session.nets()[0]
+
+        _assert_id(net, session)
+        assert NetInfo.model_construct(name='GND')._id is None
+        assert '_id' not in net.model_dump()
+
+    @pytest.mark.parametrize(
+        'record_type',
+        [
+            BoardInfo,
+            ComponentInfo,
+            DrcInfo,
+            LayerInfo,
+            NetInfo,
+            PadstackInfo,
+            PinInfo,
+            RouteInfo,
+            ShapeInfo,
+            SymbolInfo,
+            ViaInfo,
+        ],
+    )
+    def test_database_records_use_private_id(self, record_type: type[BaseRecord]) -> None:
+        assert issubclass(record_type, SessionRecord)
+        assert 'session_generation' not in record_type.model_fields
 
     def test_layers_delegate_filters_and_lookup_to_one_projection(self) -> None:
         workspace = MagicMock()
@@ -613,15 +661,17 @@ class TestReadApi:
         ]
         session = Session(Mock(workspace=workspace))
 
-        assert session.layers(etch_only=True) == [
+        layers = session.layers(etch_only=True)
+
+        assert [layer.model_dump() for layer in layers] == [
             LayerInfo(
                 name='ETCH/TOP',
                 class_name='ETCH',
                 subclass='TOP',
                 number=1,
-                session_generation=session.generation,
-            )
+            ).model_dump()
         ]
+        _assert_id(layers[0], session)
         assert session.layers is session.layers
         etch_only = True
         workspace.__getitem__.return_value.assert_called_once_with(None, etch_only)
@@ -634,7 +684,6 @@ class TestReadApi:
             class_name='BOARD GEOMETRY',
             subclass='OUTLINE',
             number=0,
-            session_generation=session.generation,
         ).is_etch
 
     def test_layers_getitem_raises_when_name_is_missing(self) -> None:
@@ -665,7 +714,7 @@ class TestReadApi:
 
         pins = session.pins(component='U1', net='GND')
 
-        assert pins == [
+        assert [pin.model_dump() for pin in pins] == [
             PinInfo(
                 refdes='U1',
                 number='1',
@@ -677,9 +726,9 @@ class TestReadApi:
                 rotation=0.0,
                 start_layer='ETCH/TOP',
                 end_layer='ETCH/BOTTOM',
-                session_generation=session.generation,
-            )
+            ).model_dump()
         ]
+        _assert_id(pins[0], session)
         assert session.pins is session.pins
         workspace.__getitem__.return_value.assert_called_once_with('U1', None, 'GND')
 
@@ -709,16 +758,16 @@ class TestReadApi:
 
         padstacks = session.padstacks()
 
-        assert padstacks == [
+        assert [padstack.model_dump() for padstack in padstacks] == [
             PadstackInfo(
                 name='VIA12',
                 type='through',
                 usage='through_via',
                 start_layer='TOP',
                 end_layer='BOTTOM',
-                session_generation=session.generation,
-            )
+            ).model_dump()
         ]
+        _assert_id(padstacks[0], session)
         assert session.padstacks is session.padstacks
         workspace.__getitem__.return_value.assert_called_once_with(None)
 
@@ -749,7 +798,7 @@ class TestReadApi:
 
         symbols = session.symbols(type='PACKAGE')
 
-        assert symbols == [
+        assert [symbol.model_dump() for symbol in symbols] == [
             SymbolInfo(
                 name='RES_0402',
                 type='PACKAGE',
@@ -757,9 +806,9 @@ class TestReadApi:
                 x=1.0,
                 y=2.0,
                 rotation=90.0,
-                session_generation=session.generation,
-            )
+            ).model_dump()
         ]
+        _assert_id(symbols[0], session)
         assert session.symbols is session.symbols
         workspace.__getitem__.return_value.assert_called_once_with('PACKAGE')
 
@@ -786,7 +835,7 @@ class TestReadApi:
             ('__abProjectVias', '__abCreateVia'),
         )
         assert session.vias is session.vias
-        assert vias == [
+        assert [via.model_dump() for via in vias] == [
             ViaInfo(
                 padstack='VIA12',
                 net='GND',
@@ -796,9 +845,9 @@ class TestReadApi:
                 mirroring='unmirrored',
                 start_layer='ETCH/TOP',
                 end_layer='ETCH/BOTTOM',
-                session_generation=session.generation,
-            )
+            ).model_dump()
         ]
+        _assert_id(vias[0], session)
         workspace.__getitem__.return_value.assert_called_once_with(
             'GND',
             'ETCH/TOP',
@@ -843,16 +892,16 @@ class TestReadApi:
             ('__abProjectRoutes', '__abCreateRoute'),
         )
         assert session.routes is session.routes
-        assert routes == [
+        assert [route.model_dump() for route in routes] == [
             RouteInfo(
                 net='GND',
                 layer='ETCH/TOP',
                 start=Point(x=1.0, y=2.0),
                 end=Point(x=3.0, y=4.0),
                 width=0.2,
-                session_generation=session.generation,
-            )
+            ).model_dump()
         ]
+        _assert_id(routes[0], session)
         workspace.__getitem__.return_value.assert_called_once_with('GND', 'ETCH/TOP')
 
     def test_route_create_command_is_lazy_and_keeps_arguments(self) -> None:
@@ -931,7 +980,7 @@ class TestReadApi:
             ('__abProjectShapes',),
         )
         assert session.shapes is session.shapes
-        assert shapes == [
+        assert [shape.model_dump() for shape in shapes] == [
             ShapeInfo(
                 net='GND',
                 layer='ETCH/TOP',
@@ -940,9 +989,9 @@ class TestReadApi:
                     lower_left=Point(x=1.0, y=2.0),
                     upper_right=Point(x=3.0, y=4.0),
                 ),
-                session_generation=session.generation,
-            )
+            ).model_dump()
         ]
+        _assert_id(shapes[0], session)
         workspace.__getitem__.return_value.assert_called_once_with(
             'GND',
             'ETCH/TOP',
@@ -980,7 +1029,7 @@ class TestReadApi:
             ('__abProjectDrcs', '__abUpdateDrcs', '__abCheckDrcs'),
         )
         assert session.drc is session.drc
-        assert drcs == [
+        assert [drc.model_dump() for drc in drcs] == [
             DrcInfo(
                 name='Ts Allowed',
                 category='PHYSICAL CONSTRAINTS',
@@ -998,9 +1047,9 @@ class TestReadApi:
                     ComponentRef(kind='component', refdes='U3'),
                     NetRef(kind='net', name='VCC'),
                 ],
-                session_generation=session.generation,
-            )
+            ).model_dump()
         ]
+        _assert_id(drcs[0], session)
         workspace.__getitem__.return_value.assert_called_once_with()
 
 
@@ -1099,7 +1148,7 @@ class TestWriteApi:
         moved = session.components.move('R1', x=1.0, y=2.0)
 
         assert moved.x == pytest.approx(1.0)
-        assert moved.session_generation == session.generation
+        _assert_id(moved, session)
         workspace.transaction.assert_called_once_with(command.expr)
 
     def test_preview_uses_dry_transaction(self) -> None:
@@ -1155,7 +1204,7 @@ class TestWriteApi:
 
         preview = drc.update.preview()
         assert len(preview) == 1
-        assert preview[0].session_generation == session.generation
+        _assert_id(preview[0], session)
         workspace.transaction.preview.assert_called_once_with(command.expr)
 
     def test_drc_update_rejects_invalid_payload(self) -> None:

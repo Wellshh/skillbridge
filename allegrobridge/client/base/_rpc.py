@@ -21,7 +21,7 @@ from typing import (
 from pydantic import TypeAdapter
 from typing_extensions import ParamSpec, Self
 
-from allegrobridge.client.api._future import Cmd, CmdResult, _validate
+from allegrobridge.client.base._future import Cmd, CmdResult, _validate
 from allegrobridge.exceptions import AllegroProtocolError
 from skillbridge.client.hints import Skill, SkillCode
 
@@ -200,7 +200,7 @@ def direct(
     return _rpc('direct', proc, adapter)
 
 
-#  ------------------ Descriptor pattern for transactional write operations:
+#  ------------------ Descriptor pattern for transactional write operations ---------------------
 # - `_Write`: Unbound class descriptor holding static RPC metadata and argument builder.
 # - `_BoundWrite`: Instance-bound callable providing direct call, `.preview()`, and `.command()`.
 

@@ -4,10 +4,10 @@ from __future__ import annotations
 
 from typing import Literal
 
-from pydantic import PositiveInt, TypeAdapter
+from pydantic import TypeAdapter
 
-from allegrobridge.client.api._record import _Record
-from allegrobridge.client.api._rpc import RpcArgs, SessionApi, read, write
+from allegrobridge.client.base import SessionRecord
+from allegrobridge.client.base._rpc import RpcArgs, SessionApi, read, write
 from skillbridge import SkillTuple
 
 _PROJECT_PROCEDURE = '__abProjectVias'
@@ -15,7 +15,7 @@ _CREATE_PROCEDURE = '__abCreateVia'
 _OptionalString = str | None
 
 
-class ViaInfo(_Record):
+class ViaInfo(SessionRecord):
     padstack: str
     net: _OptionalString
     x: float
@@ -24,7 +24,6 @@ class ViaInfo(_Record):
     mirroring: Literal['mirrored', 'unmirrored']
     start_layer: str
     end_layer: str
-    session_generation: PositiveInt
 
 
 _ViaList = list[ViaInfo]

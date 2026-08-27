@@ -4,17 +4,17 @@ from __future__ import annotations
 
 from typing import Literal
 
-from pydantic import PositiveInt, TypeAdapter
+from pydantic import TypeAdapter
 
-from allegrobridge.client.api._record import _Record
-from allegrobridge.client.api._rpc import RpcArgs, SessionApi, _core_api, read, write
+from allegrobridge.client.base import SessionRecord
+from allegrobridge.client.base._rpc import RpcArgs, SessionApi, _core_api, read, write
 
 _PROCEDURE = '__abProjectComponents'
 _MOVE_PROCEDURE = '__abMoveComponent'
 _OptionalFloat = float | None
 
 
-class ComponentInfo(_Record):
+class ComponentInfo(SessionRecord):
     refdes: str
     device_type: str
     package: str
@@ -23,7 +23,6 @@ class ComponentInfo(_Record):
     x: _OptionalFloat
     y: _OptionalFloat
     rotation: _OptionalFloat
-    session_generation: PositiveInt
 
 
 _ComponentList = list[ComponentInfo]

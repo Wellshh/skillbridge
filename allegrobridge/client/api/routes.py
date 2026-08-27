@@ -4,10 +4,10 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 
-from pydantic import PositiveFloat, PositiveInt, TypeAdapter
+from pydantic import PositiveFloat, TypeAdapter
 
-from allegrobridge.client.api._record import _Record
-from allegrobridge.client.api._rpc import RpcArgs, SessionApi, read, write
+from allegrobridge.client.base import BaseRecord, SessionRecord
+from allegrobridge.client.base._rpc import RpcArgs, SessionApi, read, write
 from skillbridge import SkillList, SkillTuple
 
 _PROJECT_PROCEDURE = '__abProjectRoutes'
@@ -16,18 +16,17 @@ _POINT_SIZE = 2
 _OptionalString = str | None
 
 
-class Point(_Record):
+class Point(BaseRecord):
     x: float
     y: float
 
 
-class RouteInfo(_Record):
+class RouteInfo(SessionRecord):
     net: _OptionalString
     layer: str
     start: Point
     end: Point
     width: PositiveFloat
-    session_generation: PositiveInt
 
 
 _RouteList = list[RouteInfo]

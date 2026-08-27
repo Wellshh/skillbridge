@@ -1,0 +1,40 @@
+# Copyright (c) 2025-2026 Bai Junyan and contributors.
+# SPDX-License-Identifier: LGPL-3.0-or-later
+"""AllegroBridge Client Base Infrastructure."""
+
+from __future__ import annotations
+
+from allegrobridge.client.base._extensions import _Extensions as Extensions
+from allegrobridge.client.base._extensions import extension
+from allegrobridge.client.base._future import Cmd, CmdResult
+from allegrobridge.client.base._record import (
+    _ID,
+    BaseRecord,
+    SessionRecord,
+)
+from allegrobridge.client.base._rpc import (
+    Batch,
+    RpcArgs,
+    RpcDef,
+    SessionApi,
+    direct,
+    read,
+    write,
+)
+
+__all__ = [
+    '_ID',
+    'BaseRecord',
+    'Batch',
+    'Cmd',
+    'CmdResult',
+    'Extensions',
+    'RpcArgs',
+    'RpcDef',
+    'SessionApi',
+    'SessionRecord',
+    'direct',
+    'extension',
+    'read',
+    'write',
+]

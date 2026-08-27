@@ -1,4 +1,5 @@
 [mcp_servers.context7]
-command = "cmd"
-args = ["/c", "npx", "-y", "@upstash/context7-mcp@2.0.2"]
-startup_timeout_ms = 20000
+command = "/bin/zsh"
+args = ["-lc", "set -a; source \"$PWD/.codex/context7.env\"; set +a; exec npx -y @upstash/context7-mcp@2.0.2"]
+startup_timeout_sec = 40
+tool_timeout_sec = 120

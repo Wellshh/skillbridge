@@ -2,22 +2,21 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 from __future__ import annotations
 
-from pydantic import PositiveInt, TypeAdapter
+from pydantic import TypeAdapter
 
-from allegrobridge.client.api._record import _Record
-from allegrobridge.client.api._rpc import RpcArgs, SessionApi, _core_api, read
+from allegrobridge.client.base import SessionRecord
+from allegrobridge.client.base._rpc import RpcArgs, SessionApi, _core_api, read
 
 _PROCEDURE = '__abProjectPadstacks'
 _OptionalString = str | None
 
 
-class PadstackInfo(_Record):
+class PadstackInfo(SessionRecord):
     name: str
     type: str
     usage: str
     start_layer: _OptionalString
     end_layer: _OptionalString
-    session_generation: PositiveInt
 
 
 _PadstackList = list[PadstackInfo]

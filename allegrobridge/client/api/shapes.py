@@ -4,27 +4,26 @@ from __future__ import annotations
 
 from typing import Literal
 
-from pydantic import PositiveInt, TypeAdapter
+from pydantic import TypeAdapter
 
-from allegrobridge.client.api._record import _Record
-from allegrobridge.client.api._rpc import RpcArgs, SessionApi, read
 from allegrobridge.client.api.routes import Point
+from allegrobridge.client.base import BaseRecord, SessionRecord
+from allegrobridge.client.base._rpc import RpcArgs, SessionApi, read
 
 _PROJECT_PROCEDURE = '__abProjectShapes'
 _OptionalString = str | None
 
 
-class BBox(_Record):
+class BBox(BaseRecord):
     lower_left: Point
     upper_right: Point
 
 
-class ShapeInfo(_Record):
+class ShapeInfo(SessionRecord):
     net: _OptionalString
     layer: str
     dynamic: Literal['dynamic', 'static']
     bbox: BBox
-    session_generation: PositiveInt
 
 
 _ShapeList = list[ShapeInfo]

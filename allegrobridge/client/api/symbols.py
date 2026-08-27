@@ -2,23 +2,22 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 from __future__ import annotations
 
-from pydantic import PositiveInt, TypeAdapter
+from pydantic import TypeAdapter
 
-from allegrobridge.client.api._record import _Record
-from allegrobridge.client.api._rpc import RpcArgs, SessionApi, _core_api, read
+from allegrobridge.client.base import SessionRecord
+from allegrobridge.client.base._rpc import RpcArgs, SessionApi, _core_api, read
 
 _PROCEDURE = '__abProjectSymbols'
 _OptionalString = str | None
 
 
-class SymbolInfo(_Record):
+class SymbolInfo(SessionRecord):
     name: str
     type: str
     refdes: _OptionalString
     x: float
     y: float
     rotation: float
-    session_generation: PositiveInt
 
 
 _SymbolList = list[SymbolInfo]

@@ -385,6 +385,18 @@ def test_allegro_workspace_caches_extension_readiness_failure(
     ]
 
 
+def test_allegro_workspace_caches_extension_transport_failure() -> None:
+    ws = AllegroWorkspace(channel=RejectingChannel(), id_=456)
+
+    with raises(ExtensionError, match="failed to load extension 'broken'") as first:
+        ws._ensure_extension('broken', ('__abp_broken_project',))
+    with raises(ExtensionError) as second:
+        ws._ensure_extension('broken', ('__abp_broken_project',))
+
+    assert second.value is first.value
+    assert isinstance(first.value.__cause__, RuntimeError)
+
+
 def test_allegro_workspace_closes_when_core_runtime_stays_incomplete(
     monkeypatch: MonkeyPatch,
 ) -> None:
