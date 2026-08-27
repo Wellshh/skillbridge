@@ -4,18 +4,21 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 from __future__ import annotations
 
+import socket as socket_module
 import warnings
 from collections.abc import Iterable, Iterator
+from io import StringIO
 from select import select
 from socket import socket, socketpair
 from threading import Thread
 from typing import Literal
+from unittest.mock import Mock
 
 from _pytest.fixtures import SubRequest
 from pytest import fixture, mark, raises
 
 from skillbridge import Workspace, current_workspace, loop_var
-from skillbridge.client.channel import Channel, TcpChannel, create_channel_class
+from skillbridge.client.channel import Channel, DirectChannel, TcpChannel, create_channel_class
 from skillbridge.client.objects import RemoteObject
 from skillbridge.exception import PeerClosedError
 from skillbridge.protocol.socket import DEFAULT_MAX_PAYLOAD_SIZE, Socket
@@ -94,10 +97,10 @@ class RaisingSocketWrapper:
     def __init__(self, error: BaseException) -> None:
         self.error = error
 
-    def send_frame(self, _payload: bytes) -> None:
+    def send_frame(self, _payload: bytes, **_kwargs: int) -> None:
         raise self.error
 
-    def recv_frame(self) -> bytes:
+    def recv_frame(self, **_kwargs: int) -> bytes:
         raise self.error
 
 
@@ -171,6 +174,48 @@ def test_channel_connects(server: Virtuoso):
     assert c.connected
     assert c.max_transmission_length == DEFAULT_MAX_PAYLOAD_SIZE
     c.close()
+
+
+def test_direct_channel_round_trip_and_no_op_lifecycle(monkeypatch) -> None:
+    stdout = StringIO()
+    monkeypatch.setattr('builtins.input', lambda: 'success 3')
+    channel = DirectChannel(stdout)
+
+    assert channel.send('plus(\n)') == '3'
+    assert stdout.getvalue() == 'plus(\\n)\n'
+    assert channel.epoch == 0
+    assert channel.close() is None
+    assert channel.flush() is None
+    assert channel.try_repair() is None
+
+
+def test_timeout_response_explains_recovery() -> None:
+    with raises(RuntimeError, match='increase the timeout'):
+        Channel.decode_response('failure <timeout>')
+
+
+def test_tcp_channel_configures_fast_loopback_when_available(monkeypatch) -> None:
+    control_code = object()
+    raw_socket = Mock()
+    monkeypatch.setattr(
+        socket_module,
+        'SIO_LOOPBACK_FAST_PATH',
+        control_code,
+        raising=False,
+    )
+
+    tcp_channel_class.configure(object.__new__(tcp_channel_class), raw_socket)
+
+    ioctl_args = raw_socket.ioctl.call_args.args
+    assert ioctl_args[0] is control_code
+    assert ioctl_args[1] is True
+
+
+def test_tcp_address_defaults_and_rejects_invalid_ids() -> None:
+    assert tcp_channel_class.create_address(None) == ('localhost', 7777)
+
+    with raises(ValueError, match='numeric id'):
+        tcp_channel_class.create_address('not-a-port')
 
 
 def test_one_message_is_send(server: Virtuoso, channel: Channel):
@@ -442,6 +487,30 @@ class TestTcpChannelCleanup:
 
         assert channel.epoch == 0
         assert not channel.connected
+
+    def test_keyboard_interrupt_explains_receive_recovery(self) -> None:
+        channel, _ = channel_raising(KeyboardInterrupt())
+        channel._socket = Mock()
+        channel._socket.recv_frame.side_effect = KeyboardInterrupt
+
+        try:
+            with raises(RuntimeError, match='Receive aborted'):
+                channel.send('read()')
+        finally:
+            channel.connected = False
+
+    def test_try_repair_returns_late_response_or_error(
+        self,
+        local_tcp_channel: tuple[TcpChannel, socket],
+    ) -> None:
+        channel, peer = local_tcp_channel
+        Socket(peer).send_frame(b'late response')
+
+        assert channel.try_repair() == 'late response'
+
+        error = RuntimeError('still broken')
+        channel._socket = RaisingSocketWrapper(error)
+        assert channel.try_repair() is error
 
     def test_close_sends_close_frame_and_releases_socket(
         self,

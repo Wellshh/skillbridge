@@ -1175,6 +1175,32 @@ class TestDrcApi:
 
         assert workspace.mock_calls == []
 
+    def test_reconnect_rejects_old_record_and_accepts_new_record(self) -> None:
+        workspace = MagicMock(epoch=0)
+        workspace.__getitem__.return_value.return_value = [
+            {
+                'name': 'GND',
+                'branch_count': 1,
+                'unconnected_count': 0,
+                'unplaced_pin_count': 0,
+            }
+        ]
+        session = _session(workspace)
+        drc = session.drc
+        old = session.nets()[0]
+        workspace.epoch = 1
+        current = session.nets()[0]
+        workspace.__getitem__.return_value.return_value = []
+        workspace.reset_mock()
+
+        with pytest.raises(RecordIDError, match='stale'):
+            drc.check(old)
+        assert workspace.mock_calls == []
+
+        assert drc.check(current) == []
+        _assert_id(current, session)
+        workspace.__getitem__.return_value.assert_called_once_with('net', 'GND', None)
+
     def test_rejects_invalid_target_and_payload(self) -> None:
         workspace = MagicMock()
         session = _session(workspace)
@@ -1231,6 +1257,18 @@ class TestWriteApi:
         assert moved.x == pytest.approx(1.0)
         _assert_id(moved, session)
         workspace.transaction.assert_called_once_with(command.expr)
+
+    def test_command_derives_id_from_session(self) -> None:
+        session = _session()
+
+        command = Cmd(
+            session,
+            SkillCode('move1()'),
+            '__abMoveComponent',
+            TypeAdapter(ComponentInfo),
+        )
+
+        assert command._id == _ID(ref(session), session.generation)
 
     def test_preview_uses_dry_transaction(self) -> None:
         workspace = MagicMock()
@@ -1447,16 +1485,18 @@ class TestBatch:
             _ = results[0].value
         assert result_error.value is raised.value
 
-    def test_refresh_during_batch_rejects_response(self) -> None:
-        workspace = MagicMock()
+    @pytest.mark.parametrize('change', ['refresh', 'reconnect'])
+    def test_generation_change_during_batch_rejects_response(self, change: str) -> None:
+        workspace = MagicMock(epoch=0)
         workspace.__getitem__.return_value.lazy.return_value = 'move1()'
         session = _session(workspace)
+        advance = session.refresh if change == 'refresh' else lambda: setattr(workspace, 'epoch', 1)
 
-        def refresh_during_transaction(_expr: SkillCode) -> list[dict[str, object]]:
-            session.refresh()
+        def change_during_transaction(_expr: SkillCode) -> list[dict[str, object]]:
+            advance()
             return [self._payload('R1', 1.0)]
 
-        workspace.transaction.side_effect = refresh_during_transaction
+        workspace.transaction.side_effect = change_during_transaction
         results: list[CmdResult[ComponentInfo]] = []
 
         def execute() -> None:

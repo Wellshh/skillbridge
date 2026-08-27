@@ -4,9 +4,11 @@
 from __future__ import annotations
 
 from collections import deque
+from io import StringIO
 from json import dumps
 from pathlib import Path
 from threading import Thread
+from types import SimpleNamespace
 from typing import Any
 
 from pytest import MonkeyPatch, mark, raises
@@ -17,6 +19,7 @@ from allegrobridge.exceptions import ExtensionError
 from skillbridge import Workspace
 from skillbridge.client import workspace as workspace_module
 from skillbridge.client.channel import Channel
+from skillbridge.client.objects import RemoteTable, RemoteVector
 from skillbridge.client.translator import DefaultTranslator
 from skillbridge.client.workspace import (
     _open_workspaces,  # ruff: ignore[import-private-name]
@@ -111,6 +114,89 @@ def test_workspace_exposes_channel_epoch() -> None:
 
     channel._epoch = 2
     assert ws.epoch == 2
+
+
+def test_workspace_builds_remote_collections_and_delegates_repair(
+    monkeypatch: MonkeyPatch,
+) -> None:
+    channel = ScriptedChannel('Table("table")', 'Vector("vector")')
+    monkeypatch.setattr(channel, 'try_repair', lambda: 'repaired')
+    ws = Workspace(channel=channel, id_=123)
+
+    assert isinstance(ws.make_table('T', 0), RemoteTable)
+    assert isinstance(ws.make_vector(2, None), RemoteVector)
+    assert ws.id == 123
+    assert ws.try_repair() == 'repaired'
+    assert channel.commands == ['makeTable("T" 0 )', 'makeVector(2 nil )']
+
+
+def test_workspace_define_encodes_multiline_function() -> None:
+    channel = ProbeChannel('None')
+    ws = Workspace(channel=channel, id_=123)
+
+    ws.define(
+        'custom_matrix_calc',
+        ['limit', 'multiplier'],
+        'limit +\nmultiplier',
+    )
+
+    assert channel.commands == ['defun(userCustomMatrixCalc (limit multiplier) limit + multiplier)']
+
+
+def test_workspace_fix_completion_configures_ipython(monkeypatch: MonkeyPatch) -> None:
+    completer = SimpleNamespace(use_jedi=True, greedy=False)
+    shell = SimpleNamespace(Completer=completer)
+    monkeypatch.setattr(workspace_module, 'get_ipython', lambda: shell, raising=False)
+
+    Workspace.fix_completion()
+
+    assert not completer.use_jedi
+    assert completer.greedy
+
+
+def test_workspace_direct_mode_uses_original_stdout(monkeypatch: MonkeyPatch) -> None:
+    stdin = SimpleNamespace(isatty=lambda: False)
+    stdout = StringIO()
+    stderr = StringIO()
+    monkeypatch.setattr(workspace_module.sys, 'stdin', stdin)
+    monkeypatch.setattr(workspace_module.sys, 'stdout', stdout)
+    monkeypatch.setattr(workspace_module.sys, 'stderr', stderr)
+
+    ws = Workspace.open('direct', direct=True)
+
+    assert ws.id == 'direct'
+    assert ws._channel.stdout is stdout
+    assert workspace_module.sys.stdout is stderr
+
+
+def test_workspace_open_rejects_conflicting_mode_and_missing_server(
+    monkeypatch: MonkeyPatch,
+) -> None:
+    with raises(ValueError, match='conflict'):
+        Workspace.open(direct=True, force_tcp=True)
+
+    def missing_server(_id: object) -> Channel:
+        raise FileNotFoundError
+
+    monkeypatch.setattr(workspace_module, 'create_channel_class', lambda _force_tcp: missing_server)
+
+    with raises(RuntimeError, match='No server found'):
+        Workspace.open('missing-server')
+
+
+def test_workspace_close_can_suppress_error_and_preserve_other_cache_entry() -> None:
+    ws = Workspace(channel=DummyChannel(1), id_=123)
+    other = Workspace(channel=ProbeChannel('None'), id_=456)
+    _open_workspaces[Workspace, 123] = ws
+    _open_workspaces[Workspace, 456] = other
+
+    try:
+        ws.close(log_exception=False)
+
+        assert (Workspace, 123) not in _open_workspaces
+        assert _open_workspaces[Workspace, 456] is other
+    finally:
+        _open_workspaces.pop((Workspace, 456), None)
 
 
 def test_allegro_workspace_namespaces_and_chaining() -> None:

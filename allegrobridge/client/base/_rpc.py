@@ -261,7 +261,6 @@ class _Write(Generic[ApiT, P, T]):
             expr,
             self.spec.proc,
             self._adapter,
-            _ID(ref(instance._session), instance._session.generation),
         )
 
     @overload

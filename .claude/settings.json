@@ -24,7 +24,14 @@
       "Bash(grep -v \"MkDocs 2.0\\\\|mkdocs-material\\\\|×\\\\|⚠\\\\|squidfunk\\\\|^ │\\\\|^$\")",
       "Bash(echo \"grep-exit=$?\")",
       "Bash(.venv/bin/python -m pytest tests/allegrobridge -m \"not allegro\" -q)",
-      "Bash(git commit -m 'docs: point README documentation links at the site *)"
+      "Bash(git commit -m 'docs: point README documentation links at the site *)",
+      "Bash(bash -n sync-allegrobridge.sh)",
+      "Bash(rsync -a --delete --exclude '.DS_Store' /Users/wells/Documents/02_工作实习/Job/龙旗科技/代码库/allegrobridge-extract/docs/ docs/)",
+      "Bash(/Users/wells/Documents/02_工作实习/Job/龙旗科技/代码库/allegrobridge-extract/.venv/bin/mkdocs build *)",
+      "Bash(git commit -m 'docs: replace upstream sphinx docs with mkdocs site *)",
+      "Bash(curl -sL https://api.github.com/repos/rsms/inter/releases/latest)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(d['tag_name']\\); [print\\(a['browser_download_url']\\) for a in d['assets']]\")",
+      "Bash(curl -sL https://api.github.com/repos/JetBrains/JetBrainsMono/releases/latest)"
     ],
     "additionalDirectories": [
       "/Users/wells/Documents/02_工作实习/Job/龙旗科技/代码库/allegrobridge-extract/docs/reference",

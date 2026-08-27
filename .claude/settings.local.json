@@ -127,7 +127,9 @@
       "Bash(.venv/bin/mkdocs build *)",
       "Bash(.venv/bin/pip list *)",
       "Bash(.venv/bin/python -)",
-      "mcp__context7__query-docs"
+      "mcp__context7__query-docs",
+      "Bash(curl -sL -o inter.zip -w \"HTTP:%{http_code} size:%{size_download}\\\\n\" https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip)",
+      "Bash(unzip -l inter.zip)"
     ]
   }
 }

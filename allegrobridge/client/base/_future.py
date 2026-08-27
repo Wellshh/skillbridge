@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Generic, TypeVar, cast
 from weakref import ref
 
@@ -74,7 +74,10 @@ class Cmd(Generic[T]):
     expr: SkillCode
     proc: str
     _adapter: TypeAdapter[T]
-    _id: _ID
+    _id: _ID = field(init=False)
+
+    def __post_init__(self) -> None:
+        object.__setattr__(self, '_id', _ID(ref(self._session), self._session.generation))
 
     def _execute(self, *, preview: bool = False) -> T:
         self._check_id(self._session)
