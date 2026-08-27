@@ -1,8 +1,5 @@
 .vscode/
 
-docs/_build/*
-docs/_static/*
-docs/_templates/*
 
 build/*
 dist/*
@@ -39,3 +36,6 @@ tmp/
 .cursorindexingignore
 
 # .claude/
+
+# MkDocs build output
+site/

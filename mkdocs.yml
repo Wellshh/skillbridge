@@ -1,0 +1,85 @@
+site_name: AllegroBridge
+site_description: A Python bridge to Cadence Allegro PCB Editor (AXL/SKILL)
+# TODO(public repo): site_url: https://wellshh.github.io/allegrobridge/
+repo_url: https://github.com/Wellshh/allegrobridge
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - content.code.copy
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths: [.]
+          options:
+            docstring_style: google
+            show_source: false
+            show_root_heading: true
+            show_if_no_docstring: true
+            show_signature_annotations: true
+            separate_signature: true
+            members_order: source
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Installation: getting-started/installation.md
+      - Quickstart: getting-started/quickstart.md
+  - User Guide:
+      - Process lifecycle: guide/lifecycle.md
+      - Session and domain APIs: guide/session.md
+      - Transactions: guide/transactions.md
+      - Raw AXL access: guide/raw-axl.md
+      - Writing extensions: guide/extensions.md
+      - Logging: guide/logging.md
+  - Examples:
+      - examples/index.md
+      - Basic queries: examples/basic.md
+      - Moving a component: examples/move-component.md
+      - Batching writes: examples/batch.md
+      - Vias and routes: examples/vias-routes.md
+      - Raw AXL recipes: examples/raw-axl.md
+  - SKILL Testing: skill-testing.md
+  - Architecture: architecture.md
+  - Reference:
+      - reference/index.md
+      - Allegro: reference/allegro.md
+      - Session: reference/session.md
+      - Workspace and transactions: reference/workspace.md
+      - Batch and commands: reference/batch.md
+      - Domain APIs and DTOs: reference/domain-apis.md
+      - Exceptions: reference/exceptions.md
+      - Protocol: reference/protocol.md
+      - Remote objects: reference/remote-objects.md

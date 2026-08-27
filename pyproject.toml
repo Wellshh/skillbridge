@@ -53,7 +53,8 @@ dev = [
     "ruff>=0.2.1",
 ]
 doc = [
-    "sphinx"
+    "mkdocs-material>=9.5",
+    "mkdocstrings[python]>=0.26",
 ]
 
 [dependency-groups]
@@ -68,7 +69,8 @@ dev = [
     "pre-commit",
 ]
 doc = [
-    "sphinx",
+    "mkdocs-material>=9.5",
+    "mkdocstrings[python]>=0.26",
 ]
 
 [project.scripts]
@@ -188,10 +190,6 @@ ignore = [
 "update_version.py" = [
     "subprocess-without-shell-equals-true",
     "start-process-with-partial-path",
-]
-"docs/conf.py" = [
-    "implicit-namespace-package",
-    "builtin-variable-shadowing",
 ]
 "*" = [
     "bad-quotes-inline-string",

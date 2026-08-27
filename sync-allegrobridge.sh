@@ -5,7 +5,8 @@ set -euo pipefail
 
 SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DST="$(dirname "$SRC")/allegrobridge-extract"
-DIRS=(allegrobridge skillbridge tests scripts)
+DIRS=(allegrobridge skillbridge tests scripts docs)
+FILES=(mkdocs.yml)
 
 if [ ! -d "$DST/.git" ]; then
     echo "sync: $DST not found, skipping"
@@ -20,16 +21,20 @@ fi
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 
-git -C "$SRC" archive HEAD "${DIRS[@]}" | tar -x -C "$TMP"
+git -C "$SRC" archive HEAD "${DIRS[@]}" "${FILES[@]}" | tar -x -C "$TMP"
 rm -f "$TMP/allegrobridge/PLAN.md" "$TMP/skillbridge/server/SECRET.md"
 find "$TMP" -name .DS_Store -delete
 
 for dir in "${DIRS[@]}"; do
     rsync -a --delete "$TMP/$dir/" "$DST/$dir/"
 done
+# sync back
+for f in "${FILES[@]}"; do
+    cp "$TMP/$f" "$DST/$f"
+done
 
-git -C "$DST" add -A -- "${DIRS[@]}"
-if git -C "$DST" diff --cached --quiet -- "${DIRS[@]}"; then
+git -C "$DST" add -A -- "${DIRS[@]}" "${FILES[@]}"
+if git -C "$DST" diff --cached --quiet -- "${DIRS[@]}" "${FILES[@]}"; then
     echo "sync: allegrobridge-extract already up to date"
     exit 0
 fi
