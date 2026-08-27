@@ -5,22 +5,41 @@ repo_url: https://github.com/Wellshh/allegrobridge
 
 theme:
   name: material
+  font: false
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
+      accent: deep orange
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
+      accent: deep orange
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
+  icon:
+    logo: material/developer-board
   features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.progress
     - navigation.sections
     - navigation.indexes
     - navigation.top
+    - navigation.footer
+    - navigation.tracking
+    - toc.follow
+    - search.suggest
+    - search.highlight
     - content.code.copy
+    - content.tabs.link
+
+extra_css:
+  - stylesheets/extra.css
 
 plugins:
   - search
@@ -37,6 +56,8 @@ plugins:
             show_signature_annotations: true
             separate_signature: true
             members_order: source
+            signature_crossrefs: true
+            show_symbol_type_heading: true
 
 markdown_extensions:
   - admonition
