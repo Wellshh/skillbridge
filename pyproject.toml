@@ -13,7 +13,7 @@ authors = [
 ]
 description = "A seamless Python remote bridge to Cadence's Skill in Virtuoso"
 readme = {file = "README.md", content-type = "text/markdown"}
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 dependencies = [
     "pydantic>=2.10,<2.11",
     "psutil>=7,<8",
@@ -24,8 +24,6 @@ license = {file = "LICENSE"}
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Intended Audience :: Developers",
@@ -97,8 +95,8 @@ precision = 2
 exclude_also = ["raise NotImplementedError", "@overload"]
 
 [tool.mypy]
-python_version = "3.12"
-files = ["skillbridge", "allegrobridge"]
+python_version = "3.10"
+files = ["skillbridge", "allegrobridge", "tests/typing_allegrobridge_axl_stubs.py"]
 exclude = ["tests"]
 platform = "linux"
 pretty = true

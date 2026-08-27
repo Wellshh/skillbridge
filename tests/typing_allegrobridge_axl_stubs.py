@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 from __future__ import annotations
 
-from typing import assert_type
+from typing_extensions import assert_type
 
 from allegrobridge import Allegro, Session, Workspace
 from skillbridge import Workspace as GWorkspace

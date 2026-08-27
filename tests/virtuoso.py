@@ -11,7 +11,6 @@ from threading import Thread
 from tty import setraw
 
 from skillbridge.protocol.response import Response, RespStatus
-from skillbridge.server import python_server
 
 
 class Virtuoso(Thread):
@@ -34,12 +33,19 @@ class Virtuoso(Thread):
                 raise RuntimeError(f"could not start server:\n {self.server.stdout.read()}")
 
     def _create_subprocess(self):
-        script = python_server.__file__
         master, slave = openpty()
         setraw(slave)
         force_args = ["--force-tcp"] if self.force_tcp else []
         self.server = Popen(
-            [executable, script, self.workspace_id, "DEBUG", '--notify', *force_args],
+            [
+                executable,
+                '-m',
+                'skillbridge.server.python_server',
+                self.workspace_id,
+                'DEBUG',
+                '--notify',
+                *force_args,
+            ],
             stdin=slave,
             stdout=PIPE,
             stderr=STDOUT,
