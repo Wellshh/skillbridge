@@ -101,5 +101,9 @@ def test_generated_stub_declares_axl_contract() -> None:
         'height: float | None = ..., line_space: float | None = ..., '
         'char_space: float | None = ..., photo_width: float | None = ...) -> Skill:' in stub
     )
+    assert 'Args:' in stub
+    assert 'Returns:' in stub
+    assert 'Padstack name.' in stub
+    assert 'Creates a via in the layout as specified by the arguments described below.' in stub
 
     assert not DOCUMENT_ONLY_NAMES & literal_names

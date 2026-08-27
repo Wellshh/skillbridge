@@ -34,7 +34,7 @@ _PINS = TypeAdapter(_PinList)
 
 @_core_api
 class PinsApi(SessionApi):
-    @read(_PROCEDURE, _PINS, none_as_empty=True)
+    @read(_PROCEDURE, _PINS)
     def _project(
         self,
         component: str | None,

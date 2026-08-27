@@ -28,7 +28,7 @@ _LAYERS = TypeAdapter(_LayerList)
 
 @_core_api
 class LayersApi(SessionApi):
-    @read(_PROCEDURE, _LAYERS, none_as_empty=True)
+    @read(_PROCEDURE, _LAYERS)
     def _project(self, name: str | None, etch_only: bool) -> RpcArgs:
         return name, etch_only
 

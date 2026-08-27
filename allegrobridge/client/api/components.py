@@ -33,7 +33,7 @@ _COMPONENT = TypeAdapter(ComponentInfo)
 
 @_core_api
 class ComponentsApi(SessionApi):
-    @read(_PROCEDURE, _COMPONENTS, none_as_empty=True)
+    @read(_PROCEDURE, _COMPONENTS)
     def _project(self, refdes: str | None, include_unplaced: bool) -> RpcArgs:
         return refdes, include_unplaced
 

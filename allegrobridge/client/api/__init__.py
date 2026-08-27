@@ -22,10 +22,9 @@ API Layering & Loading Principles:
 from __future__ import annotations
 
 from allegrobridge.client.api._extensions import extension
+from allegrobridge.client.api._future import Cmd, CmdResult
 from allegrobridge.client.api._rpc import (
     Batch,
-    Command,
-    CommandResult,
     RpcArgs,
     RpcDef,
     SessionApi,
@@ -56,8 +55,8 @@ __all__ = [
     'Batch',
     'BoardApi',
     'BoardInfo',
-    'Command',
-    'CommandResult',
+    'Cmd',
+    'CmdResult',
     'ComponentInfo',
     'ComponentRef',
     'ComponentsApi',

@@ -11,6 +11,8 @@ import pytest
 
 from scripts import generate_axl_stubs as generator
 from scripts.generate_axl_stubs import (
+    ArgumentDoc,
+    ExampleSegment,
     build_api_specs,
     render_report,
     render_stub,
@@ -116,6 +118,201 @@ Creates a value.
         ('width', 'f_width', 'keyword'),
         ('lineSpace', 'f_lineSpace', 'keyword'),
     ]
+
+
+def test_build_api_specs_parses_full_document_sections(tmp_path: Path) -> None:
+    api_names_path, reference_root = _write_sources(
+        tmp_path,
+        ['axlRich', 'axlPlain'],
+        {
+            'apis.md': """
+### axlRich
+
+`axlRich(t_padstack l_anchorPoint [t_netName]) => l_result/nil`
+
+#### Description
+
+Creates a via in the layout. The via is added to the
+database immediately.
+
+Mirroring applies before rotation.
+
+#### Arguments
+
+|  |
+| --- | ---
+| `t_padstack` | Padstack name. Searched in the libraries
+| specified by PADPATH when missing.
+| `l_anchorPoint` | Layout coordinates.
+| `t_netName` | Net name; `nil` → stand-alone.
+
+#### Value Returned
+
+|  |
+| --- | ---
+| `l_result` | List: (`car`) dbid of the via. (`cadr`) `t` if DRCs are created.
+| `nil` | Nothing is created.
+
+#### Note
+
+Testpoints need a dedicated function.
+
+#### Example
+
+> ```
+> myvia = axlRich("pad1", 5600:4200, "sclkl")    ⇒ (dbid:526745 nil)
+> ```
+
+Adds a standalone via.
+
+### axlPlain
+
+`axlPlain() => t/nil`
+
+#### Description
+
+Does nothing.
+
+#### Arguments
+
+None.
+""",
+        },
+    )
+
+    specs = {spec.name: spec for spec in build_api_specs(api_names_path, reference_root)}
+
+    rich = specs['axlRich']
+    assert rich.quality == 'exact'
+    assert rich.doc.description == (
+        ('Creates a via in the layout. The via is added to the database immediately.',),
+        ('Mirroring applies before rotation.',),
+    )
+    assert rich.doc.arguments == (
+        ArgumentDoc(
+            't_padstack',
+            'Padstack name. Searched in the libraries specified by PADPATH when missing.',
+        ),
+        ArgumentDoc('l_anchorPoint', 'Layout coordinates.'),
+        ArgumentDoc('t_netName', 'Net name; `nil` → stand-alone.'),
+    )
+    assert rich.doc.returns == (
+        ArgumentDoc('l_result', 'List: (`car`) dbid of the via. (`cadr`) `t` if DRCs are created.'),
+        ArgumentDoc('nil', 'Nothing is created.'),
+    )
+    assert rich.doc.examples == (
+        ExampleSegment(
+            'code', ('myvia = axlRich("pad1", 5600:4200, "sclkl")    ⇒ (dbid:526745 nil)',)
+        ),
+        ExampleSegment('prose', ('Adds a standalone via.',)),
+    )
+
+    plain = specs['axlPlain']
+    assert plain.doc.description == (('Does nothing.',),)
+    assert plain.doc.arguments == ()
+    assert plain.doc.returns == ()
+    assert plain.doc.examples == ()
+
+
+def test_build_api_specs_parses_section_heading_variants_and_cleaning(tmp_path: Path) -> None:
+    api_names_path, reference_root = _write_sources(
+        tmp_path,
+        ['axlBold', 'axlNumbered', 'axlBullets'],
+        {
+            'apis.md': """
+### axlBold
+
+`axlBold(t_name) => t/nil`
+
+**Description**
+
+Uses the ALT\\_SYMBOL list; see [axlAltSymbolOK](07dbaccs.html#739212 "6") for checks.
+
+> `'(s_name...) t_mode/s_mode` quoted form.
+
+**Net Attributes**
+
+| `attr` | meaning
+
+**Arguments**
+
+| `t_name` | may be compdef or a refdes name
+
+#### Value Returns
+
+| `t` | is legal
+| `nil` | error or not legal
+
+### axlNumbered
+
+`axlNumbered() => t/nil`
+
+#### Description
+
+Numbered examples.
+
+#### Example 1
+
+`axlNumbered()`
+
+First form.
+
+#### Example 2
+
+> > ```
+> > axlNumbered()
+> > ```
+
+### axlBullets
+
+`axlBullets(x_template) => x_result/nil`
+
+#### Description
+
+Bullet returns.
+
+#### Arguments
+
+`x_template`
+
+#### Value Returned
+
+* `x_result` - new result block
+
+* Returned when the command fails outright.
+""",
+        },
+    )
+
+    specs = {spec.name: spec for spec in build_api_specs(api_names_path, reference_root)}
+
+    bold = specs['axlBold']
+    assert bold.quality == 'exact'
+    assert bold.doc.description == (
+        ('Uses the ALT_SYMBOL list; see axlAltSymbolOK for checks.',),
+        ("`'(s_name...) t_mode/s_mode` quoted form.",),
+        ('**Net Attributes**',),
+        ('| `attr` | meaning',),
+    )
+    assert bold.doc.arguments == (ArgumentDoc('t_name', 'may be compdef or a refdes name'),)
+    assert bold.doc.returns == (
+        ArgumentDoc('t', 'is legal'),
+        ArgumentDoc('nil', 'error or not legal'),
+    )
+
+    numbered = specs['axlNumbered']
+    assert numbered.doc.examples == (
+        ExampleSegment('code', ('axlNumbered()',)),
+        ExampleSegment('prose', ('First form.',)),
+        ExampleSegment('code', ('axlNumbered()',)),
+    )
+
+    bullets = specs['axlBullets']
+    assert bullets.doc.arguments == ()
+    assert bullets.doc.returns == (
+        ArgumentDoc('x_result', 'new result block'),
+        ArgumentDoc('', 'Returned when the command fails outright.'),
+    )
 
 
 def test_build_api_specs_classifies_duplicates_conflicts_and_missing_entries(
@@ -270,6 +467,92 @@ def test_real_allegro_references_cover_the_supported_inventory() -> None:
         'allOrNone',
     ]
 
+    via = by_name['axlDBCreateVia'].doc
+    assert via.description == (
+        ('Creates a via in the layout as specified by the arguments described below.',),
+    )
+    assert via.arguments == (
+        ArgumentDoc(
+            't_padstack',
+            'Padstack name. If a padstack definition with this name is not already in the '
+            'layout, the function searches in order the libraries specified by`PADPATH` and '
+            'loads the definition into the database.',
+        ),
+        ArgumentDoc('o_padstackDbid', 'a padstack dbid'),
+        ArgumentDoc('l_anchorPoint', 'Layout coordinates of the location to create the via.'),
+        ArgumentDoc(
+            't_netName',
+            'Name of the net to which the via is to belong; `nil` → via is stand-alone.',
+        ),
+        ArgumentDoc(
+            'g_mirror',
+            '`t` → create via mirrored. `nil` → create via unmirrored. '
+            '`` `GEOMETRY `` → only geometry is mirrored.',
+        ),
+        ArgumentDoc('f_rotation', 'Rotation of via in degrees.'),
+        ArgumentDoc(
+            'o_parent',
+            '`DBID`of the object to which to attach the via. Use a symbol instance or use '
+            '`nil` to specify the design itself.',
+        ),
+    )
+    assert via.returns == (
+        ArgumentDoc(
+            'l_result',
+            'List: (`car`) `DBID`of the via created. (`cadr`) `t`if DRCs are created. '
+            '`nil`if DRCs are not created.',
+        ),
+        ArgumentDoc('nil', 'Nothing is created.'),
+    )
+    assert via.examples[0].kind == 'code'
+    assert via.examples[0].lines == (
+        (
+            'myvia = axlDBCreateVia( "pad1", 5600:4200,    "sclkl", t, 45., nil)    ⇒ '
+            '(dbid:526745 nil)'
+        ),
+    )
+    assert via.examples[-1].kind == 'prose'
+
+    mks = by_name['axlMKSConvert'].doc
+    assert mks.description[0] == (
+        (
+            'Converts any allowable unit to any other allowable unit. It operates in several '
+            'ways, depending on the arguments.'
+        ),
+    )
+    assert [doc.name for doc in mks.arguments] == ['n_input', 't_inUnits', 't_outUnits']
+    mks_code = [
+        line for segment in mks.examples if segment.kind == 'code' for line in segment.lines
+    ]
+    assert 'axlMKSConvert(.5 "design" "INCHES") => 0.0005' in mks_code
+
+    text_block = by_name['axlDBTextBlockCreate'].doc
+    assert text_block.arguments == ()
+    assert text_block.returns == (
+        ArgumentDoc('x_textBlock', 'new text block'),
+        ArgumentDoc(
+            'nil',
+            'Returned if the command fails. Typically, this happens when you have exhausted '
+            'the number block Allegro provides, or one of the parameters is not of the '
+            'correct data type.',
+        ),
+    )
+    assert text_block.examples[-1] == ExampleSegment(
+        'code',
+        ('blockNum = axlDBTextBlockCreate(1 ?width 15.0 ?height 16.0)',),
+    )
+
+    alt_symbol = by_name['axlAltSymbolOK'].doc
+    assert alt_symbol.description == (
+        (
+            (
+                'This verifies that symbol is legal for component. Must be in the ALT_SYMBOL '
+                'list with the correct layer.'
+            ),
+        ),
+    )
+    assert [doc.name for doc in alt_symbol.returns] == ['t', 'nil']
+
 
 @pytest.mark.skipif(not REFERENCE_ROOT.is_dir(), reason='Cadence reference docs not available')
 def test_render_stub_is_deterministic_and_excludes_document_sections() -> None:
@@ -288,6 +571,9 @@ def test_render_stub_is_deterministic_and_excludes_document_sections() -> None:
     assert 'class _AxlOlOl2(LiteralRemoteFunction):' in first
     assert generator._snake_name('is') == 'is_'
     assert '"""\n        ...' not in first
+    assert 'Args:' in first
+    assert 'Returns:' in first
+    assert '```' in first
 
 
 def test_build_api_specs_downgrades_malformed_declarations(
@@ -354,10 +640,223 @@ def test_build_api_specs_downgrades_malformed_declarations(
 
     assert [spec.quality for spec in specs[:-1]] == ['fallback'] * 8
     assert specs[-1].quality == 'exact'
-    assert not specs[-1].description
+    assert specs[-1].doc.description == ()
     report = render_report(specs)
     assert 'total=9' in report
     assert 'fallback axlTrailing algroskill/malformed.md:2' in report
+
+
+def test_render_stub_disambiguates_duplicate_parameter_names(tmp_path: Path) -> None:
+    api_names_path, reference_root = _write_sources(
+        tmp_path,
+        ['axlDup'],
+        {'apis.md': '### axlDup\n`axlDup(l_point lPoint) => t`\n'},
+    )
+    (spec,) = build_api_specs(api_names_path, reference_root)
+
+    stub = render_stub([spec])
+
+    assert 'def __call__(self, l_point: SkillList, l_point_2: Skill, /) -> bool:' in stub
+
+
+def _call_docstrings(stub: str) -> dict[str, list[str]]:
+    tree = ast.parse(stub)
+    return {
+        node.name: [
+            ast.get_docstring(item) or ''
+            for item in node.body
+            if isinstance(item, ast.FunctionDef) and item.name == '__call__'
+        ]
+        for node in tree.body
+        if isinstance(node, ast.ClassDef) and node.name.startswith('_Axl')
+    }
+
+
+def test_render_stub_emits_enriched_google_style_docstrings(tmp_path: Path) -> None:
+    api_names_path, reference_root = _write_sources(
+        tmp_path,
+        ['axlRich', 'axlKeyword', 'axlMiddle', 'axlFallback'],
+        {
+            'apis.md': """
+### axlRich
+
+`axlRich(t_padstack l_anchorPoint [t_netName]) => l_result/nil`
+
+#### Description
+
+Creates a via in the layout.
+
+#### Arguments
+
+|  |
+| --- | ---
+| `t_padstack` | Padstack name.
+| `l_anchorPoint` | Layout coordinates.
+| `t_netName` | Net name; `nil` → stand-alone.
+| `o_unmatched` | Documented but not in the signature.
+
+#### Value Returned
+
+|  |
+| --- | ---
+| `l_result` | List: (`car`) dbid of the via.
+| `nil` | Nothing is created.
+
+#### Example
+
+> ```
+> myvia = axlRich("pad1", 5600:4200)
+> printf("done\\n")
+> ```
+
+Adds a via.
+
+### axlKeyword
+
+`axlKeyword(x_blockTemplate ?width f_width ?height f_height) => x_block/nil`
+
+#### Description
+
+Creates a text block.
+
+#### Arguments
+
+|  |
+| --- | ---
+| `x_blockTemplate` | Template block number.
+| `f_width` | Line width.
+| `f_height` | Line height.
+
+#### Value Returned
+
+* `x_block` - new text block
+
+* Command failed.
+
+### axlMiddle
+
+`axlMiddle(t_first [t_middle] t_last) => t/nil`
+
+#### Description
+
+Expands middle optionals.
+
+#### Arguments
+
+|  |
+| --- | ---
+| `t_first` | First.
+| `t_middle` | Middle.
+| `t_last` | Last.
+
+### axlFallback
+
+`axlFallback broken => t`
+
+#### Description
+
+This API is documented but its declaration is unparsable.
+
+#### Value Returned
+
+| `t` | Always succeeds.
+""",
+        },
+    )
+    specs = build_api_specs(api_names_path, reference_root)
+
+    stub = render_stub(specs)
+    docstrings = _call_docstrings(stub)
+
+    assert docstrings['_AxlRich'] == [
+        """\
+Creates a via in the layout.
+
+Args:
+    t_padstack: Padstack name.
+    l_anchor_point: Layout coordinates.
+    t_net_name: Net name; `nil` → stand-alone.
+
+Returns:
+    l_result: List: (`car`) dbid of the via.
+    nil: Nothing is created.
+
+Example:
+    ```
+    myvia = axlRich("pad1", 5600:4200)
+    printf("done\\n")
+    ```
+
+    Adds a via.
+
+SKILL: axlRich(t_padstack l_anchorPoint [t_netName]) => l_result/nil
+Version: Allegro 17.2-2016
+Source: algroskill/apis.md:2""",
+    ]
+
+    assert docstrings['_AxlKeyword'] == [
+        """\
+Creates a text block.
+
+Args:
+    x_block_template: Template block number.
+    width: Line width.
+    height: Line height.
+
+Returns:
+    x_block: new text block
+    - Command failed.
+
+SKILL: axlKeyword(x_blockTemplate ?width f_width ?height f_height) => x_block/nil
+Version: Allegro 17.2-2016
+Source: algroskill/apis.md:35""",
+    ]
+    assert (
+        'def __call__(self, x_block_template: int, /, *, width: float | None = ..., '
+        'height: float | None = ...) -> int | None:' in stub
+    )
+
+    middle = docstrings['_AxlMiddle']
+    assert len(middle) == 2
+    assert (
+        middle[0]
+        == """\
+Expands middle optionals.
+
+Args:
+    t_first: First.
+    t_last: Last.
+
+SKILL: axlMiddle(t_first [t_middle] t_last) => t/nil
+Version: Allegro 17.2-2016
+Source: algroskill/apis.md:57"""
+    )
+    assert (
+        middle[1]
+        == """\
+Expands middle optionals.
+
+Args:
+    t_first: First.
+    t_middle: Middle.
+    t_last: Last.
+
+SKILL: axlMiddle(t_first [t_middle] t_last) => t/nil
+Version: Allegro 17.2-2016
+Source: algroskill/apis.md:57"""
+    )
+
+    assert docstrings['_AxlFallback'] == [
+        """\
+This API is documented but its declaration is unparsable.
+
+Returns:
+    t: Always succeeds.
+
+SKILL: signature unavailable; generic fallback
+Version: Allegro 17.2-2016
+Source: algroskill/apis.md:73""",
+    ]
 
 
 def test_build_api_specs_rejects_duplicate_inventory(tmp_path: Path) -> None:

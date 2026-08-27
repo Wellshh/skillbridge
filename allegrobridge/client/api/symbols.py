@@ -27,7 +27,7 @@ _SYMBOLS = TypeAdapter(_SymbolList)
 
 @_core_api
 class SymbolsApi(SessionApi):
-    @read(_PROCEDURE, _SYMBOLS, none_as_empty=True)
+    @read(_PROCEDURE, _SYMBOLS)
     def __call__(
         self,
         *,

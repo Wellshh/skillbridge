@@ -22,7 +22,7 @@ from allegrobridge import Allegro, OpenMode, Session, Workspace
 from allegrobridge.client.api import (
     BBox,
     BoardInfo,
-    CommandResult,
+    CmdResult,
     ComponentInfo,
     ComponentRef,
     DrcInfo,
@@ -1942,7 +1942,7 @@ class TestDrcApi:
         self._require_writable(allegro)
         source, target = self._movement_pair(session)
         baseline = session.drc.update()
-        results: list[CommandResult[Any]] = []
+        results: list[CmdResult[Any]] = []
 
         def execute() -> None:
             with session.batch('rollback move and DRC') as batch:

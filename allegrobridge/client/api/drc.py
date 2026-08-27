@@ -59,17 +59,17 @@ _DRCS = TypeAdapter(_DrcList)
 
 
 class DrcApi(SessionApi):
-    @read(_PROCEDURE, _DRCS, none_as_empty=True)
+    @read(_PROCEDURE, _DRCS)
     def __call__(self) -> RpcArgs:
         return ()
 
-    @write(_UPDATE_PROCEDURE, _DRCS, none_as_empty=True)
+    @write(_UPDATE_PROCEDURE, _DRCS)
     def update(self) -> RpcArgs:
         return ()
 
     # axlDRCItem mutates marker state that database rollback does not reliably restore.
     # Keep check as one direct RPC: no preview, command, or Batch affordances.
-    @direct(_CHECK_PROCEDURE, _DRCS, none_as_empty=True)
+    @direct(_CHECK_PROCEDURE, _DRCS)
     def check(self, target: ComponentInfo | NetInfo | PinInfo) -> RpcArgs:
         # Keep these lazy so importing DRC cannot reorder core readiness registration.
         from allegrobridge.client.api.components import (  # ruff: ignore[import-outside-top-level]

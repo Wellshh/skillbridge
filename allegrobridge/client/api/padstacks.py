@@ -26,7 +26,7 @@ _PADSTACKS = TypeAdapter(_PadstackList)
 
 @_core_api
 class PadstacksApi(SessionApi):
-    @read(_PROCEDURE, _PADSTACKS, none_as_empty=True)
+    @read(_PROCEDURE, _PADSTACKS)
     def _project(self, name: str | None) -> RpcArgs:
         return (name,)
 

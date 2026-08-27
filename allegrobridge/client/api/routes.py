@@ -35,7 +35,7 @@ _ROUTES = TypeAdapter(_RouteList)
 
 
 class RoutesApi(SessionApi):
-    @read(_PROJECT_PROCEDURE, _ROUTES, none_as_empty=True)
+    @read(_PROJECT_PROCEDURE, _ROUTES)
     def __call__(
         self,
         *,
@@ -44,7 +44,7 @@ class RoutesApi(SessionApi):
     ) -> RpcArgs:
         return net, layer
 
-    @write(_CREATE_PROCEDURE, _ROUTES, none_as_empty=True)
+    @write(_CREATE_PROCEDURE, _ROUTES)
     def create(
         self,
         net: str,

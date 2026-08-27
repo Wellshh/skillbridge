@@ -4,14 +4,16 @@ from __future__ import annotations
 
 import re
 import sys
+from collections.abc import Sequence
 from dataclasses import FrozenInstanceError
 from inspect import signature
 from pathlib import Path
 from types import ModuleType
+from typing import Annotated
 from unittest.mock import MagicMock, Mock
 
 import pytest
-from pydantic import TypeAdapter
+from pydantic import Field, TypeAdapter
 
 import allegrobridge.client.api as api_module
 import allegrobridge.server
@@ -24,8 +26,8 @@ from allegrobridge.allegro import (
 from allegrobridge.client.api import (
     Batch,
     BBox,
-    Command,
-    CommandResult,
+    Cmd,
+    CmdResult,
     ComponentInfo,
     ComponentRef,
     ComponentsApi,
@@ -34,6 +36,7 @@ from allegrobridge.client.api import (
     LayerInfo,
     NetInfo,
     NetRef,
+    NetsApi,
     PadstackInfo,
     PinInfo,
     PinRef,
@@ -49,6 +52,7 @@ from allegrobridge.client.api import (
     read,
 )
 from allegrobridge.client.api._rpc import (  # ruff: ignore[import-private-name]
+    _api_procedures,
     _core_api,
     _core_procedures,
 )
@@ -384,6 +388,57 @@ class TestSessionExtensions:
         assert session.board is session.board
 
 
+class TestCoreKeyedApi:
+    def test_returns_matches_and_rejects_none(self, monkeypatch: pytest.MonkeyPatch) -> None:
+        component = object()
+        net = object()
+        monkeypatch.setattr(ComponentsApi, '_project', Mock(side_effect=[[component], None]))
+        monkeypatch.setattr(NetsApi, '_project', Mock(side_effect=[[net], None]))
+        session = Session(Mock(workspace=MagicMock()))
+
+        assert session.components['R1'] is component
+        with pytest.raises(KeyError, match='MISSING'):
+            _ = session.components['MISSING']
+        assert session.nets['GND'] is net
+        with pytest.raises(KeyError, match='MISSING'):
+            _ = session.nets['MISSING']
+
+
+class TestRpcInheritance:
+    def test_resolves_inheritance_and_reads_current_core_class(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
+        def declaration(self: SessionApi) -> RpcArgs:
+            return ()
+
+        def operation(procedure: str) -> object:
+            return read(procedure, TypeAdapter(int))(declaration)
+
+        class BaseApi(SessionApi):
+            inherited = operation('__base')
+            hidden = operation('__hidden')
+            shared = operation('__shared')
+
+        class OtherApi(SessionApi):
+            other = operation('__other')
+            alias = operation('__shared')
+
+        class ChildApi(BaseApi, OtherApi):
+            hidden = None
+            child = operation('__child')
+            shared = operation('__shared')
+
+        assert _api_procedures(ChildApi) == ('__child', '__shared', '__base', '__other')
+        monkeypatch.setattr(
+            ComponentsApi,
+            'late',
+            operation('__abLateCoreProbe'),
+            raising=False,
+        )
+        assert '__abLateCoreProbe' in _core_procedures()
+
+
 class TestReadApi:
     def test_client_api_exports_only_public_declarations(self) -> None:
         assert set(api_module.__all__) == {
@@ -391,8 +446,8 @@ class TestReadApi:
             'BBox',
             'BoardApi',
             'BoardInfo',
-            'Command',
-            'CommandResult',
+            'Cmd',
+            'CmdResult',
             'ComponentRef',
             'ComponentInfo',
             'ComponentsApi',
@@ -446,18 +501,46 @@ class TestReadApi:
         assert _core_procedures() == procedures
 
     def test_operations_expose_immutable_metadata(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.side_effect = [None, None, None, None, None]
+        session = Session(Mock(workspace=workspace))
+
         class ProbeApi(SessionApi):
-            @read('__abProbe', TypeAdapter(int), none_as_empty=True)
-            def project(self) -> RpcArgs:
+            @read('__abList', TypeAdapter(list[int]))
+            def items(self) -> RpcArgs:
                 return ()
 
-        assert ProbeApi.project.spec == RpcDef('read', '__abProbe', nil_as_empty_list=True)
-        assert DrcApi.check.spec == RpcDef('direct', '__abCheckDrcs', nil_as_empty_list=True)
-        assert ComponentsApi.move.spec == RpcDef(
-            'write', '__abMoveComponent', nil_as_empty_list=False
-        )
+            @read('__abOptionalList', TypeAdapter(list[int] | None))
+            def optional_items(self) -> RpcArgs:
+                return ()
+
+            @read('__abInt', TypeAdapter(int))
+            def count(self) -> RpcArgs:
+                return ()
+
+            @read('__abSequence', TypeAdapter(Sequence[int]))
+            def sequence(self) -> RpcArgs:
+                return ()
+
+            @read('__abNonEmptyList', TypeAdapter(Annotated[list[int], Field(min_length=1)]))
+            def non_empty_items(self) -> RpcArgs:
+                return ()
+
+        api = ProbeApi(session)
+        assert api.items() == []
+        assert api.optional_items() is None
+        with pytest.raises(AllegroProtocolError, match='__abInt'):
+            api.count()
+        with pytest.raises(AllegroProtocolError, match='__abSequence'):
+            api.sequence()
+        with pytest.raises(AllegroProtocolError, match='__abNonEmptyList'):
+            api.non_empty_items()
+        assert ProbeApi.items.spec == RpcDef('read', '__abList')
+        assert DrcApi.check.spec == RpcDef('direct', '__abCheckDrcs')
+        assert ComponentsApi.move.spec == RpcDef('write', '__abMoveComponent')
+        assert not hasattr(ProbeApi.items.spec, 'nil_as_empty_list')
         with pytest.raises(FrozenInstanceError):
-            ProbeApi.project.spec.kind = 'write'
+            ProbeApi.items.spec.kind = 'write'
 
     def test_declaration_preserves_signature_and_sends_once(self) -> None:
         workspace = MagicMock()
@@ -736,8 +819,8 @@ class TestReadApi:
             mirrored=True,
         )
 
-        assert command.procedure == '__abCreateVia'
-        assert command.expression == SkillCode('__abCreateVia(...)')
+        assert command.proc == '__abCreateVia'
+        assert command.expr == SkillCode('__abCreateVia(...)')
         assert remote.lazy.call_args.args == ('VIA12', (1.0, 2.0), 'GND', True, 90.0)
 
     def test_routes_load_extension_once_and_delegate_filters(self) -> None:
@@ -785,8 +868,8 @@ class TestReadApi:
             0.2,
         )
 
-        assert command.procedure == '__abCreateRoute'
-        assert command.expression == SkillCode('__abCreateRoute(...)')
+        assert command.proc == '__abCreateRoute'
+        assert command.expr == SkillCode('__abCreateRoute(...)')
         assert remote.lazy.call_args.args == (
             'GND',
             [(1.0, 2.0), (3.0, 4.0)],
@@ -956,7 +1039,7 @@ class TestDrcApi:
             workspace.__getitem__.return_value.reset_mock()
 
         workspace.transaction.assert_not_called()
-        assert DrcApi.check.spec.procedure == '__abCheckDrcs'  # type: ignore[attr-defined]
+        assert DrcApi.check.spec.proc == '__abCheckDrcs'  # type: ignore[attr-defined]
         assert not hasattr(drc.check, 'preview')
         assert not hasattr(drc.check, 'command')
 
@@ -999,25 +1082,25 @@ class TestWriteApi:
 
         command = session.components.move.command('R1', x=1.0, y=2.0)
 
-        assert ComponentsApi.move.spec.procedure == '__abMoveComponent'
+        assert ComponentsApi.move.spec.proc == '__abMoveComponent'
         assert list(signature(session.components.move).parameters) == [
             'refdes',
             'x',
             'y',
             'rotation',
         ]
-        assert isinstance(command, Command)
-        assert command.procedure == '__abMoveComponent'
-        assert command.expression == '__abMoveComponent("R1" 1.0 2.0 nil )'
+        assert isinstance(command, Cmd)
+        assert command.proc == '__abMoveComponent'
+        assert command.expr == '__abMoveComponent("R1" 1.0 2.0 nil )'
         workspace.transaction.assert_not_called()
         with pytest.raises(FrozenInstanceError):
-            command.procedure = '__changed'
+            command.proc = '__changed'
 
         moved = session.components.move('R1', x=1.0, y=2.0)
 
         assert moved.x == pytest.approx(1.0)
         assert moved.session_generation == session.generation
-        workspace.transaction.assert_called_once_with(command.expression)
+        workspace.transaction.assert_called_once_with(command.expr)
 
     def test_preview_uses_dry_transaction(self) -> None:
         workspace = MagicMock()
@@ -1061,19 +1144,19 @@ class TestWriteApi:
 
         command = drc.update.command()
 
-        assert DrcApi.update.spec.procedure == '__abUpdateDrcs'
-        assert command.procedure == '__abUpdateDrcs'
-        assert command.expression == '__abUpdateDrcs( )'
+        assert DrcApi.update.spec.proc == '__abUpdateDrcs'
+        assert command.proc == '__abUpdateDrcs'
+        assert command.expr == '__abUpdateDrcs( )'
         workspace.transaction.assert_not_called()
         remote.assert_not_called()
 
         assert drc.update() == []
-        workspace.transaction.assert_called_once_with(command.expression)
+        workspace.transaction.assert_called_once_with(command.expr)
 
         preview = drc.update.preview()
         assert len(preview) == 1
         assert preview[0].session_generation == session.generation
-        workspace.transaction.preview.assert_called_once_with(command.expression)
+        workspace.transaction.preview.assert_called_once_with(command.expr)
 
     def test_drc_update_rejects_invalid_payload(self) -> None:
         workspace = MagicMock()
@@ -1112,7 +1195,7 @@ class TestBatch:
             with pytest.raises(RuntimeError, match='pending'):
                 _ = first.value
 
-        assert isinstance(first, CommandResult)
+        assert isinstance(first, CmdResult)
         assert first.value.refdes == 'R1'
         assert second.value.refdes == 'R2'
         composite = workspace.transaction.call_args.args[0]
@@ -1153,7 +1236,7 @@ class TestBatch:
         workspace.__getitem__.return_value.lazy.return_value = 'move1()'
         session = Session(Mock(workspace=workspace))
         error = ValueError('body')
-        results: list[CommandResult[object]] = []
+        results: list[CmdResult[object]] = []
 
         def cancel() -> None:
             with session.batch() as batch:
@@ -1174,7 +1257,7 @@ class TestBatch:
         workspace.__getitem__.return_value.lazy.return_value = 'move1()'
         workspace.transaction.return_value = payload
         session = Session(Mock(workspace=workspace))
-        results: list[CommandResult[object]] = []
+        results: list[CmdResult[object]] = []
 
         def execute() -> None:
             with session.batch() as batch:
@@ -1191,7 +1274,7 @@ class TestBatch:
         workspace.__getitem__.return_value.lazy.side_effect = ['move1()', 'move2()']
         workspace.transaction.return_value = [self._payload('R1', 1.0), None]
         session = Session(Mock(workspace=workspace))
-        results: list[CommandResult[object]] = []
+        results: list[CmdResult[object]] = []
 
         def execute() -> None:
             with session.batch() as batch:
@@ -1211,11 +1294,11 @@ class TestBatch:
         batch = session.batch()
 
         with pytest.raises(RuntimeError, match='active'):
-            batch.add(Mock(spec=Command))
+            batch.add(Mock(spec=Cmd))
         with batch:
             pass
         with pytest.raises(RuntimeError, match='active'):
-            batch.add(Mock(spec=Command))
+            batch.add(Mock(spec=Cmd))
         with pytest.raises(RuntimeError, match='already used'), batch:
             pass
 

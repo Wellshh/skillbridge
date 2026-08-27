@@ -32,7 +32,7 @@ _SHAPES = TypeAdapter(_ShapeList)
 
 
 class ShapesApi(SessionApi):
-    @read(_PROJECT_PROCEDURE, _SHAPES, none_as_empty=True)
+    @read(_PROJECT_PROCEDURE, _SHAPES)
     def __call__(
         self,
         *,

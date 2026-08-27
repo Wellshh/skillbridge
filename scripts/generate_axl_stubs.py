@@ -23,7 +23,6 @@ DEFAULT_OUTPUT = ROOT / 'allegrobridge' / 'client' / '_axl_stubs.pyi'
 EXPECTED_API_COUNT = 792
 MIN_API_TOKEN_COUNT = 2
 MAX_UNION_ALTERNATIVES = 8
-MAX_DOCSTRING_DESCRIPTION = 240
 ARROWS = ('⇒', '==>', '=>', '-=>', '-->', '->')
 API_NAME = re.compile(r'\baxl[A-Za-z0-9_]+\b')
 ARGUMENT_CELL = re.compile(r'^\|\s*`?(?P<cell>[^`|\n]+)`?\s*\|')
@@ -31,6 +30,28 @@ PLAIN_ARGUMENT = re.compile(r'^`(?P<name>[A-Za-z_][A-Za-z0-9_]*)`$')
 ARGUMENT_NAME = re.compile(r'[A-Za-z_][A-Za-z0-9_]*')
 KEYWORD_ARGUMENT = re.compile(r'\?([A-Za-z_][A-Za-z0-9_]*)\s+([A-Za-z0-9_/\']+)')
 NAME_TOKEN = re.compile(r'[A-Z]+(?=[A-Z][a-z0-9]|\b)|[A-Z][a-z0-9]*|[a-z0-9]+')
+SECTION_HEADING = re.compile(r'^####\s+(?P<text>.*?):?\s*$')
+BOLD_HEADING = re.compile(r'^\*\*(?P<text>[^*]+)\*\*:?\s*$')
+JUNK_CELL = re.compile(r'^\s*:?-+:?\s*$')
+BULLET = re.compile(r'^[*-]\s+(?P<body>.*)$')
+BACKTICK_TOKEN = re.compile(r'`([^`]+)`')
+EXAMPLE_CODE_LINE = re.compile(r'^`[^`]+`$')
+MARKDOWN_LINK = re.compile(r'\[([^\]]+)\]\([^)]*\)')
+SECTION_KINDS: dict[str, str | None] = {
+    'description': 'description',
+    'argument': 'arguments',
+    'arguments': 'arguments',
+    'value returned': 'returns',
+    'value returns': 'returns',
+    'values returned': 'returns',
+    'valued returned': 'returns',
+    'example': 'examples',
+    'examples': 'examples',
+    'note': None,
+    'notes': None,
+    'see also': None,
+    'ses also': None,
+}
 WORKSPACE_DOMAIN_CONFLICTS = frozenset({'close', 'flush', 'open'})
 LIST_PREFIXES = frozenset({'l', 'll', 'ln', 'lg', 'lr', 'la', 'ld', 'lx'})
 PREFIX_TYPES = {
@@ -305,14 +326,37 @@ class DeclarationSpec:
 
 
 @dataclass(frozen=True)
+class ArgumentDoc:
+    name: str
+    description: str
+
+
+@dataclass(frozen=True)
+class ExampleSegment:
+    kind: Literal['code', 'prose']
+    lines: tuple[str, ...]
+
+
+@dataclass(frozen=True)
+class DocSpec:
+    description: tuple[tuple[str, ...], ...]
+    arguments: tuple[ArgumentDoc, ...]
+    returns: tuple[ArgumentDoc, ...]
+    examples: tuple[ExampleSegment, ...]
+
+
+EMPTY_DOC = DocSpec((), (), (), ())
+
+
+@dataclass(frozen=True)
 class ApiSpec:
     name: str
     declarations: tuple[DeclarationSpec, ...]
-    description: str
     source_path: str | None
     source_line: int | None
     quality: Quality
     issues: tuple[str, ...]
+    doc: DocSpec
 
 
 @dataclass(frozen=True)
@@ -328,10 +372,10 @@ class QualityReport:
 @dataclass(frozen=True)
 class _SourceEntry:
     declarations: tuple[DeclarationSpec, ...]
-    description: str
     source_path: str
     source_line: int
     issues: tuple[str, ...]
+    doc: DocSpec
 
 
 def _normalize(value: str) -> str:
@@ -561,28 +605,172 @@ def _parse_declaration(
     return DeclarationSpec(normalized, parameters, raw_return.strip())
 
 
-def _description(lines: Sequence[str]) -> str:
-    start = next(
-        (
-            index + 1
-            for index, line in enumerate(lines)
-            if line.strip().lower().startswith('#### description')
-        ),
-        None,
-    )
-    if start is None:
-        return ''
-    parts: list[str] = []
-    for line in lines[start:]:
-        normalized = line.strip()
-        if normalized.startswith(('#### ', '### ')):
-            break
-        if not normalized:
-            if parts:
-                break
+def _clean_prose(text: str) -> str:
+    text = MARKDOWN_LINK.sub(r'\1', text)
+    text = text.replace('\\_', '_').replace('\\*', '*')
+    return re.sub(r'\s+', ' ', text).strip()
+
+
+def _heading_key(text: str) -> str:
+    key = text.lower().replace('\\', '').strip().rstrip(':').strip()
+    return re.sub(r'\s+\d+$', '', key)
+
+
+def _row_cells(stripped: str) -> list[str]:
+    return [cell.strip() for cell in stripped.strip('|').split('|')]
+
+
+def _is_junk_row(cells: Sequence[str]) -> bool:
+    return all(not cell or JUNK_CELL.match(cell) for cell in cells)
+
+
+def _cell_name(cell: str) -> str:
+    tokens = BACKTICK_TOKEN.findall(cell)
+    if tokens:
+        return '/'.join(token.lstrip('?') for token in tokens)
+    match = ARGUMENT_NAME.search(cell)
+    return match.group(0) if match else ''
+
+
+def _bullet_doc(stripped: str) -> ArgumentDoc | None:
+    match = BULLET.match(stripped)
+    if match is None:
+        return None
+    body = match.group('body')
+    token = BACKTICK_TOKEN.search(body)
+    if token is None:
+        return ArgumentDoc('', _clean_prose(body))
+    remainder = (body[: token.start()] + body[token.end() :]).strip().lstrip('-\u2013:|,').strip()
+    return ArgumentDoc(token.group(1).lstrip('?'), _clean_prose(remainder))
+
+
+def _parse_named_rows(lines: Sequence[str]) -> tuple[ArgumentDoc, ...]:
+    docs: list[ArgumentDoc] = []
+    for line in lines:
+        stripped = line.strip()
+        if not stripped:
+            continue
+        if stripped.startswith('|'):
+            cells = _row_cells(stripped)
+            if _is_junk_row(cells):
+                continue
+            if len(cells) > 1 and cells[0]:
+                name = _cell_name(cells[0])
+                prose = _clean_prose(' '.join(cell for cell in cells[1:] if cell))
+                if name and prose:
+                    docs.append(ArgumentDoc(name, prose))
+                continue
+            continuation = _clean_prose(' '.join(cell for cell in cells if cell))
+            if continuation and docs:
+                previous = docs[-1]
+                docs[-1] = ArgumentDoc(previous.name, f'{previous.description} {continuation}')
+            continue
+        bullet = _bullet_doc(stripped)
+        if bullet is not None and (bullet.name or bullet.description):
+            docs.append(bullet)
+    return tuple(docs)
+
+
+def _parse_prose_blocks(lines: Sequence[str]) -> tuple[tuple[str, ...], ...]:
+    blocks: list[tuple[str, ...]] = []
+    current: list[str] = []
+    for line in lines:
+        stripped = re.sub(r'^\s*(?:>\s*)+', '', line.replace('\xa0', ' ')).strip()
+        if not stripped:
+            if current:
+                blocks.append(tuple(current))
+                current = []
+            continue
+        if stripped.startswith('|'):
+            if not _is_junk_row(_row_cells(stripped)):
+                current.append(stripped)
+            continue
+        cleaned = _clean_prose(stripped)
+        joinable = (
+            current
+            and not current[-1].startswith('|')
+            and BULLET.match(current[-1]) is None
+            and BULLET.match(stripped) is None
+        )
+        if joinable:
+            current[-1] = f'{current[-1]} {cleaned}'
         else:
-            parts.append(_normalize(normalized))
-    return ' '.join(parts)
+            current.append(cleaned)
+    if current:
+        blocks.append(tuple(current))
+    return tuple(blocks)
+
+
+def _flush_segment(
+    segments: list[ExampleSegment], kind: Literal['code', 'prose'], lines: list[str]
+) -> list[str]:
+    if lines:
+        segments.append(ExampleSegment(kind, tuple(lines)))
+    return []
+
+
+def _parse_example_segments(lines: Sequence[str]) -> tuple[ExampleSegment, ...]:
+    segments: list[ExampleSegment] = []
+    code: list[str] = []
+    prose: list[str] = []
+    in_fence = False
+    pending_blank = False
+
+    for raw in lines:
+        line = re.sub(r'^\s*(?:>\s*)+', '', raw.replace('\xa0', ' ')).rstrip()
+        stripped = line.strip()
+        if stripped.startswith('```'):
+            prose = _flush_segment(segments, 'prose', prose)
+            code = _flush_segment(segments, 'code', code)
+            in_fence = not in_fence
+            pending_blank = False
+            continue
+        if in_fence:
+            code.append(line)
+            continue
+        if not stripped:
+            pending_blank = True
+            continue
+        if EXAMPLE_CODE_LINE.match(stripped):
+            prose = _flush_segment(segments, 'prose', prose)
+            if pending_blank and code:
+                code.append('')
+            code.append(stripped[1:-1])
+        else:
+            code = _flush_segment(segments, 'code', code)
+            prose.append(_clean_prose(stripped))
+        pending_blank = False
+    _flush_segment(segments, 'prose', prose)
+    _flush_segment(segments, 'code', code)
+    return tuple(segments)
+
+
+def _parse_doc(lines: Sequence[str]) -> DocSpec:
+    buckets: dict[str, list[str]] = {
+        'description': [],
+        'arguments': [],
+        'returns': [],
+        'examples': [],
+    }
+    kind: str | None = None
+    for line in lines:
+        stripped = line.strip()
+        heading = SECTION_HEADING.match(stripped)
+        if heading is not None:
+            kind = SECTION_KINDS.get(_heading_key(heading.group('text')))
+            continue
+        bold = BOLD_HEADING.match(stripped)
+        if bold is not None and _heading_key(bold.group('text')) in SECTION_KINDS:
+            kind = SECTION_KINDS[_heading_key(bold.group('text'))]
+            continue
+        if kind is not None:
+            buckets[kind].append(line)
+    return DocSpec(
+        description=_parse_prose_blocks(buckets['description']),
+        arguments=_parse_named_rows(buckets['arguments']),
+        returns=_parse_named_rows(buckets['returns']),
+        examples=_parse_example_segments(buckets['examples']),
+    )
 
 
 def _parse_source_entry(
@@ -607,10 +795,10 @@ def _parse_source_entry(
     source_path = path.relative_to(reference_root.parent).as_posix()
     return _SourceEntry(
         declarations=tuple(declarations),
-        description=_description(section),
         source_path=source_path,
         source_line=line,
         issues=tuple(issues),
+        doc=_parse_doc(section),
     )
 
 
@@ -639,29 +827,31 @@ def _source_entries(
 
 def _build_api_spec(name: str, entries: Sequence[_SourceEntry]) -> ApiSpec:
     if not entries:
-        return ApiSpec(name, (), '', None, None, 'missing', ('documentation entry is missing',))
+        return ApiSpec(
+            name, (), None, None, 'missing', ('documentation entry is missing',), EMPTY_DOC
+        )
 
     source = entries[0]
     if name in DOCUMENT_ONLY_NAMES:
         return ApiSpec(
             name,
             (),
-            source.description,
             source.source_path,
             source.source_line,
             'document_only',
             ('documentation section is not a callable API',),
+            source.doc,
         )
     issues = tuple(issue for entry in entries for issue in entry.issues)
     if issues or any(not entry.declarations for entry in entries):
         return ApiSpec(
             name,
             (),
-            source.description,
             source.source_path,
             source.source_line,
             'fallback',
             issues,
+            source.doc,
         )
 
     declaration_sets = {entry.declarations for entry in entries}
@@ -670,21 +860,21 @@ def _build_api_spec(name: str, entries: Sequence[_SourceEntry]) -> ApiSpec:
         return ApiSpec(
             name,
             (),
-            source.description,
             source.source_path,
             source.source_line,
             'conflict',
             (f'conflicting declarations in {sources}',),
+            source.doc,
         )
 
     return ApiSpec(
         name,
         source.declarations,
-        source.description,
         source.source_path,
         source.source_line,
         'exact',
         (),
+        source.doc,
     )
 
 
@@ -826,61 +1016,139 @@ def _declaration_variants(
     return tuple(variants)
 
 
-def _render_parameters(parameters: Sequence[ParameterSpec]) -> str:
-    rendered = ['self']
-    used_names: Counter[str] = Counter()
+def _ordered_parameters(parameters: Sequence[ParameterSpec]) -> tuple[ParameterSpec, ...]:
+    kinds = ('positional', 'var_positional', 'keyword', 'var_keyword')
+    return tuple(parameter for kind in kinds for parameter in parameters if parameter.kind == kind)
 
-    def unique_name(parameter: ParameterSpec) -> str:
+
+def _parameter_display_names(parameters: Sequence[ParameterSpec]) -> tuple[str, ...]:
+    names: list[str] = []
+    used: Counter[str] = Counter()
+    for parameter in _ordered_parameters(parameters):
         source = parameter.name if parameter.kind == 'keyword' else parameter.name.split('/')[0]
         name = _snake_name(source.lstrip('*'))
-        used_names[name] += 1
-        return name if used_names[name] == 1 else f'{name}_{used_names[name]}'
+        used[name] += 1
+        names.append(name if used[name] == 1 else f'{name}_{used[name]}')
+    return tuple(names)
 
-    positional = tuple(p for p in parameters if p.kind == 'positional')
-    for parameter in positional:
+
+def _render_parameters(parameters: Sequence[ParameterSpec]) -> str:
+    rendered = ['self']
+    named = tuple(
+        zip(_ordered_parameters(parameters), _parameter_display_names(parameters), strict=True)
+    )
+
+    positional = [(parameter, name) for parameter, name in named if parameter.kind == 'positional']
+    for parameter, name in positional:
         default = ' = ...' if parameter.optional else ''
-        rendered.append(f'{unique_name(parameter)}: {_parameter_type(parameter)}{default}')
+        rendered.append(f'{name}: {_parameter_type(parameter)}{default}')
     rendered.append('/')
 
-    var_positional = next((p for p in parameters if p.kind == 'var_positional'), None)
-    keywords = tuple(p for p in parameters if p.kind == 'keyword')
+    var_positional = next(
+        ((parameter, name) for parameter, name in named if parameter.kind == 'var_positional'),
+        None,
+    )
+    keywords = [(parameter, name) for parameter, name in named if parameter.kind == 'keyword']
     if var_positional is not None:
-        rendered.append(f'*{unique_name(var_positional)}: Skill')
+        rendered.append(f'*{var_positional[1]}: Skill')
     elif keywords:
         rendered.append('*')
 
-    rendered.extend(
-        f'{unique_name(parameter)}: {_parameter_type(parameter)} = ...' for parameter in keywords
-    )
+    rendered.extend(f'{name}: {_parameter_type(parameter)} = ...' for parameter, name in keywords)
 
-    var_keyword = next((p for p in parameters if p.kind == 'var_keyword'), None)
+    var_keyword = next(
+        ((parameter, name) for parameter, name in named if parameter.kind == 'var_keyword'), None
+    )
     if var_keyword is not None:
-        rendered.append(f'**{unique_name(var_keyword)}: Skill')
+        rendered.append(f'**{var_keyword[1]}: Skill')
     return ', '.join(rendered)
 
 
-def _render_docstring(spec: ApiSpec) -> tuple[str, ...]:
-    description = spec.description.split('. ', maxsplit=1)[0].strip()
-    if len(description) > MAX_DOCSTRING_DESCRIPTION:
-        description = description[: MAX_DOCSTRING_DESCRIPTION - 3].rstrip() + '...'
+def _match_arguments(
+    arguments: tuple[ArgumentDoc, ...],
+    parameters: Sequence[ParameterSpec],
+) -> tuple[tuple[str, str], ...]:
+    consumed: set[int] = set()
+    matched: list[tuple[str, str]] = []
+    named = tuple(
+        zip(_ordered_parameters(parameters), _parameter_display_names(parameters), strict=True)
+    )
+    for parameter, display in named:
+        alternatives = {alt.lstrip('?') for alt in parameter.name.split('/')}
+        if parameter.value_name is not None:
+            alternatives.add(parameter.value_name)
+        snake = _snake_name(parameter.name.split('/')[0].lstrip('*'))
+        for index, doc in enumerate(arguments):
+            if index in consumed or not doc.name:
+                continue
+            doc_alternatives = {alt.lstrip('?') for alt in doc.name.split('/')}
+            if doc_alternatives & alternatives or _snake_name(doc.name.split('/')[0]) == snake:
+                matched.append((display, doc.description))
+                consumed.add(index)
+                break
+    return tuple(matched)
+
+
+def _render_example_segment(segment: ExampleSegment) -> list[str]:
+    if segment.kind != 'code':
+        return [f'    {line}' for line in segment.lines]
+    code = [f'    {line}' if line else '' for line in segment.lines]
+    return ['    ```', *code, '    ```']
+
+
+def _render_docstring(spec: ApiSpec, parameters: Sequence[ParameterSpec]) -> tuple[str, ...]:
+    blocks = spec.doc.description
+    summary = ''
+    if blocks and blocks[0]:
+        summary = blocks[0][0].split('. ', maxsplit=1)[0].strip()
+    lines = [summary or 'No description available.']
+    if blocks and not (len(blocks) == 1 and len(blocks[0]) == 1 and blocks[0][0] == summary):
+        for block in blocks:
+            lines.append('')
+            lines.extend(block)
+
+    matched = _match_arguments(spec.doc.arguments, parameters)
+    if matched:
+        lines.extend(('', 'Args:'))
+        lines.extend(f'    {name}: {text}' for name, text in matched)
+
+    if spec.doc.returns:
+        lines.extend(('', 'Returns:'))
+        lines.extend(
+            f'    {doc.name}: {doc.description}' if doc.name else f'    - {doc.description}'
+            for doc in spec.doc.returns
+        )
+
+    if spec.doc.examples:
+        lines.extend(('', 'Example:'))
+        for segment in spec.doc.examples:
+            lines.extend(_render_example_segment(segment))
+            lines.append('')
+
+    if lines[-1]:
+        lines.append('')
     signatures = tuple(declaration.raw_signature for declaration in spec.declarations)
     location = (
         f'{spec.source_path}:{spec.source_line}' if spec.source_path is not None else 'unavailable'
     )
-    parts = [description or 'No description available.']
-    parts.extend(f'SKILL: {signature}' for signature in signatures)
-    if not signatures:
-        parts.append('SKILL: signature unavailable; generic fallback')
-    parts.extend(('Version: Allegro 17.2-2016', f'Source: {location}'))
-    return tuple(part.replace('\\', '\\\\').replace('"""', '\\"\\"\\"') for part in parts)
+    if signatures:
+        lines.extend(f'SKILL: {signature}' for signature in signatures)
+    else:
+        lines.append('SKILL: signature unavailable; generic fallback')
+    lines.extend(('Version: Allegro 17.2-2016', f'Source: {location}'))
+    return tuple(
+        line.replace('\\', '\\\\').replace('"""', '\\"\\"\\"') if line else '' for line in lines
+    )
 
 
 def _render_callable(spec: ApiSpec) -> list[str]:
     lines = [f'class {_callable_class_name(spec.name)}(LiteralRemoteFunction):']
 
-    def append_call(parameters: str, return_type: str) -> None:
-        lines.extend((f'    def __call__({parameters}) -> {return_type}:', '        """'))
-        lines.extend(f'        {line}' for line in _render_docstring(spec))
+    def append_call(signature: str, return_type: str, parameters: Sequence[ParameterSpec]) -> None:
+        lines.extend((f'    def __call__({signature}) -> {return_type}:', '        """'))
+        lines.extend(
+            f'        {line}' if line else '' for line in _render_docstring(spec, parameters)
+        )
         lines.append('        """')
 
     signatures = [
@@ -892,7 +1160,7 @@ def _render_callable(spec: ApiSpec) -> list[str]:
         for parameters in _declaration_variants(declaration)
     ]
     if not signatures:
-        append_call('self, *args: Skill, **kwargs: Skill', 'Skill')
+        append_call('self, *args: Skill, **kwargs: Skill', 'Skill', ())
         lines.append('')
         return lines
 
@@ -900,14 +1168,15 @@ def _render_callable(spec: ApiSpec) -> list[str]:
     for parameters, return_type in signatures:
         if overloaded:
             lines.append('    @overload')
-        append_call(_render_parameters(parameters), return_type)
+        append_call(_render_parameters(parameters), return_type, parameters)
     lines.append('')
     return lines
 
 
 def _render_member(name: str, spec: ApiSpec) -> list[str]:
     lines = [f'    {name}: {_callable_class_name(spec.name)}', '    """']
-    lines.extend(f'    {line}' for line in _render_docstring(spec))
+    parameters = spec.declarations[0].parameters if spec.declarations else ()
+    lines.extend(f'    {line}' if line else '' for line in _render_docstring(spec, parameters))
     lines.append('    """')
     return lines
 

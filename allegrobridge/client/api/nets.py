@@ -24,7 +24,7 @@ _NETS = TypeAdapter(_NetList)
 
 @_core_api
 class NetsApi(SessionApi):
-    @read(_PROCEDURE, _NETS, none_as_empty=True)
+    @read(_PROCEDURE, _NETS)
     def _project(self, name: str | None) -> RpcArgs:
         return (name,)
 

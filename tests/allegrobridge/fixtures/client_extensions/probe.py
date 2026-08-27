@@ -12,7 +12,7 @@ _COMPONENT = TypeAdapter(ComponentInfo)
 
 @extension
 class ProbeApi(SessionApi):
-    @read('__abp_probe_project', _COMPONENTS, none_as_empty=True)
+    @read('__abp_probe_project', _COMPONENTS)
     def __call__(self) -> RpcArgs:
         return ()
 

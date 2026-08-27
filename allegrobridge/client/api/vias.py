@@ -33,7 +33,7 @@ _VIA = TypeAdapter(ViaInfo)
 
 
 class ViasApi(SessionApi):
-    @read(_PROJECT_PROCEDURE, _VIAS, none_as_empty=True)
+    @read(_PROJECT_PROCEDURE, _VIAS)
     def __call__(
         self,
         *,

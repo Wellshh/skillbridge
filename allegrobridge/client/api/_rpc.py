@@ -15,13 +15,13 @@ from typing import (
     Literal,
     TypeAlias,
     TypeVar,
-    cast,
     overload,
 )
 
-from pydantic import TypeAdapter, ValidationError
+from pydantic import TypeAdapter
 from typing_extensions import ParamSpec, Self
 
+from allegrobridge.client.api._future import Cmd, CmdResult, _validate
 from allegrobridge.exceptions import AllegroProtocolError
 from skillbridge.client.hints import Skill, SkillCode
 
@@ -33,14 +33,12 @@ RpcArgs: TypeAlias = tuple[Skill, ...]
 P = ParamSpec('P')
 T = TypeVar('T')
 ApiT = TypeVar('ApiT', bound='SessionApi')
-_CORE_PROCEDURES: list[str] = []
 
 
 @dataclass(frozen=True, slots=True)
 class RpcDef:
     kind: Literal['read', 'direct', 'write']
-    procedure: str
-    nil_as_empty_list: bool = False
+    proc: str
 
 
 @dataclass(frozen=True)
@@ -48,75 +46,36 @@ class SessionApi:
     _session: Session
 
 
-# Note: Procedures registered via @_core_api are collected into _ensure_core_runtime()
+_CORE_APIS: list[type[SessionApi]] = []
+
+
+# Note: Procedures registered via @_core_api are collected into `Workspace._ensure_core_runtime()`
 # and verified on every Workspace connection. Only mark procedures that are strictly
 # essential for basic sessions here. Heavy or optional domain APIs should use lazy loading.
 def _core_api(api: type[ApiT]) -> type[ApiT]:
     """Register a built-in API class and its underlying SKILL procedures."""
-    for procedure in _api_procedures(api):
-        if procedure not in _CORE_PROCEDURES:
-            _CORE_PROCEDURES.append(procedure)
+    if api not in _CORE_APIS:
+        _CORE_APIS.append(api)
     return api
 
 
 def _api_procedures(api: type[SessionApi]) -> tuple[str, ...]:
+    # Collect visible SKILL procedures declared across the API's MRO.
+    visible: dict[str, object] = {}
+    for base in api.__mro__:
+        for name, member in vars(base).items():
+            visible.setdefault(name, member)
     return tuple(
         dict.fromkeys(
-            spec.procedure
-            for member in vars(api).values()
+            spec.proc
+            for member in visible.values()
             if isinstance(spec := getattr(member, 'spec', None), RpcDef)
         )
     )
 
 
 def _core_procedures() -> tuple[str, ...]:
-    return tuple(_CORE_PROCEDURES)
-
-
-@dataclass(frozen=True)
-class Command(Generic[T]):
-    _session: Session
-    expression: SkillCode
-    procedure: str
-    _adapter: TypeAdapter[T]
-    _none_as_empty: bool = False
-
-    def _execute(self, *, preview: bool = False) -> T:
-        transaction = self._session.raw.transaction
-        payload = transaction.preview(self.expression) if preview else transaction(self.expression)
-        return self._validate(payload)
-
-    def _validate(self, payload: object) -> T:
-        return _validate(
-            payload,
-            self._adapter,
-            self._session,
-            self.procedure,
-            none_as_empty=self._none_as_empty,
-        )
-
-
-_PENDING = object()
-
-
-class CommandResult(Generic[T]):
-    def __init__(self) -> None:
-        self._value: object = _PENDING
-        self._error: BaseException | None = None
-
-    @property
-    def value(self) -> T:
-        if self._error is not None:
-            raise self._error
-        if self._value is _PENDING:
-            raise RuntimeError('batch result is pending')
-        return cast('T', self._value)
-
-    def _resolve(self, value: T) -> None:
-        self._value = value
-
-    def _fail(self, error: BaseException) -> None:
-        self._error = error
+    return tuple(dict.fromkeys(proc for api in _CORE_APIS for proc in _api_procedures(api)))
 
 
 class Batch:
@@ -130,8 +89,8 @@ class Batch:
         self.description = description
         self.dry_run = dry_run
         self._session = session
-        self._commands: list[Command[Any]] = []
-        self._results: list[CommandResult[Any]] = []
+        self._cmds: list[Cmd[Any]] = []
+        self._results: list[CmdResult[Any]] = []
         self._active = False
         self._used = False
 
@@ -158,34 +117,30 @@ class Batch:
             self._fail(error)
             raise
 
-    def add(self, command: Command[T]) -> CommandResult[T]:
+    def add(self, cmd: Cmd[T]) -> CmdResult[T]:
         if not self._active:
             raise RuntimeError('batch is not active')
-        if command._session is not self._session:
+        if cmd._session is not self._session:
             raise ValueError('command belongs to another Session')
-        result = CommandResult[T]()
-        self._commands.append(command)
+        result = CmdResult[T]()
+        self._cmds.append(cmd)
         self._results.append(result)
         return result
 
     def _execute(self) -> None:
-        if not self._commands:
+        if not self._cmds:
             return
-        expression = self._compile()
+        expr = self._compile()
         transaction = self._session.raw.transaction
-        payload = transaction.preview(expression) if self.dry_run else transaction(expression)
-        if not isinstance(payload, list) or len(payload) != len(self._commands):
+        payload = transaction.preview(expr) if self.dry_run else transaction(expr)
+        if not isinstance(payload, list) or len(payload) != len(self._cmds):
             raise AllegroProtocolError('batch returned an invalid payload')
-        values = [
-            command._validate(item) for command, item in zip(self._commands, payload, strict=True)
-        ]
+        values = [cmd._validate(item) for cmd, item in zip(self._cmds, payload, strict=True)]
         for result, value in zip(self._results, values, strict=True):
             result._resolve(value)
 
     def _compile(self) -> SkillCode:
-        operations = ' '.join(
-            f'results = cons({command.expression} results)' for command in self._commands
-        )
+        operations = ' '.join(f'results = cons({cmd.expr} results)' for cmd in self._cmds)
         return SkillCode(f'let((results) progn({operations} reverse(results)))')
 
     def _fail(self, error: BaseException) -> None:
@@ -193,53 +148,26 @@ class Batch:
             result._fail(error)
 
 
-def _validate(
-    payload: object,
-    adapter: TypeAdapter[T],
-    session: Session,
-    procedure: str,
-    *,
-    none_as_empty: bool = False,
-) -> T:
-    if payload is None and none_as_empty:
-        payload = []
-    if isinstance(payload, dict):
-        payload = {**payload, 'session_generation': session.generation}
-    elif isinstance(payload, list):
-        payload = [
-            {**item, 'session_generation': session.generation} if isinstance(item, dict) else item
-            for item in payload
-        ]
-    try:
-        return adapter.validate_python(payload, strict=True)
-    except ValidationError as error:
-        raise AllegroProtocolError(f'{procedure} returned an invalid payload') from error
-
-
 def read(
-    procedure: str,
+    proc: str,
     adapter: TypeAdapter[T],
-    *,
-    none_as_empty: bool = False,
 ) -> Callable[
     [Callable[Concatenate[ApiT, P], RpcArgs]],
     Callable[Concatenate[ApiT, P], T],
 ]:
     """Decorate a read-only API method to query SKILL and validate the returned payload."""
-    return _immediate('read', procedure, adapter, none_as_empty=none_as_empty)
+    return _rpc('read', proc, adapter)
 
 
-def _immediate(
+def _rpc(
     kind: Literal['read', 'direct'],
-    procedure: str,
+    proc: str,
     adapter: TypeAdapter[T],
-    *,
-    none_as_empty: bool,
 ) -> Callable[
     [Callable[Concatenate[ApiT, P], RpcArgs]],
     Callable[Concatenate[ApiT, P], T],
 ]:
-    spec = RpcDef(kind, procedure, none_as_empty)
+    spec = RpcDef(kind, proc)
 
     def decorate(
         build_args: Callable[Concatenate[ApiT, P], RpcArgs],
@@ -247,13 +175,12 @@ def _immediate(
         @wraps(build_args)
         def call(self: ApiT, *args: P.args, **kwargs: P.kwargs) -> T:
             rpc_args = build_args(self, *args, **kwargs)
-            payload = self._session.raw[procedure](*rpc_args)
+            payload = self._session.raw[proc](*rpc_args)
             return _validate(
                 payload,
                 adapter,
                 self._session,
-                procedure,
-                none_as_empty=none_as_empty,
+                proc,
             )
 
         call.spec = spec  # type: ignore[attr-defined]
@@ -263,16 +190,19 @@ def _immediate(
 
 
 def direct(
-    procedure: str,
+    proc: str,
     adapter: TypeAdapter[T],
-    *,
-    none_as_empty: bool = False,
 ) -> Callable[
     [Callable[Concatenate[ApiT, P], RpcArgs]],
     Callable[Concatenate[ApiT, P], T],
 ]:
     """Decorate an immediate RPC operation without transaction affordances."""
-    return _immediate('direct', procedure, adapter, none_as_empty=none_as_empty)
+    return _rpc('direct', proc, adapter)
+
+
+#  ------------------ Descriptor pattern for transactional write operations:
+# - `_Write`: Unbound class descriptor holding static RPC metadata and argument builder.
+# - `_BoundWrite`: Instance-bound callable providing direct call, `.preview()`, and `.command()`.
 
 
 class _BoundWrite(Generic[ApiT, P, T]):
@@ -290,19 +220,18 @@ class _BoundWrite(Generic[ApiT, P, T]):
     def preview(self, *args: P.args, **kwargs: P.kwargs) -> T:
         return self.command(*args, **kwargs)._execute(preview=True)
 
-    def command(self, *args: P.args, **kwargs: P.kwargs) -> Command[T]:
+    def command(self, *args: P.args, **kwargs: P.kwargs) -> Cmd[T]:
         return self._operation.command(self._instance, *args, **kwargs)
 
 
 class _Write(Generic[ApiT, P, T]):
     def __init__(
         self,
-        procedure: str,
+        proc: str,
         adapter: TypeAdapter[T],
         build_args: Callable[Concatenate[ApiT, P], RpcArgs],
-        none_as_empty: bool,
     ) -> None:
-        self.spec = RpcDef('write', procedure, none_as_empty)
+        self.spec = RpcDef('write', proc)
         self._adapter = adapter
         self._build_args = build_args
 
@@ -315,15 +244,14 @@ class _Write(Generic[ApiT, P, T]):
         instance: ApiT,
         *args: P.args,
         **kwargs: P.kwargs,
-    ) -> Command[T]:
+    ) -> Cmd[T]:
         rpc_args = self._build_args(instance, *args, **kwargs)
-        expression = instance._session.raw[self.spec.procedure].lazy(*rpc_args)
-        return Command(
+        expr = instance._session.raw[self.spec.proc].lazy(*rpc_args)
+        return Cmd(
             instance._session,
-            expression,
-            self.spec.procedure,
+            expr,
+            self.spec.proc,
             self._adapter,
-            self.spec.nil_as_empty_list,
         )
 
     @overload
@@ -351,10 +279,8 @@ class _Write(Generic[ApiT, P, T]):
 
 
 def write(
-    procedure: str,
+    proc: str,
     adapter: TypeAdapter[T],
-    *,
-    none_as_empty: bool = False,
 ) -> Callable[
     [Callable[Concatenate[ApiT, P], RpcArgs]],
     _Write[ApiT, P, T],
@@ -364,6 +290,6 @@ def write(
     def decorate(
         build_args: Callable[Concatenate[ApiT, P], RpcArgs],
     ) -> _Write[ApiT, P, T]:
-        return _Write(procedure, adapter, build_args, none_as_empty)
+        return _Write(proc, adapter, build_args)
 
     return decorate
