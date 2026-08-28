@@ -26,6 +26,8 @@ UNBOUND: Final = _Unbound()
 
 
 def is_jupyter_magic(attribute: str) -> bool:
+    # jupyter will access certain attributes of our RemoteVarible to render its block
+    # disable them to avoid sending RPC request to skill server while calling __getattr__()
     ignore = {
         '_ipython_canary_method_should_not_exist_',
         '_ipython_display_',
@@ -62,10 +64,6 @@ class WithAttributeAccess(RemoteVariable):
         self._translator.decode(result)
         return None
 
-    def __dir__(self) -> Iterable[str]:
-        response = self._send(self._translator.encode_dir(self._variable))
-        return self._translator.decode_dir(response)
-
     def _send(self, command: SkillCode) -> Any:
         return self._channel.send(command).strip()
 
@@ -88,13 +86,7 @@ class RemoteObject(WithAttributeAccess, RemoteVariable):
     def _is_open_file(self) -> bool:
         return self._variable.startswith('__py_openfile_')
 
-    def __dir__(self) -> Iterable[str]:
-        if self._is_open_file():
-            return object.__dir__(self)
-        return super().__dir__()
-
-    @property
-    def skill_type(self) -> str | None:
+    def remote_type(self) -> str | None:
         if self._is_open_file():
             return 'open_file'
 
@@ -109,12 +101,23 @@ class RemoteObject(WithAttributeAccess, RemoteVariable):
         return cast('str', typ)
 
     def __str__(self) -> str:
-        typ = self.skill_type or self.skill_parent_type
-        if typ == 'open_file':
-            name = self._call('lsprintf', '%s', self)
-            assert isinstance(name, str)
-            return f"<remote open_file {name[6:-1]!r}>"
-        return f"<remote {typ}@{hex(self.skill_id)}>"
+        # ---- original skill bridge logic ------
+        # typ = self.skill_type or self.skill_parent_type  # ruff: ignore[commented-out-code]
+        # if typ == 'open_file':
+        #     name = self._call('lsprintf', '%s', self)  # ruff: ignore[commented-out-code]
+        #     assert isinstance(name, str)  # ruff: ignore[commented-out-code]
+        #     return f"<remote open_file {name[6:-1]!r}>"  # ruff: ignore[commented-out-code]
+        # return f"<remote {typ}@{hex(self.skill_id)}>"  # ruff: ignore[commented-out-code]
+        # if self._is_open_file():
+        #     return '<remote open_file>'  # ruff: ignore[commented-out-code]
+        # ---------------------------------------
+        # The original skillbridge implicilty send request to skill server
+        # while print(RemoteObject) / in REPL / in Jupyter notebook
+        # we return naive interpretation on python side here to reduce
+        # implicit rpc cost here。
+        if self._is_open_file():
+            return '<remote open_file>'
+        return f'<remote {self.skill_parent_type}@{hex(self.skill_id)}>'
 
     def __repr__(self) -> str:
         return f"<remote object@{hex(self.skill_id)}>"
@@ -129,8 +132,12 @@ class RemoteObject(WithAttributeAccess, RemoteVariable):
         )
         self._translator.decode(result)
 
-    def getdoc(self) -> str:
-        return "Properties:\n- " + '\n- '.join(dir(self))
+    def dir(self) -> list[str]:
+        resp = self._send(self._translator.encode_dir(self._variable))
+        return self._translator.decode_dir(resp)
+
+    def help(self) -> str:
+        return "Properties:\n- " + '\n- '.join(self.dir())
 
     def __eq__(self, other: object) -> bool:
         if isinstance(other, RemoteObject):

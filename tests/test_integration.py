@@ -149,8 +149,8 @@ def test_open_file(ws: Workspace) -> None:
     file = ws['outfile']('__test_skill_python.txt', 'w')
 
     assert file.skill_parent_type == 'openfile'
-    assert file.skill_type == 'open_file'
-    assert str(file).startswith('<remote open_file')
+    assert file.remote_type() == 'open_file'
+    assert str(file) == '<remote open_file>'
     assert isinstance(dir(file), list)
 
 
@@ -162,15 +162,15 @@ def test_remote_object(dd_libs: list) -> None:
 
     assert isinstance(lib.skill_id, int)
     assert lib.skill_parent_type == 'dd'
-    assert lib.skill_type == 'Lib'
-    assert str(lib).startswith('<remote Lib@')
-    assert set(dir(lib)) > {'cells', 'is_readable', 'group', 'name'}
+    assert lib.remote_type() == 'Lib'
+    assert str(lib).startswith('<remote dd@')
+    assert set(lib.dir()) > {'cells', 'is_readable', 'group', 'name'}
     assert lib.is_readable == lib['isReadable']
 
     with raises(AttributeError):
         _ = lib._repr_html_
 
-    lib.getdoc()
+    lib.help()
 
     assert lib == lib  # ruff: ignore[comparison-with-itself]
     assert lib != libs[1]

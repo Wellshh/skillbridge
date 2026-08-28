@@ -149,7 +149,7 @@ def test_many_keys():
     ]
 
 
-def test_remote_object_builds_expression_without_rpc() -> None:
+def test_remote_object_expression_and_dunders_do_not_send_requests() -> None:
     channel = DummyChannel()
     translator = DefaultTranslator()
     remote = RemoteObject(channel, translator, SkillCode('TESTTEST_123'))
@@ -160,12 +160,32 @@ def test_remote_object_builds_expression_without_rpc() -> None:
     assert not hasattr(remote, 'lazy')
     assert not channel.outputs
 
+    db = RemoteObject(channel, translator, SkillCode('__py_db_123'))
+    assert str(db) == '<remote db@0x7b>'
+    assert repr(db) == '<remote object@0x7b>'
+    assert 'dir' in dir(db)
+    assert not channel.outputs
+
+
+def test_remote_object_discovery_sends_one_request_each() -> None:
+    channel = DummyChannel()
+    translator = DefaultTranslator()
+    remote = RemoteObject(channel, translator, SkillCode('__py_db_123'))
+
+    channel.inputs.append('"instance"')
+    assert remote.remote_type() == 'instance'
+    assert channel.outputs.pop() == '__py_db_123->objType'
+
     channel.inputs.append('["name"]')
-    assert dir(remote) == ['name']
-    assert channel.outputs.pop() == translator.encode_dir(SkillCode('TESTTEST_123'))
+    assert remote.dir() == ['name']
+    assert channel.outputs.pop() == translator.encode_dir(SkillCode('__py_db_123'))
+
+    channel.inputs.append('["name"]')
+    assert remote.help() == 'Properties:\n- name'
+    assert channel.outputs.pop() == translator.encode_dir(SkillCode('__py_db_123'))
 
     open_file = RemoteObject(channel, translator, SkillCode('__py_openfile_22'))
-    assert 'skill_type' in dir(open_file)
+    assert open_file.remote_type() == 'open_file'
     assert not channel.outputs
 
 
@@ -192,32 +212,32 @@ def test_remote_table_operations_send_one_request_each() -> None:
 
     channel.inputs.append('2')
     assert table.length() == 2
-    assert channel.outputs.pop() == 'length(TABLE )'
+    assert channel.outputs.pop() == 'length(TABLE)'
 
     channel.inputs.append('1')
     assert table['key'] == 1
-    assert channel.outputs.pop() == 'arrayref(TABLE "key" )'
+    assert channel.outputs.pop() == 'arrayref(TABLE "key")'
 
     channel.inputs.append('None')
     table['key'] = 2
-    assert channel.outputs.pop() == 'setarray(TABLE "key" 2 )'
+    assert channel.outputs.pop() == 'setarray(TABLE "key" 2)'
 
     channel.inputs.append('None')
     del table['key']
-    assert channel.outputs.pop() == 'remove("key" TABLE )'
+    assert channel.outputs.pop() == 'remove("key" TABLE)'
 
     channel.inputs.append('3')
     assert table.foo == 3
-    assert channel.outputs.pop() == "arrayref(TABLE 'foo )"
+    assert channel.outputs.pop() == "arrayref(TABLE 'foo)"
 
     channel.inputs.append('None')
     table.foo = 4
-    assert channel.outputs.pop() == "setarray(TABLE 'foo 4 )"
+    assert channel.outputs.pop() == "setarray(TABLE 'foo 4)"
 
     channel.inputs.append("error('missing')")
     with raises(KeyError, match='missing'):
         _ = table['missing']
-    assert channel.outputs.pop() == 'arrayref(TABLE "missing" )'
+    assert channel.outputs.pop() == 'arrayref(TABLE "missing")'
 
 
 def test_remote_table_snapshot_and_iteration_each_use_one_request() -> None:
@@ -253,7 +273,7 @@ def test_remote_table_membership_and_get_ignore_table_default() -> None:
 
     channel.inputs.append('99')
     assert table['missing'] == 99
-    assert channel.outputs.pop() == 'arrayref(TABLE "missing" )'
+    assert channel.outputs.pop() == 'arrayref(TABLE "missing")'
 
     channel.inputs.append('[True, None]')
     assert 'present' in table
@@ -348,16 +368,16 @@ def test_remote_vector_item_operations_send_one_request() -> None:
 
     channel.inputs.append('1')
     assert vector[0] == 1
-    assert channel.outputs.pop() == 'arrayref(VECTOR 0 )'
+    assert channel.outputs.pop() == 'arrayref(VECTOR 0)'
 
     channel.inputs.append('None')
     vector[1] = 2
-    assert channel.outputs.pop() == 'setarray(VECTOR 1 2 )'
+    assert channel.outputs.pop() == 'setarray(VECTOR 1 2)'
 
     channel.inputs.append("error('unbound')")
     with raises(IndexError, match=r'1.*unbound'):
         _ = vector[1]
-    assert channel.outputs.pop() == 'arrayref(VECTOR 1 )'
+    assert channel.outputs.pop() == 'arrayref(VECTOR 1)'
 
 
 def test_remote_vector_bounds_errors_do_not_request_length() -> None:
@@ -369,13 +389,13 @@ def test_remote_vector_bounds_errors_do_not_request_length() -> None:
     channel.send = send
     with raises(IndexError, match=r'5.*out of range'):
         _ = vector[5]
-    send.assert_called_once_with('arrayref(VECTOR 5 )')
+    send.assert_called_once_with('arrayref(VECTOR 5)')
 
     send = Mock(side_effect=RuntimeError('array index out of bounds'))
     channel.send = send
     with raises(IndexError, match=r'5.*out of range'):
         vector[5] = 1
-    send.assert_called_once_with('setarray(VECTOR 5 1 )')
+    send.assert_called_once_with('setarray(VECTOR 5 1)')
 
 
 def test_static_completion_generator_covers_valid_and_empty_namespaces(
@@ -444,10 +464,12 @@ def test_object_representation_does_not_send_requests():
     )
 
 
-def test_failing_skill_type_is_handled():
+def test_missing_remote_type_is_handled():
     channel = DummyChannel()
     translator = DefaultTranslator()
     r = RemoteObject(channel, translator, SkillCode('__py_stuff_0x0xcafe'))
     channel.inputs.append('None')
-    assert r.skill_type is None
-    assert r.skill_type is None
+    assert r.remote_type() is None
+
+    channel.send = Mock(side_effect=RuntimeError)
+    assert r.remote_type() is None

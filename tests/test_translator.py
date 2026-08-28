@@ -96,11 +96,6 @@ def test_camel_to_snake_input_camel():
     assert camel_to_snake('layerMask1') == 'layer_mask1'
 
 
-def test_named_parameters_are_optionally_converted(simple_translator: Translator):
-    code = simple_translator.encode_call('func', 1, 2, 3, x=10, long_name=20, longName=30)
-    assert code.replace(' ', '') == 'func(123?x10?longName20?longName30)'
-
-
 def test_camel_to_snake_input_snake_does_not_change():
     assert camel_to_snake('snake_case') == 'snake_case'
     assert camel_to_snake('this_is_snake_case') == 'this_is_snake_case'

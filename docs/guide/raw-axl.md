@@ -76,4 +76,4 @@ SKILL properties are plain Python attributes:
 *Skill equivalent:* `design->b_box`
 
 See [Remote objects](../reference/remote-objects.md) for attribute assignment,
-`dir()` completion, and expression-based list operations.
+explicit attribute discovery, and expression-based list operations.

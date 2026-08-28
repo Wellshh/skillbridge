@@ -51,15 +51,21 @@ Assignment writes through to the SKILL side:
 
 ## Inspecting
 
-`dir()` lists the SKILL properties and powers tab completion in IPython and
-Jupyter:
+`str()`, `repr()`, and `dir()` are local Python operations and never send a
+request. Remote metadata is queried explicitly:
 
 ```python
->>> dir(design)
+>>> type_name = design.remote_type()
+>>> design.dir()
 ['b_box', 'units', ...]
+>>> print(design.help())
+Properties:
+- b_box
+- units
 ```
 
-*Skill equivalent:* `design->?`
+Each explicit discovery call uses one RPC. The SKILL equivalents are
+`design->objType` and `design->?`.
 
 ## Tables, vectors, and list expressions
 

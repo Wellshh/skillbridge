@@ -78,11 +78,12 @@ cell_view = ws.ge.get_edit_cell_view()
 ##### Inspecting available properties
 
 ```python
->>> dir(cell_view)
+>>> cell_view.dir()
 ['DBUPerUU', 'any_inst_count', 'area_boundaries', 'assoc_text_displays', 'b_box', ...]
 ```
 
-or type `cell_view.<TAB>` in jupyter/ipython
+`str()`, `repr()`, and built-in `dir()` are local Python operations. Use
+`cell_view.dir()` to query remote SKILL properties.
 
 ##### Reading properties
 

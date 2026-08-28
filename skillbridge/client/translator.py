@@ -124,16 +124,6 @@ class Translator:
         return snake_to_camel(name)
 
     @staticmethod
-    def encode_call(func_name: str, *args: Skill, **kwargs: Skill) -> SkillCode:
-        args_code = ' '.join(map(python_value_to_skill, args))
-        kw_keys = map(snake_to_camel, kwargs)
-        kw_values = map(python_value_to_skill, kwargs.values())
-        kwargs_code = ' '.join(
-            f'?{key} {value}' for key, value in zip(kw_keys, kw_values, strict=True)
-        )
-        return SkillCode(f'{func_name}({args_code} {kwargs_code})')
-
-    @staticmethod
     def encode_dir(obj: SkillCode) -> SkillCode:
         parts = ' '.join(
             (

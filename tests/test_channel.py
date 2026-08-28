@@ -295,12 +295,10 @@ def test_object_is_mapped(server: Virtuoso, ws: Workspace):
     result = ws.ge.get_edit_cell_view()
 
     assert isinstance(result, RemoteObject)
-    server.answer_success('"object"')
-    string = str(result)
-    assert "object@0x1234" in string
+    assert str(result) == '<remote object@0x1234>'
 
     server.answer_success('["x","y","z"]')
-    doc = result.getdoc()
+    doc = result.help()
     assert "x" in doc
     assert "y" in doc
     assert "z" in doc
@@ -309,16 +307,20 @@ def test_object_is_mapped(server: Virtuoso, ws: Workspace):
 def test_db_object_repr(server: Virtuoso, ws: Workspace):
     server.answer_object("db", 1234)
     db = ws.ge.get_edit_cell_view()
+    assert str(db) == '<remote db@0x4d2>'
+
     server.answer_success('"instance"')
-    assert "instance" in str(db)
+    assert db.remote_type() == 'instance'
     assert "objType" in server.last_question
 
 
 def test_dd_object_repr(server: Virtuoso, ws: Workspace):
     server.answer_object("dd", 1234)
     dd = ws.ge.get_edit_cell_view()
+    assert str(dd) == '<remote dd@0x4d2>'
+
     server.answer_success('Symbol("DDthingTYPE")')
-    assert "thing" in str(dd)
+    assert dd.remote_type() == 'thing'
     assert "objType" in server.last_question
 
 
@@ -640,11 +642,11 @@ def test_funcall_shortcut(server: Virtuoso, ws: Workspace):
 
     server.answer_success("42")
     assert fun() == 42
-    assert server.last_question == "funcall(__py_testfun_123 )"
+    assert server.last_question == "funcall(__py_testfun_123)"
 
     server.answer_success("41")
     assert fun(1, 2, 3) == 41
-    assert server.last_question == "funcall(__py_testfun_123 1 2 3 )"
+    assert server.last_question == "funcall(__py_testfun_123 1 2 3)"
 
     server.answer_success("40")
     assert fun(a=1, b=2, c=3) == 40
@@ -659,11 +661,8 @@ def test_open_file(server: Virtuoso, ws: Workspace):
     server.answer_object("openfile", 22)
     f = ws.ge.get_edit_cell_view()
 
-    assert f.skill_type == "open_file"
-    server.answer_success("'port:\"test.txt\"'")
-    assert str(f) == "<remote open_file 'test.txt'>"
-    assert server.last_question == 'lsprintf("%s" __py_openfile_22 )'
-
+    assert f.remote_type() == "open_file"
+    assert str(f) == '<remote open_file>'
     assert dir(f)
 
 

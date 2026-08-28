@@ -27,6 +27,6 @@ class RemoteVariable:
         return self.__str__()
 
     def _call(self, function: str, *args: Skill, **kwargs: Skill) -> Skill:
-        code = self._translator.encode_call(function, *args, **kwargs)
+        code = Expr.call(function, *args, **kwargs).render()
         result = self._channel.send(code)
         return self._translator.decode(result)
