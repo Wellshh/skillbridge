@@ -13,6 +13,7 @@ from pytest import mark, raises
 
 import skillbridge as skillbridge_module
 import skillbridge.client.hints as hints_module
+import skillbridge.client.objects as objects_module
 from skillbridge import Expr, Key, SkillCode, keys
 from skillbridge.client.channel import Channel
 from skillbridge.client.functions import FunctionCollection, LiteralRemoteFunction
@@ -159,6 +160,14 @@ def test_remote_object_builds_expression_without_rpc() -> None:
     assert not hasattr(remote, 'lazy')
     assert not channel.outputs
 
+    channel.inputs.append('["name"]')
+    assert dir(remote) == ['name']
+    assert channel.outputs.pop() == translator.encode_dir(SkillCode('TESTTEST_123'))
+
+    open_file = RemoteObject(channel, translator, SkillCode('__py_openfile_22'))
+    assert 'skill_type' in dir(open_file)
+    assert not channel.outputs
+
 
 def test_remote_table_dunders_do_not_hide_remote_io() -> None:
     channel = DummyChannel()
@@ -271,25 +280,102 @@ def test_remote_table_membership_and_get_ignore_table_default() -> None:
     )
 
 
-def test_remote_vector_exposes_current_behavior() -> None:
+def test_unbound_is_a_public_read_only_sentinel() -> None:
+    assert skillbridge_module.UNBOUND is objects_module.UNBOUND
+    assert not hasattr(hints_module, 'UNBOUND')
+    assert str(skillbridge_module.UNBOUND) == 'UNBOUND'
+    assert repr(skillbridge_module.UNBOUND) == 'UNBOUND'
+    with raises(AttributeError):
+        skillbridge_module.UNBOUND.value = 1
+
+
+def test_remote_vector_dunders_and_negative_indexes_do_not_send_requests() -> None:
     channel = DummyChannel()
     translator = DefaultTranslator()
-
     vector = RemoteVector(channel, translator, SkillCode('VECTOR'))
-    channel.inputs.append('["value"]')
-    assert 'value' in dir(vector)
 
-    channel.send = Mock(side_effect=[RuntimeError('array index out of bounds'), '3'])
-    with raises(IndexError, match=r'5.*len=3'):
+    assert str(vector) == '<remote vector>'
+    assert repr(vector) == '<remote vector>'
+    assert 'snapshot' in dir(vector)
+    assert not hasattr(vector, '_repr_html_')
+    with raises(TypeError, match=r'length\(\)'):
+        bool(vector)
+    with raises(TypeError):
+        len(vector)
+    with raises(IndexError, match='-1'):
+        _ = vector[-1]
+    with raises(IndexError, match='-1'):
+        vector[-1] = 1
+    assert not channel.outputs
+
+
+def test_remote_vector_snapshot_iteration_and_membership_each_use_one_request() -> None:
+    channel = DummyChannel()
+    translator = DefaultTranslator()
+    vector = RemoteVector(channel, translator, SkillCode('VECTOR'))
+    snapshot_command = (
+        'let((_result _value (_size length(VECTOR))) '
+        'when(_size > 0 for(_index 0 sub1(_size) '
+        "_value = VECTOR[_index] _result = cons(if(boundp('_value) "
+        'list(t _value) list(nil t)) _result))) reverse(_result))'
+    )
+
+    channel.inputs.append('[[True, 1], [None, True], [True, None]]')
+    assert vector.snapshot() == [1, skillbridge_module.UNBOUND, None]
+    assert channel.outputs.pop() == snapshot_command
+
+    channel.inputs.append('None')
+    assert vector.snapshot() == []
+    assert channel.outputs.pop() == snapshot_command
+
+    channel.inputs.append('[[True, "x"], [None, True]]')
+    assert list(vector) == ['x', skillbridge_module.UNBOUND]
+    assert channel.outputs.pop() == snapshot_command
+
+    channel.inputs.append('[[True, 1], [None, True]]')
+    assert skillbridge_module.UNBOUND in vector
+    assert channel.outputs.pop() == snapshot_command
+
+    channel.inputs.append('[[True, 1], [None, True]]')
+    assert 2 not in vector
+    assert channel.outputs.pop() == snapshot_command
+
+
+def test_remote_vector_item_operations_send_one_request() -> None:
+    channel = DummyChannel()
+    translator = DefaultTranslator()
+    vector = RemoteVector(channel, translator, SkillCode('VECTOR'))
+
+    channel.inputs.append('1')
+    assert vector[0] == 1
+    assert channel.outputs.pop() == 'arrayref(VECTOR 0 )'
+
+    channel.inputs.append('None')
+    vector[1] = 2
+    assert channel.outputs.pop() == 'setarray(VECTOR 1 2 )'
+
+    channel.inputs.append("error('unbound')")
+    with raises(IndexError, match=r'1.*unbound'):
+        _ = vector[1]
+    assert channel.outputs.pop() == 'arrayref(VECTOR 1 )'
+
+
+def test_remote_vector_bounds_errors_do_not_request_length() -> None:
+    channel = DummyChannel()
+    translator = DefaultTranslator()
+    vector = RemoteVector(channel, translator, SkillCode('VECTOR'))
+
+    send = Mock(side_effect=RuntimeError('array index out of bounds'))
+    channel.send = send
+    with raises(IndexError, match=r'5.*out of range'):
         _ = vector[5]
+    send.assert_called_once_with('arrayref(VECTOR 5 )')
 
-    channel.send = Mock(side_effect=["error('missing')", '3'])
-    with raises(IndexError, match=r'5.*len=3'):
-        _ = vector[5]
-
-    channel.send = Mock(side_effect=[RuntimeError('array index out of bounds'), '3'])
-    with raises(IndexError, match=r'5.*len=3'):
+    send = Mock(side_effect=RuntimeError('array index out of bounds'))
+    channel.send = send
+    with raises(IndexError, match=r'5.*out of range'):
         vector[5] = 1
+    send.assert_called_once_with('setarray(VECTOR 5 1 )')
 
 
 def test_static_completion_generator_covers_valid_and_empty_namespaces(

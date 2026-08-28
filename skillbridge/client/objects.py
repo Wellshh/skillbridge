@@ -6,12 +6,23 @@ from __future__ import annotations
 from collections.abc import Iterable, Iterator
 from typing import (
     Any,
+    Final,
     cast,
 )
 
 from .hints import Skill, SkillCode, Symbol
 from .remote import RemoteVariable, remote_variable_attributes
 from .translator import ParseError, snake_to_camel
+
+
+class _Unbound:
+    __slots__ = ()
+
+    def __repr__(self) -> str:
+        return 'UNBOUND'
+
+
+UNBOUND: Final = _Unbound()
 
 
 def is_jupyter_magic(attribute: str) -> bool:
@@ -52,17 +63,11 @@ class WithAttributeAccess(RemoteVariable):
         return None
 
     def __dir__(self) -> Iterable[str]:
-        if self._is_open_file():
-            return super().__dir__()
-
         response = self._send(self._translator.encode_dir(self._variable))
         return self._translator.decode_dir(response)
 
     def _send(self, command: SkillCode) -> Any:
         return self._channel.send(command).strip()
-
-    def _is_open_file(self) -> bool:
-        return False
 
 
 class RemoteObject(WithAttributeAccess, RemoteVariable):
@@ -82,6 +87,11 @@ class RemoteObject(WithAttributeAccess, RemoteVariable):
 
     def _is_open_file(self) -> bool:
         return self._variable.startswith('__py_openfile_')
+
+    def __dir__(self) -> Iterable[str]:
+        if self._is_open_file():
+            return object.__dir__(self)
+        return super().__dir__()
 
     @property
     def skill_type(self) -> str | None:
@@ -209,23 +219,48 @@ class RemoteTable(RemoteCollection):
 
 class RemoteVector(RemoteCollection, WithAttributeAccess):
     def __getitem__(self, item: Skill) -> Skill:
+        if isinstance(item, int) and item < 0:
+            raise IndexError(f'vector index {item} out of range')
+
         try:
             return super().__getitem__(item)
         except RuntimeError as e:
             if "array index out of bounds" in str(e):
-                raise IndexError(
-                    f"list index {item} out of range (len={self.length()})",
-                ) from None
+                raise IndexError(f'vector index {item} out of range') from None
             raise  # pragma: no cover
         except ParseError:
-            raise IndexError(f"list index {item} out of range (len={self.length()})") from None
+            raise IndexError(f'vector index {item} is unbound') from None
 
-    def __setitem__(self, item: Skill, value: Skill) -> None:
+    def __setitem__(self, key: Skill, value: Skill) -> None:
+        if isinstance(key, int) and key < 0:
+            raise IndexError(f'vector index {key} out of range')
+
         try:
-            super().__setitem__(item, value)
+            super().__setitem__(key, value)
         except RuntimeError as e:
             if "array index out of bounds" in str(e):
-                raise IndexError(
-                    f"list index {item} out of range (len={self.length()})",
-                ) from None
+                raise IndexError(f'vector index {key} out of range') from None
             raise  # pragma: no cover
+
+    def __iter__(self) -> Iterator[Skill | _Unbound]:
+        return iter(self.snapshot())
+
+    def __contains__(self, item: object) -> bool:
+        return item in self.snapshot()
+
+    def __dir__(self) -> Iterable[str]:
+        return object.__dir__(self)
+
+    def snapshot(self) -> list[Skill | _Unbound]:
+        vector = self.__repr_skill__()
+        code = SkillCode(
+            f'let((_result _value (_size length({vector}))) '
+            f'when(_size > 0 for(_index 0 sub1(_size) '
+            f"_value = {vector}[_index] _result = cons(if(boundp('_value) "
+            f'list(t _value) list(nil t)) _result))) reverse(_result))',
+        )
+        entries = cast(
+            'list[list[Skill]] | None',
+            self._translator.decode(self._channel.send(code)),
+        )
+        return [] if entries is None else [entry[1] if entry[0] else UNBOUND for entry in entries]

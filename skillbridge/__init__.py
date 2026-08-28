@@ -15,11 +15,12 @@ from .client.expr import Expr, ListExpr
 from .client.functions import FunctionCollection, keys
 from .client.globals import Globals, GlobalVar
 from .client.hints import Function, Key, SkillCode, Symbol
-from .client.objects import RemoteObject, RemoteTable, RemoteVector
+from .client.objects import UNBOUND, RemoteObject, RemoteTable, RemoteVector
 from .client.translator import ParseError
 from .client.workspace import Workspace, current_workspace
 
 __all__ = [
+    'UNBOUND',
     'Expr',
     'Function',
     'GlobalVar',

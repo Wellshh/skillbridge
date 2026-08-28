@@ -7,7 +7,7 @@ from warnings import warn
 
 from pytest import fixture, mark, raises, skip
 
-from skillbridge import Expr, RemoteTable, Symbol, Workspace
+from skillbridge import UNBOUND, Expr, RemoteTable, Symbol, Workspace
 
 here = Path(__file__).parent
 
@@ -123,6 +123,21 @@ def test_can_use_symbol_keys_in_hash_table(ws: Workspace) -> None:
     assert t[Symbol('key')] == 123
 
 
+def test_can_snapshot_sparse_vector(ws: Workspace) -> None:
+    vector = ws.make_vector(4)
+    vector[0] = 1
+    vector[2] = None
+    vector[3] = Symbol('value')
+
+    expected = [1, UNBOUND, None, Symbol('value')]
+    assert vector.snapshot() == expected
+    assert list(vector) == expected
+    assert UNBOUND in vector
+    assert 1 in vector
+    with raises(IndexError, match='unbound'):
+        _ = vector[1]
+
+
 def test_missing_key_raises_key_error(ws: Workspace) -> None:
     t = ws.make_table('T')
 
@@ -203,7 +218,7 @@ def test_list_expression(ws: Workspace, dd_libs: list) -> None:
 def test_vector_without_default(ws: Workspace) -> None:
     v = ws.make_vector(10)
 
-    assert len(v) == 10
+    assert v.length() == 10
 
     for i in range(-7, 14):
         with raises(IndexError, match=str(i)):
@@ -212,9 +227,9 @@ def test_vector_without_default(ws: Workspace) -> None:
     v[0] = 10
     v[2] = 12
 
-    assert list(v) == [10]
+    assert list(v) == [10, UNBOUND, 12, *([UNBOUND] * 7)]
     v[1] = 11
-    assert list(v) == [10, 11, 12]
+    assert list(v) == [10, 11, 12, *([UNBOUND] * 7)]
 
     assert v[0] == 10
 

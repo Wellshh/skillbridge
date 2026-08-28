@@ -73,15 +73,22 @@ check actual entries instead, while `length()` and `snapshot()` make remote I/O
 explicit:
 
 ```python
-table.length()                    # one RPC
-"key" in table                   # one RPC, ignores the SKILL default
-table.get("key", "fallback")     # one RPC
-entries = table.snapshot()        # one RPC, list of (key, value) pairs
+table.length()  # one RPC
+"key" in table  # one RPC, ignores the SKILL default
+table.get("key", "fallback")  # one RPC
+entries = table.snapshot()  # one RPC, list of (key, value) pairs
 ```
 
 The snapshot is a list of pairs rather than a `dict` because SKILL tables can
 use lists as keys. Table traversal order is unspecified. `str()`, `repr()`, and
-failed truth-value conversion are local and do not send requests.
+failed truth-value conversion are local and do not send requests. Deleting a
+missing key follows SKILL `remove()` semantics and succeeds silently.
+
+`RemoteVector.snapshot()` returns the vector's fixed-length contents in one
+RPC. Unbound slots are represented by the read-only `UNBOUND` singleton;
+`None` remains an ordinary bound `nil` value. Iteration and membership each use
+one snapshot RPC. Negative indexes are rejected locally, while `length()` is
+the explicit one-RPC size query.
 
 ## Identity
 
