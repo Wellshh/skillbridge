@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 from __future__ import annotations
 
-from collections.abc import Iterable, Iterator
+from collections.abc import Iterator
 from typing import (
     Any,
     Final,
@@ -118,6 +118,8 @@ class RemoteObject(WithAttributeAccess, RemoteVariable):
         if self._is_open_file():
             return '<remote open_file>'
         return f'<remote {self.skill_parent_type}@{hex(self.skill_id)}>'
+
+    # Note: add __hash__ if caching or dict.get(RemoteObject) is needed
 
     def __repr__(self) -> str:
         return f"<remote object@{hex(self.skill_id)}>"
@@ -254,9 +256,6 @@ class RemoteVector(RemoteCollection, WithAttributeAccess):
 
     def __contains__(self, item: object) -> bool:
         return item in self.snapshot()
-
-    def __dir__(self) -> Iterable[str]:
-        return object.__dir__(self)
 
     def snapshot(self) -> list[Skill | _Unbound]:
         vector = self.__repr_skill__()

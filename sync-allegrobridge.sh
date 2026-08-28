@@ -41,5 +41,9 @@ fi
 
 hash="$(git -C "$SRC" log -1 --format='%h')"
 subject="$(git -C "$SRC" log -1 --format='%s')"
+changes="$(git -C "$DST" diff --cached --name-status -- "${DIRS[@]}" "${FILES[@]}")"
+
 git -C "$DST" commit -q -m "chore(sync): from skillbridge@$hash: $subject"
 echo "sync: mirrored skillbridge@$hash -> allegrobridge-extract"
+echo "sync: synced files in this commit:"
+echo "$changes" | awk '{if (NF >= 3) printf "  [%s] %s -> %s\n", $1, $2, $3; else printf "  [%s] %s\n", $1, $2}'
