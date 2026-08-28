@@ -345,6 +345,169 @@
           'after_rollback afterRollback
           'after_cleanup afterCleanup)))
 
+(putd '__abpDrcConvergenceSnapshot nil)
+(defun __abpDrcConvergenceSnapshot ()
+  (letseq ((snapshot (__abpDrcSnapshot)) oodShapes)
+    (foreach shape (axlDBGetShapes nil)
+      (when (and shape->shapeIsBoundary shape->fillOOD)
+        (letseq ((net shape->net)
+                 (netName (when net (if (stringp net) net net->name))))
+          (setq oodShapes
+                (cons
+                  (list shape->layer netName shape->bBox shape->fillOOD)
+                  oodShapes)))))
+    (append snapshot
+            (list 'dynamic_ood_count (axlDBDynamicShapes nil)
+                  'ood_shape_fingerprints (reverse oodShapes)))))
+
+(putd '__abpDrcUpdatePreservingControl nil)
+(defun __abpDrcUpdatePreservingControl ()
+  (let ((originalEnable (axlDBControl 'drcEnable)))
+    (unwindProtect
+      (axlDRCUpdate nil)
+      (axlDBControl 'drcEnable originalEnable))))
+
+(putd '__abpDrcCommitCycle nil)
+(defun __abpDrcCommitCycle (index)
+  (letseq ((before (__abpDrcConvergenceSnapshot)) mark terminalAttempted
+           operationResult operationError during commitResult rollbackResult
+           afterCommit status)
+    (unwindProtect
+      (progn
+        (setq mark (axlDBTransactionStart))
+        (when mark
+          (setq operationResult (errset (__abpDrcUpdatePreservingControl)))
+          (unless operationResult
+            (setq operationError (sprintf nil "%L" errset.errset)))
+          (setq during (__abpDrcConvergenceSnapshot))
+          (setq terminalAttempted t)
+          (if operationResult
+              (progn
+                (setq commitResult (axlDBTransactionCommit mark))
+                (unless commitResult
+                  (setq rollbackResult (axlDBTransactionRollback mark))))
+              (setq rollbackResult (axlDBTransactionRollback mark)))
+          (setq afterCommit (__abpDrcConvergenceSnapshot))))
+      (when (and mark (null terminalAttempted))
+        (setq terminalAttempted t)
+        (errset (axlDBTransactionRollback mark))))
+    (cond
+      ((null mark) (setq status "start_failed"))
+      ((null operationResult) (setq status "operation_failed"))
+      ((null commitResult) (setq status "commit_failed"))
+      (t (setq status "completed")))
+    (list nil
+          'index index
+          'status status
+          'operation_result (when operationResult (car operationResult))
+          'operation_error operationError
+          'commit_result commitResult
+          'rollback_after_commit_failure rollbackResult
+          'before before
+          'during during
+          'after_commit afterCommit)))
+
+(putd '__abpDrcConvergenceCycle nil)
+(defun __abpDrcConvergenceCycle (index)
+  (letseq ((before (__abpDrcConvergenceSnapshot)) mark terminalAttempted
+           operationResult operationError during rollbackResult afterRollback status)
+    (unwindProtect
+      (progn
+        (setq mark (axlDBTransactionStart))
+        (when mark
+          (setq operationResult (errset (__abpDrcUpdatePreservingControl)))
+          (unless operationResult
+            (setq operationError (sprintf nil "%L" errset.errset)))
+          (setq during (__abpDrcConvergenceSnapshot))
+          (setq terminalAttempted t)
+          (setq rollbackResult (axlDBTransactionRollback mark))
+          (setq afterRollback (__abpDrcConvergenceSnapshot))))
+      (when (and mark (null terminalAttempted))
+        (setq terminalAttempted t)
+        (errset (axlDBTransactionRollback mark))))
+    (cond
+      ((null mark) (setq status "start_failed"))
+      ((null operationResult) (setq status "operation_failed"))
+      ((null rollbackResult) (setq status "rollback_failed"))
+      (t (setq status "completed")))
+    (list nil
+          'index index
+          'status status
+          'operation_result (when operationResult (car operationResult))
+          'operation_error operationError
+          'rollback_result rollbackResult
+          'before before
+          'during during
+          'after_rollback afterRollback)))
+
+(putd '__abpDrcConvergence nil)
+(defun __abpDrcConvergence (rounds)
+  (letseq ((originalEnable (axlDBControl 'drcEnable))
+           baselineResult baselineError baseline
+           directResult directError afterDirect commitCycles commitCycle
+           cycles cycle cyclesOK
+           afterCycles postResult postError afterPostUpdate afterCleanup status
+           (index 0))
+    (unwindProtect
+      (progn
+        (setq baselineResult (errset (__abpDrcUpdatePreservingControl)))
+        (unless baselineResult
+          (setq baselineError (sprintf nil "%L" errset.errset)))
+        (when baselineResult
+          (setq baseline (__abpDrcConvergenceSnapshot))
+          (setq directResult (errset (__abpDrcUpdatePreservingControl)))
+          (unless directResult
+            (setq directError (sprintf nil "%L" errset.errset)))
+          (when directResult
+            (setq afterDirect (__abpDrcConvergenceSnapshot))
+            (setq cyclesOK t)
+            (while (lessp index rounds)
+              (setq commitCycle (__abpDrcCommitCycle index))
+              (unless (equal (get commitCycle 'status) "completed")
+                (setq cyclesOK nil))
+              (setq commitCycles (cons commitCycle commitCycles))
+              (setq cycle (__abpDrcConvergenceCycle index))
+              (unless (equal (get cycle 'status) "completed")
+                (setq cyclesOK nil))
+              (setq cycles (cons cycle cycles))
+              (setq index (add1 index)))
+            (setq commitCycles (reverse commitCycles))
+            (setq cycles (reverse cycles))
+            (setq afterCycles (__abpDrcConvergenceSnapshot))
+            (when cyclesOK
+              (setq postResult (errset (__abpDrcUpdatePreservingControl)))
+              (unless postResult
+                (setq postError (sprintf nil "%L" errset.errset)))
+              (when postResult
+                (setq afterPostUpdate (__abpDrcConvergenceSnapshot)))))))
+      (progn
+        (axlDBControl 'drcEnable originalEnable)
+        (setq afterCleanup (__abpDrcConvergenceSnapshot))))
+    (cond
+      ((null baselineResult) (setq status "baseline_failed"))
+      ((null directResult) (setq status "direct_failed"))
+      ((null cyclesOK) (setq status "cycle_failed"))
+      ((null postResult) (setq status "post_update_failed"))
+      (t (setq status "completed")))
+    (list nil
+          'allegro_version (axlVersion 'fullVersion)
+          'status status
+          'rounds rounds
+          'original_drc_enable originalEnable
+          'baseline_result (when baselineResult (car baselineResult))
+          'baseline_error baselineError
+          'baseline baseline
+          'direct_result (when directResult (car directResult))
+          'direct_error directError
+          'after_direct afterDirect
+          'commit_cycles commitCycles
+          'cycles cycles
+          'after_cycles afterCycles
+          'post_update_result (when postResult (car postResult))
+          'post_update_error postError
+          'after_post_update afterPostUpdate
+          'after_cleanup afterCleanup)))
+
 (putd '__abpDrcCouplingPhase nil)
 (defun __abpDrcCouplingPhase (refdes)
   (list nil

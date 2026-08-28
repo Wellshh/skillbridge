@@ -67,6 +67,49 @@ def _classify_rollback(
     return 'partial'
 
 
+def _classify_commit(
+    before: dict[str, object],
+    during: dict[str, object],
+    after: dict[str, object],
+) -> str:
+    classification = _classify_rollback(before, during, after)
+    return 'reverted' if classification == 'rolled_back' else classification
+
+
+def _dynamic_shape_fingerprint(snapshot: dict[str, object]) -> tuple[object, tuple[str, ...]]:
+    shapes = cast('list[object]', snapshot.get('ood_shape_fingerprints', []))
+    return (
+        snapshot.get('dynamic_ood_count'),
+        tuple(sorted(dumps(shape, sort_keys=True, separators=(',', ':')) for shape in shapes)),
+    )
+
+
+def _classify_dynamic_shape_rollback(
+    before: dict[str, object],
+    during: dict[str, object],
+    after: dict[str, object],
+) -> str:
+    before_state = _dynamic_shape_fingerprint(before)
+    during_state = _dynamic_shape_fingerprint(during)
+    after_state = _dynamic_shape_fingerprint(after)
+    if during_state == before_state:
+        return 'inconclusive'
+    if after_state == before_state:
+        return 'rolled_back'
+    if after_state == during_state:
+        return 'persisted'
+    return 'partial'
+
+
+def _classify_dynamic_shape_commit(
+    before: dict[str, object],
+    during: dict[str, object],
+    after: dict[str, object],
+) -> str:
+    classification = _classify_dynamic_shape_rollback(before, during, after)
+    return 'reverted' if classification == 'rolled_back' else classification
+
+
 def _classify_coupling(
     before: dict[str, object],
     during: dict[str, object],
@@ -324,6 +367,89 @@ class DrcProbe:
             )
         else:
             report['classification'] = 'failed'
+        report['ping'] = self.workspace['plus'](1, 2)
+        return report
+
+    def _summarize_convergence_cycle(
+        self,
+        cycle: dict[str, object],
+        terminal_phase: str,
+        *,
+        committed: bool,
+    ) -> None:
+        for phase_name in ('before', 'during', terminal_phase):
+            phase = cycle.get(phase_name)
+            if isinstance(phase, dict):
+                self._summarize_phase(cast('dict[str, object]', phase))
+        if cycle.get('status') != 'completed':
+            cycle['marker_classification'] = 'failed'
+            cycle['dynamic_shape_classification'] = 'failed'
+            return
+        before = cast('dict[str, object]', cycle['before'])
+        during = cast('dict[str, object]', cycle['during'])
+        after = cast('dict[str, object]', cycle[terminal_phase])
+        cycle['marker_terminal_matches_before'] = _snapshot_fingerprint(
+            after
+        ) == _snapshot_fingerprint(before)
+        cycle['marker_terminal_matches_operation'] = _snapshot_fingerprint(
+            after
+        ) == _snapshot_fingerprint(during)
+        cycle['dynamic_shape_terminal_matches_before'] = _dynamic_shape_fingerprint(
+            after
+        ) == _dynamic_shape_fingerprint(before)
+        cycle['dynamic_shape_terminal_matches_operation'] = _dynamic_shape_fingerprint(
+            after
+        ) == _dynamic_shape_fingerprint(during)
+        marker_classifier = _classify_commit if committed else _classify_rollback
+        dynamic_classifier = (
+            _classify_dynamic_shape_commit if committed else _classify_dynamic_shape_rollback
+        )
+        cycle['marker_classification'] = marker_classifier(before, during, after)
+        cycle['dynamic_shape_classification'] = dynamic_classifier(before, during, after)
+
+    def convergence(self, *, rounds: int = 5) -> dict[str, object]:
+        if rounds < 1:
+            raise ValueError('rounds must be positive')
+        report = self._call('__abpDrcConvergence', rounds)
+        phase_names = (
+            'baseline',
+            'after_direct',
+            'after_cycles',
+            'after_post_update',
+            'after_cleanup',
+        )
+        for phase_name in phase_names:
+            phase = report.get(phase_name)
+            if isinstance(phase, dict):
+                self._summarize_phase(cast('dict[str, object]', phase))
+        commit_cycles = cast('list[dict[str, object]]', report.get('commit_cycles') or [])
+        for cycle in commit_cycles:
+            self._summarize_convergence_cycle(cycle, 'after_commit', committed=True)
+        cycles = cast('list[dict[str, object]]', report.get('cycles') or [])
+        for cycle in cycles:
+            self._summarize_convergence_cycle(cycle, 'after_rollback', committed=False)
+        observations: dict[str, object] = {}
+        if report.get('status') == 'completed':
+            baseline = cast('dict[str, object]', report['baseline'])
+            after_direct = cast('dict[str, object]', report['after_direct'])
+            after_cycles = cast('dict[str, object]', report['after_cycles'])
+            after_post_update = cast('dict[str, object]', report['after_post_update'])
+            observations = {
+                'direct_update_stable': (
+                    _snapshot_fingerprint(after_direct) == _snapshot_fingerprint(baseline)
+                ),
+                'post_update_stable': (
+                    _snapshot_fingerprint(after_post_update) == _snapshot_fingerprint(after_cycles)
+                ),
+                'dynamic_shape_stable_after_direct': (
+                    _dynamic_shape_fingerprint(after_direct) == _dynamic_shape_fingerprint(baseline)
+                ),
+                'dynamic_shape_stable_after_post_update': (
+                    _dynamic_shape_fingerprint(after_post_update)
+                    == _dynamic_shape_fingerprint(after_cycles)
+                ),
+            }
+        report['observations'] = observations
         report['ping'] = self.workspace['plus'](1, 2)
         return report
 

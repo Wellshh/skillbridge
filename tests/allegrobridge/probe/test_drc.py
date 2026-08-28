@@ -463,6 +463,53 @@ def test_transaction_report_classifies_completed_and_failed_runs() -> None:
     assert probe.transaction_rollback()['classification'] == 'failed'
 
 
+def test_convergence_report_compares_direct_and_transaction_cycles() -> None:
+    baseline = {**_raw_phase('baseline'), 'dynamic_ood_count': 1}
+    changed = {**_raw_phase('changed'), 'dynamic_ood_count': 1}
+    completed = {
+        'status': 'completed',
+        'baseline': deepcopy(baseline),
+        'after_direct': deepcopy(baseline),
+        'commit_cycles': [
+            {
+                'status': 'completed',
+                'before': deepcopy(baseline),
+                'during': deepcopy(changed),
+                'after_commit': deepcopy(changed),
+            }
+        ],
+        'cycles': [
+            {
+                'status': 'completed',
+                'before': deepcopy(baseline),
+                'during': deepcopy(changed),
+                'after_rollback': deepcopy(baseline),
+            }
+        ],
+        'after_cycles': deepcopy(baseline),
+        'after_post_update': deepcopy(baseline),
+    }
+    workspace = FakeWorkspace({'__abpDrcConvergence': completed, 'plus': 3})
+    probe = DrcProbe(cast('Workspace', workspace))
+
+    report = probe.convergence(rounds=3)
+
+    observations = cast('dict[str, object]', report['observations'])
+    commit_cycles = cast('list[dict[str, object]]', report['commit_cycles'])
+    cycles = cast('list[dict[str, object]]', report['cycles'])
+    assert observations['direct_update_stable'] is True
+    assert observations['post_update_stable'] is True
+    assert commit_cycles[0]['marker_classification'] == 'persisted'
+    assert commit_cycles[0]['dynamic_shape_classification'] == 'inconclusive'
+    assert commit_cycles[0]['marker_terminal_matches_operation'] is True
+    assert cycles[0]['marker_classification'] == 'rolled_back'
+    assert cycles[0]['dynamic_shape_classification'] == 'inconclusive'
+    assert cycles[0]['marker_terminal_matches_before'] is True
+    assert cycles[0]['dynamic_shape_terminal_matches_before'] is True
+    assert report['ping'] == 3
+    assert workspace.calls[-2] == ('__abpDrcConvergence', (3,))
+
+
 def test_database_coupling_selects_sorted_components_and_classifies_report() -> None:
     completed = {
         'status': 'completed',
@@ -584,6 +631,22 @@ class TestDrcProbe:
         before = cast('dict[str, object]', report['before'])
         after_cleanup = cast('dict[str, object]', report['after_cleanup'])
         assert after_cleanup['drc_enable'] == before['drc_enable']
+
+    def test_reports_update_preview_convergence(self, drc_probe: DrcProbe) -> None:
+        report = drc_probe.convergence(rounds=5)
+        drc_probe.emit('drc-preview-convergence.json', report)
+        assert report['status'] == 'completed'
+        assert report['ping'] == 3
+        cycles = cast('list[dict[str, object]]', report['cycles'])
+        commit_cycles = cast('list[dict[str, object]]', report['commit_cycles'])
+        assert len(cycles) == 5
+        assert len(commit_cycles) == 5
+        assert all(cycle['status'] == 'completed' for cycle in cycles)
+        assert all(cycle['status'] == 'completed' for cycle in commit_cycles)
+        assert all(cycle['rollback_result'] is True for cycle in cycles)
+        assert all(cycle['commit_result'] is True for cycle in commit_cycles)
+        assert all(cycle['marker_terminal_matches_before'] is True for cycle in cycles)
+        assert all(cycle['dynamic_shape_terminal_matches_before'] is True for cycle in cycles)
 
     def test_reports_database_write_drc_coupling_and_rollback(
         self,
