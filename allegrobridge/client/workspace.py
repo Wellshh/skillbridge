@@ -16,7 +16,7 @@ from allegrobridge.exceptions import AllegroLaunchError, ExtensionError
 from allegrobridge.util import extract_api_domains
 from skillbridge.client.channel import Channel
 from skillbridge.client.functions import FunctionCollection
-from skillbridge.client.hints import Skill, SkillCode, SkillList, Symbol
+from skillbridge.client.hints import Skill, SkillCode, Symbol
 from skillbridge.client.objects import RemoteObject, RemoteTable, RemoteVector
 from skillbridge.client.workspace import Workspace as GWorkspace
 from skillbridge.client.workspace import WorkspaceId
@@ -162,10 +162,10 @@ class Txn:
         Returns:
             List of savepoint execution results.
         """
-        commands = list(cmds)
+        commands: list[Skill] = list(cmds)
         if not commands:
             return []
-        result = self._workspace['__abRunSavepointBatch'](SkillList(commands))
+        result = self._workspace['__abRunSavepointBatch'](commands)
         return cast('list[SavepointResult]', result)
 
 

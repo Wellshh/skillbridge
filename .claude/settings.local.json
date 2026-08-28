@@ -141,7 +141,10 @@
       "Bash(mkdir -p __TRACKED_VAR__/docs/fonts)",
       "Bash(cp inter-extract/InterVariable.woff2 inter-extract/InterVariable-Italic.woff2 __TRACKED_VAR__/docs/fonts/)",
       "Bash(cp inter-extract/LICENSE.txt __TRACKED_VAR__/docs/fonts/Inter-OFL.txt)",
-      "Bash(cp jbm-extract/JetBrainsMono.woff2 jbm-extract/JetBrainsMono-Italic.woff2 __TRACKED_VAR__/docs/fonts/)"
+      "Bash(cp jbm-extract/JetBrainsMono.woff2 jbm-extract/JetBrainsMono-Italic.woff2 __TRACKED_VAR__/docs/fonts/)",
+      "Bash(grep -n '^```' \"/Users/wells/Documents/02_工作实习/Job/龙旗科技/代码库/skillbridge/docs/getting-started/installation.md\")",
+      "Bash(grep -v -E '^\\(docs/assets/\\(logo\\\\.svg|hero-traces\\\\.svg|architecture\\\\.svg|favicon\\\\.png\\)|docs/stylesheets/extra\\\\.css|docs/index\\\\.md|docs/architecture\\\\.md|mkdocs\\\\.yml\\)$')",
+      "Bash(xargs -0 git restore --staged --)"
     ]
   }
 }

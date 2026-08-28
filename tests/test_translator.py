@@ -9,15 +9,17 @@ from typing import Any
 
 from hypothesis import given
 from hypothesis.strategies import floats, integers, lists, none, text
-from pytest import fixture, mark, raises
+from pytest import fixture, mark, raises, warns
 
 from allegrobridge.client.translator import Translator as ATranslator
-from skillbridge import Symbol, Var
+from skillbridge import Symbol
+from skillbridge.client.expr import Expr
 from skillbridge.client.hints import SkillCode
 from skillbridge.client.translator import (
     DefaultTranslator,
     Translator,
     build_python_path,
+    build_skill_path,
     camel_to_snake,
     snake_to_camel,
 )
@@ -138,8 +140,17 @@ def test_tuples_use_skill_list_wire_format(encode_simple):
 
 
 @given(asciis)
-def test_var_to_skill(encode_simple, a):
-    assert (encode_simple(Var(a))) == a
+def test_expr_to_skill(encode_simple, a):
+    assert encode_simple(Expr.raw_skill(a)) == a
+
+
+def test_custom_encoder_attribute_error_is_not_swallowed(encode_simple):
+    class BrokenEncoder:
+        def __repr_skill__(self):
+            raise AttributeError('broken encoder')
+
+    with raises(AttributeError, match='broken encoder'):
+        encode_simple(BrokenEncoder())
 
 
 def test_property_list_to_python(decode_simple):
@@ -259,6 +270,15 @@ def test_python_path():
     assert build_python_path(['x']) == 'x'
     assert build_python_path(['x', 'y']) == 'x.y'
     assert build_python_path(['x', 'y', 123]) == 'x.y[123]'
+
+
+def test_skill_path_supports_integer_indexes():
+    assert build_skill_path(['x', 1, 'name']) == '(nth 1 x)->name'
+
+
+def test_warning_prefix_is_removed(decode_simple):
+    with warns(UserWarning, match='prefixed'):
+        assert decode_simple("warning('*WARNING*prefixed', 1)") == 1
 
 
 @mark.parametrize(

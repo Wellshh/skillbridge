@@ -33,6 +33,18 @@ def test_expr_is_explicitly_remote_and_unhashable() -> None:
         hash(expr)
 
 
+def test_expr_wraps_values_without_treating_strings_as_source() -> None:
+    encoded = EncodedOnce()
+
+    wrapped = Expr.wrap(encoded)
+
+    assert encoded.calls == 1
+    assert wrapped.render() == 'encodedValue'
+    assert wrapped.render() == 'encodedValue'
+    assert encoded.calls == 1
+    assert Expr.wrap('value').render() == '"value"'
+
+
 def test_expr_renders_attributes_indexes_and_binary_operations() -> None:
     design = Expr.raw_skill('design')
     component = design.components.as_list()[0]
@@ -126,6 +138,24 @@ def test_list_expr_where_calls_predicate_and_encoders_once() -> None:
     assert encoded.calls == 1
 
 
+def test_list_expr_builds_map_and_for_each_with_scoped_bindings() -> None:
+    calls = 0
+    items = Expr.raw_skill('items').as_list()
+
+    def transform(item: Expr[Any]) -> Expr[Any]:
+        nonlocal calls
+        calls += 1
+        return item.value + 1
+
+    mapped = items.map(transform)
+    action = items.for_each(lambda item: Expr.call('delete', item))
+
+    assert isinstance(mapped, ListExpr)
+    assert mapped.render() == 'mapcar(lambda((_expr0) (_expr0->value + 1)) items)'
+    assert action.render() == 'progn(foreach(_expr0 items delete(_expr0)) nil)'
+    assert calls == 1
+
+
 def test_list_expr_where_uses_unique_nested_bindings() -> None:
     items = Expr.raw_skill('items').as_list()
 
@@ -148,7 +178,7 @@ def test_list_expr_where_uses_unique_nested_bindings() -> None:
     )
 
 
-def test_list_expr_where_rejects_escaped_binding() -> None:
+def test_list_expr_rejects_escaped_binding() -> None:
     captured: Expr[Any] | None = None
 
     def predicate(item: Expr[Any]) -> Expr[Any]:
@@ -159,10 +189,36 @@ def test_list_expr_where_rejects_escaped_binding() -> None:
     filtered = Expr.raw_skill('items').as_list().where(predicate)
 
     assert captured is not None
-    with raises(RuntimeError, match='where variable'):
+    with raises(RuntimeError, match='bound iteration variable'):
         captured.value.render()
-    with raises(RuntimeError, match='where variable'):
+    with raises(RuntimeError, match='bound iteration variable'):
         (filtered.each.value == captured.value).render()
+
+    # Map binding escape
+    captured_map: Expr[Any] | None = None
+
+    def mapper(item: Expr[Any]) -> Expr[Any]:
+        nonlocal captured_map
+        captured_map = item
+        return item.value + 1
+
+    Expr.raw_skill('items').as_list().map(mapper)
+    assert captured_map is not None
+    with raises(RuntimeError, match='bound iteration variable'):
+        captured_map.value.render()
+
+    # For-each binding escape
+    captured_each: Expr[Any] | None = None
+
+    def eacher(item: Expr[Any]) -> Expr[Any]:
+        nonlocal captured_each
+        captured_each = item
+        return Expr.call('print', item)
+
+    Expr.raw_skill('items').as_list().for_each(eacher)
+    assert captured_each is not None
+    with raises(RuntimeError, match='bound iteration variable'):
+        captured_each.render()
 
 
 def test_expr_encodes_values_once() -> None:

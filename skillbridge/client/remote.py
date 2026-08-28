@@ -1,7 +1,10 @@
 # Copyright (c) 2019-2024 the skillbridge authors (Niels Buwen, Tobias Markus)
 # Derived from skillbridge (https://github.com/unihd-cag/skillbridge)
 # SPDX-License-Identifier: LGPL-3.0-only
+from typing_extensions import Self
+
 from .channel import Channel
+from .expr import Expr
 from .hints import Skill, SkillCode
 from .translator import Translator
 
@@ -16,6 +19,9 @@ class RemoteVariable:
 
     def __repr_skill__(self) -> SkillCode:
         return SkillCode(self._variable)
+
+    def expr(self) -> Expr[Self]:
+        return Expr.wrap(self)
 
     def __repr__(self) -> str:
         return self.__str__()

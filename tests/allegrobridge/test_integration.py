@@ -766,7 +766,7 @@ class TestComponentsApi:
         monkeypatch.setattr(session.raw._channel, 'send', send)
 
         assert session.components() == []
-        assert commands == ['__abProjectComponents(nil t )']
+        assert commands == ['__abProjectComponents(nil t)']
 
     def test_move_protocol_mismatch_raises(
         self,
@@ -783,7 +783,7 @@ class TestComponentsApi:
 
         with pytest.raises(AllegroProtocolError, match='__abMoveComponent'):
             session.components.move('R1', x=1.0, y=2.0)
-        assert commands == ['__abRunTransaction("__abMoveComponent(\\"R1\\" 1.0 2.0 nil )" )']
+        assert commands == ['__abRunTransaction("__abMoveComponent(\\"R1\\" 1.0 2.0 nil)")']
 
     @pytest.mark.parametrize(
         'payload',
@@ -845,7 +845,7 @@ class TestComponentsApi:
 
         with pytest.raises(AllegroProtocolError, match='__abProjectComponents'):
             session.components()
-        assert commands == ['__abProjectComponents(nil t )']
+        assert commands == ['__abProjectComponents(nil t)']
 
 
 class TestNetsApi:
@@ -893,7 +893,7 @@ class TestNetsApi:
         monkeypatch.setattr(session.raw._channel, 'send', send)
 
         assert session.nets() == []
-        assert commands == ['__abProjectNets(nil )']
+        assert commands == ['__abProjectNets(nil)']
 
     @pytest.mark.parametrize(
         'payload',
@@ -943,7 +943,7 @@ class TestNetsApi:
 
         with pytest.raises(AllegroProtocolError, match='__abProjectNets'):
             session.nets()
-        assert commands == ['__abProjectNets(nil )']
+        assert commands == ['__abProjectNets(nil)']
 
 
 class TestPinsApi:

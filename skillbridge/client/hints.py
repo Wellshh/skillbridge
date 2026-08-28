@@ -22,8 +22,6 @@ __all__ = [
     'Skill',
     'SkillCode',
     'SkillComponent',
-    'SkillList',
-    'SkillTuple',
     'SupportsReprSkill',
     'Symbol',
 ]
@@ -45,34 +43,19 @@ class SupportsReprSkill(Protocol):
 
 
 if TYPE_CHECKING:  # pragma: no cover
-    from .var import Var
-
     Skill: TypeAlias = (
-        Var
-        | SupportsReprSkill
+        SupportsReprSkill
         | Number
         | str
         | bool
-        | 'SkillList'
-        | 'SkillDict'
-        | 'SkillTuple'
+        | list['Skill']
+        | tuple['Skill', ...]
+        | dict[str, 'Skill']
         | None
     )
 
 else:
     Skill = Any
-
-
-class SkillList(list[Skill]):
-    pass
-
-
-class SkillTuple(tuple[Skill, ...]):
-    __slots__ = ()
-
-
-class SkillDict(dict[str, Skill]):
-    pass
 
 
 class Symbol(NamedTuple):

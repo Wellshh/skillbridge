@@ -94,8 +94,14 @@ def test_generated_stub_declares_axl_contract() -> None:
     assert 'axlDBGetDesign()' in member_doc.value.value
 
     stub = STUB_PATH.read_text(encoding='utf-8')
+    assert 'from skillbridge.client.expr import Expr' in stub
     assert 'def __call__(self, /) -> RemoteObject | None:' in stub
     assert 'def __call__(self, s_type: Symbol, t_name: str, /) -> RemoteObject | None:' in stub
+    assert 'def expr(self, /) -> Expr[RemoteObject | None]: ...' in stub
+    assert (
+        'def expr(self, s_type: Symbol, t_name: str, /) -> Expr[RemoteObject | None]: ...' in stub
+    )
+    assert 'def expr(self, value: None, /) -> Expr[list[str]]: ...' in stub
     assert (
         'def __call__(self, x_block_template: int, /, *, width: float | None = ..., '
         'height: float | None = ..., line_space: float | None = ..., '

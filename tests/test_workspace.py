@@ -151,7 +151,7 @@ def test_workspace_builds_remote_collections_and_delegates_repair(
     assert isinstance(ws.make_vector(2, None), RemoteVector)
     assert ws.id == 123
     assert ws.try_repair() == 'repaired'
-    assert channel.commands == ['makeTable("T" 0 )', 'makeVector(2 nil )']
+    assert channel.commands == ['makeTable("T" 0)', 'makeVector(2 nil)']
 
 
 def test_workspace_define_encodes_multiline_function() -> None:
@@ -230,26 +230,26 @@ def test_allegro_workspace_namespaces_and_chaining() -> None:
     # Allegro-specific top-level namespaces
     assert callable(ws.close)
     assert ws.db.get_design._function == 'db_get_design'
-    assert ws.db.get_design.lazy() == 'axlDBGetDesign( )'
+    assert ws.db.get_design.expr().render() == 'axlDBGetDesign()'
 
     # Multi-level chaining
-    assert ws.db.create.pin.lazy(1, 2) == 'axlDBCreatePin(1 2 )'
-    assert ws.geo.rotate_pt.lazy(90.0, [100.0, 0.0], None) == (
-        'axlGeoRotatePt(90.0 (list 100.0 0.0) nil )'
+    assert ws.db.create.pin.expr(1, 2).render() == 'axlDBCreatePin(1 2)'
+    assert ws.geo.rotate_pt.expr(90.0, [100.0, 0.0], None).render() == (
+        'axlGeoRotatePt(90.0 (list 100.0 0.0) nil)'
     )
-    assert ws.ui.yes_no.lazy('Proceed?') == 'axlUIYesNo("Proceed?" )'
-    assert ws.spreadsheet.get_rgb_color_string.lazy(255, 0, 0) == (
-        'axlSpreadsheetGetRGBColorString(255 0 0 )'
+    assert ws.ui.yes_no.expr('Proceed?').render() == 'axlUIYesNo("Proceed?")'
+    assert ws.spreadsheet.get_rgb_color_string.expr(255, 0, 0).render() == (
+        'axlSpreadsheetGetRGBColorString(255 0 0)'
     )
-    assert ws.cns.get_via_zpvf.lazy() == 'axlCNSGetViaZPVF( )'
-    assert ws.drc.get_count.lazy() == 'axlDRCGetCount( )'
-    assert ws.form.create.lazy('my_form') == 'axlFormCreate("my_form" )'
+    assert ws.cns.get_via_zpvf.expr().render() == 'axlCNSGetViaZPVF()'
+    assert ws.drc.get_count.expr().render() == 'axlDRCGetCount()'
+    assert ws.form.create.expr('my_form').render() == 'axlFormCreate("my_form")'
 
     # Fallback to standard axl top-level
-    assert ws.axl.clear_sel_set.lazy() == 'axlClearSelSet( )'
-    assert ws['plus'].lazy(1, 2) == 'plus(1 2 )'
-    assert ws['axlcreate'].lazy() == 'axlcreate( )'
-    assert ws['axldo'].lazy() == 'axldo( )'
+    assert ws.axl.clear_sel_set.expr().render() == 'axlClearSelSet()'
+    assert ws['plus'].expr(1, 2).render() == 'plus(1 2)'
+    assert ws['axlcreate'].expr().render() == 'axlcreate()'
+    assert ws['axldo'].expr().render() == 'axldo()'
 
 
 def test_allegro_workspace_annotations_do_not_pollute_base_workspace() -> None:
@@ -258,27 +258,24 @@ def test_allegro_workspace_annotations_do_not_pollute_base_workspace() -> None:
     assert 'air' not in Workspace.__annotations__
 
 
-def test_allegro_workspace_var_chaining_and_transaction_integration() -> None:
+def test_allegro_workspace_expr_chaining_and_transaction_integration() -> None:
     channel = ScriptedChannel('"result"')
     ws = AllegroWorkspace(channel=channel, id_=456)
 
-    assert ws.axl.db.get.design.lazy() == 'axlDBGetDesign( )'
-    design = ws.axl.db.get.design.var()
+    design = ws.axl.db.get.design.expr()
 
     assert (
-        design.components[0].name.__repr_skill__() == 'nth(0 axlDBGetDesign( )->components)->name'
+        design.components.as_list()[0].name.render() == 'nth(0 axlDBGetDesign()->components)->name'
     )
-    assert (
-        design.board_thickness > 1.6
-    ).__repr_skill__() == '(axlDBGetDesign( )->boardThickness > 1.6)'
+    assert (design.board_thickness > 1.6).render() == '(axlDBGetDesign()->boardThickness > 1.6)'
 
-    nested_cmd = ws.axl.db_add_prop.lazy(design, ['BOARD_THICKNESS', 0.12])
-    assert nested_cmd == 'axlDBAddProp(axlDBGetDesign( ) (list "BOARD_THICKNESS" 0.12) )'
+    nested_cmd = ws.axl.db_add_prop.expr(design, ['BOARD_THICKNESS', 0.12]).render()
+    assert nested_cmd == 'axlDBAddProp(axlDBGetDesign() (list "BOARD_THICKNESS" 0.12))'
 
     res = ws.transaction(nested_cmd)
     assert res == 'result'
     assert channel.commands == [
-        '__abRunTransaction("axlDBAddProp(axlDBGetDesign( ) (list \\"BOARD_THICKNESS\\" 0.12) )" )'
+        '__abRunTransaction("axlDBAddProp(axlDBGetDesign() (list \\"BOARD_THICKNESS\\" 0.12))")'
     ]
 
 
@@ -289,7 +286,7 @@ def test_allegro_transaction_facade_delegates_to_extension() -> None:
         '[{"index": 0, "status": "success", "value": 3}]',
     )
     ws = AllegroWorkspace(channel=channel, id_=456)
-    command = ws['plus'].lazy(1, 2)
+    command = ws['plus'].expr(1, 2).render()
 
     assert ws.transaction(command) == 3
     assert ws.transaction.preview(command) == 'preview'
@@ -297,9 +294,9 @@ def test_allegro_transaction_facade_delegates_to_extension() -> None:
         {'index': 0, 'status': 'success', 'value': 3},
     ]
     assert channel.commands == [
-        '__abRunTransaction("plus(1 2 )" )',
-        '__abRunDryTransaction("plus(1 2 )" )',
-        '__abRunSavepointBatch((list "plus(1 2 )") )',
+        '__abRunTransaction("plus(1 2)")',
+        '__abRunDryTransaction("plus(1 2)")',
+        '__abRunSavepointBatch((list "plus(1 2)"))',
     ]
 
 
@@ -353,17 +350,17 @@ def test_allegro_workspace_open_detects_server(
     expected_commands = ["isCallable('axlDBGetDesign)"]
     if expected_type is AllegroWorkspace:
         expected_commands.extend([
-            "isCallable('__abRunTransaction )",
-            "isCallable('__abRunSavepointBatch )",
-            "isCallable('__abRunDryTransaction )",
-            "isCallable('__abProjectBoard )",
-            "isCallable('__abProjectComponents )",
-            "isCallable('__abMoveComponent )",
-            "isCallable('__abProjectLayers )",
-            "isCallable('__abProjectNets )",
-            "isCallable('__abProjectPadstacks )",
-            "isCallable('__abProjectPins )",
-            "isCallable('__abProjectSymbols )",
+            "isCallable('__abRunTransaction)",
+            "isCallable('__abRunSavepointBatch)",
+            "isCallable('__abRunDryTransaction)",
+            "isCallable('__abProjectBoard)",
+            "isCallable('__abProjectComponents)",
+            "isCallable('__abMoveComponent)",
+            "isCallable('__abProjectLayers)",
+            "isCallable('__abProjectNets)",
+            "isCallable('__abProjectPadstacks)",
+            "isCallable('__abProjectPins)",
+            "isCallable('__abProjectSymbols)",
         ])
     assert channel.commands == expected_commands
 
@@ -401,19 +398,19 @@ def test_allegro_workspace_loads_missing_core_runtime(
     server_file = Path(allegrobridge.server.__file__).with_name('allegro_server.il')
     assert channel.commands == [
         "isCallable('axlDBGetDesign)",
-        "isCallable('__abRunTransaction )",
-        f'load({dumps(server_file.resolve().as_posix())} )',
-        "isCallable('__abRunTransaction )",
-        "isCallable('__abRunSavepointBatch )",
-        "isCallable('__abRunDryTransaction )",
-        "isCallable('__abProjectBoard )",
-        "isCallable('__abProjectComponents )",
-        "isCallable('__abMoveComponent )",
-        "isCallable('__abProjectLayers )",
-        "isCallable('__abProjectNets )",
-        "isCallable('__abProjectPadstacks )",
-        "isCallable('__abProjectPins )",
-        "isCallable('__abProjectSymbols )",
+        "isCallable('__abRunTransaction)",
+        f'load({dumps(server_file.resolve().as_posix())})',
+        "isCallable('__abRunTransaction)",
+        "isCallable('__abRunSavepointBatch)",
+        "isCallable('__abRunDryTransaction)",
+        "isCallable('__abProjectBoard)",
+        "isCallable('__abProjectComponents)",
+        "isCallable('__abMoveComponent)",
+        "isCallable('__abProjectLayers)",
+        "isCallable('__abProjectNets)",
+        "isCallable('__abProjectPadstacks)",
+        "isCallable('__abProjectPins)",
+        "isCallable('__abProjectSymbols)",
     ]
 
     opened.close()
@@ -444,9 +441,9 @@ def test_allegro_workspace_loads_extension_once_across_threads(
 
     path = (extension_dir / 'constraints.il').resolve().as_posix()
     assert channel.commands == [
-        "isCallable('__abp_constraints_project )",
-        f'load({dumps(path)} )',
-        "isCallable('__abp_constraints_project )",
+        "isCallable('__abp_constraints_project)",
+        f'load({dumps(path)})',
+        "isCallable('__abp_constraints_project)",
     ]
 
 
@@ -466,7 +463,7 @@ def test_allegro_workspace_caches_extension_failure(
         ws._ensure_extension('missing', ('__abp_missing_project',))
 
     assert second.value is first.value
-    assert channel.commands == ["isCallable('__abp_missing_project )"]
+    assert channel.commands == ["isCallable('__abp_missing_project)"]
 
 
 def test_allegro_workspace_skips_present_extension() -> None:
@@ -476,7 +473,7 @@ def test_allegro_workspace_skips_present_extension() -> None:
     ws._ensure_extension('constraints', ('__abp_constraints_project',))
     ws._ensure_extension('constraints', ('__abp_constraints_project',))
 
-    assert channel.commands == ["isCallable('__abp_constraints_project )"]
+    assert channel.commands == ["isCallable('__abp_constraints_project)"]
 
 
 def test_allegro_workspace_caches_extension_readiness_failure(
@@ -499,9 +496,9 @@ def test_allegro_workspace_caches_extension_readiness_failure(
     path = (extension_dir / 'broken.il').resolve().as_posix()
     assert second.value is first.value
     assert channel.commands == [
-        "isCallable('__abp_broken_project )",
-        f'load({dumps(path)} )',
-        "isCallable('__abp_broken_project )",
+        "isCallable('__abp_broken_project)",
+        f'load({dumps(path)})',
+        "isCallable('__abp_broken_project)",
     ]
 
 

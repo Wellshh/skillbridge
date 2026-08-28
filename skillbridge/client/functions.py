@@ -6,9 +6,9 @@ from __future__ import annotations
 from typing_extensions import Self
 
 from .channel import Channel
-from .hints import Key, Skill, SkillCode
+from .expr import Expr
+from .hints import Key, Skill
 from .translator import Translator
-from .var import Var
 
 
 def keys(**attrs: Skill) -> list[Skill]:
@@ -43,17 +43,16 @@ class RemoteFunction:
         self._function = func
 
     def __call__(self, *args: Skill, **kwargs: Skill) -> Skill:
-        command = self.lazy(*args, **kwargs)
+        command = self.expr(*args, **kwargs).render()
         result = self._channel.send(command)
 
         return self._translate.decode(result)
 
-    def lazy(self, *args: Skill, **kwargs: Skill) -> SkillCode:
-        name = self._translate.format_function_name(self._function)
-        return self._translate.encode_call(name, *args, **kwargs)
+    def _skill_name(self) -> str:
+        return self._translate.format_function_name(self._function)
 
-    def var(self, *args: Skill, **kwargs: Skill) -> Var:
-        return Var(self.lazy(*args, **kwargs))
+    def expr(self, *args: Skill, **kwargs: Skill) -> Expr[Skill]:
+        return Expr.call(self._skill_name(), *args, **kwargs)
 
     def __repr__(self) -> str:
         command = self._translate.encode_help(self._function)
@@ -61,12 +60,11 @@ class RemoteFunction:
         return self._translate.decode_help(result)
 
     def __getattr__(self, item: str) -> Self:
+        if item in {'lazy', 'var'}:
+            raise AttributeError(item)
         return self.__class__(self._channel, f"{self._function}_{item}", self._translate)
 
 
 class LiteralRemoteFunction(RemoteFunction):
-    def lazy(self, *args: Skill, **kwargs: Skill) -> SkillCode:
-        return self._translate.encode_call(self._function, *args, **kwargs)
-
-    def var(self, *args: Skill, **kwargs: Skill) -> Var:
-        return Var(self.lazy(*args, **kwargs))
+    def _skill_name(self) -> str:
+        return self._function

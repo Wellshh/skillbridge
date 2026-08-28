@@ -5,18 +5,28 @@ import sys
 from pathlib import Path
 from subprocess import check_output, run
 from textwrap import dedent
+from types import SimpleNamespace
+from unittest.mock import Mock
 
 from pytest import mark, raises
 
-from skillbridge import Key, SkillCode, keys
+import skillbridge as skillbridge_module
+import skillbridge.client.hints as hints_module
+from skillbridge import Expr, Key, SkillCode, keys
 from skillbridge.client.channel import Channel
-from skillbridge.client.functions import LiteralRemoteFunction
-from skillbridge.client.objects import LazyList, RemoteObject
+from skillbridge.client.functions import FunctionCollection, LiteralRemoteFunction
+from skillbridge.client.objects import RemoteObject, RemoteTable, RemoteVector
 from skillbridge.client.translator import DefaultTranslator, Symbol
 from skillbridge.test.channel import DummyChannel
 from skillbridge.test.workspace import DummyWorkspace
 
 python = sys.executable
+
+
+def test_obsolete_skill_container_wrappers_are_not_exported() -> None:
+    for name in ('SkillList', 'SkillTuple', 'SkillDict'):
+        assert not hasattr(skillbridge_module, name)
+        assert not hasattr(hints_module, name)
 
 
 @mark.parametrize(('id_', 'repr_'), [('0x10', 16), ('00001F', 31), ('10', 10)])
@@ -28,7 +38,7 @@ def test_workspace_get_item():
     ws = DummyWorkspace()
     f = ws['myFunction_def']
     assert f._function == 'myFunction_def'
-    assert 'myFunction_def' in f.lazy()
+    assert f.expr().render() == 'myFunction_def()'
 
 
 def test_remote_function_chaining():
@@ -36,18 +46,38 @@ def test_remote_function_chaining():
     # 2-level chaining: FunctionCollection -> RemoteFunction -> RemoteFunction
     rf2 = ws.axl.db.get_design
     assert rf2._function == 'axl_db_get_design'
-    assert rf2.lazy() == 'axlDbGetDesign( )'
+    assert rf2.expr().render() == 'axlDbGetDesign()'
 
     # Multi-level chaining
     rf3 = ws.axl.db.create.pin
     assert rf3._function == 'axl_db_create_pin'
-    assert rf3.lazy(1, 2) == 'axlDbCreatePin(1 2 )'
+    assert rf3.expr(1, 2).render() == 'axlDbCreatePin(1 2)'
+    ws.prepare(3)
+    assert rf3(1, 2) == 3
+    assert ws.pop_request() == rf3.expr(1, 2).render()
 
     # LiteralRemoteFunction chaining preserves class type
     literal = ws['my_prefix'].sub_ns.func
     assert isinstance(literal, LiteralRemoteFunction)
     assert literal._function == 'my_prefix_sub_ns_func'
-    assert literal.lazy(42) == 'my_prefix_sub_ns_func(42 )'
+    assert literal.expr(42).render() == 'my_prefix_sub_ns_func(42)'
+
+    assert not hasattr(rf3, 'lazy')
+    assert not hasattr(rf3, 'var')
+
+
+def test_remote_function_builds_expression_without_rpc() -> None:
+    ws = DummyWorkspace()
+
+    inner = ws.axl.db.get_design.expr()
+    expression = ws['outer'].expr(inner, layer_name='TOP').result
+
+    assert isinstance(expression, Expr)
+    assert expression.render() == 'outer(axlDbGetDesign() ?layerName "TOP")->result'
+
+    ws.prepare(3)
+    assert ws.eval(expression) == 3
+    assert ws.pop_request() == 'outer(axlDbGetDesign() ?layerName "TOP")->result'
 
 
 def test_reports_skill_server_correctly():
@@ -117,61 +147,113 @@ def test_many_keys():
     ]
 
 
-def test_lazy_list():
+def test_remote_object_builds_expression_without_rpc() -> None:
     channel = DummyChannel()
     translator = DefaultTranslator()
-    lazy = LazyList(channel, translator, SkillCode('TEST'))
+    remote = RemoteObject(channel, translator, SkillCode('TESTTEST_123'))
 
-    assert lazy._variable == 'TEST'
-    assert lazy.shapes._variable == 'TEST~>shapes'
-    assert lazy.shapes.thingies._variable == 'TEST~>shapes~>thingies'
+    expression = remote.expr().components.as_list().where(lambda item: item.enabled)
 
-    assert lazy.filter()._variable == 'TEST'
-    assert lazy.filter('x')._variable == 'setof(arg TEST arg->x)'
-    assert lazy.filter('x', 'y')._variable == 'setof(arg TEST and(arg->x arg->y))'
+    assert expression.render() == 'setof(_expr0 TESTTEST_123->components _expr0->enabled)'
+    assert not hasattr(remote, 'lazy')
+    assert not channel.outputs
 
-    channel.inputs.append('123')
-    assert len(lazy.fig_groups) == 123
-    assert channel.outputs.popleft() == 'length(TEST~>figGroups )'
 
-    channel.inputs.append('42')
-    assert lazy.shapes[10] == 42
-    assert channel.outputs.popleft() == 'nth(10 TEST~>shapes )'
-
-    channel.inputs.append('[1, 2, 3]')
-    assert lazy.shapes[:] == [1, 2, 3]
-    assert channel.outputs.popleft() == 'TEST~>shapes'
-
-    with raises(RuntimeError):
-        _ = lazy.shapes[1:10]
-
-    func = LiteralRemoteFunction(..., 'example', translator)
-
-    channel.inputs.append('None')
-    assert lazy.shapes.foreach(func) is None
-    assert channel.outputs.popleft() == 'foreach(arg TEST~>shapes example(arg ) ),nil'
-
-    channel.inputs.append('None')
-    assert lazy.shapes.foreach(func, 1, LazyList.arg, 2, 3) is None
-    assert channel.outputs.popleft() == 'foreach(arg TEST~>shapes example(1 arg 2 3 ) ),nil'
-
-    channel.inputs.append('None')
-    assert lazy.shapes.foreach(func.lazy(1, LazyList.arg, 2, 3)) is None
-    assert channel.outputs.popleft() == 'foreach(arg TEST~>shapes example(1 arg 2 3 ) ),nil'
-
-    with raises(RuntimeError):
-        lazy.foreach(func.lazy(), 1, 2, 3)
-
-    assert 'TEST~>shapes' in repr(lazy.shapes)
-
-    assert (
-        RemoteObject(channel, translator, SkillCode('TESTTEST_123')).lazy.shapes._variable
-        == 'TESTTEST_123~>shapes'
+def test_remote_collections_expose_current_mapping_and_vector_behavior() -> None:
+    channel = DummyChannel()
+    translator = DefaultTranslator()
+    table = RemoteTable(channel, translator, SkillCode('TABLE'))
+    channel.inputs.extend(
+        ['"table"', '"table"', '2', '1', 'None', 'None', '[1, 2]', '2', '3', 'None'],
     )
+
+    assert str(table) == '<remote table>'
+    assert repr(table) == '<remote table>'
+    assert len(table) == 2
+    assert table['key'] == 1
+    table['key'] = 2
+    del table['key']
+    assert list(table) == [1, 2]
+    assert table.foo == 3
+    table.foo = 4
+
+    channel.inputs.append("error('missing')")
+    with raises(KeyError, match='missing'):
+        _ = table['missing']
+
+    vector = RemoteVector(channel, translator, SkillCode('VECTOR'))
+    channel.inputs.append('["value"]')
+    assert 'value' in dir(vector)
+
+    channel.send = Mock(side_effect=[RuntimeError('array index out of bounds'), '3'])
+    with raises(IndexError, match=r'5.*len=3'):
+        _ = vector[5]
+
+    channel.send = Mock(side_effect=["error('missing')", '3'])
+    with raises(IndexError, match=r'5.*len=3'):
+        _ = vector[5]
+
+    channel.send = Mock(side_effect=[RuntimeError('array index out of bounds'), '3'])
+    with raises(IndexError, match=r'5.*len=3'):
+        vector[5] = 1
+
+
+def test_static_completion_generator_covers_valid_and_empty_namespaces(
+    monkeypatch,
+    tmp_path,
+) -> None:
+    package = tmp_path / 'skillbridge'
+    client = package / 'client'
+    client.mkdir(parents=True)
+    annotation = client / 'workspace.pyi'
+    options_calls = []
+
+    def options(*args, **kwargs):
+        options_calls.append((args, kwargs))
+        return object()
+
+    def generate_stubs(_options):
+        annotation.write_text('class Workspace:\n    db: FunctionCollection\n', encoding='utf-8')
+
+    channel = DummyChannel()
+    translator = DefaultTranslator()
+    db = FunctionCollection(channel, 'db', translator)
+    db._dir = ['valid', 'not-valid', 'class']
+    empty = FunctionCollection(channel, 'empty', translator)
+    empty._dir = ['not-valid', 'class']
+    workspace = SimpleNamespace(db=db, empty=empty, other=object())
+    workspace.__dict__['_private'] = db
+    workspace.__dict__['class'] = db
+
+    monkeypatch.setattr(skillbridge_module, '__file__', str(package / '__init__.py'))
+    monkeypatch.setattr(skillbridge_module, 'chdir', lambda _path: None)
+    monkeypatch.setattr(skillbridge_module, 'import_stub_gen', lambda: (options, generate_stubs))
+    monkeypatch.setattr(skillbridge_module.Workspace, 'open', staticmethod(lambda: workspace))
+
+    skillbridge_module.generate_static_completion()
+    first = annotation.read_text(encoding='utf-8')
+    skillbridge_module.generate_static_completion()
+
+    assert len(options_calls) == 2
+    assert '    db: FunctionCollection' not in first
+    assert '    class db:' in first
+    assert '        valid: staticmethod' in first
+    assert '    class empty:\n        pass' in first
+    assert 'not-valid' not in first
+
+
+def test_static_completion_imports_mypy_generator() -> None:
+    options, generate_stubs = skillbridge_module.import_stub_gen()
+
+    assert callable(options)
+    assert callable(generate_stubs)
 
 
 def test_double_hex_prefix_does_not_crash():
-    assert RemoteObject(..., ..., SkillCode('__py_stuff_0x0xcafe')).skill_id == 0xCAFE
+    remote = RemoteObject(..., ..., SkillCode('__py_stuff_0x0xcafe'))
+
+    assert remote.skill_id == 0xCAFE
+    assert remote.skill_parent_type == 'stuff'
     assert RemoteObject(..., ..., SkillCode('__py_stuff_0xcafe')).skill_id == 0xCAFE
 
 

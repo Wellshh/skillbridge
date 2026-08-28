@@ -3,18 +3,15 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 from __future__ import annotations
 
-from collections.abc import Iterable, Iterator, MutableMapping, Sequence
+from collections.abc import Iterable, Iterator, MutableMapping
 from typing import (
     Any,
     cast,
-    overload,
 )
 
-from .functions import RemoteFunction
 from .hints import Skill, SkillCode, Symbol
 from .remote import RemoteVariable, remote_variable_attributes
 from .translator import ParseError, snake_to_camel
-from .var import Var
 
 
 def is_jupyter_magic(attribute: str) -> bool:
@@ -40,7 +37,7 @@ def is_jupyter_magic(attribute: str) -> bool:
 
 class WithAttributeAccess(RemoteVariable):
     def __getattr__(self, key: str) -> Any:
-        if is_jupyter_magic(key):
+        if key == 'lazy' or is_jupyter_magic(key):
             raise AttributeError(key)
 
         result = self._send(self._translator.encode_getattr(self._variable, key))
@@ -137,77 +134,6 @@ class RemoteObject(WithAttributeAccess, RemoteVariable):
 
     def __call__(self, *args: Any, **kwargs: Any) -> Any:
         return self._call('funcall', self, *args, **kwargs)
-
-    @property
-    def lazy(self) -> LazyList:
-        return LazyList(self._channel, self._translator, self._variable)
-
-
-class LazyList(RemoteVariable):
-    arg = Var('arg')
-
-    def __getattr__(self, attribute: str) -> LazyList:
-        variable = SkillCode(f"{self._variable}~>{snake_to_camel(attribute)}")
-        return LazyList(self._channel, self._translator, variable)
-
-    def __str__(self) -> str:
-        return f"<lazy list {self._variable}>"
-
-    @staticmethod
-    def _condition(filters: Sequence[SkillCode]) -> SkillCode:
-        if len(filters) == 1:
-            return SkillCode(f'arg->{filters[0]}')
-        parameters = ' '.join(f'arg->{f}' for f in filters)
-        return SkillCode(f'and({parameters})')
-
-    def filter(self, *args: str, **kwargs: Any) -> LazyList:
-        if not args and not kwargs:
-            return self
-
-        arg_filters = [SkillCode(snake_to_camel(arg)) for arg in args]
-        kwarg_filters = [
-            SkillCode(f"{snake_to_camel(key)} == {self._translator.encode(value)}")
-            for key, value in kwargs.items()
-        ]
-        filters = self._condition(arg_filters + kwarg_filters)
-        variable = SkillCode(f'setof(arg {self._variable} {filters})')
-
-        return LazyList(self._channel, self._translator, variable)
-
-    @overload
-    def __getitem__(self, item: int) -> RemoteObject: ...  # pragma: nocover
-
-    @overload
-    def __getitem__(self, item: slice) -> list[RemoteObject]: ...  # pragma: nocover
-
-    def __getitem__(
-        self,
-        item: int | slice,
-    ) -> RemoteObject | list[RemoteObject]:
-        if isinstance(item, int):
-            code = self._translator.encode_call('nth', item, Var(self._variable))
-        else:
-            if item.start is not None or item.stop is not None or item.step is not None:
-                raise RuntimeError("cannot slice lazy list with arbitrary bounds")
-
-            code = self._variable
-
-        result = self._channel.send(code)
-        return self._translator.decode(result)  # type: ignore[return-value]
-
-    def __len__(self) -> int:
-        return cast('int', self._call('length', self))
-
-    def foreach(self, func: SkillCode | RemoteFunction, *args: Any) -> None:
-        if isinstance(func, RemoteFunction):
-            args = args or (LazyList.arg,)
-            func = func.lazy(*args)
-        elif args:
-            raise RuntimeError("cannot combine args with remote function")
-
-        code = self._translator.encode_call('foreach', LazyList.arg, Var(self._variable), Var(func))
-        result = self._channel.send(code + ',nil')
-        self._translator.decode(result)
 
 
 class RemoteCollection(RemoteVariable):

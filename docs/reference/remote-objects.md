@@ -61,12 +61,12 @@ Jupyter:
 
 *Skill equivalent:* `design->?`
 
-## Tables, vectors, and lazy lists
+## Tables, vectors, and list expressions
 
 - `RemoteTable` — a SKILL hash table, exposed as a Python `MutableMapping`.
 - `RemoteVector` — a SKILL array, indexable like a list.
-- `LazyList` — a long SKILL list fetched in chunks; slicing pulls only the
-  pages you touch.
+- `ListExpr` — a local expression for filtering, mapping, or iterating a remote
+  SKILL list; evaluation is explicit through `Workspace.eval()`.
 
 ## Identity
 
@@ -93,11 +93,33 @@ its handle. The method name keeps the function's prefix to avoid collisions:
 ## Remote functions
 
 Attribute access on the workspace returns `RemoteFunction` objects. Calling
-them sends the request immediately; `.lazy(...)` instead builds the SKILL
-expression without sending it — this is how the
-[batch framework](batch.md) defers commands:
+them sends the request immediately; `.expr(...)` builds an expression without
+sending it:
 
 ```python
-expr = ws.axl.db.create_via.lazy("VIA", (100.0, 50.0))
+expr = ws.axl.db.get_design.expr()
 # nothing has reached Allegro yet
+design = ws.eval(expr)
+```
+
+Remote objects can start the same expression chain:
+
+```python
+components = design.expr().components.as_list()
+placed = components.where(lambda component: component.placed)
+snapshot = ws.eval(placed)
+```
+
+Use `ws["function"].expr(...)` for normal calls. `Expr.call(...)` is the
+low-level constructor when no workspace proxy is available, and
+`Expr.raw_skill(...)` is the explicit source-code escape hatch.
+
+The Python API names `render`, `as_list`, `raw_skill`, `wrap`, and `call` are
+reserved on `Expr`; `where`, `each`, `map`, and `for_each` are additionally
+reserved on `ListExpr`. Use string indexing for a SKILL property with one of
+those names, for example `expr["call"]`. Parenthesize comparisons combined
+with `&` or `|`, as required by Python operator precedence:
+
+```python
+condition = (component.enabled == True) & (component.layer == "TOP")
 ```

@@ -11,41 +11,32 @@ from re import fullmatch, sub
 from sys import executable, version_info
 from typing import Any
 
+from .client.expr import Expr, ListExpr
 from .client.functions import FunctionCollection, keys
 from .client.globals import Globals, GlobalVar
-from .client.hints import Function, Key, SkillCode, SkillList, SkillTuple, Symbol
-from .client.objects import LazyList, RemoteObject, RemoteTable, RemoteVector
+from .client.hints import Function, Key, SkillCode, Symbol
+from .client.objects import RemoteObject, RemoteTable, RemoteVector
 from .client.translator import ParseError
-from .client.var import Var
 from .client.workspace import Workspace, current_workspace
 
 __all__ = [
+    'Expr',
     'Function',
     'GlobalVar',
     'Globals',
     'Key',
-    'LazyList',
+    'ListExpr',
     'ParseError',
     'RemoteObject',
     'RemoteTable',
     'RemoteVector',
     'SkillCode',
-    'SkillList',
-    'SkillTuple',
     'Symbol',
-    'Var',
     'Workspace',
     'current_workspace',
     'generate_static_completion',
     'keys',
-    'loop_var',
-    'loop_var_i',
-    'loop_var_j',
 ]
-
-loop_var = Var('i')
-loop_var_i = loop_var
-loop_var_j = Var('j')
 
 
 def import_stub_gen() -> tuple[Any, Any]:

@@ -3,12 +3,10 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 from __future__ import annotations
 
-from collections import defaultdict, deque
-from collections.abc import Callable
+from collections import deque
 from typing import Any
 
 from ..client.channel import Channel
-from .translator import FunctionCall
 
 _MAX_ERROR_REPORT = 100
 
@@ -19,16 +17,6 @@ class DummyChannel(Channel):
 
         self.outputs: deque[str] = deque()
         self.inputs: deque[str] = deque()
-        self.functions: dict[str, Callable[..., Any]] = {}
-        self.function_outputs: dict[str, deque[Any]] = defaultdict(deque)
-
-    def _try_function(self, data: str | FunctionCall) -> Any:
-        if not isinstance(data, FunctionCall):
-            raise ValueError
-
-        func = self.functions[data.name]
-        self.function_outputs[data.name].append(data)
-        return func(data)
 
     def _try_queue(self, data: str) -> str:
         try:
@@ -43,12 +31,7 @@ class DummyChannel(Channel):
             return result
 
     def send(self, data: str) -> Any:
-        try:
-            response = self._try_function(data)
-        except (ValueError, KeyError):
-            response = self._try_queue(data)
-
-        return response
+        return self._try_queue(data)
 
     def close(self) -> None:
         pass

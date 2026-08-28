@@ -906,7 +906,7 @@ with Allegro.open(mode="manual", workspace_id="7777") as allegro:
 - 查询一个对象返回 record，查询集合返回 `list[record]`，无对象时按方法契约返回 `None` 或抛出明确的 not-found 异常。
 - 写操作成功时返回更新后的领域 record，纯命令成功时返回 `None`；失败使用现有异常链，不包装 `ok/value/error`。
 - savepoint batch 只有在“部分成功”本身是业务语义时才返回逐项结果，不把这种特殊结构推广到所有 API。
-- `Session.raw` 是唯一 raw escape hatch；高级调用者继续使用现有 `Workspace`、`RemoteFunction.lazy()`、`var()` 和 transaction API。
+- `Session.raw` 是唯一 raw escape hatch；高级调用者使用 `Workspace`、`RemoteFunction.expr()`、`Workspace.eval()` 和 transaction API。
 
 ---
 

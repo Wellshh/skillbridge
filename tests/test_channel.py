@@ -17,7 +17,7 @@ from unittest.mock import Mock
 from _pytest.fixtures import SubRequest
 from pytest import fixture, mark, raises
 
-from skillbridge import Workspace, current_workspace, loop_var
+from skillbridge import Workspace, current_workspace
 from skillbridge.client.channel import Channel, DirectChannel, TcpChannel, create_channel_class
 from skillbridge.client.objects import RemoteObject
 from skillbridge.exception import PeerClosedError
@@ -694,22 +694,28 @@ def test_globals_map_car(server: Virtuoso, ws: Workspace):
     _ = server
     g = ws.globals("prefix")
 
-    assert g.x.map(loop_var + 1).__repr_skill__() == "mapcar(lambda((i) (i + 1) ) prefixX )"
+    expression = g.x.expr().as_list().map(lambda item: item + 1)
+
+    assert expression.render() == "mapcar(lambda((_expr0) (_expr0 + 1)) prefixX)"
 
 
 def test_globals_for_each(server: Virtuoso, ws: Workspace):
     g = ws.globals("prefix")
 
     server.answer_success("None")
-    assert g.x.for_each(ws.db.delete.var(loop_var)) is None
-    assert server.last_question == "foreach(i prefixX dbDelete(i ) ) nil"
+    expression = g.x.expr().as_list().for_each(ws.db.delete.expr)
+
+    assert ws.eval(expression) is None
+    assert server.last_question == "progn(foreach(_expr0 prefixX dbDelete(_expr0)) nil)"
 
 
 def test_globals_filter(server: Virtuoso, ws: Workspace):
     _ = server
     g = ws.globals("prefix")
 
-    assert g.x.filter(loop_var != 2).__repr_skill__() == "setof(i prefixX (i != 2) )"
+    expression = g.x.expr().as_list().where(lambda item: item != 2)
+
+    assert expression.render() == "setof(_expr0 prefixX (_expr0 != 2))"
 
 
 def test_globals_tuple_write(server: Virtuoso, ws: Workspace):

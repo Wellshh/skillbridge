@@ -73,6 +73,7 @@ from allegrobridge.exceptions import (
     RecordIDError,
 )
 from skillbridge import SkillCode
+from skillbridge.client.expr import Expr
 from skillbridge.exception import ProtocolError, SkillBridgeError
 
 
@@ -885,10 +886,10 @@ class TestReadApi:
             'VIA12',
         )
 
-    def test_via_create_command_is_lazy_and_keeps_arguments(self) -> None:
+    def test_via_create_command_uses_expression_and_keeps_arguments(self) -> None:
         workspace = MagicMock()
         remote = workspace.__getitem__.return_value
-        remote.lazy.return_value = SkillCode('__abCreateVia(...)')
+        remote.expr.return_value = Expr.raw_skill('__abCreateVia(...)')
         session = _session(workspace)
 
         command = session.vias.create.command(
@@ -901,7 +902,8 @@ class TestReadApi:
 
         assert command.proc == '__abCreateVia'
         assert command.expr == SkillCode('__abCreateVia(...)')
-        assert remote.lazy.call_args.args == ('VIA12', (1.0, 2.0), 'GND', True, 90.0)
+        assert remote.expr.call_args.args == ('VIA12', (1.0, 2.0), 'GND', True, 90.0)
+        assert type(remote.expr.call_args.args[1]) is tuple
 
     def test_routes_load_extension_once_and_delegate_filters(self) -> None:
         workspace = MagicMock()
@@ -935,10 +937,10 @@ class TestReadApi:
         _assert_id(routes[0], session)
         workspace.__getitem__.return_value.assert_called_once_with('GND', 'ETCH/TOP')
 
-    def test_route_create_command_is_lazy_and_keeps_arguments(self) -> None:
+    def test_route_create_command_uses_expression_and_keeps_arguments(self) -> None:
         workspace = MagicMock()
         remote = workspace.__getitem__.return_value
-        remote.lazy.return_value = SkillCode('__abCreateRoute(...)')
+        remote.expr.return_value = Expr.raw_skill('__abCreateRoute(...)')
         session = _session(workspace)
 
         command = session.routes.create.command(
@@ -950,12 +952,14 @@ class TestReadApi:
 
         assert command.proc == '__abCreateRoute'
         assert command.expr == SkillCode('__abCreateRoute(...)')
-        assert remote.lazy.call_args.args == (
+        assert remote.expr.call_args.args == (
             'GND',
             [(1.0, 2.0), (3.0, 4.0)],
             'ETCH/TOP',
             0.2,
         )
+        assert type(remote.expr.call_args.args[1]) is list
+        assert all(type(point) is tuple for point in remote.expr.call_args.args[1])
 
     @pytest.mark.parametrize(
         ('points', 'width', 'message'),
@@ -1232,7 +1236,7 @@ class TestWriteApi:
     def test_command_is_inert_and_immediate_call_is_atomic(self) -> None:
         workspace = MagicMock()
         remote = workspace.__getitem__.return_value
-        remote.lazy.return_value = '__abMoveComponent("R1" 1.0 2.0 nil )'
+        remote.expr.return_value = Expr.raw_skill('__abMoveComponent("R1" 1.0 2.0 nil)')
         workspace.transaction.return_value = self._component_payload(1.0)
         session = _session(workspace)
 
@@ -1247,7 +1251,7 @@ class TestWriteApi:
         ]
         assert isinstance(command, Cmd)
         assert command.proc == '__abMoveComponent'
-        assert command.expr == '__abMoveComponent("R1" 1.0 2.0 nil )'
+        assert command.expr == '__abMoveComponent("R1" 1.0 2.0 nil)'
         workspace.transaction.assert_not_called()
         with pytest.raises(FrozenInstanceError):
             command.proc = '__changed'
@@ -1273,7 +1277,7 @@ class TestWriteApi:
     def test_preview_uses_dry_transaction(self) -> None:
         workspace = MagicMock()
         remote = workspace.__getitem__.return_value
-        remote.lazy.return_value = '__abMoveComponent("R1" 3.0 2.0 nil )'
+        remote.expr.return_value = Expr.raw_skill('__abMoveComponent("R1" 3.0 2.0 nil)')
         workspace.transaction.preview.return_value = self._component_payload(3.0)
         session = _session(workspace)
 
@@ -1281,13 +1285,11 @@ class TestWriteApi:
 
         assert preview.x == pytest.approx(3.0)
         workspace.transaction.assert_not_called()
-        workspace.transaction.preview.assert_called_once_with(
-            '__abMoveComponent("R1" 3.0 2.0 nil )'
-        )
+        workspace.transaction.preview.assert_called_once_with('__abMoveComponent("R1" 3.0 2.0 nil)')
 
     def test_stale_command_does_not_execute(self) -> None:
         workspace = MagicMock()
-        workspace.__getitem__.return_value.lazy.return_value = 'move1()'
+        workspace.__getitem__.return_value.expr.return_value = Expr.raw_skill('move1()')
         session = _session(workspace)
         command = session.components.move.command('R1', x=1.0, y=2.0)
         session.refresh()
@@ -1300,7 +1302,7 @@ class TestWriteApi:
 
     def test_refresh_during_write_rejects_response(self) -> None:
         workspace = MagicMock()
-        workspace.__getitem__.return_value.lazy.return_value = 'move1()'
+        workspace.__getitem__.return_value.expr.return_value = Expr.raw_skill('move1()')
         session = _session(workspace)
 
         def refresh_during_transaction(_expr: SkillCode) -> dict[str, object]:
@@ -1316,7 +1318,7 @@ class TestWriteApi:
 
     def test_reconnect_makes_existing_command_stale_before_rpc(self) -> None:
         workspace = MagicMock(epoch=0)
-        workspace.__getitem__.return_value.lazy.return_value = 'move1()'
+        workspace.__getitem__.return_value.expr.return_value = Expr.raw_skill('move1()')
         session = _session(workspace)
         command = session.components.move.command('R1', x=1.0, y=2.0)
         workspace.epoch = 1
@@ -1330,7 +1332,7 @@ class TestWriteApi:
     def test_drc_update_supports_command_immediate_and_preview(self) -> None:
         workspace = MagicMock()
         remote = workspace.__getitem__.return_value
-        remote.lazy.return_value = '__abUpdateDrcs( )'
+        remote.expr.return_value = Expr.raw_skill('__abUpdateDrcs()')
         workspace.transaction.return_value = None
         workspace.transaction.preview.return_value = [
             {
@@ -1356,7 +1358,7 @@ class TestWriteApi:
 
         assert DrcApi.update.spec.proc == '__abUpdateDrcs'
         assert command.proc == '__abUpdateDrcs'
-        assert command.expr == '__abUpdateDrcs( )'
+        assert command.expr == '__abUpdateDrcs()'
         workspace.transaction.assert_not_called()
         remote.assert_not_called()
 
@@ -1370,7 +1372,7 @@ class TestWriteApi:
 
     def test_drc_update_rejects_invalid_payload(self) -> None:
         workspace = MagicMock()
-        workspace.__getitem__.return_value.lazy.return_value = '__abUpdateDrcs( )'
+        workspace.__getitem__.return_value.expr.return_value = Expr.raw_skill('__abUpdateDrcs()')
         workspace.transaction.return_value = [{'name': 'incomplete'}]
         session = _session(workspace)
 
@@ -1394,7 +1396,10 @@ class TestBatch:
 
     def test_resolves_ordered_results_with_one_rpc(self) -> None:
         workspace = MagicMock()
-        workspace.__getitem__.return_value.lazy.side_effect = ['move1()', 'move2()']
+        workspace.__getitem__.return_value.expr.side_effect = [
+            Expr.raw_skill('move1()'),
+            Expr.raw_skill('move2()'),
+        ]
         workspace.transaction.return_value = [self._payload('R1', 1.0), self._payload('R2', 2.0)]
         session = _session(workspace)
 
@@ -1416,7 +1421,7 @@ class TestBatch:
 
     def test_dry_run_uses_preview_and_empty_batch_sends_nothing(self) -> None:
         workspace = MagicMock()
-        workspace.__getitem__.return_value.lazy.return_value = 'move1()'
+        workspace.__getitem__.return_value.expr.return_value = Expr.raw_skill('move1()')
         workspace.transaction.preview.return_value = [self._payload('R1', 1.0)]
         session = _session(workspace)
 
@@ -1449,7 +1454,7 @@ class TestBatch:
 
     def test_rejects_stale_command_and_batch_before_rpc(self) -> None:
         workspace = MagicMock()
-        workspace.__getitem__.return_value.lazy.return_value = 'move1()'
+        workspace.__getitem__.return_value.expr.return_value = Expr.raw_skill('move1()')
         session = _session(workspace)
         command = session.components.move.command('R1', x=1.0, y=2.0)
         session.refresh()
@@ -1468,7 +1473,7 @@ class TestBatch:
 
     def test_refresh_after_add_fails_results_without_sending(self) -> None:
         workspace = MagicMock()
-        workspace.__getitem__.return_value.lazy.return_value = 'move1()'
+        workspace.__getitem__.return_value.expr.return_value = Expr.raw_skill('move1()')
         session = _session(workspace)
         results: list[CmdResult[ComponentInfo]] = []
 
@@ -1488,7 +1493,7 @@ class TestBatch:
     @pytest.mark.parametrize('change', ['refresh', 'reconnect'])
     def test_generation_change_during_batch_rejects_response(self, change: str) -> None:
         workspace = MagicMock(epoch=0)
-        workspace.__getitem__.return_value.lazy.return_value = 'move1()'
+        workspace.__getitem__.return_value.expr.return_value = Expr.raw_skill('move1()')
         session = _session(workspace)
         advance = session.refresh if change == 'refresh' else lambda: setattr(workspace, 'epoch', 1)
 
@@ -1513,7 +1518,7 @@ class TestBatch:
 
     def test_context_error_cancels_results_without_sending(self) -> None:
         workspace = MagicMock()
-        workspace.__getitem__.return_value.lazy.return_value = 'move1()'
+        workspace.__getitem__.return_value.expr.return_value = Expr.raw_skill('move1()')
         session = _session(workspace)
         error = ValueError('body')
         results: list[CmdResult[object]] = []
@@ -1534,7 +1539,7 @@ class TestBatch:
     @pytest.mark.parametrize('payload', [None, [], [None, None]])
     def test_protocol_failure_fails_every_result(self, payload: object) -> None:
         workspace = MagicMock()
-        workspace.__getitem__.return_value.lazy.return_value = 'move1()'
+        workspace.__getitem__.return_value.expr.return_value = Expr.raw_skill('move1()')
         workspace.transaction.return_value = payload
         session = _session(workspace)
         results: list[CmdResult[object]] = []
@@ -1551,7 +1556,10 @@ class TestBatch:
 
     def test_validation_finishes_before_any_result_is_resolved(self) -> None:
         workspace = MagicMock()
-        workspace.__getitem__.return_value.lazy.side_effect = ['move1()', 'move2()']
+        workspace.__getitem__.return_value.expr.side_effect = [
+            Expr.raw_skill('move1()'),
+            Expr.raw_skill('move2()'),
+        ]
         workspace.transaction.return_value = [self._payload('R1', 1.0), None]
         session = _session(workspace)
         results: list[CmdResult[object]] = []

@@ -18,7 +18,7 @@ via = ws.axl.db.create_via("VIA_DEFAULT", (100.0, 50.0))
 ```
 
 *Skill equivalent:* `axlDBGetDesign()` and
-`axlDBCreateVia("VIA_DEFAULT" 100:50)`
+`axlDBCreateVia("VIA_DEFAULT" (list 100.0 50.0))`
 
 Keyword arguments in the SKILL documentation (`?rotation 45.0`) become Python
 keyword arguments:
@@ -46,21 +46,21 @@ every function and shows the Cadence reference documentation on hover:
 
 ## SKILL values in Python
 
-Some functions take quoted symbols, key arguments, or literal snippets. The
-wrapper classes from `skillbridge` build them:
+Use the small `skillbridge` wrappers for quoted or literal values and ordinary
+Python containers for SKILL lists:
 
 ```python
-from skillbridge import Symbol, Key, SkillCode, SkillList, SkillTuple
+from skillbridge import Symbol, Key, SkillCode
 
 ws.axl.db.set_variable(Symbol('myvar'), 42)  # passes 'myvar
 Key('width')  # ?width
 SkillCode('println("hello")')  # sent verbatim
-SkillList([1, 2, 3])  # (1 2 3)
-SkillTuple((100.0, 50.0))  # 100.0:50.0
+[1, 2, 3]  # (list 1 2 3)
+(100.0, 50.0)  # (list 100.0 50.0)
 ```
 
-*Skill equivalent:* `'myvar`, `?width`, `println("hello")`, `(1 2 3)`,
-`100.0:50.0`.
+*Skill equivalent:* `'myvar`, `?width`, `println("hello")`, `(list 1 2 3)`,
+`(list 100.0 50.0)`.
 
 ## Remote objects
 
@@ -76,4 +76,4 @@ SKILL properties are plain Python attributes:
 *Skill equivalent:* `design->b_box`
 
 See [Remote objects](../reference/remote-objects.md) for attribute assignment,
-`dir()` completion, and the lazy list types.
+`dir()` completion, and expression-based list operations.

@@ -5,12 +5,14 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Any, Generic, TypeVar, overload
+from typing import Any, Generic, Literal, TypeVar, overload
 
-from .hints import SkillCode
+from .hints import Skill, SkillCode
 from .translator import python_value_to_skill, snake_to_camel
 
 T = TypeVar('T')
+U = TypeVar('U')
+S = TypeVar('S', bound=Skill)
 
 
 @dataclass(frozen=True, slots=True)
@@ -45,8 +47,11 @@ class _BinOp:
 
 @dataclass(frozen=True, slots=True)
 class _Call:
+    """AST node rendered as SKILL function call."""
+
     name: str
     arguments: tuple[_Node, ...]
+    keywords: tuple[tuple[str, _Node], ...] = ()
 
 
 @dataclass(frozen=True, slots=True, eq=False)
@@ -56,13 +61,16 @@ class _Bound:
 
 @dataclass(frozen=True, slots=True)
 class _Bind:
-    """AST node representing a collection filter binding (compiled to SKILL setof).
+    """AST node rendered as SKILL setof, mapcar, or foreach according to kind.
+
     Attributes:
+        kind: The collection operation to render.
         variable: The placeholder variable bound to each element during iteration.
-        values: The collection/iterable AST node being filtered.
-        predicate: The filtering condition expression evaluated for each element.
+        values: The collection/iterable AST node being processed.
+        predicate: The condition, transformed value, or operation body for each element.
     """
 
+    kind: Literal['where', 'map', 'for_each']
     variable: _Bound
     values: _Node
     predicate: _Node
@@ -100,7 +108,7 @@ class _Context:
         return variable
 
 
-def _render(node: _Node, context: _Context | None = None) -> SkillCode:
+def _render(node: _Node, context: _Context | None = None) -> SkillCode:  # ruff: ignore[complex-structure]
     """Recursively compiles an AST expression node into valid SKILL code.
 
     Args:
@@ -123,7 +131,10 @@ def _render(node: _Node, context: _Context | None = None) -> SkillCode:
     if isinstance(node, _Bound):
         variable = context.get(node)
         if variable is None:
-            raise RuntimeError('where variable cannot be rendered outside its predicate')
+            raise RuntimeError(
+                'bound iteration variable cannot be rendered '
+                'outside its enclosing operation (where/map/for_each)'
+            )
         return SkillCode(variable)
     if isinstance(node, (_Raw, _Constant)):
         return node.source
@@ -132,15 +143,24 @@ def _render(node: _Node, context: _Context | None = None) -> SkillCode:
     if isinstance(node, _Subscript):
         return SkillCode(f'nth({node.index} {_render(node.owner, context)})')
     if isinstance(node, _Call):
-        arguments = ' '.join(_render(argument, context) for argument in node.arguments)
-        return SkillCode(f'{node.name}({arguments})')
+        args: list[str] = [_render(argument, context) for argument in node.arguments]
+        args.extend(f'?{name} {_render(value, context)}' for name, value in node.keywords)
+        return SkillCode(f'{node.name}({" ".join(args)})')
     if isinstance(node, _Bind):
-        variable = context.next_variable()
-        values = _render(node.values, context)
-        context.bind(node.variable, variable)
-        predicate = _render(node.predicate, context)
-        context.unbind(node.variable)
-        return SkillCode(f'setof({variable} {values} {predicate})')
+
+        def _render_bind(node: _Bind, context: _Context) -> SkillCode:
+            variable = context.next_variable()
+            values = _render(node.values, context)
+            context.bind(node.variable, variable)
+            predicate = _render(node.predicate, context)
+            context.unbind(node.variable)
+            if node.kind == 'where':
+                return SkillCode(f'setof({variable} {values} {predicate})')
+            if node.kind == 'map':
+                return SkillCode(f'mapcar(lambda(({variable}) {predicate}) {values})')
+            return SkillCode(f'progn(foreach({variable} {values} {predicate}) nil)')
+
+        return _render_bind(node, context)
 
     left = _render(node.left, context)
     right = _render(node.right, context)
@@ -156,7 +176,13 @@ class Expr(Generic[T]):
     def raw_skill(cls, source: str) -> Expr[Any]:
         return cls(_Raw(SkillCode(source)))
 
+    @staticmethod
+    def wrap(value: S) -> Expr[S]:
+        """Lift/box a Python constant into an Expr AST literal."""
+        return Expr(_Constant(python_value_to_skill(value)))
+
     def render(self) -> SkillCode:
+        # True -> t, False -> nil, "str" -> "\"str\"", etc.
         return _render(self._node)
 
     def __repr_skill__(self) -> SkillCode:
@@ -166,7 +192,7 @@ class Expr(Generic[T]):
         raise TypeError('an Expr has no local truth value')
 
     def __getattr__(self, name: str) -> Expr[Any]:
-        # same as `is_jupyter_magic()`` in `objects.py`
+        # same as `is_jupyter_magic()` in `objects.py`
         if name.startswith('_') or not name.isidentifier():
             raise AttributeError(name)
         return Expr(_Attribute(self._node, snake_to_camel(name)))
@@ -196,8 +222,16 @@ class Expr(Generic[T]):
         return Expr(_BinOp(self._coerce(other), operator, self._node))
 
     @staticmethod
-    def _call(name: str, *arguments: Any) -> Expr[Any]:
-        return Expr(_Call(name, tuple(Expr._coerce(argument) for argument in arguments)))
+    def call(name: str, *arguments: Any, **keywords: Any) -> Expr[Any]:
+        return Expr(
+            _Call(
+                name,
+                tuple(Expr._coerce(argument) for argument in arguments),
+                tuple(
+                    (snake_to_camel(key), Expr._coerce(value)) for key, value in keywords.items()
+                ),
+            ),
+        )
 
     def __eq__(self, other: object) -> Expr[bool]:  # type: ignore[override]
         return self._binary(other, '==')
@@ -248,28 +282,28 @@ class Expr(Generic[T]):
         return self._reverse_binary(other, '**')
 
     def __mod__(self, other: Any) -> Expr[Any]:
-        return self._call('mod', self, other)
+        return self.call('mod', self, other)
 
     def __rmod__(self, other: Any) -> Expr[Any]:
-        return self._call('mod', other, self)
+        return self.call('mod', other, self)
 
     def __neg__(self) -> Expr[Any]:
-        return self._call('minus', self)
+        return self.call('minus', self)
 
     def __invert__(self) -> Expr[bool]:
-        return self._call('not', self)
+        return self.call('not', self)
 
     def __and__(self, other: Any) -> Expr[Any]:
-        return self._call('and', self, other)
+        return self.call('and', self, other)
 
     def __rand__(self, other: Any) -> Expr[Any]:
-        return self._call('and', other, self)
+        return self.call('and', other, self)
 
     def __or__(self, other: Any) -> Expr[Any]:
-        return self._call('or', self, other)
+        return self.call('or', self, other)
 
     def __ror__(self, other: Any) -> Expr[Any]:
-        return self._call('or', other, self)
+        return self.call('or', other, self)
 
 
 @dataclass(frozen=True, slots=True, eq=False)
@@ -291,16 +325,27 @@ class ListExpr(Expr[list[T] | None], Generic[T]):
     def each(self) -> ListExpr[Any]:
         return _EachExpr(self._node)
 
-    def where(self, predicate: Callable[[Expr[T]], Expr[Any] | bool]) -> ListExpr[T]:
+    def _bind(
+        self,
+        kind: Literal['where', 'map', 'for_each'],
+        operation: Callable[[Expr[T]], Any],
+    ) -> _Bind:
         variable = _Bound()
-        condition = predicate(Expr(variable))
-        node = _Bind(variable, self._node, self._coerce(condition))
-        return ListExpr(node)
+        result = operation(Expr(variable))
+        return _Bind(kind, variable, self._node, self._coerce(result))
+
+    def where(self, predicate: Callable[[Expr[T]], Expr[Any] | bool]) -> ListExpr[T]:
+        return ListExpr(self._bind('where', predicate))
+
+    def map(self, transform: Callable[[Expr[T]], Expr[U] | U]) -> ListExpr[U]:
+        return ListExpr(self._bind('map', transform))
+
+    def for_each(self, operation: Callable[[Expr[T]], Expr[Any]]) -> Expr[None]:
+        return Expr(self._bind('for_each', operation))
 
 
+@dataclass(frozen=True, slots=True, eq=False)
 class _EachExpr(ListExpr[T]):
-    __slots__ = ()
-
     def __getattr__(self, name: str) -> _EachExpr[Any]:
         if name.startswith('_') or not name.isidentifier():
             raise AttributeError(name)

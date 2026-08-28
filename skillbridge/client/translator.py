@@ -64,10 +64,9 @@ def camel_to_snake(camel: str) -> str:
 
 
 def python_value_to_skill(value: Skill) -> SkillCode:
-    try:
-        return value.__repr_skill__()  # type: ignore[union-attr]
-    except AttributeError:
-        pass
+    repr_skill = getattr(type(value), '__repr_skill__', None)
+    if repr_skill is not None:
+        return cast('SkillCode', repr_skill(value))
 
     if isinstance(value, dict):
         items = ' '.join(f"'{key} {python_value_to_skill(value)}" for key, value in value.items())

@@ -8,7 +8,6 @@ from pydantic import TypeAdapter
 
 from allegrobridge.client.base import SessionRecord
 from allegrobridge.client.base._rpc import RpcArgs, SessionApi, read, write
-from skillbridge import SkillTuple
 
 _PROJECT_PROCEDURE = '__abProjectVias'
 _CREATE_PROCEDURE = '__abCreateVia'
@@ -52,4 +51,4 @@ class ViasApi(SessionApi):
         rotation: float = 0.0,
         mirrored: bool = False,
     ) -> RpcArgs:
-        return padstack, SkillTuple(at), net, mirrored, rotation
+        return padstack, at, net, mirrored, rotation

@@ -657,7 +657,14 @@ def test_render_stub_disambiguates_duplicate_parameter_names(tmp_path: Path) -> 
 
     stub = render_stub([spec])
 
-    assert 'def __call__(self, l_point: SkillList, l_point_2: Skill, /) -> bool:' in stub
+    assert (
+        'def __call__(self, l_point: list[Skill] | tuple[Skill, ...], '
+        'l_point_2: Skill, /) -> bool:' in stub
+    )
+    assert (
+        'def expr(self, l_point: list[Skill] | tuple[Skill, ...], '
+        'l_point_2: Skill, /) -> Expr[bool]: ...' in stub
+    )
 
 
 def _call_docstrings(stub: str) -> dict[str, list[str]]:
@@ -816,6 +823,10 @@ Source: algroskill/apis.md:35""",
         'def __call__(self, x_block_template: int, /, *, width: float | None = ..., '
         'height: float | None = ...) -> int | None:' in stub
     )
+    assert (
+        'def expr(self, x_block_template: int, /, *, width: float | None = ..., '
+        'height: float | None = ...) -> Expr[int | None]: ...' in stub
+    )
 
     middle = docstrings['_AxlMiddle']
     assert len(middle) == 2
@@ -858,6 +869,8 @@ SKILL: signature unavailable; generic fallback
 Version: Allegro 17.2-2016
 Source: algroskill/apis.md:73""",
     ]
+    assert 'def expr(self, *args: Skill, **kwargs: Skill) -> Expr[Skill]: ...' in stub
+    assert stub.count('    @overload\n    def expr(') == 2
 
 
 def test_build_api_specs_rejects_duplicate_inventory(tmp_path: Path) -> None:

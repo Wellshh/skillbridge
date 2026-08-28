@@ -67,5 +67,5 @@ The vendored skillbridge kernel, documented as concept pages:
 for SKILL values come from the kernel and are re-exported by `skillbridge`:
 
 ```python
-from skillbridge import Symbol, Key, SkillCode, SkillList, SkillTuple, SkillDict
+from skillbridge import Symbol, Key, SkillCode
 ```

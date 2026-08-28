@@ -1,7 +1,6 @@
 # Copyright (c) 2019-2024 the skillbridge authors (Niels Buwen, Tobias Markus)
 # Derived from skillbridge (https://github.com/unihd-cag/skillbridge)
 # SPDX-License-Identifier: LGPL-3.0-only
-from collections.abc import Callable
 from re import match
 from typing import Any
 
@@ -50,21 +49,3 @@ class PassWorkspace(Workspace):
 
     def prepare(self, obj: Any) -> None:
         self._test_channel.inputs.append(obj)
-
-    def pop_request(self) -> str:
-        return self._test_channel.outputs.popleft()
-
-    def pop_function_request(self, name: str) -> Any:
-        return self._test_channel.function_outputs[name].popleft()
-
-    def pop_match(self, pattern: str) -> bool:
-        return match(pattern, self.pop_request()) is not None
-
-    def prepare_function(self, name: str, func: Callable[..., Any]) -> None:
-        self._test_channel.functions[name] = func
-
-    def prepare_function_value(self, name: str, value: Any) -> None:
-        def func(*_args: Any, **_kwargs: Any) -> Any:
-            return value
-
-        self._test_channel.functions[name] = func

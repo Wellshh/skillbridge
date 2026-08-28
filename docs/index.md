@@ -1,11 +1,20 @@
+---
+hide:
+  - toc
+---
+
+<div class="ab-hero" markdown>
+
 # AllegroBridge
 
-A Python bridge to **Cadence Allegro PCB Editor** (AXL/SKILL), derived from
-[skillbridge](https://github.com/unihd-cag/skillbridge).
+Drive **Cadence Allegro PCB Editor** from Python — query the design database,
+move components, place vias, and compose edits inside atomic SKILL
+transactions, through a typed, pydantic-validated API.
 
-AllegroBridge lets you drive a running Allegro session from Python: query the
-design database, move components, place vias, and compose edits inside atomic
-SKILL transactions — through a typed, pydantic-validated API.
+[Get started](getting-started/installation.md){ .md-button .md-button--primary }
+[GitHub](https://github.com/Wellshh/allegrobridge){ .md-button }
+
+</div>
 
 ```python
 from allegrobridge import Allegro
@@ -21,16 +30,63 @@ with Allegro.launch("designs/demo.brd") as allegro:
 
 ## Features
 
-- [Launch Allegro from Python, or attach to a running session](guide/lifecycle.md)
-- [Every write runs in an atomic transaction](guide/transactions.md), with
-  savepoint batches and dry-run previews
-- [Typed domain APIs](guide/session.md) — board, components, layers, nets,
-  padstacks, pins, symbols, vias — return frozen pydantic models
-- [All 792 documented `axl*` APIs on the raw workspace](guide/raw-axl.md), with
-  snake_case names and generated type stubs
-- [Extend the session with your own API domains](guide/extensions.md)
-- [SKILL-side testing](skill-testing.md) with the vendored qtest framework plus
-  qcover, our branch-coverage instrumenter for classic SKILL
+<div class="grid cards" markdown>
+
+-   :material-rocket-launch:{ .lg .middle } **Process lifecycle**
+
+    ---
+
+    Launch Allegro from Python, or attach to a running session with an
+    identity-checked handshake.
+
+    [:octicons-arrow-right-24: Process lifecycle](guide/lifecycle.md)
+
+-   :material-atom-variant:{ .lg .middle } **Atomic transactions**
+
+    ---
+
+    Every write runs in an atomic transaction, with savepoint batches and
+    dry-run previews.
+
+    [:octicons-arrow-right-24: Transactions](guide/transactions.md)
+
+-   :material-puzzle:{ .lg .middle } **Typed domain APIs**
+
+    ---
+
+    Board, components, layers, nets, padstacks, pins, symbols, vias — all
+    returned as frozen pydantic models.
+
+    [:octicons-arrow-right-24: Session and domain APIs](guide/session.md)
+
+-   :material-power-plug:{ .lg .middle } **Raw AXL access**
+
+    ---
+
+    All 792 documented `axl*` APIs on the workspace, with snake_case names
+    and generated type stubs.
+
+    [:octicons-arrow-right-24: Raw AXL access](guide/raw-axl.md)
+
+-   :material-toolbox:{ .lg .middle } **Extensions**
+
+    ---
+
+    Extend the session with your own API domains, loaded lazily on first
+    access.
+
+    [:octicons-arrow-right-24: Writing extensions](guide/extensions.md)
+
+-   :material-check-decagram:{ .lg .middle } **SKILL-side testing**
+
+    ---
+
+    Vendored qtest framework plus qcover, a branch-coverage instrumenter for
+    classic SKILL.
+
+    [:octicons-arrow-right-24: SKILL testing](skill-testing.md)
+
+</div>
 
 The generated stubs give every `axl*` function autocompletion, signature hints,
 and docstrings in a PEP 561-aware IDE:

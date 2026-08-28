@@ -6,9 +6,9 @@ from typing import Any
 from pytest import fixture, mark, raises
 
 from skillbridge.client.channel import Channel
+from skillbridge.client.expr import Expr
 from skillbridge.client.globals import DirectGlobals, Globals, GlobalVar, is_variable_name
 from skillbridge.client.translator import DefaultTranslator
-from skillbridge.client.var import Var
 
 
 class Redirect(Channel):
@@ -89,18 +89,21 @@ def test_global_var_collection_expressions(
     translator: DefaultTranslator,
 ) -> None:
     variable = GlobalVar('prefix_x', redirect, translator)
+    other = GlobalVar('prefix_y', redirect, translator)
+    items = variable.expr().as_list()
 
-    assert variable.map(Var('(i + 1)')).__repr_skill__() == 'mapcar(lambda((i) (i + 1) ) prefixX )'
-    assert variable.map(Var('(i + j)'), j=Var('prefixY')).__repr_skill__() == (
-        'mapcar(lambda((i j) (i + j) ) prefixX prefixY )'
+    assert variable.expr().render() == 'prefixX'
+    assert items.map(lambda item: item + 1).render() == (
+        'mapcar(lambda((_expr0) (_expr0 + 1)) prefixX)'
     )
-    with raises(AssertionError, match="Cannot use loop var 'i' twice"):
-        variable.map(Var('i'), i=Var('prefixY'))
-
-    assert variable.filter(Var('(i != 2)')).__repr_skill__() == 'setof(i prefixX (i != 2) )'
-    redirect.prepare('None')
-    assert variable.for_each(Var('delete(i)')) is None
-    assert redirect.commands == ['foreach(i prefixX delete(i) ) nil']
+    assert items.map(lambda item: item + other.expr()).render() == (
+        'mapcar(lambda((_expr0) (_expr0 + prefixY)) prefixX)'
+    )
+    assert items.where(lambda item: item != 2).render() == 'setof(_expr0 prefixX (_expr0 != 2))'
+    assert items.for_each(lambda item: Expr.call('delete', item)).render() == (
+        'progn(foreach(_expr0 prefixX delete(_expr0)) nil)'
+    )
+    assert redirect.commands == []
 
 
 @mark.parametrize(

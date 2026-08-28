@@ -2,20 +2,7 @@
 
 AllegroBridge is two layers in one repository:
 
-```
-┌─────────────────────────────────────────────────────────┐
-│ allegrobridge/                                          │
-│  Allegro (lifecycle) → Workspace → Session → Domain APIs │
-│  board · components · layers · nets · padstacks · pins   │
-│  symbols · vias · ext.<custom>          (pydantic DTOs)  │
-├─────────────────────────────────────────────────────────┤
-│ skillbridge/  (kernel, derived from unihd-cag/skillbridge)│
-│  Workspace/RemoteFunction → Translator → Channel → Pipe  │
-├─────────────────────────────────────────────────────────┤
-│ Allegro PCB Editor process                              │
-│  python_server.il (IPC) + allegro_server.il (txn kernel) │
-└─────────────────────────────────────────────────────────┘
-```
+![Layered architecture](assets/architecture.svg)
 
 ## Kernel (`skillbridge/`)
 

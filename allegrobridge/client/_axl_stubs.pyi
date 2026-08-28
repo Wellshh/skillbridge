@@ -4,8 +4,9 @@
 # mypy: disable-error-code="override, overload-cannot-match, overload-overlap"
 from typing import Literal, overload
 
+from skillbridge.client.expr import Expr
 from skillbridge.client.functions import FunctionCollection, LiteralRemoteFunction
-from skillbridge.client.hints import Number, Skill, SkillList, Symbol
+from skillbridge.client.hints import Number, Skill, Symbol
 from skillbridge.client.objects import RemoteObject
 
 class _AxlAddAutoAssignNetAlgorithm(LiteralRemoteFunction):
@@ -27,6 +28,7 @@ class _AxlAddAutoAssignNetAlgorithm(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:783
         """
+    def expr(self, t_algorithm: str, t_display_name: str, /) -> Expr[bool | None]: ...
 
 class _AxlAddSelectAll(LiteralRemoteFunction):
     def __call__(self, /) -> bool | None:
@@ -48,9 +50,10 @@ class _AxlAddSelectAll(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/05selfnd.md:353
         """
+    def expr(self, /) -> Expr[bool | None]: ...
 
 class _AxlAddSelectBox(LiteralRemoteFunction):
-    def __call__(self, l_b_box: SkillList | None = ..., /) -> bool | None:
+    def __call__(self, l_b_box: list[Skill] | tuple[Skill, ...] | None = ..., /) -> bool | None:
         """
         Finds one or more figures inside the rectangle`l_bBox` according to the current Find Filter, and adds the selected figure `dbids` in cumulated mode for the select set.
 
@@ -68,9 +71,10 @@ class _AxlAddSelectBox(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/05selfnd.md:307
         """
+    def expr(self, l_b_box: list[Skill] | tuple[Skill, ...] | None = ..., /) -> Expr[bool | None]: ...
 
 class _AxlAddSelectName(LiteralRemoteFunction):
-    def __call__(self, t_name_type: str, l_names: SkillList, /) -> bool | None:
+    def __call__(self, t_name_type: str, l_names: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         Adds the named figure`dbids` to the select set in cumulated mode according to the arguments described below
 
@@ -91,6 +95,7 @@ class _AxlAddSelectName(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/05selfnd.md:483
         """
+    def expr(self, t_name_type: str, l_names: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlAddSelectObject(LiteralRemoteFunction):
     def __call__(self, lo_dbid: list[RemoteObject], /) -> bool | None:
@@ -117,9 +122,10 @@ class _AxlAddSelectObject(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/05selfnd.md:570
         """
+    def expr(self, lo_dbid: list[RemoteObject], /) -> Expr[bool | None]: ...
 
 class _AxlAddSelectPoint(LiteralRemoteFunction):
-    def __call__(self, l_point: SkillList | None = ..., /) -> bool | None:
+    def __call__(self, l_point: list[Skill] | tuple[Skill, ...] | None = ..., /) -> bool | None:
         """
         Finds a figure at`l_point` according to the Find Filter and adds its `dbid` to the select set in cumulated mode
 
@@ -143,9 +149,10 @@ class _AxlAddSelectPoint(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/05selfnd.md:197
         """
+    def expr(self, l_point: list[Skill] | tuple[Skill, ...] | None = ..., /) -> Expr[bool | None]: ...
 
 class _AxlAddSimpleMoveDynamics(LiteralRemoteFunction):
-    def __call__(self, l_origin: SkillList, r_path: RemoteObject, t_type: str, /, *, ref_point: SkillList | None = ..., color: Skill = ...) -> bool | None:
+    def __call__(self, l_origin: list[Skill] | tuple[Skill, ...], r_path: RemoteObject, t_type: str, /, *, ref_point: list[Skill] | tuple[Skill, ...] | None = ..., color: Skill = ...) -> bool | None:
         """
         Loads cursor buffer dynamics buffer with an element
 
@@ -164,9 +171,10 @@ class _AxlAddSimpleMoveDynamics(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:272
         """
+    def expr(self, l_origin: list[Skill] | tuple[Skill, ...], r_path: RemoteObject, t_type: str, /, *, ref_point: list[Skill] | tuple[Skill, ...] | None = ..., color: Skill = ...) -> Expr[bool | None]: ...
 
 class _AxlAddSimpleRbandDynamics(LiteralRemoteFunction):
-    def __call__(self, l_fixed_point: SkillList, t_type: str, /, *, origin: SkillList | None = ..., var_point: SkillList | None = ..., last_path: SkillList | None = ..., width: float | None = ..., color: Skill = ...) -> bool | None:
+    def __call__(self, l_fixed_point: list[Skill] | tuple[Skill, ...], t_type: str, /, *, origin: list[Skill] | tuple[Skill, ...] | None = ..., var_point: list[Skill] | tuple[Skill, ...] | None = ..., last_path: list[Skill] | tuple[Skill, ...] | None = ..., width: float | None = ..., color: Skill = ...) -> bool | None:
         """
         Loads rubber band dynamics buffer with an element
 
@@ -231,6 +239,7 @@ class _AxlAddSimpleRbandDynamics(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:190
         """
+    def expr(self, l_fixed_point: list[Skill] | tuple[Skill, ...], t_type: str, /, *, origin: list[Skill] | tuple[Skill, ...] | None = ..., var_point: list[Skill] | tuple[Skill, ...] | None = ..., last_path: list[Skill] | tuple[Skill, ...] | None = ..., width: float | None = ..., color: Skill = ...) -> Expr[bool | None]: ...
 
 class _AxlAddTaper(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject | list[RemoteObject], /) -> bool | None:
@@ -250,9 +259,10 @@ class _AxlAddTaper(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:1547
         """
+    def expr(self, o_dbid: RemoteObject | list[RemoteObject], /) -> Expr[bool | None]: ...
 
 class _AxlAirGap(LiteralRemoteFunction):
-    def __call__(self, o_item1_dbid: RemoteObject, o_item2_dbid: RemoteObject | SkillList, t_layer: str | None = ..., s_mode: Symbol | None = ..., /) -> Skill:
+    def __call__(self, o_item1_dbid: RemoteObject, o_item2_dbid: RemoteObject | list[Skill] | tuple[Skill, ...], t_layer: str | None = ..., s_mode: Symbol | None = ..., /) -> Skill:
         """
         Finds the air gap and location between two given items
 
@@ -361,6 +371,7 @@ class _AxlAirGap(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:14
         """
+    def expr(self, o_item1_dbid: RemoteObject, o_item2_dbid: RemoteObject | list[Skill] | tuple[Skill, ...], t_layer: str | None = ..., s_mode: Symbol | None = ..., /) -> Expr[Skill]: ...
 
 class _AxlAltSymbolList(LiteralRemoteFunction):
     def __call__(self, t_name: str | RemoteObject, g_layer: Skill, /) -> list[str] | None:
@@ -380,6 +391,7 @@ class _AxlAltSymbolList(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:14
         """
+    def expr(self, t_name: str | RemoteObject, g_layer: Skill, /) -> Expr[list[str] | None]: ...
 
 class _AxlAltSymbolOK(LiteralRemoteFunction):
     def __call__(self, t_name: str | RemoteObject, g_layer: Skill, t_symbol: str, /) -> bool | None:
@@ -406,6 +418,7 @@ class _AxlAltSymbolOK(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:43
         """
+    def expr(self, t_name: str | RemoteObject, g_layer: Skill, t_symbol: str, /) -> Expr[bool | None]: ...
 
 class _AxlAltSymbolReplace(LiteralRemoteFunction):
     def __call__(self, t_name: str | RemoteObject, t_symbol: str, /) -> bool | None:
@@ -439,6 +452,7 @@ class _AxlAltSymbolReplace(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:73
         """
+    def expr(self, t_name: str | RemoteObject, t_symbol: str, /) -> Expr[bool | None]: ...
 
 class _AxlAutoOpenFindFilter(LiteralRemoteFunction):
     def __call__(self, /) -> bool:
@@ -452,6 +466,7 @@ class _AxlAutoOpenFindFilter(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/05selfnd.md:973
         """
+    def expr(self, /) -> Expr[bool]: ...
 
 class _AxlBackDrill(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, s_layer: Symbol, /) -> list[Skill] | None:
@@ -473,6 +488,7 @@ class _AxlBackDrill(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:128
         """
+    def expr(self, o_dbid: RemoteObject, s_layer: Symbol, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlBackdrillGet(LiteralRemoteFunction):
     def __call__(self, o_dbid_pin_or_via: RemoteObject | Symbol, /) -> list[str] | Skill | None:
@@ -518,6 +534,7 @@ class _AxlBackdrillGet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:110
         """
+    def expr(self, o_dbid_pin_or_via: RemoteObject | Symbol, /) -> Expr[list[str] | Skill | None]: ...
 
 class _AxlBondFingerDelete(LiteralRemoteFunction):
     def __call__(self, bond_fingers: Skill, delete_wires: Skill, /) -> bool | None:
@@ -534,6 +551,7 @@ class _AxlBondFingerDelete(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:27
         """
+    def expr(self, bond_fingers: Skill, delete_wires: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlBuildClassPopup(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None:
@@ -559,6 +577,7 @@ class _AxlBuildClassPopup(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/19cmdctl.md:432
         """
+    def expr(self, r_form: RemoteObject, t_field: str, /) -> Expr[bool | None]: ...
 
 class _AxlBuildSubclassPopup(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, t_class: str, /) -> bool | None:
@@ -608,6 +627,7 @@ class _AxlBuildSubclassPopup(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/19cmdctl.md:458
         """
+    def expr(self, r_form: RemoteObject, t_field: str, t_class: str, /) -> Expr[bool | None]: ...
 
 class _AxlCNSAssemblyModeGet(LiteralRemoteFunction):
     @overload
@@ -787,6 +807,14 @@ class _AxlCNSAssemblyModeGet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:75
         """
+    @overload
+    def expr(self, value: None, /) -> Expr[list[Symbol]]: ...
+    @overload
+    def expr(self, all: Symbol, /) -> Expr[Skill]: ...
+    @overload
+    def expr(self, s_name: Symbol | str, /) -> Expr[Symbol | None]: ...
+    @overload
+    def expr(self, s_name: Symbol | str, print: Symbol, /) -> Expr[str | None]: ...
 
 class _AxlCNSAssemblyModeSet(LiteralRemoteFunction):
     @overload
@@ -896,7 +924,7 @@ class _AxlCNSAssemblyModeSet(LiteralRemoteFunction):
         Source: algroskill/sipapd.md:126
         """
     @overload
-    def __call__(self, l_constraint_n_modes: SkillList, t_mode: str | Skill, /) -> bool | None:
+    def __call__(self, l_constraint_n_modes: list[Skill] | tuple[Skill, ...], t_mode: str | Skill, /) -> bool | None:
         """
         This command sets the current DRC modes (on/off) for checks in the area of assembly constraints
 
@@ -950,7 +978,7 @@ class _AxlCNSAssemblyModeSet(LiteralRemoteFunction):
         Source: algroskill/sipapd.md:126
         """
     @overload
-    def __call__(self, ll_constraint_n_modes: SkillList, /) -> bool | None:
+    def __call__(self, ll_constraint_n_modes: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         This command sets the current DRC modes (on/off) for checks in the area of assembly constraints
 
@@ -1000,6 +1028,14 @@ class _AxlCNSAssemblyModeSet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:126
         """
+    @overload
+    def expr(self, t_name: str | Symbol, t_mode: str | Symbol, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, allt_mode: Symbol | Skill, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, l_constraint_n_modes: list[Skill] | tuple[Skill, ...], t_mode: str | Skill, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, ll_constraint_n_modes: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlCNSCreate(LiteralRemoteFunction):
     def __call__(self, g_domain: Skill, t_name: str, t_copy_name: str, /) -> bool | None:
@@ -1032,6 +1068,7 @@ class _AxlCNSCreate(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:311
         """
+    def expr(self, g_domain: Skill, t_name: str, t_copy_name: str, /) -> Expr[bool | None]: ...
 
 class _AxlCNSCsetLock(LiteralRemoteFunction):
     def __call__(self, g_domain: Skill, t_cset_name: str, g_mode: Skill, /) -> bool | None:
@@ -1060,6 +1097,7 @@ class _AxlCNSCsetLock(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:346
         """
+    def expr(self, g_domain: Skill, t_cset_name: str, g_mode: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlCNSDelete(LiteralRemoteFunction):
     def __call__(self, g_domain: Skill, t_name: str | RemoteObject, /) -> bool | None:
@@ -1087,6 +1125,7 @@ class _AxlCNSDelete(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:379
         """
+    def expr(self, g_domain: Skill, t_name: str | RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlCNSDesignModeGet(LiteralRemoteFunction):
     @overload
@@ -1365,6 +1404,16 @@ class _AxlCNSDesignModeGet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:510
         """
+    @overload
+    def expr(self, value: None, /) -> Expr[list[Symbol]]: ...
+    @overload
+    def expr(self, all: Symbol, /) -> Expr[Skill]: ...
+    @overload
+    def expr(self, editable: Symbol, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, s_name: Symbol | str, /) -> Expr[Symbol | None]: ...
+    @overload
+    def expr(self, s_name: Symbol | str, print: Symbol, /) -> Expr[str | None]: ...
 
 class _AxlCNSDesignModeSet(LiteralRemoteFunction):
     @overload
@@ -1504,7 +1553,7 @@ class _AxlCNSDesignModeSet(LiteralRemoteFunction):
         Source: algroskill/18consmgt.part01.md:574
         """
     @overload
-    def __call__(self, l_constraint_n_modes: SkillList, t_mode: str | Skill, /) -> bool | None:
+    def __call__(self, l_constraint_n_modes: list[Skill] | tuple[Skill, ...], t_mode: str | Skill, /) -> bool | None:
         """
         Sets the current DRC modes for design constraints
 
@@ -1573,7 +1622,7 @@ class _AxlCNSDesignModeSet(LiteralRemoteFunction):
         Source: algroskill/18consmgt.part01.md:574
         """
     @overload
-    def __call__(self, ll_constraint_n_modes: SkillList, /) -> bool | None:
+    def __call__(self, ll_constraint_n_modes: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         Sets the current DRC modes for design constraints
 
@@ -1638,6 +1687,14 @@ class _AxlCNSDesignModeSet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:574
         """
+    @overload
+    def expr(self, t_name: str | Symbol, t_mode: str | Symbol, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, allt_mode: Symbol | Skill, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, l_constraint_n_modes: list[Skill] | tuple[Skill, ...], t_mode: str | Skill, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, ll_constraint_n_modes: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlCNSDesignValueCheck(LiteralRemoteFunction):
     def __call__(self, s_name: Symbol | str, g_value: Skill, /) -> Skill:
@@ -1668,6 +1725,7 @@ class _AxlCNSDesignValueCheck(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:649
         """
+    def expr(self, s_name: Symbol | str, g_value: Skill, /) -> Expr[Skill]: ...
 
 class _AxlCNSDesignValueGet(LiteralRemoteFunction):
     @overload
@@ -1826,6 +1884,12 @@ class _AxlCNSDesignValueGet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:679
         """
+    @overload
+    def expr(self, value: None, g_return_name_string: Skill = ..., /) -> Expr[list[Symbol]]: ...
+    @overload
+    def expr(self, all: Symbol, g_return_string: Skill = ..., /) -> Expr[Skill]: ...
+    @overload
+    def expr(self, s_name: Symbol, g_return_string: Skill = ..., /) -> Expr[float | str | None]: ...
 
 class _AxlCNSDesignValueSet(LiteralRemoteFunction):
     @overload
@@ -1885,7 +1949,7 @@ class _AxlCNSDesignValueSet(LiteralRemoteFunction):
         Source: algroskill/18consmgt.part01.md:737
         """
     @overload
-    def __call__(self, ll_constraint_n_values: SkillList, /) -> bool | None:
+    def __call__(self, ll_constraint_n_values: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         This sets the value of the design constraint.
 
@@ -1936,6 +2000,10 @@ class _AxlCNSDesignValueSet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:737
         """
+    @overload
+    def expr(self, t_name: str | Symbol, f_value: float | str, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, ll_constraint_n_values: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlCNSEcsetCreate(LiteralRemoteFunction):
     def __call__(self, t_name: str, t_copy_name: str | RemoteObject | None = ..., /) -> RemoteObject | None:
@@ -1973,6 +2041,7 @@ class _AxlCNSEcsetCreate(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:797
         """
+    def expr(self, t_name: str, t_copy_name: str | RemoteObject | None = ..., /) -> Expr[RemoteObject | None]: ...
 
 class _AxlCNSEcsetDelete(LiteralRemoteFunction):
     def __call__(self, t_name: str | RemoteObject, /) -> bool | None:
@@ -2009,6 +2078,7 @@ class _AxlCNSEcsetDelete(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:837
         """
+    def expr(self, t_name: str | RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlCNSEcsetGet(LiteralRemoteFunction):
     def __call__(self, t_name: str, /) -> RemoteObject | None:
@@ -2035,6 +2105,7 @@ class _AxlCNSEcsetGet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:873
         """
+    def expr(self, t_name: str, /) -> Expr[RemoteObject | None]: ...
 
 class _AxlCNSEcsetModeGet(LiteralRemoteFunction):
     @overload
@@ -2254,6 +2325,14 @@ class _AxlCNSEcsetModeGet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:902
         """
+    @overload
+    def expr(self, value: None, /) -> Expr[list[Symbol]]: ...
+    @overload
+    def expr(self, all: Symbol, /) -> Expr[Skill]: ...
+    @overload
+    def expr(self, s_name: Symbol | str, /) -> Expr[Symbol | None]: ...
+    @overload
+    def expr(self, s_name: Symbol | str, print: Symbol, /) -> Expr[str | None]: ...
 
 class _AxlCNSEcsetModeSet(LiteralRemoteFunction):
     @overload
@@ -2386,7 +2465,7 @@ class _AxlCNSEcsetModeSet(LiteralRemoteFunction):
         Source: algroskill/18consmgt.part01.md:967
         """
     @overload
-    def __call__(self, l_constraint_n_modes: SkillList, t_mode: str | Symbol, /) -> bool | None:
+    def __call__(self, l_constraint_n_modes: list[Skill] | tuple[Skill, ...], t_mode: str | Symbol, /) -> bool | None:
         """
         Sets the DRC modes for checks that are members of the electrical constraints set
 
@@ -2450,7 +2529,7 @@ class _AxlCNSEcsetModeSet(LiteralRemoteFunction):
         Source: algroskill/18consmgt.part01.md:967
         """
     @overload
-    def __call__(self, ll_constraint_n_modes: SkillList, /) -> bool | None:
+    def __call__(self, ll_constraint_n_modes: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         Sets the DRC modes for checks that are members of the electrical constraints set
 
@@ -2510,6 +2589,14 @@ class _AxlCNSEcsetModeSet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:967
         """
+    @overload
+    def expr(self, t_name: str | Symbol, t_mode: str | Symbol, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, allt_mode: Skill | Symbol, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, l_constraint_n_modes: list[Skill] | tuple[Skill, ...], t_mode: str | Symbol, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, ll_constraint_n_modes: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlCNSEcsetValueCheck(LiteralRemoteFunction):
     def __call__(self, s_name: Symbol | str, g_value: Skill, /) -> Skill:
@@ -2540,6 +2627,7 @@ class _AxlCNSEcsetValueCheck(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:1040
         """
+    def expr(self, s_name: Symbol | str, g_value: Skill, /) -> Expr[Skill]: ...
 
 class _AxlCNSEcsetValueGet(LiteralRemoteFunction):
     @overload
@@ -2741,6 +2829,12 @@ class _AxlCNSEcsetValueGet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:1070
         """
+    @overload
+    def expr(self, value: None, g_return_name_string: Skill = ..., /) -> Expr[list[Symbol]]: ...
+    @overload
+    def expr(self, all: Symbol, g_return_string: Skill = ..., /) -> Expr[Skill]: ...
+    @overload
+    def expr(self, o_ecset_dbid: RemoteObject | str, s_name: Symbol, g_return_string: Skill = ..., /) -> Expr[float | str | None]: ...
 
 class _AxlCNSEcsetValueSet(LiteralRemoteFunction):
     @overload
@@ -2794,7 +2888,7 @@ class _AxlCNSEcsetValueSet(LiteralRemoteFunction):
         Source: algroskill/18consmgt.part02.md:615
         """
     @overload
-    def __call__(self, o_ecset_dbid: RemoteObject | str, ll_constraint_n_values: SkillList, /) -> bool | None:
+    def __call__(self, o_ecset_dbid: RemoteObject | str, ll_constraint_n_values: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         Sets the value of the ECset DRC
 
@@ -2841,6 +2935,10 @@ class _AxlCNSEcsetValueSet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:615
         """
+    @overload
+    def expr(self, o_ecset_dbid: RemoteObject | str, t_name: str | Symbol, f_value: float, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, o_ecset_dbid: RemoteObject | str, ll_constraint_n_values: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlCNSGetAssembly(LiteralRemoteFunction):
     @overload
@@ -3010,6 +3108,12 @@ class _AxlCNSGetAssembly(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:185
         """
+    @overload
+    def expr(self, t_cset: str, t_layer: str, s_constraint: Symbol, g_string: Skill = ..., /) -> Expr[Skill | None]: ...
+    @overload
+    def expr(self, t_cset: str, t_layer: str, value: None, g_string: Skill = ..., /) -> Expr[list[Skill] | None]: ...
+    @overload
+    def expr(self, value: None, value_2: None, value_3: None, /) -> Expr[list[Symbol]]: ...
 
 class _AxlCNSGetDefaultMinLineWidth(LiteralRemoteFunction):
     def __call__(self, t_sublass_name: str, /) -> float:
@@ -3032,6 +3136,7 @@ class _AxlCNSGetDefaultMinLineWidth(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:1146
         """
+    def expr(self, t_sublass_name: str, /) -> Expr[float]: ...
 
 class _AxlCNSGetPhysical(LiteralRemoteFunction):
     @overload
@@ -3231,6 +3336,12 @@ class _AxlCNSGetPhysical(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:1172
         """
+    @overload
+    def expr(self, t_cset: str, t_layer: str, s_constraint: Symbol, g_string: Skill = ..., /) -> Expr[Skill | None]: ...
+    @overload
+    def expr(self, t_cset: str, t_layer: str, value: None, g_string: Skill = ..., /) -> Expr[list[Skill] | None]: ...
+    @overload
+    def expr(self, value: None, value_2: None, value_3: None, /) -> Expr[list[Symbol]]: ...
 
 class _AxlCNSGetPinDelayEnabled(LiteralRemoteFunction):
     def __call__(self, /) -> bool | None:
@@ -3245,6 +3356,7 @@ class _AxlCNSGetPinDelayEnabled(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:1257
         """
+    def expr(self, /) -> Expr[bool | None]: ...
 
 class _AxlCNSGetPinDelayPVF(LiteralRemoteFunction):
     def __call__(self, /) -> str:
@@ -3258,6 +3370,7 @@ class _AxlCNSGetPinDelayPVF(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:1275
         """
+    def expr(self, /) -> Expr[str]: ...
 
 class _AxlCNSGetSameNet(LiteralRemoteFunction):
     @overload
@@ -3439,6 +3552,12 @@ class _AxlCNSGetSameNet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:1292
         """
+    @overload
+    def expr(self, t_cset: str, t_layer: str, s_constraint: Symbol, g_string: Skill = ..., /) -> Expr[Skill | None]: ...
+    @overload
+    def expr(self, t_cset: str, t_layer: str, value: None, g_string: Skill = ..., /) -> Expr[list[Skill] | None]: ...
+    @overload
+    def expr(self, value: None, value_2: None, value_3: None, /) -> Expr[list[Symbol]]: ...
 
 class _AxlCNSGetSameNetXtalkEnabled(LiteralRemoteFunction):
     def __call__(self, /) -> bool | None:
@@ -3453,6 +3572,7 @@ class _AxlCNSGetSameNetXtalkEnabled(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:1354
         """
+    def expr(self, /) -> Expr[bool | None]: ...
 
 class _AxlCNSGetSpacing(LiteralRemoteFunction):
     @overload
@@ -3646,6 +3766,12 @@ class _AxlCNSGetSpacing(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:1372
         """
+    @overload
+    def expr(self, t_cset: str, t_layer: str, s_constraint: Symbol, g_string: Skill = ..., /) -> Expr[Skill | None]: ...
+    @overload
+    def expr(self, t_cset: str, t_layer: str, value: None, g_string: Skill = ..., /) -> Expr[list[Skill] | None]: ...
+    @overload
+    def expr(self, value: None, value_2: None, value_3: None, /) -> Expr[list[Symbol]]: ...
 
 class _AxlCNSGetViaZEnabled(LiteralRemoteFunction):
     def __call__(self, /) -> bool | None:
@@ -3660,6 +3786,7 @@ class _AxlCNSGetViaZEnabled(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:1453
         """
+    def expr(self, /) -> Expr[bool | None]: ...
 
 class _AxlCNSGetViaZPVF(LiteralRemoteFunction):
     def __call__(self, /) -> str:
@@ -3673,6 +3800,7 @@ class _AxlCNSGetViaZPVF(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:1471
         """
+    def expr(self, /) -> Expr[str]: ...
 
 class _AxlCNSIsCsetLocked(LiteralRemoteFunction):
     def __call__(self, g_domain: Skill, t_cset_name: str, /) -> bool | None:
@@ -3705,6 +3833,7 @@ class _AxlCNSIsCsetLocked(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:1543
         """
+    def expr(self, g_domain: Skill, t_cset_name: str, /) -> Expr[bool | None]: ...
 
 class _AxlCNSIsLockedDomain(LiteralRemoteFunction):
     def __call__(self, g_domain: Skill, /) -> bool | None:
@@ -3741,6 +3870,7 @@ class _AxlCNSIsLockedDomain(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:1578
         """
+    def expr(self, g_domain: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlCNSLockDomain(LiteralRemoteFunction):
     def __call__(self, g_domain: Skill, g_mode: Skill, /) -> bool | None:
@@ -3768,6 +3898,7 @@ class _AxlCNSLockDomain(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:1625
         """
+    def expr(self, g_domain: Skill, g_mode: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlCNSMapClear(LiteralRemoteFunction):
     def __call__(self, /) -> bool:
@@ -3784,6 +3915,7 @@ class _AxlCNSMapClear(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:977
         """
+    def expr(self, /) -> Expr[bool]: ...
 
 class _AxlCNSMapUpdate(LiteralRemoteFunction):
     def __call__(self, /) -> int | None:
@@ -3829,6 +3961,7 @@ class _AxlCNSMapUpdate(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:998
         """
+    def expr(self, /) -> Expr[int | None]: ...
 
 class _AxlCNSPhysicalModeGet(LiteralRemoteFunction):
     @overload
@@ -4032,6 +4165,14 @@ class _AxlCNSPhysicalModeGet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:1488
         """
+    @overload
+    def expr(self, value: None, /) -> Expr[list[Symbol]]: ...
+    @overload
+    def expr(self, all: Symbol, /) -> Expr[Skill]: ...
+    @overload
+    def expr(self, s_name: Symbol | str, /) -> Expr[Symbol | None]: ...
+    @overload
+    def expr(self, s_name: Symbol | str, print: Symbol, /) -> Expr[str | None]: ...
 
 class _AxlCNSPhysicalModeSet(LiteralRemoteFunction):
     @overload
@@ -4121,7 +4262,7 @@ class _AxlCNSPhysicalModeSet(LiteralRemoteFunction):
         Source: algroskill/18consmgt.part01.md:1657
         """
     @overload
-    def __call__(self, l_constraint_n_modes: SkillList, t_mode: str | Skill, /) -> bool | None:
+    def __call__(self, l_constraint_n_modes: list[Skill] | tuple[Skill, ...], t_mode: str | Skill, /) -> bool | None:
         """
         This sets the current drc modes (on/off) for checks in the area of physical constraints
 
@@ -4165,7 +4306,7 @@ class _AxlCNSPhysicalModeSet(LiteralRemoteFunction):
         Source: algroskill/18consmgt.part01.md:1657
         """
     @overload
-    def __call__(self, ll_constraint_n_modes: SkillList, /) -> bool | None:
+    def __call__(self, ll_constraint_n_modes: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         This sets the current drc modes (on/off) for checks in the area of physical constraints
 
@@ -4205,6 +4346,14 @@ class _AxlCNSPhysicalModeSet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:1657
         """
+    @overload
+    def expr(self, t_name: str | Symbol, t_mode: str | Symbol, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, allt_mode: Symbol | Skill, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, l_constraint_n_modes: list[Skill] | tuple[Skill, ...], t_mode: str | Skill, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, ll_constraint_n_modes: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlCNSSameNetModeGet(LiteralRemoteFunction):
     @overload
@@ -4392,6 +4541,14 @@ class _AxlCNSSameNetModeGet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:1710
         """
+    @overload
+    def expr(self, value: None, /) -> Expr[list[Symbol]]: ...
+    @overload
+    def expr(self, all: Symbol, /) -> Expr[Skill]: ...
+    @overload
+    def expr(self, s_name: Symbol | str, /) -> Expr[Symbol | None]: ...
+    @overload
+    def expr(self, s_name: Symbol | str, print: Symbol, /) -> Expr[str | None]: ...
 
 class _AxlCNSSameNetModeSet(LiteralRemoteFunction):
     @overload
@@ -4477,7 +4634,7 @@ class _AxlCNSSameNetModeSet(LiteralRemoteFunction):
         Source: algroskill/18consmgt.part01.md:1763
         """
     @overload
-    def __call__(self, l_constraint_n_modes: SkillList, t_mode: str | Skill, /) -> bool | None:
+    def __call__(self, l_constraint_n_modes: list[Skill] | tuple[Skill, ...], t_mode: str | Skill, /) -> bool | None:
         """
         Same as axlCNSSpacingModeSet.
 
@@ -4519,7 +4676,7 @@ class _AxlCNSSameNetModeSet(LiteralRemoteFunction):
         Source: algroskill/18consmgt.part01.md:1763
         """
     @overload
-    def __call__(self, ll_constraint_n_modes: SkillList, /) -> bool | None:
+    def __call__(self, ll_constraint_n_modes: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         Same as axlCNSSpacingModeSet.
 
@@ -4557,6 +4714,14 @@ class _AxlCNSSameNetModeSet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:1763
         """
+    @overload
+    def expr(self, t_name: str | Symbol, t_mode: str | Symbol, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, allt_mode: Symbol | Skill, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, l_constraint_n_modes: list[Skill] | tuple[Skill, ...], t_mode: str | Skill, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, ll_constraint_n_modes: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlCNSSetAssembly(LiteralRemoteFunction):
     @overload
@@ -4629,7 +4794,7 @@ class _AxlCNSSetAssembly(LiteralRemoteFunction):
         Source: algroskill/sipapd.md:243
         """
     @overload
-    def __call__(self, t_object: str | None, t_layer: str | None, ll_constraint_values: SkillList, value: None, s_object_type: Symbol | None = ..., /) -> bool | None:
+    def __call__(self, t_object: str | None, t_layer: str | None, ll_constraint_values: list[Skill] | tuple[Skill, ...], value: None, s_object_type: Symbol | None = ..., /) -> bool | None:
         """
         Updates assembly cset, wire profile or symbol constraint values
 
@@ -4697,6 +4862,10 @@ class _AxlCNSSetAssembly(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:243
         """
+    @overload
+    def expr(self, t_object: str | None, t_layer: str | None, s_constraint: Symbol, g_value: Skill, s_object_type: Symbol | None = ..., /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, t_object: str | None, t_layer: str | None, ll_constraint_values: list[Skill] | tuple[Skill, ...], value: None, s_object_type: Symbol | None = ..., /) -> Expr[bool | None]: ...
 
 class _AxlCNSSetPhysical(LiteralRemoteFunction):
     @overload
@@ -4712,7 +4881,7 @@ class _AxlCNSSetPhysical(LiteralRemoteFunction):
         Source: algroskill/18consmgt.part01.md:1814
         """
     @overload
-    def __call__(self, t_cset: str | None, t_layer: str | None, ll_constraint_valuesnil: SkillList, /) -> bool | None:
+    def __call__(self, t_cset: str | None, t_layer: str | None, ll_constraint_valuesnil: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         Allows updating physical constraint values
 
@@ -4723,6 +4892,10 @@ class _AxlCNSSetPhysical(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:1814
         """
+    @overload
+    def expr(self, t_cset: str | None, t_layer: str | None, s_constraint: Symbol, g_value: Skill, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, t_cset: str | None, t_layer: str | None, ll_constraint_valuesnil: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlCNSSetPinDelayEnabled(LiteralRemoteFunction):
     def __call__(self, g_value: Skill, /) -> bool:
@@ -4736,6 +4909,7 @@ class _AxlCNSSetPinDelayEnabled(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:147
         """
+    def expr(self, g_value: Skill, /) -> Expr[bool]: ...
 
 class _AxlCNSSetPinDelayPVF(LiteralRemoteFunction):
     def __call__(self, g_value: Skill, /) -> bool | None:
@@ -4749,6 +4923,7 @@ class _AxlCNSSetPinDelayPVF(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:164
         """
+    def expr(self, g_value: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlCNSSetSameNet(LiteralRemoteFunction):
     @overload
@@ -4790,7 +4965,7 @@ class _AxlCNSSetSameNet(LiteralRemoteFunction):
         Source: algroskill/18consmgt.part02.md:183
         """
     @overload
-    def __call__(self, t_cset: str | None, t_layer: str | None, ll_constraint_values: SkillList, value: None, /) -> bool | None:
+    def __call__(self, t_cset: str | None, t_layer: str | None, ll_constraint_values: list[Skill] | tuple[Skill, ...], value: None, /) -> bool | None:
         """
         Documentation same asaxlCNSSetSpacing.
 
@@ -4827,6 +5002,10 @@ class _AxlCNSSetSameNet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:183
         """
+    @overload
+    def expr(self, t_cset: str | None, t_layer: str | None, s_constraint: Symbol, g_value: Skill, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, t_cset: str | None, t_layer: str | None, ll_constraint_values: list[Skill] | tuple[Skill, ...], value: None, /) -> Expr[bool | None]: ...
 
 class _AxlCNSSetSameNetXtalkEnabled(LiteralRemoteFunction):
     def __call__(self, g_value: Skill, /) -> bool:
@@ -4840,6 +5019,7 @@ class _AxlCNSSetSameNetXtalkEnabled(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:231
         """
+    def expr(self, g_value: Skill, /) -> Expr[bool]: ...
 
 class _AxlCNSSetSpacing(LiteralRemoteFunction):
     @overload
@@ -4902,7 +5082,7 @@ class _AxlCNSSetSpacing(LiteralRemoteFunction):
         Source: algroskill/18consmgt.part02.md:55
         """
     @overload
-    def __call__(self, t_cset: str | None, t_layer: str | None, ll_constraint_values: SkillList, value: None, /) -> bool | None:
+    def __call__(self, t_cset: str | None, t_layer: str | None, ll_constraint_values: list[Skill] | tuple[Skill, ...], value: None, /) -> bool | None:
         """
         Allows updating spacing constraint values
 
@@ -4959,6 +5139,10 @@ class _AxlCNSSetSpacing(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:55
         """
+    @overload
+    def expr(self, t_cset: str | None, t_layer: str | None, s_constraint: Symbol, g_value: Skill, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, t_cset: str | None, t_layer: str | None, ll_constraint_values: list[Skill] | tuple[Skill, ...], value: None, /) -> Expr[bool | None]: ...
 
 class _AxlCNSSetViaZEnabled(LiteralRemoteFunction):
     def __call__(self, g_value: Skill, /) -> bool:
@@ -4972,6 +5156,7 @@ class _AxlCNSSetViaZEnabled(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:248
         """
+    def expr(self, g_value: Skill, /) -> Expr[bool]: ...
 
 class _AxlCNSSetViaZPVF(LiteralRemoteFunction):
     def __call__(self, g_value: Skill, /) -> bool | None:
@@ -4989,6 +5174,7 @@ class _AxlCNSSetViaZPVF(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:265
         """
+    def expr(self, g_value: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlCNSSpacingMax(LiteralRemoteFunction):
     def __call__(self, s_spacing_type: Symbol | None = ..., t_layer: str | None = ..., /) -> float:
@@ -5028,6 +5214,7 @@ class _AxlCNSSpacingMax(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:284
         """
+    def expr(self, s_spacing_type: Symbol | None = ..., t_layer: str | None = ..., /) -> Expr[float]: ...
 
 class _AxlCNSSpacingMin(LiteralRemoteFunction):
     def __call__(self, s_spacing_type: Symbol | None = ..., t_layer: str | None = ..., /) -> float:
@@ -5051,6 +5238,7 @@ class _AxlCNSSpacingMin(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:323
         """
+    def expr(self, s_spacing_type: Symbol | None = ..., t_layer: str | None = ..., /) -> Expr[float]: ...
 
 class _AxlCNSSpacingModeGet(LiteralRemoteFunction):
     @overload
@@ -5203,6 +5391,12 @@ class _AxlCNSSpacingModeGet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:352
         """
+    @overload
+    def expr(self, value: None, /) -> Expr[list[Symbol]]: ...
+    @overload
+    def expr(self, all: Symbol, /) -> Expr[Skill]: ...
+    @overload
+    def expr(self, s_name: Symbol | str, /) -> Expr[Symbol | None]: ...
 
 class _AxlCNSSpacingModeSet(LiteralRemoteFunction):
     @overload
@@ -5296,7 +5490,7 @@ class _AxlCNSSpacingModeSet(LiteralRemoteFunction):
         Source: algroskill/18consmgt.part02.md:405
         """
     @overload
-    def __call__(self, l_constraint_n_modes: SkillList, t_mode: str | Skill, /) -> bool | None:
+    def __call__(self, l_constraint_n_modes: list[Skill] | tuple[Skill, ...], t_mode: str | Skill, /) -> bool | None:
         """
         This sets the current drc modes (on/off) for checks in the area of spacing constraints
 
@@ -5342,7 +5536,7 @@ class _AxlCNSSpacingModeSet(LiteralRemoteFunction):
         Source: algroskill/18consmgt.part02.md:405
         """
     @overload
-    def __call__(self, ll_constraint_n_modes: SkillList, /) -> bool | None:
+    def __call__(self, ll_constraint_n_modes: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         This sets the current drc modes (on/off) for checks in the area of spacing constraints
 
@@ -5384,6 +5578,14 @@ class _AxlCNSSpacingModeSet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:405
         """
+    @overload
+    def expr(self, t_name: str | Symbol, t_mode: str | Symbol, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, allt_mode: Symbol | Skill, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, l_constraint_n_modes: list[Skill] | tuple[Skill, ...], t_mode: str | Skill, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, ll_constraint_n_modes: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlCVFColorChooserDlg(LiteralRemoteFunction):
     def __call__(self, x_color_index: int | None = ..., g_show_hilite: Skill = ..., x_hilite_flag: int | None = ..., x_bitmap_index: int | None = ..., /) -> bool | None:
@@ -5406,6 +5608,7 @@ class _AxlCVFColorChooserDlg(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:1436
         """
+    def expr(self, x_color_index: int | None = ..., g_show_hilite: Skill = ..., x_hilite_flag: int | None = ..., x_bitmap_index: int | None = ..., /) -> Expr[bool | None]: ...
 
 class _AxlCancelEnterFun(LiteralRemoteFunction):
     def __call__(self, /) -> bool | None:
@@ -5425,6 +5628,7 @@ class _AxlCancelEnterFun(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:425
         """
+    def expr(self, /) -> Expr[bool | None]: ...
 
 class _AxlCancelOff(LiteralRemoteFunction):
     def __call__(self, /) -> bool:
@@ -5435,6 +5639,7 @@ class _AxlCancelOff(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:365
         """
+    def expr(self, /) -> Expr[bool]: ...
 
 class _AxlCancelOn(LiteralRemoteFunction):
     def __call__(self, /) -> bool:
@@ -5476,6 +5681,7 @@ class _AxlCancelOn(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:369
         """
+    def expr(self, /) -> Expr[bool]: ...
 
 class _AxlCancelTest(LiteralRemoteFunction):
     def __call__(self, /) -> bool | None:
@@ -5486,6 +5692,7 @@ class _AxlCancelTest(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:421
         """
+    def expr(self, /) -> Expr[bool | None]: ...
 
 class _AxlChangeLayer(LiteralRemoteFunction):
     def __call__(self, lo_dbid: list[RemoteObject] | RemoteObject, t_new_layer: str, o_pad_stack_dbid: RemoteObject | str | None = ..., /) -> bool | None:
@@ -5532,6 +5739,7 @@ class _AxlChangeLayer(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:11
         """
+    def expr(self, lo_dbid: list[RemoteObject] | RemoteObject, t_new_layer: str, o_pad_stack_dbid: RemoteObject | str | None = ..., /) -> Expr[bool | None]: ...
 
 class _AxlChangeLine2Cline(LiteralRemoteFunction):
     def __call__(self, lo_dbid: list[RemoteObject] | RemoteObject, /) -> int | None:
@@ -5562,6 +5770,7 @@ class _AxlChangeLine2Cline(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:64
         """
+    def expr(self, lo_dbid: list[RemoteObject] | RemoteObject, /) -> Expr[int | None]: ...
 
 class _AxlChangeLineFont(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, x_new_font: int, /) -> list[RemoteObject] | None:
@@ -5591,6 +5800,7 @@ class _AxlChangeLineFont(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:101
         """
+    def expr(self, o_dbid: RemoteObject, x_new_font: int, /) -> Expr[list[RemoteObject] | None]: ...
 
 class _AxlChangeNet(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, t_net_name: str | RemoteObject, /) -> bool | None:
@@ -5635,6 +5845,7 @@ class _AxlChangeNet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:1152
         """
+    def expr(self, o_dbid: RemoteObject, t_net_name: str | RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlChangeWidth(LiteralRemoteFunction):
     def __call__(self, lo_dbid: list[RemoteObject] | RemoteObject, f_new_width: float, g_invisible: Skill = ..., /) -> list[RemoteObject] | None:
@@ -5676,6 +5887,7 @@ class _AxlChangeWidth(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:144
         """
+    def expr(self, lo_dbid: list[RemoteObject] | RemoteObject, f_new_width: float, g_invisible: Skill = ..., /) -> Expr[list[RemoteObject] | None]: ...
 
 class _AxlCheckString(LiteralRemoteFunction):
     @overload
@@ -5871,6 +6083,12 @@ class _AxlCheckString(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:11
         """
+    @overload
+    def expr(self, t_type: str, t_string: str, /) -> Expr[str | None]: ...
+    @overload
+    def expr(self, value: None, value_2: None, /) -> Expr[list[str]]: ...
+    @overload
+    def expr(self, errornil: Symbol, /) -> Expr[str | None]: ...
 
 class _AxlClasses(LiteralRemoteFunction):
     def __call__(self, /) -> list[str]:
@@ -5890,6 +6108,7 @@ class _AxlClasses(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:1737
         """
+    def expr(self, /) -> Expr[list[str]]: ...
 
 class _AxlClearDynamics(LiteralRemoteFunction):
     def __call__(self, /) -> bool:
@@ -5908,6 +6127,7 @@ class _AxlClearDynamics(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:169
         """
+    def expr(self, /) -> Expr[bool]: ...
 
 class _AxlClearObjectCustomColor(LiteralRemoteFunction):
     def __call__(self, lo_dbid: list[RemoteObject] | None = ..., /) -> bool | None:
@@ -5927,6 +6147,7 @@ class _AxlClearObjectCustomColor(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:1460
         """
+    def expr(self, lo_dbid: list[RemoteObject] | None = ..., /) -> Expr[bool | None]: ...
 
 class _AxlClearSelSet(LiteralRemoteFunction):
     def __call__(self, /) -> bool | None:
@@ -5948,6 +6169,7 @@ class _AxlClearSelSet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/05selfnd.md:729
         """
+    def expr(self, /) -> Expr[bool | None]: ...
 
 class _AxlClipboardGetText(LiteralRemoteFunction):
     def __call__(self, /) -> str | None:
@@ -5971,6 +6193,7 @@ class _AxlClipboardGetText(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:425
         """
+    def expr(self, /) -> Expr[str | None]: ...
 
 class _AxlClipboardSetText(LiteralRemoteFunction):
     def __call__(self, t_text: str | None, /) -> bool | None:
@@ -5993,6 +6216,7 @@ class _AxlClipboardSetText(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:453
         """
+    def expr(self, t_text: str | None, /) -> Expr[bool | None]: ...
 
 class _AxlCloseFindFilter(LiteralRemoteFunction):
     def __call__(self, /) -> bool:
@@ -6006,6 +6230,7 @@ class _AxlCloseFindFilter(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/05selfnd.md:1007
         """
+    def expr(self, /) -> Expr[bool]: ...
 
 class _AxlCmdList(LiteralRemoteFunction):
     def __call__(self, /) -> list[Skill] | None:
@@ -6039,6 +6264,7 @@ class _AxlCmdList(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:81
         """
+    def expr(self, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlCmdRegister(LiteralRemoteFunction):
     def __call__(self, t_allegro_cmd: str, ts_callback: Skill, /, *, cmd_type: str | None = ..., done_cmd: Skill = ..., cancel_cmd: Skill = ..., undo: bool | None = ...) -> bool | None:
@@ -6113,6 +6339,7 @@ class _AxlCmdRegister(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/19cmdctl.md:16
         """
+    def expr(self, t_allegro_cmd: str, ts_callback: Skill, /, *, cmd_type: str | None = ..., done_cmd: Skill = ..., cancel_cmd: Skill = ..., undo: bool | None = ...) -> Expr[bool | None]: ...
 
 class _AxlCmdUnregister(LiteralRemoteFunction):
     def __call__(self, t_allegro_cmd: str, /) -> bool | None:
@@ -6139,6 +6366,7 @@ class _AxlCmdUnregister(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/19cmdctl.md:149
         """
+    def expr(self, t_allegro_cmd: str, /) -> Expr[bool | None]: ...
 
 class _AxlCnsAddVia(LiteralRemoteFunction):
     def __call__(self, t_cset_name: str, t_padstack_name: str, /) -> bool | None:
@@ -6177,6 +6405,7 @@ class _AxlCnsAddVia(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:22
         """
+    def expr(self, t_cset_name: str, t_padstack_name: str, /) -> Expr[bool | None]: ...
 
 class _AxlCnsAssignPurge(LiteralRemoteFunction):
     def __call__(self, s_table_type: Symbol, /) -> int | None:
@@ -6203,9 +6432,10 @@ class _AxlCnsAssignPurge(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:58
         """
+    def expr(self, s_table_type: Symbol, /) -> Expr[int | None]: ...
 
 class _AxlCnsClassTableChange(LiteralRemoteFunction):
-    def __call__(self, o_dbid_class_table: RemoteObject, s_cset_type: Symbol | SkillList, t_cset_name: str | None = ..., /) -> RemoteObject | None:
+    def __call__(self, o_dbid_class_table: RemoteObject, s_cset_type: Symbol | list[Skill] | tuple[Skill, ...], t_cset_name: str | None = ..., /) -> RemoteObject | None:
         """
         This command changes the Csets associated with an existing net class table entry.
 
@@ -6235,9 +6465,10 @@ class _AxlCnsClassTableChange(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:87
         """
+    def expr(self, o_dbid_class_table: RemoteObject, s_cset_type: Symbol | list[Skill] | tuple[Skill, ...], t_cset_name: str | None = ..., /) -> Expr[RemoteObject | None]: ...
 
 class _AxlCnsClassTableCreate(LiteralRemoteFunction):
-    def __call__(self, g_class1: Skill, g_class2: Skill, g_region: Skill, s_cset_type: Symbol | SkillList, t_cset_name: str | None = ..., /) -> RemoteObject | None:
+    def __call__(self, g_class1: Skill, g_class2: Skill, g_region: Skill, s_cset_type: Symbol | list[Skill] | tuple[Skill, ...], t_cset_name: str | None = ..., /) -> RemoteObject | None:
         """
         This command creates a class table entry that consists of any of the following:
 
@@ -6303,6 +6534,7 @@ class _AxlCnsClassTableCreate(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:127
         """
+    def expr(self, g_class1: Skill, g_class2: Skill, g_region: Skill, s_cset_type: Symbol | list[Skill] | tuple[Skill, ...], t_cset_name: str | None = ..., /) -> Expr[RemoteObject | None]: ...
 
 class _AxlCnsClassTableDelete(LiteralRemoteFunction):
     def __call__(self, o_dbid_class_table: RemoteObject | list[RemoteObject], /) -> bool | None:
@@ -6327,6 +6559,7 @@ class _AxlCnsClassTableDelete(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:201
         """
+    def expr(self, o_dbid_class_table: RemoteObject | list[RemoteObject], /) -> Expr[bool | None]: ...
 
 class _AxlCnsClassTableFind(LiteralRemoteFunction):
     def __call__(self, s_type: Symbol, o_dbid: RemoteObject | None = ..., /) -> list[RemoteObject] | None:
@@ -6348,6 +6581,7 @@ class _AxlCnsClassTableFind(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:231
         """
+    def expr(self, s_type: Symbol, o_dbid: RemoteObject | None = ..., /) -> Expr[list[RemoteObject] | None]: ...
 
 class _AxlCnsClassTableSeek(LiteralRemoteFunction):
     def __call__(self, g_class1: Skill, g_class2: Skill, g_region: Skill, /) -> RemoteObject | None:
@@ -6385,6 +6619,7 @@ class _AxlCnsClassTableSeek(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:270
         """
+    def expr(self, g_class1: Skill, g_class2: Skill, g_region: Skill, /) -> Expr[RemoteObject | None]: ...
 
 class _AxlCnsDeleteClassClassObjects(LiteralRemoteFunction):
     def __call__(self, /) -> int:
@@ -6395,6 +6630,7 @@ class _AxlCnsDeleteClassClassObjects(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:410
         """
+    def expr(self, /) -> Expr[int]: ...
 
 class _AxlCnsDeleteRegionClassClassObjects(LiteralRemoteFunction):
     def __call__(self, /) -> int:
@@ -6405,6 +6641,7 @@ class _AxlCnsDeleteRegionClassClassObjects(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:430
         """
+    def expr(self, /) -> Expr[int]: ...
 
 class _AxlCnsDeleteRegionClassObjects(LiteralRemoteFunction):
     def __call__(self, /) -> int:
@@ -6415,6 +6652,7 @@ class _AxlCnsDeleteRegionClassObjects(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:450
         """
+    def expr(self, /) -> Expr[int]: ...
 
 class _AxlCnsDeleteVia(LiteralRemoteFunction):
     def __call__(self, t_cset_name: str, t_padstack_name: str, /) -> bool | None:
@@ -6447,6 +6685,7 @@ class _AxlCnsDeleteVia(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part01.md:470
         """
+    def expr(self, t_cset_name: str, t_padstack_name: str, /) -> Expr[bool | None]: ...
 
 class _AxlCnsGetViaList(LiteralRemoteFunction):
     def __call__(self, t_cset_name: str, /) -> list[str] | None:
@@ -6483,6 +6722,7 @@ class _AxlCnsGetViaList(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:669
         """
+    def expr(self, t_cset_name: str, /) -> Expr[list[str] | None]: ...
 
 class _AxlCnsList(LiteralRemoteFunction):
     def __call__(self, s_cset_domain: Symbol | None, /) -> list[str] | list[Symbol]:
@@ -6515,6 +6755,7 @@ class _AxlCnsList(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:937
         """
+    def expr(self, s_cset_domain: Symbol | None, /) -> Expr[list[str] | list[Symbol]]: ...
 
 class _AxlCnsNetFlattened(LiteralRemoteFunction):
     def __call__(self, o_net_dbid: RemoteObject | str, t_cns_name: str | Symbol, /) -> str | None:
@@ -6567,6 +6808,7 @@ class _AxlCnsNetFlattened(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:1042
         """
+    def expr(self, o_net_dbid: RemoteObject | str, t_cns_name: str | Symbol, /) -> Expr[str | None]: ...
 
 class _AxlCnsPurgeAll(LiteralRemoteFunction):
     def __call__(self, /) -> int:
@@ -6584,9 +6826,10 @@ class _AxlCnsPurgeAll(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:458
         """
+    def expr(self, /) -> Expr[int]: ...
 
 class _AxlCnsPurgeCsets(LiteralRemoteFunction):
-    def __call__(self, list: Skill, l_type: SkillList, /) -> int:
+    def __call__(self, list: Skill, l_type: list[Skill] | tuple[Skill, ...], /) -> int:
         """
         Process all constraint sets of the specified domain and delete those without references.
 
@@ -6605,9 +6848,10 @@ class _AxlCnsPurgeCsets(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:482
         """
+    def expr(self, list: Skill, l_type: list[Skill] | tuple[Skill, ...], /) -> Expr[int]: ...
 
 class _AxlCnsPurgeObjects(LiteralRemoteFunction):
-    def __call__(self, list: Skill, l_type: SkillList, /) -> int:
+    def __call__(self, list: Skill, l_type: list[Skill] | tuple[Skill, ...], /) -> int:
         """
         Process the database and delete all group_type objects that have no members; a netclass with no nets, or a region with no shapes.
 
@@ -6622,6 +6866,7 @@ class _AxlCnsPurgeObjects(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:510
         """
+    def expr(self, list: Skill, l_type: list[Skill] | tuple[Skill, ...], /) -> Expr[int]: ...
 
 class _AxlColorGet(LiteralRemoteFunction):
     @overload
@@ -6811,6 +7056,14 @@ class _AxlColorGet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:997
         """
+    @overload
+    def expr(self, x_number: int | Skill, /) -> Expr[list[Skill] | None]: ...
+    @overload
+    def expr(self, count: Symbol, /) -> Expr[int]: ...
+    @overload
+    def expr(self, all: Symbol, /) -> Expr[Skill]: ...
+    @overload
+    def expr(self, pattern: Symbol, /) -> Expr[int]: ...
 
 class _AxlColorLoad(LiteralRemoteFunction):
     def __call__(self, t_file: str | None, /) -> bool | None:
@@ -6891,6 +7144,7 @@ class _AxlColorLoad(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:1154
         """
+    def expr(self, t_file: str | None, /) -> Expr[bool | None]: ...
 
 class _AxlColorOnGet(LiteralRemoteFunction):
     def __call__(self, g_item: Skill, /) -> bool:
@@ -6903,6 +7157,7 @@ class _AxlColorOnGet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:1250
         """
+    def expr(self, g_item: Skill, /) -> Expr[bool]: ...
 
 class _AxlColorOnSet(LiteralRemoteFunction):
     def __call__(self, g_item: Skill, g_state: Skill, /) -> bool:
@@ -6918,6 +7173,7 @@ class _AxlColorOnSet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:1266
         """
+    def expr(self, g_item: Skill, g_state: Skill, /) -> Expr[bool]: ...
 
 class _AxlColorPriorityGet(LiteralRemoteFunction):
     def __call__(self, g_item: Skill, g_item2: Skill = ..., /) -> None:
@@ -6930,6 +7186,7 @@ class _AxlColorPriorityGet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:1283
         """
+    def expr(self, g_item: Skill, g_item2: Skill = ..., /) -> Expr[None]: ...
 
 class _AxlColorPrioritySet(LiteralRemoteFunction):
     def __call__(self, g_item: Skill, g_item2: Skill = ..., /) -> bool:
@@ -6942,6 +7199,7 @@ class _AxlColorPrioritySet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:1303
         """
+    def expr(self, g_item: Skill, g_item2: Skill = ..., /) -> Expr[bool]: ...
 
 class _AxlColorSave(LiteralRemoteFunction):
     def __call__(self, t_file: str | None, /) -> bool | None:
@@ -6966,6 +7224,7 @@ class _AxlColorSave(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:1323
         """
+    def expr(self, t_file: str | None, /) -> Expr[bool | None]: ...
 
 class _AxlColorSet(LiteralRemoteFunction):
     @overload
@@ -7125,6 +7384,10 @@ class _AxlColorSet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:1352
         """
+    @overload
+    def expr(self, x_number: int | Symbol, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, allll_rgb: Symbol, /) -> Expr[bool | None]: ...
 
 class _AxlColorShadowGet(LiteralRemoteFunction):
     def __call__(self, g_option: Skill, /) -> bool | int | None:
@@ -7152,6 +7415,7 @@ class _AxlColorShadowGet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:1063
         """
+    def expr(self, g_option: Skill, /) -> Expr[bool | int | None]: ...
 
 class _AxlColorShadowSet(LiteralRemoteFunction):
     @overload
@@ -7244,6 +7508,10 @@ class _AxlColorShadowSet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:1101
         """
+    @overload
+    def expr(self, g_modet: Skill | None, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, percentx_percentage: Symbol, /) -> Expr[bool | None]: ...
 
 class _AxlCompAddPin(LiteralRemoteFunction):
     def __call__(self, o_comp: RemoteObject, g_abs_loc: Skill, o_pin: RemoteObject | list[RemoteObject], /) -> bool | None:
@@ -7266,6 +7534,7 @@ class _AxlCompAddPin(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:346
         """
+    def expr(self, o_comp: RemoteObject, g_abs_loc: Skill, o_pin: RemoteObject | list[RemoteObject], /) -> Expr[bool | None]: ...
 
 class _AxlCompDeletePin(LiteralRemoteFunction):
     def __call__(self, o_pin: RemoteObject | list[RemoteObject], /) -> bool | None:
@@ -7285,9 +7554,10 @@ class _AxlCompDeletePin(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:441
         """
+    def expr(self, o_pin: RemoteObject | list[RemoteObject], /) -> Expr[bool | None]: ...
 
 class _AxlCompMovePin(LiteralRemoteFunction):
-    def __call__(self, o_pin: RemoteObject | list[RemoteObject], /, *, move: SkillList | None = ..., group_mirror: bool | None = ..., group_rotation: float | None = ..., rot_origin: SkillList | None = ..., pin_rotation: float | None = ...) -> bool | None:
+    def __call__(self, o_pin: RemoteObject | list[RemoteObject], /, *, move: list[Skill] | tuple[Skill, ...] | None = ..., group_mirror: bool | None = ..., group_rotation: float | None = ..., rot_origin: list[Skill] | tuple[Skill, ...] | None = ..., pin_rotation: float | None = ...) -> bool | None:
         """
         This function moves the specified pin(s) by the specified delta x/y, rotation, and mirror
 
@@ -7305,6 +7575,7 @@ class _AxlCompMovePin(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:466
         """
+    def expr(self, o_pin: RemoteObject | list[RemoteObject], /, *, move: list[Skill] | tuple[Skill, ...] | None = ..., group_mirror: bool | None = ..., group_rotation: float | None = ..., rot_origin: list[Skill] | tuple[Skill, ...] | None = ..., pin_rotation: float | None = ...) -> Expr[bool | None]: ...
 
 class _AxlCompSetPinAttributes(LiteralRemoteFunction):
     def __call__(self, o_pin: RemoteObject | list[RemoteObject], /, *, number: str | None = ..., name: str | None = ..., use: str | None = ..., padstack: str | Skill | None = ..., rotation: float | None = ..., swap_code: Number | None = ...) -> bool | None:
@@ -7330,6 +7601,7 @@ class _AxlCompSetPinAttributes(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:558
         """
+    def expr(self, o_pin: RemoteObject | list[RemoteObject], /, *, number: str | None = ..., name: str | None = ..., use: str | None = ..., padstack: str | Skill | None = ..., rotation: float | None = ..., swap_code: Number | None = ...) -> Expr[bool | None]: ...
 
 class _AxlCompileSymbol(LiteralRemoteFunction):
     def __call__(self, /, *, symbol: str | None = ..., type: str | None = ...) -> str | None:
@@ -7350,6 +7622,7 @@ class _AxlCompileSymbol(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:85
         """
+    def expr(self, /, *, symbol: str | None = ..., type: str | None = ...) -> Expr[str | None]: ...
 
 class _AxlComponentChangeClass(LiteralRemoteFunction):
     def __call__(self, s_dev_type: Symbol | RemoteObject, s_class: Symbol, /) -> str | None:
@@ -7387,6 +7660,7 @@ class _AxlComponentChangeClass(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:517
         """
+    def expr(self, s_dev_type: Symbol | RemoteObject, s_class: Symbol, /) -> Expr[str | None]: ...
 
 class _AxlConductorBottomLayer(LiteralRemoteFunction):
     def __call__(self, /) -> str:
@@ -7405,6 +7679,7 @@ class _AxlConductorBottomLayer(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part02.md:422
         """
+    def expr(self, /) -> Expr[str]: ...
 
 class _AxlConductorTopLayer(LiteralRemoteFunction):
     def __call__(self, /) -> str:
@@ -7423,6 +7698,7 @@ class _AxlConductorTopLayer(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part02.md:443
         """
+    def expr(self, /) -> Expr[str]: ...
 
 class _AxlControlRaise(LiteralRemoteFunction):
     def __call__(self, g_option: Skill, /) -> bool | None:
@@ -7449,9 +7725,10 @@ class _AxlControlRaise(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:911
         """
+    def expr(self, g_option: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlCopyObject(LiteralRemoteFunction):
-    def __call__(self, lo_dbid: list[RemoteObject] | RemoteObject, /, *, move: SkillList | None = ..., mirror: bool | None = ..., angle: float | None = ..., origin: SkillList | None = ..., all_or_none: bool | None = ..., retain_net: bool | None = ...) -> list[RemoteObject] | None:
+    def __call__(self, lo_dbid: list[RemoteObject] | RemoteObject, /, *, move: list[Skill] | tuple[Skill, ...] | None = ..., mirror: bool | None = ..., angle: float | None = ..., origin: list[Skill] | tuple[Skill, ...] | None = ..., all_or_none: bool | None = ..., retain_net: bool | None = ...) -> list[RemoteObject] | None:
         """
         Use this function to copy the database object(s)
 
@@ -7498,6 +7775,7 @@ class _AxlCopyObject(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:237
         """
+    def expr(self, lo_dbid: list[RemoteObject] | RemoteObject, /, *, move: list[Skill] | tuple[Skill, ...] | None = ..., mirror: bool | None = ..., angle: float | None = ..., origin: list[Skill] | tuple[Skill, ...] | None = ..., all_or_none: bool | None = ..., retain_net: bool | None = ...) -> Expr[list[RemoteObject] | None]: ...
 
 class _AxlCopyProperties(LiteralRemoteFunction):
     def __call__(self, o_dest_dbid: RemoteObject, o_src_dbid: RemoteObject, /) -> bool | None:
@@ -7536,6 +7814,7 @@ class _AxlCopyProperties(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:193
         """
+    def expr(self, o_dest_dbid: RemoteObject, o_src_dbid: RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlCreateAttachment(LiteralRemoteFunction):
     def __call__(self, t_attachment_id: str, t_passwd: str, x_revision: int, s_data_format: Symbol, t_data: str, /) -> RemoteObject | None:
@@ -7614,10 +7893,11 @@ class _AxlCreateAttachment(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/16dbatt.md:14
         """
+    def expr(self, t_attachment_id: str, t_passwd: str, x_revision: int, s_data_format: Symbol, t_data: str, /) -> Expr[RemoteObject | None]: ...
 
 class _AxlCreateBondFinger(LiteralRemoteFunction):
     @overload
-    def __call__(self, parent_symbol: Skill, l_finger_data: SkillList, l_placement_data: SkillList, /) -> RemoteObject | None:
+    def __call__(self, parent_symbol: Skill, l_finger_data: list[Skill] | tuple[Skill, ...], l_placement_data: list[Skill] | tuple[Skill, ...], /) -> RemoteObject | None:
         """
         This function adds a valid, fully-instantiated bond finger to the database
 
@@ -7632,7 +7912,7 @@ class _AxlCreateBondFinger(LiteralRemoteFunction):
         Source: algroskill/03dbcre8.part01.md:993
         """
     @overload
-    def __call__(self, parent_symbol: Skill, finger_name: Skill, l_finger_data: SkillList, l_placement_data: SkillList, /) -> RemoteObject | None:
+    def __call__(self, parent_symbol: Skill, finger_name: Skill, l_finger_data: list[Skill] | tuple[Skill, ...], l_placement_data: list[Skill] | tuple[Skill, ...], /) -> RemoteObject | None:
         """
         This function adds a valid, fully-instantiated bond finger to the database
 
@@ -7646,10 +7926,14 @@ class _AxlCreateBondFinger(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:993
         """
+    @overload
+    def expr(self, parent_symbol: Skill, l_finger_data: list[Skill] | tuple[Skill, ...], l_placement_data: list[Skill] | tuple[Skill, ...], /) -> Expr[RemoteObject | None]: ...
+    @overload
+    def expr(self, parent_symbol: Skill, finger_name: Skill, l_finger_data: list[Skill] | tuple[Skill, ...], l_placement_data: list[Skill] | tuple[Skill, ...], /) -> Expr[RemoteObject | None]: ...
 
 class _AxlCreateBondWire(LiteralRemoteFunction):
     @overload
-    def __call__(self, parent_symbol: Skill, l_wire_end: SkillList, l_wire_physical: SkillList, /) -> RemoteObject | None:
+    def __call__(self, parent_symbol: Skill, l_wire_end: list[Skill] | tuple[Skill, ...], l_wire_physical: list[Skill] | tuple[Skill, ...], /) -> RemoteObject | None:
         """
         This function adds a valid, fully-instantiated bond wire to the database
 
@@ -7667,7 +7951,7 @@ class _AxlCreateBondWire(LiteralRemoteFunction):
         Source: algroskill/03dbcre8.part01.md:1035
         """
     @overload
-    def __call__(self, parent_symbol: Skill, l_wire_start: SkillList, l_wire_end: SkillList, l_wire_physical: SkillList, /) -> RemoteObject | None:
+    def __call__(self, parent_symbol: Skill, l_wire_start: list[Skill] | tuple[Skill, ...], l_wire_end: list[Skill] | tuple[Skill, ...], l_wire_physical: list[Skill] | tuple[Skill, ...], /) -> RemoteObject | None:
         """
         This function adds a valid, fully-instantiated bond wire to the database
 
@@ -7684,9 +7968,13 @@ class _AxlCreateBondWire(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:1035
         """
+    @overload
+    def expr(self, parent_symbol: Skill, l_wire_end: list[Skill] | tuple[Skill, ...], l_wire_physical: list[Skill] | tuple[Skill, ...], /) -> Expr[RemoteObject | None]: ...
+    @overload
+    def expr(self, parent_symbol: Skill, l_wire_start: list[Skill] | tuple[Skill, ...], l_wire_end: list[Skill] | tuple[Skill, ...], l_wire_physical: list[Skill] | tuple[Skill, ...], /) -> Expr[RemoteObject | None]: ...
 
 class _AxlCreateDeviceFileTemplate(LiteralRemoteFunction):
-    def __call__(self, t_device_name: str, t_class: str, l_pin_list: SkillList, /) -> bool | None:
+    def __call__(self, t_device_name: str, t_class: str, l_pin_list: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         This creates a template device file providing same functionality as the create device command in the symbol editor
 
@@ -7701,6 +7989,7 @@ class _AxlCreateDeviceFileTemplate(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:321
         """
+    def expr(self, t_device_name: str, t_class: str, l_pin_list: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlCreateWirebondGuide(LiteralRemoteFunction):
     def __call__(self, r_path: RemoteObject, /) -> Skill | None:
@@ -7718,6 +8007,7 @@ class _AxlCreateWirebondGuide(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part02.md:148
         """
+    def expr(self, r_path: RemoteObject, /) -> Expr[Skill | None]: ...
 
 class _AxlCurrentDesign(LiteralRemoteFunction):
     def __call__(self, /) -> str:
@@ -7740,6 +8030,7 @@ class _AxlCurrentDesign(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:14
         """
+    def expr(self, /) -> Expr[str]: ...
 
 class _AxlCursorGet(LiteralRemoteFunction):
     def __call__(self, g_pixel: Skill, /) -> list[Skill]:
@@ -7757,9 +8048,10 @@ class _AxlCursorGet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:480
         """
+    def expr(self, g_pixel: Skill, /) -> Expr[list[Skill]]: ...
 
 class _AxlCursorWarp(LiteralRemoteFunction):
-    def __call__(self, g_pixel: Skill, l_xy: SkillList, /) -> bool | None:
+    def __call__(self, g_pixel: Skill, l_xy: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         Use this command to set the cursor position
 
@@ -7779,6 +8071,7 @@ class _AxlCursorWarp(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:503
         """
+    def expr(self, g_pixel: Skill, l_xy: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlCustomColorObject(LiteralRemoteFunction):
     def __call__(self, lo_dbid: list[RemoteObject] | None = ..., g_custom_color: Skill = ..., /) -> bool | None:
@@ -7815,6 +8108,7 @@ class _AxlCustomColorObject(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:1486
         """
+    def expr(self, lo_dbid: list[RemoteObject] | None = ..., g_custom_color: Skill = ..., /) -> Expr[bool | None]: ...
 
 class _AxlDB2Path(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, /) -> RemoteObject:
@@ -7842,6 +8136,7 @@ class _AxlDB2Path(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:481
         """
+    def expr(self, o_dbid: RemoteObject, /) -> Expr[RemoteObject]: ...
 
 class _AxlDBActiveShape(LiteralRemoteFunction):
     def __call__(self, /) -> RemoteObject | None:
@@ -7859,6 +8154,7 @@ class _AxlDBActiveShape(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:819
         """
+    def expr(self, /) -> Expr[RemoteObject | None]: ...
 
 class _AxlDBAddGroupObjects(LiteralRemoteFunction):
     def __call__(self, o_group: RemoteObject, lo_members: list[RemoteObject], /) -> bool | None:
@@ -7879,9 +8175,10 @@ class _AxlDBAddGroupObjects(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/15dbgrp.md:14
         """
+    def expr(self, o_group: RemoteObject, lo_members: list[RemoteObject], /) -> Expr[bool | None]: ...
 
 class _AxlDBAddProp(LiteralRemoteFunction):
-    def __call__(self, lo_attach: list[RemoteObject], ll_name_value: SkillList, /) -> list[Skill] | None:
+    def __call__(self, lo_attach: list[RemoteObject], ll_name_value: list[Skill] | tuple[Skill, ...], /) -> list[Skill] | None:
         """
         Adds all the property/value pairs listed in`ll_name_value` to all the object `dbids` listed in `lrd_attach`
 
@@ -7908,6 +8205,7 @@ class _AxlDBAddProp(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part02.md:254
         """
+    def expr(self, lo_attach: list[RemoteObject], ll_name_value: list[Skill] | tuple[Skill, ...], /) -> Expr[list[Skill] | None]: ...
 
 class _AxlDBAltOrigin(LiteralRemoteFunction):
     def __call__(self, g_mode: Skill, o_dbid: RemoteObject, /) -> Skill | None:
@@ -7963,6 +8261,7 @@ class _AxlDBAltOrigin(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:290
         """
+    def expr(self, g_mode: Skill, o_dbid: RemoteObject, /) -> Expr[Skill | None]: ...
 
 class _AxlDBAssignNet(LiteralRemoteFunction):
     def __call__(self, o_object: RemoteObject | list[RemoteObject], o_net: RemoteObject | str, g_ripup: Skill = ..., /) -> bool | None:
@@ -8011,9 +8310,10 @@ class _AxlDBAssignNet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/26logacc.md:14
         """
+    def expr(self, o_object: RemoteObject | list[RemoteObject], o_net: RemoteObject | str, g_ripup: Skill = ..., /) -> Expr[bool | None]: ...
 
 class _AxlDBChangeDesignExtents(LiteralRemoteFunction):
-    def __call__(self, l_b_box: SkillList, /) -> bool | None:
+    def __call__(self, l_b_box: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         Changes design extents
 
@@ -8047,9 +8347,10 @@ class _AxlDBChangeDesignExtents(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:765
         """
+    def expr(self, l_b_box: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlDBChangeDesignOrigin(LiteralRemoteFunction):
-    def __call__(self, l_point: SkillList, /) -> bool | None:
+    def __call__(self, l_point: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         Changes the origin of the design
 
@@ -8077,6 +8378,7 @@ class _AxlDBChangeDesignOrigin(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:802
         """
+    def expr(self, l_point: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlDBChangeDesignUnits(LiteralRemoteFunction):
     def __call__(self, t_units: str | None, x_accuracy: int | None, x_drc_count: int | None, /) -> int | None:
@@ -8139,6 +8441,7 @@ class _AxlDBChangeDesignUnits(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:831
         """
+    def expr(self, t_units: str | None, x_accuracy: int | None, x_drc_count: int | None, /) -> Expr[int | None]: ...
 
 class _AxlDBChangeText(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, t_text: str, r_text_orientation: RemoteObject | int | None = ..., /) -> list[Skill] | None:
@@ -8188,9 +8491,10 @@ class _AxlDBChangeText(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:351
         """
+    def expr(self, o_dbid: RemoteObject, t_text: str, r_text_orientation: RemoteObject | int | None = ..., /) -> Expr[list[Skill] | None]: ...
 
 class _AxlDBCheck(LiteralRemoteFunction):
-    def __call__(self, g_option: Skill | SkillList, p_file: Skill = ..., /) -> Skill:
+    def __call__(self, g_option: Skill | list[Skill] | tuple[Skill, ...], p_file: Skill = ..., /) -> Skill:
         """
         Runs*dbdoctor* on the current database
 
@@ -8219,9 +8523,10 @@ class _AxlDBCheck(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:900
         """
+    def expr(self, g_option: Skill | list[Skill] | tuple[Skill, ...], p_file: Skill = ..., /) -> Expr[Skill]: ...
 
 class _AxlDBCloak(LiteralRemoteFunction):
-    def __call__(self, g_func: Skill, g_mode: Skill | SkillList | None = ..., /) -> Skill:
+    def __call__(self, g_func: Skill, g_mode: Skill | list[Skill] | tuple[Skill, ...] | None = ..., /) -> Skill:
         """
         Improves performance and program memory use while modifying many items in the database
 
@@ -8320,6 +8625,7 @@ class _AxlDBCloak(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/17dbtran.md:11
         """
+    def expr(self, g_func: Skill, g_mode: Skill | list[Skill] | tuple[Skill, ...] | None = ..., /) -> Expr[Skill]: ...
 
 class _AxlDBControl(LiteralRemoteFunction):
     def __call__(self, s_name: Symbol, g_value: Skill = ..., /) -> Skill | list[Symbol]:
@@ -8438,6 +8744,7 @@ class _AxlDBControl(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:134
         """
+    def expr(self, s_name: Symbol, g_value: Skill = ..., /) -> Expr[Skill | list[Symbol]]: ...
 
 class _AxlDBCopyPadstack(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject | str, lt_start_end: list[str], g_dont_trim: Skill = ..., /) -> RemoteObject | None:
@@ -8482,9 +8789,10 @@ class _AxlDBCopyPadstack(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:943
         """
+    def expr(self, o_dbid: RemoteObject | str, lt_start_end: list[str], g_dont_trim: Skill = ..., /) -> Expr[RemoteObject | None]: ...
 
 class _AxlDBCreateCircle(LiteralRemoteFunction):
-    def __call__(self, l_location: SkillList, f_width: float | None = ..., t_layer: str | None = ..., rd_parent: Skill = ..., /) -> list[Skill] | None:
+    def __call__(self, l_location: list[Skill] | tuple[Skill, ...], f_width: float | None = ..., t_layer: str | None = ..., rd_parent: Skill = ..., /) -> list[Skill] | None:
         """
         Create a circle at indicated location and with indicated diameter.
 
@@ -8516,6 +8824,7 @@ class _AxlDBCreateCircle(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:622
         """
+    def expr(self, l_location: list[Skill] | tuple[Skill, ...], f_width: float | None = ..., t_layer: str | None = ..., rd_parent: Skill = ..., /) -> Expr[list[Skill] | None]: ...
 
 class _AxlDBCreateCloseShape(LiteralRemoteFunction):
     def __call__(self, o_shape: RemoteObject, g_force_shape: Skill = ..., /) -> list[Skill] | None:
@@ -8539,6 +8848,7 @@ class _AxlDBCreateCloseShape(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:794
         """
+    def expr(self, o_shape: RemoteObject, g_force_shape: Skill = ..., /) -> Expr[list[Skill] | None]: ...
 
 class _AxlDBCreateComponent(LiteralRemoteFunction):
     def __call__(self, s_ref_des: Symbol, s_device_name: Symbol, s_package: Symbol | None = ..., s_value: Symbol | None = ..., s_tolerance: Symbol | None = ..., /) -> RemoteObject | None:
@@ -8579,6 +8889,7 @@ class _AxlDBCreateComponent(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/26logacc.md:96
         """
+    def expr(self, s_ref_des: Symbol, s_device_name: Symbol, s_package: Symbol | None = ..., s_value: Symbol | None = ..., s_tolerance: Symbol | None = ..., /) -> Expr[RemoteObject | None]: ...
 
 class _AxlDBCreateConceptComponent(LiteralRemoteFunction):
     def __call__(self, s_refdes: Symbol, s_part_path: Symbol, s_log_name: Symbol, s_prim_name: Symbol, s_ppt_row_name: Symbol | None = ..., /) -> RemoteObject | None:
@@ -8601,9 +8912,10 @@ class _AxlDBCreateConceptComponent(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/26logacc.md:65
         """
+    def expr(self, s_refdes: Symbol, s_part_path: Symbol, s_log_name: Symbol, s_prim_name: Symbol, s_ppt_row_name: Symbol | None = ..., /) -> Expr[RemoteObject | None]: ...
 
 class _AxlDBCreateExternalDRC(LiteralRemoteFunction):
-    def __call__(self, t_constraint: str | list[str], l_anchor_point: SkillList, t_layer: str | None = ..., lo_dbid: list[RemoteObject] | None = ..., l_second_point: SkillList | None = ..., t_actual_value: str | None = ..., /) -> list[Skill] | None:
+    def __call__(self, t_constraint: str | list[str], l_anchor_point: list[Skill] | tuple[Skill, ...], t_layer: str | None = ..., lo_dbid: list[RemoteObject] | None = ..., l_second_point: list[Skill] | tuple[Skill, ...] | None = ..., t_actual_value: str | None = ..., /) -> list[Skill] | None:
         """
         Creates an externally-defined (by user) DRC containing the values given in the arguments
 
@@ -8701,6 +9013,7 @@ class _AxlDBCreateExternalDRC(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:1061
         """
+    def expr(self, t_constraint: str | list[str], l_anchor_point: list[Skill] | tuple[Skill, ...], t_layer: str | None = ..., lo_dbid: list[RemoteObject] | None = ..., l_second_point: list[Skill] | tuple[Skill, ...] | None = ..., t_actual_value: str | None = ..., /) -> Expr[list[Skill] | None]: ...
 
 class _AxlDBCreateFilmRec(LiteralRemoteFunction):
     def __call__(self, *args: Skill, **kwargs: Skill) -> Skill:
@@ -8715,6 +9028,7 @@ class _AxlDBCreateFilmRec(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part02.md:464
         """
+    def expr(self, *args: Skill, **kwargs: Skill) -> Expr[Skill]: ...
 
 class _AxlDBCreateGroup(LiteralRemoteFunction):
     def __call__(self, t_name: str, t_type: str, lo_group_members: list[RemoteObject], /) -> RemoteObject | None:
@@ -8748,9 +9062,10 @@ class _AxlDBCreateGroup(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/15dbgrp.md:38
         """
+    def expr(self, t_name: str, t_type: str, lo_group_members: list[RemoteObject], /) -> Expr[RemoteObject | None]: ...
 
 class _AxlDBCreateLine(LiteralRemoteFunction):
-    def __call__(self, l_points: SkillList, f_width: float | None = ..., t_layer: str | None = ..., t_net_name: str | Symbol | None = ..., o_parent: RemoteObject | None = ..., s_font: Symbol | None = ..., /) -> list[Skill] | None:
+    def __call__(self, l_points: list[Skill] | tuple[Skill, ...], f_width: float | None = ..., t_layer: str | None = ..., t_net_name: str | Symbol | None = ..., o_parent: RemoteObject | None = ..., s_font: Symbol | None = ..., /) -> list[Skill] | None:
         """
         Create a path of fixed width straight segments, a line with series of provided points
 
@@ -8785,9 +9100,10 @@ class _AxlDBCreateLine(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:576
         """
+    def expr(self, l_points: list[Skill] | tuple[Skill, ...], f_width: float | None = ..., t_layer: str | None = ..., t_net_name: str | Symbol | None = ..., o_parent: RemoteObject | None = ..., s_font: Symbol | None = ..., /) -> Expr[list[Skill] | None]: ...
 
 class _AxlDBCreateManyModuleInstances(LiteralRemoteFunction):
-    def __call__(self, t_name: str, t_moddef_name: str, x_tile_start_num: int, l_origin: SkillList, l_offset: SkillList, x_num_tiles: int, f_rotation: float, x_logic_method: int, l_net_except: SkillList | None = ..., g_mirror: Skill = ..., /) -> RemoteObject | None:
+    def __call__(self, t_name: str, t_moddef_name: str, x_tile_start_num: int, l_origin: list[Skill] | tuple[Skill, ...], l_offset: list[Skill] | tuple[Skill, ...], x_num_tiles: int, f_rotation: float, x_logic_method: int, l_net_except: list[Skill] | tuple[Skill, ...] | None = ..., g_mirror: Skill = ..., /) -> RemoteObject | None:
         """
         Creates multiple module instances in the design
 
@@ -8824,9 +9140,10 @@ class _AxlDBCreateManyModuleInstances(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/26logacc.md:143
         """
+    def expr(self, t_name: str, t_moddef_name: str, x_tile_start_num: int, l_origin: list[Skill] | tuple[Skill, ...], l_offset: list[Skill] | tuple[Skill, ...], x_num_tiles: int, f_rotation: float, x_logic_method: int, l_net_except: list[Skill] | tuple[Skill, ...] | None = ..., g_mirror: Skill = ..., /) -> Expr[RemoteObject | None]: ...
 
 class _AxlDBCreateModuleDef(LiteralRemoteFunction):
-    def __call__(self, t_name: str, l_origin: SkillList, l_objects: SkillList, /) -> bool | None:
+    def __call__(self, t_name: str, l_origin: list[Skill] | tuple[Skill, ...], l_objects: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         Creates a module based on existing database objects.
 
@@ -8864,9 +9181,10 @@ class _AxlDBCreateModuleDef(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/26logacc.md:210
         """
+    def expr(self, t_name: str, l_origin: list[Skill] | tuple[Skill, ...], l_objects: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlDBCreateModuleInstance(LiteralRemoteFunction):
-    def __call__(self, t_name: str, t_moddef_name: str, l_origin: SkillList, r_rotation: RemoteObject, i_logic_method: Number, l_net_except: SkillList, /) -> RemoteObject | None:
+    def __call__(self, t_name: str, t_moddef_name: str, l_origin: list[Skill] | tuple[Skill, ...], r_rotation: RemoteObject, i_logic_method: Number, l_net_except: list[Skill] | tuple[Skill, ...], /) -> RemoteObject | None:
         """
         Allows you to use or place a previously defined module.
 
@@ -8893,6 +9211,7 @@ class _AxlDBCreateModuleInstance(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/26logacc.md:255
         """
+    def expr(self, t_name: str, t_moddef_name: str, l_origin: list[Skill] | tuple[Skill, ...], r_rotation: RemoteObject, i_logic_method: Number, l_net_except: list[Skill] | tuple[Skill, ...], /) -> Expr[RemoteObject | None]: ...
 
 class _AxlDBCreateNet(LiteralRemoteFunction):
     def __call__(self, t_net_name: str, /) -> RemoteObject | None:
@@ -8917,9 +9236,10 @@ class _AxlDBCreateNet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/26logacc.md:291
         """
+    def expr(self, t_net_name: str, /) -> Expr[RemoteObject | None]: ...
 
 class _AxlDBCreateOpenShape(LiteralRemoteFunction):
-    def __call__(self, o_polygon: RemoteObject, l_r_fill: SkillList | None = ..., t_layer: str | None = ..., t_net_name: str | RemoteObject | None = ..., o_parent: RemoteObject | None = ..., /) -> RemoteObject | None:
+    def __call__(self, o_polygon: RemoteObject, l_r_fill: list[Skill] | tuple[Skill, ...] | None = ..., t_layer: str | None = ..., t_net_name: str | RemoteObject | None = ..., o_parent: RemoteObject | None = ..., /) -> RemoteObject | None:
         """
         Creates a shape based on the characteristic of either`o_polygon` or`r_path`
 
@@ -9003,9 +9323,10 @@ class _AxlDBCreateOpenShape(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:689
         """
+    def expr(self, o_polygon: RemoteObject, l_r_fill: list[Skill] | tuple[Skill, ...] | None = ..., t_layer: str | None = ..., t_net_name: str | RemoteObject | None = ..., o_parent: RemoteObject | None = ..., /) -> Expr[RemoteObject | None]: ...
 
 class _AxlDBCreatePadStack(LiteralRemoteFunction):
-    def __call__(self, t_name: str, r_dril: RemoteObject, ll_pad: SkillList, g_nocheck: Skill = ..., /) -> list[Skill] | None:
+    def __call__(self, t_name: str, r_dril: RemoteObject, ll_pad: list[Skill] | tuple[Skill, ...], g_nocheck: Skill = ..., /) -> list[Skill] | None:
         """
         Adds a padstack`t_name`, using drill hole `r_drill` and pad definition `l_pad`.
 
@@ -9013,6 +9334,7 @@ class _AxlDBCreatePadStack(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:1733
         """
+    def expr(self, t_name: str, r_dril: RemoteObject, ll_pad: list[Skill] | tuple[Skill, ...], g_nocheck: Skill = ..., /) -> Expr[list[Skill] | None]: ...
 
 class _AxlDBCreatePath(LiteralRemoteFunction):
     def __call__(self, r_path: RemoteObject, t_layer: str | None = ..., t_net_name: str | Symbol | None = ..., o_parent: RemoteObject | None = ..., lo_props: list[RemoteObject] | None = ..., s_font: Symbol | None = ..., /) -> list[Skill] | None:
@@ -9074,9 +9396,10 @@ class _AxlDBCreatePath(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:511
         """
+    def expr(self, r_path: RemoteObject, t_layer: str | None = ..., t_net_name: str | Symbol | None = ..., o_parent: RemoteObject | None = ..., lo_props: list[RemoteObject] | None = ..., s_font: Symbol | None = ..., /) -> Expr[list[Skill] | None]: ...
 
 class _AxlDBCreatePin(LiteralRemoteFunction):
-    def __call__(self, t_padstack: str | RemoteObject, l_anchor_point: SkillList, r_pin_text: RemoteObject | None, f_rotation: float | None = ..., /) -> list[Skill] | None:
+    def __call__(self, t_padstack: str | RemoteObject, l_anchor_point: list[Skill] | tuple[Skill, ...], r_pin_text: RemoteObject | None, f_rotation: float | None = ..., /) -> list[Skill] | None:
         """
         Adds a pin with padstack`t_padstack`, pin name `r_pinText` at location `l_anchorPoint`, and rotated by `f_rotation` degrees.
 
@@ -9176,10 +9499,11 @@ class _AxlDBCreatePin(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:1165
         """
+    def expr(self, t_padstack: str | RemoteObject, l_anchor_point: list[Skill] | tuple[Skill, ...], r_pin_text: RemoteObject | None, f_rotation: float | None = ..., /) -> Expr[list[Skill] | None]: ...
 
 class _AxlDBCreatePropDictEntry(LiteralRemoteFunction):
     @overload
-    def __call__(self, t_name: str, t_type: str, lt_objects: list[str] | bool, ln_range: SkillList | None = ..., t_units: str | None = ..., g_hidden: Skill = ..., /) -> RemoteObject | None:
+    def __call__(self, t_name: str, t_type: str, lt_objects: list[str] | bool, ln_range: list[Skill] | tuple[Skill, ...] | None = ..., t_units: str | None = ..., g_hidden: Skill = ..., /) -> RemoteObject | None:
         """
         Creates an Allegro user-defined property dictionary entry with given attributes
 
@@ -9270,9 +9594,13 @@ class _AxlDBCreatePropDictEntry(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part02.md:172
         """
+    @overload
+    def expr(self, t_name: str, t_type: str, lt_objects: list[str] | bool, ln_range: list[Skill] | tuple[Skill, ...] | None = ..., t_units: str | None = ..., g_hidden: Skill = ..., /) -> Expr[RemoteObject | None]: ...
+    @overload
+    def expr(self, value: None, /) -> Expr[list[str]]: ...
 
 class _AxlDBCreateRectangle(LiteralRemoteFunction):
-    def __call__(self, l_b_box: SkillList, g_fill: Skill = ..., t_layer: str | None = ..., t_netname: str | None = ..., o_parent: RemoteObject | None = ..., /) -> list[Skill] | None:
+    def __call__(self, l_b_box: list[Skill] | tuple[Skill, ...], g_fill: Skill = ..., t_layer: str | None = ..., t_netname: str | None = ..., o_parent: RemoteObject | None = ..., /) -> list[Skill] | None:
         """
         Creates a rectangle with coordinates specified by`l_bBox`
 
@@ -9334,9 +9662,10 @@ class _AxlDBCreateRectangle(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:935
         """
+    def expr(self, l_b_box: list[Skill] | tuple[Skill, ...], g_fill: Skill = ..., t_layer: str | None = ..., t_netname: str | None = ..., o_parent: RemoteObject | None = ..., /) -> Expr[list[Skill] | None]: ...
 
 class _AxlDBCreateShape(LiteralRemoteFunction):
-    def __call__(self, o_polygon: RemoteObject, l_r_fill: SkillList | None = ..., t_layer: str | None = ..., t_net_name: str | None = ..., o_parent: RemoteObject | None = ..., /) -> list[Skill] | None:
+    def __call__(self, o_polygon: RemoteObject, l_r_fill: list[Skill] | tuple[Skill, ...] | None = ..., t_layer: str | None = ..., t_net_name: str | None = ..., o_parent: RemoteObject | None = ..., /) -> list[Skill] | None:
         """
         Takes the same arguments as`axlDBCreateOpenShape` and adds the `r_path` shape to the database
 
@@ -9355,9 +9684,10 @@ class _AxlDBCreateShape(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:904
         """
+    def expr(self, o_polygon: RemoteObject, l_r_fill: list[Skill] | tuple[Skill, ...] | None = ..., t_layer: str | None = ..., t_net_name: str | None = ..., o_parent: RemoteObject | None = ..., /) -> Expr[list[Skill] | None]: ...
 
 class _AxlDBCreateSymDefSkeleton(LiteralRemoteFunction):
-    def __call__(self, l_symbol_data: SkillList, l_extents: SkillList, l_pin_data: SkillList | None = ..., /) -> Skill | None:
+    def __call__(self, l_symbol_data: list[Skill] | tuple[Skill, ...], l_extents: list[Skill] | tuple[Skill, ...], l_pin_data: list[Skill] | tuple[Skill, ...] | None = ..., /) -> Skill | None:
         """
         Creates a "minimal" symbol definition
 
@@ -9420,10 +9750,11 @@ class _AxlDBCreateSymDefSkeleton(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/26logacc.md:322
         """
+    def expr(self, l_symbol_data: list[Skill] | tuple[Skill, ...], l_extents: list[Skill] | tuple[Skill, ...], l_pin_data: list[Skill] | tuple[Skill, ...] | None = ..., /) -> Expr[Skill | None]: ...
 
 class _AxlDBCreateSymbol(LiteralRemoteFunction):
     @overload
-    def __call__(self, t_refdes: str, l_anchor_point: SkillList, g_mirror: Skill = ..., f_rotation: float | None = ..., t_embedded_layer: str | None = ..., /) -> list[Skill] | None:
+    def __call__(self, t_refdes: str, l_anchor_point: list[Skill] | tuple[Skill, ...], g_mirror: Skill = ..., f_rotation: float | None = ..., t_embedded_layer: str | None = ..., /) -> list[Skill] | None:
         """
         Places a symbol instance in the design
 
@@ -9478,7 +9809,7 @@ class _AxlDBCreateSymbol(LiteralRemoteFunction):
         Source: algroskill/03dbcre8.part01.md:1268
         """
     @overload
-    def __call__(self, l_symbol_data: SkillList, l_anchor_point: SkillList, g_mirror: Skill = ..., f_rotation: float | None = ..., t_embedded_layer: str | None = ..., /) -> list[Skill] | None:
+    def __call__(self, l_symbol_data: list[Skill] | tuple[Skill, ...], l_anchor_point: list[Skill] | tuple[Skill, ...], g_mirror: Skill = ..., f_rotation: float | None = ..., t_embedded_layer: str | None = ..., /) -> list[Skill] | None:
         """
         Places a symbol instance in the design
 
@@ -9532,6 +9863,10 @@ class _AxlDBCreateSymbol(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:1268
         """
+    @overload
+    def expr(self, t_refdes: str, l_anchor_point: list[Skill] | tuple[Skill, ...], g_mirror: Skill = ..., f_rotation: float | None = ..., t_embedded_layer: str | None = ..., /) -> Expr[list[Skill] | None]: ...
+    @overload
+    def expr(self, l_symbol_data: list[Skill] | tuple[Skill, ...], l_anchor_point: list[Skill] | tuple[Skill, ...], g_mirror: Skill = ..., f_rotation: float | None = ..., t_embedded_layer: str | None = ..., /) -> Expr[list[Skill] | None]: ...
 
 class _AxlDBCreateSymbolAutosilk(LiteralRemoteFunction):
     def __call__(self, o_symbol: RemoteObject, /) -> bool | None:
@@ -9551,10 +9886,11 @@ class _AxlDBCreateSymbolAutosilk(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part02.md:129
         """
+    def expr(self, o_symbol: RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlDBCreateSymbolSkeleton(LiteralRemoteFunction):
     @overload
-    def __call__(self, t_refdes: str, l_anchor_point: SkillList, g_mirror: Skill, f_rotation: float, l_pin_data: SkillList, t_embedded_layer: str | None = ..., /) -> list[Skill] | None:
+    def __call__(self, t_refdes: str, l_anchor_point: list[Skill] | tuple[Skill, ...], g_mirror: Skill, f_rotation: float, l_pin_data: list[Skill] | tuple[Skill, ...], t_embedded_layer: str | None = ..., /) -> list[Skill] | None:
         """
         Places a skeleton or a minimal symbol instance at`l_anchorPoint` with mirror and rotation given but no data in the instance, except the pin data given by `l_pinData`
 
@@ -9572,7 +9908,7 @@ class _AxlDBCreateSymbolSkeleton(LiteralRemoteFunction):
         Source: algroskill/03dbcre8.part01.md:1328
         """
     @overload
-    def __call__(self, l_symbol_data: SkillList, l_anchor_point: SkillList, g_mirror: Skill, f_rotation: float, l_pin_data: SkillList, t_embedded_layer: str | None = ..., /) -> list[Skill] | None:
+    def __call__(self, l_symbol_data: list[Skill] | tuple[Skill, ...], l_anchor_point: list[Skill] | tuple[Skill, ...], g_mirror: Skill, f_rotation: float, l_pin_data: list[Skill] | tuple[Skill, ...], t_embedded_layer: str | None = ..., /) -> list[Skill] | None:
         """
         Places a skeleton or a minimal symbol instance at`l_anchorPoint` with mirror and rotation given but no data in the instance, except the pin data given by `l_pinData`
 
@@ -9589,9 +9925,13 @@ class _AxlDBCreateSymbolSkeleton(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:1328
         """
+    @overload
+    def expr(self, t_refdes: str, l_anchor_point: list[Skill] | tuple[Skill, ...], g_mirror: Skill, f_rotation: float, l_pin_data: list[Skill] | tuple[Skill, ...], t_embedded_layer: str | None = ..., /) -> Expr[list[Skill] | None]: ...
+    @overload
+    def expr(self, l_symbol_data: list[Skill] | tuple[Skill, ...], l_anchor_point: list[Skill] | tuple[Skill, ...], g_mirror: Skill, f_rotation: float, l_pin_data: list[Skill] | tuple[Skill, ...], t_embedded_layer: str | None = ..., /) -> Expr[list[Skill] | None]: ...
 
 class _AxlDBCreateText(LiteralRemoteFunction):
-    def __call__(self, t_text: str, l_anchor_point: SkillList, r_text_orientation: RemoteObject, t_layer: str | None = ..., o_attach: RemoteObject | None = ..., /) -> list[Skill] | None:
+    def __call__(self, t_text: str, l_anchor_point: list[Skill] | tuple[Skill, ...], r_text_orientation: RemoteObject, t_layer: str | None = ..., o_attach: RemoteObject | None = ..., /) -> list[Skill] | None:
         """
         Creates a text string in the layout using the arguments described.
 
@@ -9627,9 +9967,10 @@ class _AxlDBCreateText(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part02.md:39
         """
+    def expr(self, t_text: str, l_anchor_point: list[Skill] | tuple[Skill, ...], r_text_orientation: RemoteObject, t_layer: str | None = ..., o_attach: RemoteObject | None = ..., /) -> Expr[list[Skill] | None]: ...
 
 class _AxlDBCreateVia(LiteralRemoteFunction):
-    def __call__(self, t_padstack: str | RemoteObject, l_anchor_point: SkillList, t_net_name: str | None = ..., g_mirror: Skill = ..., f_rotation: float | None = ..., o_parent: RemoteObject | None = ..., /) -> list[Skill] | None:
+    def __call__(self, t_padstack: str | RemoteObject, l_anchor_point: list[Skill] | tuple[Skill, ...], t_net_name: str | None = ..., g_mirror: Skill = ..., f_rotation: float | None = ..., o_parent: RemoteObject | None = ..., /) -> list[Skill] | None:
         """
         Creates a via in the layout as specified by the arguments described below.
 
@@ -9656,6 +9997,7 @@ class _AxlDBCreateVia(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part02.md:90
         """
+    def expr(self, t_padstack: str | RemoteObject, l_anchor_point: list[Skill] | tuple[Skill, ...], t_net_name: str | None = ..., g_mirror: Skill = ..., f_rotation: float | None = ..., o_parent: RemoteObject | None = ..., /) -> Expr[list[Skill] | None]: ...
 
 class _AxlDBCreateVoid(LiteralRemoteFunction):
     def __call__(self, o_shape: RemoteObject | None, r_path: RemoteObject, /) -> RemoteObject | None:
@@ -9686,9 +10028,10 @@ class _AxlDBCreateVoid(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:866
         """
+    def expr(self, o_shape: RemoteObject | None, r_path: RemoteObject, /) -> Expr[RemoteObject | None]: ...
 
 class _AxlDBCreateVoidCircle(LiteralRemoteFunction):
-    def __call__(self, o_shape: RemoteObject, l_location: SkillList, f_width: float | None = ..., /) -> RemoteObject | None:
+    def __call__(self, o_shape: RemoteObject, l_location: list[Skill] | tuple[Skill, ...], f_width: float | None = ..., /) -> RemoteObject | None:
         """
         Creates a circular void in the open shape`o_shape`
 
@@ -9710,6 +10053,7 @@ class _AxlDBCreateVoidCircle(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:841
         """
+    def expr(self, o_shape: RemoteObject, l_location: list[Skill] | tuple[Skill, ...], f_width: float | None = ..., /) -> Expr[RemoteObject | None]: ...
 
 class _AxlDBDelLock(LiteralRemoteFunction):
     def __call__(self, t_password: str | None = ..., /) -> bool | None:
@@ -9744,6 +10088,7 @@ class _AxlDBDelLock(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:983
         """
+    def expr(self, t_password: str | None = ..., /) -> Expr[bool | None]: ...
 
 class _AxlDBDeleteProp(LiteralRemoteFunction):
     def __call__(self, lo_attach: list[RemoteObject], lt_name: list[str], /) -> list[Skill] | None:
@@ -9777,6 +10122,7 @@ class _AxlDBDeleteProp(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:512
         """
+    def expr(self, lo_attach: list[RemoteObject], lt_name: list[str], /) -> Expr[list[Skill] | None]: ...
 
 class _AxlDBDeletePropAll(LiteralRemoteFunction):
     def __call__(self, t_name: str, /) -> int | None:
@@ -9803,6 +10149,7 @@ class _AxlDBDeletePropAll(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:552
         """
+    def expr(self, t_name: str, /) -> Expr[int | None]: ...
 
 class _AxlDBDeletePropDictEntry(LiteralRemoteFunction):
     def __call__(self, t_name: str, /) -> bool | None:
@@ -9813,6 +10160,7 @@ class _AxlDBDeletePropDictEntry(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:581
         """
+    def expr(self, t_name: str, /) -> Expr[bool | None]: ...
 
 class _AxlDBDisbandGroup(LiteralRemoteFunction):
     def __call__(self, o_group: RemoteObject, /) -> bool | None:
@@ -9832,6 +10180,7 @@ class _AxlDBDisbandGroup(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/15dbgrp.md:125
         """
+    def expr(self, o_group: RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlDBDisplayControl(LiteralRemoteFunction):
     def __call__(self, s_name: Symbol, g_value: Skill = ..., /) -> Skill | list[Symbol]:
@@ -9912,6 +10261,7 @@ class _AxlDBDisplayControl(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:1469
         """
+    def expr(self, s_name: Symbol, g_value: Skill = ..., /) -> Expr[Skill | list[Symbol]]: ...
 
 class _AxlDBDummyNet(LiteralRemoteFunction):
     def __call__(self, g_mode: Skill, /) -> list[RemoteObject] | None:
@@ -9947,6 +10297,7 @@ class _AxlDBDummyNet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/26logacc.md:384
         """
+    def expr(self, g_mode: Skill, /) -> Expr[list[RemoteObject] | None]: ...
 
 class _AxlDBDynamicShapes(LiteralRemoteFunction):
     def __call__(self, g_value: Skill, /) -> int:
@@ -9965,6 +10316,7 @@ class _AxlDBDynamicShapes(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:939
         """
+    def expr(self, g_value: Skill, /) -> Expr[int]: ...
 
 class _AxlDBFindByName(LiteralRemoteFunction):
     def __call__(self, s_type: Symbol, t_name: str, /) -> RemoteObject | None:
@@ -9999,6 +10351,7 @@ class _AxlDBFindByName(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/05selfnd.md:1024
         """
+    def expr(self, s_type: Symbol, t_name: str, /) -> Expr[RemoteObject | None]: ...
 
 class _AxlDBGetAttachedText(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, /) -> list[Skill] | None:
@@ -10030,6 +10383,7 @@ class _AxlDBGetAttachedText(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:273
         """
+    def expr(self, o_dbid: RemoteObject, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlDBGetConnect(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, t_full: str | None = ..., /) -> list[Skill] | None:
@@ -10070,6 +10424,7 @@ class _AxlDBGetConnect(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:581
         """
+    def expr(self, o_dbid: RemoteObject, t_full: str | None = ..., /) -> Expr[list[Skill] | None]: ...
 
 class _AxlDBGetDesign(LiteralRemoteFunction):
     def __call__(self, /) -> RemoteObject | None:
@@ -10107,6 +10462,7 @@ class _AxlDBGetDesign(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:179
         """
+    def expr(self, /) -> Expr[RemoteObject | None]: ...
 
 class _AxlDBGetDesignUnits(LiteralRemoteFunction):
     def __call__(self, /) -> list[Skill] | None:
@@ -10128,6 +10484,7 @@ class _AxlDBGetDesignUnits(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:495
         """
+    def expr(self, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlDBGetDrillPlating(LiteralRemoteFunction):
     def __call__(self, t_padstackname: str, /) -> Symbol | None:
@@ -10145,6 +10502,7 @@ class _AxlDBGetDrillPlating(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:223
         """
+    def expr(self, t_padstackname: str, /) -> Expr[Symbol | None]: ...
 
 class _AxlDBGetExtents(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, g_visible_only: Skill, /) -> Skill | None:
@@ -10170,6 +10528,7 @@ class _AxlDBGetExtents(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:346
         """
+    def expr(self, o_dbid: RemoteObject, g_visible_only: Skill, /) -> Expr[Skill | None]: ...
 
 class _AxlDBGetGroupFromItem(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, t_group_type: str, g_promote_to_net: Skill = ..., /) -> list[RemoteObject] | None:
@@ -10191,6 +10550,7 @@ class _AxlDBGetGroupFromItem(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/15dbgrp.md:148
         """
+    def expr(self, o_dbid: RemoteObject, t_group_type: str, g_promote_to_net: Skill = ..., /) -> Expr[list[RemoteObject] | None]: ...
 
 class _AxlDBGetLayerType(LiteralRemoteFunction):
     def __call__(self, t_layername: str, /) -> str | None:
@@ -10217,6 +10577,7 @@ class _AxlDBGetLayerType(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:1763
         """
+    def expr(self, t_layername: str, /) -> Expr[str | None]: ...
 
 class _AxlDBGetLength(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, /) -> float | None:
@@ -10240,6 +10601,7 @@ class _AxlDBGetLength(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:154
         """
+    def expr(self, o_dbid: RemoteObject, /) -> Expr[float | None]: ...
 
 class _AxlDBGetLock(LiteralRemoteFunction):
     def __call__(self, /) -> list[Skill] | None:
@@ -10266,6 +10628,7 @@ class _AxlDBGetLock(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:1018
         """
+    def expr(self, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlDBGetLonelyBranches(LiteralRemoteFunction):
     def __call__(self, /) -> list[Skill] | None:
@@ -10289,6 +10652,7 @@ class _AxlDBGetLonelyBranches(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:555
         """
+    def expr(self, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlDBGetManhattan(LiteralRemoteFunction):
     def __call__(self, o_dbi: RemoteObject, d_net: Skill, /) -> list[Skill] | None:
@@ -10322,6 +10686,7 @@ class _AxlDBGetManhattan(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:186
         """
+    def expr(self, o_dbi: RemoteObject, d_net: Skill, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlDBGetPad(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, t_layer: str, t_type: str, /) -> RemoteObject | None:
@@ -10381,6 +10746,7 @@ class _AxlDBGetPad(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:304
         """
+    def expr(self, o_dbid: RemoteObject, t_layer: str, t_type: str, /) -> Expr[RemoteObject | None]: ...
 
 class _AxlDBGetPropDict(LiteralRemoteFunction):
     def __call__(self, s_filter: Symbol | None, /) -> list[str]:
@@ -10412,6 +10778,7 @@ class _AxlDBGetPropDict(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:375
         """
+    def expr(self, s_filter: Symbol | None, /) -> Expr[list[str]]: ...
 
 class _AxlDBGetPropDictEntry(LiteralRemoteFunction):
     @overload
@@ -10477,6 +10844,10 @@ class _AxlDBGetPropDictEntry(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:411
         """
+    @overload
+    def expr(self, t_name: str, /) -> Expr[RemoteObject | None]: ...
+    @overload
+    def expr(self, value: None, /) -> Expr[list[str]]: ...
 
 class _AxlDBGetProperties(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, lt_type: list[str] | None = ..., /) -> list[Skill] | None:
@@ -10521,6 +10892,7 @@ class _AxlDBGetProperties(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:449
         """
+    def expr(self, o_dbid: RemoteObject, lt_type: list[str] | None = ..., /) -> Expr[list[Skill] | None]: ...
 
 class _AxlDBGetShapes(LiteralRemoteFunction):
     def __call__(self, t_layer: str, /) -> list[Skill] | None:
@@ -10563,6 +10935,7 @@ class _AxlDBGetShapes(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:957
         """
+    def expr(self, t_layer: str, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlDBGetSymbolBodyExtent(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, /) -> Skill | None:
@@ -10588,6 +10961,7 @@ class _AxlDBGetSymbolBodyExtent(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:225
         """
+    def expr(self, o_dbid: RemoteObject, /) -> Expr[Skill | None]: ...
 
 class _AxlDBGetTextBlockCount(LiteralRemoteFunction):
     def __call__(self, /) -> int:
@@ -10608,6 +10982,7 @@ class _AxlDBGetTextBlockCount(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:50
         """
+    def expr(self, /) -> Expr[int]: ...
 
 class _AxlDBGridGet(LiteralRemoteFunction):
     @overload
@@ -10709,6 +11084,10 @@ class _AxlDBGridGet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:73
         """
+    @overload
+    def expr(self, value: None, /) -> Expr[list[str]]: ...
+    @overload
+    def expr(self, t_grid_name: str, /) -> Expr[Skill]: ...
 
 class _AxlDBGridSet(LiteralRemoteFunction):
     def __call__(self, og_grid: Skill, /) -> bool | None:
@@ -10771,6 +11150,7 @@ class _AxlDBGridSet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:130
         """
+    def expr(self, og_grid: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlDBGroupRename(LiteralRemoteFunction):
     def __call__(self, o_group_dbid: RemoteObject, t_new_name: str, /) -> bool | None:
@@ -10793,6 +11173,7 @@ class _AxlDBGroupRename(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/15dbgrp.md:188
         """
+    def expr(self, o_group_dbid: RemoteObject, t_new_name: str, /) -> Expr[bool | None]: ...
 
 class _AxlDBIgnoreFixed(LiteralRemoteFunction):
     def __call__(self, g_ignore: Skill = ..., /) -> bool | None:
@@ -10842,6 +11223,7 @@ class _AxlDBIgnoreFixed(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:374
         """
+    def expr(self, g_ignore: Skill = ..., /) -> Expr[bool | None]: ...
 
 class _AxlDBIsBondingWireLayer(LiteralRemoteFunction):
     def __call__(self, t_layer_name: str, /) -> bool | None:
@@ -10870,6 +11252,7 @@ class _AxlDBIsBondingWireLayer(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:589
         """
+    def expr(self, t_layer_name: str, /) -> Expr[bool | None]: ...
 
 class _AxlDBIsBondpad(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, /) -> bool | None:
@@ -10891,6 +11274,7 @@ class _AxlDBIsBondpad(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:620
         """
+    def expr(self, o_dbid: RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlDBIsBondwire(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, /) -> bool | None:
@@ -10912,6 +11296,7 @@ class _AxlDBIsBondwire(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:641
         """
+    def expr(self, o_dbid: RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlDBIsDiePad(LiteralRemoteFunction):
     def __call__(self, rd_dbid: Skill, /) -> bool | None:
@@ -10933,6 +11318,7 @@ class _AxlDBIsDiePad(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:662
         """
+    def expr(self, rd_dbid: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlDBIsDieStackLayer(LiteralRemoteFunction):
     def __call__(self, t_layer_name: str, /) -> Skill:
@@ -10950,6 +11336,7 @@ class _AxlDBIsDieStackLayer(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:961
         """
+    def expr(self, t_layer_name: str, /) -> Expr[Skill]: ...
 
 class _AxlDBIsFixed(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, g_show_message: Skill = ..., /) -> Skill:
@@ -10993,6 +11380,7 @@ class _AxlDBIsFixed(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:621
         """
+    def expr(self, o_dbid: RemoteObject, g_show_message: Skill = ..., /) -> Expr[Skill]: ...
 
 class _AxlDBIsPackagePin(LiteralRemoteFunction):
     def __call__(self, rd_dbid: Skill, /) -> bool | None:
@@ -11014,6 +11402,7 @@ class _AxlDBIsPackagePin(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:669
         """
+    def expr(self, rd_dbid: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlDBIsPlatingbarPin(LiteralRemoteFunction):
     def __call__(self, rd_dbid: Skill, /) -> bool | None:
@@ -11035,6 +11424,7 @@ class _AxlDBIsPlatingbarPin(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:683
         """
+    def expr(self, rd_dbid: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlDBIsReadOnly(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, /) -> bool | None:
@@ -11063,6 +11453,7 @@ class _AxlDBIsReadOnly(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:426
         """
+    def expr(self, o_dbid: RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlDBMemoryReclaim(LiteralRemoteFunction):
     def __call__(self, /) -> int:
@@ -11097,6 +11488,7 @@ class _AxlDBMemoryReclaim(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:1052
         """
+    def expr(self, /) -> Expr[int]: ...
 
 class _AxlDBOpenShape(LiteralRemoteFunction):
     def __call__(self, o_shape_dbid: RemoteObject | None, o_polygon: RemoteObject | None = ..., g_close: Skill = ..., /) -> RemoteObject | None:
@@ -11165,6 +11557,7 @@ class _AxlDBOpenShape(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:610
         """
+    def expr(self, o_shape_dbid: RemoteObject | None, o_polygon: RemoteObject | None = ..., g_close: Skill = ..., /) -> Expr[RemoteObject | None]: ...
 
 class _AxlDBPinPairLength(LiteralRemoteFunction):
     def __call__(self, o_pin1: RemoteObject, o_pin2: RemoteObject, /) -> float | None:
@@ -11194,6 +11587,7 @@ class _AxlDBPinPairLength(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:254
         """
+    def expr(self, o_pin1: RemoteObject, o_pin2: RemoteObject, /) -> Expr[float | None]: ...
 
 class _AxlDBRefreshId(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject | None, /) -> RemoteObject | None:
@@ -11225,6 +11619,7 @@ class _AxlDBRefreshId(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:519
         """
+    def expr(self, o_dbid: RemoteObject | None, /) -> Expr[RemoteObject | None]: ...
 
 class _AxlDBRemoveGroupObjects(LiteralRemoteFunction):
     def __call__(self, o_group: RemoteObject, lo_members: list[RemoteObject], /) -> bool | None:
@@ -11245,6 +11640,7 @@ class _AxlDBRemoveGroupObjects(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/15dbgrp.md:214
         """
+    def expr(self, o_group: RemoteObject, lo_members: list[RemoteObject], /) -> Expr[bool | None]: ...
 
 class _AxlDBSectorSize(LiteralRemoteFunction):
     def __call__(self, f_size: float | None = ..., /) -> None:
@@ -11257,6 +11653,7 @@ class _AxlDBSectorSize(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:457
         """
+    def expr(self, f_size: float | None = ..., /) -> Expr[None]: ...
 
 class _AxlDBSetLock(LiteralRemoteFunction):
     def __call__(self, password: Symbol | None = ..., t_password: str | None = ..., locklevel: Symbol | None = ..., t_locklevel: str | None = ..., expiration: Symbol | None = ..., t_expiration: str | int | None = ..., comments: Symbol | None = ..., t_comments: str | None = ..., use_ntp: Symbol | None = ..., t: bool | None = ..., ntp_server: Symbol | None = ..., t_server: str | None = ..., /) -> bool | None:
@@ -11294,6 +11691,7 @@ class _AxlDBSetLock(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:1094
         """
+    def expr(self, password: Symbol | None = ..., t_password: str | None = ..., locklevel: Symbol | None = ..., t_locklevel: str | None = ..., expiration: Symbol | None = ..., t_expiration: str | int | None = ..., comments: Symbol | None = ..., t_comments: str | None = ..., use_ntp: Symbol | None = ..., t: bool | None = ..., ntp_server: Symbol | None = ..., t_server: str | None = ..., /) -> Expr[bool | None]: ...
 
 class _AxlDBTextBlockCompact(LiteralRemoteFunction):
     def __call__(self, t: bool | None, /) -> int:
@@ -11327,6 +11725,7 @@ class _AxlDBTextBlockCompact(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:994
         """
+    def expr(self, t: bool | None, /) -> Expr[int]: ...
 
 class _AxlDBTextBlockCreate(LiteralRemoteFunction):
     def __call__(self, x_block_template: int, /, *, width: float | None = ..., height: float | None = ..., line_space: float | None = ..., char_space: float | None = ..., photo_width: float | None = ...) -> Skill:
@@ -11352,6 +11751,7 @@ class _AxlDBTextBlockCreate(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:205
         """
+    def expr(self, x_block_template: int, /, *, width: float | None = ..., height: float | None = ..., line_space: float | None = ..., char_space: float | None = ..., photo_width: float | None = ...) -> Expr[Skill]: ...
 
 class _AxlDBTextBlockFindName(LiteralRemoteFunction):
     def __call__(self, t_text_block_name: str, /) -> int | None:
@@ -11380,6 +11780,7 @@ class _AxlDBTextBlockFindName(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:239
         """
+    def expr(self, t_text_block_name: str, /) -> Expr[int | None]: ...
 
 class _AxlDBTextBlockGetName(LiteralRemoteFunction):
     def __call__(self, x_text_block_number: int, /) -> str | None:
@@ -11404,6 +11805,7 @@ class _AxlDBTextBlockGetName(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:268
         """
+    def expr(self, x_text_block_number: int, /) -> Expr[str | None]: ...
 
 class _AxlDBTextBlockSetName(LiteralRemoteFunction):
     def __call__(self, x_text_block_number: int, t_name: str, /) -> bool | None:
@@ -11429,6 +11831,7 @@ class _AxlDBTextBlockSetName(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:291
         """
+    def expr(self, x_text_block_number: int, t_name: str, /) -> Expr[bool | None]: ...
 
 class _AxlDBTransactionCommit(LiteralRemoteFunction):
     def __call__(self, x_mark: int, /) -> bool | None:
@@ -11449,6 +11852,7 @@ class _AxlDBTransactionCommit(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/17dbtran.md:127
         """
+    def expr(self, x_mark: int, /) -> Expr[bool | None]: ...
 
 class _AxlDBTransactionMark(LiteralRemoteFunction):
     def __call__(self, x_mark: int, /) -> bool | None:
@@ -11473,6 +11877,7 @@ class _AxlDBTransactionMark(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/17dbtran.md:150
         """
+    def expr(self, x_mark: int, /) -> Expr[bool | None]: ...
 
 class _AxlDBTransactionOops(LiteralRemoteFunction):
     def __call__(self, x_mark: int, /) -> bool | None:
@@ -11497,6 +11902,7 @@ class _AxlDBTransactionOops(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/17dbtran.md:175
         """
+    def expr(self, x_mark: int, /) -> Expr[bool | None]: ...
 
 class _AxlDBTransactionRollback(LiteralRemoteFunction):
     def __call__(self, x_mark: int, /) -> bool | None:
@@ -11517,6 +11923,7 @@ class _AxlDBTransactionRollback(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/17dbtran.md:200
         """
+    def expr(self, x_mark: int, /) -> Expr[bool | None]: ...
 
 class _AxlDBTransactionStart(LiteralRemoteFunction):
     def __call__(self, g_undo_mark: Skill = ..., /) -> int | None:
@@ -11593,6 +12000,7 @@ class _AxlDBTransactionStart(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/17dbtran.md:223
         """
+    def expr(self, g_undo_mark: Skill = ..., /) -> Expr[int | None]: ...
 
 class _AxlDBTuneSectorSize(LiteralRemoteFunction):
     def __call__(self, /) -> list[Skill] | None:
@@ -11613,6 +12021,7 @@ class _AxlDBTuneSectorSize(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:1148
         """
+    def expr(self, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlDMBrowsePath(LiteralRemoteFunction):
     def __call__(self, t_ads_file_type: str, t_title: str | None = ..., t_help_tag: str | None = ..., /) -> str | None:
@@ -11641,6 +12050,7 @@ class _AxlDMBrowsePath(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/21filacc.md:242
         """
+    def expr(self, t_ads_file_type: str, t_title: str | None = ..., t_help_tag: str | None = ..., /) -> Expr[str | None]: ...
 
 class _AxlDMClose(LiteralRemoteFunction):
     def __call__(self, p_port: Skill, /) -> bool | None:
@@ -11671,6 +12081,7 @@ class _AxlDMClose(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/21filacc.md:209
         """
+    def expr(self, p_port: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlDMDirectoryBrowse(LiteralRemoteFunction):
     def __call__(self, t_starting_directory: str, g_write_flag: Skill, /, *, help_tag: str | None = ..., title: str | None = ...) -> str | None:
@@ -11699,6 +12110,7 @@ class _AxlDMDirectoryBrowse(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/21filacc.md:269
         """
+    def expr(self, t_starting_directory: str, g_write_flag: Skill, /, *, help_tag: str | None = ..., title: str | None = ...) -> Expr[str | None]: ...
 
 class _AxlDMFileBrowse(LiteralRemoteFunction):
     def __call__(self, t_file_type: str, g_write_flag: Skill, /, *, default_name: str | None = ..., help_tag: str | None = ..., directory_set: Skill = ..., no_directory_button: Skill = ..., main_file: Skill = ..., no_sticky: Skill = ..., title: str | None = ..., opt_filters: str | None = ...) -> str | None:
@@ -11747,6 +12159,7 @@ class _AxlDMFileBrowse(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/21filacc.md:299
         """
+    def expr(self, t_file_type: str, g_write_flag: Skill, /, *, default_name: str | None = ..., help_tag: str | None = ..., directory_set: Skill = ..., no_directory_button: Skill = ..., main_file: Skill = ..., no_sticky: Skill = ..., title: str | None = ..., opt_filters: str | None = ...) -> Expr[str | None]: ...
 
 class _AxlDMFileError(LiteralRemoteFunction):
     def __call__(self, /) -> str | None:
@@ -11772,6 +12185,7 @@ class _AxlDMFileError(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/21filacc.md:16
         """
+    def expr(self, /) -> Expr[str | None]: ...
 
 class _AxlDMFileParts(LiteralRemoteFunction):
     def __call__(self, t_filespec: str, /) -> Skill:
@@ -11801,6 +12215,7 @@ class _AxlDMFileParts(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/21filacc.md:349
         """
+    def expr(self, t_filespec: str, /) -> Expr[Skill]: ...
 
 class _AxlDMFindFile(LiteralRemoteFunction):
     def __call__(self, t_id: str, t_name: str, t_mode: str, t_prop: str | None = ..., /) -> str | None:
@@ -11832,6 +12247,7 @@ class _AxlDMFindFile(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/21filacc.md:46
         """
+    def expr(self, t_id: str, t_name: str, t_mode: str, t_prop: str | None = ..., /) -> Expr[str | None]: ...
 
 class _AxlDMGetFile(LiteralRemoteFunction):
     def __call__(self, t_id: str, t_name: str, t_mode: str, t_prop: str | None = ..., /) -> str | None:
@@ -11861,6 +12277,7 @@ class _AxlDMGetFile(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/21filacc.md:83
         """
+    def expr(self, t_id: str, t_name: str, t_mode: str, t_prop: str | None = ..., /) -> Expr[str | None]: ...
 
 class _AxlDMOpenFile(LiteralRemoteFunction):
     def __call__(self, t_id: str, t_name: str, t_mode: str, /) -> Skill | None:
@@ -11905,6 +12322,7 @@ class _AxlDMOpenFile(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/21filacc.md:125
         """
+    def expr(self, t_id: str, t_name: str, t_mode: str, /) -> Expr[Skill | None]: ...
 
 class _AxlDMOpenLog(LiteralRemoteFunction):
     def __call__(self, t_program: str, /) -> Skill | None:
@@ -11931,6 +12349,7 @@ class _AxlDMOpenLog(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/21filacc.md:180
         """
+    def expr(self, t_program: str, /) -> Expr[Skill | None]: ...
 
 class _AxlDRCGetCount(LiteralRemoteFunction):
     def __call__(self, /) -> int:
@@ -11946,6 +12365,7 @@ class _AxlDRCGetCount(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:824
         """
+    def expr(self, /) -> Expr[int]: ...
 
 class _AxlDRCItem(LiteralRemoteFunction):
     def __call__(self, g_mode: Skill, o_dbid: RemoteObject | list[RemoteObject], /) -> int | list[RemoteObject] | None:
@@ -11984,6 +12404,7 @@ class _AxlDRCItem(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:841
         """
+    def expr(self, g_mode: Skill, o_dbid: RemoteObject | list[RemoteObject], /) -> Expr[int | list[RemoteObject] | None]: ...
 
 class _AxlDRCUpdate(LiteralRemoteFunction):
     def __call__(self, g_mode: Skill, /) -> int | None:
@@ -12021,6 +12442,7 @@ class _AxlDRCUpdate(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:730
         """
+    def expr(self, g_mode: Skill, /) -> Expr[int | None]: ...
 
 class _AxlDRCWaive(LiteralRemoteFunction):
     def __call__(self, g_mode: Skill, o_drc_dbid: RemoteObject | list[RemoteObject], t_comment: str | None = ..., /) -> bool | None:
@@ -12052,6 +12474,7 @@ class _AxlDRCWaive(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:770
         """
+    def expr(self, g_mode: Skill, o_drc_dbid: RemoteObject | list[RemoteObject], t_comment: str | None = ..., /) -> Expr[bool | None]: ...
 
 class _AxlDRCWaiveGetCount(LiteralRemoteFunction):
     def __call__(self, /) -> int:
@@ -12062,6 +12485,7 @@ class _AxlDRCWaiveGetCount(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:884
         """
+    def expr(self, /) -> Expr[int]: ...
 
 class _AxlDbidName(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, /) -> str | None:
@@ -12104,6 +12528,7 @@ class _AxlDbidName(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/26logacc.md:424
         """
+    def expr(self, o_dbid: RemoteObject, /) -> Expr[str | None]: ...
 
 class _AxlDebug(LiteralRemoteFunction):
     def __call__(self, t: bool | None, /) -> bool | None:
@@ -12118,6 +12543,7 @@ class _AxlDebug(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:115
         """
+    def expr(self, t: bool | None, /) -> Expr[bool | None]: ...
 
 class _AxlDegToRad(LiteralRemoteFunction):
     def __call__(self, n_angle: Number, /) -> float:
@@ -12141,6 +12567,7 @@ class _AxlDegToRad(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/24mthutl.md:14
         """
+    def expr(self, n_angle: Number, /) -> Expr[float]: ...
 
 class _AxlDehighlightObject(LiteralRemoteFunction):
     def __call__(self, lo_dbid: list[RemoteObject] | Skill, g_perm_highlight: Skill = ..., /) -> bool | None:
@@ -12164,6 +12591,7 @@ class _AxlDehighlightObject(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:705
         """
+    def expr(self, lo_dbid: list[RemoteObject] | Skill, g_perm_highlight: Skill = ..., /) -> Expr[bool | None]: ...
 
 class _AxlDeleteAttachment(LiteralRemoteFunction):
     def __call__(self, t_attachment_id: str, t_passwd: str | None = ..., /) -> bool | None:
@@ -12186,6 +12614,7 @@ class _AxlDeleteAttachment(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/16dbatt.md:98
         """
+    def expr(self, t_attachment_id: str, t_passwd: str | None = ..., /) -> Expr[bool | None]: ...
 
 class _AxlDeleteBondWire(LiteralRemoteFunction):
     def __call__(self, bond_wires: Skill, delete_fingers: Skill = ..., /) -> bool | None:
@@ -12198,6 +12627,7 @@ class _AxlDeleteBondWire(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:45
         """
+    def expr(self, bond_wires: Skill, delete_fingers: Skill = ..., /) -> Expr[bool | None]: ...
 
 class _AxlDeleteByLayer(LiteralRemoteFunction):
     def __call__(self, t_layer_name: str | list[str], value: Symbol | None = ..., /) -> int | None:
@@ -12241,6 +12671,7 @@ class _AxlDeleteByLayer(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:290
         """
+    def expr(self, t_layer_name: str | list[str], value: Symbol | None = ..., /) -> Expr[int | None]: ...
 
 class _AxlDeleteFillet(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, /) -> bool | None:
@@ -12262,6 +12693,7 @@ class _AxlDeleteFillet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:679
         """
+    def expr(self, o_dbid: RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlDeleteObject(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject | list[RemoteObject], g_mode: Skill = ..., /) -> bool | None:
@@ -12340,6 +12772,7 @@ class _AxlDeleteObject(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:417
         """
+    def expr(self, o_dbid: RemoteObject | list[RemoteObject], g_mode: Skill = ..., /) -> Expr[bool | None]: ...
 
 class _AxlDeleteTaper(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, /) -> bool | None:
@@ -12357,6 +12790,7 @@ class _AxlDeleteTaper(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:493
         """
+    def expr(self, o_dbid: RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlDesignFlip(LiteralRemoteFunction):
     def __call__(self, g_flip: Skill, /) -> bool | None:
@@ -12378,6 +12812,7 @@ class _AxlDesignFlip(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:304
         """
+    def expr(self, g_flip: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlDesignType(LiteralRemoteFunction):
     def __call__(self, g_option: Skill, /) -> str | list[str]:
@@ -12408,6 +12843,7 @@ class _AxlDesignType(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:41
         """
+    def expr(self, g_option: Skill, /) -> Expr[str | list[str]]: ...
 
 class _AxlDetailLoad(LiteralRemoteFunction):
     def __call__(self, t_filename: str, point: Skill, f_scale: float, x_rotation: int, g_mirror: Skill, /) -> bool | None:
@@ -12461,9 +12897,10 @@ class _AxlDetailLoad(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:139
         """
+    def expr(self, t_filename: str, point: Skill, f_scale: float, x_rotation: int, g_mirror: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlDetailSave(LiteralRemoteFunction):
-    def __call__(self, t_filename: str, l_b_box: SkillList, o_dbid: RemoteObject | list[RemoteObject], g_filled_pads: Skill = ..., /) -> bool | None:
+    def __call__(self, t_filename: str, l_b_box: list[Skill] | tuple[Skill, ...], o_dbid: RemoteObject | list[RemoteObject], g_filled_pads: Skill = ..., /) -> bool | None:
         """
         This saves a clipping box (l_bBox) and the passed set of geometries (lo_dbid) to a Allegro ipf file (t_filename).
 
@@ -12481,6 +12918,7 @@ class _AxlDetailSave(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:196
         """
+    def expr(self, t_filename: str, l_b_box: list[Skill] | tuple[Skill, ...], o_dbid: RemoteObject | list[RemoteObject], g_filled_pads: Skill = ..., /) -> Expr[bool | None]: ...
 
 class _AxlDiffPair(LiteralRemoteFunction):
     @overload
@@ -12633,6 +13071,12 @@ class _AxlDiffPair(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/26logacc.md:469
         """
+    @overload
+    def expr(self, t_diffpair: str, o_net1: RemoteObject | str, o_net2: RemoteObject | str, /) -> Expr[RemoteObject | None]: ...
+    @overload
+    def expr(self, o_diffpair: RemoteObject | str, o_net1: RemoteObject | str, o_net2: RemoteObject | str, /) -> Expr[RemoteObject | None]: ...
+    @overload
+    def expr(self, o_diffpair: RemoteObject | str, /) -> Expr[bool | None]: ...
 
 class _AxlDiffPairAuto(LiteralRemoteFunction):
     def __call__(self, t_diff_pair_prefix: str, t_pos_net_postfix: str, t_neg_net_postfix: str, g_return_diff_pair_list: Skill = ..., /) -> Skill:
@@ -12678,6 +13122,7 @@ class _AxlDiffPairAuto(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/26logacc.md:544
         """
+    def expr(self, t_diff_pair_prefix: str, t_pos_net_postfix: str, t_neg_net_postfix: str, g_return_diff_pair_list: Skill = ..., /) -> Expr[Skill]: ...
 
 class _AxlDiffPairDBID(LiteralRemoteFunction):
     def __call__(self, t_name: str, /) -> RemoteObject | None:
@@ -12695,9 +13140,10 @@ class _AxlDiffPairDBID(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/26logacc.md:599
         """
+    def expr(self, t_name: str, /) -> Expr[RemoteObject | None]: ...
 
 class _AxlDistance(LiteralRemoteFunction):
-    def __call__(self, l_point1: SkillList, l_point2: SkillList, /) -> float:
+    def __call__(self, l_point1: list[Skill] | tuple[Skill, ...], l_point2: list[Skill] | tuple[Skill, ...], /) -> float:
         """
         Returns the distance between two points
 
@@ -12715,6 +13161,7 @@ class _AxlDistance(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/24mthutl.md:42
         """
+    def expr(self, l_point1: list[Skill] | tuple[Skill, ...], l_point2: list[Skill] | tuple[Skill, ...], /) -> Expr[float]: ...
 
 class _AxlDllCall(LiteralRemoteFunction):
     def __call__(self, o_plugin_func: RemoteObject, /, *g_args: Skill) -> int | list[Skill] | None:
@@ -12742,9 +13189,10 @@ class _AxlDllCall(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/27plugin.md:197
         """
+    def expr(self, o_plugin_func: RemoteObject, /, *g_args: Skill) -> Expr[int | list[Skill] | None]: ...
 
 class _AxlDllCallList(LiteralRemoteFunction):
-    def __call__(self, o_plugin_func: RemoteObject, l_args: SkillList, /) -> int | list[Skill] | None:
+    def __call__(self, o_plugin_func: RemoteObject, l_args: list[Skill] | tuple[Skill, ...], /) -> int | list[Skill] | None:
         """
         This function is identical to`axlDllCall` except it takes a list of arguments to pass to the plugin function
 
@@ -12767,6 +13215,7 @@ class _AxlDllCallList(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/27plugin.md:247
         """
+    def expr(self, o_plugin_func: RemoteObject, l_args: list[Skill] | tuple[Skill, ...], /) -> Expr[int | list[Skill] | None]: ...
 
 class _AxlDllClose(LiteralRemoteFunction):
     def __call__(self, o_plugin: RemoteObject, /) -> bool | None:
@@ -12784,6 +13233,7 @@ class _AxlDllClose(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/27plugin.md:285
         """
+    def expr(self, o_plugin: RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlDllDump(LiteralRemoteFunction):
     def __call__(self, /) -> list[Skill] | None:
@@ -12799,6 +13249,7 @@ class _AxlDllDump(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/27plugin.md:311
         """
+    def expr(self, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlDllOpen(LiteralRemoteFunction):
     def __call__(self, t_dllname: str, /) -> RemoteObject | None:
@@ -12832,6 +13283,7 @@ class _AxlDllOpen(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/27plugin.md:335
         """
+    def expr(self, t_dllname: str, /) -> Expr[RemoteObject | None]: ...
 
 class _AxlDllSym(LiteralRemoteFunction):
     def __call__(self, o_plugin: RemoteObject, t_symbol_name: str, /) -> RemoteObject | None:
@@ -12862,6 +13314,7 @@ class _AxlDllSym(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/27plugin.md:379
         """
+    def expr(self, o_plugin: RemoteObject, t_symbol_name: str, /) -> Expr[RemoteObject | None]: ...
 
 class _AxlDrawObject(LiteralRemoteFunction):
     def __call__(self, lo_dbid: list[RemoteObject], /) -> bool | None:
@@ -12883,9 +13336,10 @@ class _AxlDrawObject(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:831
         """
+    def expr(self, lo_dbid: list[RemoteObject], /) -> Expr[bool | None]: ...
 
 class _AxlDynamicsObject(LiteralRemoteFunction):
-    def __call__(self, lo_dbid: list[RemoteObject], l_ref_point: SkillList | None = ..., /) -> bool | None:
+    def __call__(self, lo_dbid: list[RemoteObject], l_ref_point: list[Skill] | tuple[Skill, ...] | None = ..., /) -> bool | None:
         """
         Adds list of objects to the cursor buffer
 
@@ -12928,6 +13382,7 @@ class _AxlDynamicsObject(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:852
         """
+    def expr(self, lo_dbid: list[RemoteObject], l_ref_point: list[Skill] | tuple[Skill, ...] | None = ..., /) -> Expr[bool | None]: ...
 
 class _AxlEmail(LiteralRemoteFunction):
     def __call__(self, t_to: str, t_cc: str | None, t_subject: str, t_body: str, /) -> bool | None:
@@ -12963,6 +13418,7 @@ class _AxlEmail(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:228
         """
+    def expr(self, t_to: str, t_cc: str | None, t_subject: str, t_body: str, /) -> Expr[bool | None]: ...
 
 class _AxlEndSkillMode(LiteralRemoteFunction):
     def __call__(self, /) -> bool:
@@ -12985,9 +13441,10 @@ class _AxlEndSkillMode(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/19cmdctl.md:174
         """
+    def expr(self, /) -> Expr[bool]: ...
 
 class _AxlEnterAngle(LiteralRemoteFunction):
-    def __call__(self, origin: Skill, /, *, prompts: SkillList | None = ..., ref_point: SkillList | None = ..., angle: float | None = ..., lock_angle: Skill = ...) -> float | None:
+    def __call__(self, origin: Skill, /, *, prompts: list[Skill] | tuple[Skill, ...] | None = ..., ref_point: list[Skill] | tuple[Skill, ...] | None = ..., angle: float | None = ..., lock_angle: Skill = ...) -> float | None:
         """
         Optionally prompts the user
 
@@ -13011,9 +13468,10 @@ class _AxlEnterAngle(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:396
         """
+    def expr(self, origin: Skill, /, *, prompts: list[Skill] | tuple[Skill, ...] | None = ..., ref_point: list[Skill] | tuple[Skill, ...] | None = ..., angle: float | None = ..., lock_angle: Skill = ...) -> Expr[float | None]: ...
 
 class _AxlEnterBox(LiteralRemoteFunction):
-    def __call__(self, /, *, prompts: SkillList | None = ..., points: SkillList | None = ...) -> list[Skill] | None:
+    def __call__(self, /, *, prompts: list[Skill] | tuple[Skill, ...] | None = ..., points: list[Skill] | tuple[Skill, ...] | None = ...) -> list[Skill] | None:
         """
         Takes two points that define a box and returns them in`l_box`
 
@@ -13038,9 +13496,10 @@ class _AxlEnterBox(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:566
         """
+    def expr(self, /, *, prompts: list[Skill] | tuple[Skill, ...] | None = ..., points: list[Skill] | tuple[Skill, ...] | None = ...) -> Expr[list[Skill] | None]: ...
 
 class _AxlEnterEvent(LiteralRemoteFunction):
-    def __call__(self, l_event_mask: SkillList, t_prompt: str, g_snap: Skill, /) -> RemoteObject:
+    def __call__(self, l_event_mask: list[Skill] | tuple[Skill, ...], t_prompt: str, g_snap: Skill, /) -> RemoteObject:
         """
         A lower level event manager than other`axlEnter` functions
 
@@ -13126,9 +13585,10 @@ class _AxlEnterEvent(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:936
         """
+    def expr(self, l_event_mask: list[Skill] | tuple[Skill, ...], t_prompt: str, g_snap: Skill, /) -> Expr[RemoteObject]: ...
 
 class _AxlEnterPath(LiteralRemoteFunction):
-    def __call__(self, /, *, prompts: SkillList | None = ..., points: SkillList | None = ..., last_path: RemoteObject | None = ...) -> RemoteObject | None:
+    def __call__(self, /, *, prompts: list[Skill] | tuple[Skill, ...] | None = ..., points: list[Skill] | tuple[Skill, ...] | None = ..., last_path: RemoteObject | None = ...) -> RemoteObject | None:
         """
         Gets the start point and subsequent points for a path, interactively with optional prompting, or from the optional argument`l_points`
 
@@ -13150,9 +13610,10 @@ class _AxlEnterPath(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:598
         """
+    def expr(self, /, *, prompts: list[Skill] | tuple[Skill, ...] | None = ..., points: list[Skill] | tuple[Skill, ...] | None = ..., last_path: RemoteObject | None = ...) -> Expr[RemoteObject | None]: ...
 
 class _AxlEnterPoint(LiteralRemoteFunction):
-    def __call__(self, /, *, prompts: SkillList | None = ..., points: SkillList | None = ..., grid_snap: Skill = ...) -> list[Skill] | None:
+    def __call__(self, /, *, prompts: list[Skill] | tuple[Skill, ...] | None = ..., points: list[Skill] | tuple[Skill, ...] | None = ..., grid_snap: Skill = ...) -> list[Skill] | None:
         """
         Prompts for and receives user-selected point
 
@@ -13174,9 +13635,10 @@ class _AxlEnterPoint(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:334
         """
+    def expr(self, /, *, prompts: list[Skill] | tuple[Skill, ...] | None = ..., points: list[Skill] | tuple[Skill, ...] | None = ..., grid_snap: Skill = ...) -> Expr[list[Skill] | None]: ...
 
 class _AxlEnterString(LiteralRemoteFunction):
-    def __call__(self, /, *, prompts: SkillList | None = ...) -> str | None:
+    def __call__(self, /, *, prompts: list[Skill] | tuple[Skill, ...] | None = ...) -> str | None:
         """
         Displays a dialog box that requires first entering a string, and then pressing*Return* on the keyboard or clicking *OK*or *Cancel.* Default prompt in the dialog box is `"Enter String."`You can supply a prompt string with the `?prompts` keyword
 
@@ -13205,6 +13667,7 @@ class _AxlEnterString(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:365
         """
+    def expr(self, /, *, prompts: list[Skill] | tuple[Skill, ...] | None = ...) -> Expr[str | None]: ...
 
 class _AxlEraseObject(LiteralRemoteFunction):
     def __call__(self, lo_dbid: list[RemoteObject], /) -> bool | None:
@@ -13224,6 +13687,7 @@ class _AxlEraseObject(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:892
         """
+    def expr(self, lo_dbid: list[RemoteObject], /) -> Expr[bool | None]: ...
 
 class _AxlEventSetStartPopup(LiteralRemoteFunction):
     def __call__(self, s_callback: Symbol | None = ..., /) -> bool | None:
@@ -13302,6 +13766,7 @@ class _AxlEventSetStartPopup(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:1055
         """
+    def expr(self, s_callback: Symbol | None = ..., /) -> Expr[bool | None]: ...
 
 class _AxlExportXmlDBRecords(LiteralRemoteFunction):
     @overload
@@ -13366,6 +13831,10 @@ class _AxlExportXmlDBRecords(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:317
         """
+    @overload
+    def expr(self, t_file_name: str, lt_parm_groups: list[str] | None, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, value: None, /) -> Expr[list[str]]: ...
 
 class _AxlExtentDB(LiteralRemoteFunction):
     def __call__(self, /) -> list[Skill] | None:
@@ -13382,6 +13851,7 @@ class _AxlExtentDB(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:331
         """
+    def expr(self, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlExtentLayout(LiteralRemoteFunction):
     def __call__(self, /) -> list[Skill] | None:
@@ -13408,6 +13878,7 @@ class _AxlExtentLayout(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:349
         """
+    def expr(self, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlExtentSymbol(LiteralRemoteFunction):
     def __call__(self, /) -> list[Skill]:
@@ -13425,6 +13896,7 @@ class _AxlExtentSymbol(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:381
         """
+    def expr(self, /) -> Expr[list[Skill]]: ...
 
 class _AxlExtractMap(LiteralRemoteFunction):
     def __call__(self, t_view_file: str, s_apply_func: Symbol | None = ..., g_user_data: Skill = ..., /) -> bool | list[Skill] | None:
@@ -13464,6 +13936,7 @@ class _AxlExtractMap(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/22extrct.md:44
         """
+    def expr(self, t_view_file: str, s_apply_func: Symbol | None = ..., g_user_data: Skill = ..., /) -> Expr[bool | list[Skill] | None]: ...
 
 class _AxlExtractToFile(LiteralRemoteFunction):
     def __call__(self, t_view_file: str, lt_result_files: list[str], lt_options: list[str] | None = ..., /) -> bool | None:
@@ -13487,6 +13960,7 @@ class _AxlExtractToFile(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/22extrct.md:14
         """
+    def expr(self, t_view_file: str, lt_result_files: list[str], lt_options: list[str] | None = ..., /) -> Expr[bool | None]: ...
 
 class _AxlFillet(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, /) -> bool | None:
@@ -13513,6 +13987,7 @@ class _AxlFillet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:700
         """
+    def expr(self, o_dbid: RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlFilletConvert(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, /) -> bool | Skill:
@@ -13546,6 +14021,7 @@ class _AxlFilletConvert(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:731
         """
+    def expr(self, o_dbid: RemoteObject, /) -> Expr[bool | Skill]: ...
 
 class _AxlFilmCreate(LiteralRemoteFunction):
     def __call__(self, t_filmname: str, /, *, negative: bool | None = ..., undefine_line_width: float | None = ..., sequence: int | None = ..., rotation: int | None = ..., x_offset: float | None = ..., y_offset: float | None = ..., shape_bounding_box: float | None = ..., mirrored: bool | None = ..., full_contact: bool | None = ..., suppress_unconnect_pads: bool | None = ..., draw_missing_pad_apertures: bool | None = ..., use_aperture_rotation: bool | None = ..., suppress_shape_fill: bool | None = ..., vector_based_pad: bool | None = ..., draw_holes_only: bool | None = ..., layers: list[str] | None = ..., domains: list[str] | None = ..., ipc2581: list[str] | None = ..., poly_cut_layer: bool | None = ...) -> bool | None:
@@ -13605,6 +14081,7 @@ class _AxlFilmCreate(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:355
         """
+    def expr(self, t_filmname: str, /, *, negative: bool | None = ..., undefine_line_width: float | None = ..., sequence: int | None = ..., rotation: int | None = ..., x_offset: float | None = ..., y_offset: float | None = ..., shape_bounding_box: float | None = ..., mirrored: bool | None = ..., full_contact: bool | None = ..., suppress_unconnect_pads: bool | None = ..., draw_missing_pad_apertures: bool | None = ..., use_aperture_rotation: bool | None = ..., suppress_shape_fill: bool | None = ..., vector_based_pad: bool | None = ..., draw_holes_only: bool | None = ..., layers: list[str] | None = ..., domains: list[str] | None = ..., ipc2581: list[str] | None = ..., poly_cut_layer: bool | None = ...) -> Expr[bool | None]: ...
 
 class _AxlFindFilterIsOpen(LiteralRemoteFunction):
     def __call__(self, /) -> bool:
@@ -13618,6 +14095,7 @@ class _AxlFindFilterIsOpen(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/05selfnd.md:1063
         """
+    def expr(self, /) -> Expr[bool]: ...
 
 class _AxlFindPath(LiteralRemoteFunction):
     def __call__(self, o_one_dbid: RemoteObject, o_two_dbid: RemoteObject, g_alt_path: Skill = ..., /) -> list[RemoteObject] | Skill | None:
@@ -13681,6 +14159,7 @@ class _AxlFindPath(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:404
         """
+    def expr(self, o_one_dbid: RemoteObject, o_two_dbid: RemoteObject, g_alt_path: Skill = ..., /) -> Expr[list[RemoteObject] | Skill | None]: ...
 
 class _AxlFinishEnterFun(LiteralRemoteFunction):
     def __call__(self, /) -> bool | None:
@@ -13700,6 +14179,7 @@ class _AxlFinishEnterFun(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:447
         """
+    def expr(self, /) -> Expr[bool | None]: ...
 
 class _AxlFlushDisplay(LiteralRemoteFunction):
     def __call__(self, /) -> bool:
@@ -13734,6 +14214,7 @@ class _AxlFlushDisplay(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/19cmdctl.md:197
         """
+    def expr(self, /) -> Expr[bool]: ...
 
 class _AxlFormAutoResize(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, /) -> bool | None:
@@ -13753,9 +14234,10 @@ class _AxlFormAutoResize(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part02.md:1566
         """
+    def expr(self, r_form: RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlFormBuildPopup(LiteralRemoteFunction):
-    def __call__(self, r_form: RemoteObject, t_field: str, l_pairs: SkillList, /) -> bool | None:
+    def __call__(self, r_form: RemoteObject, t_field: str, l_pairs: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         This provides the ability to dynamically change popups of fields that have them
 
@@ -13772,6 +14254,7 @@ class _AxlFormBuildPopup(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part02.md:793
         """
+    def expr(self, r_form: RemoteObject, t_field: str, l_pairs: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlFormClearMouseActive(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, /) -> bool | None:
@@ -13789,6 +14272,7 @@ class _AxlFormClearMouseActive(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part02.md:718
         """
+    def expr(self, r_form: RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlFormClose(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, /) -> bool | None:
@@ -13817,6 +14301,7 @@ class _AxlFormClose(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part02.md:737
         """
+    def expr(self, r_form: RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlFormColorize(LiteralRemoteFunction):
     def __call__(self, o_form: RemoteObject, t_field: str, g_option: Skill, g_color: Skill, /) -> bool | None:
@@ -13847,6 +14332,7 @@ class _AxlFormColorize(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part02.md:1586
         """
+    def expr(self, o_form: RemoteObject, t_field: str, g_option: Skill, g_color: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlFormCreate(LiteralRemoteFunction):
     @overload
@@ -13945,6 +14431,10 @@ class _AxlFormCreate(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part02.md:638
         """
+    @overload
+    def expr(self, s_form_handle: Symbol, g_form_source: Skill, g_form_action: Skill, g_non_block: Skill, g_string_option: Skill, /) -> Expr[RemoteObject | None]: ...
+    @overload
+    def expr(self, s_form_handle: Symbol, g_form_source: Skill, lt_placement: list[str], g_form_action: Skill, g_non_block: Skill, g_string_option: Skill, /) -> Expr[RemoteObject | None]: ...
 
 class _AxlFormDefaultButton(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str | Skill, /) -> bool | None:
@@ -13982,6 +14472,7 @@ class _AxlFormDefaultButton(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:908
         """
+    def expr(self, r_form: RemoteObject, t_field: str | Skill, /) -> Expr[bool | None]: ...
 
 class _AxlFormDisplay(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, /) -> bool | None:
@@ -14010,6 +14501,7 @@ class _AxlFormDisplay(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part02.md:766
         """
+    def expr(self, r_form: RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlFormGetActiveField(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, /) -> bool | None:
@@ -14027,6 +14519,7 @@ class _AxlFormGetActiveField(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:68
         """
+    def expr(self, r_form: RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlFormGetField(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, /) -> Skill | None:
@@ -14060,6 +14553,7 @@ class _AxlFormGetField(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part02.md:844
         """
+    def expr(self, r_form: RemoteObject, t_field: str, /) -> Expr[Skill | None]: ...
 
 class _AxlFormGetFieldType(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, /) -> Skill | None:
@@ -14080,6 +14574,7 @@ class _AxlFormGetFieldType(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:888
         """
+    def expr(self, r_form: RemoteObject, t_field: str, /) -> Expr[Skill | None]: ...
 
 class _AxlFormGridBatch(LiteralRemoteFunction):
     def __call__(self, r_cell: RemoteObject, /) -> bool | None:
@@ -14099,6 +14594,7 @@ class _AxlFormGridBatch(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:88
         """
+    def expr(self, r_cell: RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlFormGridCancelPopup(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None:
@@ -14119,6 +14615,7 @@ class _AxlFormGridCancelPopup(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:111
         """
+    def expr(self, r_form: RemoteObject, t_field: str, /) -> Expr[bool | None]: ...
 
 class _AxlFormGridDeleteRows(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, x_row: int, x_number: int, /) -> bool | None:
@@ -14141,6 +14638,7 @@ class _AxlFormGridDeleteRows(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:131
         """
+    def expr(self, r_form: RemoteObject, t_field: str, x_row: int, x_number: int, /) -> Expr[bool | None]: ...
 
 class _AxlFormGridEvents(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, g_events: Skill, /) -> bool | None:
@@ -14202,6 +14700,7 @@ class _AxlFormGridEvents(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:153
         """
+    def expr(self, r_form: RemoteObject, t_field: str, g_events: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlFormGridGetCell(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, r_cell: RemoteObject, /) -> RemoteObject | None:
@@ -14244,6 +14743,7 @@ class _AxlFormGridGetCell(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:225
         """
+    def expr(self, r_form: RemoteObject, t_field: str, r_cell: RemoteObject, /) -> Expr[RemoteObject | None]: ...
 
 class _AxlFormGridInsertCol(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, r_form_grid_col: RemoteObject, /) -> bool | None:
@@ -14316,6 +14816,7 @@ class _AxlFormGridInsertCol(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:270
         """
+    def expr(self, r_form: RemoteObject, t_field: str, r_form_grid_col: RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlFormGridInsertRows(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, x_row: int, x_number: int, /) -> bool | None:
@@ -14338,6 +14839,7 @@ class _AxlFormGridInsertRows(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:364
         """
+    def expr(self, r_form: RemoteObject, t_field: str, x_row: int, x_number: int, /) -> Expr[bool | None]: ...
 
 class _AxlFormGridNewCell(LiteralRemoteFunction):
     def __call__(self, /) -> RemoteObject:
@@ -14357,6 +14859,7 @@ class _AxlFormGridNewCell(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:386
         """
+    def expr(self, /) -> Expr[RemoteObject]: ...
 
 class _AxlFormGridOptions(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, s_name: Symbol, g_value: Skill = ..., /) -> bool | None:
@@ -14397,6 +14900,7 @@ class _AxlFormGridOptions(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:945
         """
+    def expr(self, r_form: RemoteObject, t_field: str, s_name: Symbol, g_value: Skill = ..., /) -> Expr[bool | None]: ...
 
 class _AxlFormGridReset(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None:
@@ -14433,6 +14937,7 @@ class _AxlFormGridReset(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:411
         """
+    def expr(self, r_form: RemoteObject, t_field: str, /) -> Expr[bool | None]: ...
 
 class _AxlFormGridSelected(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, /) -> list[Skill] | None:
@@ -14469,6 +14974,7 @@ class _AxlFormGridSelected(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part02.md:880
         """
+    def expr(self, r_form: RemoteObject, t_field: str, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlFormGridSelectedCnt(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, /) -> int | None:
@@ -14501,6 +15007,7 @@ class _AxlFormGridSelectedCnt(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part02.md:922
         """
+    def expr(self, r_form: RemoteObject, t_field: str, /) -> Expr[int | None]: ...
 
 class _AxlFormGridSetBatch(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, s_callback: Symbol, g_pvt_data: Skill, /) -> bool | None:
@@ -14574,6 +15081,7 @@ class _AxlFormGridSetBatch(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:447
         """
+    def expr(self, r_form: RemoteObject, t_field: str, s_callback: Symbol, g_pvt_data: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlFormGridSetSelectRows(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, x_min: int, x_max: int, g_option: Skill, /) -> int | None:
@@ -14623,6 +15131,7 @@ class _AxlFormGridSetSelectRows(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part02.md:960
         """
+    def expr(self, r_form: RemoteObject, t_field: str, x_min: int, x_max: int, g_option: Skill, /) -> Expr[int | None]: ...
 
 class _AxlFormGridUpdate(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None:
@@ -14645,6 +15154,7 @@ class _AxlFormGridUpdate(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:527
         """
+    def expr(self, r_form: RemoteObject, t_field: str, /) -> Expr[bool | None]: ...
 
 class _AxlFormInvalidateField(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None:
@@ -14667,6 +15177,7 @@ class _AxlFormInvalidateField(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:565
         """
+    def expr(self, r_form: RemoteObject, t_field: str, /) -> Expr[bool | None]: ...
 
 class _AxlFormIsFieldEditable(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None:
@@ -14687,6 +15198,7 @@ class _AxlFormIsFieldEditable(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:587
         """
+    def expr(self, r_form: RemoteObject, t_field: str, /) -> Expr[bool | None]: ...
 
 class _AxlFormIsFieldVisible(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None:
@@ -14705,6 +15217,7 @@ class _AxlFormIsFieldVisible(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part02.md:1414
         """
+    def expr(self, r_form: RemoteObject, t_field: str, /) -> Expr[bool | None]: ...
 
 class _AxlFormListAddItem(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, t_list_item: str | list[str] | None, g_index: Skill, /) -> bool | None:
@@ -14748,6 +15261,7 @@ class _AxlFormListAddItem(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:607
         """
+    def expr(self, r_form: RemoteObject, t_field: str, t_list_item: str | list[str] | None, g_index: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlFormListDeleteAll(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None:
@@ -14798,6 +15312,7 @@ class _AxlFormListDeleteAll(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part02.md:1012
         """
+    def expr(self, r_form: RemoteObject, t_field: str, /) -> Expr[bool | None]: ...
 
 class _AxlFormListDeleteItem(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, t_list_item: str | int | list[str] | None, /) -> bool | int | None:
@@ -14824,6 +15339,7 @@ class _AxlFormListDeleteItem(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:650
         """
+    def expr(self, r_form: RemoteObject, t_field: str, t_list_item: str | int | list[str] | None, /) -> Expr[bool | int | None]: ...
 
 class _AxlFormListGetItem(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, x_index: int, /) -> str | None:
@@ -14845,6 +15361,7 @@ class _AxlFormListGetItem(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:681
         """
+    def expr(self, r_form: RemoteObject, t_field: str, x_index: int, /) -> Expr[str | None]: ...
 
 class _AxlFormListGetSelCount(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, /) -> int | None:
@@ -14860,6 +15377,7 @@ class _AxlFormListGetSelCount(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:702
         """
+    def expr(self, r_form: RemoteObject, t_field: str, /) -> Expr[int | None]: ...
 
 class _AxlFormListGetSelItems(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, /) -> list[str] | None:
@@ -14877,6 +15395,7 @@ class _AxlFormListGetSelItems(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:737
         """
+    def expr(self, r_form: RemoteObject, t_field: str, /) -> Expr[list[str] | None]: ...
 
 class _AxlFormListOptions(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, g_options: Skill, /) -> bool | None:
@@ -14921,6 +15440,7 @@ class _AxlFormListOptions(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:767
         """
+    def expr(self, r_form: RemoteObject, t_field: str, g_options: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlFormListSelAll(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, g_set: Skill, /) -> bool | None:
@@ -14948,6 +15468,7 @@ class _AxlFormListSelAll(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:813
         """
+    def expr(self, r_form: RemoteObject, t_field: str, g_set: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlFormListSelect(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, t_list_item: str | None, /) -> bool | None:
@@ -14969,6 +15490,7 @@ class _AxlFormListSelect(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part02.md:1067
         """
+    def expr(self, r_form: RemoteObject, t_field: str, t_list_item: str | None, /) -> Expr[bool | None]: ...
 
 class _AxlFormMsg(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_message_label: str, /, *g_args: Skill) -> str | None:
@@ -15008,6 +15530,7 @@ class _AxlFormMsg(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:849
         """
+    def expr(self, r_form: RemoteObject, t_message_label: str, /, *g_args: Skill) -> Expr[str | None]: ...
 
 class _AxlFormRestoreField(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None:
@@ -15037,6 +15560,7 @@ class _AxlFormRestoreField(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part02.md:1310
         """
+    def expr(self, r_form: RemoteObject, t_field: str, /) -> Expr[bool | None]: ...
 
 class _AxlFormSetActiveField(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, /) -> bool | None:
@@ -15059,6 +15583,7 @@ class _AxlFormSetActiveField(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:1001
         """
+    def expr(self, r_form: RemoteObject, t_field: str, /) -> Expr[bool | None]: ...
 
 class _AxlFormSetDecimal(LiteralRemoteFunction):
     def __call__(self, o_form: RemoteObject, g_field: Skill, x_decimal_places: int, /) -> bool | None:
@@ -15080,6 +15605,7 @@ class _AxlFormSetDecimal(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:1023
         """
+    def expr(self, o_form: RemoteObject, g_field: Skill, x_decimal_places: int, /) -> Expr[bool | None]: ...
 
 class _AxlFormSetEventAction(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, g_callback: Skill, /) -> bool | None:
@@ -15111,6 +15637,7 @@ class _AxlFormSetEventAction(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part02.md:1088
         """
+    def expr(self, r_form: RemoteObject, g_callback: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlFormSetField(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, g_value: Skill | None, /) -> bool | None:
@@ -15231,6 +15758,7 @@ class _AxlFormSetField(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part02.md:1122
         """
+    def expr(self, r_form: RemoteObject, t_field: str, g_value: Skill | None, /) -> Expr[bool | None]: ...
 
 class _AxlFormSetFieldEditable(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, g_editable: Skill, /) -> bool | None:
@@ -15250,6 +15778,7 @@ class _AxlFormSetFieldEditable(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:1044
         """
+    def expr(self, r_form: RemoteObject, t_field: str, g_editable: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlFormSetFieldLimits(LiteralRemoteFunction):
     def __call__(self, o_form: RemoteObject, t_field: str, g_min: Skill, g_max: Skill, /) -> bool | None:
@@ -15276,6 +15805,7 @@ class _AxlFormSetFieldLimits(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:1065
         """
+    def expr(self, o_form: RemoteObject, t_field: str, g_min: Skill, g_max: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlFormSetFieldVisible(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, x_value: int, /) -> bool | None:
@@ -15295,6 +15825,7 @@ class _AxlFormSetFieldVisible(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part02.md:1393
         """
+    def expr(self, r_form: RemoteObject, t_field: str, x_value: int, /) -> Expr[bool | None]: ...
 
 class _AxlFormSetInfo(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, t_value: str, /) -> bool | None:
@@ -15325,6 +15856,7 @@ class _AxlFormSetInfo(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part02.md:1233
         """
+    def expr(self, r_form: RemoteObject, t_field: str, t_value: str, /) -> Expr[bool | None]: ...
 
 class _AxlFormSetMouseActive(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, /) -> bool | None:
@@ -15349,6 +15881,7 @@ class _AxlFormSetMouseActive(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part02.md:1262
         """
+    def expr(self, r_form: RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlFormTest(LiteralRemoteFunction):
     def __call__(self, t_form_name: str, /) -> RemoteObject | None:
@@ -15371,6 +15904,7 @@ class _AxlFormTest(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part02.md:1287
         """
+    def expr(self, t_form_name: str, /) -> Expr[RemoteObject | None]: ...
 
 class _AxlFormTitle(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_title: str, /) -> bool | None:
@@ -15396,6 +15930,7 @@ class _AxlFormTitle(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part02.md:1340
         """
+    def expr(self, r_form: RemoteObject, t_title: str, /) -> Expr[bool | None]: ...
 
 class _AxlFormTreeViewAddItem(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, t_label: str, g_h_parent: Skill, g_h_insert_after: Skill, g_multi_select_f: Skill = ..., g_h_leaf_image: Skill = ..., g_h_open_image: Skill = ..., g_h_closed_image: Skill = ..., /) -> Skill | None:
@@ -15439,6 +15974,7 @@ class _AxlFormTreeViewAddItem(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:1091
         """
+    def expr(self, r_form: RemoteObject, t_field: str, t_label: str, g_h_parent: Skill, g_h_insert_after: Skill, g_multi_select_f: Skill = ..., g_h_leaf_image: Skill = ..., g_h_open_image: Skill = ..., g_h_closed_image: Skill = ..., /) -> Expr[Skill | None]: ...
 
 class _AxlFormTreeViewChangeImages(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, g_h_item: Skill, g_h_leaf_image: Skill = ..., g_h_open_image: Skill = ..., g_h_closed_image: Skill = ..., /) -> bool | None:
@@ -15461,6 +15997,7 @@ class _AxlFormTreeViewChangeImages(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:1150
         """
+    def expr(self, r_form: RemoteObject, t_field: str, g_h_item: Skill, g_h_leaf_image: Skill = ..., g_h_open_image: Skill = ..., g_h_closed_image: Skill = ..., /) -> Expr[bool | None]: ...
 
 class _AxlFormTreeViewChangeLabel(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, g_h_item: Skill, t_label: str, /) -> bool | None:
@@ -15481,6 +16018,7 @@ class _AxlFormTreeViewChangeLabel(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:1180
         """
+    def expr(self, r_form: RemoteObject, t_field: str, g_h_item: Skill, t_label: str, /) -> Expr[bool | None]: ...
 
 class _AxlFormTreeViewGetImages(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, g_h_item: Skill, /) -> list[Skill] | None:
@@ -15500,6 +16038,7 @@ class _AxlFormTreeViewGetImages(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:1202
         """
+    def expr(self, r_form: RemoteObject, t_field: str, g_h_item: Skill, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlFormTreeViewGetLabel(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, g_h_item: Skill, /) -> str | None:
@@ -15519,6 +16058,7 @@ class _AxlFormTreeViewGetLabel(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:1223
         """
+    def expr(self, r_form: RemoteObject, t_field: str, g_h_item: Skill, /) -> Expr[str | None]: ...
 
 class _AxlFormTreeViewGetParents(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, g_h_item: Skill, /) -> list[Skill] | None:
@@ -15540,6 +16080,7 @@ class _AxlFormTreeViewGetParents(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:1244
         """
+    def expr(self, r_form: RemoteObject, t_field: str, g_h_item: Skill, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlFormTreeViewGetSelectState(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, g_h_item: Skill, /) -> int:
@@ -15557,6 +16098,7 @@ class _AxlFormTreeViewGetSelectState(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:1265
         """
+    def expr(self, r_form: RemoteObject, t_field: str, g_h_item: Skill, /) -> Expr[int]: ...
 
 class _AxlFormTreeViewLoadBitmaps(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, lt_bitmaps: list[str], /) -> list[Skill] | None:
@@ -15590,6 +16132,7 @@ class _AxlFormTreeViewLoadBitmaps(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:1289
         """
+    def expr(self, r_form: RemoteObject, t_field: str, lt_bitmaps: list[str], /) -> Expr[list[Skill] | None]: ...
 
 class _AxlFormTreeViewSet(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, s_option: Symbol, g_h_item: Skill, g_data: Skill = ..., /) -> bool | None:
@@ -15631,6 +16174,7 @@ class _AxlFormTreeViewSet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:1342
         """
+    def expr(self, r_form: RemoteObject, t_field: str, s_option: Symbol, g_h_item: Skill, g_data: Skill = ..., /) -> Expr[bool | None]: ...
 
 class _AxlFormTreeViewSetSelectState(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, g_h_item: Skill, g_state: Skill, /) -> bool | None:
@@ -15653,6 +16197,7 @@ class _AxlFormTreeViewSetSelectState(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:1422
         """
+    def expr(self, r_form: RemoteObject, t_field: str, g_h_item: Skill, g_state: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlGRPDrwBitmap(LiteralRemoteFunction):
     def __call__(self, r_graphics: RemoteObject, t_bitmap: str, /) -> bool | None:
@@ -15673,9 +16218,10 @@ class _AxlGRPDrwBitmap(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/12draw.md:67
         """
+    def expr(self, r_graphics: RemoteObject, t_bitmap: str, /) -> Expr[bool | None]: ...
 
 class _AxlGRPDrwCircle(LiteralRemoteFunction):
-    def __call__(self, r_graphics: RemoteObject, l_origin: SkillList, x_radius: int, /) -> bool | None:
+    def __call__(self, r_graphics: RemoteObject, l_origin: list[Skill] | tuple[Skill, ...], x_radius: int, /) -> bool | None:
         """
         Draws a circle into the area identified by the`r_graphics` handle, at the origin specified, and with the specified radius
 
@@ -15694,6 +16240,7 @@ class _AxlGRPDrwCircle(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/12draw.md:87
         """
+    def expr(self, r_graphics: RemoteObject, l_origin: list[Skill] | tuple[Skill, ...], x_radius: int, /) -> Expr[bool | None]: ...
 
 class _AxlGRPDrwInit(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, t_func: str, /) -> RemoteObject | None:
@@ -15715,9 +16262,10 @@ class _AxlGRPDrwInit(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/12draw.md:108
         """
+    def expr(self, r_form: RemoteObject, t_field: str, t_func: str, /) -> Expr[RemoteObject | None]: ...
 
 class _AxlGRPDrwLine(LiteralRemoteFunction):
-    def __call__(self, r_graphics: RemoteObject, l_vertices: SkillList, /) -> bool | None:
+    def __call__(self, r_graphics: RemoteObject, l_vertices: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         Draws a line into the area identified by the`r_graphics` handle and the list of coordinates
 
@@ -15735,6 +16283,7 @@ class _AxlGRPDrwLine(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/12draw.md:129
         """
+    def expr(self, r_graphics: RemoteObject, l_vertices: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlGRPDrwMapWindow(LiteralRemoteFunction):
     def __call__(self, r_graphics: RemoteObject, x_hgt: int, x_width: int, /) -> bool | None:
@@ -15756,9 +16305,10 @@ class _AxlGRPDrwMapWindow(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/12draw.md:149
         """
+    def expr(self, r_graphics: RemoteObject, x_hgt: int, x_width: int, /) -> Expr[bool | None]: ...
 
 class _AxlGRPDrwPoly(LiteralRemoteFunction):
-    def __call__(self, r_graphics: RemoteObject, l_vertices: SkillList, /) -> bool | None:
+    def __call__(self, r_graphics: RemoteObject, l_vertices: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         Draws a polygon (multi-segment line) into the area identified by the`r_graphics` handle and the list of coordinates
 
@@ -15776,9 +16326,10 @@ class _AxlGRPDrwPoly(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/12draw.md:170
         """
+    def expr(self, r_graphics: RemoteObject, l_vertices: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlGRPDrwRectangle(LiteralRemoteFunction):
-    def __call__(self, r_graphics: RemoteObject, l_upper_left: SkillList, l_lower_right: SkillList, /) -> bool | None:
+    def __call__(self, r_graphics: RemoteObject, l_upper_left: list[Skill] | tuple[Skill, ...], l_lower_right: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         Draws a rectangle into the area identified by the`r_graphics` handle and the `upper_left` and `lower_right` coordinates
 
@@ -15797,9 +16348,10 @@ class _AxlGRPDrwRectangle(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/12draw.md:190
         """
+    def expr(self, r_graphics: RemoteObject, l_upper_left: list[Skill] | tuple[Skill, ...], l_lower_right: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlGRPDrwText(LiteralRemoteFunction):
-    def __call__(self, r_graphics: RemoteObject, l_origin: SkillList, t_text: str, /) -> bool | None:
+    def __call__(self, r_graphics: RemoteObject, l_origin: list[Skill] | tuple[Skill, ...], t_text: str, /) -> bool | None:
         """
         Draws text into the area identified by the`r_graphics` handle at the origin specified
 
@@ -15818,6 +16370,7 @@ class _AxlGRPDrwText(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/12draw.md:211
         """
+    def expr(self, r_graphics: RemoteObject, l_origin: list[Skill] | tuple[Skill, ...], t_text: str, /) -> Expr[bool | None]: ...
 
 class _AxlGRPDrwUpdate(LiteralRemoteFunction):
     def __call__(self, r_graphics: RemoteObject, /) -> bool | None:
@@ -15837,6 +16390,7 @@ class _AxlGRPDrwUpdate(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/12draw.md:232
         """
+    def expr(self, r_graphics: RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlGeo2Str(LiteralRemoteFunction):
     def __call__(self, f_dbrep: float | Skill, /) -> str | None:
@@ -15899,9 +16453,10 @@ class _AxlGeo2Str(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/24mthutl.md:65
         """
+    def expr(self, f_dbrep: float | Skill, /) -> Expr[str | None]: ...
 
 class _AxlGeoArcCenterAngle(LiteralRemoteFunction):
-    def __call__(self, l_start_point: SkillList, l_end_point: SkillList, f_angle: float, g_clockwise: Skill = ..., /) -> list[Skill] | None:
+    def __call__(self, l_start_point: list[Skill] | tuple[Skill, ...], l_end_point: list[Skill] | tuple[Skill, ...], f_angle: float, g_clockwise: Skill = ..., /) -> list[Skill] | None:
         """
         Calculates the center of an arc given the angle between its endpoints
 
@@ -15932,9 +16487,10 @@ class _AxlGeoArcCenterAngle(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/24mthutl.md:137
         """
+    def expr(self, l_start_point: list[Skill] | tuple[Skill, ...], l_end_point: list[Skill] | tuple[Skill, ...], f_angle: float, g_clockwise: Skill = ..., /) -> Expr[list[Skill] | None]: ...
 
 class _AxlGeoArcCenterRadius(LiteralRemoteFunction):
-    def __call__(self, l_start_point: SkillList, l_end_point: SkillList, f_radius: float, g_clockwise: Skill = ..., g_big_arc: Skill = ..., /) -> list[Skill] | None:
+    def __call__(self, l_start_point: list[Skill] | tuple[Skill, ...], l_end_point: list[Skill] | tuple[Skill, ...], f_radius: float, g_clockwise: Skill = ..., g_big_arc: Skill = ..., /) -> list[Skill] | None:
         """
         Calculates center of an arc given its radius
 
@@ -15974,6 +16530,7 @@ class _AxlGeoArcCenterRadius(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/24mthutl.md:174
         """
+    def expr(self, l_start_point: list[Skill] | tuple[Skill, ...], l_end_point: list[Skill] | tuple[Skill, ...], f_radius: float, g_clockwise: Skill = ..., g_big_arc: Skill = ..., /) -> Expr[list[Skill] | None]: ...
 
 class _AxlGeoEqual(LiteralRemoteFunction):
     def __call__(self, f_one: float, f_two: float, /) -> bool | None:
@@ -16007,9 +16564,10 @@ class _AxlGeoEqual(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/24mthutl.md:260
         """
+    def expr(self, f_one: float, f_two: float, /) -> Expr[bool | None]: ...
 
 class _AxlGeoPointInShape(LiteralRemoteFunction):
-    def __call__(self, l_point: SkillList, o_dbid: RemoteObject, g_include_voids: Skill = ..., t: bool | None = ..., /) -> bool | None:
+    def __call__(self, l_point: list[Skill] | tuple[Skill, ...], o_dbid: RemoteObject, g_include_voids: Skill = ..., t: bool | None = ..., /) -> bool | None:
         """
         Given a point and a shape`dbid`, determines whether that point is inside or outside the shape or a polygon
 
@@ -16033,9 +16591,10 @@ class _AxlGeoPointInShape(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:464
         """
+    def expr(self, l_point: list[Skill] | tuple[Skill, ...], o_dbid: RemoteObject, g_include_voids: Skill = ..., t: bool | None = ..., /) -> Expr[bool | None]: ...
 
 class _AxlGeoPointShapeInfo(LiteralRemoteFunction):
-    def __call__(self, l_point: SkillList, o_dbid: RemoteObject, /) -> Skill:
+    def __call__(self, l_point: list[Skill] | tuple[Skill, ...], o_dbid: RemoteObject, /) -> Skill:
         """
         Given a point and a shape dbid returns relation of point to shape
 
@@ -16059,9 +16618,10 @@ class _AxlGeoPointShapeInfo(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:493
         """
+    def expr(self, l_point: list[Skill] | tuple[Skill, ...], o_dbid: RemoteObject, /) -> Expr[Skill]: ...
 
 class _AxlGeoPointsEqual(LiteralRemoteFunction):
-    def __call__(self, l_point1: SkillList, l_point2: SkillList, /) -> bool | None:
+    def __call__(self, l_point1: list[Skill] | tuple[Skill, ...], l_point2: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         This performs an equal comparison between two xy points and determines if they are equal within db accuracy.
 
@@ -16082,9 +16642,10 @@ class _AxlGeoPointsEqual(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/24mthutl.md:335
         """
+    def expr(self, l_point1: list[Skill] | tuple[Skill, ...], l_point2: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlGeoRotatePt(LiteralRemoteFunction):
-    def __call__(self, f_angle: float, l_xy: SkillList, l_origin: SkillList | None, mirror: Skill = ..., /) -> list[Skill] | None:
+    def __call__(self, f_angle: float, l_xy: list[Skill] | tuple[Skill, ...], l_origin: list[Skill] | tuple[Skill, ...] | None, mirror: Skill = ..., /) -> list[Skill] | None:
         """
         Rotates*xy* about an origin by angle
 
@@ -16122,6 +16683,7 @@ class _AxlGeoRotatePt(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/24mthutl.md:300
         """
+    def expr(self, f_angle: float, l_xy: list[Skill] | tuple[Skill, ...], l_origin: list[Skill] | tuple[Skill, ...] | None, mirror: Skill = ..., /) -> Expr[list[Skill] | None]: ...
 
 class _AxlGetActiveLayer(LiteralRemoteFunction):
     def __call__(self, /) -> str:
@@ -16144,6 +16706,7 @@ class _AxlGetActiveLayer(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:1376
         """
+    def expr(self, /) -> Expr[str]: ...
 
 class _AxlGetActiveTextBlock(LiteralRemoteFunction):
     def __call__(self, /) -> Skill:
@@ -16157,6 +16720,7 @@ class _AxlGetActiveTextBlock(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:1399
         """
+    def expr(self, /) -> Expr[Skill]: ...
 
 class _AxlGetAlias(LiteralRemoteFunction):
     def __call__(self, t_alias: str | None, /) -> str | list[str] | None:
@@ -16194,6 +16758,7 @@ class _AxlGetAlias(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/09cmdshl.md:16
         """
+    def expr(self, t_alias: str | None, /) -> Expr[str | list[str] | None]: ...
 
 class _AxlGetAllAttachmentNames(LiteralRemoteFunction):
     def __call__(self, /) -> list[Skill] | None:
@@ -16210,6 +16775,7 @@ class _AxlGetAllAttachmentNames(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/16dbatt.md:124
         """
+    def expr(self, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlGetAllViaList(LiteralRemoteFunction):
     def __call__(self, g_attr_vias: Skill = ..., /) -> list[RemoteObject]:
@@ -16233,6 +16799,7 @@ class _AxlGetAllViaList(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:707
         """
+    def expr(self, g_attr_vias: Skill = ..., /) -> Expr[list[RemoteObject]]: ...
 
 class _AxlGetAllVisibleProfiles(LiteralRemoteFunction):
     def __call__(self, /) -> Skill | None:
@@ -16247,6 +16814,7 @@ class _AxlGetAllVisibleProfiles(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:828
         """
+    def expr(self, /) -> Expr[Skill | None]: ...
 
 class _AxlGetAttachment(LiteralRemoteFunction):
     def __call__(self, t_attachment_id: str, s_data_format: Symbol | None = ..., /) -> RemoteObject | None:
@@ -16284,6 +16852,7 @@ class _AxlGetAttachment(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/16dbatt.md:142
         """
+    def expr(self, t_attachment_id: str, s_data_format: Symbol | None = ..., /) -> Expr[RemoteObject | None]: ...
 
 class _AxlGetDieData(LiteralRemoteFunction):
     def __call__(self, g_die_id: Skill, /) -> Skill | None:
@@ -16313,6 +16882,7 @@ class _AxlGetDieData(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:989
         """
+    def expr(self, g_die_id: Skill, /) -> Expr[Skill | None]: ...
 
 class _AxlGetDieStackData(LiteralRemoteFunction):
     def __call__(self, g_stack_arg: Skill, /) -> Skill | None:
@@ -16355,6 +16925,7 @@ class _AxlGetDieStackData(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:1063
         """
+    def expr(self, g_stack_arg: Skill, /) -> Expr[Skill | None]: ...
 
 class _AxlGetDieStackMemberSet(LiteralRemoteFunction):
     def __call__(self, /) -> Skill | None:
@@ -16396,6 +16967,7 @@ class _AxlGetDieStackMemberSet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:1108
         """
+    def expr(self, /) -> Expr[Skill | None]: ...
 
 class _AxlGetDieStackNames(LiteralRemoteFunction):
     def __call__(self, /) -> Skill | None:
@@ -16410,6 +16982,7 @@ class _AxlGetDieStackNames(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:1162
         """
+    def expr(self, /) -> Expr[Skill | None]: ...
 
 class _AxlGetDieType(LiteralRemoteFunction):
     def __call__(self, o_component_dbid: RemoteObject, /) -> str:
@@ -16437,6 +17010,7 @@ class _AxlGetDieType(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:704
         """
+    def expr(self, o_component_dbid: RemoteObject, /) -> Expr[str]: ...
 
 class _AxlGetDrawingName(LiteralRemoteFunction):
     def __call__(self, /) -> str:
@@ -16455,6 +17029,7 @@ class _AxlGetDrawingName(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:465
         """
+    def expr(self, /) -> Expr[str]: ...
 
 class _AxlGetDynamicsSegs(LiteralRemoteFunction):
     def __call__(self, point1: Skill, point2: Skill, last_path: Skill, /) -> list[Skill] | None:
@@ -16479,6 +17054,7 @@ class _AxlGetDynamicsSegs(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:470
         """
+    def expr(self, point1: Skill, point2: Skill, last_path: Skill, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlGetFindFilter(LiteralRemoteFunction):
     def __call__(self, on_enabled_f: Skill = ..., /) -> list[str] | None:
@@ -16523,6 +17099,7 @@ class _AxlGetFindFilter(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/05selfnd.md:755
         """
+    def expr(self, on_enabled_f: Skill = ..., /) -> Expr[list[str] | None]: ...
 
 class _AxlGetFuncKey(LiteralRemoteFunction):
     def __call__(self, t_alias: str | None, /) -> str | None:
@@ -16559,6 +17136,7 @@ class _AxlGetFuncKey(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/09cmdshl.md:56
         """
+    def expr(self, t_alias: str | None, /) -> Expr[str | None]: ...
 
 class _AxlGetImpedance(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, /) -> Skill:
@@ -16578,6 +17156,7 @@ class _AxlGetImpedance(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:525
         """
+    def expr(self, o_dbid: RemoteObject, /) -> Expr[Skill]: ...
 
 class _AxlGetIposerData(LiteralRemoteFunction):
     def __call__(self, g_iposer_id: Skill, /) -> Skill | None:
@@ -16623,6 +17202,7 @@ class _AxlGetIposerData(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:1180
         """
+    def expr(self, g_iposer_id: Skill, /) -> Expr[Skill | None]: ...
 
 class _AxlGetLastEnterPoint(LiteralRemoteFunction):
     def __call__(self, /) -> list[Skill] | None:
@@ -16639,6 +17219,7 @@ class _AxlGetLastEnterPoint(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:770
         """
+    def expr(self, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlGetLineLock(LiteralRemoteFunction):
     def __call__(self, s_name: Symbol, g_value: Skill = ..., /) -> Skill | list[Symbol]:
@@ -16691,9 +17272,10 @@ class _AxlGetLineLock(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:501
         """
+    def expr(self, s_name: Symbol, g_value: Skill = ..., /) -> Expr[Skill | list[Symbol]]: ...
 
 class _AxlGetMetalUsageForLayer(LiteralRemoteFunction):
-    def __call__(self, l_layers: SkillList, l_extents: SkillList | None = ..., g_positive: Skill = ..., /) -> Skill | None:
+    def __call__(self, l_layers: list[Skill] | tuple[Skill, ...], l_extents: list[Skill] | tuple[Skill, ...] | None = ..., g_positive: Skill = ..., /) -> Skill | None:
         """
         Computes the percentage metal coverage on the layers specified in l_layer(s) (combination of all layers listed) in the area specified in`l_extents`
 
@@ -16718,6 +17300,7 @@ class _AxlGetMetalUsageForLayer(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:733
         """
+    def expr(self, l_layers: list[Skill] | tuple[Skill, ...], l_extents: list[Skill] | tuple[Skill, ...] | None = ..., g_positive: Skill = ..., /) -> Expr[Skill | None]: ...
 
 class _AxlGetModuleInstanceDefinition(LiteralRemoteFunction):
     def __call__(self, o_modinst: RemoteObject, /) -> str | None:
@@ -16750,6 +17333,7 @@ class _AxlGetModuleInstanceDefinition(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:690
         """
+    def expr(self, o_modinst: RemoteObject, /) -> Expr[str | None]: ...
 
 class _AxlGetModuleInstanceLocation(LiteralRemoteFunction):
     def __call__(self, o_modinst: RemoteObject, /) -> list[Skill] | None:
@@ -16783,6 +17367,7 @@ class _AxlGetModuleInstanceLocation(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:723
         """
+    def expr(self, o_modinst: RemoteObject, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlGetModuleInstanceLogicMethod(LiteralRemoteFunction):
     def __call__(self, o_modinst: RemoteObject, /) -> Number | None:
@@ -16815,6 +17400,7 @@ class _AxlGetModuleInstanceLogicMethod(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:756
         """
+    def expr(self, o_modinst: RemoteObject, /) -> Expr[Number | None]: ...
 
 class _AxlGetModuleInstanceNetExceptions(LiteralRemoteFunction):
     def __call__(self, o_modinst: RemoteObject, /) -> list[Skill] | None:
@@ -16847,6 +17433,7 @@ class _AxlGetModuleInstanceNetExceptions(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:789
         """
+    def expr(self, o_modinst: RemoteObject, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlGetParam(LiteralRemoteFunction):
     @overload
@@ -17063,6 +17650,10 @@ class _AxlGetParam(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:750
         """
+    @overload
+    def expr(self, t_par: str, m_name: Skill, /) -> Expr[Skill | None]: ...
+    @overload
+    def expr(self, value: None, /) -> Expr[list[str]]: ...
 
 class _AxlGetSelSet(LiteralRemoteFunction):
     def __call__(self, /) -> list[RemoteObject] | None:
@@ -17085,6 +17676,7 @@ class _AxlGetSelSet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/05selfnd.md:676
         """
+    def expr(self, /) -> Expr[list[RemoteObject] | None]: ...
 
 class _AxlGetSelSetCount(LiteralRemoteFunction):
     def __call__(self, /) -> int:
@@ -17105,6 +17697,7 @@ class _AxlGetSelSetCount(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/05selfnd.md:704
         """
+    def expr(self, /) -> Expr[int]: ...
 
 class _AxlGetSpacerData(LiteralRemoteFunction):
     def __call__(self, g_spacer_id: Skill, /) -> Skill | None:
@@ -17148,9 +17741,10 @@ class _AxlGetSpacerData(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:1231
         """
+    def expr(self, g_spacer_id: Skill, /) -> Expr[Skill | None]: ...
 
 class _AxlGetTrapBox(LiteralRemoteFunction):
-    def __call__(self, l_point: SkillList, /) -> list[Skill] | None:
+    def __call__(self, l_point: list[Skill] | tuple[Skill, ...], /) -> list[Skill] | None:
         """
         Returns coordinates of the*Find* window.
 
@@ -17165,6 +17759,7 @@ class _AxlGetTrapBox(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:1133
         """
+    def expr(self, l_point: list[Skill] | tuple[Skill, ...], /) -> Expr[list[Skill] | None]: ...
 
 class _AxlGetVariable(LiteralRemoteFunction):
     def __call__(self, t_variable: str, /) -> str | None:
@@ -17204,6 +17799,7 @@ class _AxlGetVariable(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/09cmdshl.md:94
         """
+    def expr(self, t_variable: str, /) -> Expr[str | None]: ...
 
 class _AxlGetVariableList(LiteralRemoteFunction):
     def __call__(self, t_variable: str | None, /) -> str | list[str] | None:
@@ -17239,6 +17835,7 @@ class _AxlGetVariableList(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/09cmdshl.md:139
         """
+    def expr(self, t_variable: str | None, /) -> Expr[str | list[str] | None]: ...
 
 class _AxlGetWireProfileColor(LiteralRemoteFunction):
     def __call__(self, t_profile: str, /) -> Skill | None:
@@ -17254,6 +17851,7 @@ class _AxlGetWireProfileColor(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:1280
         """
+    def expr(self, t_profile: str, /) -> Expr[Skill | None]: ...
 
 class _AxlGetWireProfileDefinition(LiteralRemoteFunction):
     def __call__(self, profile_name: Skill, /) -> list[Skill] | Symbol:
@@ -17267,6 +17865,7 @@ class _AxlGetWireProfileDefinition(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:764
         """
+    def expr(self, profile_name: Skill, /) -> Expr[list[Skill] | Symbol]: ...
 
 class _AxlGetWireProfileDirection(LiteralRemoteFunction):
     def __call__(self, profile_name: Skill, /) -> Skill | None:
@@ -17287,6 +17886,7 @@ class _AxlGetWireProfileDirection(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:807
         """
+    def expr(self, profile_name: Skill, /) -> Expr[Skill | None]: ...
 
 class _AxlGetWireProfileVisible(LiteralRemoteFunction):
     def __call__(self, t_profile: str, /) -> bool | None:
@@ -17302,6 +17902,7 @@ class _AxlGetWireProfileVisible(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:1299
         """
+    def expr(self, t_profile: str, /) -> Expr[bool | None]: ...
 
 class _AxlGetXSection(LiteralRemoteFunction):
     def __call__(self, /) -> list[Skill] | None:
@@ -17331,6 +17932,7 @@ class _AxlGetXSection(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:1792
         """
+    def expr(self, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlHighlightObject(LiteralRemoteFunction):
     def __call__(self, lo_dbid: list[RemoteObject] | None = ..., g_perm_highlight: Skill = ..., /) -> bool | None:
@@ -17411,6 +18013,7 @@ class _AxlHighlightObject(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:625
         """
+    def expr(self, lo_dbid: list[RemoteObject] | None = ..., g_perm_highlight: Skill = ..., /) -> Expr[bool | None]: ...
 
 class _AxlHistory(LiteralRemoteFunction):
     @overload
@@ -17570,6 +18173,10 @@ class _AxlHistory(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:262
         """
+    @overload
+    def expr(self, x_num: int | None = ..., /) -> Expr[bool]: ...
+    @overload
+    def expr(self, s_operation: Symbol, t_filename: str, /) -> Expr[bool | None]: ...
 
 class _AxlHttp(LiteralRemoteFunction):
     def __call__(self, t_url: str, /) -> bool:
@@ -17610,6 +18217,7 @@ class _AxlHttp(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:349
         """
+    def expr(self, t_url: str, /) -> Expr[bool]: ...
 
 class _AxlISProductStarted(LiteralRemoteFunction):
     def __call__(self, *args: Skill, **kwargs: Skill) -> Skill:
@@ -17620,6 +18228,7 @@ class _AxlISProductStarted(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:448
         """
+    def expr(self, *args: Skill, **kwargs: Skill) -> Expr[Skill]: ...
 
 class _AxlIgnoreFixed(LiteralRemoteFunction):
     def __call__(self, *args: Skill, **kwargs: Skill) -> Skill:
@@ -17630,6 +18239,7 @@ class _AxlIgnoreFixed(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:490
         """
+    def expr(self, *args: Skill, **kwargs: Skill) -> Expr[Skill]: ...
 
 class _AxlImpdedanceGetLayerBroadsideDPImp(LiteralRemoteFunction):
     def __call__(self, t_layer1: str | int, t_layer2: str | int, f_width: float, /) -> float | None:
@@ -17642,6 +18252,7 @@ class _AxlImpdedanceGetLayerBroadsideDPImp(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:548
         """
+    def expr(self, t_layer1: str | int, t_layer2: str | int, f_width: float, /) -> Expr[float | None]: ...
 
 class _AxlImpdedanceGetLayerBroadsideDPWidth(LiteralRemoteFunction):
     def __call__(self, t_layer1: str | int, t_layer2: str | int, f_diff_impedance: float, /) -> float | None:
@@ -17654,6 +18265,7 @@ class _AxlImpdedanceGetLayerBroadsideDPWidth(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:578
         """
+    def expr(self, t_layer1: str | int, t_layer2: str | int, f_diff_impedance: float, /) -> Expr[float | None]: ...
 
 class _AxlImpdedanceGetLayerEdgeDPImp(LiteralRemoteFunction):
     def __call__(self, t_layer: str | int, f_spacing: float, f_width: float, /) -> float | None:
@@ -17666,6 +18278,7 @@ class _AxlImpdedanceGetLayerEdgeDPImp(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:608
         """
+    def expr(self, t_layer: str | int, f_spacing: float, f_width: float, /) -> Expr[float | None]: ...
 
 class _AxlImpdedanceGetLayerEdgeDPSpacing(LiteralRemoteFunction):
     def __call__(self, t_layer: str | int, f_width: float, f_diff_imp: float, /) -> float | None:
@@ -17678,6 +18291,7 @@ class _AxlImpdedanceGetLayerEdgeDPSpacing(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:636
         """
+    def expr(self, t_layer: str | int, f_width: float, f_diff_imp: float, /) -> Expr[float | None]: ...
 
 class _AxlImpdedanceGetLayerEdgeDPWidth(LiteralRemoteFunction):
     def __call__(self, t_layer: str | int, f_spacing: float, f_diff_imp: float, /) -> float | None:
@@ -17690,6 +18304,7 @@ class _AxlImpdedanceGetLayerEdgeDPWidth(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:664
         """
+    def expr(self, t_layer: str | int, f_spacing: float, f_diff_imp: float, /) -> Expr[float | None]: ...
 
 class _AxlImpedance2Width(LiteralRemoteFunction):
     def __call__(self, t_layer: str | int, f_impedance: float, /) -> float | None:
@@ -17704,6 +18319,7 @@ class _AxlImpedance2Width(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:692
         """
+    def expr(self, t_layer: str | int, f_impedance: float, /) -> Expr[float | None]: ...
 
 class _AxlImportWireProfileDefinitions(LiteralRemoteFunction):
     def __call__(self, xml_file_name: Skill, set_as_master: Skill, /) -> int | None:
@@ -17724,6 +18340,7 @@ class _AxlImportWireProfileDefinitions(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:887
         """
+    def expr(self, xml_file_name: Skill, set_as_master: Skill, /) -> Expr[int | None]: ...
 
 class _AxlImportXmlDBRecords(LiteralRemoteFunction):
     def __call__(self, t_file_name: str, /) -> bool | None:
@@ -17767,6 +18384,7 @@ class _AxlImportXmlDBRecords(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:420
         """
+    def expr(self, t_file_name: str, /) -> Expr[bool | None]: ...
 
 class _AxlInTrigger(LiteralRemoteFunction):
     def __call__(self, /) -> bool | None:
@@ -17779,6 +18397,7 @@ class _AxlInTrigger(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:494
         """
+    def expr(self, /) -> Expr[bool | None]: ...
 
 class _AxlInTriggerFunc(LiteralRemoteFunction):
     def __call__(self, /) -> Symbol | None:
@@ -17792,6 +18411,7 @@ class _AxlInTriggerFunc(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:514
         """
+    def expr(self, /) -> Expr[Symbol | None]: ...
 
 class _AxlIsAttachment(LiteralRemoteFunction):
     def __call__(self, o_attachment: RemoteObject, /) -> bool | None:
@@ -17809,9 +18429,10 @@ class _AxlIsAttachment(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/16dbatt.md:189
         """
+    def expr(self, o_attachment: RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlIsBetween(LiteralRemoteFunction):
-    def __call__(self, l_test_point: SkillList, l_pt1: SkillList, l_pt2: SkillList, /) -> bool | None:
+    def __call__(self, l_test_point: list[Skill] | tuple[Skill, ...], l_pt1: list[Skill] | tuple[Skill, ...], l_pt2: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         Used to check if a given point lies between two specified points
 
@@ -17824,6 +18445,7 @@ class _AxlIsBetween(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/24mthutl.md:365
         """
+    def expr(self, l_test_point: list[Skill] | tuple[Skill, ...], l_pt1: list[Skill] | tuple[Skill, ...], l_pt2: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlIsCustomColored(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, /) -> int | None:
@@ -17837,6 +18459,7 @@ class _AxlIsCustomColored(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:1710
         """
+    def expr(self, o_dbid: RemoteObject, /) -> Expr[int | None]: ...
 
 class _AxlIsDBIDType(LiteralRemoteFunction):
     def __call__(self, g_dbid: Skill, /) -> bool | None:
@@ -17869,6 +18492,7 @@ class _AxlIsDBIDType(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:242
         """
+    def expr(self, g_dbid: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlIsDebug(LiteralRemoteFunction):
     def __call__(self, /) -> bool | None:
@@ -17889,6 +18513,7 @@ class _AxlIsDebug(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:390
         """
+    def expr(self, /) -> Expr[bool | None]: ...
 
 class _AxlIsDummyNet(LiteralRemoteFunction):
     def __call__(self, net_dbid: Skill, /) -> bool | None:
@@ -17908,6 +18533,7 @@ class _AxlIsDummyNet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:822
         """
+    def expr(self, net_dbid: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlIsEtchLayer(LiteralRemoteFunction):
     def __call__(self, t_layer: str, /) -> bool | None:
@@ -17934,6 +18560,7 @@ class _AxlIsEtchLayer(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:1831
         """
+    def expr(self, t_layer: str, /) -> Expr[bool | None]: ...
 
 class _AxlIsFormType(LiteralRemoteFunction):
     def __call__(self, g_form: Skill, /) -> bool | None:
@@ -17958,6 +18585,7 @@ class _AxlIsFormType(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part02.md:1366
         """
+    def expr(self, g_form: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlIsGridCellType(LiteralRemoteFunction):
     def __call__(self, r_cell: RemoteObject, /) -> bool | None:
@@ -17975,6 +18603,7 @@ class _AxlIsGridCellType(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/11frmint.part03.md:345
         """
+    def expr(self, r_cell: RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlIsHighlighted(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, /) -> int | None:
@@ -18000,6 +18629,7 @@ class _AxlIsHighlighted(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:1045
         """
+    def expr(self, o_dbid: RemoteObject, /) -> Expr[int | None]: ...
 
 class _AxlIsLayer(LiteralRemoteFunction):
     def __call__(self, t_layer: str, /) -> bool | None:
@@ -18019,6 +18649,7 @@ class _AxlIsLayer(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:1856
         """
+    def expr(self, t_layer: str, /) -> Expr[bool | None]: ...
 
 class _AxlIsLayerNegative(LiteralRemoteFunction):
     def __call__(self, t_layer_name: str, /) -> bool | None:
@@ -18043,6 +18674,7 @@ class _AxlIsLayerNegative(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:845
         """
+    def expr(self, t_layer_name: str, /) -> Expr[bool | None]: ...
 
 class _AxlIsPinUnused(LiteralRemoteFunction):
     def __call__(self, pin_dbid: Skill, /) -> bool | None:
@@ -18060,9 +18692,10 @@ class _AxlIsPinUnused(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:874
         """
+    def expr(self, pin_dbid: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlIsPointInsideBox(LiteralRemoteFunction):
-    def __call__(self, l_point: SkillList, l_box: SkillList, /) -> bool | None:
+    def __call__(self, l_point: list[Skill] | tuple[Skill, ...], l_box: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         Returns`t` if a point is inside or on the edge of a box
 
@@ -18089,9 +18722,10 @@ class _AxlIsPointInsideBox(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/24mthutl.md:387
         """
+    def expr(self, l_point: list[Skill] | tuple[Skill, ...], l_box: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlIsPointOnLine(LiteralRemoteFunction):
-    def __call__(self, l_point: SkillList, ll_line: SkillList, f: float | None = ..., near_ness: Skill = ..., /) -> bool | None:
+    def __call__(self, l_point: list[Skill] | tuple[Skill, ...], ll_line: list[Skill] | tuple[Skill, ...], f: float | None = ..., near_ness: Skill = ..., /) -> bool | None:
         """
         Returns`t` if point is on a given line or `nil` if not on the line.
 
@@ -18123,6 +18757,7 @@ class _AxlIsPointOnLine(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/24mthutl.md:415
         """
+    def expr(self, l_point: list[Skill] | tuple[Skill, ...], ll_line: list[Skill] | tuple[Skill, ...], f: float | None = ..., near_ness: Skill = ..., /) -> Expr[bool | None]: ...
 
 class _AxlIsPolyType(LiteralRemoteFunction):
     def __call__(self, g_polygon: Skill, /) -> bool | None:
@@ -18149,6 +18784,7 @@ class _AxlIsPolyType(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/20plyopr.md:462
         """
+    def expr(self, g_polygon: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlIsProductLineActive(LiteralRemoteFunction):
     def __call__(self, t_product_line: str, /) -> bool | None:
@@ -18163,6 +18799,7 @@ class _AxlIsProductLineActive(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:422
         """
+    def expr(self, t_product_line: str, /) -> Expr[bool | None]: ...
 
 class _AxlIsProtectAlias(LiteralRemoteFunction):
     def __call__(self, t_alias: str, /) -> bool | None:
@@ -18182,6 +18819,7 @@ class _AxlIsProtectAlias(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/09cmdshl.md:253
         """
+    def expr(self, t_alias: str, /) -> Expr[bool | None]: ...
 
 class _AxlIsSymbolEditor(LiteralRemoteFunction):
     def __call__(self, /) -> bool | None:
@@ -18201,6 +18839,7 @@ class _AxlIsSymbolEditor(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:535
         """
+    def expr(self, /) -> Expr[bool | None]: ...
 
 class _AxlIsViewFileType(LiteralRemoteFunction):
     def __call__(self, g_user_type: Skill, /) -> bool | None:
@@ -18227,6 +18866,7 @@ class _AxlIsViewFileType(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:1482
         """
+    def expr(self, g_user_type: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlIsVisibleLayer(LiteralRemoteFunction):
     def __call__(self, t_layer: str, /) -> bool | None:
@@ -18249,6 +18889,7 @@ class _AxlIsVisibleLayer(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:1875
         """
+    def expr(self, t_layer: str, /) -> Expr[bool | None]: ...
 
 class _AxlIsitFill(LiteralRemoteFunction):
     def __call__(self, t_layer: str, /) -> bool | None:
@@ -18266,6 +18907,7 @@ class _AxlIsitFill(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:897
         """
+    def expr(self, t_layer: str, /) -> Expr[bool | None]: ...
 
 class _AxlJournal(LiteralRemoteFunction):
     def __call__(self, g_option: Skill, /) -> Skill | None:
@@ -18307,6 +18949,7 @@ class _AxlJournal(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/09cmdshl.md:178
         """
+    def expr(self, g_option: Skill, /) -> Expr[Skill | None]: ...
 
 class _AxlKillDesign(LiteralRemoteFunction):
     def __call__(self, /) -> bool | None:
@@ -18323,9 +18966,10 @@ class _AxlKillDesign(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:561
         """
+    def expr(self, /) -> Expr[bool | None]: ...
 
 class _AxlLastPick(LiteralRemoteFunction):
-    def __call__(self, l_mode: SkillList, /) -> Skill:
+    def __call__(self, l_mode: list[Skill] | tuple[Skill, ...], /) -> Skill:
         """
         This returns the last processed cursor pick
 
@@ -18345,6 +18989,7 @@ class _AxlLastPick(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:791
         """
+    def expr(self, l_mode: list[Skill] | tuple[Skill, ...], /) -> Expr[Skill]: ...
 
 class _AxlLastPickIsSnapped(LiteralRemoteFunction):
     def __call__(self, /) -> bool | None:
@@ -18368,6 +19013,7 @@ class _AxlLastPickIsSnapped(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/05selfnd.md:1419
         """
+    def expr(self, /) -> Expr[bool | None]: ...
 
 class _AxlLayerCreateCrossSection(LiteralRemoteFunction):
     def __call__(self, t_pre: str, v_layer_name: Skill, t_layer_type: str, t_material_type: str, t_subclass_name: str | None = ..., t_plane_type: str | None = ..., /) -> bool | None:
@@ -18384,6 +19030,7 @@ class _AxlLayerCreateCrossSection(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:1898
         """
+    def expr(self, t_pre: str, v_layer_name: Skill, t_layer_type: str, t_material_type: str, t_subclass_name: str | None = ..., t_plane_type: str | None = ..., /) -> Expr[bool | None]: ...
 
 class _AxlLayerCreateNonConductor(LiteralRemoteFunction):
     def __call__(self, t_layer_name: str, /) -> bool | None:
@@ -18410,6 +19057,7 @@ class _AxlLayerCreateNonConductor(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part02.md:24
         """
+    def expr(self, t_layer_name: str, /) -> Expr[bool | None]: ...
 
 class _AxlLayerDelete(LiteralRemoteFunction):
     def __call__(self, t_layer_name: str | int, /) -> bool | None:
@@ -18445,6 +19093,7 @@ class _AxlLayerDelete(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part02.md:49
         """
+    def expr(self, t_layer_name: str | int, /) -> Expr[bool | None]: ...
 
 class _AxlLayerGet(LiteralRemoteFunction):
     def __call__(self, t_layer: str, /) -> RemoteObject | None:
@@ -18483,6 +19132,7 @@ class _AxlLayerGet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part02.md:89
         """
+    def expr(self, t_layer: str, /) -> Expr[RemoteObject | None]: ...
 
 class _AxlLayerPriorityClearAll(LiteralRemoteFunction):
     def __call__(self, /) -> bool | None:
@@ -18498,6 +19148,7 @@ class _AxlLayerPriorityClearAll(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:1534
         """
+    def expr(self, /) -> Expr[bool | None]: ...
 
 class _AxlLayerPriorityGet(LiteralRemoteFunction):
     def __call__(self, t_layer: str, /) -> int | str | None:
@@ -18541,6 +19192,7 @@ class _AxlLayerPriorityGet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:1555
         """
+    def expr(self, t_layer: str, /) -> Expr[int | str | None]: ...
 
 class _AxlLayerPriorityRestoreAll(LiteralRemoteFunction):
     def __call__(self, /) -> bool | None:
@@ -18557,6 +19209,7 @@ class _AxlLayerPriorityRestoreAll(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:1602
         """
+    def expr(self, /) -> Expr[bool | None]: ...
 
 class _AxlLayerPrioritySaveAll(LiteralRemoteFunction):
     def __call__(self, /) -> bool | None:
@@ -18573,6 +19226,7 @@ class _AxlLayerPrioritySaveAll(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:1624
         """
+    def expr(self, /) -> Expr[bool | None]: ...
 
 class _AxlLayerPrioritySet(LiteralRemoteFunction):
     def __call__(self, t_layer: str, x_priority: int, /) -> bool | None:
@@ -18630,6 +19284,7 @@ class _AxlLayerPrioritySet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:1646
         """
+    def expr(self, t_layer: str, x_priority: int, /) -> Expr[bool | None]: ...
 
 class _AxlLayerSet(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, /) -> RemoteObject | None:
@@ -18662,6 +19317,7 @@ class _AxlLayerSet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:900
         """
+    def expr(self, o_dbid: RemoteObject, /) -> Expr[RemoteObject | None]: ...
 
 class _AxlLayerViaLabel(LiteralRemoteFunction):
     def __call__(self, t_layer_name: str | int, /) -> str | None:
@@ -18681,6 +19337,7 @@ class _AxlLayerViaLabel(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part02.md:130
         """
+    def expr(self, t_layer_name: str | int, /) -> Expr[str | None]: ...
 
 class _AxlLicDefaultVersion(LiteralRemoteFunction):
     def __call__(self, /) -> float:
@@ -18693,6 +19350,7 @@ class _AxlLicDefaultVersion(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:456
         """
+    def expr(self, /) -> Expr[float]: ...
 
 class _AxlLicFeatureExists(LiteralRemoteFunction):
     def __call__(self, t_license: str, f_version: float | None = ..., /) -> bool | None:
@@ -18709,6 +19367,7 @@ class _AxlLicFeatureExists(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:472
         """
+    def expr(self, t_license: str, f_version: float | None = ..., /) -> Expr[bool | None]: ...
 
 class _AxlLicIsProductEnabled(LiteralRemoteFunction):
     @overload
@@ -18773,9 +19432,13 @@ class _AxlLicIsProductEnabled(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:494
         """
+    @overload
+    def expr(self, t_license: str, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, all: Skill, /) -> Expr[list[str]]: ...
 
 class _AxlLineSlope(LiteralRemoteFunction):
-    def __call__(self, ll_line: SkillList, /) -> float:
+    def __call__(self, ll_line: list[Skill] | tuple[Skill, ...], /) -> float:
         """
         Returns the slope of a line
 
@@ -18799,9 +19462,10 @@ class _AxlLineSlope(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/24mthutl.md:452
         """
+    def expr(self, ll_line: list[Skill] | tuple[Skill, ...], /) -> Expr[float]: ...
 
 class _AxlLineXLine(LiteralRemoteFunction):
-    def __call__(self, l_seg1: SkillList, l_seg2: SkillList, /) -> bool:
+    def __call__(self, l_seg1: list[Skill] | tuple[Skill, ...], l_seg2: list[Skill] | tuple[Skill, ...], /) -> bool:
         """
         This function is no longer required, but is kept for backward compatibility.
 
@@ -18812,6 +19476,7 @@ class _AxlLineXLine(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/24mthutl.md:477
         """
+    def expr(self, l_seg1: list[Skill] | tuple[Skill, ...], l_seg2: list[Skill] | tuple[Skill, ...], /) -> Expr[bool]: ...
 
 class _AxlLoadPadstack(LiteralRemoteFunction):
     def __call__(self, t_padname: str, /) -> RemoteObject:
@@ -18838,6 +19503,7 @@ class _AxlLoadPadstack(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part02.md:292
         """
+    def expr(self, t_padname: str, /) -> Expr[RemoteObject]: ...
 
 class _AxlLoadSymbol(LiteralRemoteFunction):
     def __call__(self, t_sym_kind: str, t_sym_name: str, /) -> RemoteObject | None:
@@ -18872,6 +19538,7 @@ class _AxlLoadSymbol(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part02.md:317
         """
+    def expr(self, t_sym_kind: str, t_sym_name: str, /) -> Expr[RemoteObject | None]: ...
 
 class _AxlLogHeader(LiteralRemoteFunction):
     def __call__(self, p_port: Skill, t_title_string: str, t_prefix: str | None = ..., /) -> bool | None:
@@ -18901,6 +19568,7 @@ class _AxlLogHeader(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:532
         """
+    def expr(self, p_port: Skill, t_title_string: str, t_prefix: str | None = ..., /) -> Expr[bool | None]: ...
 
 class _AxlMKS2UU(LiteralRemoteFunction):
     def __call__(self, t_mks_string: str, /) -> float | None:
@@ -18951,6 +19619,7 @@ class _AxlMKS2UU(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:561
         """
+    def expr(self, t_mks_string: str, /) -> Expr[float | None]: ...
 
 class _AxlMKSAlias(LiteralRemoteFunction):
     def __call__(self, t_mks_alias: str, /) -> str | None:
@@ -18983,6 +19652,7 @@ class _AxlMKSAlias(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:616
         """
+    def expr(self, t_mks_alias: str, /) -> Expr[str | None]: ...
 
 class _AxlMKSConvert(LiteralRemoteFunction):
     @overload
@@ -19243,6 +19913,14 @@ class _AxlMKSConvert(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:647
         """
+    @overload
+    def expr(self, n_input: Number, t_in_units: str, t_out_units: str | None = ..., /) -> Expr[float | None]: ...
+    @overload
+    def expr(self, t_input: str, t_out_units: str | None = ..., /) -> Expr[float | None]: ...
+    @overload
+    def expr(self, value: None, t_in_units: str, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, n_input: Number, /) -> Expr[float | None]: ...
 
 class _AxlMKSStr2UU(LiteralRemoteFunction):
     def __call__(self, t_string: str, /) -> str | None:
@@ -19275,9 +19953,10 @@ class _AxlMKSStr2UU(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:728
         """
+    def expr(self, t_string: str, /) -> Expr[str | None]: ...
 
 class _AxlMPythag(LiteralRemoteFunction):
-    def __call__(self, l: SkillList, pt1: Skill, l_2: SkillList, pt2: Skill, /) -> float | None:
+    def __call__(self, l: list[Skill] | tuple[Skill, ...], pt1: Skill, l_2: list[Skill] | tuple[Skill, ...], pt2: Skill, /) -> float | None:
         """
         Calculates distance between two points using pythagoras
 
@@ -19301,9 +19980,10 @@ class _AxlMPythag(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/24mthutl.md:619
         """
+    def expr(self, l: list[Skill] | tuple[Skill, ...], pt1: Skill, l_2: list[Skill] | tuple[Skill, ...], pt2: Skill, /) -> Expr[float | None]: ...
 
 class _AxlMUniVector(LiteralRemoteFunction):
-    def __call__(self, l_pt1: SkillList, l_pt2: SkillList, f_length: float | None = ..., /) -> list[Skill]:
+    def __call__(self, l_pt1: list[Skill] | tuple[Skill, ...], l_pt2: list[Skill] | tuple[Skill, ...], f_length: float | None = ..., /) -> list[Skill]:
         """
         This calculates a unit-vector
 
@@ -19341,9 +20021,10 @@ class _AxlMUniVector(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/24mthutl.md:648
         """
+    def expr(self, l_pt1: list[Skill] | tuple[Skill, ...], l_pt2: list[Skill] | tuple[Skill, ...], f_length: float | None = ..., /) -> Expr[list[Skill]]: ...
 
 class _AxlMXYAdd(LiteralRemoteFunction):
-    def __call__(self, l_pt1: SkillList, l_pt2: SkillList, /) -> list[Skill] | None:
+    def __call__(self, l_pt1: list[Skill] | tuple[Skill, ...], l_pt2: list[Skill] | tuple[Skill, ...], /) -> list[Skill] | None:
         """
         This does a`l_pt1 + lpt2` and returns the result.
 
@@ -19360,9 +20041,10 @@ class _AxlMXYAdd(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/24mthutl.md:690
         """
+    def expr(self, l_pt1: list[Skill] | tuple[Skill, ...], l_pt2: list[Skill] | tuple[Skill, ...], /) -> Expr[list[Skill] | None]: ...
 
 class _AxlMXYMult(LiteralRemoteFunction):
-    def __call__(self, l_uni_vec: SkillList, f_factor: float, l_origin: SkillList | None = ..., /) -> list[Skill] | None:
+    def __call__(self, l_uni_vec: list[Skill] | tuple[Skill, ...], f_factor: float, l_origin: list[Skill] | tuple[Skill, ...] | None = ..., /) -> list[Skill] | None:
         """
         This is a convenience function that does a`l_pt.x * f_factor` and `lpt.y * factor` and returns the result
 
@@ -19390,9 +20072,10 @@ class _AxlMXYMult(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/24mthutl.md:718
         """
+    def expr(self, l_uni_vec: list[Skill] | tuple[Skill, ...], f_factor: float, l_origin: list[Skill] | tuple[Skill, ...] | None = ..., /) -> Expr[list[Skill] | None]: ...
 
 class _AxlMXYSub(LiteralRemoteFunction):
-    def __call__(self, l_pt1: SkillList, l_pt2: SkillList, /) -> list[Skill] | None:
+    def __call__(self, l_pt1: list[Skill] | tuple[Skill, ...], l_pt2: list[Skill] | tuple[Skill, ...], /) -> list[Skill] | None:
         """
         This does a`l_pt1 - lpt2` and returns the result.
 
@@ -19409,9 +20092,10 @@ class _AxlMXYSub(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/24mthutl.md:751
         """
+    def expr(self, l_pt1: list[Skill] | tuple[Skill, ...], l_pt2: list[Skill] | tuple[Skill, ...], /) -> Expr[list[Skill] | None]: ...
 
 class _AxlMakeDynamicsPath(LiteralRemoteFunction):
-    def __call__(self, l_formatted_list: SkillList, /) -> RemoteObject | None:
+    def __call__(self, l_formatted_list: list[Skill] | tuple[Skill, ...], /) -> RemoteObject | None:
         """
         No description available.
 
@@ -19434,6 +20118,7 @@ class _AxlMakeDynamicsPath(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:1576
         """
+    def expr(self, l_formatted_list: list[Skill] | tuple[Skill, ...], /) -> Expr[RemoteObject | None]: ...
 
 class _AxlMapClassName(LiteralRemoteFunction):
     def __call__(self, t_old_name: str | list[str], g_map_to_pcb: Skill = ..., /) -> str | list[str]:
@@ -19487,6 +20172,7 @@ class _AxlMapClassName(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:765
         """
+    def expr(self, t_old_name: str | list[str], g_map_to_pcb: Skill = ..., /) -> Expr[str | list[str]]: ...
 
 class _AxlMatchGroupAdd(LiteralRemoteFunction):
     def __call__(self, o_mgdbid: RemoteObject | str, o_dbid: RemoteObject | list[RemoteObject], /) -> bool | None:
@@ -19530,6 +20216,7 @@ class _AxlMatchGroupAdd(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/26logacc.md:618
         """
+    def expr(self, o_mgdbid: RemoteObject | str, o_dbid: RemoteObject | list[RemoteObject], /) -> Expr[bool | None]: ...
 
 class _AxlMatchGroupCreate(LiteralRemoteFunction):
     def __call__(self, t_name: str, /) -> RemoteObject:
@@ -19604,6 +20291,7 @@ class _AxlMatchGroupCreate(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/26logacc.md:666
         """
+    def expr(self, t_name: str, /) -> Expr[RemoteObject]: ...
 
 class _AxlMatchGroupDelete(LiteralRemoteFunction):
     def __call__(self, o_mgdbid: RemoteObject | str, /) -> bool | None:
@@ -19640,6 +20328,7 @@ class _AxlMatchGroupDelete(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/26logacc.md:743
         """
+    def expr(self, o_mgdbid: RemoteObject | str, /) -> Expr[bool | None]: ...
 
 class _AxlMatchGroupProp(LiteralRemoteFunction):
     def __call__(self, o_mgdbid: RemoteObject | str, o_dbid: RemoteObject, t_value: str | None, /) -> bool | None:
@@ -19696,6 +20385,7 @@ class _AxlMatchGroupProp(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/26logacc.md:785
         """
+    def expr(self, o_mgdbid: RemoteObject | str, o_dbid: RemoteObject, t_value: str | None, /) -> Expr[bool | None]: ...
 
 class _AxlMatchGroupRemove(LiteralRemoteFunction):
     def __call__(self, o_mgdbid: RemoteObject | str, o_dbid: RemoteObject | list[RemoteObject], /) -> bool | None:
@@ -19727,6 +20417,7 @@ class _AxlMatchGroupRemove(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/26logacc.md:849
         """
+    def expr(self, o_mgdbid: RemoteObject | str, o_dbid: RemoteObject | list[RemoteObject], /) -> Expr[bool | None]: ...
 
 class _AxlMaterialGet(LiteralRemoteFunction):
     @overload
@@ -20091,9 +20782,19 @@ class _AxlMaterialGet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part02.md:156
         """
+    @overload
+    def expr(self, value: None, /) -> Expr[list[str]]: ...
+    @overload
+    def expr(self, t_material_name: str, /) -> Expr[Skill]: ...
+    @overload
+    def expr(self, all: Symbol, /) -> Expr[Skill]: ...
+    @overload
+    def expr(self, file: Symbol, /) -> Expr[str]: ...
+    @overload
+    def expr(self, path: Symbol, /) -> Expr[str]: ...
 
 class _AxlMathDotProduct(LiteralRemoteFunction):
-    def __call__(self, l_pt_a1: SkillList, l_pt_a2: SkillList, l_pt_b1: SkillList, l_pt_b2: SkillList, /) -> float:
+    def __call__(self, l_pt_a1: list[Skill] | tuple[Skill, ...], l_pt_a2: list[Skill] | tuple[Skill, ...], l_pt_b1: list[Skill] | tuple[Skill, ...], l_pt_b2: list[Skill] | tuple[Skill, ...], /) -> float:
         """
         This calculates the dot or scaler product.
 
@@ -20114,6 +20815,7 @@ class _AxlMathDotProduct(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/24mthutl.md:526
         """
+    def expr(self, l_pt_a1: list[Skill] | tuple[Skill, ...], l_pt_a2: list[Skill] | tuple[Skill, ...], l_pt_b1: list[Skill] | tuple[Skill, ...], l_pt_b2: list[Skill] | tuple[Skill, ...], /) -> Expr[float]: ...
 
 class _AxlMemSize(LiteralRemoteFunction):
     def __call__(self, /) -> int:
@@ -20129,6 +20831,7 @@ class _AxlMemSize(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:815
         """
+    def expr(self, /) -> Expr[int]: ...
 
 class _AxlMeterCreate(LiteralRemoteFunction):
     def __call__(self, t_title: str, t_info_string: str, g_enable_cancel: Skill, t_formname: str | None = ..., t_info_string2: str | None = ..., g_form_callback: Skill = ..., /) -> bool | None:
@@ -20172,6 +20875,7 @@ class _AxlMeterCreate(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:529
         """
+    def expr(self, t_title: str, t_info_string: str, g_enable_cancel: Skill, t_formname: str | None = ..., t_info_string2: str | None = ..., g_form_callback: Skill = ..., /) -> Expr[bool | None]: ...
 
 class _AxlMeterDestroy(LiteralRemoteFunction):
     def __call__(self, /) -> bool | None:
@@ -20182,6 +20886,7 @@ class _AxlMeterDestroy(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:579
         """
+    def expr(self, /) -> Expr[bool | None]: ...
 
 class _AxlMeterIsCancelled(LiteralRemoteFunction):
     def __call__(self, /) -> bool | None:
@@ -20196,6 +20901,7 @@ class _AxlMeterIsCancelled(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:599
         """
+    def expr(self, /) -> Expr[bool | None]: ...
 
 class _AxlMeterUpdate(LiteralRemoteFunction):
     def __call__(self, x_percent_done: int, t_info_string: str, t_info_str2: str | None = ..., /) -> bool | None:
@@ -20208,9 +20914,10 @@ class _AxlMeterUpdate(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:621
         """
+    def expr(self, x_percent_done: int, t_info_string: str, t_info_str2: str | None = ..., /) -> Expr[bool | None]: ...
 
 class _AxlMidPointArc(LiteralRemoteFunction):
-    def __call__(self, ll_end_points: SkillList, l_center: SkillList, f_radius: float, g_clockwise: Skill, /) -> list[Skill]:
+    def __call__(self, ll_end_points: list[Skill] | tuple[Skill, ...], l_center: list[Skill] | tuple[Skill, ...], f_radius: float, g_clockwise: Skill, /) -> list[Skill]:
         """
         Returns mid-point on a arc
 
@@ -20242,9 +20949,10 @@ class _AxlMidPointArc(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/24mthutl.md:556
         """
+    def expr(self, ll_end_points: list[Skill] | tuple[Skill, ...], l_center: list[Skill] | tuple[Skill, ...], f_radius: float, g_clockwise: Skill, /) -> Expr[list[Skill]]: ...
 
 class _AxlMidPointLine(LiteralRemoteFunction):
-    def __call__(self, ll_line: SkillList, /) -> list[Skill]:
+    def __call__(self, ll_line: list[Skill] | tuple[Skill, ...], /) -> list[Skill]:
         """
         Returns mid-point of line
 
@@ -20266,6 +20974,7 @@ class _AxlMidPointLine(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/24mthutl.md:592
         """
+    def expr(self, ll_line: list[Skill] | tuple[Skill, ...], /) -> Expr[list[Skill]]: ...
 
 class _AxlMiniStatusLoad(LiteralRemoteFunction):
     def __call__(self, s_form_handle: Symbol, g_form_source: Skill, g_form_action: Skill, g_string_option: Skill = ..., t_restrict: str | None = ..., /) -> RemoteObject | None:
@@ -20341,6 +21050,7 @@ class _AxlMiniStatusLoad(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:734
         """
+    def expr(self, s_form_handle: Symbol, g_form_source: Skill, g_form_action: Skill, g_string_option: Skill = ..., t_restrict: str | None = ..., /) -> Expr[RemoteObject | None]: ...
 
 class _AxlMiniStatusReset(LiteralRemoteFunction):
     def __call__(self, /) -> bool | None:
@@ -20364,6 +21074,7 @@ class _AxlMiniStatusReset(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:474
         """
+    def expr(self, /) -> Expr[bool | None]: ...
 
 class _AxlMsgCancelPrint(LiteralRemoteFunction):
     def __call__(self, /) -> bool:
@@ -20392,6 +21103,7 @@ class _AxlMsgCancelPrint(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/13msghnd.md:333
         """
+    def expr(self, /) -> Expr[bool]: ...
 
 class _AxlMsgCancelSeen(LiteralRemoteFunction):
     def __call__(self, /) -> bool | None:
@@ -20415,6 +21127,7 @@ class _AxlMsgCancelSeen(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/13msghnd.md:360
         """
+    def expr(self, /) -> Expr[bool | None]: ...
 
 class _AxlMsgClear(LiteralRemoteFunction):
     def __call__(self, /) -> bool:
@@ -20437,6 +21150,7 @@ class _AxlMsgClear(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/13msghnd.md:384
         """
+    def expr(self, /) -> Expr[bool]: ...
 
 class _AxlMsgContextClear(LiteralRemoteFunction):
     def __call__(self, r_context: RemoteObject, /) -> bool:
@@ -20464,6 +21178,7 @@ class _AxlMsgContextClear(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/13msghnd.md:307
         """
+    def expr(self, r_context: RemoteObject, /) -> Expr[bool]: ...
 
 class _AxlMsgContextFinish(LiteralRemoteFunction):
     def __call__(self, r_context: RemoteObject, /) -> bool:
@@ -20489,6 +21204,7 @@ class _AxlMsgContextFinish(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/13msghnd.md:283
         """
+    def expr(self, r_context: RemoteObject, /) -> Expr[bool]: ...
 
 class _AxlMsgContextGet(LiteralRemoteFunction):
     def __call__(self, r_context: RemoteObject, /) -> list[str] | None:
@@ -20515,6 +21231,7 @@ class _AxlMsgContextGet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/13msghnd.md:156
         """
+    def expr(self, r_context: RemoteObject, /) -> Expr[list[str] | None]: ...
 
 class _AxlMsgContextGetString(LiteralRemoteFunction):
     def __call__(self, r_context: RemoteObject, /) -> list[str] | None:
@@ -20541,6 +21258,7 @@ class _AxlMsgContextGetString(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/13msghnd.md:129
         """
+    def expr(self, r_context: RemoteObject, /) -> Expr[list[str] | None]: ...
 
 class _AxlMsgContextInBuf(LiteralRemoteFunction):
     def __call__(self, r_context: RemoteObject, t_format_string: str, /) -> bool:
@@ -20568,6 +21286,7 @@ class _AxlMsgContextInBuf(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/13msghnd.md:207
         """
+    def expr(self, r_context: RemoteObject, t_format_string: str, /) -> Expr[bool]: ...
 
 class _AxlMsgContextPrint(LiteralRemoteFunction):
     def __call__(self, r_context: RemoteObject, /) -> bool:
@@ -20601,6 +21320,7 @@ class _AxlMsgContextPrint(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/13msghnd.md:97
         """
+    def expr(self, r_context: RemoteObject, /) -> Expr[bool]: ...
 
 class _AxlMsgContextRemove(LiteralRemoteFunction):
     def __call__(self, r_context: RemoteObject, t_format_string: str, /) -> bool:
@@ -20627,6 +21347,7 @@ class _AxlMsgContextRemove(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/13msghnd.md:233
         """
+    def expr(self, r_context: RemoteObject, t_format_string: str, /) -> Expr[bool]: ...
 
 class _AxlMsgContextStart(LiteralRemoteFunction):
     def __call__(self, g_format_string: Skill, /, *g_args: Skill) -> RemoteObject:
@@ -20652,6 +21373,7 @@ class _AxlMsgContextStart(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/13msghnd.md:258
         """
+    def expr(self, g_format_string: Skill, /, *g_args: Skill) -> Expr[RemoteObject]: ...
 
 class _AxlMsgContextTest(LiteralRemoteFunction):
     def __call__(self, r_context: RemoteObject, /) -> int:
@@ -20677,6 +21399,7 @@ class _AxlMsgContextTest(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/13msghnd.md:183
         """
+    def expr(self, r_context: RemoteObject, /) -> Expr[int]: ...
 
 class _AxlMsgPut(LiteralRemoteFunction):
     def __call__(self, g_message_format: Skill, /, *g_args: Skill) -> bool:
@@ -20702,6 +21425,7 @@ class _AxlMsgPut(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/13msghnd.md:72
         """
+    def expr(self, g_message_format: Skill, /, *g_args: Skill) -> Expr[bool]: ...
 
 class _AxlMsgSet(LiteralRemoteFunction):
     def __call__(self, x_class: int, /) -> bool:
@@ -20727,6 +21451,7 @@ class _AxlMsgSet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/13msghnd.md:407
         """
+    def expr(self, x_class: int, /) -> Expr[bool]: ...
 
 class _AxlMsgTest(LiteralRemoteFunction):
     def __call__(self, /) -> int:
@@ -20753,6 +21478,7 @@ class _AxlMsgTest(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/13msghnd.md:431
         """
+    def expr(self, /) -> Expr[int]: ...
 
 class _AxlNetClassAdd(LiteralRemoteFunction):
     def __call__(self, o_netclassdbid: RemoteObject | str, o_dbid: RemoteObject | list[RemoteObject], /) -> bool | None:
@@ -20796,9 +21522,10 @@ class _AxlNetClassAdd(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/15dbgrp.md:244
         """
+    def expr(self, o_netclassdbid: RemoteObject | str, o_dbid: RemoteObject | list[RemoteObject], /) -> Expr[bool | None]: ...
 
 class _AxlNetClassCreate(LiteralRemoteFunction):
-    def __call__(self, t_name: str, g_domain: Skill | SkillList, /) -> RemoteObject:
+    def __call__(self, t_name: str, g_domain: Skill | list[Skill] | tuple[Skill, ...], /) -> RemoteObject:
         """
         This creates a new netclass group
 
@@ -20827,9 +21554,10 @@ class _AxlNetClassCreate(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/15dbgrp.md:292
         """
+    def expr(self, t_name: str, g_domain: Skill | list[Skill] | tuple[Skill, ...], /) -> Expr[RemoteObject]: ...
 
 class _AxlNetClassDelete(LiteralRemoteFunction):
-    def __call__(self, o_netclassdbid: RemoteObject | str | SkillList, /) -> bool | None:
+    def __call__(self, o_netclassdbid: RemoteObject | str | list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         This deletes a net class group
 
@@ -20848,6 +21576,7 @@ class _AxlNetClassDelete(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/15dbgrp.md:327
         """
+    def expr(self, o_netclassdbid: RemoteObject | str | list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlNetClassGet(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, s_domain: Symbol, g_hierarchal: Skill, /) -> RemoteObject:
@@ -20884,6 +21613,7 @@ class _AxlNetClassGet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/15dbgrp.md:366
         """
+    def expr(self, o_dbid: RemoteObject, s_domain: Symbol, g_hierarchal: Skill, /) -> Expr[RemoteObject]: ...
 
 class _AxlNetClassRemove(LiteralRemoteFunction):
     def __call__(self, o_netclassdbid: RemoteObject | str, o_dbid: RemoteObject | list[RemoteObject], /) -> bool | None:
@@ -20913,6 +21643,7 @@ class _AxlNetClassRemove(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/15dbgrp.md:407
         """
+    def expr(self, o_netclassdbid: RemoteObject | str, o_dbid: RemoteObject | list[RemoteObject], /) -> Expr[bool | None]: ...
 
 class _AxlNetEcsetValueGet(LiteralRemoteFunction):
     def __call__(self, o_item_dbid: RemoteObject | str, t_cns_name: str | Symbol, /) -> str | None:
@@ -20956,6 +21687,7 @@ class _AxlNetEcsetValueGet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:572
         """
+    def expr(self, o_item_dbid: RemoteObject | str, t_cns_name: str | Symbol, /) -> Expr[str | None]: ...
 
 class _AxlNetSched(LiteralRemoteFunction):
     def __call__(self, /) -> bool:
@@ -20966,6 +21698,7 @@ class _AxlNetSched(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/26logacc.md:891
         """
+    def expr(self, /) -> Expr[bool]: ...
 
 class _AxlOK2Void(LiteralRemoteFunction):
     def __call__(self, t_layer: str, /) -> bool | None:
@@ -20990,6 +21723,7 @@ class _AxlOK2Void(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/07dbaccs.md:916
         """
+    def expr(self, t_layer: str, /) -> Expr[bool | None]: ...
 
 class _AxlOKToProceed(LiteralRemoteFunction):
     def __call__(self, /) -> bool:
@@ -21011,6 +21745,7 @@ class _AxlOKToProceed(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/19cmdctl.md:234
         """
+    def expr(self, /) -> Expr[bool]: ...
 
 class _AxlOSBackSlash(LiteralRemoteFunction):
     def __call__(self, t_directory: str, /) -> str | None:
@@ -21035,6 +21770,7 @@ class _AxlOSBackSlash(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:832
         """
+    def expr(self, t_directory: str, /) -> Expr[str | None]: ...
 
 class _AxlOSControl(LiteralRemoteFunction):
     def __call__(self, s_name: Symbol, g_value: Skill = ..., /) -> Skill | list[Symbol]:
@@ -21079,6 +21815,7 @@ class _AxlOSControl(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:861
         """
+    def expr(self, s_name: Symbol, g_value: Skill = ..., /) -> Expr[Skill | list[Symbol]]: ...
 
 class _AxlOSFileCopy(LiteralRemoteFunction):
     def __call__(self, t_src: str, t_dest: str, g_append: Skill, /) -> bool | None:
@@ -21103,6 +21840,7 @@ class _AxlOSFileCopy(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/21filacc.md:383
         """
+    def expr(self, t_src: str, t_dest: str, g_append: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlOSFileMove(LiteralRemoteFunction):
     def __call__(self, t_src: str, t_dest: str, /) -> bool | None:
@@ -21126,6 +21864,7 @@ class _AxlOSFileMove(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/21filacc.md:410
         """
+    def expr(self, t_src: str, t_dest: str, /) -> Expr[bool | None]: ...
 
 class _AxlOSNtp(LiteralRemoteFunction):
     def __call__(self, s_mode: Symbol, t_server_name: str | None, /) -> int | str | None:
@@ -21165,6 +21904,7 @@ class _AxlOSNtp(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:909
         """
+    def expr(self, s_mode: Symbol, t_server_name: str | None, /) -> Expr[int | str | None]: ...
 
 class _AxlOSSlash(LiteralRemoteFunction):
     def __call__(self, t_directory: str, /) -> str | None:
@@ -21189,6 +21929,7 @@ class _AxlOSSlash(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/21filacc.md:436
         """
+    def expr(self, t_directory: str, /) -> Expr[str | None]: ...
 
 class _AxlOpenDesign(LiteralRemoteFunction):
     def __call__(self, /, *, design: str | None = ..., mode: str | None = ..., no_mru: Skill = ..., ignore_lock: Skill = ...) -> str | None:
@@ -21216,6 +21957,7 @@ class _AxlOpenDesign(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:587
         """
+    def expr(self, /, *, design: str | None = ..., mode: str | None = ..., no_mru: Skill = ..., ignore_lock: Skill = ...) -> Expr[str | None]: ...
 
 class _AxlOpenDesignForBatch(LiteralRemoteFunction):
     def __call__(self, t_design: str, t_mode: str, /) -> str | None:
@@ -21244,6 +21986,7 @@ class _AxlOpenDesignForBatch(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:627
         """
+    def expr(self, t_design: str, t_mode: str, /) -> Expr[str | None]: ...
 
 class _AxlOpenFindFilter(LiteralRemoteFunction):
     def __call__(self, /) -> bool:
@@ -21257,6 +22000,7 @@ class _AxlOpenFindFilter(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/05selfnd.md:990
         """
+    def expr(self, /) -> Expr[bool]: ...
 
 class _AxlPPrint(LiteralRemoteFunction):
     def __call__(self, t_name: str, /) -> str:
@@ -21284,6 +22028,7 @@ class _AxlPPrint(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:949
         """
+    def expr(self, t_name: str, /) -> Expr[str]: ...
 
 class _AxlPackageDesignCheckAddCategory(LiteralRemoteFunction):
     def __call__(self, t_name: str, t_bitmap: str, t_description: str, /) -> Skill | None:
@@ -21319,6 +22064,7 @@ class _AxlPackageDesignCheckAddCategory(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:1318
         """
+    def expr(self, t_name: str, t_bitmap: str, t_description: str, /) -> Expr[Skill | None]: ...
 
 class _AxlPackageDesignCheckAddCheck(LiteralRemoteFunction):
     def __call__(self, t_category: str, t_name: str, t_bitmap: str, t_description: str, s_run_command: Symbol, g_fixable: Skill, /) -> Skill:
@@ -21373,9 +22119,10 @@ class _AxlPackageDesignCheckAddCheck(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:1360
         """
+    def expr(self, t_category: str, t_name: str, t_bitmap: str, t_description: str, s_run_command: Symbol, g_fixable: Skill, /) -> Expr[Skill]: ...
 
 class _AxlPackageDesignCheckDrcError(LiteralRemoteFunction):
-    def __call__(self, l_location: SkillList, o_dbids: RemoteObject, /) -> None:
+    def __call__(self, l_location: list[Skill] | tuple[Skill, ...], o_dbids: RemoteObject, /) -> None:
         """
         This function will create an external DRC marker for an error found by the currently running package integrity check
 
@@ -21398,6 +22145,7 @@ class _AxlPackageDesignCheckDrcError(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:1421
         """
+    def expr(self, l_location: list[Skill] | tuple[Skill, ...], o_dbids: RemoteObject, /) -> Expr[None]: ...
 
 class _AxlPackageDesignCheckLogError(LiteralRemoteFunction):
     def __call__(self, t_error_string: str, g_fixed: Skill, g_location: Skill, /) -> None:
@@ -21428,6 +22176,7 @@ class _AxlPackageDesignCheckLogError(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:1451
         """
+    def expr(self, t_error_string: str, g_fixed: Skill, g_location: Skill, /) -> Expr[None]: ...
 
 class _AxlPadFigureTypes(LiteralRemoteFunction):
     def __call__(self, /) -> list[str]:
@@ -21448,6 +22197,7 @@ class _AxlPadFigureTypes(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part02.md:147
         """
+    def expr(self, /) -> Expr[list[str]]: ...
 
 class _AxlPadOnLayer(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, t_layer: str | int, g_no_pad_suppress: Skill = ..., /) -> bool | None:
@@ -21479,6 +22229,7 @@ class _AxlPadOnLayer(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:730
         """
+    def expr(self, o_dbid: RemoteObject, t_layer: str | int, g_no_pad_suppress: Skill = ..., /) -> Expr[bool | None]: ...
 
 class _AxlPadSuppressGet(LiteralRemoteFunction):
     def __call__(self, value: None, /) -> list[Skill]:
@@ -21521,6 +22272,7 @@ class _AxlPadSuppressGet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:498
         """
+    def expr(self, value: None, /) -> Expr[list[Skill]]: ...
 
 class _AxlPadSuppressOkLayer(LiteralRemoteFunction):
     def __call__(self, t_layer: str | int, /) -> bool | None:
@@ -21545,10 +22297,11 @@ class _AxlPadSuppressOkLayer(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:545
         """
+    def expr(self, t_layer: str | int, /) -> Expr[bool | None]: ...
 
 class _AxlPadSuppressSet(LiteralRemoteFunction):
     @overload
-    def __call__(self, g_mode: Skill, ll_layer_pad_suppress: SkillList | Symbol | None, /) -> bool | None:
+    def __call__(self, g_mode: Skill, ll_layer_pad_suppress: list[Skill] | tuple[Skill, ...] | Symbol | None, /) -> bool | None:
         """
         This modifies the pad suppression settings in the design
 
@@ -21664,6 +22417,10 @@ class _AxlPadSuppressSet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:575
         """
+    @overload
+    def expr(self, g_mode: Skill, ll_layer_pad_suppress: list[Skill] | tuple[Skill, ...] | Symbol | None, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, g_mode: Skill, t_layer: str | int, ls_options: list[Symbol], /) -> Expr[bool | None]: ...
 
 class _AxlPadUserMaskLayers(LiteralRemoteFunction):
     @overload
@@ -21758,6 +22515,10 @@ class _AxlPadUserMaskLayers(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part02.md:348
         """
+    @overload
+    def expr(self, max: Symbol | None = ..., /) -> Expr[list[str] | int]: ...
+    @overload
+    def expr(self, createt_user_mask_layer: Symbol, /) -> Expr[bool | None]: ...
 
 class _AxlPadstackEdit(LiteralRemoteFunction):
     @overload
@@ -21984,6 +22745,10 @@ class _AxlPadstackEdit(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part02.md:168
         """
+    @overload
+    def expr(self, g_padstack: Skill, g_attributes: Skill, /) -> Expr[list[Skill] | bool | None]: ...
+    @overload
+    def expr(self, g_padstack: Skill, s_name: Symbol, g_value: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlPadstackSetType(LiteralRemoteFunction):
     @overload
@@ -22068,6 +22833,10 @@ class _AxlPadstackSetType(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part02.md:280
         """
+    @overload
+    def expr(self, o_padstack: RemoteObject | str, g_uvia_bbvia: Skill, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, o_padstack: RemoteObject | str, g_type: Skill, g_value: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlPadstackToDisk(LiteralRemoteFunction):
     def __call__(self, t_pad_name: str | None = ..., t_out_pad_name: str | None = ..., /) -> bool | None:
@@ -22105,6 +22874,7 @@ class _AxlPadstackToDisk(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part02.md:355
         """
+    def expr(self, t_pad_name: str | None = ..., t_out_pad_name: str | None = ..., /) -> Expr[bool | None]: ...
 
 class _AxlPadstackUsageTypes(LiteralRemoteFunction):
     def __call__(self, /) -> list[str]:
@@ -22125,9 +22895,10 @@ class _AxlPadstackUsageTypes(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part02.md:328
         """
+    def expr(self, /) -> Expr[list[str]]: ...
 
 class _AxlPathArcAngle(LiteralRemoteFunction):
-    def __call__(self, r_path: RemoteObject, f_width: float, l_end_point: SkillList, g_clockwise: Skill, f_angle: float, /) -> RemoteObject | None:
+    def __call__(self, r_path: RemoteObject, f_width: float, l_end_point: list[Skill] | tuple[Skill, ...], g_clockwise: Skill, f_angle: float, /) -> RemoteObject | None:
         """
         No description available.
 
@@ -22135,9 +22906,10 @@ class _AxlPathArcAngle(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:88
         """
+    def expr(self, r_path: RemoteObject, f_width: float, l_end_point: list[Skill] | tuple[Skill, ...], g_clockwise: Skill, f_angle: float, /) -> Expr[RemoteObject | None]: ...
 
 class _AxlPathArcCenter(LiteralRemoteFunction):
-    def __call__(self, r_path: RemoteObject, f_width: float, l_end_point: SkillList, g_clockwise: Skill, l_center: SkillList, /) -> RemoteObject | None:
+    def __call__(self, r_path: RemoteObject, f_width: float, l_end_point: list[Skill] | tuple[Skill, ...], g_clockwise: Skill, l_center: list[Skill] | tuple[Skill, ...], /) -> RemoteObject | None:
         """
         Each of these functions provides a way to construct an arc segment from the current endpoint of`r_path` to the given `l_end_point` in the direction specified by the Boolean `g_clockwise`, as described below and shown in Figure 15-1.
 
@@ -22174,9 +22946,10 @@ class _AxlPathArcCenter(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:90
         """
+    def expr(self, r_path: RemoteObject, f_width: float, l_end_point: list[Skill] | tuple[Skill, ...], g_clockwise: Skill, l_center: list[Skill] | tuple[Skill, ...], /) -> Expr[RemoteObject | None]: ...
 
 class _AxlPathArcRadius(LiteralRemoteFunction):
-    def __call__(self, r_path: RemoteObject, f_width: float, l_end_point: SkillList, g_clockwise: Skill, g_bigarc: Skill, f_radius: float, /) -> RemoteObject | None:
+    def __call__(self, r_path: RemoteObject, f_width: float, l_end_point: list[Skill] | tuple[Skill, ...], g_clockwise: Skill, g_bigarc: Skill, f_radius: float, /) -> RemoteObject | None:
         """
         No description available.
 
@@ -22184,6 +22957,7 @@ class _AxlPathArcRadius(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:86
         """
+    def expr(self, r_path: RemoteObject, f_width: float, l_end_point: list[Skill] | tuple[Skill, ...], g_clockwise: Skill, g_bigarc: Skill, f_radius: float, /) -> Expr[RemoteObject | None]: ...
 
 class _AxlPathGetLastPathSeg(LiteralRemoteFunction):
     def __call__(self, r_path: RemoteObject, /) -> RemoteObject | None:
@@ -22218,6 +22992,7 @@ class _AxlPathGetLastPathSeg(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:279
         """
+    def expr(self, r_path: RemoteObject, /) -> Expr[RemoteObject | None]: ...
 
 class _AxlPathGetPathSegs(LiteralRemoteFunction):
     def __call__(self, r_path: RemoteObject, /) -> RemoteObject | None:
@@ -22251,6 +23026,7 @@ class _AxlPathGetPathSegs(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:244
         """
+    def expr(self, r_path: RemoteObject, /) -> Expr[RemoteObject | None]: ...
 
 class _AxlPathGetWidth(LiteralRemoteFunction):
     def __call__(self, r_path: RemoteObject, /) -> float | None:
@@ -22282,9 +23058,10 @@ class _AxlPathGetWidth(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:174
         """
+    def expr(self, r_path: RemoteObject, /) -> Expr[float | None]: ...
 
 class _AxlPathLine(LiteralRemoteFunction):
-    def __call__(self, r_path: RemoteObject, f_width: float, l_end_point: SkillList, /) -> RemoteObject | None:
+    def __call__(self, r_path: RemoteObject, f_width: float, l_end_point: list[Skill] | tuple[Skill, ...], /) -> RemoteObject | None:
         """
         Adds a single straight line segment to the end of an existing`r_path` structure as specified by the arguments
 
@@ -22306,6 +23083,7 @@ class _AxlPathLine(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:149
         """
+    def expr(self, r_path: RemoteObject, f_width: float, l_end_point: list[Skill] | tuple[Skill, ...], /) -> Expr[RemoteObject | None]: ...
 
 class _AxlPathOffset(LiteralRemoteFunction):
     def __call__(self, r_path: RemoteObject, offset: Skill, /) -> RemoteObject:
@@ -22330,6 +23108,7 @@ class _AxlPathOffset(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:449
         """
+    def expr(self, r_path: RemoteObject, offset: Skill, /) -> Expr[RemoteObject]: ...
 
 class _AxlPathSegGetArcCenter(LiteralRemoteFunction):
     def __call__(self, r_path_seg: RemoteObject, /) -> list[Skill] | None:
@@ -22363,6 +23142,7 @@ class _AxlPathSegGetArcCenter(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:353
         """
+    def expr(self, r_path_seg: RemoteObject, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlPathSegGetArcClockwise(LiteralRemoteFunction):
     def __call__(self, r_path_seg: RemoteObject, /) -> bool | None:
@@ -22396,6 +23176,7 @@ class _AxlPathSegGetArcClockwise(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:388
         """
+    def expr(self, r_path_seg: RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlPathSegGetEndPoint(LiteralRemoteFunction):
     def __call__(self, r_path_seg: RemoteObject, /) -> list[Skill] | None:
@@ -22429,6 +23210,7 @@ class _AxlPathSegGetEndPoint(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:316
         """
+    def expr(self, r_path_seg: RemoteObject, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlPathSegGetWidth(LiteralRemoteFunction):
     def __call__(self, r_path_seg: RemoteObject, /) -> float | None:
@@ -22463,9 +23245,10 @@ class _AxlPathSegGetWidth(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:207
         """
+    def expr(self, r_path_seg: RemoteObject, /) -> Expr[float | None]: ...
 
 class _AxlPathStart(LiteralRemoteFunction):
-    def __call__(self, l_points: SkillList, f_width: float | None = ..., /) -> RemoteObject | None:
+    def __call__(self, l_points: list[Skill] | tuple[Skill, ...], f_width: float | None = ..., /) -> RemoteObject | None:
         """
         Creates a new path with a startpoint and one or more segments as specified by the list`l_points` and returns the path `dbid`
 
@@ -22483,9 +23266,10 @@ class _AxlPathStart(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:63
         """
+    def expr(self, l_points: list[Skill] | tuple[Skill, ...], f_width: float | None = ..., /) -> Expr[RemoteObject | None]: ...
 
 class _AxlPathStartCircle(LiteralRemoteFunction):
-    def __call__(self, l_location: SkillList, f_width: float, /) -> RemoteObject | None:
+    def __call__(self, l_location: list[Skill] | tuple[Skill, ...], f_width: float, /) -> RemoteObject | None:
         """
         Creates an`axlPath` structure (`r_path`) for a circle.
 
@@ -22506,6 +23290,7 @@ class _AxlPathStartCircle(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part01.md:423
         """
+    def expr(self, l_location: list[Skill] | tuple[Skill, ...], f_width: float, /) -> Expr[RemoteObject | None]: ...
 
 class _AxlPdfView(LiteralRemoteFunction):
     def __call__(self, t_pdf_file: str, /) -> bool:
@@ -22534,6 +23319,7 @@ class _AxlPdfView(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:975
         """
+    def expr(self, t_pdf_file: str, /) -> Expr[bool]: ...
 
 class _AxlPinExport(LiteralRemoteFunction):
     def __call__(self, g_include_text_location: Skill, t_csvfile: str | None = ..., /) -> bool | None:
@@ -22559,6 +23345,7 @@ class _AxlPinExport(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:768
         """
+    def expr(self, g_include_text_location: Skill, t_csvfile: str | None = ..., /) -> Expr[bool | None]: ...
 
 class _AxlPinImport(LiteralRemoteFunction):
     def __call__(self, t_csv_file: str, /) -> list[Skill] | None:
@@ -22633,6 +23420,7 @@ class _AxlPinImport(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:798
         """
+    def expr(self, t_csv_file: str, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlPinPair(LiteralRemoteFunction):
     @overload
@@ -22798,6 +23586,10 @@ class _AxlPinPair(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/26logacc.md:909
         """
+    @overload
+    def expr(self, o_pin1: RemoteObject | str, o_pin2: RemoteObject | str, /) -> Expr[RemoteObject]: ...
+    @overload
+    def expr(self, o_pinpair: RemoteObject | list[RemoteObject], /) -> Expr[bool | None]: ...
 
 class _AxlPinPairSeek(LiteralRemoteFunction):
     def __call__(self, o_pin1: RemoteObject, o_pin2: RemoteObject, /) -> RemoteObject | None:
@@ -22822,6 +23614,7 @@ class _AxlPinPairSeek(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/26logacc.md:1009
         """
+    def expr(self, o_pin1: RemoteObject, o_pin2: RemoteObject, /) -> Expr[RemoteObject | None]: ...
 
 class _AxlPinsOfNet(LiteralRemoteFunction):
     def __call__(self, o_net: RemoteObject | str, g_mode: Skill, /) -> list[RemoteObject] | None:
@@ -22859,6 +23652,7 @@ class _AxlPinsOfNet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/26logacc.md:1045
         """
+    def expr(self, o_net: RemoteObject | str, g_mode: Skill, /) -> Expr[list[RemoteObject] | None]: ...
 
 class _AxlPolyErrorGet(LiteralRemoteFunction):
     def __call__(self, /) -> str | None:
@@ -22950,6 +23744,7 @@ class _AxlPolyErrorGet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/20plyopr.md:520
         """
+    def expr(self, /) -> Expr[str | None]: ...
 
 class _AxlPolyExpand(LiteralRemoteFunction):
     def __call__(self, o_polygon1: RemoteObject | list[RemoteObject], f_expand_value: float, s_expand_type: Symbol, /) -> list[RemoteObject] | None:
@@ -23019,6 +23814,7 @@ class _AxlPolyExpand(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/20plyopr.md:370
         """
+    def expr(self, o_polygon1: RemoteObject | list[RemoteObject], f_expand_value: float, s_expand_type: Symbol, /) -> Expr[list[RemoteObject] | None]: ...
 
 class _AxlPolyFromDB(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, /, *, end_cap_type: Symbol | None = ..., layer: str | None = ..., pad_type: Symbol | None = ..., holes: bool | None = ..., line2poly: bool | None = ..., xhatch: bool | None = ...) -> list[RemoteObject] | None:
@@ -23088,6 +23884,7 @@ class _AxlPolyFromDB(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/20plyopr.md:141
         """
+    def expr(self, o_dbid: RemoteObject, /, *, end_cap_type: Symbol | None = ..., layer: str | None = ..., pad_type: Symbol | None = ..., holes: bool | None = ..., line2poly: bool | None = ..., xhatch: bool | None = ...) -> Expr[list[RemoteObject] | None]: ...
 
 class _AxlPolyFromHole(LiteralRemoteFunction):
     def __call__(self, o_polygon: RemoteObject, /) -> list[RemoteObject] | None:
@@ -23116,6 +23913,7 @@ class _AxlPolyFromHole(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/20plyopr.md:493
         """
+    def expr(self, o_polygon: RemoteObject, /) -> Expr[list[RemoteObject] | None]: ...
 
 class _AxlPolyMemUse(LiteralRemoteFunction):
     def __call__(self, /) -> list[Skill]:
@@ -23151,9 +23949,10 @@ class _AxlPolyMemUse(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/20plyopr.md:240
         """
+    def expr(self, /) -> Expr[list[Skill]]: ...
 
 class _AxlPolyOffset(LiteralRemoteFunction):
-    def __call__(self, o_polygon: RemoteObject | list[RemoteObject], l_xy: SkillList, g_copy: Skill = ..., /) -> RemoteObject:
+    def __call__(self, o_polygon: RemoteObject | list[RemoteObject], l_xy: list[Skill] | tuple[Skill, ...], g_copy: Skill = ..., /) -> RemoteObject:
         """
         This offsets the entire poly by the provided xy coordinate
 
@@ -23172,6 +23971,7 @@ class _AxlPolyOffset(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/20plyopr.md:283
         """
+    def expr(self, o_polygon: RemoteObject | list[RemoteObject], l_xy: list[Skill] | tuple[Skill, ...], g_copy: Skill = ..., /) -> Expr[RemoteObject]: ...
 
 class _AxlPolyOperation(LiteralRemoteFunction):
     def __call__(self, o_polygon1: RemoteObject | list[RemoteObject], o_polygon2: RemoteObject | list[RemoteObject], s_operation: Symbol, /) -> list[RemoteObject] | None:
@@ -23212,6 +24012,7 @@ class _AxlPolyOperation(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/20plyopr.md:321
         """
+    def expr(self, o_polygon1: RemoteObject | list[RemoteObject], o_polygon2: RemoteObject | list[RemoteObject], s_operation: Symbol, /) -> Expr[list[RemoteObject] | None]: ...
 
 class _AxlPrintDbid(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject | list[RemoteObject], o_port: RemoteObject | None = ..., /) -> bool:
@@ -23247,6 +24048,7 @@ class _AxlPrintDbid(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:1004
         """
+    def expr(self, o_dbid: RemoteObject | list[RemoteObject], o_port: RemoteObject | None = ..., /) -> Expr[bool]: ...
 
 class _AxlProtectAlias(LiteralRemoteFunction):
     def __call__(self, t_alias: str, t: bool | None, /) -> bool | None:
@@ -23272,6 +24074,7 @@ class _AxlProtectAlias(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/09cmdshl.md:221
         """
+    def expr(self, t_alias: str, t: bool | None, /) -> Expr[bool | None]: ...
 
 class _AxlPurgePadstacks(LiteralRemoteFunction):
     def __call__(self, s_mode: Symbol, g_option: Skill, /) -> int:
@@ -23306,6 +24109,7 @@ class _AxlPurgePadstacks(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:877
         """
+    def expr(self, s_mode: Symbol, g_option: Skill, /) -> Expr[int]: ...
 
 class _AxlRadToDeg(LiteralRemoteFunction):
     def __call__(self, n_angle: Number, /) -> float:
@@ -23327,6 +24131,7 @@ class _AxlRadToDeg(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/24mthutl.md:779
         """
+    def expr(self, n_angle: Number, /) -> Expr[float]: ...
 
 class _AxlRatsnestBlank(LiteralRemoteFunction):
     def __call__(self, rd_net: Skill, /) -> bool | None:
@@ -23344,6 +24149,7 @@ class _AxlRatsnestBlank(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:1152
         """
+    def expr(self, rd_net: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlRatsnestDisplay(LiteralRemoteFunction):
     def __call__(self, rd_net: Skill, /) -> bool | None:
@@ -23361,6 +24167,7 @@ class _AxlRatsnestDisplay(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:1171
         """
+    def expr(self, rd_net: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlReadOnlyVariable(LiteralRemoteFunction):
     def __call__(self, t_variable: str, g_enable: Skill = ..., /) -> bool | None:
@@ -23415,6 +24222,7 @@ class _AxlReadOnlyVariable(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/09cmdshl.md:276
         """
+    def expr(self, t_variable: str, g_enable: Skill = ..., /) -> Expr[bool | None]: ...
 
 class _AxlRecursiveDelete(LiteralRemoteFunction):
     def __call__(self, t_directory: str, /) -> bool | None:
@@ -23453,6 +24261,7 @@ class _AxlRecursiveDelete(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/21filacc.md:463
         """
+    def expr(self, t_directory: str, /) -> Expr[bool | None]: ...
 
 class _AxlRefreshSymbol(LiteralRemoteFunction):
     def __call__(self, t_sym_name: str | RemoteObject, g_options: Skill = ..., /) -> bool | None:
@@ -23486,6 +24295,7 @@ class _AxlRefreshSymbol(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/03dbcre8.part02.md:389
         """
+    def expr(self, t_sym_name: str | RemoteObject, g_options: Skill = ..., /) -> Expr[bool | None]: ...
 
 class _AxlRegexpIs(LiteralRemoteFunction):
     def __call__(self, t_exp: str, /) -> bool | None:
@@ -23507,6 +24317,7 @@ class _AxlRegexpIs(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:1046
         """
+    def expr(self, t_exp: str, /) -> Expr[bool | None]: ...
 
 class _AxlRegionAdd(LiteralRemoteFunction):
     def __call__(self, o_regiondbid: RemoteObject | str, o_dbid: RemoteObject | list[RemoteObject], /) -> bool | None:
@@ -23550,6 +24361,7 @@ class _AxlRegionAdd(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/15dbgrp.md:441
         """
+    def expr(self, o_regiondbid: RemoteObject | str, o_dbid: RemoteObject | list[RemoteObject], /) -> Expr[bool | None]: ...
 
 class _AxlRegionCreate(LiteralRemoteFunction):
     def __call__(self, t_name: str, /) -> RemoteObject:
@@ -23578,9 +24390,10 @@ class _AxlRegionCreate(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/15dbgrp.md:489
         """
+    def expr(self, t_name: str, /) -> Expr[RemoteObject]: ...
 
 class _AxlRegionDelete(LiteralRemoteFunction):
-    def __call__(self, o_regiondbid: RemoteObject | str | SkillList, /) -> bool | None:
+    def __call__(self, o_regiondbid: RemoteObject | str | list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         This deletes a region group
 
@@ -23614,6 +24427,7 @@ class _AxlRegionDelete(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/15dbgrp.md:524
         """
+    def expr(self, o_regiondbid: RemoteObject | str | list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlRegionRemove(LiteralRemoteFunction):
     def __call__(self, o_regiondbid: RemoteObject | str, o_dbid: RemoteObject | list[RemoteObject], /) -> bool | None:
@@ -23636,6 +24450,7 @@ class _AxlRegionRemove(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/15dbgrp.md:563
         """
+    def expr(self, o_regiondbid: RemoteObject | str, o_dbid: RemoteObject | list[RemoteObject], /) -> Expr[bool | None]: ...
 
 class _AxlRemoveNet(LiteralRemoteFunction):
     def __call__(self, t_name: str | RemoteObject, g_ripup: Skill = ..., /) -> bool | None:
@@ -23663,6 +24478,7 @@ class _AxlRemoveNet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/26logacc.md:1088
         """
+    def expr(self, t_name: str | RemoteObject, g_ripup: Skill = ..., /) -> Expr[bool | None]: ...
 
 class _AxlRenameDesign(LiteralRemoteFunction):
     def __call__(self, t_design: str, /) -> str | None:
@@ -23687,6 +24503,7 @@ class _AxlRenameDesign(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:661
         """
+    def expr(self, t_design: str, /) -> Expr[str | None]: ...
 
 class _AxlRenameNet(LiteralRemoteFunction):
     @overload
@@ -23767,6 +24584,10 @@ class _AxlRenameNet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/26logacc.md:1115
         """
+    @overload
+    def expr(self, t_old_name: str, t_new_name: str, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, o_dbid: RemoteObject, t_new_name: str, /) -> Expr[bool | None]: ...
 
 class _AxlRenameRefdes(LiteralRemoteFunction):
     def __call__(self, t_old_name: str | RemoteObject, t_new_name: str | RemoteObject, /) -> bool | None:
@@ -23812,6 +24633,7 @@ class _AxlRenameRefdes(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/26logacc.md:1156
         """
+    def expr(self, t_old_name: str | RemoteObject, t_new_name: str | RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlReplacePadstack(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject | list[RemoteObject], o_padstackdbid: RemoteObject | str, /) -> list[RemoteObject]:
@@ -23836,6 +24658,7 @@ class _AxlReplacePadstack(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:851
         """
+    def expr(self, o_dbid: RemoteObject | list[RemoteObject], o_padstackdbid: RemoteObject | str, /) -> Expr[list[RemoteObject]]: ...
 
 class _AxlReportList(LiteralRemoteFunction):
     def __call__(self, /) -> list[Skill] | None:
@@ -23852,6 +24675,7 @@ class _AxlReportList(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/22extrct.md:84
         """
+    def expr(self, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlReportRegister(LiteralRemoteFunction):
     def __call__(self, g_report_callback: Skill, t_description: str, t_title: str, /) -> bool | None:
@@ -23959,6 +24783,7 @@ class _AxlReportRegister(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/22extrct.md:112
         """
+    def expr(self, g_report_callback: Skill, t_description: str, t_title: str, /) -> Expr[bool | None]: ...
 
 class _AxlReratNet(LiteralRemoteFunction):
     def __call__(self, t_net_name: str | RemoteObject, /) -> bool | None:
@@ -23983,6 +24808,7 @@ class _AxlReratNet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:875
         """
+    def expr(self, t_net_name: str | RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlRunBatchDBProgram(LiteralRemoteFunction):
     def __call__(self, t_prog: str, t_cmd_fmt: str, /, *, logfile: str | None = ..., start_msg: str | None = ..., reload_db: bool | None = ..., no_unload: bool | None = ..., silent: bool | None = ..., no_progress: bool | None = ..., warn_program: bool | None = ...) -> bool | int:
@@ -24140,6 +24966,7 @@ class _AxlRunBatchDBProgram(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:1067
         """
+    def expr(self, t_prog: str, t_cmd_fmt: str, /, *, logfile: str | None = ..., start_msg: str | None = ..., reload_db: bool | None = ..., no_unload: bool | None = ..., silent: bool | None = ..., no_progress: bool | None = ..., warn_program: bool | None = ...) -> Expr[bool | int]: ...
 
 class _AxlSaveDesign(LiteralRemoteFunction):
     def __call__(self, /, *, design: str | None = ..., mode: str | None = ..., no_mru: Skill = ..., no_confirm: Skill = ..., write_model: Skill = ...) -> str | None:
@@ -24163,6 +24990,7 @@ class _AxlSaveDesign(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:688
         """
+    def expr(self, /, *, design: str | None = ..., mode: str | None = ..., no_mru: Skill = ..., no_confirm: Skill = ..., write_model: Skill = ...) -> Expr[str | None]: ...
 
 class _AxlSaveEnable(LiteralRemoteFunction):
     def __call__(self, g_save_enable: Skill = ..., /) -> bool | None:
@@ -24192,6 +25020,7 @@ class _AxlSaveEnable(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:729
         """
+    def expr(self, g_save_enable: Skill = ..., /) -> Expr[bool | None]: ...
 
 class _AxlSchedule(LiteralRemoteFunction):
     def __call__(self, o_net: RemoteObject | str, g_user_schedule: Skill = ..., /) -> str | None:
@@ -24225,6 +25054,7 @@ class _AxlSchedule(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/26logacc.md:1206
         """
+    def expr(self, o_net: RemoteObject | str, g_user_schedule: Skill = ..., /) -> Expr[str | None]: ...
 
 class _AxlScheduleNet(LiteralRemoteFunction):
     def __call__(self, o_net: RemoteObject | str, t_schedule: str | None, /) -> bool | None:
@@ -24249,6 +25079,7 @@ class _AxlScheduleNet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/26logacc.md:1261
         """
+    def expr(self, o_net: RemoteObject | str, t_schedule: str | None, /) -> Expr[bool | None]: ...
 
 class _AxlSegDelayAndZ0(LiteralRemoteFunction):
     def __call__(self, o_cline_seg_dbid: RemoteObject, /) -> Skill:
@@ -24270,6 +25101,7 @@ class _AxlSegDelayAndZ0(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:1196
         """
+    def expr(self, o_cline_seg_dbid: RemoteObject, /) -> Expr[Skill]: ...
 
 class _AxlSelect(LiteralRemoteFunction):
     def __call__(self, /, *, first_event_callback: Symbol | None = ..., group_mode: bool | None = ..., prompt: str | None = ...) -> bool | None:
@@ -24315,6 +25147,7 @@ class _AxlSelect(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/05selfnd.md:626
         """
+    def expr(self, /, *, first_event_callback: Symbol | None = ..., group_mode: bool | None = ..., prompt: str | None = ...) -> Expr[bool | None]: ...
 
 class _AxlSelectByName(LiteralRemoteFunction):
     def __call__(self, t_object_type: str, t_name: str | list[str], g_wildcard: Skill = ..., /) -> list[RemoteObject] | None:
@@ -24515,6 +25348,7 @@ class _AxlSelectByName(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/05selfnd.md:1080
         """
+    def expr(self, t_object_type: str, t_name: str | list[str], g_wildcard: Skill = ..., /) -> Expr[list[RemoteObject] | None]: ...
 
 class _AxlSelectByProperty(LiteralRemoteFunction):
     def __call__(self, t_object_type: str, t_property: str, t_value: str | None = ..., g_regular_expression: Skill = ..., /) -> list[RemoteObject] | None:
@@ -24568,6 +25402,7 @@ class _AxlSelectByProperty(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/05selfnd.md:1278
         """
+    def expr(self, t_object_type: str, t_property: str, t_value: str | None = ..., g_regular_expression: Skill = ..., /) -> Expr[list[RemoteObject] | None]: ...
 
 class _AxlSetActiveLayer(LiteralRemoteFunction):
     def __call__(self, t_layer: str, /) -> bool | None:
@@ -24594,6 +25429,7 @@ class _AxlSetActiveLayer(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:1416
         """
+    def expr(self, t_layer: str, /) -> Expr[bool | None]: ...
 
 class _AxlSetAlias(LiteralRemoteFunction):
     def __call__(self, t_alias: str, g_value: Skill, /) -> bool | None:
@@ -24645,6 +25481,7 @@ class _AxlSetAlias(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/09cmdshl.md:335
         """
+    def expr(self, t_alias: str, g_value: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlSetAllProfilesVisible(LiteralRemoteFunction):
     def __call__(self, visible: Skill, /) -> bool | None:
@@ -24658,6 +25495,7 @@ class _AxlSetAllProfilesVisible(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:846
         """
+    def expr(self, visible: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlSetAttachment(LiteralRemoteFunction):
     def __call__(self, o_attachment: RemoteObject, t_password: str | None = ..., /) -> RemoteObject | None:
@@ -24682,6 +25520,7 @@ class _AxlSetAttachment(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/16dbatt.md:212
         """
+    def expr(self, o_attachment: RemoteObject, t_password: str | None = ..., /) -> Expr[RemoteObject | None]: ...
 
 class _AxlSetBondWireProfile(LiteralRemoteFunction):
     def __call__(self, bond_wires: Skill, profile_name: Skill, /) -> bool | None:
@@ -24704,6 +25543,7 @@ class _AxlSetBondWireProfile(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:863
         """
+    def expr(self, bond_wires: Skill, profile_name: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlSetDefaultDieInformation(LiteralRemoteFunction):
     def __call__(self, comp: Skill, /) -> bool | None:
@@ -24721,6 +25561,7 @@ class _AxlSetDefaultDieInformation(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:1221
         """
+    def expr(self, comp: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlSetDieData(LiteralRemoteFunction):
     def __call__(self, g_die_id: Skill, s_data_type: Symbol, g_new_value: Skill, /) -> bool | None:
@@ -24739,6 +25580,7 @@ class _AxlSetDieData(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:1484
         """
+    def expr(self, g_die_id: Skill, s_data_type: Symbol, g_new_value: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlSetDieStackData(LiteralRemoteFunction):
     def __call__(self, g_stack_id: Skill, s_data_type: Symbol, g_new_value: Skill, /) -> bool | None:
@@ -24758,6 +25600,7 @@ class _AxlSetDieStackData(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:937
         """
+    def expr(self, g_stack_id: Skill, s_data_type: Symbol, g_new_value: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlSetDieType(LiteralRemoteFunction):
     def __call__(self, o_component_dbid: RemoteObject, t_die_type: str, /) -> bool | None:
@@ -24788,6 +25631,7 @@ class _AxlSetDieType(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:1516
         """
+    def expr(self, o_component_dbid: RemoteObject, t_die_type: str, /) -> Expr[bool | None]: ...
 
 class _AxlSetDynamicsMirror(LiteralRemoteFunction):
     def __call__(self, g_mirror: Skill, /) -> Skill:
@@ -24801,6 +25645,7 @@ class _AxlSetDynamicsMirror(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:1190
         """
+    def expr(self, g_mirror: Skill, /) -> Expr[Skill]: ...
 
 class _AxlSetDynamicsRotation(LiteralRemoteFunction):
     def __call__(self, f_angle: float | None, /) -> float:
@@ -24822,6 +25667,7 @@ class _AxlSetDynamicsRotation(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:1218
         """
+    def expr(self, f_angle: float | None, /) -> Expr[float]: ...
 
 class _AxlSetFindFilter(LiteralRemoteFunction):
     def __call__(self, /, *, enabled: list[str] | None = ..., on_buttons: list[str] | None = ...) -> bool | None:
@@ -24920,6 +25766,7 @@ class _AxlSetFindFilter(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/05selfnd.md:798
         """
+    def expr(self, /, *, enabled: list[str] | None = ..., on_buttons: list[str] | None = ...) -> Expr[bool | None]: ...
 
 class _AxlSetFunckey(LiteralRemoteFunction):
     def __call__(self, aliasg_value: Skill, /) -> bool | None:
@@ -24953,6 +25800,7 @@ class _AxlSetFunckey(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/09cmdshl.md:471
         """
+    def expr(self, aliasg_value: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlSetIposerData(LiteralRemoteFunction):
     def __call__(self, g_iposer_id: Skill, s_data_type: Symbol, g_new_value: Skill, /) -> bool | None:
@@ -24971,6 +25819,7 @@ class _AxlSetIposerData(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:1548
         """
+    def expr(self, g_iposer_id: Skill, s_data_type: Symbol, g_new_value: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlSetLineLock(LiteralRemoteFunction):
     def __call__(self, /, *, arc_enable: Skill = ..., lock_angle: float | None = ..., min_radius: float | None = ..., length45: float | None = ..., fixed45: Skill = ..., length_radius: float | None = ..., fixed_radius: Skill = ..., lock_tangent: Skill = ...) -> bool | None:
@@ -25006,6 +25855,7 @@ class _AxlSetLineLock(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/19cmdctl.md:257
         """
+    def expr(self, /, *, arc_enable: Skill = ..., lock_angle: float | None = ..., min_radius: float | None = ..., length45: float | None = ..., fixed45: Skill = ..., length_radius: float | None = ..., fixed_radius: Skill = ..., lock_tangent: Skill = ...) -> Expr[bool | None]: ...
 
 class _AxlSetParam(LiteralRemoteFunction):
     def __call__(self, od_param_dbid: RemoteObject, /) -> Skill | None:
@@ -25075,6 +25925,7 @@ class _AxlSetParam(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:867
         """
+    def expr(self, od_param_dbid: RemoteObject, /) -> Expr[Skill | None]: ...
 
 class _AxlSetPlaneType(LiteralRemoteFunction):
     def __call__(self, t_subclass_name: str, t_plane_type: str, /) -> bool | None:
@@ -25095,6 +25946,7 @@ class _AxlSetPlaneType(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part02.md:474
         """
+    def expr(self, t_subclass_name: str, t_plane_type: str, /) -> Expr[bool | None]: ...
 
 class _AxlSetRotateIncrement(LiteralRemoteFunction):
     def __call__(self, /, *, angular: float | None = ..., radial: float | None = ...) -> bool | None:
@@ -25121,6 +25973,7 @@ class _AxlSetRotateIncrement(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/19cmdctl.md:293
         """
+    def expr(self, /, *, angular: float | None = ..., radial: float | None = ...) -> Expr[bool | None]: ...
 
 class _AxlSetSpacerData(LiteralRemoteFunction):
     def __call__(self, g_spacer_id: Skill, s_data_type: Symbol, g_new_value: Skill, /) -> bool | None:
@@ -25139,6 +25992,7 @@ class _AxlSetSpacerData(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:1576
         """
+    def expr(self, g_spacer_id: Skill, s_data_type: Symbol, g_new_value: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlSetSymbolType(LiteralRemoteFunction):
     def __call__(self, t_symbol_type: str, /) -> str | None:
@@ -25160,6 +26014,7 @@ class _AxlSetSymbolType(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:107
         """
+    def expr(self, t_symbol_type: str, /) -> Expr[str | None]: ...
 
 class _AxlSetVariable(LiteralRemoteFunction):
     def __call__(self, t_variable: str, g_value: Skill = ..., /) -> bool | None:
@@ -25213,6 +26068,7 @@ class _AxlSetVariable(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/09cmdshl.md:509
         """
+    def expr(self, t_variable: str, g_value: Skill = ..., /) -> Expr[bool | None]: ...
 
 class _AxlSetVariableFile(LiteralRemoteFunction):
     def __call__(self, t_variable: str, g_value: Skill, /) -> bool | None:
@@ -25236,6 +26092,7 @@ class _AxlSetVariableFile(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/09cmdshl.md:563
         """
+    def expr(self, t_variable: str, g_value: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlSetWireProfileColor(LiteralRemoteFunction):
     def __call__(self, t_profile: str, n_color: Number, /) -> bool | None:
@@ -25250,6 +26107,7 @@ class _AxlSetWireProfileColor(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:1601
         """
+    def expr(self, t_profile: str, n_color: Number, /) -> Expr[bool | None]: ...
 
 class _AxlSetWireProfileVisible(LiteralRemoteFunction):
     def __call__(self, t_profile: str, g_visible: Skill, /) -> bool | None:
@@ -25268,6 +26126,7 @@ class _AxlSetWireProfileVisible(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:1621
         """
+    def expr(self, t_profile: str, g_visible: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlShapeAutoVoid(LiteralRemoteFunction):
     def __call__(self, o_shape_id: RemoteObject, s_options: Symbol | list[Symbol] | None = ..., /) -> list[RemoteObject] | None:
@@ -25307,6 +26166,7 @@ class _AxlShapeAutoVoid(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:915
         """
+    def expr(self, o_shape_id: RemoteObject, s_options: Symbol | list[Symbol] | None = ..., /) -> Expr[list[RemoteObject] | None]: ...
 
 class _AxlShapeChangeDynamicType(LiteralRemoteFunction):
     def __call__(self, o_shape_id: RemoteObject, g_dynamic: Skill, g_msgs: Skill, /) -> RemoteObject | list[Skill] | None:
@@ -25355,6 +26215,7 @@ class _AxlShapeChangeDynamicType(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:958
         """
+    def expr(self, o_shape_id: RemoteObject, g_dynamic: Skill, g_msgs: Skill, /) -> Expr[RemoteObject | list[Skill] | None]: ...
 
 class _AxlShapeDeleteVoids(LiteralRemoteFunction):
     def __call__(self, o_shape_id: RemoteObject | list[RemoteObject], /) -> bool | None:
@@ -25405,6 +26266,7 @@ class _AxlShapeDeleteVoids(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:1010
         """
+    def expr(self, o_shape_id: RemoteObject | list[RemoteObject], /) -> Expr[bool | None]: ...
 
 class _AxlShapeDynamicUpdate(LiteralRemoteFunction):
     def __call__(self, o_shape_dbid: RemoteObject | None, g_force: Skill, /) -> int | None:
@@ -25440,9 +26302,10 @@ class _AxlShapeDynamicUpdate(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:1063
         """
+    def expr(self, o_shape_dbid: RemoteObject | None, g_force: Skill, /) -> Expr[int | None]: ...
 
 class _AxlShapeMerge(LiteralRemoteFunction):
-    def __call__(self, o_shape_id: RemoteObject, lo_shapes: list[RemoteObject], g_options: Skill | SkillList, /) -> RemoteObject | list[Skill] | None:
+    def __call__(self, o_shape_id: RemoteObject, lo_shapes: list[RemoteObject], g_options: Skill | list[Skill] | tuple[Skill, ...], /) -> RemoteObject | list[Skill] | None:
         """
         This merges shapes
 
@@ -25479,6 +26342,7 @@ class _AxlShapeMerge(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:1131
         """
+    def expr(self, o_shape_id: RemoteObject, lo_shapes: list[RemoteObject], g_options: Skill | list[Skill] | tuple[Skill, ...], /) -> Expr[RemoteObject | list[Skill] | None]: ...
 
 class _AxlShapeRaisePriority(LiteralRemoteFunction):
     def __call__(self, o_shape_id: RemoteObject, /) -> int | None:
@@ -25512,6 +26376,7 @@ class _AxlShapeRaisePriority(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:1095
         """
+    def expr(self, o_shape_id: RemoteObject, /) -> Expr[int | None]: ...
 
 class _AxlShell(LiteralRemoteFunction):
     def __call__(self, t_command: str, /) -> bool:
@@ -25545,6 +26410,7 @@ class _AxlShell(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/09cmdshl.md:590
         """
+    def expr(self, t_command: str, /) -> Expr[bool]: ...
 
 class _AxlShellPost(LiteralRemoteFunction):
     def __call__(self, t_command: str, /) -> bool:
@@ -25598,9 +26464,10 @@ class _AxlShellPost(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/09cmdshl.md:626
         """
+    def expr(self, t_command: str, /) -> Expr[bool]: ...
 
 class _AxlShoveItems(LiteralRemoteFunction):
-    def __call__(self, l_item_list: SkillList, /) -> bool | None:
+    def __call__(self, l_item_list: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         Takes a list of`dbids` and shoves them according to the parameters set using `axlShoveSetParams`.
 
@@ -25632,9 +26499,10 @@ class _AxlShoveItems(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:1178
         """
+    def expr(self, l_item_list: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlShoveSetParams(LiteralRemoteFunction):
-    def __call__(self, l_params: SkillList, /) -> bool | None:
+    def __call__(self, l_params: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         Sets the parameters used for shoving by the`axlShoveItems`
 
@@ -25666,6 +26534,7 @@ class _AxlShoveSetParams(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:1219
         """
+    def expr(self, l_params: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlShowObject(LiteralRemoteFunction):
     def __call__(self, lud_dbid: Skill, /) -> bool | None:
@@ -25694,6 +26563,7 @@ class _AxlShowObject(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:1247
         """
+    def expr(self, lud_dbid: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlShowObjectToFile(LiteralRemoteFunction):
     def __call__(self, lo_dbid: list[RemoteObject], t_file_name: str | None = ..., /) -> Skill:
@@ -25714,9 +26584,10 @@ class _AxlShowObjectToFile(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:1243
         """
+    def expr(self, lo_dbid: list[RemoteObject], t_file_name: str | None = ..., /) -> Expr[Skill]: ...
 
 class _AxlSingleSelectBox(LiteralRemoteFunction):
-    def __call__(self, l_b_box: SkillList | None = ..., /) -> bool | None:
+    def __call__(self, l_b_box: list[Skill] | tuple[Skill, ...] | None = ..., /) -> bool | None:
         """
         Clears the select set, finds all figures inside the rectangle`l_bBox` according to the Find Filter, and adds the selected figure `dbids` in single mode to the select set.
 
@@ -25743,9 +26614,10 @@ class _AxlSingleSelectBox(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/05selfnd.md:269
         """
+    def expr(self, l_b_box: list[Skill] | tuple[Skill, ...] | None = ..., /) -> Expr[bool | None]: ...
 
 class _AxlSingleSelectName(LiteralRemoteFunction):
-    def __call__(self, t_name_type: str, l_names: SkillList, g_wildcard: Skill = ..., /) -> bool | None:
+    def __call__(self, t_name_type: str, l_names: list[Skill] | tuple[Skill, ...], g_wildcard: Skill = ..., /) -> bool | None:
         """
         Finds figures by their names
 
@@ -25783,6 +26655,7 @@ class _AxlSingleSelectName(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/05selfnd.md:439
         """
+    def expr(self, t_name_type: str, l_names: list[Skill] | tuple[Skill, ...], g_wildcard: Skill = ..., /) -> Expr[bool | None]: ...
 
 class _AxlSingleSelectObject(LiteralRemoteFunction):
     def __call__(self, lo_dbid: list[RemoteObject], /) -> bool | None:
@@ -25811,9 +26684,10 @@ class _AxlSingleSelectObject(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/05selfnd.md:541
         """
+    def expr(self, lo_dbid: list[RemoteObject], /) -> Expr[bool | None]: ...
 
 class _AxlSingleSelectPoint(LiteralRemoteFunction):
-    def __call__(self, l_point: SkillList | None = ..., g_trap_size: Skill = ..., /) -> bool | None:
+    def __call__(self, l_point: list[Skill] | tuple[Skill, ...] | None = ..., g_trap_size: Skill = ..., /) -> bool | None:
         """
         Clears the select set, finds a figure at`l_point` according to the Find Filter, and puts the selected figure `dbid` in the select set
 
@@ -25846,6 +26720,7 @@ class _AxlSingleSelectPoint(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/05selfnd.md:157
         """
+    def expr(self, l_point: list[Skill] | tuple[Skill, ...] | None = ..., g_trap_size: Skill = ..., /) -> Expr[bool | None]: ...
 
 class _AxlSleep(LiteralRemoteFunction):
     def __call__(self, x_time: int, /) -> bool | None:
@@ -25866,9 +26741,10 @@ class _AxlSleep(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:1278
         """
+    def expr(self, x_time: int, /) -> Expr[bool | None]: ...
 
 class _AxlSmoothDesign(LiteralRemoteFunction):
-    def __call__(self, lx_num_passes: SkillList, /) -> int:
+    def __call__(self, lx_num_passes: list[Skill] | tuple[Skill, ...], /) -> int:
         """
         Smooths the entire design
 
@@ -25890,6 +26766,7 @@ class _AxlSmoothDesign(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:1296
         """
+    def expr(self, lx_num_passes: list[Skill] | tuple[Skill, ...], /) -> Expr[int]: ...
 
 class _AxlSmoothItems(LiteralRemoteFunction):
     def __call__(self, lo_cline_list: list[RemoteObject], /) -> Skill:
@@ -25914,9 +26791,10 @@ class _AxlSmoothItems(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:1325
         """
+    def expr(self, lo_cline_list: list[RemoteObject], /) -> Expr[Skill]: ...
 
 class _AxlSmoothSetParams(LiteralRemoteFunction):
-    def __call__(self, l_params: SkillList, /) -> bool | None:
+    def __call__(self, l_params: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         Sets the parameters used for smoothing the routes
 
@@ -25950,6 +26828,7 @@ class _AxlSmoothSetParams(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:1361
         """
+    def expr(self, l_params: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlSnapToObject(LiteralRemoteFunction):
     def __call__(self, g_mode: Skill, xy: Skill, /) -> Skill | None:
@@ -26031,6 +26910,7 @@ class _AxlSnapToObject(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/05selfnd.md:1332
         """
+    def expr(self, g_mode: Skill, xy: Skill, /) -> Expr[Skill | None]: ...
 
 class _AxlSort(LiteralRemoteFunction):
     def __call__(self, t_infile: str, t_outfile: str, t_sortfields: str | None = ..., t_sort_options: str | None = ..., /) -> bool | None:
@@ -26118,6 +26998,7 @@ class _AxlSort(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:1298
         """
+    def expr(self, t_infile: str, t_outfile: str, t_sortfields: str | None = ..., t_sort_options: str | None = ..., /) -> Expr[bool | None]: ...
 
 class _AxlSpreadsheetClose(LiteralRemoteFunction):
     def __call__(self, /) -> bool:
@@ -26152,6 +27033,7 @@ class _AxlSpreadsheetClose(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/msexl.md:9
         """
+    def expr(self, /) -> Expr[bool]: ...
 
 class _AxlSpreadsheetDefineCell(LiteralRemoteFunction):
     def __call__(self, x_row: int, x_co: int, lt_style: list[str], t_type: str, t_value: str, /) -> bool | None:
@@ -26178,6 +27060,7 @@ class _AxlSpreadsheetDefineCell(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/msexl.md:48
         """
+    def expr(self, x_row: int, x_co: int, lt_style: list[str], t_type: str, t_value: str, /) -> Expr[bool | None]: ...
 
 class _AxlSpreadsheetGetCell(LiteralRemoteFunction):
     def __call__(self, x_row: int, x_col: int, /) -> Skill | None:
@@ -26211,6 +27094,7 @@ class _AxlSpreadsheetGetCell(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/msexl.md:163
         """
+    def expr(self, x_row: int, x_col: int, /) -> Expr[Skill | None]: ...
 
 class _AxlSpreadsheetGetRGBColorString(LiteralRemoteFunction):
     def __call__(self, x_red: int, x_green: int, x_blue: int, /) -> str | None:
@@ -26237,6 +27121,7 @@ class _AxlSpreadsheetGetRGBColorString(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/msexl.md:201
         """
+    def expr(self, x_red: int, x_green: int, x_blue: int, /) -> Expr[str | None]: ...
 
 class _AxlSpreadsheetGetRGBForNamedColor(LiteralRemoteFunction):
     def __call__(self, t_name: str, /) -> str | None:
@@ -26263,6 +27148,7 @@ class _AxlSpreadsheetGetRGBForNamedColor(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/msexl.md:232
         """
+    def expr(self, t_name: str, /) -> Expr[str | None]: ...
 
 class _AxlSpreadsheetGetStyles(LiteralRemoteFunction):
     def __call__(self, /) -> list[Skill] | None:
@@ -26294,6 +27180,7 @@ class _AxlSpreadsheetGetStyles(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/msexl.md:261
         """
+    def expr(self, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlSpreadsheetGetWorksheetSize(LiteralRemoteFunction):
     def __call__(self, /) -> list[Skill] | None:
@@ -26321,6 +27208,7 @@ class _AxlSpreadsheetGetWorksheetSize(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/msexl.md:327
         """
+    def expr(self, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlSpreadsheetGetWorksheets(LiteralRemoteFunction):
     def __call__(self, /) -> list[Skill] | None:
@@ -26348,6 +27236,7 @@ class _AxlSpreadsheetGetWorksheets(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/msexl.md:295
         """
+    def expr(self, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlSpreadsheetInit(LiteralRemoteFunction):
     def __call__(self, /) -> bool | None:
@@ -26381,6 +27270,7 @@ class _AxlSpreadsheetInit(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/msexl.md:361
         """
+    def expr(self, /) -> Expr[bool | None]: ...
 
 class _AxlSpreadsheetRead(LiteralRemoteFunction):
     def __call__(self, t_file_name: str, /) -> bool | None:
@@ -26417,6 +27307,7 @@ class _AxlSpreadsheetRead(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/msexl.md:399
         """
+    def expr(self, t_file_name: str, /) -> Expr[bool | None]: ...
 
 class _AxlSpreadsheetReadDelimited(LiteralRemoteFunction):
     def __call__(self, t_file_name: str, t_delimiter: str, /) -> bool | None:
@@ -26453,6 +27344,7 @@ class _AxlSpreadsheetReadDelimited(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/msexl.md:436
         """
+    def expr(self, t_file_name: str, t_delimiter: str, /) -> Expr[bool | None]: ...
 
 class _AxlSpreadsheetSetCell(LiteralRemoteFunction):
     def __call__(self, x_row: int, x_col: int, /) -> bool | None:
@@ -26504,6 +27396,7 @@ class _AxlSpreadsheetSetCell(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/msexl.md:476
         """
+    def expr(self, x_row: int, x_col: int, /) -> Expr[bool | None]: ...
 
 class _AxlSpreadsheetSetCellProp(LiteralRemoteFunction):
     def __call__(self, t_prop_name: str, t_prop_val: str, /) -> bool | None:
@@ -26535,6 +27428,7 @@ class _AxlSpreadsheetSetCellProp(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/msexl.md:528
         """
+    def expr(self, t_prop_name: str, t_prop_val: str, /) -> Expr[bool | None]: ...
 
 class _AxlSpreadsheetSetColumnProp(LiteralRemoteFunction):
     def __call__(self, x_column: int, t_prop_name: str, t_prop_val: str, /) -> bool | None:
@@ -26561,6 +27455,7 @@ class _AxlSpreadsheetSetColumnProp(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/msexl.md:574
         """
+    def expr(self, x_column: int, t_prop_name: str, t_prop_val: str, /) -> Expr[bool | None]: ...
 
 class _AxlSpreadsheetSetDocProp(LiteralRemoteFunction):
     def __call__(self, t_prop_name: str, t_prop_val: str, /) -> bool | None:
@@ -26594,6 +27489,7 @@ class _AxlSpreadsheetSetDocProp(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/msexl.md:618
         """
+    def expr(self, t_prop_name: str, t_prop_val: str, /) -> Expr[bool | None]: ...
 
 class _AxlSpreadsheetSetRowProp(LiteralRemoteFunction):
     def __call__(self, x_row: int, t_prop_name: str, t_prop_val: str, /) -> bool | None:
@@ -26620,6 +27516,7 @@ class _AxlSpreadsheetSetRowProp(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/msexl.md:652
         """
+    def expr(self, x_row: int, t_prop_name: str, t_prop_val: str, /) -> Expr[bool | None]: ...
 
 class _AxlSpreadsheetSetStyle(LiteralRemoteFunction):
     def __call__(self, t_id: str, t_name: str, /) -> bool | None:
@@ -26649,6 +27546,7 @@ class _AxlSpreadsheetSetStyle(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/msexl.md:689
         """
+    def expr(self, t_id: str, t_name: str, /) -> Expr[bool | None]: ...
 
 class _AxlSpreadsheetSetStyleBorder(LiteralRemoteFunction):
     def __call__(self, t_position: str, t_color: str, t_line_style: str, t_weight: str, /) -> bool | None:
@@ -26686,6 +27584,7 @@ class _AxlSpreadsheetSetStyleBorder(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/msexl.md:721
         """
+    def expr(self, t_position: str, t_color: str, t_line_style: str, t_weight: str, /) -> Expr[bool | None]: ...
 
 class _AxlSpreadsheetSetStyleParent(LiteralRemoteFunction):
     def __call__(self, t_parent: str, /) -> bool | None:
@@ -26716,6 +27615,7 @@ class _AxlSpreadsheetSetStyleParent(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/msexl.md:772
         """
+    def expr(self, t_parent: str, /) -> Expr[bool | None]: ...
 
 class _AxlSpreadsheetSetStyleProp(LiteralRemoteFunction):
     def __call__(self, t_type: str, t_prop_name: str, t_prop_val: str, /) -> bool | None:
@@ -26776,6 +27676,7 @@ class _AxlSpreadsheetSetStyleProp(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/msexl.md:807
         """
+    def expr(self, t_type: str, t_prop_name: str, t_prop_val: str, /) -> Expr[bool | None]: ...
 
 class _AxlSpreadsheetSetWorksheet(LiteralRemoteFunction):
     def __call__(self, t_name: str, /) -> bool | None:
@@ -26804,6 +27705,7 @@ class _AxlSpreadsheetSetWorksheet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/msexl.md:888
         """
+    def expr(self, t_name: str, /) -> Expr[bool | None]: ...
 
 class _AxlSpreadsheetWrite(LiteralRemoteFunction):
     def __call__(self, t_file_name: str, /) -> bool | None:
@@ -26847,6 +27749,7 @@ class _AxlSpreadsheetWrite(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/msexl.md:919
         """
+    def expr(self, t_file_name: str, /) -> Expr[bool | None]: ...
 
 class _AxlStrcmpAlpNum(LiteralRemoteFunction):
     def __call__(self, t_str1: str, t_str2: str, /) -> bool | None:
@@ -26875,6 +27778,7 @@ class _AxlStrcmpAlpNum(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:1418
         """
+    def expr(self, t_str1: str, t_str2: str, /) -> Expr[bool | None]: ...
 
 class _AxlStringCSVParse(LiteralRemoteFunction):
     def __call__(self, t_string: str, g_strip_white: Skill = ..., t_separator: str | None = ..., /) -> list[str] | None:
@@ -26925,6 +27829,7 @@ class _AxlStringCSVParse(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:1450
         """
+    def expr(self, t_string: str, g_strip_white: Skill = ..., t_separator: str | None = ..., /) -> Expr[list[str] | None]: ...
 
 class _AxlStringRemoveSpaces(LiteralRemoteFunction):
     @overload
@@ -26993,6 +27898,10 @@ class _AxlStringRemoveSpaces(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:1499
         """
+    @overload
+    def expr(self, t_string: str, /) -> Expr[str | None]: ...
+    @overload
+    def expr(self, lt_string: list[str], /) -> Expr[list[str] | None]: ...
 
 class _AxlSubSelectAll(LiteralRemoteFunction):
     def __call__(self, /) -> bool | None:
@@ -27048,9 +27957,10 @@ class _AxlSubSelectAll(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/05selfnd.md:379
         """
+    def expr(self, /) -> Expr[bool | None]: ...
 
 class _AxlSubSelectBox(LiteralRemoteFunction):
-    def __call__(self, l_b_box: SkillList | None = ..., /) -> bool | None:
+    def __call__(self, l_b_box: list[Skill] | tuple[Skill, ...] | None = ..., /) -> bool | None:
         """
         Finds one or more figures inside the rectangle`l_bBox` according to the Find Filter, and deletes their `dbids` from the select set in *cumulated* mode
 
@@ -27070,9 +27980,10 @@ class _AxlSubSelectBox(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/05selfnd.md:330
         """
+    def expr(self, l_b_box: list[Skill] | tuple[Skill, ...] | None = ..., /) -> Expr[bool | None]: ...
 
 class _AxlSubSelectName(LiteralRemoteFunction):
-    def __call__(self, t_name_type: str, l_names: SkillList, /) -> bool | None:
+    def __call__(self, t_name_type: str, l_names: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         Removes`dbids` of the named figure from the select set using the arguments described
 
@@ -27093,6 +28004,7 @@ class _AxlSubSelectName(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/05selfnd.md:512
         """
+    def expr(self, t_name_type: str, l_names: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlSubSelectObject(LiteralRemoteFunction):
     def __call__(self, lo_dbid: list[RemoteObject], /) -> bool | None:
@@ -27120,9 +28032,10 @@ class _AxlSubSelectObject(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/05selfnd.md:597
         """
+    def expr(self, lo_dbid: list[RemoteObject], /) -> Expr[bool | None]: ...
 
 class _AxlSubSelectPoint(LiteralRemoteFunction):
-    def __call__(self, l_point: SkillList | None = ..., /) -> bool | None:
+    def __call__(self, l_point: list[Skill] | tuple[Skill, ...] | None = ..., /) -> bool | None:
         """
         Finds a figure at`l_point` according to the Find Filter and deletes its `dbid` from the select set in cumulated mode
 
@@ -27157,6 +28070,7 @@ class _AxlSubSelectPoint(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/05selfnd.md:224
         """
+    def expr(self, l_point: list[Skill] | tuple[Skill, ...] | None = ..., /) -> Expr[bool | None]: ...
 
 class _AxlSubclassFormPopup(LiteralRemoteFunction):
     def __call__(self, r_form: RemoteObject, t_field: str, t_class: str, value: list[str] | None, /) -> bool | None:
@@ -27210,6 +28124,7 @@ class _AxlSubclassFormPopup(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/19cmdctl.md:509
         """
+    def expr(self, r_form: RemoteObject, t_field: str, t_class: str, value: list[str] | None, /) -> Expr[bool | None]: ...
 
 class _AxlSubclassRoute(LiteralRemoteFunction):
     def __call__(self, /, *, field: Symbol | None = ..., value: Skill = ...) -> list[str]:
@@ -27263,6 +28178,7 @@ class _AxlSubclassRoute(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part02.md:546
         """
+    def expr(self, /, *, field: Symbol | None = ..., value: Skill = ...) -> Expr[list[str]]: ...
 
 class _AxlSubclasses(LiteralRemoteFunction):
     def __call__(self, t_class: str, /, *, field: Symbol | None = ..., value: Skill = ...) -> list[str]:
@@ -27312,6 +28228,7 @@ class _AxlSubclasses(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part02.md:498
         """
+    def expr(self, t_class: str, /, *, field: Symbol | None = ..., value: Skill = ...) -> Expr[list[str]]: ...
 
 class _AxlSymbolAttach(LiteralRemoteFunction):
     def __call__(self, o_sym_inst_dbid: RemoteObject, o_dbid: RemoteObject | list[RemoteObject], /) -> bool | None:
@@ -27359,6 +28276,7 @@ class _AxlSymbolAttach(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:1423
         """
+    def expr(self, o_sym_inst_dbid: RemoteObject, o_dbid: RemoteObject | list[RemoteObject], /) -> Expr[bool | None]: ...
 
 class _AxlSymbolDetach(LiteralRemoteFunction):
     def __call__(self, o_sym_inst_dbid: RemoteObject, o_dbid: RemoteObject | list[RemoteObject] | Skill, /) -> bool | None:
@@ -27416,6 +28334,7 @@ class _AxlSymbolDetach(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:1481
         """
+    def expr(self, o_sym_inst_dbid: RemoteObject, o_dbid: RemoteObject | list[RemoteObject] | Skill, /) -> Expr[bool | None]: ...
 
 class _AxlTechnologyType(LiteralRemoteFunction):
     def __call__(self, /) -> str:
@@ -27432,6 +28351,7 @@ class _AxlTechnologyType(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:1182
         """
+    def expr(self, /) -> Expr[str]: ...
 
 class _AxlTempDirectory(LiteralRemoteFunction):
     def __call__(self, /) -> str | None:
@@ -27446,6 +28366,7 @@ class _AxlTempDirectory(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/21filacc.md:505
         """
+    def expr(self, /) -> Expr[str | None]: ...
 
 class _AxlTempFile(LiteralRemoteFunction):
     def __call__(self, g_local: Skill = ..., /) -> str | None:
@@ -27467,6 +28388,7 @@ class _AxlTempFile(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/21filacc.md:523
         """
+    def expr(self, g_local: Skill = ..., /) -> Expr[str | None]: ...
 
 class _AxlTempFileRemove(LiteralRemoteFunction):
     def __call__(self, t_filename: str, /) -> bool:
@@ -27488,6 +28410,7 @@ class _AxlTempFileRemove(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/21filacc.md:544
         """
+    def expr(self, t_filename: str, /) -> Expr[bool]: ...
 
 class _AxlTestPoint(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, g_mode: Skill, /) -> bool | Symbol | None:
@@ -27547,6 +28470,7 @@ class _AxlTestPoint(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:1075
         """
+    def expr(self, o_dbid: RemoteObject, g_mode: Skill, /) -> Expr[bool | Symbol | None]: ...
 
 class _AxlText2Lines(LiteralRemoteFunction):
     def __call__(self, o_text_dbid: RemoteObject, /) -> Skill | None:
@@ -27642,6 +28566,7 @@ class _AxlText2Lines(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:899
         """
+    def expr(self, o_text_dbid: RemoteObject, /) -> Expr[Skill | None]: ...
 
 class _AxlTextOrientationCopy(LiteralRemoteFunction):
     def __call__(self, o_text_dbid: RemoteObject, orient: Skill = ..., /) -> Skill | None:
@@ -27662,9 +28587,10 @@ class _AxlTextOrientationCopy(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:1566
         """
+    def expr(self, o_text_dbid: RemoteObject, orient: Skill = ..., /) -> Expr[Skill | None]: ...
 
 class _AxlTransformObject(LiteralRemoteFunction):
-    def __call__(self, lo_dbid: list[RemoteObject] | RemoteObject, /, *, move: SkillList | None = ..., mirror: bool | Symbol | None = ..., angle: float | None = ..., origin: SkillList | None = ..., all_or_none: bool | None = ...) -> list[RemoteObject] | None:
+    def __call__(self, lo_dbid: list[RemoteObject] | RemoteObject, /, *, move: list[Skill] | tuple[Skill, ...] | None = ..., mirror: bool | Symbol | None = ..., angle: float | None = ..., origin: list[Skill] | tuple[Skill, ...] | None = ..., all_or_none: bool | None = ...) -> list[RemoteObject] | None:
         """
         Moves, rotates, and/or spins one object or a list of objects
 
@@ -27736,6 +28662,7 @@ class _AxlTransformObject(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:1590
         """
+    def expr(self, lo_dbid: list[RemoteObject] | RemoteObject, /, *, move: list[Skill] | tuple[Skill, ...] | None = ..., mirror: bool | Symbol | None = ..., angle: float | None = ..., origin: list[Skill] | tuple[Skill, ...] | None = ..., all_or_none: bool | None = ...) -> Expr[list[RemoteObject] | None]: ...
 
 class _AxlTriggerClear(LiteralRemoteFunction):
     def __call__(self, s_trigger: Symbol, s_function: Symbol, /) -> bool | None:
@@ -27759,6 +28686,7 @@ class _AxlTriggerClear(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:1204
         """
+    def expr(self, s_trigger: Symbol, s_function: Symbol, /) -> Expr[bool | None]: ...
 
 class _AxlTriggerPrint(LiteralRemoteFunction):
     def __call__(self, /) -> bool:
@@ -27772,6 +28700,7 @@ class _AxlTriggerPrint(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:1228
         """
+    def expr(self, /) -> Expr[bool]: ...
 
 class _AxlTriggerSet(LiteralRemoteFunction):
     @overload
@@ -27890,6 +28819,10 @@ class _AxlTriggerSet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:1245
         """
+    @overload
+    def expr(self, s_trigger: Symbol, s_function: Symbol, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, value: None, value_2: None, /) -> Expr[Skill]: ...
 
 class _AxlUICmdPopupSet(LiteralRemoteFunction):
     def __call__(self, r_popup: RemoteObject, /) -> RemoteObject:
@@ -27910,9 +28843,10 @@ class _AxlUICmdPopupSet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:1267
         """
+    def expr(self, r_popup: RemoteObject, /) -> Expr[RemoteObject]: ...
 
 class _AxlUIColorDialog(LiteralRemoteFunction):
-    def __call__(self, r_window: RemoteObject | None, l_rgb: SkillList, /) -> list[Skill] | None:
+    def __call__(self, r_window: RemoteObject | None, l_rgb: list[Skill] | tuple[Skill, ...], /) -> list[Skill] | None:
         """
         Invokes standard color selection dialog box
 
@@ -27945,6 +28879,7 @@ class _AxlUIColorDialog(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:705
         """
+    def expr(self, r_window: RemoteObject | None, l_rgb: list[Skill] | tuple[Skill, ...], /) -> Expr[list[Skill] | None]: ...
 
 class _AxlUIConfirm(LiteralRemoteFunction):
     def __call__(self, t_message: str, s_level: Symbol | None = ..., /) -> bool:
@@ -27981,6 +28916,7 @@ class _AxlUIConfirm(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:743
         """
+    def expr(self, t_message: str, s_level: Symbol | None = ..., /) -> Expr[bool]: ...
 
 class _AxlUIConfirmEx(LiteralRemoteFunction):
     def __call__(self, t_message: str, t_key: str | None, s_level: Symbol | None = ..., /) -> bool:
@@ -28013,6 +28949,7 @@ class _AxlUIConfirmEx(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:780
         """
+    def expr(self, t_message: str, t_key: str | None, s_level: Symbol | None = ..., /) -> Expr[bool]: ...
 
 class _AxlUIControl(LiteralRemoteFunction):
     def __call__(self, s_name: Symbol, g_value: Skill = ..., /) -> Skill | list[Symbol]:
@@ -28070,9 +29007,10 @@ class _AxlUIControl(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:817
         """
+    def expr(self, s_name: Symbol, g_value: Skill = ..., /) -> Expr[Skill | list[Symbol]]: ...
 
 class _AxlUIDataBrowse(LiteralRemoteFunction):
-    def __call__(self, s_data_type: Symbol, ls_options: list[Symbol], t_title: str, g_sorted: Skill, t_help_tag: str | None = ..., l_callback: SkillList | None = ..., g_args: Skill = ..., /) -> list[Skill]:
+    def __call__(self, s_data_type: Symbol, ls_options: list[Symbol], t_title: str, g_sorted: Skill, t_help_tag: str | None = ..., l_callback: list[Skill] | tuple[Skill, ...] | None = ..., g_args: Skill = ..., /) -> list[Skill]:
         """
         Analyzes all objects requested by the caller function, passing each through the caller's callback function
 
@@ -28119,6 +29057,7 @@ class _AxlUIDataBrowse(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part02.md:540
         """
+    def expr(self, s_data_type: Symbol, ls_options: list[Symbol], t_title: str, g_sorted: Skill, t_help_tag: str | None = ..., l_callback: list[Skill] | tuple[Skill, ...] | None = ..., g_args: Skill = ..., /) -> Expr[list[Skill]]: ...
 
 class _AxlUIEditFile(LiteralRemoteFunction):
     def __call__(self, t_filename: str, t_title: str | None, g_block: Skill, /) -> RemoteObject | bool | None:
@@ -28155,6 +29094,7 @@ class _AxlUIEditFile(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part02.md:82
         """
+    def expr(self, t_filename: str, t_title: str | None, g_block: Skill, /) -> Expr[RemoteObject | bool | None]: ...
 
 class _AxlUIGetUserData(LiteralRemoteFunction):
     def __call__(self, /) -> RemoteObject | None:
@@ -28181,6 +29121,7 @@ class _AxlUIGetUserData(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/19cmdctl.md:318
         """
+    def expr(self, /) -> Expr[RemoteObject | None]: ...
 
 class _AxlUIMenuChange(LiteralRemoteFunction):
     def __call__(self, x_menu_id: int, /, *g_option_pairs: Skill) -> bool | None:
@@ -28226,6 +29167,7 @@ class _AxlUIMenuChange(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:886
         """
+    def expr(self, x_menu_id: int, /, *g_option_pairs: Skill) -> Expr[bool | None]: ...
 
 class _AxlUIMenuDebug(LiteralRemoteFunction):
     def __call__(self, g_option: Skill = ..., /) -> list[Skill] | bool | None:
@@ -28241,6 +29183,7 @@ class _AxlUIMenuDebug(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:935
         """
+    def expr(self, g_option: Skill = ..., /) -> Expr[list[Skill] | bool | None]: ...
 
 class _AxlUIMenuDelete(LiteralRemoteFunction):
     def __call__(self, x_menu_id: int, /) -> bool | None:
@@ -28275,6 +29218,7 @@ class _AxlUIMenuDelete(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:960
         """
+    def expr(self, x_menu_id: int, /) -> Expr[bool | None]: ...
 
 class _AxlUIMenuDump(LiteralRemoteFunction):
     def __call__(self, t_menu_file: str, g_debug: Skill = ..., /) -> str | None:
@@ -28295,6 +29239,7 @@ class _AxlUIMenuDump(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:677
         """
+    def expr(self, t_menu_file: str, g_debug: Skill = ..., /) -> Expr[str | None]: ...
 
 class _AxlUIMenuFind(LiteralRemoteFunction):
     def __call__(self, x_menu_id: int | None, t_cmd_name: str | int, g_menu_option: Skill = ..., /) -> int | None:
@@ -28367,6 +29312,7 @@ class _AxlUIMenuFind(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:997
         """
+    def expr(self, x_menu_id: int | None, t_cmd_name: str | int, g_menu_option: Skill = ..., /) -> Expr[int | None]: ...
 
 class _AxlUIMenuInsert(LiteralRemoteFunction):
     @overload
@@ -28641,7 +29587,7 @@ class _AxlUIMenuInsert(LiteralRemoteFunction):
         Source: algroskill/10usrint.part01.md:1076
         """
     @overload
-    def __call__(self, x_menu_id: int, ll_items: SkillList, /) -> bool | None:
+    def __call__(self, x_menu_id: int, ll_items: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         Inserts menu items to an existing menu
 
@@ -28707,6 +29653,16 @@ class _AxlUIMenuInsert(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:1076
         """
+    @overload
+    def expr(self, x_menu_id: int, t_display: str, t_command: str, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, x_menu_id: int, separator: Symbol, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, x_menu_id: int, popupt_display: Symbol, /) -> Expr[int | None]: ...
+    @overload
+    def expr(self, x_menu_id: int, end: Symbol, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, x_menu_id: int, ll_items: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlUIMenuLoad(LiteralRemoteFunction):
     def __call__(self, t_menufile: str, /) -> str | None:
@@ -28725,9 +29681,10 @@ class _AxlUIMenuLoad(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:650
         """
+    def expr(self, t_menufile: str, /) -> Expr[str | None]: ...
 
 class _AxlUIMenuRegister(LiteralRemoteFunction):
-    def __call__(self, t_command: str | int, ll_menu: SkillList, g_menu_option: Skill = ..., /) -> bool | None:
+    def __call__(self, t_command: str | int, ll_menu: list[Skill] | tuple[Skill, ...], g_menu_option: Skill = ..., /) -> bool | None:
         """
         This allows you to register menu items to be loaded when Allegro loads a new menu
 
@@ -28762,6 +29719,7 @@ class _AxlUIMenuRegister(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:1181
         """
+    def expr(self, t_command: str | int, ll_menu: list[Skill] | tuple[Skill, ...], g_menu_option: Skill = ..., /) -> Expr[bool | None]: ...
 
 class _AxlUIMultipleChoice(LiteralRemoteFunction):
     def __call__(self, t_question: str, lt_answers: list[str], t_title: str | None = ..., /) -> int | None:
@@ -28790,6 +29748,7 @@ class _AxlUIMultipleChoice(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part02.md:132
         """
+    def expr(self, t_question: str, lt_answers: list[str], t_title: str | None = ..., /) -> Expr[int | None]: ...
 
 class _AxlUIPopupDefine(LiteralRemoteFunction):
     def __call__(self, r_popup: RemoteObject, ts_pairs: Skill, /) -> RemoteObject | None:
@@ -28821,6 +29780,7 @@ class _AxlUIPopupDefine(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/19cmdctl.md:349
         """
+    def expr(self, r_popup: RemoteObject, ts_pairs: Skill, /) -> Expr[RemoteObject | None]: ...
 
 class _AxlUIPopupSet(LiteralRemoteFunction):
     def __call__(self, r_popup: RemoteObject, /) -> bool | None:
@@ -28865,6 +29825,7 @@ class _AxlUIPopupSet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/19cmdctl.md:385
         """
+    def expr(self, r_popup: RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlUIPrompt(LiteralRemoteFunction):
     def __call__(self, t_message: str, g_default_or_password: Skill = ..., /) -> str | None:
@@ -28907,9 +29868,10 @@ class _AxlUIPrompt(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:1237
         """
+    def expr(self, t_message: str, g_default_or_password: Skill = ..., /) -> Expr[str | None]: ...
 
 class _AxlUIViewFileCreate(LiteralRemoteFunction):
-    def __call__(self, t_file: str, t_title: str, g_delete_file: Skill, lx_size: SkillList | None = ..., lt_placement: list[str] | None = ..., g_form_to_expose: Skill = ..., /) -> RemoteObject | None:
+    def __call__(self, t_file: str, t_title: str, g_delete_file: Skill, lx_size: list[Skill] | tuple[Skill, ...] | None = ..., lt_placement: list[str] | None = ..., g_form_to_expose: Skill = ..., /) -> RemoteObject | None:
         """
         Opens a file view window to display a file (`t_file`), it is an error for file not to exist
 
@@ -28949,6 +29911,7 @@ class _AxlUIViewFileCreate(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:1517
         """
+    def expr(self, t_file: str, t_title: str, g_delete_file: Skill, lx_size: list[Skill] | tuple[Skill, ...] | None = ..., lt_placement: list[str] | None = ..., g_form_to_expose: Skill = ..., /) -> Expr[RemoteObject | None]: ...
 
 class _AxlUIViewFileReuse(LiteralRemoteFunction):
     def __call__(self, r_window_msg: RemoteObject, t_file: str, t_title: str, g_delete_file: Skill, g_form_to_expose: Skill = ..., /) -> bool | None:
@@ -28984,6 +29947,7 @@ class _AxlUIViewFileReuse(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:1561
         """
+    def expr(self, r_window_msg: RemoteObject, t_file: str, t_title: str, g_delete_file: Skill, g_form_to_expose: Skill = ..., /) -> Expr[bool | None]: ...
 
 class _AxlUIViewFileScrollTo(LiteralRemoteFunction):
     def __call__(self, r_window_msg: RemoteObject, x_line: int | None, /) -> int | None:
@@ -29018,6 +29982,7 @@ class _AxlUIViewFileScrollTo(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part02.md:163
         """
+    def expr(self, r_window_msg: RemoteObject, x_line: int | None, /) -> Expr[int | None]: ...
 
 class _AxlUIWBeep(LiteralRemoteFunction):
     def __call__(self, /) -> bool:
@@ -29033,6 +29998,7 @@ class _AxlUIWBeep(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part02.md:197
         """
+    def expr(self, /) -> Expr[bool]: ...
 
 class _AxlUIWBlock(LiteralRemoteFunction):
     def __call__(self, r_window: RemoteObject, /) -> bool | None:
@@ -29062,6 +30028,7 @@ class _AxlUIWBlock(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part02.md:49
         """
+    def expr(self, r_window: RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlUIWClose(LiteralRemoteFunction):
     def __call__(self, r_window: RemoteObject | str, /) -> bool | None:
@@ -29102,6 +30069,7 @@ class _AxlUIWClose(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:1708
         """
+    def expr(self, r_window: RemoteObject | str, /) -> Expr[bool | None]: ...
 
 class _AxlUIWCloseAll(LiteralRemoteFunction):
     def __call__(self, /) -> bool | None:
@@ -29117,6 +30085,7 @@ class _AxlUIWCloseAll(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:1290
         """
+    def expr(self, /) -> Expr[bool | None]: ...
 
 class _AxlUIWDisableQuit(LiteralRemoteFunction):
     def __call__(self, o_window: RemoteObject, /) -> bool | None:
@@ -29134,6 +30103,7 @@ class _AxlUIWDisableQuit(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part02.md:217
         """
+    def expr(self, o_window: RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlUIWExpose(LiteralRemoteFunction):
     def __call__(self, r_window: RemoteObject | None, /) -> bool | None:
@@ -29163,6 +30133,7 @@ class _AxlUIWExpose(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:1675
         """
+    def expr(self, r_window: RemoteObject | None, /) -> Expr[bool | None]: ...
 
 class _AxlUIWExposeByName(LiteralRemoteFunction):
     def __call__(self, t_window_name: str, /) -> bool | None:
@@ -29188,6 +30159,7 @@ class _AxlUIWExposeByName(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part02.md:240
         """
+    def expr(self, t_window_name: str, /) -> Expr[bool | None]: ...
 
 class _AxlUIWHelpRegister(LiteralRemoteFunction):
     @overload
@@ -29256,6 +30228,10 @@ class _AxlUIWHelpRegister(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:1750
         """
+    @overload
+    def expr(self, t_cmd: str, t_help_file: str, /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, g_command: Skill, /) -> Expr[str | list[str] | bool | None]: ...
 
 class _AxlUIWIconify(LiteralRemoteFunction):
     def __call__(self, r_window: RemoteObject | str, t: bool | None, /) -> bool | None:
@@ -29283,6 +30259,7 @@ class _AxlUIWIconify(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:1311
         """
+    def expr(self, r_window: RemoteObject | str, t: bool | None, /) -> Expr[bool | None]: ...
 
 class _AxlUIWIsIconic(LiteralRemoteFunction):
     def __call__(self, r_window: RemoteObject | str, /) -> bool | None:
@@ -29309,6 +30286,7 @@ class _AxlUIWIsIconic(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:1342
         """
+    def expr(self, r_window: RemoteObject | str, /) -> Expr[bool | None]: ...
 
 class _AxlUIWIsWindow(LiteralRemoteFunction):
     def __call__(self, t_window: str, /) -> bool | None:
@@ -29332,9 +30310,10 @@ class _AxlUIWIsWindow(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:1372
         """
+    def expr(self, t_window: str, /) -> Expr[bool | None]: ...
 
 class _AxlUIWMove(LiteralRemoteFunction):
-    def __call__(self, r_window: RemoteObject | None, t_window: str, l_xy: SkillList, /) -> bool | None:
+    def __call__(self, r_window: RemoteObject | None, t_window: str, l_xy: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         Moves a window
 
@@ -29366,6 +30345,7 @@ class _AxlUIWMove(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:1401
         """
+    def expr(self, r_window: RemoteObject | None, t_window: str, l_xy: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlUIWPerm(LiteralRemoteFunction):
     def __call__(self, r_window: RemoteObject, t: bool | None = ..., /) -> bool | None:
@@ -29401,6 +30381,7 @@ class _AxlUIWPerm(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part02.md:269
         """
+    def expr(self, r_window: RemoteObject, t: bool | None = ..., /) -> Expr[bool | None]: ...
 
 class _AxlUIWPrint(LiteralRemoteFunction):
     def __call__(self, r_window: RemoteObject | None, t_format_string: str, /, *g_args: Skill) -> bool | None:
@@ -29413,6 +30394,7 @@ class _AxlUIWPrint(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:1804
         """
+    def expr(self, r_window: RemoteObject | None, t_format_string: str, /, *g_args: Skill) -> Expr[bool | None]: ...
 
 class _AxlUIWRedraw(LiteralRemoteFunction):
     def __call__(self, r_window: RemoteObject | None, /) -> bool | None:
@@ -29432,6 +30414,7 @@ class _AxlUIWRedraw(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:1438
         """
+    def expr(self, r_window: RemoteObject | None, /) -> Expr[bool | None]: ...
 
 class _AxlUIWSetHelpTag(LiteralRemoteFunction):
     def __call__(self, r_window: RemoteObject, t_tag: str, /) -> bool | None:
@@ -29460,6 +30443,7 @@ class _AxlUIWSetHelpTag(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part02.md:313
         """
+    def expr(self, r_window: RemoteObject, t_tag: str, /) -> Expr[bool | None]: ...
 
 class _AxlUIWSetParent(LiteralRemoteFunction):
     def __call__(self, o_child_window: RemoteObject, o_parent_window: RemoteObject | None, /) -> bool | None:
@@ -29490,6 +30474,7 @@ class _AxlUIWSetParent(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part02.md:346
         """
+    def expr(self, o_child_window: RemoteObject, o_parent_window: RemoteObject | None, /) -> Expr[bool | None]: ...
 
 class _AxlUIWShow(LiteralRemoteFunction):
     def __call__(self, r_window: RemoteObject | None, s_option: Symbol, /) -> bool | None:
@@ -29510,6 +30495,7 @@ class _AxlUIWShow(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part02.md:382
         """
+    def expr(self, r_window: RemoteObject | None, s_option: Symbol, /) -> Expr[bool | None]: ...
 
 class _AxlUIWSize(LiteralRemoteFunction):
     def __call__(self, r_window: RemoteObject | None, /) -> list[Skill]:
@@ -29531,6 +30517,7 @@ class _AxlUIWSize(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:1457
         """
+    def expr(self, r_window: RemoteObject | None, /) -> Expr[list[Skill]]: ...
 
 class _AxlUIWTimerAdd(LiteralRemoteFunction):
     def __call__(self, o_window: RemoteObject, x_timeout: int, g_oneshot: Skill, u_callback: Skill, /) -> RemoteObject | None:
@@ -29588,6 +30575,7 @@ class _AxlUIWTimerAdd(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part02.md:412
         """
+    def expr(self, o_window: RemoteObject, x_timeout: int, g_oneshot: Skill, u_callback: Skill, /) -> Expr[RemoteObject | None]: ...
 
 class _AxlUIWTimerRemove(LiteralRemoteFunction):
     def __call__(self, o_timer_id: RemoteObject, /) -> bool | None:
@@ -29605,6 +30593,7 @@ class _AxlUIWTimerRemove(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part02.md:474
         """
+    def expr(self, o_timer_id: RemoteObject, /) -> Expr[bool | None]: ...
 
 class _AxlUIWUpdate(LiteralRemoteFunction):
     def __call__(self, r_window: RemoteObject | None, /) -> bool | None:
@@ -29626,6 +30615,7 @@ class _AxlUIWUpdate(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part02.md:497
         """
+    def expr(self, r_window: RemoteObject | None, /) -> Expr[bool | None]: ...
 
 class _AxlUIYesNo(LiteralRemoteFunction):
     def __call__(self, t_message: str, t_title: str | None = ..., s_default: Symbol | None = ..., /) -> bool | None:
@@ -29688,6 +30678,7 @@ class _AxlUIYesNo(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:1596
         """
+    def expr(self, t_message: str, t_title: str | None = ..., s_default: Symbol | None = ..., /) -> Expr[bool | None]: ...
 
 class _AxlUIYesNoCancel(LiteralRemoteFunction):
     def __call__(self, t_message: str, t_title: str | None = ..., s_default: Symbol | None = ..., /) -> int:
@@ -29706,6 +30697,7 @@ class _AxlUIYesNoCancel(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part02.md:518
         """
+    def expr(self, t_message: str, t_title: str | None = ..., s_default: Symbol | None = ..., /) -> Expr[int]: ...
 
 class _AxlUnfixAll(LiteralRemoteFunction):
     def __call__(self, /) -> int:
@@ -29728,6 +30720,7 @@ class _AxlUnfixAll(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:996
         """
+    def expr(self, /) -> Expr[int]: ...
 
 class _AxlUnsetVariable(LiteralRemoteFunction):
     def __call__(self, t_variable: str, /) -> bool:
@@ -29748,6 +30741,7 @@ class _AxlUnsetVariable(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/09cmdshl.md:680
         """
+    def expr(self, t_variable: str, /) -> Expr[bool]: ...
 
 class _AxlUnsetVariableFile(LiteralRemoteFunction):
     def __call__(self, t_variable: str, /) -> bool:
@@ -29768,6 +30762,7 @@ class _AxlUnsetVariableFile(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/09cmdshl.md:712
         """
+    def expr(self, t_variable: str, /) -> Expr[bool]: ...
 
 class _AxlVersion(LiteralRemoteFunction):
     def __call__(self, s_option: Symbol, /) -> Skill | None:
@@ -29831,6 +30826,7 @@ class _AxlVersion(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:1538
         """
+    def expr(self, s_option: Symbol, /) -> Expr[Skill | None]: ...
 
 class _AxlVersionIdGet(LiteralRemoteFunction):
     def __call__(self, /) -> int:
@@ -29844,6 +30840,7 @@ class _AxlVersionIdGet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:1604
         """
+    def expr(self, /) -> Expr[int]: ...
 
 class _AxlVersionIdPrint(LiteralRemoteFunction):
     def __call__(self, x_time: int | str, /) -> str | None:
@@ -29878,6 +30875,7 @@ class _AxlVersionIdPrint(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/23utils.md:1621
         """
+    def expr(self, x_time: int | str, /) -> Expr[str | None]: ...
 
 class _AxlViaZLength(LiteralRemoteFunction):
     def __call__(self, t_layer1: str, t_layer2: str, g_inclusion: Skill = ..., /) -> float:
@@ -29904,6 +30902,7 @@ class _AxlViaZLength(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:536
         """
+    def expr(self, t_layer1: str, t_layer2: str, g_inclusion: Skill = ..., /) -> Expr[float]: ...
 
 class _AxlVisibleDesign(LiteralRemoteFunction):
     def __call__(self, g_make_vis: Skill, /) -> bool | None:
@@ -29951,6 +30950,7 @@ class _AxlVisibleDesign(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part02.md:235
         """
+    def expr(self, g_make_vis: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlVisibleGet(LiteralRemoteFunction):
     def __call__(self, /) -> list[Skill] | None:
@@ -30025,6 +31025,7 @@ class _AxlVisibleGet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part02.md:288
         """
+    def expr(self, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlVisibleLayer(LiteralRemoteFunction):
     def __call__(self, t_layer: str, g_make_vis: Skill, /) -> bool | None:
@@ -30045,9 +31046,10 @@ class _AxlVisibleLayer(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part02.md:371
         """
+    def expr(self, t_layer: str, g_make_vis: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlVisibleSet(LiteralRemoteFunction):
-    def __call__(self, l_vis_list: SkillList, /) -> bool | None:
+    def __call__(self, l_vis_list: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         Sets the visibility of the entire design.
 
@@ -30062,6 +31064,7 @@ class _AxlVisibleSet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part02.md:397
         """
+    def expr(self, l_vis_list: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlVisibleUpdate(LiteralRemoteFunction):
     def __call__(self, t_now: str, /) -> bool:
@@ -30144,6 +31147,7 @@ class _AxlVisibleUpdate(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/19cmdctl.md:561
         """
+    def expr(self, t_now: str, /) -> Expr[bool]: ...
 
 class _AxlWFMAnyExported(LiteralRemoteFunction):
     def __call__(self, /) -> bool | None:
@@ -30163,6 +31167,7 @@ class _AxlWFMAnyExported(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:1441
         """
+    def expr(self, /) -> Expr[bool | None]: ...
 
 class _AxlWidth2Impedance(LiteralRemoteFunction):
     def __call__(self, t_layer: str | int, f_line_width: float, /) -> float | None:
@@ -30175,6 +31180,7 @@ class _AxlWidth2Impedance(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/25dbmisc.md:1019
         """
+    def expr(self, t_layer: str | int, f_line_width: float, /) -> Expr[float | None]: ...
 
 class _AxlWindowBoxGet(LiteralRemoteFunction):
     def __call__(self, /) -> list[Skill]:
@@ -30188,9 +31194,10 @@ class _AxlWindowBoxGet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:815
         """
+    def expr(self, /) -> Expr[list[Skill]]: ...
 
 class _AxlWindowBoxSet(LiteralRemoteFunction):
-    def __call__(self, l_b_box: SkillList, /) -> list[Skill] | None:
+    def __call__(self, l_b_box: list[Skill] | tuple[Skill, ...], /) -> list[Skill] | None:
         """
         Sets Allegro PCB Editor display to given bBox
 
@@ -30207,6 +31214,7 @@ class _AxlWindowBoxSet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/06intedt.part01.md:832
         """
+    def expr(self, l_b_box: list[Skill] | tuple[Skill, ...], /) -> Expr[list[Skill] | None]: ...
 
 class _AxlWindowFit(LiteralRemoteFunction):
     def __call__(self, /) -> list[Skill]:
@@ -30222,6 +31230,7 @@ class _AxlWindowFit(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:1289
         """
+    def expr(self, /) -> Expr[list[Skill]]: ...
 
 class _AxlWriteDeviceFile(LiteralRemoteFunction):
     def __call__(self, o_comp_def_dbid: RemoteObject, t_output_dir: str | None = ..., /) -> bool | None:
@@ -30259,6 +31268,7 @@ class _AxlWriteDeviceFile(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/26logacc.md:1298
         """
+    def expr(self, o_comp_def_dbid: RemoteObject, t_output_dir: str | None = ..., /) -> Expr[bool | None]: ...
 
 class _AxlWritePackageFile(LiteralRemoteFunction):
     def __call__(self, o_sym_def_dbid: RemoteObject, t_output_dir: str | None = ..., /) -> bool | None:
@@ -30295,6 +31305,7 @@ class _AxlWritePackageFile(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/26logacc.md:1338
         """
+    def expr(self, o_sym_def_dbid: RemoteObject, t_output_dir: str | None = ..., /) -> Expr[bool | None]: ...
 
 class _AxlXSectionCopy(LiteralRemoteFunction):
     def __call__(self, o_xsection_dbid: RemoteObject, /) -> Skill | None:
@@ -30320,6 +31331,7 @@ class _AxlXSectionCopy(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part02.md:598
         """
+    def expr(self, o_xsection_dbid: RemoteObject, /) -> Expr[Skill | None]: ...
 
 class _AxlXSectionCreate(LiteralRemoteFunction):
     def __call__(self, value: None, g_option: Skill, g_xsection_def_struct: Skill = ..., /) -> RemoteObject | None:
@@ -30365,6 +31377,7 @@ class _AxlXSectionCreate(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part02.md:628
         """
+    def expr(self, value: None, g_option: Skill, g_xsection_def_struct: Skill = ..., /) -> Expr[RemoteObject | None]: ...
 
 class _AxlXSectionDelete(LiteralRemoteFunction):
     def __call__(self, g_option: Skill, /) -> list[str]:
@@ -30384,6 +31397,7 @@ class _AxlXSectionDelete(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part02.md:709
         """
+    def expr(self, g_option: Skill, /) -> Expr[list[str]]: ...
 
 class _AxlXSectionGet(LiteralRemoteFunction):
     def __call__(self, g_stackup: Skill | None, g_option: Skill, /) -> Skill | None:
@@ -30456,6 +31470,7 @@ class _AxlXSectionGet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part02.md:739
         """
+    def expr(self, g_stackup: Skill | None, g_option: Skill, /) -> Expr[Skill | None]: ...
 
 class _AxlXSectionLayerFunctions(LiteralRemoteFunction):
     def __call__(self, /) -> list[str]:
@@ -30474,6 +31489,7 @@ class _AxlXSectionLayerFunctions(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part02.md:861
         """
+    def expr(self, /) -> Expr[list[str]]: ...
 
 class _AxlXSectionLayerTypes(LiteralRemoteFunction):
     def __call__(self, /) -> list[str]:
@@ -30494,6 +31510,7 @@ class _AxlXSectionLayerTypes(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part02.md:885
         """
+    def expr(self, /) -> Expr[list[str]]: ...
 
 class _AxlXSectionModify(LiteralRemoteFunction):
     def __call__(self, /, **g_attributes: Skill) -> Skill | None:
@@ -30518,6 +31535,7 @@ class _AxlXSectionModify(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part02.md:909
         """
+    def expr(self, /, **g_attributes: Skill) -> Expr[Skill | None]: ...
 
 class _AxlXSectionSet(LiteralRemoteFunction):
     @overload
@@ -30563,7 +31581,7 @@ class _AxlXSectionSet(LiteralRemoteFunction):
         Source: algroskill/04parmgt.part02.md:942
         """
     @overload
-    def __call__(self, lockednil: Symbol | SkillList, /) -> bool | None:
+    def __call__(self, lockednil: Symbol | list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         Modifies an existing cross section entry
 
@@ -30604,6 +31622,10 @@ class _AxlXSectionSet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part02.md:942
         """
+    @overload
+    def expr(self, g_option: Skill, g_xsection_def_struct: Skill = ..., /) -> Expr[bool | None]: ...
+    @overload
+    def expr(self, lockednil: Symbol | list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlZoomBbox(LiteralRemoteFunction):
     def __call__(self, x_window: int, /) -> Skill:
@@ -30626,6 +31648,7 @@ class _AxlZoomBbox(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:1308
         """
+    def expr(self, x_window: int, /) -> Expr[Skill]: ...
 
 class _AxlZoomCenter(LiteralRemoteFunction):
     def __call__(self, x_window: int, xy: Skill, /) -> bool | None:
@@ -30655,6 +31678,7 @@ class _AxlZoomCenter(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:1335
         """
+    def expr(self, x_window: int, xy: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlZoomControl(LiteralRemoteFunction):
     def __call__(self, s_option: Symbol, g_arg: Skill = ..., /) -> Skill:
@@ -30696,6 +31720,7 @@ class _AxlZoomControl(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:1367
         """
+    def expr(self, s_option: Symbol, g_arg: Skill = ..., /) -> Expr[Skill]: ...
 
 class _AxlZoomFit(LiteralRemoteFunction):
     def __call__(self, x_window: int, s_option: Symbol, /) -> bool | None:
@@ -30732,6 +31757,7 @@ class _AxlZoomFit(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:1410
         """
+    def expr(self, x_window: int, s_option: Symbol, /) -> Expr[bool | None]: ...
 
 class _AxlZoomInOut(LiteralRemoteFunction):
     def __call__(self, x_window: int, x_factor: int, xy: Skill = ..., /) -> bool | None:
@@ -30758,6 +31784,7 @@ class _AxlZoomInOut(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:1450
         """
+    def expr(self, x_window: int, x_factor: int, xy: Skill = ..., /) -> Expr[bool | None]: ...
 
 class _AxlZoomPoints(LiteralRemoteFunction):
     def __call__(self, x_window: int, upper_left_xy: Skill, lower_right_xy: Skill, /) -> bool | None:
@@ -30786,6 +31813,7 @@ class _AxlZoomPoints(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:1481
         """
+    def expr(self, x_window: int, upper_left_xy: Skill, lower_right_xy: Skill, /) -> Expr[bool | None]: ...
 
 class _AxlZoomToDbid(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject | list[RemoteObject], g_always: Skill, x: int | None = ..., window: Skill = ..., /) -> bool | None:
@@ -30818,6 +31846,7 @@ class _AxlZoomToDbid(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:1512
         """
+    def expr(self, o_dbid: RemoteObject | list[RemoteObject], g_always: Skill, x: int | None = ..., window: Skill = ..., /) -> Expr[bool | None]: ...
 
 class _AxlZoomWorld(LiteralRemoteFunction):
     def __call__(self, x_window: int, /) -> bool | None:
@@ -30842,6 +31871,7 @@ class _AxlZoomWorld(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/08intprm.md:1547
         """
+    def expr(self, x_window: int, /) -> Expr[bool | None]: ...
 
 class _AxlOlOl2(LiteralRemoteFunction):
     def __call__(self, *args: Skill, **kwargs: Skill) -> Skill:
@@ -30852,6 +31882,7 @@ class _AxlOlOl2(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: unavailable
         """
+    def expr(self, *args: Skill, **kwargs: Skill) -> Expr[Skill]: ...
 
 class _Axlcreate(LiteralRemoteFunction):
     def __call__(self, /) -> str | None:
@@ -30866,6 +31897,7 @@ class _Axlcreate(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/04parmgt.part01.md:32
         """
+    def expr(self, /) -> Expr[str | None]: ...
 
 class _Axldo(LiteralRemoteFunction):
     def __call__(self, g_init_list: Skill, g_terminate_list: Skill, g_body: Skill = ..., /) -> Skill:
@@ -30906,6 +31938,7 @@ class _Axldo(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/27langexten.md:9
         """
+    def expr(self, g_init_list: Skill, g_terminate_list: Skill, g_body: Skill = ..., /) -> Expr[Skill]: ...
 
 class Axl(FunctionCollection):
     add_auto_assign_net_algorithm: _AxlAddAutoAssignNetAlgorithm

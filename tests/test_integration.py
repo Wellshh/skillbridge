@@ -7,7 +7,7 @@ from warnings import warn
 
 from pytest import fixture, mark, raises, skip
 
-from skillbridge import LazyList, RemoteTable, SkillCode, Symbol, Var, Workspace
+from skillbridge import Expr, RemoteTable, Symbol, Workspace
 
 here = Path(__file__).parent
 
@@ -140,45 +140,41 @@ def test_remote_object(dd_libs: list) -> None:
     assert lib != 1
 
 
-def test_lazy_list(ws: Workspace, dd_libs: list) -> None:
+def test_list_expression(ws: Workspace, dd_libs: list) -> None:
     lib = max(dd_libs, key=lambda lib: len(lib.cells or ()))
 
-    cells = lib.lazy.cells
+    cells = lib.expr().cells.as_list()
 
     assert isinstance(lib.cells, list)
-    assert isinstance(cells, LazyList)
-    assert str(cells).startswith('<lazy list')
+    assert ws['length'](cells) > 0
+    assert ws['length'](cells.where(lambda cell: cell.name == '__no_cell_is_named_this')) == 0
 
-    assert cells.filter() is cells
-    assert len(cells) > 0
-    assert len(cells.filter(name="__no_cell_is_named_this")) == 0
-
-    assert cells[0] == lib.cells[0]
-    assert cells[:] == lib.cells
-
-    with raises(RuntimeError):
-        _ = cells[1:2:3]
+    assert ws.eval(cells[0]) == lib.cells[0]
+    assert ws.eval(cells) == lib.cells
 
     names = ws.make_table('CellNames')
 
-    cells.foreach(ws['setarray'], names, LazyList.arg['name'], LazyList.arg['readPath'])
+    ws.eval(
+        cells.for_each(
+            lambda cell: ws['setarray'].expr(names, cell['name'], cell['readPath']),
+        ),
+    )
 
-    for cell in [cells[0], cells[1], cells[2]]:
+    for cell in [ws.eval(cells[0]), ws.eval(cells[1]), ws.eval(cells[2])]:
         if cell is None:
             continue
 
         assert names[cell.name] == cell.read_path
 
-    with raises(RuntimeError):
-        cells.foreach(SkillCode('setarray'), names, LazyList.arg)
+    ws.eval(cells.for_each(lambda _cell: Expr.call('print', 123)))
 
-    cells.foreach(SkillCode('print(123)'))
-
-    read_write = cells.filter(is_readable=True, is_writable=True)
-    read_only = cells.filter(is_readable=True, is_writable=False)
-    write_only = cells.filter(is_readable=False, is_writable=True)
-    nothing = cells.filter(is_readable=False, is_writable=False)
-    assert len(cells) == len(read_only) + len(read_write) + len(write_only) + len(nothing)
+    read_write = cells.where(lambda cell: cell.is_readable & cell.is_writable)
+    read_only = cells.where(lambda cell: cell.is_readable & ~cell.is_writable)
+    write_only = cells.where(lambda cell: ~cell.is_readable & cell.is_writable)
+    nothing = cells.where(lambda cell: ~cell.is_readable & ~cell.is_writable)
+    assert ws['length'](cells) == sum(
+        ws['length'](group) for group in (read_only, read_write, write_only, nothing)
+    )
 
 
 def test_vector_without_default(ws: Workspace) -> None:
@@ -237,9 +233,9 @@ def test_run_script_does_not_block(ws: Workspace) -> None:
     ws['set'](Symbol(variable), 0)
     assert ws['pyRunScript'](str(here / 'script.py'), args=(variable, '42', '0.25'))
 
-    assert ws['plus'](Var(variable), 1) == 1
+    assert ws['plus'](Expr.raw_skill(variable), 1) == 1
     sleep(1.0)
-    assert ws['plus'](Var(variable), 1) == 43
+    assert ws['plus'](Expr.raw_skill(variable), 1) == 43
 
 
 def test_run_script_blocks_when_requested(ws: Workspace) -> None:
@@ -247,7 +243,7 @@ def test_run_script_blocks_when_requested(ws: Workspace) -> None:
     ws['set'](Symbol(variable), 0)
     assert ws['pyRunScript'](str(here / 'script.py'), args=(variable, '42', '0.25'), block=True)
 
-    assert ws['plus'](Var(variable), 1) == 43
+    assert ws['plus'](Expr.raw_skill(variable), 1) == 43
 
 
 @mark.skip

@@ -255,7 +255,7 @@ class _Write(Generic[ApiT, P, T]):
         **kwargs: P.kwargs,
     ) -> Cmd[T]:
         rpc_args = self._build_args(instance, *args, **kwargs)
-        expr = instance._session.raw[self.spec.proc].lazy(*rpc_args)
+        expr = instance._session.raw[self.spec.proc].expr(*rpc_args).render()
         return Cmd(
             instance._session,
             expr,

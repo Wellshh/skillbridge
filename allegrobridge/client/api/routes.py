@@ -8,7 +8,6 @@ from pydantic import PositiveFloat, TypeAdapter
 
 from allegrobridge.client.base import BaseRecord, SessionRecord
 from allegrobridge.client.base._rpc import RpcArgs, SessionApi, read, write
-from skillbridge import SkillList, SkillTuple
 
 _PROJECT_PROCEDURE = '__abProjectRoutes'
 _CREATE_PROCEDURE = '__abCreateRoute'
@@ -57,4 +56,4 @@ class RoutesApi(SessionApi):
             raise ValueError('route points must contain exactly two coordinates')
         if width <= 0:
             raise ValueError('route width must be positive')
-        return net, SkillList(SkillTuple(point) for point in points), layer, width
+        return net, list(points), layer, width

@@ -970,7 +970,7 @@ def _atom_type(value: str, *, result: bool) -> str:
     if prefix == 'lo':
         return 'list[RemoteObject]'
     if prefix in LIST_PREFIXES:
-        return 'list[Skill]' if result else 'SkillList'
+        return 'list[Skill]' if result else 'list[Skill] | tuple[Skill, ...]'
     return PREFIX_TYPES.get(prefix, 'Skill')
 
 
@@ -1161,7 +1161,10 @@ def _render_callable(spec: ApiSpec) -> list[str]:
     ]
     if not signatures:
         append_call('self, *args: Skill, **kwargs: Skill', 'Skill', ())
-        lines.append('')
+        lines.extend((
+            '    def expr(self, *args: Skill, **kwargs: Skill) -> Expr[Skill]: ...',
+            '',
+        ))
         return lines
 
     overloaded = len(signatures) > 1
@@ -1169,6 +1172,11 @@ def _render_callable(spec: ApiSpec) -> list[str]:
         if overloaded:
             lines.append('    @overload')
         append_call(_render_parameters(parameters), return_type, parameters)
+    for parameters, return_type in signatures:
+        if overloaded:
+            lines.append('    @overload')
+        signature = _render_parameters(parameters)
+        lines.append(f'    def expr({signature}) -> Expr[{return_type}]: ...')
     lines.append('')
     return lines
 
@@ -1206,8 +1214,9 @@ def render_stub(specs: Sequence[ApiSpec]) -> str:
         '# mypy: disable-error-code="override, overload-cannot-match, overload-overlap"',
         'from typing import Literal, overload',
         '',
+        'from skillbridge.client.expr import Expr',
         'from skillbridge.client.functions import FunctionCollection, LiteralRemoteFunction',
-        'from skillbridge.client.hints import Number, Skill, SkillList, Symbol',
+        'from skillbridge.client.hints import Number, Skill, Symbol',
         'from skillbridge.client.objects import RemoteObject',
         '',
     ]
