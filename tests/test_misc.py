@@ -2,6 +2,7 @@
 # Derived from skillbridge (https://github.com/unihd-cag/skillbridge)
 # SPDX-License-Identifier: LGPL-3.0-only
 import sys
+from collections.abc import MutableMapping
 from pathlib import Path
 from subprocess import check_output, run
 from textwrap import dedent
@@ -159,27 +160,120 @@ def test_remote_object_builds_expression_without_rpc() -> None:
     assert not channel.outputs
 
 
-def test_remote_collections_expose_current_mapping_and_vector_behavior() -> None:
+def test_remote_table_dunders_do_not_hide_remote_io() -> None:
     channel = DummyChannel()
     translator = DefaultTranslator()
     table = RemoteTable(channel, translator, SkillCode('TABLE'))
-    channel.inputs.extend(
-        ['"table"', '"table"', '2', '1', 'None', 'None', '[1, 2]', '2', '3', 'None'],
-    )
 
     assert str(table) == '<remote table>'
     assert repr(table) == '<remote table>'
-    assert len(table) == 2
+    assert not hasattr(table, '_repr_html_')
+    assert not isinstance(table, MutableMapping)
+    with raises(TypeError, match=r'length\(\)'):
+        bool(table)
+    with raises(TypeError):
+        len(table)
+    assert not channel.outputs
+
+
+def test_remote_table_operations_send_one_request_each() -> None:
+    channel = DummyChannel()
+    translator = DefaultTranslator()
+    table = RemoteTable(channel, translator, SkillCode('TABLE'))
+
+    channel.inputs.append('2')
+    assert table.length() == 2
+    assert channel.outputs.pop() == 'length(TABLE )'
+
+    channel.inputs.append('1')
     assert table['key'] == 1
+    assert channel.outputs.pop() == 'arrayref(TABLE "key" )'
+
+    channel.inputs.append('None')
     table['key'] = 2
+    assert channel.outputs.pop() == 'setarray(TABLE "key" 2 )'
+
+    channel.inputs.append('None')
     del table['key']
-    assert list(table) == [1, 2]
+    assert channel.outputs.pop() == 'remove("key" TABLE )'
+
+    channel.inputs.append('3')
     assert table.foo == 3
+    assert channel.outputs.pop() == "arrayref(TABLE 'foo )"
+
+    channel.inputs.append('None')
     table.foo = 4
+    assert channel.outputs.pop() == "setarray(TABLE 'foo 4 )"
 
     channel.inputs.append("error('missing')")
     with raises(KeyError, match='missing'):
         _ = table['missing']
+    assert channel.outputs.pop() == 'arrayref(TABLE "missing" )'
+
+
+def test_remote_table_snapshot_and_iteration_each_use_one_request() -> None:
+    channel = DummyChannel()
+    translator = DefaultTranslator()
+    table = RemoteTable(channel, translator, SkillCode('TABLE'))
+
+    channel.inputs.append('[[True, "x", 1], [True, [1, 2], 3]]')
+    assert table.snapshot() == [('x', 1), ([1, 2], 3)]
+    assert list(channel.outputs) == [
+        'mapcar(lambda((_entry) list(t car(_entry) cadr(_entry))) tableToList(TABLE))',
+    ]
+
+    channel.outputs.clear()
+    channel.inputs.append('None')
+    assert table.snapshot() == []
+    assert list(channel.outputs) == [
+        'mapcar(lambda((_entry) list(t car(_entry) cadr(_entry))) tableToList(TABLE))',
+    ]
+
+    channel.outputs.clear()
+    channel.inputs.append('[[True, "x", 1], [True, 2, 3]]')
+    assert list(table) == ['x', 2]
+    assert list(channel.outputs) == [
+        'mapcar(lambda((_entry) list(t car(_entry) cadr(_entry))) tableToList(TABLE))',
+    ]
+
+
+def test_remote_table_membership_and_get_ignore_table_default() -> None:
+    channel = DummyChannel()
+    translator = DefaultTranslator()
+    table = RemoteTable(channel, translator, SkillCode('TABLE'))
+
+    channel.inputs.append('99')
+    assert table['missing'] == 99
+    assert channel.outputs.pop() == 'arrayref(TABLE "missing" )'
+
+    channel.inputs.append('[True, None]')
+    assert 'present' in table
+    assert channel.outputs.pop() == (
+        'let(((_key "present")) if(exists(_item TABLE equal(_item _key)) list(t TABLE[_key]) nil))'
+    )
+
+    channel.inputs.append('None')
+    assert 'missing' not in table
+    assert channel.outputs.pop() == (
+        'let(((_key "missing")) if(exists(_item TABLE equal(_item _key)) list(t TABLE[_key]) nil))'
+    )
+
+    channel.inputs.append('[True, None]')
+    assert table.get('present', 'fallback') is None
+    assert channel.outputs.pop() == (
+        'let(((_key "present")) if(exists(_item TABLE equal(_item _key)) list(t TABLE[_key]) nil))'
+    )
+
+    channel.inputs.append('None')
+    assert table.get('missing', 'fallback') == 'fallback'
+    assert channel.outputs.pop() == (
+        'let(((_key "missing")) if(exists(_item TABLE equal(_item _key)) list(t TABLE[_key]) nil))'
+    )
+
+
+def test_remote_vector_exposes_current_behavior() -> None:
+    channel = DummyChannel()
+    translator = DefaultTranslator()
 
     vector = RemoteVector(channel, translator, SkillCode('VECTOR'))
     channel.inputs.append('["value"]')

@@ -47,7 +47,7 @@ def test_can_create_a_hash_table(ws: Workspace) -> None:
     t = ws.make_table('T')
 
     assert isinstance(t, RemoteTable)
-    assert str(t) == "<remote table:T>"
+    assert str(t) == "<remote table>"
 
 
 def test_can_store_keys_in_hash_table(ws: Workspace) -> None:
@@ -63,13 +63,13 @@ def test_can_store_keys_in_hash_table(ws: Workspace) -> None:
 def test_can_read_length_of_hash_table(ws: Workspace) -> None:
     t = ws.make_table('T')
 
-    assert len(t) == 0
+    assert t.length() == 0
     t['x'] = 1
-    assert len(t) == 1
+    assert t.length() == 1
     t['x'] = 2
-    assert len(t) == 1
+    assert t.length() == 1
     del t['x']
-    assert len(t) == 0
+    assert t.length() == 0
 
 
 def test_can_iterate_over_hash_table_keys(ws: Workspace) -> None:
@@ -79,17 +79,40 @@ def test_can_iterate_over_hash_table_keys(ws: Workspace) -> None:
     t['x'] = 1
     assert list(t) == ['x']
     t[2] = 3
-    assert list(t) == ['x', 2]
+    assert set(t) == {'x', 2}
 
 
-def test_can_use_hash_table_like_a_dict(ws: Workspace) -> None:
+def test_can_snapshot_hash_table_entries(ws: Workspace) -> None:
     t = ws.make_table('T')
 
-    assert dict(t) == {}
+    assert t.snapshot() == []
     t['x'] = 1
-    assert dict(t) == {'x': 1}
-    t.update(y=3)
-    assert dict(t) == {'x': 1, 'y': 3}
+    assert dict(t.snapshot()) == {'x': 1}
+    t['y'] = 3
+    assert dict(t.snapshot()) == {'x': 1, 'y': 3}
+
+
+def test_hash_table_snapshot_preserves_non_dict_keys(ws: Workspace) -> None:
+    t = ws.make_table('T')
+
+    t[None] = Symbol('nilValue')
+    t[[1, 2]] = 3
+
+    snapshot = t.snapshot()
+    assert (None, Symbol('nilValue')) in snapshot
+    assert ([1, 2], 3) in snapshot
+
+
+def test_hash_table_membership_and_get_ignore_default(ws: Workspace) -> None:
+    t = ws.make_table('T', 99)
+
+    t['present'] = None
+
+    assert t['missing'] == 99
+    assert 'present' in t
+    assert 'missing' not in t
+    assert t.get('present', 'fallback') is None
+    assert t.get('missing', 'fallback') == 'fallback'
 
 
 def test_can_use_symbol_keys_in_hash_table(ws: Workspace) -> None:

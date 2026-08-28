@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 from __future__ import annotations
 
-from collections.abc import Iterable, Iterator, MutableMapping
+from collections.abc import Iterable, Iterator
 from typing import (
     Any,
     cast,
@@ -138,9 +138,13 @@ class RemoteObject(WithAttributeAccess, RemoteVariable):
 
 class RemoteCollection(RemoteVariable):
     def __str__(self) -> str:
-        return f'<remote {self._call("lsprintf", "%L", self)}>'
+        kind = type(self).__name__.removeprefix('Remote').lower()
+        return f'<remote {kind}>'
 
-    def __len__(self) -> int:
+    def __bool__(self) -> bool:
+        raise TypeError('Remote collections have no implicit truth value; use length()')
+
+    def length(self) -> int:
         return cast('int', self._call('length', self))
 
     def __getitem__(self, item: Skill) -> Skill:
@@ -153,7 +157,7 @@ class RemoteCollection(RemoteVariable):
         self._call('remove', item, self)
 
 
-class RemoteTable(RemoteCollection, MutableMapping[Skill, Skill]):
+class RemoteTable(RemoteCollection):
     def __getitem__(self, item: Skill) -> Skill:
         try:
             return super().__getitem__(item)
@@ -161,6 +165,8 @@ class RemoteTable(RemoteCollection, MutableMapping[Skill, Skill]):
             raise KeyError(item) from None
 
     def __getattr__(self, item: str) -> Skill:
+        if is_jupyter_magic(item):
+            raise AttributeError(item)
         return self[Symbol(snake_to_camel(item))]
 
     def __setattr__(self, key: str, value: Skill) -> None:
@@ -170,9 +176,35 @@ class RemoteTable(RemoteCollection, MutableMapping[Skill, Skill]):
             self[Symbol(snake_to_camel(key))] = value
 
     def __iter__(self) -> Iterator[Skill]:
-        code = self._translator.encode_getattr(self.__repr_skill__(), '?')
+        return (key for key, _value in self.snapshot())
+
+    def __contains__(self, item: Skill) -> bool:
+        return self._find(item) is not None
+
+    def get(self, item: Skill, default: Skill = None) -> Skill:
+        result = self._find(item)
+        return default if result is None else result[1]
+
+    def snapshot(self) -> list[tuple[Skill, Skill]]:
+        table = self.__repr_skill__()
+        code = SkillCode(
+            f'mapcar(lambda((_entry) list(t car(_entry) cadr(_entry))) tableToList({table}))',
+        )
+        entries = cast(
+            'list[list[Skill]] | None',
+            self._translator.decode(self._channel.send(code)),
+        )
+        return [] if entries is None else [(entry[1], entry[2]) for entry in entries]
+
+    def _find(self, item: Skill) -> list[Skill] | None:
+        key = self._translator.encode(item)
+        table = self.__repr_skill__()
+        code = SkillCode(
+            f'let(((_key {key})) '
+            f'if(exists(_item {table} equal(_item _key)) list(t {table}[_key]) nil))',
+        )
         result = self._channel.send(code)
-        return iter(self._translator.decode(result) or ())  # type: ignore[arg-type]
+        return cast('list[Skill] | None', self._translator.decode(result))
 
 
 class RemoteVector(RemoteCollection, WithAttributeAccess):
@@ -181,15 +213,19 @@ class RemoteVector(RemoteCollection, WithAttributeAccess):
             return super().__getitem__(item)
         except RuntimeError as e:
             if "array index out of bounds" in str(e):
-                raise IndexError(f"list index {item} out of range (len={len(self)})") from None
+                raise IndexError(
+                    f"list index {item} out of range (len={self.length()})",
+                ) from None
             raise  # pragma: no cover
         except ParseError:
-            raise IndexError(f"list index {item} out of range (len={len(self)})") from None
+            raise IndexError(f"list index {item} out of range (len={self.length()})") from None
 
     def __setitem__(self, item: Skill, value: Skill) -> None:
         try:
             super().__setitem__(item, value)
         except RuntimeError as e:
             if "array index out of bounds" in str(e):
-                raise IndexError(f"list index {item} out of range (len={len(self)})") from None
+                raise IndexError(
+                    f"list index {item} out of range (len={self.length()})",
+                ) from None
             raise  # pragma: no cover

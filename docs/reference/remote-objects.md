@@ -23,7 +23,7 @@ handles, so access chains naturally:
 
 ```python
 >>> pcb.modules          # a SKILL table
-<remote table ...>
+<remote table>
 ```
 
 ## Assigning properties
@@ -63,10 +63,25 @@ Jupyter:
 
 ## Tables, vectors, and list expressions
 
-- `RemoteTable` — a SKILL hash table, exposed as a Python `MutableMapping`.
+- `RemoteTable` — a live SKILL hash table with explicit remote operations.
 - `RemoteVector` — a SKILL array, indexable like a list.
 - `ListExpr` — a local expression for filtering, mapping, or iterating a remote
   SKILL list; evaluation is explicit through `Workspace.eval()`.
+
+`RemoteTable[key]` preserves the table's SKILL default. Membership and `get()`
+check actual entries instead, while `length()` and `snapshot()` make remote I/O
+explicit:
+
+```python
+table.length()                    # one RPC
+"key" in table                   # one RPC, ignores the SKILL default
+table.get("key", "fallback")     # one RPC
+entries = table.snapshot()        # one RPC, list of (key, value) pairs
+```
+
+The snapshot is a list of pairs rather than a `dict` because SKILL tables can
+use lists as keys. Table traversal order is unspecified. `str()`, `repr()`, and
+failed truth-value conversion are local and do not send requests.
 
 ## Identity
 
