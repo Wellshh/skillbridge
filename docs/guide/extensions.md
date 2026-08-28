@@ -46,7 +46,7 @@ class StackupApi(SessionApi):
 
 `allegrobridge/server/extensions/stackup.il`:
 
-```lisp
+```skill
 (defun __abListMaterials ()
   ;; return a list of material names
   ...)

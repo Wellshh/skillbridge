@@ -14,7 +14,7 @@ Tests are SKILL++ files (`test_*.ils`). Loading a test file runs its tests.
 
 ## Writing a test
 
-```lisp
+```skill
 ;;; test_widget.ils - Unit tests for widget.il using qtest
 
 (qcover::load (strcat (qub::scriptDir) "/../../allegrobridge/server/extensions/widget.il"))
