@@ -28,7 +28,15 @@ theme:
     - content.tabs.link
 
 extra_css:
-  - stylesheets/extra.css
+  - stylesheets/fonts.css
+  - stylesheets/tokens.css
+  - stylesheets/chrome.css
+  - stylesheets/code.css
+  - stylesheets/workbench.css
+
+extra_javascript:
+  - javascripts/workbench.js
+  - javascripts/api-search.js
 
 plugins:
   - search
@@ -104,3 +112,4 @@ nav:
       - Exceptions: reference/exceptions.md
       - Protocol: reference/protocol.md
       - Remote objects: reference/remote-objects.md
+      - Compatibility: reference/compatibility.md

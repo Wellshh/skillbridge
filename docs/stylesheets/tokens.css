@@ -1,0 +1,84 @@
+/* EDA "Allegro canvas" scheme — the only color scheme. */
+[data-md-color-scheme="allegro"] {
+  /* Canvas + panel surfaces */
+  --ab-canvas: #07090d;
+  --ab-panel: #111620;
+  --ab-panel-raised: #171d28;
+  --ab-grid: rgba(178, 190, 209, 0.06);
+  --ab-edge: rgba(232, 163, 61, 0.18);
+  --ab-edge-bright: rgba(232, 163, 61, 0.45);
+  --ab-bevel-hi: inset 0 1px 0 rgba(215, 220, 229, 0.1);
+  --ab-bevel-lo: inset 0 -1px 0 rgba(0, 0, 0, 0.45);
+
+  /* Semantic operation/feedback colors — copper is preview only */
+  --ab-selection: #4fd8e0; /* current object, crosshair */
+  --ab-read: #73b7ff; /* queries, returned values */
+  --ab-preview: #e8a33d; /* dry-run, uncommitted change */
+  --ab-commit: #6fd08c; /* committed, connected */
+  --ab-warning: #e8c84a; /* busy, stale */
+  --ab-error: #ff665f; /* DRC, rollback, broken */
+  --ab-raw: #b79cff; /* raw AXL, advanced */
+
+  --md-default-bg-color: var(--ab-canvas);
+  --md-default-bg-color--light: rgba(7, 9, 13, 0.54);
+  --md-default-bg-color--lighter: rgba(7, 9, 13, 0.26);
+  --md-default-bg-color--lightest: rgba(7, 9, 13, 0.07);
+
+  --md-default-fg-color: rgba(215, 220, 229, 0.87);
+  --md-default-fg-color--light: rgba(215, 220, 229, 0.6);
+  --md-default-fg-color--lighter: rgba(215, 220, 229, 0.32);
+  --md-default-fg-color--lightest: rgba(215, 220, 229, 0.12);
+
+  --md-primary-fg-color: #11182b;
+  --md-primary-fg-color--dark: var(--ab-canvas);
+
+  --md-accent-fg-color: #e8a33d;
+  --md-accent-fg-color--transparent: #e8a33d1a;
+
+  --md-code-fg-color: rgba(215, 220, 229, 0.87);
+  --md-code-bg-color: #12172b;
+  --md-code-bg-color--light: rgba(18, 23, 43, 0.9);
+  --md-code-bg-color--lighter: rgba(18, 23, 43, 0.54);
+
+  /* Syntax — PCB layer palette */
+  --md-code-hl-color: #e8a33d;
+  --md-code-hl-color--light: #e8a33d1a;
+  --md-code-hl-keyword-color: #ff7a59;
+  --md-code-hl-string-color: #6fd08c;
+  --md-code-hl-number-color: #e8c84a;
+  --md-code-hl-function-color: #4fd8e0;
+  --md-code-hl-comment-color: #5a6478;
+  --md-code-hl-special-color: #f0709c;
+  --md-code-hl-constant-color: #b79cff;
+  --md-code-hl-name-color: var(--md-code-fg-color);
+  --md-code-hl-operator-color: var(--md-default-fg-color--light);
+  --md-code-hl-punctuation-color: var(--md-default-fg-color--light);
+  --md-code-hl-generic-color: var(--md-default-fg-color--light);
+  --md-code-hl-variable-color: var(--md-default-fg-color--light);
+
+  --md-typeset-color: var(--md-default-fg-color);
+  --md-typeset-a-color: #e8a33d;
+  --md-typeset-mark-color: #e8a33d4d;
+  --md-typeset-kbd-color: rgba(215, 220, 229, 0.12);
+  --md-typeset-kbd-accent-color: rgba(215, 220, 229, 0.2);
+  --md-typeset-kbd-border-color: #0b0e14;
+  --md-typeset-table-color: rgba(215, 220, 229, 0.12);
+  --md-typeset-table-color--light: rgba(215, 220, 229, 0.035);
+
+  --md-admonition-fg-color: var(--md-default-fg-color);
+  --md-admonition-bg-color: var(--md-default-bg-color);
+
+  --md-footer-bg-color: rgba(8, 11, 16, 0.87);
+  --md-footer-bg-color--dark: #05070a;
+
+  --md-shadow-z1: 0 0.2rem 0.5rem #0000000d, 0 0 0.05rem #0000001a;
+  --md-shadow-z2: 0 0.2rem 0.5rem #00000040, 0 0 0.05rem #00000040;
+  --md-shadow-z3: 0 0.2rem 0.5rem #0006, 0 0 0.05rem #00000059;
+
+  color-scheme: dark;
+}
+
+::selection {
+  color: var(--ab-canvas);
+  background: var(--ab-selection);
+}

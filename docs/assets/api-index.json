@@ -1,0 +1,4851 @@
+[
+ {
+  "name": "board",
+  "kind": "domain",
+  "layer": "core",
+  "capabilities": [
+   "read"
+  ]
+ },
+ {
+  "name": "components",
+  "kind": "domain",
+  "layer": "core",
+  "capabilities": [
+   "batch",
+   "preview",
+   "read",
+   "write"
+  ]
+ },
+ {
+  "name": "layers",
+  "kind": "domain",
+  "layer": "core",
+  "capabilities": [
+   "read"
+  ]
+ },
+ {
+  "name": "nets",
+  "kind": "domain",
+  "layer": "core",
+  "capabilities": [
+   "read"
+  ]
+ },
+ {
+  "name": "padstacks",
+  "kind": "domain",
+  "layer": "core",
+  "capabilities": [
+   "read"
+  ]
+ },
+ {
+  "name": "pins",
+  "kind": "domain",
+  "layer": "core",
+  "capabilities": [
+   "read"
+  ]
+ },
+ {
+  "name": "symbols",
+  "kind": "domain",
+  "layer": "core",
+  "capabilities": [
+   "read"
+  ]
+ },
+ {
+  "name": "vias",
+  "kind": "domain",
+  "layer": "extension",
+  "capabilities": [
+   "preview",
+   "read",
+   "write"
+  ]
+ },
+ {
+  "name": "routes",
+  "kind": "domain",
+  "layer": "extension",
+  "capabilities": [
+   "preview",
+   "read",
+   "write"
+  ]
+ },
+ {
+  "name": "shapes",
+  "kind": "domain",
+  "layer": "extension",
+  "capabilities": [
+   "read",
+   "write"
+  ]
+ },
+ {
+  "name": "drc",
+  "kind": "domain",
+  "layer": "extension",
+  "capabilities": [
+   "read",
+   "update"
+  ]
+ },
+ {
+  "name": "axlAddAutoAssignNetAlgorithm",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function allows the user to add custom auto net assignment algorithms to the list in the Logic -> Auto Assign Net command's algorithms list in the APD and SIP IC Packaging tools. This list will always contain the Cadence standard algorithms (Router-Based, Nearest Match, and Constraint-Driven)."
+ },
+ {
+  "name": "axlAddSelectAll",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Finds all the figures in the database that pass the current Find Filter and adds their`dbids` to the select set."
+ },
+ {
+  "name": "axlAddSelectBox",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Finds one or more figures inside the rectangle`l_bBox` according to the current Find Filter, and adds the selected figure `dbids` in cumulated mode for the select set."
+ },
+ {
+  "name": "axlAddSelectName",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Adds the named figure`dbids` to the select set in cumulated mode according to the arguments described below. Adds the found figures to the select set if not already there. Selects figures completely regardless of the selection mode. If the function selects a figure already partially selected, the figure becomes fully selected."
+ },
+ {
+  "name": "axlAddSelectObject",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Adds the`dbids` in `lo_dbid` to the select set in cumulated mode, that is, without removing already selected objects. `lo_dbid` is either a single `dbid` or a list of `dbids`. Adds `dbids` in the select set only if they are not already there. Selects figures completely regardless of the selection mode. If the `dbid` of any part of a figure is in `lo_dbid`, adds the entire figure."
+ },
+ {
+  "name": "axlAddSelectPoint",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Finds a figure at`l_point` according to the Find Filter and adds its `dbid` to the select set in cumulated mode. If `l_point` is `nil`, requests a single pick from the user."
+ },
+ {
+  "name": "axlAddSimpleMoveDynamics",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Loads cursor buffer dynamics buffer with an element. If dynamics buffer is already loaded, the new element is simply added to the existing buffer. Dynamics buffer is not cleared untilaxlClearDynamics is called."
+ },
+ {
+  "name": "axlAddSimpleRbandDynamics",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Loads rubber band dynamics buffer with an element. If dynamics buffer is already loaded, the new element is simply added to the existing buffer. Dynamics buffer is not cleared untilaxlClearDynamics is called."
+ },
+ {
+  "name": "axlAddTaper",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Adds tapered trace. Tapered trace parameters are controlled from the Glossing \"Pad and T\" Parameter form."
+ },
+ {
+  "name": "axlAirGap",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Finds the air gap and location between two given items. Gap is the same as reported by the`show measure` command. Any geometric objects; logical, group or symbols not supported (same as show measure). Unfilled shapes are currently treated as filled but this may change in the future."
+ },
+ {
+  "name": "axlAltSymbolList",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This queries the provided object and returns a list of alternative symbol names."
+ },
+ {
+  "name": "axlAltSymbolOK",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This verifies that symbol is legal for component. Must be in the ALT_SYMBOL list with the correct layer."
+ },
+ {
+  "name": "axlAltSymbolReplace",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This replaces a PLACED component with one of its allowed replacements (ALT_SYMBOL). To be successful the following must be true"
+ },
+ {
+  "name": "axlAutoOpenFindFilter",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function is no longer required, but is kept for backward compatibility."
+ },
+ {
+  "name": "axlBackDrill",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This interface is obsolete. UseaxlBackdrillGet to retrieve actual backdrilling of pins and vias. Data returned by this interface may not match the actual backdrill results in the design."
+ },
+ {
+  "name": "axlBackdrillGet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "In one mode, when a pin or a via is provided, the command returns the backdrilling result on that pin or via."
+ },
+ {
+  "name": "axlBondFingerDelete",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Deletes the (list of) bond fingers passed in. Optionally, it will delete the connect bond wire elements as well."
+ },
+ {
+  "name": "axlBuildClassPopup",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Supports building a form pop-up with a list of classes."
+ },
+ {
+  "name": "axlBuildSubclassPopup",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Supports building a form pop-up with a list of subclasses from the indicated class."
+ },
+ {
+  "name": "axlCNSAssemblyModeGet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This retrieves the current assembly DRC mode(s). Modes determine if a particular constraint is on or off. These DRC modes apply to the entire design. Use`axlCNSAssemblyModeGet(nil)` to determine the set currently supported assembly modes.The `'print` mode offers the name shown in reports like show element."
+ },
+ {
+  "name": "axlCNSAssemblyModeSet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This command sets the current DRC modes (on/off) for checks in the area of assembly constraints. These modes are global."
+ },
+ {
+  "name": "axlCNSCreate",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates a new constraint set in the specified domain. For spacing and physical csets, you must supply an existing cset as the copy cset. If the`copyName` is nil, the DEFAULT cset is used. Electrical csets (ECsets) are created empty for a nil `copyName` . By default, the ECset created is empty. If you provide a second argument, the ECset contents are copied."
+ },
+ {
+  "name": "axlCNSCsetLock",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This locks or unlocks a constraint set in the given domain. See discussion inaxlCNSIsLockedDomain."
+ },
+ {
+  "name": "axlCNSDelete",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Deletes a cset and its references to any objects such as nets, net classes, etc. Locked csets must first be unlocked before you delete them. If it is a spacing or physical domain, you cannot delete the DEFAULT cset. You cannot delete electrical csets in Allegro PCB Design L."
+ },
+ {
+  "name": "axlCNSDesignModeGet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Gets the current DRC modes for checks that fall into the set of design constraints. These constraints pertain to the entire board. To determine the design constraint checks currently supported, use the`axlCNSDesignModeGet()` command."
+ },
+ {
+  "name": "axlCNSDesignModeSet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets the current DRC modes for design constraints. The modes control the DRC for that design constraint check on the entire board."
+ },
+ {
+  "name": "axlCNSDesignValueCheck",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Checks the syntax of the given value against the allowed syntax for the given constraint. You use the function`axlCNSDesignGetValue(nil)` to get the constraint names."
+ },
+ {
+  "name": "axlCNSDesignValueGet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Fetches the values from those design constraints that support values. Use`axlCNSDesignValueGet(nil)` to determine the set of these constraints."
+ },
+ {
+  "name": "axlCNSDesignValueSet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This sets the value of the design constraint."
+ },
+ {
+  "name": "axlCNSEcsetCreate",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates a new ECset. Electrical Constraint Set (ECset) is a mechanism for packaging up a set of electrical constraints into a group and applying them to a set of nets. The name must be legal and less than the maximum length allowed. Function fails if the ECset already exists."
+ },
+ {
+  "name": "axlCNSEcsetDelete",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Deletes an ECset from the Allegro PCB Editor database and also deletes the`ELECTRICAL_CONSTRAINT_SET` property from any nets assigned this ECset value. Electrical Constraint Set (ECset) is a mechanism for packaging up a set of electrical constraints into a group and applying them to a set of nets."
+ },
+ {
+  "name": "axlCNSEcsetGet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the`dbid` of the electrical cset when you request it by the ECset name. Electrical Constraint Set (ECset) is a mechanism for grouping a set of electrical constraints and applying them to a set of nets."
+ },
+ {
+  "name": "axlCNSEcsetModeGet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the current DRC modes for checks that are members of electrical constraints. These modes pertain to the entire board. Electrical Constraint Set (ECset) is a mechanism for packaging up a set of electrical constraints into a group and applying them to a set of nets."
+ },
+ {
+  "name": "axlCNSEcsetModeSet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets the DRC modes for checks that are members of the electrical constraints set. These modes control the entire board. Electrical Constraint Set (ECset) is a mechanism for packaging up a set of electrical constraints into a group and applying them to a set of nets."
+ },
+ {
+  "name": "axlCNSEcsetValueCheck",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Checks the syntax of the given value against the allowed syntax for the given constraint. You use the function`axlCNSEcseValueGet (nil)` to get the constraint names. Electrical Constraint Set (ECSet) is a mechanism for packaging up a set of electrical constraints into a group and applying them to a set of nets."
+ },
+ {
+  "name": "axlCNSEcsetValueGet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Fetches the constraint values for a given ECset. Electrical Constraint Set (ECset) is a mechanism for packaging up a set of electrical constraints into a group and applying them to a set of nets."
+ },
+ {
+  "name": "axlCNSEcsetValueSet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets the value of the ECset DRC. Electrical Constraint Set (ECset) is a mechanism for packaging up a set of electrical constraints into a group and applying them to a set of nets."
+ },
+ {
+  "name": "axlCNSGetAssembly",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Obtains an Assembly cset values. In the first operational mode, the command obtains the value of an assembly constraint given a cset and a layer. In second mode of operation, it obtains all assembly constraint as name-value pairs for a cset on a layer. For the last mode, a list of all supported assembly constraints is obtained by passing three`nil` values to the interface:`axlCNSGetAssembly(nil nil nil)`"
+ },
+ {
+  "name": "axlCNSGetDefaultMinLineWidth",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Retrieves the minimum default line width value for the specific subclass."
+ },
+ {
+  "name": "axlCNSGetPhysical",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "In its first operational mode, obtains the value of a physical constraint given a cset and layer. In the second mode of operation, it obtains all physical constraint as name/value pairs for a cset on a layer. This, in turn, may be passed to`axlCNSSetPhysical`."
+ },
+ {
+  "name": "axlCNSGetPinDelayEnabled",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns if pin delay is enabled."
+ },
+ {
+  "name": "axlCNSGetPinDelayPVF",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the pin delay propagation velocity factor."
+ },
+ {
+  "name": "axlCNSGetSameNet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Documentation same asaxlCNSGetSpacing."
+ },
+ {
+  "name": "axlCNSGetSameNetXtalkEnabled",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns if Same Net Xtalk is enabled."
+ },
+ {
+  "name": "axlCNSGetSpacing",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "In its first operational mode, obtains the value of a spacing constraint given a cset and layer. All values are returned in design units, except for`same_net,` which is a boolean (`t/nil`). In a second mode of operation, it obtains all spacing constraints as name/value pairs for a cset on a layer. This, in turn, may be passed to `axlCNSSetSpacing`. For the final mode, a list of supported spacing constraints may be obtained by passing three `nil` values to this interface:"
+ },
+ {
+  "name": "axlCNSGetViaZEnabled",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns if Via Z is enabled."
+ },
+ {
+  "name": "axlCNSGetViaZPVF",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the via Z propagation velocity factor"
+ },
+ {
+  "name": "axlCNSIsCsetLocked",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This returns if a cset is locked. See discussion inaxlCNSIsLockedDomain."
+ },
+ {
+  "name": "axlCNSIsLockedDomain",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Used to check if the is constraint domain locked. A locked constraint domain has the following characteristics:"
+ },
+ {
+  "name": "axlCNSLockDomain",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This command locks or unlocks a constraint domain."
+ },
+ {
+  "name": "axlCNSMapClear",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "See`axlCNSMapUpdate`."
+ },
+ {
+  "name": "axlCNSMapUpdate",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function and`axlCNSMapClear`, which do not support nesting, batch and tune DRC updates from constraint changes made by `axlCNS<``xxx``>` functions. No `axlCNS<``xxx``>` functions perform a DRC update. Rather, they set the DRC system out-of-date."
+ },
+ {
+  "name": "axlCNSPhysicalModeGet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This fetches the current physical drc mode(s). Modes determine if a particular constraint is on or off. These modes apply to the entire board. To determine the set currently supported, physical modes do a`axlCNSPhysicalModeGet`(nil). The physical mode set may be a subset of physical values since the implementation may associate certain values under a master mode. For example, via_list is not a constraint and the diff pair mode is under the ecset domain."
+ },
+ {
+  "name": "axlCNSPhysicalModeSet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This sets the current drc modes (on/off) for checks in the area of physical constraints. These modes are global. To determine the constraints modes currently supported do a`axlCNSPhysicalModeGet(nil)`. We support several interfaces. All checks may be set (`'all`), individual checks, (`t_name`), list of checks with a same mode`'(s_name ...) t_mode/s_mode'(t_name ...) t_mode/s_mode` and sets of checks via a list of: `'((s_name/t_name s_mode/t_mode) ....)`"
+ },
+ {
+  "name": "axlCNSSameNetModeGet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Same asaxlCNSSpacingModeGet."
+ },
+ {
+  "name": "axlCNSSameNetModeSet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Same as axlCNSSpacingModeSet."
+ },
+ {
+  "name": "axlCNSSetAssembly",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Updates assembly cset, wire profile or symbol constraint values. By passing`nil` at the appropriate argument, values for all csets and all layers may be changed."
+ },
+ {
+  "name": "axlCNSSetPhysical",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Allows updating physical constraint values. By passing nil at the appropriate argument, values for all csets and all layers may be changed."
+ },
+ {
+  "name": "axlCNSSetPinDelayEnabled",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Enables or disables Pin Delay."
+ },
+ {
+  "name": "axlCNSSetPinDelayPVF",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets a value for pin delay propagation velocity."
+ },
+ {
+  "name": "axlCNSSetSameNet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Documentation same asaxlCNSSetSpacing."
+ },
+ {
+  "name": "axlCNSSetSameNetXtalkEnabled",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Enables or disables Same Net Xtalk."
+ },
+ {
+  "name": "axlCNSSetSpacing",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Allows updating spacing constraint values. By passing`nil`at the appropriate argument, values for all csets and all layers may be changed."
+ },
+ {
+  "name": "axlCNSSetViaZEnabled",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Enables or disables Via Z."
+ },
+ {
+  "name": "axlCNSSetViaZPVF",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets a value for Via Z propagation velocity factor."
+ },
+ {
+  "name": "axlCNSSpacingMax",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns maximum spacing in design. This can be worst case spacing of entire design or base upon the object filtering."
+ },
+ {
+  "name": "axlCNSSpacingMin",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns minimum spacing value in the design. This can be the minimum spacing of entire design or based upon the object filtering."
+ },
+ {
+  "name": "axlCNSSpacingModeGet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This fetches the current spacing drc mode(s). Modes determine if a particular constraint is on or off. These modes apply to the entire board. To determine the set currently supported spacing modes do a axlCNSSpacingModeGet(nil)."
+ },
+ {
+  "name": "axlCNSSpacingModeSet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This sets the current drc modes (on/off) for checks in the area of spacing constraints. These modes are global. To determine the constraints modes currently supported do a`axlCNSSpacingModeGet`(nil). We support several interfaces. All checks may be set ('all), individual checks, (t_name), list of checks with a same mode '(s_name ...) t_mode/s_mode '(t_name ...) t_mode/s_mode and sets of checks via a list of: '((s_name/t_name s_mode/t_mode) ....) The constraints names may be passed as a symbol or a string. For performance reasons, you should either do all your updates in a single call or wrap individual changes in the map API (see axlCNSMapUpdate)."
+ },
+ {
+  "name": "axlCVFColorChooserDlg",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Displays color palette modal dialog. Color wells reflect current design colors."
+ },
+ {
+  "name": "axlCancelEnterFun",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Terminates the wait for a user-selected point. Waiting function returns no data."
+ },
+ {
+  "name": "axlCancelOff",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": ""
+ },
+ {
+  "name": "axlCancelOn",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Allows Skill code to test for when a user clicks*Cancel*."
+ },
+ {
+  "name": "axlCancelTest",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": ""
+ },
+ {
+  "name": "axlChangeLayer",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Changes layer for lines, clines or segments, shapes, and text. Functionality offered, at the global level, matches the Allegro PCB Editor`change` command, but can differ in certain areas."
+ },
+ {
+  "name": "axlChangeLine2Cline",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Changes provided lines to clines. Lines not on an etch layer are ignored. If a line is converted to a cline then it may be assigned to a net, otherwise it will be left on a the standalone branch."
+ },
+ {
+  "name": "axlChangeLineFont",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Changes font on a line or segment."
+ },
+ {
+  "name": "axlChangeNet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Changes the net an object is currently on. Restricted to shapes, filled rectangles (frectangles), pins and vias. Returns`t` when successful. Will not rip up clines or vias."
+ },
+ {
+  "name": "axlChangeWidth",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Changes width of lines, clines and segments (arc and line)."
+ },
+ {
+  "name": "axlCheckString",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Checks the provided string for legal characters and length. You must also provide the data type. Give this API two nils if you want to see the list of supported data types."
+ },
+ {
+  "name": "axlClasses",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Return list of classes.The is actually just:"
+ },
+ {
+  "name": "axlClearDynamics",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Clears the dynamic cursor buffer. Call this function each time before you start setting up rubberband and dynamic cursor graphics."
+ },
+ {
+  "name": "axlClearObjectCustomColor",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Clear custom color of dbids"
+ },
+ {
+  "name": "axlClearSelSet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Removes all`dbids` from select set."
+ },
+ {
+  "name": "axlClipboardGetText",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This gets the current text in the system clipboard. Clipboard can contain data other than ASCII text in which case`nil` is returned."
+ },
+ {
+  "name": "axlClipboardSetText",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sends indicated text to system clipboard. Only ASCII text is supported."
+ },
+ {
+  "name": "axlCloseFindFilter",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function is no longer required, but is kept for backward compatibility."
+ },
+ {
+  "name": "axlCmdList",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Lists commands registered by`axlCmdRegister`. The list consists of paired strings."
+ },
+ {
+  "name": "axlCmdRegister",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Registers a command named`t_allegroCmd` with the Allegro PCB Editor shell system. If the command already exists, either because it is a base Allegro PCB Editor command or because it has been registered by this function at an earlier time, it will be hidden."
+ },
+ {
+  "name": "axlCmdUnregister",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Unregisters or removes from the Allegro PCB Editor shell system, a previously registered command named`t_allegroCmd`. If the command already exists because it is a base Allegro PCB Editor command, the original command is available again."
+ },
+ {
+  "name": "axlCnsAddVia",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Adds padstack to the constraint via list of a physical cset. Via is added to end of list (seeaxlCnsGetViaList of via ordering functionality in etch editing)."
+ },
+ {
+  "name": "axlCnsAssignPurge",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Obsolete. Kept for backward compatibility"
+ },
+ {
+  "name": "axlCnsClassTableChange",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This command changes the Csets associated with an existing net class table entry."
+ },
+ {
+  "name": "axlCnsClassTableCreate",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This command creates a class table entry that consists of any of the following:"
+ },
+ {
+  "name": "axlCnsClassTableDelete",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Deletes one or more entries in the class table."
+ },
+ {
+  "name": "axlCnsClassTableFind",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This command searches the class table for class table entries matching the search criteria."
+ },
+ {
+  "name": "axlCnsClassTableSeek",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This command seeks a specific class table entry matching exactly the provided`dbids`. Order of class1 and class2 does not matter since C1/C2 is the same as C2/C1 and only one entry exists in the table."
+ },
+ {
+  "name": "axlCnsDeleteClassClassObjects",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Delete all Class-Class entries."
+ },
+ {
+  "name": "axlCnsDeleteRegionClassClassObjects",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Deletes all Region-Class-Class entries."
+ },
+ {
+  "name": "axlCnsDeleteRegionClassObjects",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Delete all Region-Class entries."
+ },
+ {
+  "name": "axlCnsDeleteVia",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Deletes padstack from the physical via constraint list,`t_csetName`. If `t_csetName` is `nil`, delete provided padstack from all physical constraint sets."
+ },
+ {
+  "name": "axlCnsGetViaList",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns padstacks defined in a physical constraint set. If the cset name is provided then returns only vias assigned for that cset. Otherwise the function returns vias for all csets. The same vias may appear more than once when using the`nil` option."
+ },
+ {
+  "name": "axlCnsList",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the list of cset names of the domain specified. See`axlDBGetDesign()->ecsets` for a list of electrical csets."
+ },
+ {
+  "name": "axlCnsNetFlattened",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Permits a view of constraints where explicit pinpair rules are promoted to the net. The information reported by the function is the same as in`show element` under the Properties attached to net heading. It is also in a format used by the third party netlist (`netin`) and in the `pstxnet.dat` file used by `netrev`."
+ },
+ {
+  "name": "axlCnsPurgeAll",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Removes all unused constraint objects and constraint sets. Process all netclasses, regions, physical constraint sets and spacing constraint sets. Deletes all empty netclasses and regions."
+ },
+ {
+  "name": "axlCnsPurgeCsets",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Process all constraint sets of the specified domain and delete those without references."
+ },
+ {
+  "name": "axlCnsPurgeObjects",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Process the database and delete all group_type objects that have no members; a netclass with no nets, or a region with no shapes."
+ },
+ {
+  "name": "axlColorDoc",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Allegro supports two color access methods: pre-defined colors and Allegro database colors. Not all Allegro based programs support access to Allegro database colors. (This is only supported by the graphics editors.)"
+ },
+ {
+  "name": "axlColorGet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Get color palette. Supports the following modes:"
+ },
+ {
+  "name": "axlColorLoad",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Loads an Allegro PCB Editor color file (default .`col` file). Master color file is located at `<cdsroot>/share/pcb/text/lallegro.col`."
+ },
+ {
+  "name": "axlColorOnGet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function is obsolete. Due to change in display model, switching off colors is no longer supported."
+ },
+ {
+  "name": "axlColorOnSet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This is an obsolete command. Due to changes in the viewing model, now you cannot turn off a color in Allegro PCB Editor."
+ },
+ {
+  "name": "axlColorPriorityGet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Due to the changes in color model of Allegro PCB Editor, this command is now obsolete. Instead of this command, useaxlLayerPriorityGet."
+ },
+ {
+  "name": "axlColorPrioritySet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Due to the changes in color model of Allegro PCB Editor, this command is now obsolete. Instead of this command, useaxlLayerPrioritySet."
+ },
+ {
+  "name": "axlColorSave",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Saves current design colors to specified file."
+ },
+ {
+  "name": "axlColorSet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets red, green, blue palette for a color number or background."
+ },
+ {
+  "name": "axlColorShadowGet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Provides the options of shadow mode."
+ },
+ {
+  "name": "axlColorShadowSet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets the shadow mode options. These are equivalent to the color commands in the shadow mode box under the Display group."
+ },
+ {
+  "name": "axlCompAddPin",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function adds one or more pins to the specified component. Pins are added to the corresponding component and symbol definition, with changes being reflected in all instances of those definitions."
+ },
+ {
+  "name": "axlCompDeletePin",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function deletes the specified pin(s) from the parent component and symbol definition. As a result, the pin will also be deleted from all instances of these definitions and not just the instance the pin passed in belongs to."
+ },
+ {
+  "name": "axlCompMovePin",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function moves the specified pin(s) by the specified delta x/y, rotation, and mirror. Rotation and mirror, if provided, are applied around the`rotatePoint` (defaults to 0,0 if not provided). A rotation to apply to each individual pin may also be provided."
+ },
+ {
+  "name": "axlCompSetPinAttributes",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function modifies attributes of the specified pin(s) at the symbol and component definition level. Things like the padstack, pin number, and swap code (see below for full list of supported attributes). All update items, if not set, will be left at the pin's existing value."
+ },
+ {
+  "name": "axlCompileSymbol",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Compiles and edit checks the current (symbol) design and saves the compiled version on disk under the name`t_name`. If `t_name` is not provided, then `t_name` is the current drawing name. If `t_name` is provided as `nil`, you are prompted for the name. Uses the symbol type in determining some of the edit checks."
+ },
+ {
+  "name": "axlComponentChangeClass",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This command changes the component class of a component definition."
+ },
+ {
+  "name": "axlConductorBottomLayer",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the name of the bottom conductor layer."
+ },
+ {
+  "name": "axlConductorTopLayer",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the name of the top conductor layer."
+ },
+ {
+  "name": "axlControlRaise",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Raises a tab in the control panel to the top. If you use this at the start of an interactive command, you override the environment variable,`control_auto_raise`."
+ },
+ {
+  "name": "axlCopyObject",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Use this function to copy the database object(s). This supports the same functionality asaxlTransformObject except it copies and transforms one or more objects."
+ },
+ {
+  "name": "axlCopyProperties",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This copies properties from one object to another. It filters certain properties. If you need to copy properties suggest you utilize this interface instead doing it yourself."
+ },
+ {
+  "name": "axlCreateAttachment",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates a new Allegro PCB Editor database attachment with the given attachment id. The attachment may optionally be given a password and a revision number. The attachment data may be specified as a string or as a file name."
+ },
+ {
+  "name": "axlCreateBondFinger",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function adds a valid, fully-instantiated bond finger to the database. Bond fingers created through this interface can be safely manipulated by the wirebond toolset and will also be properly recognized by all aspects of the database (DRC, signal integrity, 3D viewer, and so on)."
+ },
+ {
+  "name": "axlCreateBondWire",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function adds a valid, fully-instantiated bond wire to the database. Bond wires created through this interface can be safely manipulated by the wirebond toolset and will also be properly recognized by all aspects of the database (DRC, signal integrity, 3D viewer, etc)."
+ },
+ {
+  "name": "axlCreateDeviceFileTemplate",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This creates a template device file providing same functionality as the create device command in the symbol editor. Normally you would useaxlDBCreateComponent to create a device file if in the board."
+ },
+ {
+  "name": "axlCreateWirebondGuide",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function adds a wirebond guide path into the design, which can then be used to snap fingers through the wirebond tools."
+ },
+ {
+  "name": "axlCurrentDesign",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the name of the currently active layout. This is the drawing name in the main window's title bar."
+ },
+ {
+  "name": "axlCursorGet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This command is used to obtain the current cursor position either in pixels (screen units) or converted into current design units. The mapping from pixels to design units takes into account the current window view and zoom factor of the design."
+ },
+ {
+  "name": "axlCursorWarp",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Use this command to set the cursor position. May set the cursor either by pixel or design units. If setting by design units the new value must be within the current viewable window (axlWindowBoxGet)."
+ },
+ {
+  "name": "axlCustomColorObject",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Custom color the provided dbid or list of dbids. Objects supported are nets, symbol instances, pins, and external DRCs."
+ },
+ {
+  "name": "axlDB2Path",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This takes a database id (`od_dbId`) and converts it to an r_path. This function supports all dbids with a segment attribute. For example, shape, void, path, and line."
+ },
+ {
+  "name": "axlDBActiveShape",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the`dbid` of the open shape, if any."
+ },
+ {
+  "name": "axlDBAddGroupObjects",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Adds the database objects specified in the new members list to a group. All restrictions and disclaimers specified inaxlDBCreateGroup also apply for this procedure."
+ },
+ {
+  "name": "axlDBAddProp",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Adds all the property/value pairs listed in`ll_name_value` to all the object `dbids` listed in `lrd_attach`. If a particular object does not accept a particular property name in `ll_name_value`, `axlDBAddProp` silently ignores that combination, and continues. If an object already has the specific property attached, `axlDBAddProp` silently replaces its original value with the one specified in `ll_name_value`."
+ },
+ {
+  "name": "axlDBAltOrigin",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns alternative center for a`dbid`. This provides Skill access to the `move` command's origin point option in the Options tab."
+ },
+ {
+  "name": "axlDBAssignNet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Assigns an object or a list of objects to a new net. Supports pins, vias, and shapes. Vias may not stay on net assigned if they do not connect to an object on the new net. This is not applicable if the new net has RETAIN_NET_ON_VIAS property."
+ },
+ {
+  "name": "axlDBChangeDesignExtents",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Changes design extents. This may fail if an object falls outside the new extents or if the extents exceed the database range."
+ },
+ {
+  "name": "axlDBChangeDesignOrigin",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Changes the origin of the design. This may fail if the new design origin falls outside the maximum integer range."
+ },
+ {
+  "name": "axlDBChangeDesignUnits",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Changes the units and accuracy of the design. To maintain the current design value, use`nil` for `t_units` or `x_accuracy`."
+ },
+ {
+  "name": "axlDBChangeText",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Modifies the characteristics of a text string in the layout. To keep current settings on the text, set the arguments,`t_text` and `r_textOrientation` to `nil`. To move text use the axlTransformObject object."
+ },
+ {
+  "name": "axlDBCheck",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Runs*dbdoctor* on the current database. By default, no log file is produced. You can specify the `'log` option which writes the standard `dbdoctor.log` file. A port descriptor can be the second argument to write the `dbdoctor` output to an external file."
+ },
+ {
+  "name": "axlDBCloak",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Improves performance and program memory use while modifying many items in the database. You use`axlDBCloak` to update many etch or package symbols in batch mode. Works like SKILL's `eval` function. You pass it a function and its arguments using the following format:"
+ },
+ {
+  "name": "axlDBControl",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Inquires and/or sets the value of a special database control. If the setting is a value, the return is the old value of the control."
+ },
+ {
+  "name": "axlDBCopyPadstack",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates a new padstack by copying an existing padstack, with optional removal of layers. The name for the new padstack automatically derives from the existing name by adding a unique post fix. The padstack is marked in the design as derived from its starting padstack."
+ },
+ {
+  "name": "axlDBCreateCircle",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Create a circle at indicated location and with indicated diameter."
+ },
+ {
+  "name": "axlDBCreateCloseShape",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Closes the current open shape and applies the fill pattern specified in`axlDBCreateOpenShape`. Then performs DRC. If the fill fails, the function returns `nil`."
+ },
+ {
+  "name": "axlDBCreateComponent",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Given the information needed to describe a Allegro PCB Editor device, create the Allegro PCB Editor component and return its`dbid`. If the component definition already exists, use the existing definition to create the new component. If the component definition does not exist, create a new definition using the device file and create the new component."
+ },
+ {
+  "name": "axlDBCreateConceptComponent",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Given the Concept information needed to describe an Allegro PCB Editor device, create the Allegro PCB Editor component and return its`dbid`. If the component definition already exists, use the existing definition to create the new component. If the component definition does not exist, create a new definition and then create the component instance. Concept information comes from a `chips_prt` file and from a physical parts table (PPT). Determine the location of this information using the `cptList``XXX` family of routines, which allow browsing through a Concept library."
+ },
+ {
+  "name": "axlDBCreateExternalDRC",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates an externally-defined (by user) DRC containing the values given in the arguments. An externally defined DRC marker always has the two characters \"X D\" in it."
+ },
+ {
+  "name": "axlDBCreateFilmRec",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This interface is obsolete. It is kept to support existing Skill code."
+ },
+ {
+  "name": "axlDBCreateGroup",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates a new group database object with members specified by`lo_groupMembers`."
+ },
+ {
+  "name": "axlDBCreateLine",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Create a path of fixed width straight segments, a line with series of provided points. If line is on an ETCH layer a cline will be created unless overridden with the`'line` symbol."
+ },
+ {
+  "name": "axlDBCreateManyModuleInstances",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates multiple module instances in the design. By reducing the number of times the module definition file opens, this function optimizes performance when creating several instances of the same module."
+ },
+ {
+  "name": "axlDBCreateModuleDef",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates a module based on existing database objects."
+ },
+ {
+  "name": "axlDBCreateModuleInstance",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Allows you to use or place a previously defined module."
+ },
+ {
+  "name": "axlDBCreateNet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates a net in database if does not exist or returns`dbid` of net if it exists."
+ },
+ {
+  "name": "axlDBCreateOpenShape",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates a shape based on the characteristic of either`o_polygon` or`r_path`. With `r_path`, fills parameters, layer, netname, and parent you specify. Returns the `dbid` of the shape in open state. Open state means you can add and delete voids of the shape. With `o_polygon`, creates a shape with the boundary defined by the boundary of the polygon. The holes in the polygon are added as voids to the shape. (See `axlPolyFromDB`.)"
+ },
+ {
+  "name": "axlDBCreatePadStack",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Adds a padstack`t_name`, using drill hole `r_drill` and pad definition `l_pad`."
+ },
+ {
+  "name": "axlDBCreatePath",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates a path figure (line or cline) as specified. Does not add a net name to etch when the etch is not connected to a pin, via, or shape. If etch is added, it ties to the first net it touches, otherwise it remains \"not a net\" as specified by the arguments described below."
+ },
+ {
+  "name": "axlDBCreatePin",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Adds a pin with padstack`t_padstack`, pin name `r_pinText` at location `l_anchorPoint`, and rotated by `f_rotation` degrees."
+ },
+ {
+  "name": "axlDBCreatePropDictEntry",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates an Allegro user-defined property dictionary entry with given attributes. Once a dictionary entry is created, the property can then be attached to objects."
+ },
+ {
+  "name": "axlDBCreateRectangle",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates a rectangle with coordinates specified by`l_bBox`. If the rectangle is not created, the function returns `nil`."
+ },
+ {
+  "name": "axlDBCreateShape",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Takes the same arguments as`axlDBCreateOpenShape` and adds the `r_path` shape to the database. The difference is that this function creates the shape and puts it into the closed state immediately, rather than leaving it open for modification. Use `axlDBCreateShape` to add shapes without voids."
+ },
+ {
+  "name": "axlDBCreateSymDefSkeleton",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates a \"minimal\" symbol definition. While the symbol name and type must be provided, the instance is created only with pins. Once this \"skeleton\" definition has been created, you add the rest of the symbol geometry with additional`axlDBCreate` calls. This provides the ability to create symbols that do not exist in the library."
+ },
+ {
+  "name": "axlDBCreateSymbol",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Places a symbol instance in the design. Creates a symbol instance at location`l_anchor_point` with the given mirror and rotation. Examines its first argument to determine what symbol to add, as explained later. Next, searches for the symbol in the symbol definitions, first in the layout, then in the `PSMPATH`. Loads the definition if it is not already in the layout and creates the symbol instance. Returns `nil` a symbol definition is not found."
+ },
+ {
+  "name": "axlDBCreateSymbolAutosilk",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates or updates the`AUTOSILK` information for the specified symbol, as required. Also updates, as required, any other `AUTOSILK` information near the symbol."
+ },
+ {
+  "name": "axlDBCreateSymbolSkeleton",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Places a skeleton or a minimal symbol instance at`l_anchorPoint` with mirror and rotation given but no data in the instance, except the pin data given by `l_pinData`. This is a list of `axlPinData` defstructs defining the data for all pins. The pin count and pin numbers must match that of the library symbol definition. The symbol definition must exist in the database or on `LIBPATH`."
+ },
+ {
+  "name": "axlDBCreateText",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates a text string in the layout using the arguments described."
+ },
+ {
+  "name": "axlDBCreateVia",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates a via in the layout as specified by the arguments described below."
+ },
+ {
+  "name": "axlDBCreateVoid",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Adds a void to a shape. To add multiple voids, it is recommended that you either add the voids when creating the shape (axlDBCreateShape) or re-open the shape (axlDBOpenShape) before creating the voids."
+ },
+ {
+  "name": "axlDBCreateVoidCircle",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates a circular void in the open shape`o_shape`. Calling this function without an open shape causes an error."
+ },
+ {
+  "name": "axlDBDelLock",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Deletes a lock on the database. If the database is locked with a password, you must supply the correct password to unlock it."
+ },
+ {
+  "name": "axlDBDeleteProp",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Deletes the properties listed by name, in`lt_name`, from the objects whose `dbids` are in `lo_attach`."
+ },
+ {
+  "name": "axlDBDeletePropAll",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Deletes all instances of the property t_name in the database. This includes properties that exist on the symDef and compDef that cannot be access via the property edit command. If you delete a property that effects the DRC system, you may wish to wrap this call with a axlDBCloak for better performance."
+ },
+ {
+  "name": "axlDBDeletePropDictEntry",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": ""
+ },
+ {
+  "name": "axlDBDisbandGroup",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Disbands the database group you specify with the`o_group` argument, thereby immediately removing the group. Members of the group are not deleted."
+ },
+ {
+  "name": "axlDBDisplayControl",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This command is used to inquire and set the display database controls. When used for setting a value, the command returns the old value of the control."
+ },
+ {
+  "name": "axlDBDummyNet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This command returns all dummy nets in design. Two courtesy options provided are:"
+ },
+ {
+  "name": "axlDBDynamicShapes",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Queries and updates dynamic shapes. When`g_value` is `t,` updates all out of date dynamic shapes on the board regardless of the dynamic shape updating setting in the **Drawing Options** dialog. When `g_value` is `nil`, returns a count of out of date shapes."
+ },
+ {
+  "name": "axlDBFindByName",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Finds`dbid` of an object by name without involving the selection set. This means you can run this command any time without affecting what exists in the selection set. The following object lookup types are supported:"
+ },
+ {
+  "name": "axlDBGetAttachedText",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the list of`dbids` of text objects attached to the object whose `dbid` is `o_dbid`. If axlDBGetDesign is used to retrieve the dbid, the function returns all text attached to root design."
+ },
+ {
+  "name": "axlDBGetConnect",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Finds all the elements, including pads and shapes, that are connected to a given`dbid`. Input can be a PIN, VIA, T, CLINE/CARC or CLINE/CARC SEGMENT, and shapes."
+ },
+ {
+  "name": "axlDBGetDesign",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the root design`dbid`. Use this `dbid` to get the design properties and to add properties to the design."
+ },
+ {
+  "name": "axlDBGetDesignUnits",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the design units and accuracy number of the active design."
+ },
+ {
+  "name": "axlDBGetDrillPlating",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Retrieves the plating type of the padstack passed as an argument to this function."
+ },
+ {
+  "name": "axlDBGetExtents",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Provides the extents of a physical database object. You choose between getting the extents of the entire object (even if it is currently not visible) or just the current visible objects."
+ },
+ {
+  "name": "axlDBGetGroupFromItem",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Filter object's group membership by a group type. You can normally fetch the list of groups that an object is a member of by using the groups attribute of its dbid (etc. o_dbid->groups). This function provides additional filtering where you can request if an belongs to a particular group type. Depending upon the group characteristics an object can either belong to single group of a type or can be a member multiple groups of a single type. For example, an object can belong to multiple generic groups can belong to only one differential pair group."
+ },
+ {
+  "name": "axlDBGetLayerType",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Retrieves the cross-section type of a given layer. This may be (Layer Type in define xsection form):`CONDUCTOR`, `DIELECTRIC`, `PLANE`, `SURFACE`, `DIESTACK` or `MASK`."
+ },
+ {
+  "name": "axlDBGetLength",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Calculates the length of the given object which may be a NET, CLINE, SEGMENT, or RATSNEST. If RATSNEST returns the Manhattan length. If a net is partially routed, includes sum of all ratsnest Manhattan lengths."
+ },
+ {
+  "name": "axlDBGetLock",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns information about a lock on the database. You retrieve the following information:"
+ },
+ {
+  "name": "axlDBGetLonelyBranches",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns a list of the*standalone branch* `dbids` in the design. A *standalone branch* is a branch not associated with any net."
+ },
+ {
+  "name": "axlDBGetManhattan",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Given a net, calculates an etch, path, and Manhattan length. The result is the same as that used by list element."
+ },
+ {
+  "name": "axlDBGetPad",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "For the pin or via specified by`o_dbid`, gets the pad of type `t_type` associated with layer `t_layer`."
+ },
+ {
+  "name": "axlDBGetPropDict",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns a list of property definitions in the current design. Several trivial filters are defined:"
+ },
+ {
+  "name": "axlDBGetPropDictEntry",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Gets the property dictionary entry for the property name given by the string`t_name`. Use axlDBGetPropDictEntry to get the information about a property dictionary entry. If name is `nil`, the command returns a list of legal objects that can be used to create property dictionary entries. This is the `objects` attribute of the `o_propDictEntry` data type. You cannot create a property with the same name as an existing Allegro property."
+ },
+ {
+  "name": "axlDBGetProperties",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Gets the properties attached to a specified object. Returns the properties in an assoc list, that is, a list of lists, each of which contains a name and a value. The SKILL`assoc` function can operate using this list."
+ },
+ {
+  "name": "axlDBGetShapes",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Provides quick access to shapes without access to visibility or find settings."
+ },
+ {
+  "name": "axlDBGetSymbolBodyExtent",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This returns the body extent of a symbol. Unlike the bBox associated with a dbid, a body extents is either one of the following."
+ },
+ {
+  "name": "axlDBGetTextBlockCount",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns a count of the number of text blocks defined."
+ },
+ {
+  "name": "axlDBGridGet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This command returns current grid values. Function has two modes:"
+ },
+ {
+  "name": "axlDBGridSet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This command modifies the grid settings in the design."
+ },
+ {
+  "name": "axlDBGroupRename",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Renames a group. Groups supported are GENERIC, BUS, DIFF_PAIR, NETCLASS, NET_GROUP and MATCH_GROUP. Do not attempt to rename group types not listed."
+ },
+ {
+  "name": "axlDBIgnoreFixed",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Provides similar functionality to that offered by many Allegro batch programs which allow FIXED and LOCKED properties to be ignored (for example:`netrev -z`)."
+ },
+ {
+  "name": "axlDBIsBondingWireLayer",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This is an obsolete function. Bonding wire layers have been replaced by die stack layers. Use`axlDBIsDieStackLayer` to check whether a layer is a die stack layer."
+ },
+ {
+  "name": "axlDBIsBondpad",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Verifies whether or not the given element is a*bondpad*."
+ },
+ {
+  "name": "axlDBIsBondwire",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Verifies whether or not the given element is a*bonding wire*."
+ },
+ {
+  "name": "axlDBIsDiePad",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Verifies whether or not the given element is a*die pad*."
+ },
+ {
+  "name": "axlDBIsDieStackLayer",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Verifies if layer is a die stack layer. This means that the attribute of the`\"paramLayer\"` parameter `dbid` called `\"type\"` has a value of `\"DIESTACK\"`. This is normally used in the APD product."
+ },
+ {
+  "name": "axlDBIsFixed",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Verifies whether or not the specified database object is fixed. When the FIXED property is present if can either be directly on the object, on a parent (e.g. a CLINE is fixed if the NET is fixed) or on a child (e.g. a symbol is fixed if its place bounds is fixed)."
+ },
+ {
+  "name": "axlDBIsPackagePin",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Verifies whether or not the given element is a*package pin*."
+ },
+ {
+  "name": "axlDBIsPlatingbarPin",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Verifies whether or not the given element is a*plating bar pin*."
+ },
+ {
+  "name": "axlDBIsReadOnly",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This API command checks if indicated database object is read-only."
+ },
+ {
+  "name": "axlDBMemoryReclaim",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Reclaims database memory for reuse by the Allegro database. Normally in Skill memory of deleted database objects is not reused until Skill code returns to the main processing loop."
+ },
+ {
+  "name": "axlDBOpenShape",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Opens an existing shape to replace its boundary or to modify its voids."
+ },
+ {
+  "name": "axlDBPinPairLength",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Calculate the shortest length between 2 pins. Pins must be on the same xnet. The pin can also be a VIA or RAT_T. If the distance is not fully routed, it includes a Manhattan estimate of the unrouted portion."
+ },
+ {
+  "name": "axlDBRefreshId",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Updates the attributes of the object specified by`o_dbid`. Subsequent attribute retrieval requests access the updated information."
+ },
+ {
+  "name": "axlDBRemoveGroupObjects",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Removes the database objects from the specified group. Group members, though removed, are not deleted."
+ },
+ {
+  "name": "axlDBSectorSize",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This is obsolete. It is kept for backwards compatibility. It now callsaxlDBTuneSectorSize. Tuning sectors is now built into dbdoctor."
+ },
+ {
+  "name": "axlDBSetLock",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Provides a mechanism to lock the database against future changes. If you lock the database it is locked in memory, to save the lock, you need to save the database to disk. Therefore, after locking the database, you can save the database once before all further attempts to save the database are rejected."
+ },
+ {
+  "name": "axlDBTextBlockCompact",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Reports and/or compresses unused database text blocks. If compacting text blocks, it always updates database text to reflect the new text block numbers."
+ },
+ {
+  "name": "axlDBTextBlockCreate",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates a new text block from the template block number provided. By providing optional text block characteristics, you can get available text blocks by:"
+ },
+ {
+  "name": "axlDBTextBlockFindName",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Finds a text block based on its name."
+ },
+ {
+  "name": "axlDBTextBlockGetName",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the name associated with the given text block. Same as attribute`userName` in `axlGetParam(\"paramTextBlock:<number>\")`."
+ },
+ {
+  "name": "axlDBTextBlockSetName",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Defines a name for a given text block."
+ },
+ {
+  "name": "axlDBTransactionCommit",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Commits a database transaction from the last transaction mark."
+ },
+ {
+  "name": "axlDBTransactionMark",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Writes a mark in the database that you can use withaxlDBTransactionOops to rollback database changes to this mark."
+ },
+ {
+  "name": "axlDBTransactionOops",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Undoes a transaction back to the last mark, or to start if there are no marks. Supports the Allegro*oops* model for database transactions."
+ },
+ {
+  "name": "axlDBTransactionRollback",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Undo function for a database transaction."
+ },
+ {
+  "name": "axlDBTransactionStart",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Marks the start of a transaction to the database. Returns a mark to the caller which is passed back to commit, mark, oops or rollback for nested transactions. Only the outermost caller of this function (the first caller) has control to commit or rollback the entire transaction."
+ },
+ {
+  "name": "axlDBTuneSectorSize",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This tune's Allegro's sector size for better performance. Normally, this occurs automatically via dbdoctor or performance advisor. In addition, it is done periodically during design open."
+ },
+ {
+  "name": "axlDMBrowsePath",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Invokes a standard Allegro PCB Editor file browser supporting paths, for example,`SCRIPTPATH`. To use, pass one of the file types supported by `fileops.txt`. Browses file types that include the fileops `PATH` attribute. `axlDMFileBrowse` should be used to browse other file types. This works on non-PATH file types since this browses in the current working directory. The user is not able to change the directory with this browser."
+ },
+ {
+  "name": "axlDMClose",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Closes a file currently open in Allegro PCB Editor. Instead of using Skill's infile/outfile commands, this command must be used to close the files opened using`axlDMOpenFile` or `axlDMOpenLog` commands."
+ },
+ {
+  "name": "axlDMDirectoryBrowse",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Opens a directory browser. Unlike file browsers, this only allows a user to select a directory. This function call blocks until the user selects or cancels."
+ },
+ {
+  "name": "axlDMFileBrowse",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Opens a standard file browser. Unlike the other`axlDM` functions, this always presents the user with a file browser. This function call blocks until the user selects a file or cancels."
+ },
+ {
+  "name": "axlDMFileError",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This returns the error from the last`axlDM`xxx call. Subsequent calls reset the error message so you should retrieve the error as soon as a call fails."
+ },
+ {
+  "name": "axlDMFileParts",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Breaks a filename into it's component parts."
+ },
+ {
+  "name": "axlDMFindFile",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Opens a file using Allegro PCB Editor conventions. Adds an extension and optionally looks it up in an Allegro PCB Editor search path."
+ },
+ {
+  "name": "axlDMGetFile",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Gets the file name`t_name` using Allegro PCB Editor conventions as described in the arguments. Returns the full path name of the file. Displays an error message if the file cannot be opened."
+ },
+ {
+  "name": "axlDMOpenFile",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Opens a file in conventional Allegro manner; adds an extension and optionally looks it up in an Allegro search path. Must have an entry in`fileops.txt` file."
+ },
+ {
+  "name": "axlDMOpenLog",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Opens a file for writing log messages. Uses the name of your program or application without an extension. Opens a file with that name and the extension`.log`. Returns the port of the file if it succeeds."
+ },
+ {
+  "name": "axlDRCGetCount",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the total number of DRCs in the design. Note the design DRC may be out of date."
+ },
+ {
+  "name": "axlDRCItem",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Performs a DRC check on the indicated item(s). The`dbid` may be any `dbid` type (except the design). If the same item appears multiple times in the list, then the same DRC error(s) are returned, and the count is the sum of errors created by each `dbid`. The `g_mode` option controls two return options:"
+ },
+ {
+  "name": "axlDRCUpdate",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Performs a DRC check on entire design."
+ },
+ {
+  "name": "axlDRCWaive",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Manages waive DRC state and access to the waive DRC functionality. It supports both waiving and restoring (unwaive) DRC markers. The interface supports both a single and a list of DRC`dbids`. If restoring a DRC marker, it will reappear but it may no longer reflect an actual DRC error. This may be due to:"
+ },
+ {
+  "name": "axlDRCWaiveGetCount",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns total number of waived DRCs in the design."
+ },
+ {
+  "name": "axlDbidName",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Provides the standard Allegro PCB Editor name of a database object. Many of the named Allegro PCB Editor objects ( for example, nets) have names defined in the name attribute (for example,`dbid->name`) but other objects (for example, clines and pins) either do not have the desired reporting name or are unnamed."
+ },
+ {
+  "name": "axlDebug",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This enables/disables AXL debug mode. See`axlIsDebug` for description of what this entails."
+ },
+ {
+  "name": "axlDegToRad",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Converts an angle in degrees to radians."
+ },
+ {
+  "name": "axlDehighlightObject",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Use this command to turn off highlighting on an object. Dehighlights the objects whose`dbids` are in `lo_dbid`. If 'all option is used then g_permHighlight is treated as t (true)."
+ },
+ {
+  "name": "axlDeleteAttachment",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Deletes the given attachment. If the attachment is password protected, the correct password must be given."
+ },
+ {
+  "name": "axlDeleteBondWire",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Deletes the (list of) bond wires passed in. Optionally, it will delete the connect bond finger elements as well."
+ },
+ {
+  "name": "axlDeleteByLayer",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Deletes all data on one or more provided layers. The following should be noted:"
+ },
+ {
+  "name": "axlDeleteFillet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Deletes fillet associated with a PIN, VIA, T, or CLINE. The command also deletes a single fillet if`o_dbid` is a fillet shape."
+ },
+ {
+  "name": "axlDeleteObject",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Deletes single or list of database objects from database. Deletion of components deletes the symbol owner as well. Deletion of nets is LOGIC only, and leaves the physical objects."
+ },
+ {
+  "name": "axlDeleteTaper",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Deletes tapers"
+ },
+ {
+  "name": "axlDesignFlip",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Visually flips the design in the 'y' axis. Maintains current xy view."
+ },
+ {
+  "name": "axlDesignType",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the type of design as a string."
+ },
+ {
+  "name": "axlDetailLoad",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This loads a the designated`ipf` file `(t_filename`) into the current design at location (point), with scaling (`f_scale`), rotation (`f_rotation`) and mirror (`g_mirror`). Items are clipped to rectangle provided a save file time. It will load the detail to the active layer."
+ },
+ {
+  "name": "axlDetailSave",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This saves a clipping box (l_bBox) and the passed set of geometries (lo_dbid) to a Allegro ipf file (t_filename)."
+ },
+ {
+  "name": "axlDiffPair",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates, modifies, or deletes a differential pair. In all cases you can pass names or a`dbid`."
+ },
+ {
+  "name": "axlDiffPairAuto",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Allows automatic generation of the diffpair. Generates the set of diffpairs based on the provided positive (`t_posNetPostfix`) and negative (`t_negNetPostfix`) postfixes used in your net naming."
+ },
+ {
+  "name": "axlDiffPairDBID",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the`dbid` of the named diffpair (`t_name`) if it exists in the database."
+ },
+ {
+  "name": "axlDistance",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the distance between two points. You may use floating point."
+ },
+ {
+  "name": "axlDllCall",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Calls a symbol that has been imported from a plugin. As the first argument, it requires`o_pluginFunc` which was returned via a call to `axlDllSym`. The rest of the arguments are what the implement plugin API has defined."
+ },
+ {
+  "name": "axlDllCallList",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function is identical to`axlDllCall` except it takes a list of arguments to pass to the plugin function. Unlike `axlDllCall,` which is limited to 10 arguments, this interface can take up to 512 arguments."
+ },
+ {
+  "name": "axlDllClose",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This closes an open plugin handle. Once a handle is closed, you can no longer call functions obtained from the plugin. Also, a plugin is automatically closed when there are no active references to it via Skill's garbage collection."
+ },
+ {
+  "name": "axlDllDump",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This is a debug function that reports all plugins loaded by Skill."
+ },
+ {
+  "name": "axlDllOpen",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This binds a dll/shared library to the current program. While this can load any dll, only those built to be compatible with the axl Plugin model can be utilized via Skill (seeDLL Programming for information on building compatible dlls)."
+ },
+ {
+  "name": "axlDllSym",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This imports a symbol from a loaded dll. A dll can have one or more exported symbols. The symbol must have been exported from the dll when the dll was compiled and linked (See`axlDllDoc`)."
+ },
+ {
+  "name": "axlDrawObject",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Processes a list of`dbids`."
+ },
+ {
+  "name": "axlDynamicsObject",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Adds list of objects to the cursor buffer. These objects are attached to the cursor in xor mode. Origin point establishes cursor position relative to objects in the dynamics buffer."
+ },
+ {
+  "name": "axlEmail",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sends an e-mail. If multiple*To* or *Cc* addresses are required; separate their names with a semicolon (;). On Windows, a warning confirmer may generate. To disable the warning, add the following to the registry:"
+ },
+ {
+  "name": "axlEndSkillMode",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns from the SKILL command mode to the program's command line. The SKILL exit function is mapped to this function. In a SKILL program this command has no effect."
+ },
+ {
+  "name": "axlEnterAngle",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Optionally prompts the user. Returns the angle value entered."
+ },
+ {
+  "name": "axlEnterBox",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Takes two points that define a box and returns them in`l_box`. Optionally prompts the user, if `l_prompts` contains no more than two strings. If `l_points` is `nil`, prompts for two points. If `l_points` contains one point, prompts only for the second point. If `l_points` contains both points, simply returns them as `l_box`."
+ },
+ {
+  "name": "axlEnterEvent",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "A lower level event manager than other`axlEnter` functions. Provides a Skill program with more user event details. See Table 7-2 for a list of events with descriptions."
+ },
+ {
+  "name": "axlEnterPath",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Gets the start point and subsequent points for a path, interactively with optional prompting, or from the optional argument`l_points`. Sets the start point to the first value of `l_points`, if any, and the second point to the second value, if any. If `r_path` is given, connects the dynamic rubberband to its most recent segment. Use `axlEnterPath` recursively to build up the coordinates of a path interactively."
+ },
+ {
+  "name": "axlEnterPoint",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Prompts for and receives user-selected point. Returns the point data to the calling function."
+ },
+ {
+  "name": "axlEnterString",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Displays a dialog box that requires first entering a string, and then pressing*Return* on the keyboard or clicking *OK*or *Cancel.* Default prompt in the dialog box is `\"Enter String.\"`You can supply a prompt string with the `?prompts` keyword. The function returns the string entered, if any. Otherwise it returns `nil`."
+ },
+ {
+  "name": "axlEraseObject",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Processes a list of`dbids` and erases them. Typically used with `axlDynamicsObject` to erase objects before attaching them to the cursor. Any objects erased are restored to their visibility when calling AXL shell or terminating the SKILL program."
+ },
+ {
+  "name": "axlEventSetStartPopup",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets a SKILL callback function called prior to a popup being displayed on the screen. Allows AXL applications to reset the popup (see`axlUIPOPUPSetsee`), thus providing context sensitive popups support."
+ },
+ {
+  "name": "axlExportXmlDBRecords",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This exports an Allegro Parameter file from the current design. It offers the same capability as (*File - Import - Parameter*). Side effect is creation of a `param_write.log` file."
+ },
+ {
+  "name": "axlExtentDB",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Determines a design type and returns the`bBox` extent. See axlExtentLayout and axlExtentSymbol for what Allegro PCB Editor considers an extent."
+ },
+ {
+  "name": "axlExtentLayout",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Obsolete. Use`axlExtentDB`. Kept for backward compatibility."
+ },
+ {
+  "name": "axlExtentSymbol",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Obsolete. UseaxlExtentDB. Kept for backward compatibility."
+ },
+ {
+  "name": "axlExtractMap",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Takes a set of Allegro database objects you select using the Allegro extract command file and applies to each object a SKILL function you have chosen. The extract command file (the *view*) selects the objects and also sets any filters. Ignores the output data fields listed in the extract command file, since it does not create an output file."
+ },
+ {
+  "name": "axlExtractToFile",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Extracts data from the current design into an ASCII file. Performs the same process as the Allegro batch command`a_extract`."
+ },
+ {
+  "name": "axlFillet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Adds fillet between cline and pin/via, and at T. Removes and re-generates existing fillets. Fillet parameters are controlled from the Glossing**Pad and T Parameter** form."
+ },
+ {
+  "name": "axlFilletConvert",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Converts a fillet or taper to a static shape."
+ },
+ {
+  "name": "axlFilmCreate",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates a new artwork film or replaces an existing artwork film."
+ },
+ {
+  "name": "axlFindFilterIsOpen",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function is no longer required, but is kept for backward compatibility."
+ },
+ {
+  "name": "axlFindPath",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Finds an etch path from one object to another. Items must be on the same net and must be connect type, such as, pins, vias, clines or shapes, and tee."
+ },
+ {
+  "name": "axlFinishEnterFun",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Terminates the wait for a user-selected point. Waiting function returns no data. For a one-point function (for example,`axlEnterPoint`) behaves the same as `axlCancelEnterFun`."
+ },
+ {
+  "name": "axlFlushDisplay",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Flushes all data from the display buffer to the display screen itself. Displays items intended to be displayed, but not yet displayed because no event has triggered a flush of the display buffer."
+ },
+ {
+  "name": "axlFormAutoResize",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Resizes a form to fit its controls. Recalculates the required width and height and resizes the form based on the current visibility of the form's fields."
+ },
+ {
+  "name": "axlFormBNFDoc",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": ""
+ },
+ {
+  "name": "axlFormBuildPopup",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This provides the ability to dynamically change popups of fields that have them. These fields are enum (or pop-up) and other fields that have a popup icon. Buttons, optionally, may also have a popup if they have a right arrow. Attempting this call on a field without a popup is an error."
+ },
+ {
+  "name": "axlFormCallback",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This is not a function but documents the callback interface for form interaction between a user and Skill code. The Skill program author provides this function."
+ },
+ {
+  "name": "axlFormClearMouseActive",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Clears the option to dispatch the MouseActive event on a form."
+ },
+ {
+  "name": "axlFormClose",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Closes the form`r_form`. Unless the form is running without a callback handler, you must make this call to close the form. Without a registered dispatch handler, Allegro PCB Editor closes the form automatically before returning to the application from `axlFormDisplay`."
+ },
+ {
+  "name": "axlFormColorize",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Allows the override of background and/or text color of a control. Only the following controls are supported:"
+ },
+ {
+  "name": "axlFormCreate",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates a dialog based on the form descriptive file`t_formfile`. This call only supports forms of type `\"fixed\"` and fails if `t_formfile` contains any variable tiles. This function does not display the form. Use `axlFormDisplay` to display a form."
+ },
+ {
+  "name": "axlFormDefaultButton",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Forms normally automatically set a*default* *button* in a form with the `DEFAULT` section in the form file or with the *OK* and *DONE* labels. When the user hits a carriage return, the *default* *button* is executed."
+ },
+ {
+  "name": "axlFormDisplay",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Displays the form`r_form` already created by `axlFormCreate`. For superior display appearance, set all the field values of the form before calling this function. A form in blocking mode blocks until the user closes the form."
+ },
+ {
+  "name": "axlFormGetActiveField",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Gets the form's active field."
+ },
+ {
+  "name": "axlFormGetField",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Gets the value of`t_field` in the open form`r_form`. The value is a string if `g_stringOption` was set in`axlFormCreate`. Otherwise the value is in the field type declared in the form file."
+ },
+ {
+  "name": "axlFormGetFieldType",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the control type for a form field. See the keywords inCallback Procedure: formCallback for a list of supported field types."
+ },
+ {
+  "name": "axlFormGridBatch",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Always used with`axlFormGridSetBatch`. Sets many grid cells efficiently."
+ },
+ {
+  "name": "axlFormGridCancelPopup",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "After any change to grid content, the application must tell the grid that the changes are complete. The grid then updates itself to the user. Changes include: adding or deleting columns and changing cells."
+ },
+ {
+  "name": "axlFormGridDeleteRows",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Deletes`x_number` rows at `x_row` number. `x_row``=`,`n`>, `x_number``=-1` deletes the entire grid. `x_row``=-1`, `x_number``-1` may be used to delete the last row in the grid."
+ },
+ {
+  "name": "axlFormGridEvents",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets user events of interest. It is critical for your application to only set the events that you actually process since enabled events are scripted."
+ },
+ {
+  "name": "axlFormGridGetCell",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns grid cell data for a given row and column. All associated data for the cell is returned."
+ },
+ {
+  "name": "axlFormGridInsertCol",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Adds a column with the indicated options (`g_options`) to a grid field. The `g_options` parameter is based on the type `formGridCol`. The`formGridCol` structure has default behavior for all settings."
+ },
+ {
+  "name": "axlFormGridInsertRows",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Inserts`x_number`rows at `x_row` number location. Rows are inserted empty. A -1 may be used as `x_row` to add to end of the grid. Since grids are 1 based, a 1 inserts at the top of the grid."
+ },
+ {
+  "name": "axlFormGridNewCell",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates a new instance of`r_cell` which is required as input to axlFormGridBatch or axlFormSetField for form grid controls. As a convenience, the consuming APIs do not modify the cell attributes. You need not reset all attributes between API calls."
+ },
+ {
+  "name": "axlFormGridOptions",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Miscellaneous grid options. SeeUsing Grids for a grid overview."
+ },
+ {
+  "name": "axlFormGridReset",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Resets grid to its unloaded state. Application should then set the columns, then rows, to the same state as when they initially loaded the windows."
+ },
+ {
+  "name": "axlFormGridSelected",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This returns the selected item in a multi-select grid control. This should only be used if grid is running with the multi-select row option."
+ },
+ {
+  "name": "axlFormGridSelectedCnt",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This returns the count of rows selected in a multi-select grid control. This should only be used if grid is running with the multi-select row option."
+ },
+ {
+  "name": "axlFormGridSetBatch",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Changes grid cells much faster than`axlFormSetField` when changing multiple cells. Both APIs require a grid cell data type (`axlFormGridNewCell`.)"
+ },
+ {
+  "name": "axlFormGridSetSelectRows",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This allows setting, clearing or toggling of selection state for a grid in multi-select row mode."
+ },
+ {
+  "name": "axlFormGridUpdate",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Unlike the form lists control you must manually notify the grid control that it must update itself. You should use this call in the following situations:"
+ },
+ {
+  "name": "axlFormInvalidateField",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Invalidates the form's field. Allows Windows to send a redraw message to the field's redraw procedure."
+ },
+ {
+  "name": "axlFormIsFieldEditable",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Checks whether the given form field is editable. If the field is editable,`t` is returned. If the field is greyed, then `nil` is returned."
+ },
+ {
+  "name": "axlFormIsFieldVisible",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Determines whether a form field is visible."
+ },
+ {
+  "name": "axlFormListAddItem",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Adds an item to a list at position`x`. To add many items efficiently, pass the items as a list."
+ },
+ {
+  "name": "axlFormListDeleteAll",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Deletes all the items from the form list field,`t_field`*.* Use `axlFormListDeleteAll`to clear an entire list field to update it using `axlFormSetField`, then display it using `axlFormSetField` on the field with a `nil` field value."
+ },
+ {
+  "name": "axlFormListDeleteItem",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Deletes indicated item in the list. You can delete by a string or by position. Deleting by string works best if all items are unique. Position can be problematic if you have the list sort the items that you add to it."
+ },
+ {
+  "name": "axlFormListGetItem",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the item in the list at index (`x_index`.) Lists start at index 0. If -1 is passed as an index, returns the last item in the list."
+ },
+ {
+  "name": "axlFormListGetSelCount",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This only applies to a multi-select list box (OPTIONS multiselect in form file). Returns a count of number of items selected in a multi-select list box."
+ },
+ {
+  "name": "axlFormListGetSelItems",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This only applies to a multi-select list box (OPTIONS multiselect in form file)."
+ },
+ {
+  "name": "axlFormListOptions",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets options for a list control. The following options are supported:"
+ },
+ {
+  "name": "axlFormListSelAll",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This only applies to a multi-select list box (OPTIONS multiselect in form file)."
+ },
+ {
+  "name": "axlFormListSelect",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Highlights, and if not visible in the list, shows the designated item. Since Allegro PCB Editor forms permit only one item to be visible, it deselects any previously selected item. If`nil` is passed for `t_listItem` the list is reset to top and the selected list item is deselected."
+ },
+ {
+  "name": "axlFormMsg",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Retrieves and prints a message defined in the form file by message label (`t_messageLabel`.) Form file allows definitions of messages using the \"`MESSAGE`\" keyword (see Using Forms Specification Language.) Use this to give a user access to message text, but no access to your SKILL code."
+ },
+ {
+  "name": "axlFormRestoreField",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Restores the`t_field` in the open form `r_form` to its previous value. The previous value is only from the last user change and not from the form set field functions. This is only useful in the *form callback* function."
+ },
+ {
+  "name": "axlFormSetActiveField",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Makes the indicated field the active form field."
+ },
+ {
+  "name": "axlFormSetDecimal",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets the decimal precision for real fill-in fields in the form. If`g_field` is `nil`, sets the precision for all real fill-in fields in the form."
+ },
+ {
+  "name": "axlFormSetEventAction",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function allows the user to register a callback function to be called whenever the user changes to a new active cell in the form. The callback registered during axlFormCreate dispatches events only when the user modifies a field value on the form (on exit from the field). This function allows the caller to receive an event when a field is first entered."
+ },
+ {
+  "name": "axlFormSetField",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets`t_field` to value `g_value` in open form `r_form`. Must pass the correct type, matching the entry in the form value or string type. Value type is dependent upon type of field type. For a complete discussion of field types, see the discussion at the front of this section."
+ },
+ {
+  "name": "axlFormSetFieldEditable",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets individual form fields to editable (`t)` or greyed (`nil`)."
+ },
+ {
+  "name": "axlFormSetFieldLimits",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets the minimum or maximum values a user can enter in an integer or real fill-in field. If a`nil` value is provided, that limit is left unchanged."
+ },
+ {
+  "name": "axlFormSetFieldVisible",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets a form field to visible or invisible."
+ },
+ {
+  "name": "axlFormSetInfo",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets info`t_field` to value `t_value` in open form `r_form`. Unlike `axlFormSet`, user cannot change an info field."
+ },
+ {
+  "name": "axlFormSetMouseActive",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets the option to dispatch the MouseActive event on a form."
+ },
+ {
+  "name": "axlFormTest",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This is a development function for test purposes. Given a form file name this opens a form file to check for placement of controls. If form uses standard button names (for example,*ok, done, close, cancel*), you can close it be clicking the button. Otherwise, use the window control. If form is currently open, exposes form and returns."
+ },
+ {
+  "name": "axlFormTitle",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Overrides title of the form."
+ },
+ {
+  "name": "axlFormTreeViewAddItem",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Adds an item to a treeview under*parent* and after *insertAfter* sibling. If sibling is `nil`, the item is added as the last child of a parent. If parent is `nil`, item is created as the root of the tree."
+ },
+ {
+  "name": "axlFormTreeViewChangeImages",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Modifies various bitmap images associated with a given tree view item."
+ },
+ {
+  "name": "axlFormTreeViewChangeLabel",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Modifies text of a given treeview item."
+ },
+ {
+  "name": "axlFormTreeViewGetImages",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "various bitmap image handles that refer to images used by a specified item in the tree view."
+ },
+ {
+  "name": "axlFormTreeViewGetLabel",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns text of a given treeview item."
+ },
+ {
+  "name": "axlFormTreeViewGetParents",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns a list of all the ancestors of a treeview control item, starting from the root of the tree. Helps in search operations in SKILL. Applications can traverse their tree list following parent lists to a given item instead of searching the whole tree for an item."
+ },
+ {
+  "name": "axlFormTreeViewGetSelectState",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "In multi select mode, returns the select state of a treeview item. This is different than the current selected item in single select tree views. In multi select mode, users can change the select state by clicking on the select checkbox associated with each item."
+ },
+ {
+  "name": "axlFormTreeViewLoadBitmaps",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Allows an application to load one or more bitmaps into Allegro PCB Editor for use in specified tree view."
+ },
+ {
+  "name": "axlFormTreeViewSet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Allows an application to change global and individual items in a tree view control."
+ },
+ {
+  "name": "axlFormTreeViewSetSelectState",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "In multi select mode, sets the select state. This is different than the current selected item in single select tree views. In multi select mode, users can change the select state by clicking on the select checkbox associated with each item."
+ },
+ {
+  "name": "axlGRPDrwBitmap",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Loads a bitmap into a form draw window (drawing area in the graphics field). More drawing can take place on top of the bitmap."
+ },
+ {
+  "name": "axlGRPDrwCircle",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Draws a circle into the area identified by the`r_graphics` handle, at the origin specified, and with the specified radius. Option properties attached to the `r_graphics` handle are applied when drawing the circle."
+ },
+ {
+  "name": "axlGRPDrwInit",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Use this command to set graphics callback in a form field. It sets up necessary data structures for triggering the graphics callback into the graphics field."
+ },
+ {
+  "name": "axlGRPDrwLine",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Draws a line into the area identified by the`r_graphics` handle and the list of coordinates. Option properties attached to the `r_graphics` handle are applied when drawing the line."
+ },
+ {
+  "name": "axlGRPDrwMapWindow",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Forces a draw in a form draw field. Allows the application to denote the coordinate system that is mapped into the drawing area of the graphics field."
+ },
+ {
+  "name": "axlGRPDrwPoly",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Draws a polygon (multi-segment line) into the area identified by the`r_graphics` handle and the list of coordinates. Option properties attached to the `r_graphics` handle are applied when drawing the polygon. If the coordinates do not form a closed polygon, the first and last coordinates in the list are connected by a straight line."
+ },
+ {
+  "name": "axlGRPDrwRectangle",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Draws a rectangle into the area identified by the`r_graphics` handle and the `upper_left` and `lower_right` coordinates. Option properties attached to the `r_graphics` handle are applied when drawing the rectangle."
+ },
+ {
+  "name": "axlGRPDrwText",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Draws text into the area identified by the`r_graphics` handle at the origin specified. Option properties attached to the `r_graphics` handle are applied when drawing the text."
+ },
+ {
+  "name": "axlGRPDrwUpdate",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Force call to register callback function for a draw window. Triggers calling of the application supplied callback function."
+ },
+ {
+  "name": "axlGeo2Str",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "When converting floating point numbers to strings you may find the number printed is slightly differently then the value Allegro reports. This is difference is due to how floating point numbers are represented in the computer. The following article is an excellent paper on the subject:*What Every Computer Scientist Should Know About Floating-Point Arithmetic* by David Goldberg."
+ },
+ {
+  "name": "axlGeoArcCenterAngle",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Calculates the center of an arc given the angle between its endpoints. Uses the arguments depending on`g_clockwise` as shown in Figure 25-1."
+ },
+ {
+  "name": "axlGeoArcCenterRadius",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Calculates center of an arc given its radius. Calculates`l_center` either for one arc or another depending on the arguments, as shown."
+ },
+ {
+  "name": "axlGeoEqual",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Performs an equal comparison between two floating point numbers and determines if they are equal within plus or minus the current database accuracy."
+ },
+ {
+  "name": "axlGeoPointInShape",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Given a point and a shape`dbid`, determines whether that point is inside or outside the shape or a polygon. For a shape with voids, a point is considered *outside* the given shape if inside a void. If shape has voids and g_include_voids is t then point is outside if inside a void."
+ },
+ {
+  "name": "axlGeoPointShapeInfo",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Given a point and a shape dbid returns relation of point to shape. State may be outside, inside or on. Additional dbid is returned in the second argument to indicate if void or shape is involved."
+ },
+ {
+  "name": "axlGeoPointsEqual",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This performs an equal comparison between two xy points and determines if they are equal within db accuracy."
+ },
+ {
+  "name": "axlGeoRotatePt",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Rotates*xy* about an origin by angle. Optionally applies mirror on the *x* axis."
+ },
+ {
+  "name": "axlGetActiveLayer",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Retrieves active class and subclass of the design."
+ },
+ {
+  "name": "axlGetActiveTextBlock",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Gets the current active text block, equivalent to the status dialog box."
+ },
+ {
+  "name": "axlGetAlias",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Requests the value of the specified Allegro PCB Editor alias,`t_alias`. If given a `nil`, returns a list of aliases currently set. For compatibility purposes, `axlGetAlias` returns funckey settings."
+ },
+ {
+  "name": "axlGetAllAttachmentNames",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns a list of the ids for all database attachments in the current Allegro PCB Editor database. If no attachments are present, then`nil` is returned. The attachments can retrieved using the axlGetAttachment`()` function."
+ },
+ {
+  "name": "axlGetAllViaList",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns a list of all padstacks included in via lists in the design. This is a compilation of all via lists from all constraint sets. Optionally it provides padstacks from net VIA_LIST properties."
+ },
+ {
+  "name": "axlGetAllVisibleProfiles",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns a list of all the bond wire profiles currently visible in the design."
+ },
+ {
+  "name": "axlGetAttachment",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the database attachment with the given id. If the attachment exists, an*attachment record* is returned containing information about the attachment. The data is in the format specified by the `s_dataFormat` argument. If `'file` format, then the `data` attribute contains a temporary file name to which the data was written. If `'string`, then the `data` attribute contains the attachment data itself. If the `s_dataFormat` argument is omitted or is `nil`, then the `data` attribute is `nil`."
+ },
+ {
+  "name": "axlGetDieData",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Gets the data for the given die and loads it into the a defstruct."
+ },
+ {
+  "name": "axlGetDieStackData",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Gets the data for the given die-stack and loads it into a defstruct."
+ },
+ {
+  "name": "axlGetDieStackMemberSet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns a list of defstructs - one for each member of the given die stack."
+ },
+ {
+  "name": "axlGetDieStackNames",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns a list of the names of all die stacks in the current design."
+ },
+ {
+  "name": "axlGetDieType",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the die attachment type for a given die component in a Cadence packaging tool (APD/SIP). A die is considered to be an IC class component in the database. Currently, the supported attachment types include the following:"
+ },
+ {
+  "name": "axlGetDrawingName",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Retrieves the full path of the drawing."
+ },
+ {
+  "name": "axlGetDynamicsSegs",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Normally used with dynamics to calculate arc tangency of two picks to a current`r_path`. Passed coordinates may be modified to preserve tangency. Depends on the current line lock state that you set or `axlSetLineLock`."
+ },
+ {
+  "name": "axlGetFindFilter",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the current Find Filter settings as a list`pf` keyword strings. The return find filters settings (onButton or enabled) is controlled by the boolean `onEnabledF`"
+ },
+ {
+  "name": "axlGetFuncKey",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Requests the value of the specified funckey,`t_alias`. If given `nil`, returns a list of currently set funckeys."
+ },
+ {
+  "name": "axlGetImpedance",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns minimum and maximum impedance for given item. Item can be either cline, cline segment, net or xnet. Impedance is in ohms by default."
+ },
+ {
+  "name": "axlGetIposerData",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function fetches the data for the given iposer and loads it into a defstruct."
+ },
+ {
+  "name": "axlGetLastEnterPoint",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Gets the last pick location from`axlEnterPoint`."
+ },
+ {
+  "name": "axlGetLineLock",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Gets the current settings of the line lock or dynamic control options. Equivalent items is the option control panel for \"add\" commands. Items currently supported:"
+ },
+ {
+  "name": "axlGetMetalUsageForLayer",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Computes the percentage metal coverage on the layers specified in l_layer(s) (combination of all layers listed) in the area specified in`l_extents`. If no extents are provided, then the geometry outline extents of the design are used."
+ },
+ {
+  "name": "axlGetModuleInstanceDefinition",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "AXL interface to the C function that returns the name of the module definition used to create the module instance."
+ },
+ {
+  "name": "axlGetModuleInstanceLocation",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "AXL interface to the C function that gets the current location of the module instance in the design."
+ },
+ {
+  "name": "axlGetModuleInstanceLogicMethod",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "AXL interface to the C function that determines the logic method used by the module instance."
+ },
+ {
+  "name": "axlGetModuleInstanceNetExceptions",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "AXL interface to the C function that gets the net exception of the module instance in the design."
+ },
+ {
+  "name": "axlGetParam",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Gets the parameter`dbid` for a named object. Supported parameter names are shown below. For descriptions of attributes of a parameter, see are Chapter 2, \"The Allegro PCB Editor Database User Model.\""
+ },
+ {
+  "name": "axlGetSelSet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Gets the list of object`dbids` in the select set."
+ },
+ {
+  "name": "axlGetSelSetCount",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the number of figure`dbids` in the select set."
+ },
+ {
+  "name": "axlGetSpacerData",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Gets the data for the given spacer and loads it into a defstruct."
+ },
+ {
+  "name": "axlGetTrapBox",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns coordinates of the*Find* window."
+ },
+ {
+  "name": "axlGetVariable",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Requests the value of the specified Allegro PCB Editor environment variable,`t_variable`. Returns a list containing the string assigned to the variable or `nil` if the variable is currently not set in Allegro PCB Editor. Use `axlGetVariableList` where the variable stores a list of items (such as a PATH variable) to preserve any spaces in each item."
+ },
+ {
+  "name": "axlGetVariableList",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Requests the value of the specified Allegro PCB Editor environment variable,`t_variable`. Unlike `axlGetVariable` this returns a list of strings, if the variable is an array, such as one of Allegro PCB Editor`s path variables. If variable is a single item, the return is the same as `axlGetVariable`."
+ },
+ {
+  "name": "axlGetWireProfileColor",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function will retrieve the color index associated with a bond wire profile. If no profile matching the name supplied is found in the database, nil is returned."
+ },
+ {
+  "name": "axlGetWireProfileDefinition",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Given a bonding wire profile name, this will returns its definition information."
+ },
+ {
+  "name": "axlGetWireProfileDirection",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function returns the direction of a wire profile definition defined in the database. Profiles may be either forward or reverse. If the profile definition name provided does not exist in the design, the return value will be`nil`."
+ },
+ {
+  "name": "axlGetWireProfileVisible",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function will retrieve the visibility status of a bond wire profile. If no profile matching the name supplied is found in the database, nil is returned."
+ },
+ {
+  "name": "axlGetXSection",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "* This is obsolete, use new axlXSectionGet() family of APIs. The command will be maintained for older SKILL code but it will not be enhanced to support new dataReturns a list of all layers in the cross section found in the current drawing."
+ },
+ {
+  "name": "axlHighlightObject",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Highlights the figures whose`dbids` are in `lo_dbid`."
+ },
+ {
+  "name": "axlHistory",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "* ***This is a developers aid only. Do NOT use it in a Skill program.***"
+ },
+ {
+  "name": "axlHttp",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Displays a URL from Allegro PCB Editor in an external web browser. First attempts to use the last active window of a running web browser, raising the browser window to the top if required. If no browser is running, tries to start one."
+ },
+ {
+  "name": "axlISProductStarted",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "* ***This should not be used, useaxlLicIsProductEnabled.***"
+ },
+ {
+  "name": "axlIgnoreFixed",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": ""
+ },
+ {
+  "name": "axlImpdedanceGetLayerBroadsideDPImp",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Computes the differential impedance of a broadside-coupled diffpair with the given line width and two specified layers on which the signal lines will be routed. A warning message may be given if the parameters are inappropriate for the calculation."
+ },
+ {
+  "name": "axlImpdedanceGetLayerBroadsideDPWidth",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Computes the differential impedance of a broadside-coupled diffpair with the given line width and two specified layers on which the signal lines will be routed. A warning message may be given if the parameters are inappropriate for the calculation."
+ },
+ {
+  "name": "axlImpdedanceGetLayerEdgeDPImp",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Computes the differential impedance of a edge-coupled diffpair with the given line width and spacing on a specified layer. A warning message may be given if the parameters are inappropriate for the calculation."
+ },
+ {
+  "name": "axlImpdedanceGetLayerEdgeDPSpacing",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Given the line width of the two signal lines of an edge-coupled diffpair on the specified layer, finds the spacing such that the differential impedance is closest to the target value. A warning message may be given if the parameters are inappropriate for the calculation."
+ },
+ {
+  "name": "axlImpdedanceGetLayerEdgeDPWidth",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Given the spacing of the two signal lines of an edge-coupled diffpair on the specified layer, finds the line width such that the differential impedance is closest to the target value. A warning message may be given if the parameters are inappropriate for the calculation."
+ },
+ {
+  "name": "axlImpedance2Width",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Converts the given impedance on a specified layer to a line width."
+ },
+ {
+  "name": "axlImportWireProfileDefinitions",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function will import the bond wire profiles defined in the xml file specified. If a profile is defined both in the XML file and in the current design, the design's definition will be updated to match the new definition being imported."
+ },
+ {
+  "name": "axlImportXmlDBRecords",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This command imports an Allegro Parameter file into the current design. It offers the same capability as (*File - Import - Parameter*). A side effect is creation of `param_read.log` file."
+ },
+ {
+  "name": "axlInTrigger",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Tests if the application or the utility in a axlTrigger callback. Returns`t` if currently in a trigger call. This function is only required in rare cases when you might have a utility that you want to run differently if called as part of a axlTrigger callback."
+ },
+ {
+  "name": "axlInTriggerFunc",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "If in a trigger callback, reports trigger function symbol.`nil`, if not in a trigger callback."
+ },
+ {
+  "name": "axlIsAttachment",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Determines if the given object is an AXL attachment."
+ },
+ {
+  "name": "axlIsBetween",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Used to check if a given point lies between two specified points. Returns`t` if the point is in between the two points or on one of the points."
+ },
+ {
+  "name": "axlIsCustomColored",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "If object has custom color, will return the object custom color, otherwise nil."
+ },
+ {
+  "name": "axlIsDBIDType",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Determines if`g_dbid` is an Allegro PCB Editor database `dbid`. Returns `t` if so and `nil` otherwise."
+ },
+ {
+  "name": "axlIsDebug",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This checks if AXL debug mode is enabled. This is associated with the`axldebug` Allegro environment variable."
+ },
+ {
+  "name": "axlIsDummyNet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Determines if a given net is a Dummy net. Name of net is an empty string (\"\")."
+ },
+ {
+  "name": "axlIsEtchLayer",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Determines if a layer is associated with the ETCH layers. Returns`t` if layer is associated with any of te ETCH layers -- `ETCH`, `PIN`,`VIA`, `DRC`, `VIA_KEEPOUT`, `ROUTE_KEEPOUT`, `ANTI_ETCH`, `BOUNDARY`, `CONSTRAINT_REGION`, `ROUTER_PLAN`, and `CAVITY`"
+ },
+ {
+  "name": "axlIsFormType",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Tests if argument`g_form` is a form `dbid`."
+ },
+ {
+  "name": "axlIsGridCellType",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Tests the passed symbol to see if its user type is of the form`\"grid cell\".`"
+ },
+ {
+  "name": "axlIsHighlighted",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "If the object is permanently highlighted returns the highlight color; otherwise`nil`."
+ },
+ {
+  "name": "axlIsLayer",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Determines if the`t_layer` exists. `t_layer` is a fully qualified layer name."
+ },
+ {
+  "name": "axlIsLayerNegative",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Determines whether or not the given plane layer is negative."
+ },
+ {
+  "name": "axlIsPinUnused",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Determines if the given pin is unused, indicating that it is on a dummy net."
+ },
+ {
+  "name": "axlIsPointInsideBox",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns`t` if a point is inside or on the edge of a box. Also see axlGeoPointInShape for `dbid`-based tests. You may use floating point."
+ },
+ {
+  "name": "axlIsPointOnLine",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns`t` if point is on a given line or `nil` if not on the line."
+ },
+ {
+  "name": "axlIsPolyType",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Tests if argument`g_polygon` is a polygon user type."
+ },
+ {
+  "name": "axlIsProductLineActive",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This routine determines if a product in a given product line has been started."
+ },
+ {
+  "name": "axlIsProtectAlias",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Tests if the alias is read-only (or writeable). This may also be used with funckeys."
+ },
+ {
+  "name": "axlIsSymbolEditor",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns`t` if in symbol editor, `nil` for all other editors."
+ },
+ {
+  "name": "axlIsViewFileType",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Tests whether`g_userType` is a long message window type."
+ },
+ {
+  "name": "axlIsVisibleLayer",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the visibility (`t/nil`) of a fully qualified layer."
+ },
+ {
+  "name": "axlIsitFill",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Determines if fill shape is allowed for a given class subclass."
+ },
+ {
+  "name": "axlJournal",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function manages the program's journal file. It has several modes of operation:"
+ },
+ {
+  "name": "axlKillDesign",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Same as (`axlOpenDesign``<``unnamed``> \"wf\"`), where <`unnamed`>is the standard Allegro PCB Editor name provided for an unnamed design. If the specific name is important, you can determine it using the axlCurrentDesign command."
+ },
+ {
+  "name": "axlLastPick",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This returns the last processed cursor pick. You can snap to current grid (`l_mode` ) \u21d2`t`) or leave it unsnapped. Position is returned in design units. The grid used depends on the active layer. A pick event causes the last pick. In Skill, a call to axlEnterPoint, axlEnterEvent, etc. may generate this. It allows switching from a snapped to an unsnapped event. If a user has made no pick since launching Allegro PCB Editor, then it returns `(0 0`)."
+ },
+ {
+  "name": "axlLastPickIsSnapped",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Normally called after an`axlEnter` call to determine if the pick was snapped or unsnapped."
+ },
+ {
+  "name": "axlLayerCreateCrossSection",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This is obsolete, useaxlXSectionCreate."
+ },
+ {
+  "name": "axlLayerCreateNonConductor",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates a new subclass for non-etch subclasses. AXL-SKILL restricts you from creating etch subclasses."
+ },
+ {
+  "name": "axlLayerDelete",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This command deletes a cross section layer. WhileaxlDeleteObject can be used to delete empty named layers, this API can delete both named and unnamed cross-section layers.The cross section has both ETCH layers and unnamed dielectric layers.The order of the cross section is returned by axlGetXSection, The `x_layerNumber` is the order within the cross-section with the first index number (e.g AIR) starting at 0."
+ },
+ {
+  "name": "axlLayerGet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Gets the layer parameter given the shortcut notation of*<*`class`*>*/*<*`subclass`*>*. This is an ease of use function that does:"
+ },
+ {
+  "name": "axlLayerPriorityClearAll",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Clears all layer priority information in Allegro database. UseaxlLayerPrioritySet for usage."
+ },
+ {
+  "name": "axlLayerPriorityGet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Obtains layer priority, where 0 is normal (not set). Priority can range from 1 (highest) to 255 (lowest)."
+ },
+ {
+  "name": "axlLayerPriorityRestoreAll",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Restores previously saved layer priority information. This function only works if a call toaxlLayerPrioritySaveAll has been done already."
+ },
+ {
+  "name": "axlLayerPrioritySaveAll",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Saves all layer priority information to be restored later. Until aaxlLayerPriorityRestoreAll is called, any subsequent calls to this function are no-op."
+ },
+ {
+  "name": "axlLayerPrioritySet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This changes the drawing priority of given layer. Priority is from 1 (highest) to 255 (lowest). Layers without priority in standard drawing order below all priority layers. The active layer is always drawn first."
+ },
+ {
+  "name": "axlLayerSet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Updates changes to layer parameters. You can only update the color and visibility attributes of a parameter. This is a wrapper for`axlSetParam`. After completing color or visibility changes, call `axlVisibleUpdate` to update the display."
+ },
+ {
+  "name": "axlLayerViaLabel",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Reports via label for a layer. A via label either defaults to the layer number, or can be assigned by the user through the cross section. You can query the cross section for an override."
+ },
+ {
+  "name": "axlLicDefaultVersion",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This returns the default version number used in licensing. Most applications in a release will use this version number when checking out licenses."
+ },
+ {
+  "name": "axlLicFeatureExists",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Checks if license feature exists. Does not verify that the license is available. If no version is provided, the tool default version (seeaxlLicDefaultVersion) is used."
+ },
+ {
+  "name": "axlLicIsProductEnabled",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Checks if license is checked-out by tool."
+ },
+ {
+  "name": "axlLineSlope",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the slope of a line. You may use floating point."
+ },
+ {
+  "name": "axlLineXLine",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function is no longer required, but is kept for backward compatibility."
+ },
+ {
+  "name": "axlLoadPadstack",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Loads a padstack by attempting to find the padstack by name in the existing database. Failing that, Allegro PCB Editor looks in the pad library on the disk."
+ },
+ {
+  "name": "axlLoadSymbol",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Searches for indicated symbol in database. If not present, searches PSMPATH and loads the symbol into the database. In the symbol editor, this can only be used for shape and mechanical symbols for use with padstacks."
+ },
+ {
+  "name": "axlLogHeader",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Writes the standard Allegro PCB Editor log file header to the passed open file. The header record includes:"
+ },
+ {
+  "name": "axlMKS2UU",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Converts between an MKS string to the current database user units. String can be any length name plus many common abbreviations (see`units.dat` file in the Allegro PCB Editor share/text hierarchy for supported names.)"
+ },
+ {
+  "name": "axlMKSAlias",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Searches the MKS unit database for the current definition associated with`unitName`. Unlike `axlMKSConvert`, this function does not convert."
+ },
+ {
+  "name": "axlMKSConvert",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Converts any allowable unit to any other allowable unit. It operates in several ways, depending on the arguments."
+ },
+ {
+  "name": "axlMKSStr2UU",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Converts an input string to a MKS string in current database units. If the input string is in MKS units, that is used as the basis for the conversion. If the string has no units, the function uses the default database units for the string."
+ },
+ {
+  "name": "axlMPythag",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Calculates distance between two points using pythagoras. This is faster then building this code in Skill."
+ },
+ {
+  "name": "axlMUniVector",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This calculates a unit-vector. A unit vector allows one to calculate points additional points along that line."
+ },
+ {
+  "name": "axlMXYAdd",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This does a`l_pt1 + lpt2` and returns the result."
+ },
+ {
+  "name": "axlMXYMult",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This is a convenience function that does a`l_pt.x * f_factor` and `lpt.y * factor` and returns the result. If provided an origin, it adds the origin."
+ },
+ {
+  "name": "axlMXYSub",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This does a`l_pt1 - lpt2` and returns the result."
+ },
+ {
+  "name": "axlMakeDynamicsPath",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": ""
+ },
+ {
+  "name": "axlMapClassName",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Use this function to write a SKILL program that runs in Allegro PCB Editor and APD. You can map from class names to the name appropriate to the program running your SKILL program. For example, you can write a program using Allegro PCB Editor class names and have the program run in APD."
+ },
+ {
+  "name": "axlMatchGroupAdd",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Adds members to a matched group. Eligible members are:"
+ },
+ {
+  "name": "axlMatchGroupCreate",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates a new match group. If a match group already exists with the same name,`nil` is returned. Match groups need to be populated, or they are deleted when saving. Use the axlMatchGroupAdd command to populate the match groups."
+ },
+ {
+  "name": "axlMatchGroupDelete",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This deletes a match group. The command fails in product tiers that do not support electrical constraints or the symbol editor."
+ },
+ {
+  "name": "axlMatchGroupProp",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Adds or removes the RELATIVE_PROPAGATION_DELAY property from a member of a match group. Property must be a legal RPD syntax that includes the RPD name."
+ },
+ {
+  "name": "axlMatchGroupRemove",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Removes elements from an existing match group. Elements must be members (attribute groupMembers) of the match group."
+ },
+ {
+  "name": "axlMaterialGet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns various infomation about materials file. Depending on the argument passed, command works in different modes to retrieve the following."
+ },
+ {
+  "name": "axlMathConstants",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": ""
+ },
+ {
+  "name": "axlMathDotProduct",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This calculates the dot or scaler product."
+ },
+ {
+  "name": "axlMemSize",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns an estimate of memory use. Returns not what the program is*using*, rather what it is *requesting* from the operating system."
+ },
+ {
+  "name": "axlMeterCreate",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Starts progress meter with optional cancel feature."
+ },
+ {
+  "name": "axlMeterDestroy",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Closes the progress meter form and shuts off Cancel mode if enabled."
+ },
+ {
+  "name": "axlMeterIsCancelled",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "If cancel was enabled at meter creation, the status of cancel is returned (`t` if cancelled; otherwise `nil`)."
+ },
+ {
+  "name": "axlMeterUpdate",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Updates progress meter bar and/or info text. The percent done and/or the info string may be updated."
+ },
+ {
+  "name": "axlMidPointArc",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns mid-point on a arc. Note mid-point may not be on a database coordinate. All parameters may be obtained from a arc dbid."
+ },
+ {
+  "name": "axlMidPointLine",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns mid-point of line. Note mid-point might not be a database coordinate."
+ },
+ {
+  "name": "axlMiniStatusLoad",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Loads the Ministatus form with the form file provided in this call. Replaces the current Ministatus form contents. This function is a special case of`axlForms`. See Chapter 11, \"Form Interface Functions,\" for details on how AXL forms work."
+ },
+ {
+  "name": "axlMiniStatusReset",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This resets the Option panel settings and find filter settings to a new design's default."
+ },
+ {
+  "name": "axlMsgCancelPrint",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Prints a message informing the user that he requested*cancel*. Since the severity of this message is *Error* (3), AXL writes it to the context buffer as it does other warning, error, and fatal messages. Call this function only from a routine that requests user input."
+ },
+ {
+  "name": "axlMsgCancelSeen",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Checks to see if the`axlMsgCancelPrint` message was printed. Does not poll the input stream for a *CANCEL* key. Checks the buffer of current messages for the occurrence of the `axlSsgSys.cancelRequest` message."
+ },
+ {
+  "name": "axlMsgClear",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Clears the current error severity level. You can reset the severity by first saving it using`axlMsgTest`, then setting it using `axlMsgSet`."
+ },
+ {
+  "name": "axlMsgContextClear",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Clears the buffered messages for a context."
+ },
+ {
+  "name": "axlMsgContextFinish",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Indicates the finish of a message context. Prints any buffered messages in the context and clears the context buffer."
+ },
+ {
+  "name": "axlMsgContextGet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Gets the format strings of the buffered messages. (Not the messages themselves. Compare the example here and the one shown for `axlMsgContextGetString`.) Does not remove the messages from the message buffer, rather it simply provides the caller an alternative to making a number of `axlMsgContextInBuf` calls."
+ },
+ {
+  "name": "axlMsgContextGetString",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Gets the messages in the message buffer and removes them from the buffer. Call`axlMsgContextGetString` subsequently to communicate those messages to the user (for example, in a log file)."
+ },
+ {
+  "name": "axlMsgContextInBuf",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Checks whether message`t_format_string` is in the message buffer of context `r_context`. Gives the application the ability to control code flow based on a particular message reported by a called function. The check is based on the original format string, not the fully substituted message."
+ },
+ {
+  "name": "axlMsgContextPrint",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Prints the buffered messages and removes them from the message buffer."
+ },
+ {
+  "name": "axlMsgContextRemove",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Removes a message (or messages) from the buffered messages. Lets you remove messages (usually warnings) from the buffer that you decide, later in a procedure, that you do not want the user to see."
+ },
+ {
+  "name": "axlMsgContextStart",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Indicates the start of a message context. Prints any buffered messages for the context."
+ },
+ {
+  "name": "axlMsgContextTest",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the most severe message class of the messages in the context message buffer. SeeaxlMsgContextInBuf to check for a particular message class."
+ },
+ {
+  "name": "axlMsgPut",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Puts a message in the journal file. Use this function to \"print\" messages. It buffers any errors or warnings, but processes other message classes immediately."
+ },
+ {
+  "name": "axlMsgSet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets the current error severity level. Use only to reset the severity cleared using`axlMsgClear`."
+ },
+ {
+  "name": "axlMsgTest",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Determines the current error severity level. Returns a single number giving the severity level of the most severe message that has been printed since the last`axlMsgClear` or `axlMsgContextClear`/`Print`/`GetMsg` call."
+ },
+ {
+  "name": "axlNetClassAdd",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Adds members to a netclass group. Eligible members are:"
+ },
+ {
+  "name": "axlNetClassCreate",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This creates a new netclass group. If a netclass exists with this name then`nil` is returned. Net Classes need to be populated via `axlNetClassAdd`. Empty net classes may be deleted on database save. A netclass must be part of one or more domains. These domains are shown below. The Same Net Constraint domain uses the netclass spacing domain. An object (bus, diffpair, xnet or net) may be a member of single netclass in a domain. For example, if net VCC exists in the POWER netclass in the physical domain then you cannot add it to another netclass in the physical domain. You can still add this net of a netclass in the spacing or electrical domain. You can obtain the current set of netclasses in the database via: `axlDBGetDesign()->netclass`. axlNetClassGet reports if an object is a member of a netclass either directly or via the logic hierarchy."
+ },
+ {
+  "name": "axlNetClassDelete",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This deletes a net class group. It does not delete the objects belonging to the group. It is up to the application code to update DRC."
+ },
+ {
+  "name": "axlNetClassGet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Given a dbid (net, xnet, diffpair or bus) and a domain (spacing, physical or electrical) return its netclass. If g_hierarchical is nil, returns object's netclass if a direct member. If g_hierarchal=t returns first netclass encountered in logical hierarchy. For example, if a net is a member of a bus and the bus is assigned to netclass, BUSCLASS, and you pass a net of the bus to this API:"
+ },
+ {
+  "name": "axlNetClassRemove",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Removes elements from an existing net class group. Element must currently be a direct member of the group. This will mark DRC out of date. It is up to the application to update the DRC system."
+ },
+ {
+  "name": "axlNetEcsetValueGet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the value of a specific electrical constraint that has been assigned to a given net. Both fixed and user defined constraints may be accessed. This will not return a \"flattened\" net view of constraints applied to pinpairs. Use`axlCnsNetFlattened` to obtain this constraint view."
+ },
+ {
+  "name": "axlNetSched",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This is the main routine that the command processor calls for the`net schedule` command."
+ },
+ {
+  "name": "axlOK2Void",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Determines if voids are allowed for a given`class/subclass`. Determines if a layer supports voids for shapes."
+ },
+ {
+  "name": "axlOKToProceed",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Checks whether Allegro PCB Editor is processing another interactive command or engaged in some process that might interfere with a SKILL command. Use this to check before starting functions such as`dbcreate`, user interactions, and select set operations. Returns `t` if Allegro PCB Editor is ready to properly execute a SKILL command, and returns `nil` if it is not."
+ },
+ {
+  "name": "axlOSBackSlash",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This changes UNIX style forward slashes to DOS style backslashes. While most applications support either style, certain older Windows applications only support DOS style path."
+ },
+ {
+  "name": "axlOSControl",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Inquires and/or sets the value dealing with the graphics. If setting a value, the return is the old value of the control."
+ },
+ {
+  "name": "axlOSFileCopy",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Copies a given source file to a given destination with optional append."
+ },
+ {
+  "name": "axlOSFileMove",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Moves the given source file to the given destination."
+ },
+ {
+  "name": "axlOSNtp",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Reports time from a NTP server."
+ },
+ {
+  "name": "axlOSSlash",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Changes DOS style backslashes to UNIX style slashes which are more amenable to SKILL. On UNIX, returns the incoming string."
+ },
+ {
+  "name": "axlOpenDesign",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Opens a design. The new design replaces the current design. If the current design has unsaved edits, you are asked to confirm before discarding them unless the current design was opened in \"`r`\" mode (not supported in this release) or unless `g_mode` is \"`wf\"`. If you cancel the confirmer, the function returns `nil` and the current design remains open."
+ },
+ {
+  "name": "axlOpenDesignForBatch",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Opens a design. The new design replaces the current design. Since this is for batch usage, commands and menus are not changed. If the current design has unsaved edits, then you are asked to confirm the discard unless the current design was opened in`\"r\"` mode (not supported in this release) or `g_mode` is `\"wf\"`. If you cancel the confirmer, then the function returns `nil` and the current design is left open."
+ },
+ {
+  "name": "axlOpenFindFilter",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function is no longer required, but is kept for backward compatibility."
+ },
+ {
+  "name": "axlPPrint",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Converts a string with Allegro PCB Editor's pretty print text function as follows:"
+ },
+ {
+  "name": "axlPackageDesignCheckAddCategory",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function will register a new category inside the IC Packaging tools' \"package integrity\" command check tree."
+ },
+ {
+  "name": "axlPackageDesignCheckAddCheck",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function will register a new check in the specified category of the IC Packaging tools' \"package integrity\" command check tree."
+ },
+ {
+  "name": "axlPackageDesignCheckDrcError",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function will create an external DRC marker for an error found by the currently running package integrity check. The tool itself will track the check being run so that it knows the name to use for the rule violation."
+ },
+ {
+  "name": "axlPackageDesignCheckLogError",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function will log an error found by this function to the log file if the log file is enabled. By using this interface, you are ensuring that the API will format your message consistently."
+ },
+ {
+  "name": "axlPadFigureTypes",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns list of strings of supported pad figure types.Not all pad types and layers may support a figure type. This is a documentation support function."
+ },
+ {
+  "name": "axlPadOnLayer",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Tests if a pad is present on an etch layer. A pad is present on the layer if the padstack has a regular, anti or thermal pad and it is not suppressed by the rules of Pad Suppression."
+ },
+ {
+  "name": "axlPadSuppressGet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns pad suppress layer characteristic for a layer or design. Pad suppression is not available in symbol editor."
+ },
+ {
+  "name": "axlPadSuppressOkLayer",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Indicates if layer can be set for pad suppression. Only internal conductor and shape layers that are not set for negative artwork, support pad suppression."
+ },
+ {
+  "name": "axlPadSuppressSet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This modifies the pad suppression settings in the design. Allows control of both dynamic suppression setting (g_mode) and the individual layer options (subsequent arguments)."
+ },
+ {
+  "name": "axlPadUserMaskLayers",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Supports following modes:"
+ },
+ {
+  "name": "axlPadstackEdit",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Inquire and set display options. Edits global settings of an existing padstack."
+ },
+ {
+  "name": "axlPadstackSetType",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Changes a padstack type. In its 2 argument mode is the same as:"
+ },
+ {
+  "name": "axlPadstackToDisk",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Saves a board padstack out to a library."
+ },
+ {
+  "name": "axlPadstackUsageTypes",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns list of strings of supported padstack usage types. This is a documentation support function."
+ },
+ {
+  "name": "axlParamFilletDoc",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function supports access to the fillet parameter record. The database is updated whenaxlSetParam is called."
+ },
+ {
+  "name": "axlPathArcAngle",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": ""
+ },
+ {
+  "name": "axlPathArcCenter",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Each of these functions provides a way to construct an arc segment from the current endpoint of`r_path` to the given `l_end_point` in the direction specified by the Boolean `g_clockwise`, as described below and shown in Figure 15-1."
+ },
+ {
+  "name": "axlPathArcRadius",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": ""
+ },
+ {
+  "name": "axlPathGetLastPathSeg",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Gets the last segment of a path structure."
+ },
+ {
+  "name": "axlPathGetPathSegs",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Gets a list of the segments of a path structure, in the order they appear in the path."
+ },
+ {
+  "name": "axlPathGetWidth",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Gets the default width of an existing path structure."
+ },
+ {
+  "name": "axlPathLine",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Adds a single straight line segment to the end of an existing`r_path` structure as specified by the arguments. Start point of the line is the last point in `r_path`."
+ },
+ {
+  "name": "axlPathOffset",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Adds an offset,`xy`, to all points within a `r_path`."
+ },
+ {
+  "name": "axlPathSegGetArcCenter",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Gets the center point of a path arc segment."
+ },
+ {
+  "name": "axlPathSegGetArcClockwise",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Gets the clockwise flag (`t` or `nil`) of a path segment."
+ },
+ {
+  "name": "axlPathSegGetEndPoint",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Gets the end point of an existing path structure."
+ },
+ {
+  "name": "axlPathSegGetWidth",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Gets the width of a single segment in a path structure."
+ },
+ {
+  "name": "axlPathStart",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates a new path with a startpoint and one or more segments as specified by the list`l_points` and returns the path `dbid`. You can add more straight-line and arc segments to the returned `r_path` using the `axlPathArc` and `axlPathLine` functions described in this section. Once`r_path` has all the segments you require, create the actual database figure using the appropriate `axlDBCreate` function, with `r_path` as one of the arguments."
+ },
+ {
+  "name": "axlPathStartCircle",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates an`axlPath` structure (`r_path`) for a circle."
+ },
+ {
+  "name": "axlPdfView",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Displays a PDF file from Allegro PCB Editor. If just the filename is given, attempts to find the PDF file using Allegro PCB Editor's`PDFPATH` variable. Displays the PDF file in an external PDF viewer."
+ },
+ {
+  "name": "axlPinExport",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This exports all pins in the symbol editor in csv format. The format of the csv file is described inaxlPinImport."
+ },
+ {
+  "name": "axlPinImport",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This imports pin csv (comma separated values) file into the symbol editor. With this file you can describe the location and other characteristics of a set of pins (including mechanical) that comprise a symbol."
+ },
+ {
+  "name": "axlPinPair",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This creates or deletes a pinpair. A pinpair consists of two un-ordered pins or ratTs on the same net. For example, pinpair`u1.2:r1.2` is the same pinpair as `r1.2:u1.2`. If the pinpair already exists then the existing pinpair is returned. The command fails in product tiers that do not support electrical constraints or the symbol editor."
+ },
+ {
+  "name": "axlPinPairSeek",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Given two pins or ratTs reports if they are part of a pinpair."
+ },
+ {
+  "name": "axlPinsOfNet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns list of pins and ratTs on a net or xnet. First argument can be either a net, xnet`dbid` or a net name (xnet names are not supported). Second option, `g_mode`, can be `'pin` to return only the pins, `'ratT` to return list of ratTs or nil to return both pins and ratTs. There is no meaning conveyed in the list of items returned."
+ },
+ {
+  "name": "axlPolyErrorGet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Retrieves the error from the logop core. See the following list of error strings returned by the logical operation core:"
+ },
+ {
+  "name": "axlPolyExpand",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function yields a list of polys after expanding them by a specified distance. Use of a negative number causes contraction. Distance is specified in user units. This function does not allow hole polys as input. When holes are passed as input, the following warning is displayed:"
+ },
+ {
+  "name": "axlPolyFromDB",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates a list of`o_polygon` objects from the `dbid`or an `r_path`. Use the `lo_polygon` list to get the poly attributes or to perform logical operations on these polys. In the case of r_path option, we expect a path that reflects a closed shape with no intersections. It is important that the first and last point be the same. The width option of `r_path` is ignored as well as the '?' arguments to `axlPolyFromDB.`"
+ },
+ {
+  "name": "axlPolyFromHole",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates a new poly from the vertices of the hole, and sets the`isHole` attribute of the resulting poly to `nil`. Function returns `nil` in case of error."
+ },
+ {
+  "name": "axlPolyMemUse",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This returns a list of integers reflecting the internal memory use of the`axlPoly` interfaces. If you assign Poly objects to global handles (instead of assigning to locals, e.g `let` or `prog` statements) then you need to insure all of global data is `nil`-ed at the end of your program. The example below shows how to check that you have written your program correctly."
+ },
+ {
+  "name": "axlPolyOffset",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This offsets the entire poly by the provided xy coordinate. Optionally if`g_copy` is `t`it will copy the poly, default is to offset the provided poly."
+ },
+ {
+  "name": "axlPolyOperation",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Performs the logical operation specified on the two sets of polygons. Does not allow hole polygons as input. When holes are passed as input, the following warning is displayed:"
+ },
+ {
+  "name": "axlPrintDbid",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This is a debug function to print one or a list of dbids. Output format is terse and parsable. This will not print all attribute data in a dbid but is customized to aid in understanding the dbid data."
+ },
+ {
+  "name": "axlProtectAlias",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Controls the read-only attribute of an alias."
+ },
+ {
+  "name": "axlPurgePadstacks",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Purges unused padstacks from the database in the area controlled by`S_mode` symbol."
+ },
+ {
+  "name": "axlRadToDeg",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Converts an angle in radians to degrees."
+ },
+ {
+  "name": "axlRatsnestBlank",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Blanks all ratsnest lines in a net."
+ },
+ {
+  "name": "axlRatsnestDisplay",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Displays all ratsnest lines in a net."
+ },
+ {
+  "name": "axlReadOnlyVariable",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This sets, unsets or queries the read-only state of a Allegro PCB Editor environment variable. When you set a variable as read-only, it cannot be changed."
+ },
+ {
+  "name": "axlRecursiveDelete",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Recursively removes directories and subdirectories in the argument list. Directory is emptied of files and removed. If the removal of a non-empty, write-protected directory is attempted, the utility fails. If it encounters protected files or sub-directories, it does not remove them or the parent directories, but removes all other objects."
+ },
+ {
+  "name": "axlRefreshSymbol",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Refreshes a symbol from file on disk which is located by current PSMPATH. Works the same as the refresh_symbol functionality except updates one symbol definition. Unlike refresh_symbol this does not support the reset custom drill option since this is done at the padstack level not the symbol level."
+ },
+ {
+  "name": "axlRegexpIs",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Determines whether an environment variable expression contains Allegro PCB Editor compatible wildcard characters. Certain select-by-name functions support wildcard characters. You can test for the presence of wildcards before calling the select-by-name type of functions."
+ },
+ {
+  "name": "axlRegionAdd",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Adds members to a region group. Eligible members are:"
+ },
+ {
+  "name": "axlRegionCreate",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates a new region group. If a region exists with this name then`nil` is returned. Regions may contain shapes on CONS_REGION class. Shapes are added to the region group via the axlRegionAdd. Empty regions may be deleted on database save. You can obtain the current set of regions in the database via: `axlDBGetDesign()->region`. None of the region APIs are enabled in the PCB L product."
+ },
+ {
+  "name": "axlRegionDelete",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This deletes a region group. It does not delete the objects belonging to the group."
+ },
+ {
+  "name": "axlRegionRemove",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Removes shapes from an existing region group. Element must currently be a direct member of the group. This will mark DRC out of date. It is up to the application to update the DRC system."
+ },
+ {
+  "name": "axlRemoveNet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Removes a net. May either give a string with the net name to be renamed or`dbid` of an object on that net."
+ },
+ {
+  "name": "axlRenameDesign",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Changes the current design name. Has no effect on the existing disk version of the current design. The new current design name will be displayed in the window border and becomes the default name for`axlSaveDesign`."
+ },
+ {
+  "name": "axlRenameNet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Renames a net. For the old object, may either give a string with the net name to be renamed, or`dbid` of an object on that net. Fails if the new net name already exists in the database."
+ },
+ {
+  "name": "axlRenameRefdes",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Renames a refdes. For either argument, may use a refdes name or a component instance."
+ },
+ {
+  "name": "axlReplacePadstack",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Replaces the padstack on a pin or via (or a list of them). Will not print any error messages unless you have argument errors."
+ },
+ {
+  "name": "axlReportList",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Lists all the SKILL reports registered to the Allegro PCB Editor report interface. Even if you do not register any reports, Allegro PCB Editor registers default reports written in SKILL."
+ },
+ {
+  "name": "axlReportRegister",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Allows registration of user reports using the Allegro PCB Editor report dialog box. You provide a report name, title, and a report-generating callback function. Callback function format is:`g_reportCallback(t_outfile).`The callback should, if it generates the report, should return a `t` from the function. If it does not generate a report return a `nil` ."
+ },
+ {
+  "name": "axlReratNet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Rerats a net. Normally this is not required since Allegro PCB Editor automatically updates ratsnesting as required."
+ },
+ {
+  "name": "axlRunBatchDBProgram",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Spawns batch jobs that require an open database via an abstract model. When the job completes, it prints a message and optionally reloads (`?reloadDB`) the database if successful. If the database is saved from the current active database, it uses a temporary name to avoid overwriting the database on disk."
+ },
+ {
+  "name": "axlSaveDesign",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Saves the design with the name specified (`t_design`). If `t_design` is not specified, the current design name is used. If `t_design` is provided but the value is `nil`, you are prompted for the name. If `t_option` is `\"nocheck\"`, the database \"quick check\" is not provided. Use this option only when there is a very compelling reason."
+ },
+ {
+  "name": "axlSaveEnable",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This queries or sets the design to save design. When`t,` the *File - Save design* menu command is enabled. If `nil,` it is disabled."
+ },
+ {
+  "name": "axlSchedule",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Gets net schedule. When`g_userSchedule` is`t,`this fetches the `a` user schedule or a partial user schedule from a net. Returns nil if the net is completely algorithm scheduled. Using`t` is recommended. When `g_userSchedule` is nil, returns the schedule of the complete net even if the net is completely algorithm scheduled."
+ },
+ {
+  "name": "axlScheduleNet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This applies a user schedule or a partial user schedule to a net. Format of`t_schedule` is a string in the $SCHEDULE netin (3rd party) format."
+ },
+ {
+  "name": "axlSegDelayAndZ0",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the delay and impedance of a cline segment. Returns`nil` if a segment isn't a cline segment. Normally, delay is in nanoseconds and impedance is in ohms."
+ },
+ {
+  "name": "axlSelect",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "General tool for AXL programs to solicit interactive object selections from the user.`axlSelect` automatically sets up the pop-up to provide any of the possible Allegro PCB Editor selection methods:"
+ },
+ {
+  "name": "axlSelectByName",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Selects database objects by name."
+ },
+ {
+  "name": "axlSelectByProperty",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Selects the`dbid` set of a particular Allegro PCB Editor database object with the indicated property."
+ },
+ {
+  "name": "axlSetActiveLayer",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets the active class and subclass of the design."
+ },
+ {
+  "name": "axlSetAlias",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "You can set the Allegro PCB Editor environment alias with the name given by the string`t_alias` to the value `g_value` using the `axlSetAlias` function. `g_value` can be a string, int, t, or nil. Returns the string assigned to the alias or `nil` if the alias cannot be set in Allegro PCB Editor."
+ },
+ {
+  "name": "axlSetAllProfilesVisible",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Turns all wire profiles in the design on or off."
+ },
+ {
+  "name": "axlSetAttachment",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Modifies an existing Allegro PCB Editor database attachment with the data contained in the given AXL attachment id. Original attachment object must be obtained from the`axlCreateAttachment`, `axlGetAttachment`, or `axlGetAllAttachments` function. The attachment revision number and the attachment data may both be modified."
+ },
+ {
+  "name": "axlSetBondWireProfile",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This command allows you to change the bond wire profile on one or more bond wires in the design. The bond wire profile definition must already exist in the design."
+ },
+ {
+  "name": "axlSetDefaultDieInformation",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets the default die information for a component."
+ },
+ {
+  "name": "axlSetDieData",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets the given data for the given die."
+ },
+ {
+  "name": "axlSetDieStackData",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function sets the given data for the specified die."
+ },
+ {
+  "name": "axlSetDieType",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function sets the attachment type for a die component to one of the available types. Currently, the supported attachment types are:"
+ },
+ {
+  "name": "axlSetDynamicsMirror",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets the Dynamics mirroring."
+ },
+ {
+  "name": "axlSetDynamicsRotation",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets the Dynamics rotation. If angle is nil then returns current rotation."
+ },
+ {
+  "name": "axlSetFindFilter",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets up both the object types to be displayed in the Find Filter, and which types among those are set to*on* in the **Find Filter**."
+ },
+ {
+  "name": "axlSetFunckey",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Works similar to`axlSetAlias` except allows alpha-number keys to work like function keys (no Enter key required). See `axlSetAlias` for complete documentation."
+ },
+ {
+  "name": "axlSetIposerData",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets the given data for the given iposer."
+ },
+ {
+  "name": "axlSetLineLock",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets one or more of the line lock parameters. The parameters are the same as those accessible in the*Line Lock* section of the Allegro PCB Editor Status form."
+ },
+ {
+  "name": "axlSetParam",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This allows applications to modify certain aspects of Allegro parameters. After a parameter has been retrieved, attributes of it can be changed locally. Those changes can then be put back into the database using`axlSetParam`."
+ },
+ {
+  "name": "axlSetPlaneType",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This changes the photoplot type of a conductor or plane type layer between positive or negative artwork. Changing a layer already containing data will require re-voiding existing shapes and updating DRC."
+ },
+ {
+  "name": "axlSetRotateIncrement",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets the dynamic rotate angle increment in degrees (`f_angular`) or radians (`f_radial`). Sets the rotate increment for rotation of objects in the dynamic buffer."
+ },
+ {
+  "name": "axlSetSpacerData",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function sets the given data for the given spacer."
+ },
+ {
+  "name": "axlSetSymbolType",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets the Allegro PCB Editor symbol type. Has some minor effect on the commands available and the edit checks performed when the symbol is \"compiled\" (axlCompileSymbol)."
+ },
+ {
+  "name": "axlSetVariable",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets the Allegro PCB Editor environment variable with name given by the string`t_variable` to the value `g_value`. `g_value` can be a string, int, `t`, or `nil`. Returns the string assigned to the variable or `nil` if the variable cannot be set in Allegro PCB Editor."
+ },
+ {
+  "name": "axlSetVariableFile",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets and saves to file Allegro environment variable. This operates the same asaxlSetVariable except it also saves the setting to the user's local environment file."
+ },
+ {
+  "name": "axlSetWireProfileColor",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This function will set the color of a wire profile to the given value."
+ },
+ {
+  "name": "axlSetWireProfileVisible",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": ""
+ },
+ {
+  "name": "axlShapeAutoVoid",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Autovoids a static shape using current static shape parameters to control voiding except where options provide an override. Voiding dynamic shapes or dynamically-generated shapes is not supported."
+ },
+ {
+  "name": "axlShapeChangeDynamicType",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Swaps a connectivity shape from static to dynamic or the reverse. This offers the same functionality as the Allegro PCB Editor command`shape change type`."
+ },
+ {
+  "name": "axlShapeDeleteVoids",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Lets you delete voids in a shape. Supports the following three forms of arguments:"
+ },
+ {
+  "name": "axlShapeDynamicUpdate",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Updates a dynamic shape, or if`nil`, all dynamic shapes are updated. This ignores the current dynamic shape mode setting of the design."
+ },
+ {
+  "name": "axlShapeMerge",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This merges shapes. Shapes must be overlapped without the fixed property to merge. All merging shapes (`lo_shapes`) must overlap the primary shape (`o_shapeId`)."
+ },
+ {
+  "name": "axlShapeRaisePriority",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Raises the voiding priority of a dynamic shape (`o_shapeId`) to the highest on the chosen layer. If this shape overlaps other dynamic shapes on the layer, the other shapes void away from this shape."
+ },
+ {
+  "name": "axlShell",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Issues the Allegro PCB Editor command string`t_commands` to the connected editor. You can chain commands. This call is synchronous."
+ },
+ {
+  "name": "axlShellPost",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This works similar to`axlShell` except it first requires a return from the Skill interpreter before executing the command(s). It should only be used in the special circumstance where you want to do some processing in Skill, execute an Allegro PCB Editor interactive command and have that command be left active for the user. If more the one command is embedded in post command then subsequent commands should be prefixed with an underscore to inhibit scripting. For example:"
+ },
+ {
+  "name": "axlShoveItems",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Takes a list of`dbids` and shoves them according to the parameters set using `axlShoveSetParams`."
+ },
+ {
+  "name": "axlShoveSetParams",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets the parameters used for shoving by the`axlShoveItems`. If you do not provide all values, the indicated default is used."
+ },
+ {
+  "name": "axlShowObject",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Displays the object data for each`dbid` in `lud_dbid` in a *Show Element* window. Does the same function as the interactive command `list element.``lud_dbid` can be either a single `dbid` or a list of `dbids`."
+ },
+ {
+  "name": "axlShowObjectToFile",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates a temporary file with show element information on`dbids` specified in `lo_dbid`."
+ },
+ {
+  "name": "axlSingleSelectBox",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Clears the select set, finds all figures inside the rectangle`l_bBox` according to the Find Filter, and adds the selected figure `dbids` in single mode to the select set."
+ },
+ {
+  "name": "axlSingleSelectName",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Finds figures by their names. Clears the current contents of the select set and adds named figure`dbids` to the select set in single mode using the arguments as described below. The function selects any figures completely, regardless of the selection mode. If the function selects a figure already partially selected, the figure becomes fully selected."
+ },
+ {
+  "name": "axlSingleSelectObject",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Clears contents of the select set and adds the`dbids` in `lo_dbid` to the select set in single mode. `lo_dbid` is either a single `dbid` or a list of `dbids`. Selects figures completely regardless of the selection mode. If the `dbid` of any part of a figure is in `lo_dbid`, the function adds the entire figure."
+ },
+ {
+  "name": "axlSingleSelectPoint",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Clears the select set, finds a figure at`l_point` according to the Find Filter, and puts the selected figure `dbid` in the select set. If `l_point` is `nil`, the function requests a single pick from the user."
+ },
+ {
+  "name": "axlSleep",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sleeps specified time."
+ },
+ {
+  "name": "axlSmoothDesign",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Smooths the entire design. For good results on complicated designs, multiple passes are necessary. Since changes in one pass may open space that can be used in the next pass. Suggest 3 is a typical number although very complex designs can benefit from a higher number of passes. But the more passes the longer it will take."
+ },
+ {
+  "name": "axlSmoothItems",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Takes a list of dbids representing clines and/or cline segments and smooths them according to the parameters set using theaxlSmoothSetParams() function."
+ },
+ {
+  "name": "axlSmoothSetParams",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets the parameters used for smoothing the routes. All parameters must be supplied but a nil as a parameter option will leave the existing setting."
+ },
+ {
+  "name": "axlSnapToObject",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Supports snapping to a logic object's connect point. A logic object is a:"
+ },
+ {
+  "name": "axlSort",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sorts contents of a given input file and places results in the output file. No warning is given if the output file overwrites an existing file - any checking must be done by the caller of this function."
+ },
+ {
+  "name": "axlSpreadsheetClose",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Releases the spreadsheet document in memory. All information is freed. This function should be called whenever you have completed working with the active spreadsheet document."
+ },
+ {
+  "name": "axlSpreadsheetDefineCell",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Completely defines a single cell in the active worksheet. This function is more efficient than callingaxlSpreadsheetSetCell with multiple axlSpreadsheetSetCellProp calls afterwards."
+ },
+ {
+  "name": "axlSpreadsheetDoc",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "The axlSpreadsheet family of functions allow you to read and write Microsoft's open XML-based spreadsheet format from within skill. You can create a spreadsheet from data within your active Allegro tool, or you can read a spreadsheet and extract information from it to update your database."
+ },
+ {
+  "name": "axlSpreadsheetGetCell",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Retrieves the data from the specified cell."
+ },
+ {
+  "name": "axlSpreadsheetGetRGBColorString",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Given red, green, and blue color values, return an RGB string for use in spreadsheet style definitions in format required for Microsoft open spreadsheet format."
+ },
+ {
+  "name": "axlSpreadsheetGetRGBForNamedColor",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Spreadsheets have a small set of known, pre-defined color values. To retrieve the RGB value for a specific named color, pass that color name to this function."
+ },
+ {
+  "name": "axlSpreadsheetGetStyles",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Retrieves a list of all the styles defined for the active spreadsheet. If no worksheets currently exist,`nil` is returned."
+ },
+ {
+  "name": "axlSpreadsheetGetWorksheetSize",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Return the \"size\" of the current worksheet, in terms of the highest row and column which have data."
+ },
+ {
+  "name": "axlSpreadsheetGetWorksheets",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Retrieves a list of all the worksheets defined in the active spreadsheet. If no worksheets currently exists,`nil` is returned."
+ },
+ {
+  "name": "axlSpreadsheetInit",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Initializes an empty spreadsheet document to begin filling it with worksheets, styles, and cell data. A new spreadsheet, when first initialized, does not include any of this information. It is completely empty."
+ },
+ {
+  "name": "axlSpreadsheetRead",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Read a spreadsheet file on disk into memory for data access and manipulation. File is expected to be in Microsoft XML open spreadsheet format. For text-delimited files, useaxlSpreadsheetReadDelimited."
+ },
+ {
+  "name": "axlSpreadsheetReadDelimited",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Read a text file on disk into memory for data access and manipulation as a spreadsheet. File is expected to be a delimited text file, with cell delimiters as specified in the`t_delimiter` argument. For XML spreadsheets, use axlSpreadsheetRead."
+ },
+ {
+  "name": "axlSpreadsheetSetCell",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Make the active row/column of the current worksheet active."
+ },
+ {
+  "name": "axlSpreadsheetSetCellProp",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets a property on the active cell in the spreadsheet."
+ },
+ {
+  "name": "axlSpreadsheetSetColumnProp",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets a property for the given column of the active worksheet."
+ },
+ {
+  "name": "axlSpreadsheetSetDocProp",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets a property on the document (spreadsheet) itself."
+ },
+ {
+  "name": "axlSpreadsheetSetRowProp",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets a property for the given row of the active worksheet."
+ },
+ {
+  "name": "axlSpreadsheetSetStyle",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Defines or activates the specified style in the active spreadsheet. Styles may be referenced in any worksheet of the spreadsheet. You do not need to redefine the style for each new worksheet you create."
+ },
+ {
+  "name": "axlSpreadsheetSetStyleBorder",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets the cell border properties for a active style definition."
+ },
+ {
+  "name": "axlSpreadsheetSetStyleParent",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets the active style's parent. Style will inherit default properties from its parent style, therefore only changes need to be specified in the child style. Parent must already be defined for spreadsheet."
+ },
+ {
+  "name": "axlSpreadsheetSetStyleProp",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets a specific style property in the active style definition."
+ },
+ {
+  "name": "axlSpreadsheetSetWorksheet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Makes the specified worksheet the active one for future cell references. If the worksheet does not exist, it is created as the new last worksheet in the document."
+ },
+ {
+  "name": "axlSpreadsheetWrite",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Write the spreadsheet in memory to file on disk. File will be written compliant with Microsoft's open spreadsheet XML format."
+ },
+ {
+  "name": "axlStrcmpAlpNum",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Provides an alpha-numeric sort similar to`alphalessp` with one important distinction. If both strings end in the number, the number portion is separated and the two stripped strings are first compared. If they are equal, then the number sections are compared as numbers, rather than strings."
+ },
+ {
+  "name": "axlStringCSVParse",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Parses a comma delimited line (typical from Excel). This differs from the Skill prehistorian function in several areas which make it compatible with Excel csv file format:"
+ },
+ {
+  "name": "axlStringRemoveSpaces",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This will strip leading or trailing whitespace from a string (standard C`ilspace()` macro). Has two modes:"
+ },
+ {
+  "name": "axlSubSelectAll",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Finds all figures in the database that pass the current Find Filter and deletes their`dbids` from the select set. Use `axlSubSelectAll` to subtract all of a given type of figure from a larger set of selected objects."
+ },
+ {
+  "name": "axlSubSelectBox",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Finds one or more figures inside the rectangle`l_bBox` according to the Find Filter, and deletes their `dbids` from the select set in *cumulated* mode. Deletes those `dbids` while leaving any others currently in the select set."
+ },
+ {
+  "name": "axlSubSelectName",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Removes`dbids` of the named figure from the select set using the arguments described. Removes figures completely regardless of the selection mode. If the function finds a figure already partially selected, it removes all of its `dbids` from the select set."
+ },
+ {
+  "name": "axlSubSelectObject",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Removes the`dbids` in `lo_dbid` from the select set in cumulated mode. `lo_dbid` is either a single `dbid` or a list of `dbids`. Removes figures completely regardless of the selection mode."
+ },
+ {
+  "name": "axlSubSelectPoint",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Finds a figure at`l_point` according to the Find Filter and deletes its `dbid` from the select set in cumulated mode. That is, it deletes that `dbid` while leaving any others currently in the select set. If `l_point` is `nil`, requests a single pick from the user."
+ },
+ {
+  "name": "axlSubclassFormPopup",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Builds a form pop-up for a given Allegro PCB Editor class for a given field of`r_form` using the `axlSubclassFormPopup` function. This function is a combination of `axlGetParam` and `axlFormBuildPopup` with color swatching."
+ },
+ {
+  "name": "axlSubclassRoute",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Lists subclasses that make up class ETCH."
+ },
+ {
+  "name": "axlSubclasses",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Lists subclasses that make up a class. This function is supported in both, APD and Allegro name space. The field and value options provide additional filtering based upon the characteristics of the layer."
+ },
+ {
+  "name": "axlSymbolAttach",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Attaches an object or list of objects to symbol instance. For etch objects, provides the ability to associate pin escapes with a symbol."
+ },
+ {
+  "name": "axlSymbolDetach",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Remove an object from a symbol instance. This function unlinks objects from the given symbol instance."
+ },
+ {
+  "name": "axlTechnologyType",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the type of design technology in use."
+ },
+ {
+  "name": "axlTempDirectory",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the temporary directory for the current platform."
+ },
+ {
+  "name": "axlTempFile",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns a unique temp file name. The temp file should be removed, even if not used, by`axlTempFileRemove`."
+ },
+ {
+  "name": "axlTempFileRemove",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Deletes the temporary file and removes the temporary name from the pool. It is important to call this function once you are finished with a temporary filename."
+ },
+ {
+  "name": "axlTestPoint",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets or clears a pin and/or via's test point status. Abides by the rules of the testprep parameter form in its ability to add a test point (see possible errors, below). If testprep rules prevent adding a test point, an error symbol is returned. If the command fails for other reasons,`nil` is returned. On success, a `t` is returned."
+ },
+ {
+  "name": "axlText2Lines",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This vectorizes a text dbid into a list of lists of`r_path` objects."
+ },
+ {
+  "name": "axlTextOrientationCopy",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This is a convenience function that updates a TextOrientation defstruct based upon a text dbid. This is typically used with axlDBCreateText oraxlDBChangeText."
+ },
+ {
+  "name": "axlTransformObject",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Moves, rotates, and/or spins one object or a list of objects. Each Allegro PCB Editor database object has a legal set of transforms (seeTable 5-1). If the object does not accept a transform, then that transform is silently ignored."
+ },
+ {
+  "name": "axlTriggerClear",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Removes a registered callback trigger. You pass the same arguments you passed as you registered the trigger."
+ },
+ {
+  "name": "axlTriggerPrint",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Debug function that prints what is registered for triggers."
+ },
+ {
+  "name": "axlTriggerSet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Allows an application to register interest in events that occur in Allegro PCB Editor. When called with both arguments as`nil`, returns a list of supported triggers."
+ },
+ {
+  "name": "axlUICmdPopupSet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets up a popup menu with all menu items required throughout the execution of the command. Call during the command's initialization process. Use of this procedure modifies the behavior of`axlUIPopupSet`so that it makes unavailable all popup items not in the defined popup."
+ },
+ {
+  "name": "axlUIColorDialog",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Invokes standard color selection dialog box. You must provide a parent window, Allegro PCB Editor defaults to the main window of the application. The`l_rgb` is a red, green, or blue palette list. Each item is an integer between the values of `0` and `255`. `0` indicates color is off, and a value of `255` indicates color is completely on. For example, `255 255 255` indicates white."
+ },
+ {
+  "name": "axlUIConfirm",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Displays the string`t_message` in a confirmer window."
+ },
+ {
+  "name": "axlUIConfirmEx",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Displays the string`t_message` in a confirmer window with an optional check box to never show the box again."
+ },
+ {
+  "name": "axlUIControl",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Inquire about graphics canvas. Inquires and sets the value of graphics. If setting a value, the return is the old value of the control."
+ },
+ {
+  "name": "axlUIDataBrowse",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Analyzes all objects requested by the caller function, passing each through the caller's callback function. Then puts the objects in a single-selection list."
+ },
+ {
+  "name": "axlUIEditFile",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Allows the user to edit a file in an OS independent manner (works under both UNIX and Windows.)"
+ },
+ {
+  "name": "axlUIGetUserData",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Gets the current user data structure from Allegro PCB Editor. The user data structure stores basic information about the state of the user interface. By default it contains the properties:"
+ },
+ {
+  "name": "axlUIMenuChange",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This changes one or more parameters of an existing menu item."
+ },
+ {
+  "name": "axlUIMenuDebug",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "A debug function for axl Menu Trigger. This helps debug issues withaxlUIMenuRegister."
+ },
+ {
+  "name": "axlUIMenuDelete",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This deletes a single menu item or submenu based upon what is the current find menu item."
+ },
+ {
+  "name": "axlUIMenuDump",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Dumps the current menu of the main window to the`t_menuFile`file. Adds default menu file name extension if `t_menuFile` has none."
+ },
+ {
+  "name": "axlUIMenuFind",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Finds a menu item by location or a command. The location (`x_location`) is 0 based. The 0 location is the left or top most menu item. (Typically, this is the *File* menu item on the menu bar). A negative number may be used to specify a menu counting from the right side with a -1 indicating the menu furthest to the left or bottom."
+ },
+ {
+  "name": "axlUIMenuInsert",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Inserts menu items to an existing menu. Several modes are supported:"
+ },
+ {
+  "name": "axlUIMenuLoad",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Loads the main window menu from the file`t_menuFile`. Adds a default menu file name extension if `t_menuFile` has none. The `MENUPATH` environment variable is used to locate the file if `t_menuFile` does not include the entire path from the root drive."
+ },
+ {
+  "name": "axlUIMenuRegister",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This allows you to register menu items to be loaded when Allegro loads a new menu. It is a combination ofaxlUIMenuFind and axlUIMenuInsert."
+ },
+ {
+  "name": "axlUIMultipleChoice",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Displays a dialog box containing a question with a set of two or more answers in a list. You must choose one of the answers to continue. Returns the chosen answer."
+ },
+ {
+  "name": "axlUIPopupDefine",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates a pop-up from the name value pair list`ts_pairs`. If `r_popup` already exists, it appends the name value pairs at the end of the existing pairs in `r_popup`. Use the returned `r_popup` id as the argument to `axlUIPopupSet` to make it the active pop-up."
+ },
+ {
+  "name": "axlUIPopupSet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets the active pop-up in Allegro PCB Editor. If`r_popup` is `nil`, unsets the currently active pop-up."
+ },
+ {
+  "name": "axlUIPrompt",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Displays the string`t_message` in a form. The user must type a response into the field. Displays the argument `t_default` in brackets to the left of the field. The user presses the *Return* key or clicks the *OK*button in the window to accept the value of `t_default` as the function return value. If the user selects the *Cancel* button, the function returns `nil`."
+ },
+ {
+  "name": "axlUIViewFileCreate",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Opens a file view window to display a file (`t_file`), it is an error for file not to exist. Window should be given a title (t_title)."
+ },
+ {
+  "name": "axlUIViewFileReuse",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Reuses the view window to display a file (t_file). Error is thrown if the file does not exist. Window is given a title (t_title)."
+ },
+ {
+  "name": "axlUIViewFileScrollTo",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Scrolls to a specified line in the file viewer. A value of`-1` goes to the end of the viewer."
+ },
+ {
+  "name": "axlUIWBeep",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sends an alert to the user, usually a beep."
+ },
+ {
+  "name": "axlUIWBlock",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "* ***This function is not compatible with the g_nonBlock = nil option to axlFormCreate. If using this function with axlFormCreate you must set a callback on the g_formAction.***"
+ },
+ {
+  "name": "axlUIWClose",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Closes a window, if it is open."
+ },
+ {
+  "name": "axlUIWCloseAll",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This closes all temporary windows (dialogs and text view windows). A temporary window is a dialog that closes if you open another design (e.g. brd). Via Skill this window attribute is set by the axlUIWPerm API. The constraint manager is currently considered a permanent window but this may change in future releases. A blocking window (e.g. File Browser dialogs) cannot be closed via this call."
+ },
+ {
+  "name": "axlUIWDisableQuit",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Disables the system menu*Quit* option so the user cannot choose it to close the window."
+ },
+ {
+  "name": "axlUIWExpose",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Opens and redisplays a hidden or iconified window, bringing it to the front of all other current windows on the display. If`nil`, the main window is displayed."
+ },
+ {
+  "name": "axlUIWExposeByName",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Finds a window by name and exposes it (raises it to the top of the window stack and restores it to a window state it if it is an icon)."
+ },
+ {
+  "name": "axlUIWHelpRegister",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This registers a help document for a user written skill command or form (dialog). This is typically used in conjunction with axlCmdRegister. You should make this call at the time you do a axlCmdRegister instead of waiting until the skill code associated with the command executes."
+ },
+ {
+  "name": "axlUIWIconify",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This command either creates an icon for a window or open a window from an icon.This is different fromaxlUIWExpose, which also opens a window from an icon but exposes hidden windows and permits raising a window to the top of the stack. Note all sub-windows also open or closed to an icon. So, if you make the main Allegro PCB Editor window an icon, all of its child windows are also closed.`t_window` name may change from release to release although this is not normal. `nil` may be used for the main window. Currently, Constraint Manager interface is not supported by this skill command."
+ },
+ {
+  "name": "axlUIWIsIconic",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Is the window in an icon state.`nil` may be used for the main window. `t_window` name may change from release to release although this is not normal. Constraint Manager is not yet supported by this skill command."
+ },
+ {
+  "name": "axlUIWIsWindow",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns`t` if named window is open. `t_window` name may change from release to release although this is not normal."
+ },
+ {
+  "name": "axlUIWMove",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Moves a window. New location (`l_xy`) which is upper left corner, is specified in pixels."
+ },
+ {
+  "name": "axlUIWPerm",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Normally forms and other windows close automatically when another database opens. This function allows that default behavior to be overridden."
+ },
+ {
+  "name": "axlUIWPrint",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Prints a message to a window other than the main window. If`r_window` does not have a message line, the message goes to the main window. This function does not buffer messages, but displays them immediately. If the message string does not start with a message class (for example \\e), it is treated as a text (\\t) message. (See axlMsgPut) If `nil`, displays the main window."
+ },
+ {
+  "name": "axlUIWRedraw",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Redraws indicated window. If window ID is`nil` redraws the main window."
+ },
+ {
+  "name": "axlUIWSetHelpTag",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This has been mostly replaced byaxlUIWHelpRegister that works for commands and forms."
+ },
+ {
+  "name": "axlUIWSetParent",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets the parent of a window. When a window is created, its parent is the main window of the application, which is sufficient for most implementations. To run blocking mode on a form launched from another form, set the child form's parent window to be the launched form."
+ },
+ {
+  "name": "axlUIWShow",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Shows or hides a window depending on the option passed. If the window id passed is`nil`, the function applies to the main window."
+ },
+ {
+  "name": "axlUIWSize",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns outer size of a window. Size is in pixels. x and y coordinates are upper left corner of window."
+ },
+ {
+  "name": "axlUIWTimerAdd",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Adds or removes a callback for an interval timer."
+ },
+ {
+  "name": "axlUIWTimerRemove",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Removes a timer added by`axlUIWTimerAdd`."
+ },
+ {
+  "name": "axlUIWUpdate",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Forces an update of a window. If you made several changes to a window and are not planning on going back to the main loop or doing a SKILL call that requires user interaction, use this call to update a window. You could use this, for example, if you are doing time-consuming processing without giving back the control to the UI message pump."
+ },
+ {
+  "name": "axlUIYesNo",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Provides a dialog box displaying the message`t_message`. Returns `t` if you choose *Yes* and `nil` for *No*."
+ },
+ {
+  "name": "axlUIYesNoCancel",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Displays a blocking*Yes*`/`*No*`/`*Cancel* dialog box with the prompt message provided."
+ },
+ {
+  "name": "axlUnfixAll",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This is a convenience API."
+ },
+ {
+  "name": "axlUnsetVariable",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Unsets the Allegro PCB Editor environment variable with the name given by the string`t_variable`. The value of the named variable becomes `nil`."
+ },
+ {
+  "name": "axlUnsetVariableFile",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Unsets the value of specified Allegro environment variable. Works the same asaxlUnsetVariable plus it also updates the local environment file of the user with the change."
+ },
+ {
+  "name": "axlVersion",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns Allegro PCB Editor or OS dependent data."
+ },
+ {
+  "name": "axlVersionIdGet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns an id stamp based upon computer time."
+ },
+ {
+  "name": "axlVersionIdPrint",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Prints version_id."
+ },
+ {
+  "name": "axlViaZLength",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the via length from layer1 to layer2. The layer names can either be given as the ETCH subclass name (TOP) or given as the formal skill layer name (\"ETCH/TOP\")."
+ },
+ {
+  "name": "axlVisibleDesign",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Makes entire design visible or invisible. This command does not visually change the display, since it can also be used in conjunction with the`axlSelect` command family to provide additional filtering of the database objects. If you wish to visually update the display, call `axlUIWUpdate(nil)` after changing the visibility."
+ },
+ {
+  "name": "axlVisibleGet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the visibility of the entire design - which layers are visible/invisible."
+ },
+ {
+  "name": "axlVisibleLayer",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets a given layer to visible or invisible. If given only a class name, sets the entire layer to visible or invisible. If you want to update the display, call`axlVisibleUpdate` when finished with your layer visibility updates."
+ },
+ {
+  "name": "axlVisibleSet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets the visibility of the entire design."
+ },
+ {
+  "name": "axlVisibleUpdate",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "The`axlVisible` family and its base building block permit changing layer color and visibility."
+ },
+ {
+  "name": "axlWFMAnyExported",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Reports if there are any exported partitions."
+ },
+ {
+  "name": "axlWidth2Impedance",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Converts the given line width on a specified layer to an impedance. This uses the field solver to compute the impedance"
+ },
+ {
+  "name": "axlWindowBoxGet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns the bounding box of the Allegro PCB Editor window currently visible to the user, in design units."
+ },
+ {
+  "name": "axlWindowBoxSet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Sets Allegro PCB Editor display to given bBox. Adjusts it according to the aspect ratio and returns the adjusted bBox."
+ },
+ {
+  "name": "axlWindowFit",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Zooms in to (or out of) a design fitting it fully on the window. For the Allegro PCB Editor in layout mode, performs a fit on the outline. For the Allegro PCB Editor symbol mode, performs a fit such that all visible objects occupy maximum window area. Returns the bounding box of the window after the fit has been performed."
+ },
+ {
+  "name": "axlWriteDeviceFile",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Given a component definition, writes out a third party device file. Writes to the directory specified, or if no directory or`nil` is given, writes to the current directory."
+ },
+ {
+  "name": "axlWritePackageFile",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Given a symbol definition, writes out symbol`.dra`, `.psm` and associated padstack files. Works like `dump_libraries` on a single symbol definition."
+ },
+ {
+  "name": "axlXSectionCopy",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This copies dbid xsection to an xsection Skill defstruct.It can be used to duplicate the charactistics of an existing xsection layer to a new layer for use with axlXSectionCreate. Alternatively, it can be used to modify an existing layer via axlXSectionSet, although axlXSectionModify might be a better fit for changing a layer."
+ },
+ {
+  "name": "axlXSectionCreate",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Creates a new cross section entry."
+ },
+ {
+  "name": "axlXSectionDelete",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Deletes a cross section layer. If layer is associated with an ETCH layer, the associated layer is also deleted. Associated ETCH layers must not have objects. SeeaxlLayerDelete for other reasons for failure."
+ },
+ {
+  "name": "axlXSectionGet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Returns data about the cross-section entry for a design."
+ },
+ {
+  "name": "axlXSectionLayerFunctions",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Return list of supported layer function types.Layer functions are a super set of layer types."
+ },
+ {
+  "name": "axlXSectionLayerTypes",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Return list of supported layer types. This is used withlayerType attribute when adding or modifing xsection layers."
+ },
+ {
+  "name": "axlXSectionModify",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This is a wrapper for`make_axlXSection()` function to createa new defstruct. For certain fields (e.g. boolean and some string fields) a `'none` symbol is used to indicate that the field should not be changed, other fields can use the default `nil` symbol."
+ },
+ {
+  "name": "axlXSectionSet",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Modifies an existing cross section entry. UseaxlXSectionModify to create a xsection defstruct with the attributes you wish to modify."
+ },
+ {
+  "name": "axlZoomBbox",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "x_window: window id or nil to currently active window. nil is the activewindow and 0 is the primary canvas. Allegro currently onlysupports one additional canvas so the value 1 indicates thatcanvas."
+ },
+ {
+  "name": "axlZoomCenter",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Zoom centers on the provided coordinate. It may adjust the point if centering results in the display bounding extents are outside thedesign extents."
+ },
+ {
+  "name": "axlZoomControl",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Manages the multi-canvas feature. Requires OpenGL to be enabled.Id 0 is the main Allegro canvas."
+ },
+ {
+  "name": "axlZoomFit",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Zoom fits the window. Depending upon the design type fit is define as:"
+ },
+ {
+  "name": "axlZoomInOut",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Zooms window in or out by provided factor around optional coordinate."
+ },
+ {
+  "name": "axlZoomPoints",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Zoom windows by points. The zoom maintains a 1:1 aspect ratio,the coordinates provided will be fitted into the active window size."
+ },
+ {
+  "name": "axlZoomToDbid",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Processes a list of`dbids` and centers and zooms the display around them. Zoom is done so objects extents fill about 20% of the display. You should highlight the objects."
+ },
+ {
+  "name": "axlZoomWorld",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "Zoom world a drawing window"
+ },
+ {
+  "name": "axl_ol_ol2",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": ""
+ },
+ {
+  "name": "axlcreate",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "This interface is obsolete. It is kept to support existing SKILL code."
+ },
+ {
+  "name": "axldo",
+  "kind": "axl",
+  "layer": "raw",
+  "summary": "A do function, modeled after the CL (Common Lisp) do."
+ }
+]

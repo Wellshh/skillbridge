@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import argparse
 import itertools
+import json
 import keyword
 import re
 from collections import Counter
@@ -13,6 +14,8 @@ from collections.abc import Iterable, Sequence
 from dataclasses import dataclass, replace
 from pathlib import Path
 from typing import Literal
+
+from allegrobridge.client.session.domains import DOMAINS
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_API_NAMES = ROOT / 'allegrobridge' / 'assets' / 'api_names.txt'
@@ -1266,16 +1269,41 @@ def render_stub(specs: Sequence[ApiSpec]) -> str:
     return '\n'.join(lines)
 
 
+def _api_index(specs: Sequence[ApiSpec]) -> str:
+    entries: list[dict[str, object]] = [
+        {
+            'name': d.name,
+            'kind': 'domain',
+            'layer': 'extension' if d.lazy else 'core',
+            'capabilities': sorted(d.capabilities),
+        }
+        for d in DOMAINS
+    ]
+    for spec in specs:
+        summary = spec.doc.description[0][0] if spec.doc.description else ''
+        entries.append({
+            'name': spec.name,
+            'kind': 'axl',
+            'layer': 'raw',
+            'summary': summary,
+        })
+    return json.dumps(entries, indent=1) + '\n'
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument('--api-names', type=Path, default=DEFAULT_API_NAMES)
     parser.add_argument('--references', type=Path, default=DEFAULT_REFERENCES)
     parser.add_argument('--output', type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument('--emit-api-index', type=Path, default=None)
     parser.add_argument('--check', action='store_true')
     args = parser.parse_args(argv)
 
     specs = build_api_specs(args.api_names, args.references)
     print(render_report(specs))
+    if args.emit_api_index is not None:
+        args.emit_api_index.parent.mkdir(parents=True, exist_ok=True)
+        args.emit_api_index.write_text(_api_index(specs), encoding='utf-8')
     stub = render_stub(specs)
     if args.check:
         if len(specs) != EXPECTED_API_COUNT:

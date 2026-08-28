@@ -1,0 +1,88 @@
+/* Code blocks: window chrome, language identity, three-view switcher. */
+
+.md-typeset .highlight {
+  position: relative;
+  border: 1px solid var(--ab-edge);
+  border-radius: 4px;
+  box-shadow: var(--ab-bevel-hi);
+}
+
+.md-typeset .highlight:hover {
+  border-color: var(--ab-edge-bright);
+}
+
+/* Chrome strip across the top of every fenced block */
+.md-typeset .highlight::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 1.5rem;
+  border-bottom: 1px solid rgba(232, 163, 61, 0.14);
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  background-color: rgba(7, 9, 13, 0.55);
+}
+
+.md-typeset .highlight > pre {
+  padding-top: 1.75rem;
+}
+
+/* Language / channel badge at the right of the strip */
+.md-typeset .highlight.language-python::after,
+.md-typeset .highlight.language-skill::after,
+.md-typeset .highlight.language-bash::after,
+.md-typeset .highlight.language-console::after,
+.md-typeset .highlight.language-shell::after {
+  position: absolute;
+  top: 0.22rem;
+  right: 0.55rem;
+  font-family: var(--md-code-font);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+}
+
+.md-typeset .highlight.language-python::after {
+  content: "PYTHON";
+  color: var(--ab-selection);
+}
+
+.md-typeset .highlight.language-skill::after {
+  content: "SKILL";
+  color: var(--ab-preview);
+}
+
+.md-typeset .highlight.language-bash::after,
+.md-typeset .highlight.language-console::after,
+.md-typeset .highlight.language-shell::after {
+  content: "CMD";
+  color: var(--ab-commit);
+}
+
+/* Copy button drops below the strip */
+.md-typeset .highlight .md-clipboard {
+  top: 1.85rem;
+}
+
+/* Token weight accents */
+.md-typeset .highlight .k,
+.md-typeset .highlight .kc,
+.md-typeset .highlight .kd,
+.md-typeset .highlight .kn {
+  font-weight: 600;
+}
+
+.md-typeset .highlight .c,
+.md-typeset .highlight .c1,
+.md-typeset .highlight .cm {
+  font-style: italic;
+}
+
+/* Inline code: copper-tinted chip */
+.md-typeset code:not([class]) {
+  background-color: rgba(232, 163, 61, 0.09);
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 rgba(232, 163, 61, 0.18);
+}

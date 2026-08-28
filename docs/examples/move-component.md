@@ -3,9 +3,24 @@
 `components.move` is a transactional write: it either commits fully or rolls
 back, and returns the updated record.
 
-```python
-updated = pcb.components.move("R101", x=120.0, y=45.0, rotation=90.0)
-```
+=== "Python"
+
+    ```python
+    updated = pcb.components.move("R101", x=120.0, y=45.0, rotation=90.0)
+    ```
+
+=== "SKILL"
+
+    ```skill
+    ;;; via __abRunTransaction — move the dbid, refresh attributes
+    (axlDBMoveProp refdes "R101" 120.0 45.0 90.0)
+    ```
+
+=== "Wire"
+
+    ```text
+    STX {"cmd":"__abRunTransaction","fn":"move","args":["R101",120.0,45.0,90.0]} ETX
+    ```
 
 *Skill equivalent:* moving the component attached to `R101`'s `dbid`, then
 refreshing its attributes.
