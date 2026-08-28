@@ -10,12 +10,21 @@
     return getComputedStyle(document.body).getPropertyValue(name).trim();
   }
 
+  function siteRoot() {
+    // Resolve the site root from the canonical/extra-css link, falling back
+    // to the first path segment. Works for top-level and nested pages.
+    var link = document.querySelector('link[rel="stylesheet"][href*="stylesheets/fonts.css"]');
+    if (link) return link.href.replace(/stylesheets\/fonts\.css.*$/, '');
+    var canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) return canonical.href;
+    var path = window.location.pathname;
+    return path.slice(0, path.indexOf('/', 1) + 1) || '/';
+  }
+
   function ensureIndex() {
     if (index) return Promise.resolve(index);
-    var base = (document.querySelector('link[rel="stylesheet"][href*="assets"]') || {}).href;
-    var root = base ? base.replace(/\/stylesheets\/.*$/, '/') : '/';
-    return fetch(root + 'assets/api-index.json')
-      .then(function (r) { return r.json(); })
+    return fetch(siteRoot() + 'assets/api-index.json')
+      .then(function (r) { return r.ok ? r.json() : []; })
       .then(function (data) { index = data; return data; })
       .catch(function () { index = []; return []; });
   }
