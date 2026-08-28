@@ -34,7 +34,7 @@ for result in (c1, c2, c3):
 with pcb.batch("align caps", dry_run=True) as batch:
     c1 = batch.add(pcb.components.move.command("C101", x=120.0, y=45.0))
 
-print(c1.value.rotation)   # reported, but nothing was committed
+print(c1.value.rotation)  # reported, but nothing was committed
 ```
 
 Every command goes through the dry transaction; the results describe what

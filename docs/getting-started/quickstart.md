@@ -49,9 +49,9 @@ with Allegro.open(mode="manual", workspace_id="7777") as allegro:
 ## First queries
 
 ```python
-board = pcb.board()             # BoardInfo for the open design
-r101 = pcb.components["R101"]   # one component by refdes
-count = len(pcb.nets())         # all nets
+board = pcb.board()  # BoardInfo for the open design
+r101 = pcb.components["R101"]  # one component by refdes
+count = len(pcb.nets())  # all nets
 ```
 
 Reads return frozen pydantic models; writes go through

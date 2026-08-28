@@ -7,9 +7,10 @@ import sys
 from collections.abc import Iterable
 from functools import partial
 from logging import getLogger
-from typing import Any, NoReturn, cast
+from typing import Any, NoReturn, TypeVar, cast
 
 from .channel import Channel, DirectChannel, create_channel_class
+from .expr import Expr
 from .functions import FunctionCollection, LiteralRemoteFunction
 from .globals import DirectGlobals, Globals
 from .hints import Symbol
@@ -19,6 +20,7 @@ from .translator import DefaultTranslator, Translator, snake_to_camel
 __all__ = ['Workspace', 'current_workspace']
 
 WorkspaceId = str | int | None
+T = TypeVar('T')
 _open_workspaces: dict[tuple[type[Workspace], WorkspaceId], Workspace] = {}
 
 
@@ -224,6 +226,10 @@ class Workspace:
     @property
     def epoch(self) -> int:
         return self._channel.epoch
+
+    def eval(self, expr: Expr[T]) -> T:
+        payload = self._channel.send(expr.render())
+        return cast('T', self._translator.decode(payload))
 
     def flush(self) -> None:
         self._channel.flush()

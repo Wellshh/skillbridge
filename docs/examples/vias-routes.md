@@ -26,8 +26,8 @@ pcb.vias.create("VIA_DEFAULT", at=(100.0, 50.0))
 List existing vias with the same filters:
 
 ```python
-pcb.vias()                            # everything
-pcb.vias(net="GND")                   # GND vias only
+pcb.vias()  # everything
+pcb.vias(net="GND")  # GND vias only
 pcb.vias(layer="TOP", padstack="VIA_DEFAULT")
 ```
 
@@ -63,8 +63,8 @@ list of `RouteInfo` records, one per created segment:
 ## Finding DRC violations afterwards
 
 ```python
-pcb.drc.update()                       # re-run checks (transactional write)
-violations = pcb.drc()                 # list[DrcInfo]
+pcb.drc.update()  # re-run checks (transactional write)
+violations = pcb.drc()  # list[DrcInfo]
 ```
 
 Or check a single object without touching global state:

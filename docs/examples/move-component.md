@@ -27,7 +27,7 @@ Use `.preview(...)` to run the change, see the result, and roll it back:
 
 ```python
 preview = pcb.components.move.preview("R101", x=0.0, y=0.0)
-print(preview.x, preview.y)   # the would-be position
+print(preview.x, preview.y)  # the would-be position
 # the design itself is unchanged
 ```
 

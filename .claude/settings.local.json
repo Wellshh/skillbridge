@@ -129,7 +129,19 @@
       "Bash(.venv/bin/python -)",
       "mcp__context7__query-docs",
       "Bash(curl -sL -o inter.zip -w \"HTTP:%{http_code} size:%{size_download}\\\\n\" https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip)",
-      "Bash(unzip -l inter.zip)"
+      "Bash(unzip -l inter.zip)",
+      "Bash(curl -sL -o jbm.zip -w \"HTTP:%{http_code} size:%{size_download}\\\\n\" https://github.com/JetBrains/JetBrainsMono/releases/download/v2.304/JetBrainsMono-2.304.zip)",
+      "Bash(unzip -l jbm.zip)",
+      "Bash(unzip -l /tmp/jbm.zip)",
+      "Bash(python3 -c \"import fontTools, brotli; print\\('fonttools+brotli OK'\\)\")",
+      "Bash(unzip -o -j jbm.zip 'fonts/variable/*.ttf' 'OFL.txt' -d jbm-extract)",
+      "Bash(uvx --from \"fonttools[woff]\" fonttools ttLib.woff2 compress 'jbm-extract/JetBrainsMono[wght].ttf' -o 'jbm-extract/JetBrainsMono.woff2')",
+      "Bash(uvx --from \"fonttools[woff]\" fonttools ttLib.woff2 compress 'jbm-extract/JetBrainsMono-Italic[wght].ttf' -o 'jbm-extract/JetBrainsMono-Italic.woff2')",
+      "Bash(unzip -o -j inter.zip 'web/InterVariable.woff2' 'web/InterVariable-Italic.woff2' 'LICENSE.txt' -d inter-extract)",
+      "Bash(mkdir -p __TRACKED_VAR__/docs/fonts)",
+      "Bash(cp inter-extract/InterVariable.woff2 inter-extract/InterVariable-Italic.woff2 __TRACKED_VAR__/docs/fonts/)",
+      "Bash(cp inter-extract/LICENSE.txt __TRACKED_VAR__/docs/fonts/Inter-OFL.txt)",
+      "Bash(cp jbm-extract/JetBrainsMono.woff2 jbm-extract/JetBrainsMono-Italic.woff2 __TRACKED_VAR__/docs/fonts/)"
     ]
   }
 }

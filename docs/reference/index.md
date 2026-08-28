@@ -19,11 +19,33 @@ from allegrobridge import Allegro, OpenMode, Session, Workspace
 
 ```python
 from allegrobridge.client.api import (
-    Batch, Cmd, CmdResult,
-    BoardApi, BoardInfo, ComponentsApi, ComponentInfo, DrcApi, DrcInfo,
-    LayersApi, LayerInfo, NetsApi, NetInfo, PadstacksApi, PadstackInfo,
-    PinsApi, PinInfo, RoutesApi, RouteInfo, Point, ShapesApi, ShapeInfo, BBox,
-    SymbolsApi, SymbolInfo, ViasApi, ViaInfo,
+    Batch,
+    Cmd,
+    CmdResult,
+    BoardApi,
+    BoardInfo,
+    ComponentsApi,
+    ComponentInfo,
+    DrcApi,
+    DrcInfo,
+    LayersApi,
+    LayerInfo,
+    NetsApi,
+    NetInfo,
+    PadstacksApi,
+    PadstackInfo,
+    PinsApi,
+    PinInfo,
+    RoutesApi,
+    RouteInfo,
+    Point,
+    ShapesApi,
+    ShapeInfo,
+    BBox,
+    SymbolsApi,
+    SymbolInfo,
+    ViasApi,
+    ViaInfo,
 )
 ```
 

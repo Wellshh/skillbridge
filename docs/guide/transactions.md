@@ -66,7 +66,7 @@ from skillbridge import SkillCode
 
 ws = allegro.workspace
 ws.transaction(SkillCode('axlDBCreateVia("VIA" 100:200 "GND" t 0.0 nil)'))
-ws.transaction.preview(SkillCode('...'))        # dry-run
+ws.transaction.preview(SkillCode('...'))  # dry-run
 results = ws.transaction.batch([SkillCode('...'), SkillCode('...')])
 ```
 

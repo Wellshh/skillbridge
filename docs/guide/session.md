@@ -31,8 +31,8 @@ Eleven domains, one attribute each:
 Calling a domain returns a list; subscripting returns one item:
 
 ```python
-pcb.components()             # list[ComponentInfo], placed and unplaced
-pcb.components["R101"]       # ComponentInfo
+pcb.components()  # list[ComponentInfo], placed and unplaced
+pcb.components["R101"]  # ComponentInfo
 ```
 
 *Skill equivalent:* projecting `axlDBGetDesign()->components` and friends into
@@ -48,8 +48,8 @@ pcb.components["R999"]
 The optional filters are keyword-only and combine freely:
 
 ```python
-pcb.pins(net="GND")                     # all GND pins
-pcb.vias(layer="TOP", padstack="VIA")   # matching vias only
+pcb.pins(net="GND")  # all GND pins
+pcb.vias(layer="TOP", padstack="VIA")  # matching vias only
 ```
 
 ## The returned records

@@ -4,7 +4,7 @@ The typed domain APIs cover the common cases. Everything else is available on
 the raw workspace:
 
 ```python
-ws = allegro.workspace   # or: pcb.raw from a Session
+ws = allegro.workspace  # or: pcb.raw from a Session
 ```
 
 ## Calling axl functions
@@ -52,11 +52,11 @@ wrapper classes from `skillbridge` build them:
 ```python
 from skillbridge import Symbol, Key, SkillCode, SkillList, SkillTuple
 
-ws.axl.db.set_variable(Symbol('myvar'), 42)   # passes 'myvar
-Key('width')                                   # ?width
-SkillCode('println("hello")')                  # sent verbatim
-SkillList([1, 2, 3])                           # (1 2 3)
-SkillTuple((100.0, 50.0))                      # 100.0:50.0
+ws.axl.db.set_variable(Symbol('myvar'), 42)  # passes 'myvar
+Key('width')  # ?width
+SkillCode('println("hello")')  # sent verbatim
+SkillList([1, 2, 3])  # (1 2 3)
+SkillTuple((100.0, 50.0))  # 100.0:50.0
 ```
 
 *Skill equivalent:* `'myvar`, `?width`, `println("hello")`, `(1 2 3)`,

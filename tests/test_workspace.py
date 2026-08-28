@@ -19,6 +19,7 @@ from allegrobridge.exceptions import ExtensionError
 from skillbridge import Workspace
 from skillbridge.client import workspace as workspace_module
 from skillbridge.client.channel import Channel
+from skillbridge.client.expr import Expr
 from skillbridge.client.objects import RemoteTable, RemoteVector
 from skillbridge.client.translator import DefaultTranslator
 from skillbridge.client.workspace import (
@@ -114,6 +115,29 @@ def test_workspace_exposes_channel_epoch() -> None:
 
     channel._epoch = 2
     assert ws.epoch == 2
+
+
+def test_workspace_eval_executes_expression_once() -> None:
+    channel = ProbeChannel('3')
+    ws = Workspace(channel=channel, id_=123)
+
+    assert ws.eval(Expr.raw_skill('plus(1 2)')) == 3
+    assert channel.commands == ['plus(1 2)']
+
+
+def test_workspace_eval_preserves_list_decoder_results() -> None:
+    channel = ScriptedChannel('None', '[1, 2]', 'None')
+    ws = Workspace(channel=channel, id_=123)
+
+    assert ws.eval(Expr.raw_skill('items').as_list()) is None
+    assert ws.eval(Expr.raw_skill('items').as_list()) == [1, 2]
+    filtered = Expr.raw_skill('items').as_list().where(lambda item: item.enabled)
+    assert ws.eval(filtered) is None
+    assert channel.commands == [
+        'items',
+        'items',
+        'setof(_expr0 items _expr0->enabled)',
+    ]
 
 
 def test_workspace_builds_remote_collections_and_delegates_repair(

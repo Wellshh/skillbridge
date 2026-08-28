@@ -66,5 +66,5 @@ with Allegro.launch("designs/demo.brd") as allegro:
 
 allegro = Allegro.connect()
 ...
-allegro.close()   # window keeps running
+allegro.close()  # window keeps running
 ```

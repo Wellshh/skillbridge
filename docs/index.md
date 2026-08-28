@@ -13,8 +13,8 @@ from allegrobridge import Allegro
 with Allegro.launch("designs/demo.brd") as allegro:
     pcb = allegro.session
 
-    board = pcb.board()               # BoardInfo(path, units, component_count, ...)
-    r101 = pcb.components["R101"]     # ComponentInfo(refdes, x, y, rotation, ...)
+    board = pcb.board()  # BoardInfo(path, units, component_count, ...)
+    r101 = pcb.components["R101"]  # ComponentInfo(refdes, x, y, rotation, ...)
 
     pcb.components.move("R101", x=120.0, y=45.0, rotation=90.0)
 ```
