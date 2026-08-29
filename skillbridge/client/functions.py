@@ -20,19 +20,21 @@ class FunctionCollection:
         self._channel = channel
         self._translate = translator
         self._prefix = prefix
-        self._dir: list[str] | None = None
 
     def __repr__(self) -> str:
-        return f"<function collection {self._prefix}*>\n{dir(self)}"
+        return f'<function collection {self._prefix}*>'
 
     def __dir__(self) -> list[str]:
-        if self._dir is None:
-            code = self._translate.encode_globals(self._prefix)
-            result = self._channel.send(code)
-            self._dir = self._translate.decode_globals(result)
-        return self._dir
+        return sorted({*object.__dir__(self), *self._translate.function_names(self._prefix)})
+
+    def dir(self) -> list[str]:
+        code = self._translate.encode_globals(self._prefix)
+        result = self._channel.send(code)
+        return self._translate.decode_globals(result, self._prefix)
 
     def __getattr__(self, item: str) -> RemoteFunction:
+        if item.startswith('_'):
+            raise AttributeError(item)
         return RemoteFunction(self._channel, f'{self._prefix}_{item}', self._translate)
 
 
@@ -55,12 +57,15 @@ class RemoteFunction:
         return Expr.call(self._skill_name(), *args, **kwargs)
 
     def __repr__(self) -> str:
-        command = self._translate.encode_help(self._function)
+        return f'<remote function {self._skill_name()}>'
+
+    def help(self) -> str:
+        command = self._translate.encode_help(self._skill_name())
         result = self._channel.send(command)
         return self._translate.decode_help(result)
 
     def __getattr__(self, item: str) -> Self:
-        if item in {'lazy', 'var'}:
+        if item.startswith('_') or item in {'lazy', 'var'}:
             raise AttributeError(item)
         return self.__class__(self._channel, f"{self._function}_{item}", self._translate)
 

@@ -82,6 +82,31 @@ def test_remote_function_builds_expression_without_rpc() -> None:
     assert ws.pop_request() == 'outer(axlDbGetDesign() ?layerName "TOP")->result'
 
 
+def test_remote_function_introspection_is_explicit() -> None:
+    channel = DummyChannel()
+    translator = DefaultTranslator()
+    collection = FunctionCollection(channel, 'db', translator)
+
+    assert repr(collection) == '<function collection db*>'
+    assert 'dir' in dir(collection)
+    assert 'get_edit_cell_view' not in dir(collection)
+    assert not hasattr(collection, '_repr_html_')
+    assert not channel.outputs
+
+    channel.inputs.append('"dbGetEditCellView dbClose"')
+    assert collection.dir() == ['get_edit_cell_view', 'close']
+    assert channel.outputs.pop() == translator.encode_globals('db')
+
+    function = collection.get_edit_cell_view
+    assert repr(function) == '<remote function dbGetEditCellView>'
+    assert not hasattr(function, '_repr_html_')
+    assert not channel.outputs
+
+    channel.inputs.append('"documentation"')
+    assert function.help() == 'documentation'
+    assert channel.outputs.pop() == translator.encode_help('db_get_edit_cell_view')
+
+
 def test_reports_skill_server_correctly():
     out = check_output([python, '-m', 'skillbridge', 'path'], encoding='utf-8')
     assert Path(out.splitlines()[1].strip()).exists()
@@ -418,9 +443,9 @@ def test_static_completion_generator_covers_valid_and_empty_namespaces(
     channel = DummyChannel()
     translator = DefaultTranslator()
     db = FunctionCollection(channel, 'db', translator)
-    db._dir = ['valid', 'not-valid', 'class']
+    db.dir = Mock(return_value=['valid', 'not-valid', 'class'])
     empty = FunctionCollection(channel, 'empty', translator)
-    empty._dir = ['not-valid', 'class']
+    empty.dir = Mock(return_value=['not-valid', 'class'])
     workspace = SimpleNamespace(db=db, empty=empty, other=object())
     workspace.__dict__['_private'] = db
     workspace.__dict__['class'] = db
@@ -439,7 +464,10 @@ def test_static_completion_generator_covers_valid_and_empty_namespaces(
     assert '    class db:' in first
     assert '        valid: staticmethod' in first
     assert '    class empty:\n        pass' in first
+    assert 'class _private' not in first
     assert 'not-valid' not in first
+    assert db.dir.call_count == 2
+    assert empty.dir.call_count == 2
 
 
 def test_static_completion_imports_mypy_generator() -> None:

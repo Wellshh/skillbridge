@@ -30,7 +30,7 @@ def _show_warning(message: str, result: Any) -> Any:
     return result
 
 
-_STATIC_EVAL_CONTEXT = {
+_STATIC_EVAL_CONTEXT: dict[str, Any] = {
     'Symbol': Symbol,
     'error': _raise_error,
     'warning': _show_warning,
@@ -124,6 +124,10 @@ class Translator:
         return snake_to_camel(name)
 
     @staticmethod
+    def function_names(_prefix: str) -> tuple[str, ...]:
+        return ()
+
+    @staticmethod
     def encode_dir(obj: SkillCode) -> SkillCode:
         parts = ' '.join(
             (
@@ -161,8 +165,9 @@ class Translator:
         return SkillCode(f'{snake_to_camel(variable)} = {encoded_value} nil')
 
     @staticmethod
-    def decode_globals(code: str) -> list[str]:
-        return [camel_to_snake(f).split('_', maxsplit=1)[1] for f in loads(code).split()]
+    def decode_globals(code: str, prefix: str) -> list[str]:
+        stem = f'{camel_to_snake(prefix)}_'
+        return [camel_to_snake(function).removeprefix(stem) for function in loads(code).split()]
 
     @staticmethod
     def encode_help(symbol: str) -> SkillCode:
@@ -202,7 +207,7 @@ class Translator:
 
 class DefaultTranslator(Translator):
     def __init__(self) -> None:
-        self.context = _STATIC_EVAL_CONTEXT.copy()
+        self.context: dict[str, Any] = _STATIC_EVAL_CONTEXT.copy()
 
     def register_remote_variable_type(self, name: str, constructor: Callable[[str], Skill]) -> None:
         self.context[name] = constructor

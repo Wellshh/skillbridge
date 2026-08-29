@@ -14,6 +14,7 @@ from pytest import fixture, mark, raises, warns
 from allegrobridge.client.translator import Translator as ATranslator
 from skillbridge import Symbol
 from skillbridge.client.expr import Expr
+from skillbridge.client.functions import FunctionCollection
 from skillbridge.client.hints import SkillCode
 from skillbridge.client.translator import (
     DefaultTranslator,
@@ -23,6 +24,7 @@ from skillbridge.client.translator import (
     camel_to_snake,
     snake_to_camel,
 )
+from skillbridge.test.channel import DummyChannel
 
 floats = floats(allow_infinity=False, allow_nan=False)
 ints = integers(min_value=-(2**63), max_value=2**63 - 1)
@@ -310,6 +312,36 @@ def test_allegro_translator_format_function_name(
 def test_allegro_translator_falls_back_for_unknown_functions() -> None:
     assert ATranslator.format_function_name('user_custom_function') == 'userCustomFunction'
     assert ATranslator.format_function_name('axl_custom_function') == 'axlCustomFunction'
+
+
+def test_allegro_translator_exposes_local_function_catalog() -> None:
+    translator = ATranslator()
+    channel = DummyChannel()
+    collection = FunctionCollection(channel, 'db', translator)
+
+    assert 'get_design' in translator.function_names('db')
+    assert 'db_get_design' in translator.function_names('axl')
+    assert translator.function_names('missing') == ()
+    assert 'get_design' in dir(collection)
+    assert not channel.outputs
+
+    channel.inputs.append('"axlDBGetDesign axlDBCreateNet axlGeoDistance"')
+    assert collection.dir() == ['get_design', 'create_net']
+    assert channel.outputs.pop() == DefaultTranslator.encode_globals('axl')
+
+    cns = FunctionCollection(channel, 'cns', translator)
+    channel.inputs.append('"axlCNSCreate axlCnsAddVia axlDBGetDesign"')
+    assert cns.dir() == ['create', 'add_via']
+    assert channel.outputs.pop() == DefaultTranslator.encode_globals('axl')
+
+    channel.inputs.append('"documentation"')
+    assert collection.get_design.help() == 'documentation'
+    assert channel.outputs.pop() == translator.encode_help('axlDBGetDesign')
+
+    missing = FunctionCollection(channel, 'missing', translator)
+    channel.inputs.append('"missingFunction"')
+    assert missing.dir() == ['function']
+    assert channel.outputs.pop() == DefaultTranslator.encode_globals('missing')
 
 
 def test_allegro_translator_has_working_decode() -> None:

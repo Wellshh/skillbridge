@@ -247,10 +247,13 @@ def test_raise_on_failure(server: Virtuoso, channel: Channel):
 def test_workspace_contains_prefixes(server: Virtuoso, ws: Workspace):
     assert "db" in dir(ws)
     assert hasattr(ws, "db")
+    assert "dir" in dir(ws.ge)
+    assert "get_edit_cell_view" not in dir(ws.ge)
+    assert repr(ws.ge) == '<function collection ge*>'
+    assert server.last_question is None
+
     server.answer_success('"geGetEditCellView"')
-    assert "get_edit_cell_view" in dir(ws.ge)
-    server.answer_success('"geGetEditCellView"')
-    assert "get_edit_cell_view" in repr(ws.ge)
+    assert ws.ge.dir() == ['get_edit_cell_view']
 
 
 def test_function_call_is_send(server: Virtuoso, ws: Workspace):
@@ -260,8 +263,11 @@ def test_function_call_is_send(server: Virtuoso, ws: Workspace):
     assert "geGetEditCellView" in server.last_question
     assert cell == 1
 
+    function = ws.ge.get_edit_cell_view
+    assert repr(function) == '<remote function geGetEditCellView>'
+
     server.answer_success('"geGetEditCellView ... doc"')
-    assert "geGetEditCellView" in repr(ws.ge.get_edit_cell_view)
+    assert "geGetEditCellView" in function.help()
 
 
 def test_unknown_function_raises(server: Virtuoso, ws: Workspace):

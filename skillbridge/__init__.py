@@ -96,13 +96,13 @@ def generate_static_completion() -> None:
             if not isinstance(value, FunctionCollection):
                 continue
 
-            if not fullmatch(ident, key) or iskeyword(key):
+            if key.startswith('_') or not fullmatch(ident, key) or iskeyword(key):
                 continue
 
             fout.write(f'    class {key}:\n')
             lines = False
 
-            for func in dir(value):
+            for func in value.dir():
                 if not fullmatch(ident, func) or iskeyword(func):
                     continue
 

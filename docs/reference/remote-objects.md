@@ -130,6 +130,15 @@ expr = ws.axl.db.get_design.expr()
 design = ws.eval(expr)
 ```
 
+`repr()` and `dir()` are local operations. When a bundled API catalog is
+available, `dir()` uses it for completion without contacting Allegro. Query
+the live SKILL runtime or function documentation explicitly:
+
+```python
+names = ws.db.dir()  # one RPC
+text = ws.db.get_design.help()  # one RPC
+```
+
 Remote objects can start the same expression chain:
 
 ```python
