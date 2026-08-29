@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 from __future__ import annotations
 
+from dataclasses import dataclass
 from importlib import import_module
 from threading import Lock
 from types import ModuleType
@@ -14,6 +15,12 @@ if TYPE_CHECKING:
     from allegrobridge.client.session.session import Session
 
 ApiT = TypeVar('ApiT', bound=SessionApi)
+
+
+@dataclass(frozen=True, slots=True)
+class SkillModule:
+    package: str
+    resource: str
 
 
 # Extension Development Specification:

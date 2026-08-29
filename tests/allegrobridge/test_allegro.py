@@ -60,7 +60,7 @@ from allegrobridge.client.api import (
     extension,
     read,
 )
-from allegrobridge.client.base import BaseRecord, SessionRecord
+from allegrobridge.client.base import BaseRecord, SessionRecord, SkillModule
 from allegrobridge.client.base._record import _ID  # ruff: ignore[import-private-name]
 from allegrobridge.client.base._rpc import (  # ruff: ignore[import-private-name]
     _api_procedures,
@@ -435,6 +435,69 @@ class TestSessionExtensions:
         assert session.board is session.board
 
 
+class TestSessionBindings:
+    module = SkillModule('tests.allegrobridge.fixtures', 'server/extensions/probe.il')
+
+    @staticmethod
+    def _api(name: str, procedure: str) -> type[SessionApi]:
+        def project(self: SessionApi) -> RpcArgs:
+            return ()
+
+        return type(
+            name,
+            (SessionApi,),
+            {
+                'module': TestSessionBindings.module,
+                'project': read(procedure, TypeAdapter(int))(project),
+            },
+        )
+
+    def test_bind_prepares_and_caches_api_by_class(self) -> None:
+        api = self._api('ProbeApi', '__abp_probe_project')
+        workspace = MagicMock()
+        session = _session(workspace)
+
+        first = session.bind(api)
+
+        assert isinstance(first, api)
+        assert session.bind(api) is first
+        workspace._ensure_module.assert_called_once_with(
+            self.module,
+            ('__abp_probe_project',),
+        )
+
+    def test_skill_module_is_an_immutable_cache_key(self) -> None:
+        assert hash(self.module) == hash(
+            SkillModule('tests.allegrobridge.fixtures', 'server/extensions/probe.il')
+        )
+        with pytest.raises(FrozenInstanceError):
+            self.module.resource = 'changed.il'  # type: ignore[misc]
+
+    def test_bind_isolates_readiness_errors_by_api_class(self) -> None:
+        broken = self._api('BrokenApi', '__abp_broken_project')
+        working = self._api('WorkingApi', '__abp_working_project')
+        failure = ExtensionError('broken readiness')
+        workspace = MagicMock()
+        workspace._ensure_module.side_effect = [failure, None]
+        session = _session(workspace)
+
+        with pytest.raises(ExtensionError) as first:
+            session.bind(broken)
+        with pytest.raises(ExtensionError) as second:
+            session.bind(broken)
+
+        assert second.value is first.value
+        assert isinstance(session.bind(working), working)
+        assert workspace._ensure_module.call_count == 2
+
+    def test_bind_rejects_api_without_skill_module(self) -> None:
+        class LocalApi(SessionApi):
+            pass
+
+        with pytest.raises(TypeError, match='SkillModule'):
+            _session().bind(LocalApi)
+
+
 class TestCoreKeyedApi:
     def test_returns_matches_and_rejects_none(self, monkeypatch: pytest.MonkeyPatch) -> None:
         component = object()
@@ -615,6 +678,7 @@ class TestReadApi:
             'SessionApi',
             'ShapeInfo',
             'ShapesApi',
+            'SkillModule',
             'SymbolInfo',
             'SymbolsApi',
             'ViaInfo',

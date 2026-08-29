@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 from functools import partial
+from importlib.resources import as_file, files
 from pathlib import Path
 from threading import Lock
 from typing import TYPE_CHECKING, Literal, TypedDict, cast
@@ -11,10 +12,12 @@ from typing import TYPE_CHECKING, Literal, TypedDict, cast
 from typing_extensions import override
 
 import allegrobridge.server
+from allegrobridge.client.base import SkillModule
 from allegrobridge.client.base._rpc import _core_procedures
 from allegrobridge.exceptions import AllegroLaunchError, ExtensionError
 from allegrobridge.util import extract_api_domains
 from skillbridge.client.channel import Channel
+from skillbridge.client.expr import Expr
 from skillbridge.client.functions import FunctionCollection
 from skillbridge.client.hints import Skill, SkillCode, Symbol
 from skillbridge.client.objects import RemoteObject, RemoteTable, RemoteVector
@@ -51,6 +54,8 @@ class Workspace(_WorkspaceTypingMixin, GWorkspace):  # type: ignore[misc]
         self._extension_lock = Lock()
         self._loaded_extensions: set[str] = set()
         self._extension_errors: dict[str, ExtensionError] = {}
+        self._loaded_modules: set[SkillModule] = set()
+        self._module_errors: dict[SkillModule, ExtensionError] = {}
 
     @property
     def transaction(self) -> Txn:
@@ -133,6 +138,46 @@ class Workspace(_WorkspaceTypingMixin, GWorkspace):  # type: ignore[misc]
                 self._extension_errors[name] = failure
                 raise failure from error
             self._loaded_extensions.add(name)
+
+    def _module_is_ready(
+        self,
+        module: SkillModule,
+        procedures: tuple[str, ...],
+    ) -> bool:
+        if not procedures:
+            return True
+        checks = (self['isCallable'].expr(Symbol(name)) for name in procedures)
+        try:
+            return cast('bool', self.eval(Expr.call('and', *checks)))
+        except Exception as error:
+            raise ExtensionError(f'SKILL module {module!r} readiness check failed') from error
+
+    def _ensure_module(self, module: SkillModule, procedures: tuple[str, ...]) -> None:
+        with self._extension_lock:
+            if module in self._module_errors:
+                raise self._module_errors[module]
+            if self._module_is_ready(module, procedures):
+                return
+            if module not in self._loaded_modules:
+                try:
+                    resource = files(module.package).joinpath(module.resource)
+                    if not resource.is_file():
+                        raise ExtensionError(  # ruff: ignore[raise-within-try]
+                            f'SKILL resource {module.resource!r} was not found '
+                            f'in package {module.package!r}'
+                        )
+                    with as_file(resource) as path:
+                        self['load'](path.resolve().as_posix())
+                except ExtensionError as error:
+                    self._module_errors[module] = error
+                    raise
+                except Exception as error:
+                    failure = ExtensionError(f'failed to load SKILL module {module!r}')
+                    self._module_errors[module] = failure
+                    raise failure from error
+                self._loaded_modules.add(module)
+            if not self._module_is_ready(module, procedures):
+                raise ExtensionError(f'SKILL module {module!r} failed readiness check')
 
 
 # Register domain collections as class annotations, excluding 'db' which is inherited

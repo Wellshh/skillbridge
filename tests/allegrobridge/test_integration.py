@@ -5,6 +5,7 @@ from __future__ import annotations
 import sys
 from collections.abc import Iterator
 from contextlib import suppress
+from importlib import import_module
 from json import dumps
 from pathlib import Path
 from shutil import copy2, copytree
@@ -2152,6 +2153,20 @@ class TestExtensionApi:
         probe = session.ext.probe
 
         assert probe is session.ext['probe']
+        assert probe() == session.components()
+
+    def test_bind_returns_typed_api_and_reuses_loaded_skill_module(
+        self,
+        allegro: Allegro,
+        session: Session,
+    ) -> None:
+        if allegro.mode != 'cli':
+            pytest.skip('extension loading test requires the Windows board copy')
+
+        api_type = import_module('allegrobridge.client.api.extensions.probe').ProbeApi
+        probe = session.bind(api_type)
+
+        assert session.bind(api_type) is probe
         assert probe() == session.components()
 
     def test_extension_write_commits_atomically(

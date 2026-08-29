@@ -4,7 +4,15 @@ from __future__ import annotations
 
 from pydantic import TypeAdapter
 
-from allegrobridge.client.api import ComponentInfo, RpcArgs, SessionApi, extension, read, write
+from allegrobridge.client.api import (
+    ComponentInfo,
+    RpcArgs,
+    SessionApi,
+    SkillModule,
+    extension,
+    read,
+    write,
+)
 
 _COMPONENTS = TypeAdapter(list[ComponentInfo])
 _COMPONENT = TypeAdapter(ComponentInfo)
@@ -12,6 +20,8 @@ _COMPONENT = TypeAdapter(ComponentInfo)
 
 @extension
 class ProbeApi(SessionApi):
+    module = SkillModule('tests.allegrobridge.fixtures', 'server/extensions/probe.il')
+
     @read('__abp_probe_project', _COMPONENTS)
     def __call__(self) -> RpcArgs:
         return ()

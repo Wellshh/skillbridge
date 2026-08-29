@@ -5,8 +5,9 @@
 from __future__ import annotations
 
 from functools import cached_property
+from threading import Lock
 from types import TracebackType
-from typing import Protocol
+from typing import Protocol, TypeVar, cast
 
 from typing_extensions import Self
 
@@ -24,9 +25,10 @@ from allegrobridge.client.api import (
     SymbolsApi,
     ViasApi,
 )
-from allegrobridge.client.base import Extensions
-from allegrobridge.client.base._rpc import _api_procedures
+from allegrobridge.client.base import Extensions, SkillModule
+from allegrobridge.client.base._rpc import SessionApi, _api_procedures
 from allegrobridge.client.workspace import Workspace
+from allegrobridge.exceptions import ExtensionError
 
 
 class _Allegro(Protocol):
@@ -36,12 +38,18 @@ class _Allegro(Protocol):
     def close(self) -> None: ...
 
 
-class Session:
+ApiT = TypeVar('ApiT', bound=SessionApi)
+
+
+class Session:  # ruff: ignore[too-many-public-methods]
     def __init__(self, allegro: _Allegro) -> None:
         self._allegro = allegro
         self._generation = 1
         self._epoch = self.raw.epoch
         self._closed = False
+        self._bindings: dict[type[SessionApi], SessionApi] = {}
+        self._binding_errors: dict[type[SessionApi], ExtensionError] = {}
+        self._binding_lock = Lock()
 
     @property
     def raw(self) -> Workspace:
@@ -60,6 +68,50 @@ class Session:
 
     def batch(self, description: str = '', *, dry_run: bool = False) -> Batch:
         return Batch(self, description, dry_run=dry_run)
+
+    def bind(self, api_type: type[ApiT]) -> ApiT:
+        """Binds and lazily initializes a strongly-typed extension API to this session.
+        Ensures that the declared `SkillModule` (`api_type.module`) and its required
+        SKILL procedures are loaded and ready in the remote Allegro workspace. Bound
+        API instances are cached per session, ensuring singleton behavior and thread safety.
+        Args:
+            api_type: The `SessionApi` subclass to bind. Must declare a `module: SkillModule`
+                class attribute specifying the packaged `.il` resource.
+        Returns:
+            An initialized, strongly-typed instance of `api_type` bound to this session.
+        Raises:
+            TypeError: If `api_type` does not declare a valid `SkillModule`.
+            ExtensionError: If the remote SKILL module cannot be located, fails to load,
+                or fails the procedure readiness check.
+        Example:
+            >>> class ProbeApi(SessionApi):
+            ...     module = SkillModule('my_package.fixtures', 'server/extensions/probe.il')
+            ...
+            ...     @read('__abp_probe_project', TypeAdapter(list[ComponentInfo]))
+            ...     def __call__(self) -> RpcArgs:
+            ...         return ()
+            >>> probe = session.bind(ProbeApi)
+            >>> components = probe()
+        """
+        with self._binding_lock:
+            if api_type in self._bindings:
+                return cast('ApiT', self._bindings[api_type])
+            if api_type in self._binding_errors:
+                raise self._binding_errors[api_type]
+            module = getattr(api_type, 'module', None)
+            if not isinstance(module, SkillModule):
+                raise TypeError(f'{api_type.__name__} must declare a SkillModule')
+            try:
+                self.raw._ensure_module(  # ruff: ignore[private-member-access]
+                    module,
+                    _api_procedures(api_type),
+                )
+            except ExtensionError as error:
+                self._binding_errors[api_type] = error
+                raise
+            api = api_type(self)
+            self._bindings[api_type] = api
+            return api
 
     # --- First-Class Domain APIs ---
     # Direct access on Session. Heavy or version-sensitive domains (e.g. DRC)

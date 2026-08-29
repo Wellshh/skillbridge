@@ -15,6 +15,7 @@ from pytest import MonkeyPatch, mark, raises
 
 import allegrobridge.server
 from allegrobridge import Workspace as AllegroWorkspace
+from allegrobridge.client.base import SkillModule
 from allegrobridge.exceptions import ExtensionError
 from skillbridge import Workspace
 from skillbridge.client import workspace as workspace_module
@@ -86,6 +87,14 @@ class ScriptedChannel(DummyChannel):
 
     def close(self) -> None:
         self.closed = True
+
+
+class RejectingLoadChannel(ScriptedChannel):
+    def send(self, data: str) -> str:
+        if data.startswith('load('):
+            self.commands.append(data)
+            raise RuntimeError('server rejected the load')
+        return super().send(data)
 
 
 def test_a_crash_while_closing_still_clears_the_cache():
@@ -512,6 +521,87 @@ def test_allegro_workspace_caches_extension_transport_failure() -> None:
 
     assert second.value is first.value
     assert isinstance(first.value.__cause__, RuntimeError)
+
+
+def test_allegro_workspace_loads_skill_module_once_for_multiple_apis() -> None:
+    module = SkillModule('tests.allegrobridge.fixtures', 'server/extensions/probe.il')
+    channel = ScriptedChannel('False', 'None', 'True', 'True')
+    ws = AllegroWorkspace(channel=channel, id_=456)
+
+    ws._ensure_module(module, ('__abp_probe_project',))
+    ws._ensure_module(module, ('__abp_probe_move',))
+
+    resource = Path(__file__).parent / 'allegrobridge/fixtures/server/extensions/probe.il'
+    assert channel.commands == [
+        "and(isCallable('__abp_probe_project))",
+        f'load({dumps(resource.resolve().as_posix())})',
+        "and(isCallable('__abp_probe_project))",
+        "and(isCallable('__abp_probe_move))",
+    ]
+
+
+def test_allegro_workspace_checks_all_module_procedures_in_one_request() -> None:
+    module = SkillModule('example_plugin', 'server.il')
+    channel = ScriptedChannel('True')
+    ws = AllegroWorkspace(channel=channel, id_=456)
+
+    ws._ensure_module(module, ('firstProcedure', 'secondProcedure'))
+    ws._ensure_module(module, ())
+
+    assert channel.commands == ["and(isCallable('firstProcedure) isCallable('secondProcedure))"]
+
+
+def test_allegro_workspace_module_readiness_failure_does_not_poison_other_api() -> None:
+    module = SkillModule('tests.allegrobridge.fixtures', 'server/extensions/probe.il')
+    channel = ScriptedChannel('False', 'None', 'False', 'False', 'False', 'True')
+    ws = AllegroWorkspace(channel=channel, id_=456)
+
+    with raises(ExtensionError, match='readiness'):
+        ws._ensure_module(module, ('__abp_missing_project',))
+    with raises(ExtensionError, match='readiness'):
+        ws._ensure_module(module, ('__abp_other_missing_project',))
+
+    ws._ensure_module(module, ('__abp_probe_project',))
+    assert len([command for command in channel.commands if command.startswith('load(')]) == 1
+
+
+def test_allegro_workspace_caches_skill_module_load_failure() -> None:
+    module = SkillModule('tests.allegrobridge.fixtures', 'server/extensions/missing.il')
+    channel = ScriptedChannel('False')
+    ws = AllegroWorkspace(channel=channel, id_=456)
+
+    with raises(ExtensionError, match='was not found') as first:
+        ws._ensure_module(module, ('__abp_missing_project',))
+    with raises(ExtensionError) as second:
+        ws._ensure_module(module, ('__abp_missing_project',))
+
+    assert second.value is first.value
+    assert channel.commands == ["and(isCallable('__abp_missing_project))"]
+
+
+def test_allegro_workspace_wraps_module_readiness_transport_failure() -> None:
+    module = SkillModule('example_plugin', 'server.il')
+    ws = AllegroWorkspace(channel=RejectingChannel(), id_=456)
+
+    with raises(ExtensionError, match='readiness check failed') as failure:
+        ws._ensure_module(module, ('serverProcedure',))
+
+    assert isinstance(failure.value.__cause__, RuntimeError)
+
+
+def test_allegro_workspace_caches_skill_module_transport_failure() -> None:
+    module = SkillModule('tests.allegrobridge.fixtures', 'server/extensions/probe.il')
+    channel = RejectingLoadChannel('False')
+    ws = AllegroWorkspace(channel=channel, id_=456)
+
+    with raises(ExtensionError, match='failed to load SKILL module') as first:
+        ws._ensure_module(module, ('__abp_probe_project',))
+    with raises(ExtensionError) as second:
+        ws._ensure_module(module, ('__abp_probe_project',))
+
+    assert second.value is first.value
+    assert isinstance(first.value.__cause__, RuntimeError)
+    assert len(channel.commands) == 2
 
 
 def test_allegro_workspace_closes_when_core_runtime_stays_incomplete(

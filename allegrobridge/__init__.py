@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 from .allegro import Allegro, OpenMode
+from .client.base import SkillModule
 from .client.session import Session
 from .client.workspace import Workspace
 
@@ -12,5 +13,6 @@ __all__ = [
     'Allegro',
     'OpenMode',
     'Session',
+    'SkillModule',
     'Workspace',
 ]

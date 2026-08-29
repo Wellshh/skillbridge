@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing_extensions import assert_type
 
-from allegrobridge import Allegro, Session, Workspace
+from allegrobridge import Allegro, Session, SkillModule, Workspace
 from allegrobridge.client.api import (
     ComponentInfo,
     DrcInfo,
@@ -13,6 +13,7 @@ from allegrobridge.client.api import (
     PadstackInfo,
     PinInfo,
     RouteInfo,
+    SessionApi,
     ShapeInfo,
     SymbolInfo,
     ViaInfo,
@@ -22,6 +23,10 @@ from skillbridge import Workspace as GWorkspace
 from skillbridge.client.functions import LiteralRemoteFunction
 from skillbridge.client.hints import Skill, Symbol
 from skillbridge.client.objects import RemoteObject
+
+
+class BoundApi(SessionApi):
+    module = SkillModule('example_plugin', 'server.il')
 
 
 def check_axl_stub_contract(
@@ -34,6 +39,7 @@ def check_axl_stub_contract(
     ws = allegro.workspace
     assert_type(ws, Workspace)
     assert_type(session.raw, Workspace)
+    assert_type(session.bind(BoundApi), BoundApi)
     assert_type(session.nets.snapshot(), list[NetInfo])
     assert_type(session.nets['GND'], NetInfo)
     assert_type(session.nets.get('GND'), NetInfo | None)
