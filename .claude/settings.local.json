@@ -177,7 +177,9 @@
       "Bash(ls \"$\\(npm root -g\\)/playwright\")",
       "Bash(node -e \"try{require.resolve\\('playwright'\\);console.log\\('resolvable'\\)}catch\\(e\\){console.log\\('not resolvable'\\)}\")",
       "Bash(git commit -q -m 'fix\\(docs\\): resolve api-index.json path for the command palette *)",
-      "Bash(git commit -q -m 'feat\\(docs\\): make the api palette navigable and clickable *)"
+      "Bash(git commit -q -m 'feat\\(docs\\): make the api palette navigable and clickable *)",
+      "Bash(python3 -c ' *)",
+      "Bash(git commit -q -m 'docs: render the quickstart notebook as a themed page *)"
     ]
   }
 }
