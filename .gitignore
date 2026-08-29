@@ -10,6 +10,7 @@ skillbridge.egg-info/*
 **/.hypothesis/*
 **/.mypy_cache/*
 **/htmlcov/*
+.benchmarks/
 
 env/*
 

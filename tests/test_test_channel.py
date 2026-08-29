@@ -5,6 +5,7 @@ from pytest import fixture, raises, warns
 
 from skillbridge import Key, ParseError
 from skillbridge.test import DummyWorkspace, PassWorkspace
+from skillbridge.test.channel import DummyChannel
 
 
 @fixture
@@ -75,3 +76,12 @@ def test_pass_works(passws):
     assert passws._test_translator.encode('value') == 'value'
     assert passws._test_channel.flush() is None
     assert passws._test_channel.try_repair() is None
+
+
+def test_dummy_channel_reports_unprepared_request() -> None:
+    channel = DummyChannel()
+
+    with raises(RuntimeError, match=r'request was short$'):
+        channel.send('short')
+    with raises(RuntimeError, match=rf'request was {"x" * 100}\.\.\.$'):
+        channel.send('x' * 101)

@@ -163,7 +163,7 @@ def _render(node: _Node, context: _Context | None = None) -> SkillCode:  # ruff:
             return SkillCode(
                 f'progn(foreach({var_name} {rendered_values} {rendered_predicate}) nil)'
             )
-        case _BinOp(left, operator, right):
+        case _BinOp(left, operator, right):  # pragma: no branch
             return SkillCode(f'({_render(left, context)} {operator} {_render(right, context)})')
 
 

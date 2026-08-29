@@ -44,7 +44,11 @@ version = {attr = "skillbridge.version.__version__"}
 
 [project.optional-dependencies]
 dev = [
+    "build>=1,<2",
+    "setuptools>=57",
+    "wheel",
     "pytest",
+    "pytest-benchmark>=5,<6",
     "pytest-cov",
     "hypothesis",
     "mypy<2",
@@ -59,7 +63,11 @@ doc = [
 
 [dependency-groups]
 dev = [
+    "build>=1,<2",
+    "setuptools>=57",
+    "wheel",
     "pytest",
+    "pytest-benchmark>=5,<6",
     "pytest-cov",
     "hypothesis",
     "mypy<2",
@@ -88,6 +96,7 @@ allegrobridge = [
     "server/*.il",
     "server/extensions/*.il",
 ]
+skillbridge = ["py.typed", "server/*.il"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
