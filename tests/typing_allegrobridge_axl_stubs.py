@@ -63,6 +63,10 @@ def check_axl_stub_contract(
     assert_type(session.nets.get('GND'), NetInfo | None)
     assert_type(session.components.snapshot(), list[ComponentInfo])
     assert_type(session.components.get('R1'), ComponentInfo | None)
+    assert_type(
+        session.components.move_by(session.components.snapshot(), dx=1.0, dy=2.0),
+        list[ComponentInfo],
+    )
     assert_type(session.layers.snapshot(), list[LayerInfo])
     assert_type(session.layers.get('ETCH/TOP'), LayerInfo | None)
     assert_type(session.padstacks.snapshot(), list[PadstackInfo])
@@ -85,6 +89,15 @@ def check_axl_stub_contract(
                 y=2.0,
             ),
             CmdResult[ComponentInfo],
+        )
+        assert_type(
+            batch.call(
+                session.components.move_by.command,
+                session.components.snapshot(),
+                dx=1.0,
+                dy=2.0,
+            ),
+            CmdResult[list[ComponentInfo]],
         )
         batch.call(
             session.components.move.command,

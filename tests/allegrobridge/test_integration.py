@@ -602,6 +602,56 @@ class TestComponentsApi:
         with pytest.raises(RuntimeError, match='COMPONENT_NOT_FOUND'):
             session.components.move('__MISSING_COMPONENT__', x=1.0, y=2.0)
 
+    def test_move_by_projects_updated_components(
+        self,
+        allegro: Allegro,
+        session: Session,
+    ) -> None:
+        if allegro.mode != 'cli':
+            pytest.skip('component move test requires the Windows board copy')
+
+        originals = session.components(include_unplaced=False)[:2]
+        assert len(originals) == 2
+        assert all(component.x is not None and component.y is not None for component in originals)
+
+        try:
+            moved = session.components.move_by(originals, dx=1.0, dy=2.0)
+            assert [component.refdes for component in moved] == [
+                component.refdes for component in originals
+            ]
+            assert [component.x for component in moved] == pytest.approx([
+                component.x + 1.0 for component in originals if component.x is not None
+            ])
+            assert [component.y for component in moved] == pytest.approx([
+                component.y + 2.0 for component in originals if component.y is not None
+            ])
+        finally:
+            for component in originals:
+                session.components.move(
+                    component.refdes,
+                    x=component.x,
+                    y=component.y,
+                    rotation=component.rotation,
+                )
+
+    def test_move_by_preview_returns_projections_and_rolls_back(
+        self,
+        allegro: Allegro,
+        session: Session,
+    ) -> None:
+        if allegro.mode != 'cli':
+            pytest.skip('component move test requires the Windows board copy')
+
+        originals = session.components(include_unplaced=False)[:2]
+        assert len(originals) == 2
+
+        preview = session.components.move_by.preview(originals, dx=1.0, dy=2.0)
+
+        assert [component.refdes for component in preview] == [
+            component.refdes for component in originals
+        ]
+        assert [session.components[component.refdes] for component in originals] == originals
+
     def test_move_preview_returns_projection_and_rolls_back(
         self,
         allegro: Allegro,

@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 from __future__ import annotations
 
+from collections.abc import Sequence
 from typing import Literal
 
 from pydantic import TypeAdapter
@@ -12,6 +13,7 @@ from allegrobridge.client.base._rpc import RpcArgs, _core_api, read, write
 
 _PROCEDURE = '__abProjectComponents'
 _MOVE_PROCEDURE = '__abMoveComponent'
+_MOVE_BY_PROCEDURE = '__abMoveComponentsBy'
 
 
 class ComponentInfo(_OptionalLocated):
@@ -58,4 +60,20 @@ class ComponentsApi(KeyedCollection[str, ComponentInfo]):
             _coerce_finite_float(x),
             _coerce_finite_float(y),
             None if rotation is None else _coerce_finite_float(rotation),
+        )
+
+    @write(_MOVE_BY_PROCEDURE, _COMPONENTS)
+    def move_by(
+        self,
+        components: Sequence[ComponentInfo],
+        *,
+        dx: float,
+        dy: float,
+    ) -> RpcArgs:
+        for component in components:
+            component._check_id(self._session)  # ruff: ignore[private-member-access]
+        return (
+            [component.refdes for component in components],
+            _coerce_finite_float(dx),
+            _coerce_finite_float(dy),
         )

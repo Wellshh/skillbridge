@@ -682,6 +682,7 @@ class TestReadApi:
             '__abProjectBoard',
             '__abProjectComponents',
             '__abMoveComponent',
+            '__abMoveComponentsBy',
             '__abProjectLayers',
             '__abProjectNets',
             '__abProjectPadstacks',
@@ -730,6 +731,7 @@ class TestReadApi:
         assert ProbeApi.items.spec == RpcDef('read', '__abList')
         assert DrcApi.check.spec == RpcDef('direct', '__abCheckDrcs')
         assert ComponentsApi.move.spec == RpcDef('write', '__abMoveComponent')
+        assert ComponentsApi.move_by.spec == RpcDef('write', '__abMoveComponentsBy')
         assert not hasattr(ProbeApi.items.spec, 'nil_as_empty_list')
         with pytest.raises(FrozenInstanceError):
             ProbeApi.items.spec.kind = 'write'
@@ -1498,6 +1500,87 @@ class TestWriteApi:
                     y=y,  # type: ignore[arg-type]
                     rotation=rotation,  # type: ignore[arg-type]
                 )
+
+        workspace.__getitem__.assert_not_called()
+
+    def test_move_by_builds_one_atomic_command_and_preserves_order(self) -> None:
+        workspace = MagicMock()
+        remote = workspace.__getitem__.return_value
+        expression = '__abMoveComponentsBy((list "R1" "R2") 1.0 2.0)'
+        remote.expr.return_value = Expr.raw_skill(expression)
+        payloads = [
+            self._component_payload(2.0),
+            self._component_payload(3.0) | {'refdes': 'R2'},
+        ]
+        workspace.transaction.return_value = payloads
+        session = _session(workspace)
+        components = [
+            _bind_id(ComponentInfo.model_validate(self._component_payload(1.0)), session),
+            _bind_id(
+                ComponentInfo.model_validate(self._component_payload(2.0) | {'refdes': 'R2'}),
+                session,
+            ),
+        ]
+
+        command = session.components.move_by.command(components, dx=1.0, dy=2.0)
+
+        assert ComponentsApi.move_by.spec.proc == '__abMoveComponentsBy'
+        assert list(signature(session.components.move_by).parameters) == ['components', 'dx', 'dy']
+        assert command.proc == '__abMoveComponentsBy'
+        assert command.expr == expression
+        assert remote.expr.call_args.args == (['R1', 'R2'], 1.0, 2.0)
+        workspace.transaction.assert_not_called()
+
+        moved = session.components.move_by(components, dx=1.0, dy=2.0)
+
+        assert [component.refdes for component in moved] == ['R1', 'R2']
+        assert [component.x for component in moved] == [2.0, 3.0]
+        assert all(component._id == _ID(ref(session), session.generation) for component in moved)
+        workspace.transaction.assert_called_once_with(expression)
+
+    @pytest.mark.parametrize(
+        ('dx', 'dy'),
+        [
+            (True, 1.0),
+            ('1.0', 1.0),
+            (float('nan'), 1.0),
+            (1.0, float('inf')),
+            (1.0, float('-inf')),
+        ],
+    )
+    def test_move_by_rejects_invalid_delta_before_rpc(self, dx: object, dy: object) -> None:
+        workspace = MagicMock()
+        session = _session(workspace)
+        component = _bind_id(
+            ComponentInfo.model_validate(self._component_payload(1.0)),
+            session,
+        )
+
+        with pytest.raises(ValidationError):
+            session.components.move_by.command(
+                [component],
+                dx=dx,  # type: ignore[arg-type]
+                dy=dy,  # type: ignore[arg-type]
+            )
+
+        workspace.__getitem__.assert_not_called()
+
+    def test_move_by_rejects_unbound_foreign_and_stale_records_before_rpc(self) -> None:
+        workspace = MagicMock()
+        session = _session(workspace)
+        other = _session()
+        unbound = ComponentInfo.model_validate(self._component_payload(1.0))
+        foreign = _bind_id(ComponentInfo.model_validate(self._component_payload(1.0)), other)
+        stale = _bind_id(ComponentInfo.model_validate(self._component_payload(1.0)), session)
+        session.refresh()
+
+        for component, message in [
+            (unbound, 'not bound'),
+            (foreign, 'another Session'),
+            (stale, 'stale'),
+        ]:
+            with pytest.raises(RecordIDError, match=message):
+                session.components.move_by.command([component], dx=1.0, dy=2.0)
 
         workspace.__getitem__.assert_not_called()
 

@@ -364,6 +364,7 @@ def test_allegro_workspace_open_detects_server(
             "isCallable('__abProjectBoard)",
             "isCallable('__abProjectComponents)",
             "isCallable('__abMoveComponent)",
+            "isCallable('__abMoveComponentsBy)",
             "isCallable('__abProjectLayers)",
             "isCallable('__abProjectNets)",
             "isCallable('__abProjectPadstacks)",
@@ -381,6 +382,7 @@ def test_allegro_workspace_loads_missing_core_runtime(
     channel = ScriptedChannel(
         'True',
         'None',
+        'True',
         'True',
         'True',
         'True',
@@ -414,6 +416,7 @@ def test_allegro_workspace_loads_missing_core_runtime(
         "isCallable('__abProjectBoard)",
         "isCallable('__abProjectComponents)",
         "isCallable('__abMoveComponent)",
+        "isCallable('__abMoveComponentsBy)",
         "isCallable('__abProjectLayers)",
         "isCallable('__abProjectNets)",
         "isCallable('__abProjectPadstacks)",

@@ -65,8 +65,7 @@ class RoutesApi(Collection[RouteInfo]):
             raise ValueError('a route requires at least two points')
         if any(len(point) != _POINT_SIZE for point in points):
             raise ValueError('route points must contain exactly two coordinates')
-        points = [_coerce_point(point) for point in points]
         width = _coerce_finite_float(width)
         if width <= 0:
             raise ValueError('route width must be positive')
-        return net, list(points), layer, width
+        return net, [_coerce_point(point) for point in points], layer, width

@@ -125,6 +125,36 @@
         (putd '__abTransformSymbol originalTransformSymbol)))
     (list success result observed)))
 
+(defun __abTestMoveByOperation (design refreshedDesign transformValue refdeses dx dy)
+  (let ((originalFreshDesign (getd '__abFreshDesign))
+        (originalTransformSymbols (getd '__abTransformSymbols))
+        (designs (list design refreshedDesign))
+        observed
+        (transformCount 0)
+        (freshCount 0)
+        result
+        success)
+    (unwindProtect
+      (progn
+        (putd '__abFreshDesign
+              (lambda ()
+                (let ((value (car designs)))
+                  (setq designs (cdr designs))
+                  (setq freshCount (add1 freshCount))
+                  value)))
+        (putd '__abTransformSymbols
+              (lambda (symbols delta)
+                (setq transformCount (add1 transformCount))
+                (setq observed (list symbols delta))
+                transformValue))
+        (catch t
+          (setq result (__abMoveComponentsBy refdeses dx dy))
+          (setq success t)))
+      (progn
+        (putd '__abFreshDesign originalFreshDesign)
+        (putd '__abTransformSymbols originalTransformSymbols)))
+    (list success result observed transformCount freshCount)))
+
 (qtest::runSuites
   (qtest::TestSuite ()
     (qtest::TestCase test_move_rejects_missing_component
@@ -157,6 +187,65 @@
                (run (__abTestMoveOperation design t nil "R4" 1.0 2.0 nil)))
         (qtest::assertNil (car run))
         (qtest::assertTrue (caddr run))))
+
+    (qtest::TestCase test_move_by_transforms_all_symbols_once_and_preserves_order
+      (letseq ((symbol1 (list nil 'xy 1.0:2.0 'rotation 0.0))
+               (symbol2 (list nil 'xy 3.0:4.0 'rotation 90.0))
+               (component1 (list nil 'name "R1" 'deviceType "RESISTOR"
+                                 'package "RES_0402" 'class "DISCRETE"
+                                 'symbol symbol1))
+               (component2 (list nil 'name "R2" 'deviceType "RESISTOR"
+                                 'package "RES_0402" 'class "DISCRETE"
+                                 'symbol symbol2))
+               (design (list nil 'components (list component1 component2)))
+               (run (__abTestMoveByOperation design design t '("R2" "R1") 1.0 2.0)))
+        (qtest::assertTrue (car run))
+        (qtest::assertEqual
+          '("R2" "R1")
+          (mapcar (lambda (component) (get component 'refdes)) (cadr run)))
+        (qtest::assertEqual (list symbol2 symbol1) (car (caddr run)))
+        (qtest::assertEqual '(1.0 2.0) (cadr (caddr run)))
+        (qtest::assertEqual 1 (cadddr run))
+        (qtest::assertEqual 2 (car (cddddr run)))))
+
+    (qtest::TestCase test_move_by_empty_input_returns_without_transform
+      (letseq ((design (list nil 'components nil))
+               (run (__abTestMoveByOperation design design t nil 1.0 2.0)))
+        (qtest::assertTrue (car run))
+        (qtest::assertNil (cadr run))
+        (qtest::assertNil (caddr run))
+        (qtest::assertEqual 0 (cadddr run))
+        (qtest::assertEqual 1 (car (cddddr run)))))
+
+    (qtest::TestCase test_move_by_validates_all_components_before_transform
+      (letseq ((symbol (list nil 'xy 1.0:2.0 'rotation 0.0))
+               (placed (list nil 'name "R1" 'symbol symbol))
+               (unplaced (list nil 'name "R2" 'symbol nil))
+               (design (list nil 'components (list placed unplaced)))
+               (missing (__abTestMoveByOperation design design t '("R1" "MISSING")
+                                                 1.0 2.0))
+               (notPlaced (__abTestMoveByOperation design design t '("R1" "R2")
+                                                   1.0 2.0)))
+        (qtest::assertNil (car missing))
+        (qtest::assertNil (cadddr missing))
+        (qtest::assertNil (car notPlaced))
+        (qtest::assertNil (cadddr notPlaced))))
+
+    (qtest::TestCase test_move_by_reports_transform_and_refresh_failures
+      (letseq ((symbol (list nil 'xy 1.0:2.0 'rotation 0.0))
+               (component (list nil 'name "R1" 'symbol symbol))
+               (design (list nil 'components (list component)))
+               (missingAfter (list nil 'components nil))
+               (transformFailure
+                 (__abTestMoveByOperation design design nil '("R1") 1.0 2.0))
+               (refreshFailure
+                 (__abTestMoveByOperation design missingAfter t '("R1") 1.0 2.0)))
+        (qtest::assertNil (car transformFailure))
+        (qtest::assertEqual 1 (cadddr transformFailure))
+        (qtest::assertEqual 1 (car (cddddr transformFailure)))
+        (qtest::assertNil (car refreshFailure))
+        (qtest::assertEqual 1 (cadddr refreshFailure))
+        (qtest::assertEqual 2 (car (cddddr refreshFailure)))))
 
     (qtest::TestCase test_components_projection_filters_refdes_and_placement
       (letseq ((originalFreshDesign (getd '__abFreshDesign))

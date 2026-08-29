@@ -17,6 +17,10 @@
 (defun __abTransformSymbol (symbol delta angle)
   (axlTransformObject symbol ?move delta ?angle angle))
 
+(putd '__abTransformSymbols nil)
+(defun __abTransformSymbols (symbols delta)
+  (axlDBCloak '(and (axlTransformObject symbols ?move delta ?allOrNone t) t)))
+
 (putd '__abRefreshSymbol nil)
 (defun __abRefreshSymbol (symbol)
   (axlDBRefreshId symbol))
@@ -57,14 +61,19 @@
         (setq result (cons (__abProjectComponent component) result))))
     (reverse result)))
 
+(putd '__abFindComponent nil)
+(defun __abFindComponent (components refdes)
+  (let (matched)
+    (foreach component components
+      (when (equal refdes component->name)
+        (setq matched component)))
+    matched))
+
 (putd '__abMoveComponent nil)
 (defun __abMoveComponent (refdes x y rotation)
   (letseq ((design (__abFreshDesign))
-           (component nil)
+           (component (__abFindComponent design->components refdes))
            symbol currentXY delta angle transformed)
-    (foreach candidate design->components
-      (when (equal refdes candidate->name)
-        (setq component candidate)))
     (unless component
       (error (sprintf nil "COMPONENT_NOT_FOUND: %L" refdes)))
     (setq symbol component->symbol)
@@ -83,6 +92,32 @@
     (unless symbol
       (error (sprintf nil "COMPONENT_REFRESH_FAILED: %L" refdes)))
     (__abProjectComponent component ?symbolOverride symbol)))
+
+(putd '__abMoveComponentsBy nil)
+(defun __abMoveComponentsBy (refdeses dx dy)
+  (letseq ((design (__abFreshDesign))
+           symbols result)
+    (foreach refdes refdeses
+      (letseq ((component (__abFindComponent design->components refdes))
+               symbol)
+        (unless component
+          (error (sprintf nil "COMPONENT_NOT_FOUND: %L" refdes)))
+        (setq symbol component->symbol)
+        (unless symbol
+          (error (sprintf nil "COMPONENT_UNPLACED: %L" refdes)))
+        (setq symbols (cons symbol symbols))))
+    (if (null symbols)
+        nil
+        (progn
+          (unless (__abTransformSymbols (reverse symbols) (list dx dy))
+            (error (sprintf nil "COMPONENT_TRANSFORM_FAILED: %L" refdeses)))
+          (setq design (__abFreshDesign))
+          (foreach refdes refdeses
+            (let ((component (__abFindComponent design->components refdes)))
+              (unless (and component component->symbol)
+                (error (sprintf nil "COMPONENT_REFRESH_FAILED: %L" refdes)))
+              (setq result (cons (__abProjectComponent component) result))))
+          (reverse result)))))
 
 (putd '__abProjectNet nil)
 (defun __abProjectNet (net)
