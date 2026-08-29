@@ -2165,17 +2165,20 @@ class TestDrcApi:
 
 
 class TestBoundApi:
-    def test_missing_extension_is_cached_and_core_api_survives(
+    def test_missing_module_is_cached_and_core_api_survives(
         self,
         allegro: Allegro,
         session: Session,
     ) -> None:
         if allegro.mode != 'cli':
-            pytest.skip('extension loading test requires the Windows board copy')
+            pytest.skip('module loading test requires the Windows board copy')
 
-        with pytest.raises(ExtensionError, match='missing_server') as first:
+        with pytest.raises(
+            ExtensionError,
+            match=r'server/extensions/missing\.il.*was not found',
+        ) as first:
             session.bind(MissingServerApi)
-        with pytest.raises(ExtensionError, match='missing_server') as second:
+        with pytest.raises(ExtensionError) as second:
             session.bind(MissingServerApi)
 
         assert second.value is first.value

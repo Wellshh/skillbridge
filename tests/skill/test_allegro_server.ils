@@ -227,9 +227,9 @@
                (notPlaced (__abTestMoveByOperation design design t '("R1" "R2")
                                                    1.0 2.0)))
         (qtest::assertNil (car missing))
-        (qtest::assertNil (cadddr missing))
+        (qtest::assertEqual 0 (cadddr missing))
         (qtest::assertNil (car notPlaced))
-        (qtest::assertNil (cadddr notPlaced))))
+        (qtest::assertEqual 0 (cadddr notPlaced))))
 
     (qtest::TestCase test_move_by_reports_transform_and_refresh_failures
       (letseq ((symbol (list nil 'xy 1.0:2.0 'rotation 0.0))
