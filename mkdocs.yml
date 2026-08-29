@@ -91,6 +91,7 @@ nav:
       - Logging: guide/logging.md
   - Examples:
       - examples/index.md
+      - Quickstart (notebook): examples/quickstart.md
       - Basic queries: examples/basic.md
       - Moving a component: examples/move-component.md
       - Batching writes: examples/batch.md
