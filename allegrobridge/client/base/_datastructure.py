@@ -1,9 +1,6 @@
 # Copyright (c) 2025-2026 Bai Junyan and contributors.
 # SPDX-License-Identifier: LGPL-3.0-or-later
-"""Generic datastructures for easy CRUD roundtrips between python and skill.
-
-Used for wrapped high-level apis.
-"""
+"""Generic data structures for high-level remote collections."""
 
 from __future__ import annotations
 

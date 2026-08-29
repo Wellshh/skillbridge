@@ -21,7 +21,7 @@
         (qtest::assertEqual "Ts Allowed" (get projected 'name))
         (qtest::assertEqual "PHYSICAL CONSTRAINTS" (get projected 'category))
         (qtest::assertEqual 1.0 (get (get projected 'location) 'x))
-        (qtest::assertEqual 3.0 (get (get (get projected 'bbox) 'upper_right) 'y))
+        (qtest::assertEqual 3.0 (get (get (get projected 'bbox) 'ur) 'y))
         (qtest::assertEqual "pin" (get (car objects) 'kind))
         (qtest::assertEqual "component" (get (cadr objects) 'kind))
         (qtest::assertEqual "net" (get (caddr objects) 'kind))

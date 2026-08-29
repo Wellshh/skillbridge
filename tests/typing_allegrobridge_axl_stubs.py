@@ -5,7 +5,18 @@ from __future__ import annotations
 from typing_extensions import assert_type
 
 from allegrobridge import Allegro, Session, Workspace
-from allegrobridge.client.api import ComponentInfo, LayerInfo, NetInfo, PadstackInfo, PinInfo
+from allegrobridge.client.api import (
+    ComponentInfo,
+    DrcInfo,
+    LayerInfo,
+    NetInfo,
+    PadstackInfo,
+    PinInfo,
+    RouteInfo,
+    ShapeInfo,
+    SymbolInfo,
+    ViaInfo,
+)
 from skillbridge import Expr
 from skillbridge import Workspace as GWorkspace
 from skillbridge.client.functions import LiteralRemoteFunction
@@ -34,6 +45,11 @@ def check_axl_stub_contract(
     assert_type(session.padstacks.get('VIA12'), PadstackInfo | None)
     assert_type(session.pins.snapshot(), list[PinInfo])
     assert_type(session.pins.get(('U1', '1')), PinInfo | None)
+    assert_type(session.symbols.snapshot(), list[SymbolInfo])
+    assert_type(session.vias.snapshot(), list[ViaInfo])
+    assert_type(session.routes.snapshot(), list[RouteInfo])
+    assert_type(session.shapes.snapshot(), list[ShapeInfo])
+    assert_type(session.drc.snapshot(), list[DrcInfo])
     assert_type(Workspace.open(), GWorkspace)
 
     assert_type(ws.axl.db_get_design(), RemoteObject | None)

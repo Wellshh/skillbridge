@@ -6,8 +6,8 @@ from typing import Literal
 
 from pydantic import TypeAdapter
 
-from allegrobridge.client.base import SessionRecord
-from allegrobridge.client.base._rpc import RpcArgs, SessionApi, read, write
+from allegrobridge.client.base import Collection, SessionRecord
+from allegrobridge.client.base._rpc import RpcArgs, read, write
 
 _PROJECT_PROCEDURE = '__abProjectVias'
 _CREATE_PROCEDURE = '__abCreateVia'
@@ -30,9 +30,9 @@ _VIAS = TypeAdapter(_ViaList)
 _VIA = TypeAdapter(ViaInfo)
 
 
-class ViasApi(SessionApi):
+class ViasApi(Collection[ViaInfo]):
     @read(_PROJECT_PROCEDURE, _VIAS)
-    def __call__(
+    def _project(
         self,
         *,
         net: str | None = None,
@@ -40,6 +40,18 @@ class ViasApi(SessionApi):
         padstack: str | None = None,
     ) -> RpcArgs:
         return net, layer, padstack
+
+    def __call__(
+        self,
+        *,
+        net: str | None = None,
+        layer: str | None = None,
+        padstack: str | None = None,
+    ) -> list[ViaInfo]:
+        return self._project(net=net, layer=layer, padstack=padstack)
+
+    def _snapshot(self) -> list[ViaInfo]:
+        return self._project(net=None, layer=None, padstack=None)
 
     @write(_CREATE_PROCEDURE, _VIA)
     def create(

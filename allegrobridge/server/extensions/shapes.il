@@ -9,8 +9,8 @@
 (putd '__abProjectShapeBBox nil)
 (defun __abProjectShapeBBox (bbox)
   (list nil
-        'lower_left (__abProjectShapePoint (car bbox))
-        'upper_right (__abProjectShapePoint (cadr bbox))))
+        'll (__abProjectShapePoint (car bbox))
+        'ur (__abProjectShapePoint (cadr bbox))))
 
 (putd '__abShapeNetName nil)
 (defun __abShapeNetName (shape)

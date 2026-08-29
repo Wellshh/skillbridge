@@ -60,8 +60,8 @@
           'layer marker->layer
           'location (list nil 'x (car marker->xy) 'y (cadr marker->xy))
           'bbox (list nil
-                      'lower_left (list nil 'x (car (car bbox)) 'y (cadr (car bbox)))
-                      'upper_right (list nil 'x (car (cadr bbox)) 'y (cadr (cadr bbox))))
+                      'll (list nil 'x (car (car bbox)) 'y (cadr (car bbox)))
+                      'ur (list nil 'x (car (cadr bbox)) 'y (cadr (cadr bbox))))
           'objects (__abDrcObjects marker))))
 
 (putd '__abProjectDrcs nil)

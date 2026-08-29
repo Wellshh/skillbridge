@@ -8,8 +8,8 @@ from pydantic import TypeAdapter
 
 from allegrobridge.client.api.routes import Point
 from allegrobridge.client.api.shapes import BBox
-from allegrobridge.client.base import BaseRecord, SessionRecord
-from allegrobridge.client.base._rpc import RpcArgs, SessionApi, direct, read, write
+from allegrobridge.client.base import BaseRecord, Collection, SessionRecord
+from allegrobridge.client.base._rpc import RpcArgs, direct, read, write
 
 if TYPE_CHECKING:  # pragma: no cover
     from allegrobridge.client.api.components import ComponentInfo
@@ -57,10 +57,16 @@ _DrcList = list[DrcInfo]
 _DRCS = TypeAdapter(_DrcList)
 
 
-class DrcApi(SessionApi):
+class DrcApi(Collection[DrcInfo]):
     @read(_PROCEDURE, _DRCS)
-    def __call__(self) -> RpcArgs:
+    def _project(self) -> RpcArgs:
         return ()
+
+    def __call__(self) -> list[DrcInfo]:
+        return self.snapshot()
+
+    def _snapshot(self) -> list[DrcInfo]:
+        return self._project()
 
     @write(_UPDATE_PROCEDURE, _DRCS)
     def update(self) -> RpcArgs:

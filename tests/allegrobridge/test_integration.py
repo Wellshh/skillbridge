@@ -1167,6 +1167,7 @@ class TestSymbolsApi:
             for symbol in symbols
         ] == [tuple(item) for item in _symbol_snapshot(ws)]
         assert all(symbol._id == _session_id(session) for symbol in symbols)
+        assert session.symbols.snapshot() == symbols
 
     def test_type_filter_projects_only_matching_symbols(
         self,
@@ -1268,6 +1269,7 @@ class TestViasApi:
         assert all(isinstance(via, ViaInfo) for via in vias)
         assert [self._values(via) for via in vias] == [tuple(item[:8]) for item in snapshot]
         assert all(via._id == _session_id(session) for via in vias)
+        assert session.vias.snapshot() == vias
 
     def test_filters_match_single_rpc_snapshot(self, session: Session, ws: Workspace) -> None:
         snapshot = _via_snapshot(ws)
@@ -1506,6 +1508,7 @@ class TestRoutesApi:
         assert all(isinstance(route.start, Point) for route in routes)
         assert [self._values(route) for route in routes] == [tuple(item) for item in snapshot]
         assert all(route._id == _session_id(session) for route in routes)
+        assert session.routes.snapshot() == routes
 
     def test_filters_match_single_rpc_snapshot(self, session: Session, ws: Workspace) -> None:
         expected = _route_snapshot(ws)[0]
@@ -1701,10 +1704,10 @@ class TestShapesApi:
             shape.net,
             shape.layer,
             shape.dynamic,
-            shape.bbox.lower_left.x,
-            shape.bbox.lower_left.y,
-            shape.bbox.upper_right.x,
-            shape.bbox.upper_right.y,
+            shape.bbox.ll.x,
+            shape.bbox.ll.y,
+            shape.bbox.ur.x,
+            shape.bbox.ur.y,
         )
 
     def test_default_call_projects_shapes(self, session: Session, ws: Workspace) -> None:
@@ -1716,6 +1719,7 @@ class TestShapesApi:
         assert all(isinstance(shape.bbox, BBox) for shape in shapes)
         assert [self._values(shape) for shape in shapes] == [tuple(item) for item in snapshot]
         assert all(shape._id == _session_id(session) for shape in shapes)
+        assert session.shapes.snapshot() == shapes
 
     @pytest.mark.parametrize('dynamic', [True, False])
     def test_dynamic_filter_matches_single_rpc_snapshot(
@@ -1771,8 +1775,8 @@ class TestShapesApi:
                     'layer': 'ETCH/TOP',
                     'dynamic': 'dynamic',
                     'bbox': {
-                        'lower_left': {'x': 1.0, 'y': 2.0},
-                        'upper_right': {'x': 3.0, 'y': 4.0},
+                        'll': {'x': 1.0, 'y': 2.0},
+                        'ur': {'x': 3.0, 'y': 4.0},
                     },
                     'dbid': 'db:1',
                 }
@@ -1783,8 +1787,8 @@ class TestShapesApi:
                     'layer': 'ETCH/TOP',
                     'dynamic': 'bad',
                     'bbox': {
-                        'lower_left': {'x': 1.0, 'y': 2.0},
-                        'upper_right': {'x': 3.0, 'y': 4.0},
+                        'll': {'x': 1.0, 'y': 2.0},
+                        'ur': {'x': 3.0, 'y': 4.0},
                     },
                 }
             ],
@@ -1794,8 +1798,8 @@ class TestShapesApi:
                     'layer': 'ETCH/TOP',
                     'dynamic': 'dynamic',
                     'bbox': {
-                        'lower_left': {'x': 'bad', 'y': 2.0},
-                        'upper_right': {'x': 3.0, 'y': 4.0},
+                        'll': {'x': 'bad', 'y': 2.0},
+                        'ur': {'x': 3.0, 'y': 4.0},
                     },
                 }
             ],
@@ -1871,6 +1875,7 @@ class TestDrcApi:
         assert all(isinstance(drc, DrcInfo) for drc in drcs)
         assert all(drc._id == _session_id(session) for drc in drcs)
         assert 'dbid:' not in repr(drcs)
+        assert session.drc.snapshot() == drcs
         if allegro.mode == 'cli':
             references = [reference for drc in drcs for reference in drc.objects]
             assert any(isinstance(reference, ComponentRef) for reference in references)
@@ -2059,8 +2064,8 @@ class TestDrcApi:
                     'layer': 'DRC ERROR CLASS/TOP',
                     'location': {'x': 1.0, 'y': 2.0},
                     'bbox': {
-                        'lower_left': {'x': 0.0, 'y': 1.0},
-                        'upper_right': {'x': 2.0, 'y': 3.0},
+                        'll': {'x': 0.0, 'y': 1.0},
+                        'ur': {'x': 2.0, 'y': 3.0},
                     },
                     'objects': [],
                     'dbid': 'db:1',
@@ -2076,8 +2081,8 @@ class TestDrcApi:
                     'layer': 'DRC ERROR CLASS/TOP',
                     'location': {'x': 'bad', 'y': 2.0},
                     'bbox': {
-                        'lower_left': {'x': 0.0, 'y': 1.0},
-                        'upper_right': {'x': 2.0, 'y': 3.0},
+                        'll': {'x': 0.0, 'y': 1.0},
+                        'ur': {'x': 2.0, 'y': 3.0},
                     },
                     'objects': [],
                 }
@@ -2092,8 +2097,8 @@ class TestDrcApi:
                     'layer': 'DRC ERROR CLASS/TOP',
                     'location': {'x': 1.0, 'y': 2.0},
                     'bbox': {
-                        'lower_left': {'x': 0.0, 'y': 1.0},
-                        'upper_right': {'x': 2.0, 'y': 3.0},
+                        'll': {'x': 0.0, 'y': 1.0},
+                        'ur': {'x': 2.0, 'y': 3.0},
                     },
                     'objects': [{'kind': 'shape'}],
                 }

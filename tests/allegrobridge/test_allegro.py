@@ -47,12 +47,16 @@ from allegrobridge.client.api import (
     PinsApi,
     Point,
     RouteInfo,
+    RoutesApi,
     RpcArgs,
     RpcDef,
     SessionApi,
     ShapeInfo,
+    ShapesApi,
     SymbolInfo,
+    SymbolsApi,
     ViaInfo,
+    ViasApi,
     extension,
     read,
 )
@@ -513,6 +517,32 @@ class TestCoreKeyedApi:
         project.reset_mock()
         assert api[key] is item  # type: ignore[index]
         project.assert_called_once_with(*query_args)
+
+
+class TestCollectionApi:
+    @pytest.mark.parametrize(
+        ('api_type', 'snapshot_kwargs'),
+        [
+            (SymbolsApi, {'type': None}),
+            (ViasApi, {'net': None, 'layer': None, 'padstack': None}),
+            (RoutesApi, {'net': None, 'layer': None}),
+            (ShapesApi, {'net': None, 'layer': None, 'dynamic': None}),
+            (DrcApi, {}),
+        ],
+    )
+    def test_domain_collections_preserve_snapshot_arguments(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        api_type: type[SessionApi],
+        snapshot_kwargs: dict[str, object],
+    ) -> None:
+        item = object()
+        project = Mock(return_value=[item])
+        monkeypatch.setattr(api_type, '_project', project)
+        api = api_type(_session())
+
+        assert api.snapshot() == [item]  # type: ignore[attr-defined]
+        project.assert_called_once_with(**snapshot_kwargs)
 
 
 class TestRpcInheritance:
@@ -1074,8 +1104,8 @@ class TestReadApi:
                 'layer': 'ETCH/TOP',
                 'dynamic': 'dynamic',
                 'bbox': {
-                    'lower_left': {'x': 1.0, 'y': 2.0},
-                    'upper_right': {'x': 3.0, 'y': 4.0},
+                    'll': {'x': 1.0, 'y': 2.0},
+                    'ur': {'x': 3.0, 'y': 4.0},
                 },
             }
         ]
@@ -1094,8 +1124,8 @@ class TestReadApi:
                 layer='ETCH/TOP',
                 dynamic='dynamic',
                 bbox=BBox(
-                    lower_left=Point(x=1.0, y=2.0),
-                    upper_right=Point(x=3.0, y=4.0),
+                    ll=Point(x=1.0, y=2.0),
+                    ur=Point(x=3.0, y=4.0),
                 ),
             ).model_dump()
         ]
@@ -1118,8 +1148,8 @@ class TestReadApi:
                 'layer': 'DRC ERROR CLASS/GND',
                 'location': {'x': 1.0, 'y': 2.0},
                 'bbox': {
-                    'lower_left': {'x': 0.0, 'y': 1.0},
-                    'upper_right': {'x': 2.0, 'y': 3.0},
+                    'll': {'x': 0.0, 'y': 1.0},
+                    'ur': {'x': 2.0, 'y': 3.0},
                 },
                 'objects': [
                     {'kind': 'pin', 'refdes': 'U3', 'number': '14'},
@@ -1147,8 +1177,8 @@ class TestReadApi:
                 layer='DRC ERROR CLASS/GND',
                 location=Point(x=1.0, y=2.0),
                 bbox=BBox(
-                    lower_left=Point(x=0.0, y=1.0),
-                    upper_right=Point(x=2.0, y=3.0),
+                    ll=Point(x=0.0, y=1.0),
+                    ur=Point(x=2.0, y=3.0),
                 ),
                 objects=[
                     PinRef(kind='pin', refdes='U3', number='14'),
@@ -1417,8 +1447,8 @@ class TestWriteApi:
                 'layer': 'DRC ERROR CLASS/TOP',
                 'location': {'x': 1.0, 'y': 2.0},
                 'bbox': {
-                    'lower_left': {'x': 0.0, 'y': 1.0},
-                    'upper_right': {'x': 2.0, 'y': 3.0},
+                    'll': {'x': 0.0, 'y': 1.0},
+                    'ur': {'x': 2.0, 'y': 3.0},
                 },
                 'objects': [],
             }

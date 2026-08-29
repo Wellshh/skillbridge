@@ -6,8 +6,8 @@ from collections.abc import Sequence
 
 from pydantic import PositiveFloat, TypeAdapter
 
-from allegrobridge.client.base import BaseRecord, SessionRecord
-from allegrobridge.client.base._rpc import RpcArgs, SessionApi, read, write
+from allegrobridge.client.base import BaseRecord, Collection, SessionRecord
+from allegrobridge.client.base._rpc import RpcArgs, read, write
 
 _PROJECT_PROCEDURE = '__abProjectRoutes'
 _CREATE_PROCEDURE = '__abCreateRoute'
@@ -32,15 +32,26 @@ _RouteList = list[RouteInfo]
 _ROUTES = TypeAdapter(_RouteList)
 
 
-class RoutesApi(SessionApi):
+class RoutesApi(Collection[RouteInfo]):
     @read(_PROJECT_PROCEDURE, _ROUTES)
-    def __call__(
+    def _project(
         self,
         *,
         net: str | None = None,
         layer: str | None = None,
     ) -> RpcArgs:
         return net, layer
+
+    def __call__(
+        self,
+        *,
+        net: str | None = None,
+        layer: str | None = None,
+    ) -> list[RouteInfo]:
+        return self._project(net=net, layer=layer)
+
+    def _snapshot(self) -> list[RouteInfo]:
+        return self._project(net=None, layer=None)
 
     @write(_CREATE_PROCEDURE, _ROUTES)
     def create(

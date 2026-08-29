@@ -7,16 +7,16 @@ from typing import Literal
 from pydantic import TypeAdapter
 
 from allegrobridge.client.api.routes import Point
-from allegrobridge.client.base import BaseRecord, SessionRecord
-from allegrobridge.client.base._rpc import RpcArgs, SessionApi, read
+from allegrobridge.client.base import BaseRecord, Collection, SessionRecord
+from allegrobridge.client.base._rpc import RpcArgs, read
 
 _PROJECT_PROCEDURE = '__abProjectShapes'
 _OptionalString = str | None
 
 
 class BBox(BaseRecord):
-    lower_left: Point
-    upper_right: Point
+    ll: Point
+    ur: Point
 
 
 class ShapeInfo(SessionRecord):
@@ -30,9 +30,9 @@ _ShapeList = list[ShapeInfo]
 _SHAPES = TypeAdapter(_ShapeList)
 
 
-class ShapesApi(SessionApi):
+class ShapesApi(Collection[ShapeInfo]):
     @read(_PROJECT_PROCEDURE, _SHAPES)
-    def __call__(
+    def _project(
         self,
         *,
         net: str | None = None,
@@ -41,3 +41,15 @@ class ShapesApi(SessionApi):
     ) -> RpcArgs:
         state = None if dynamic is None else 'dynamic' if dynamic else 'static'
         return net, layer, state
+
+    def __call__(
+        self,
+        *,
+        net: str | None = None,
+        layer: str | None = None,
+        dynamic: bool | None = None,
+    ) -> list[ShapeInfo]:
+        return self._project(net=net, layer=layer, dynamic=dynamic)
+
+    def _snapshot(self) -> list[ShapeInfo]:
+        return self._project(net=None, layer=None, dynamic=None)

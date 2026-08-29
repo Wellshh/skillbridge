@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from pydantic import TypeAdapter
 
-from allegrobridge.client.base import SessionRecord
-from allegrobridge.client.base._rpc import RpcArgs, SessionApi, _core_api, read
+from allegrobridge.client.base import Collection, SessionRecord
+from allegrobridge.client.base._rpc import RpcArgs, _core_api, read
 
 _PROCEDURE = '__abProjectSymbols'
 _OptionalString = str | None
@@ -25,11 +25,21 @@ _SYMBOLS = TypeAdapter(_SymbolList)
 
 
 @_core_api
-class SymbolsApi(SessionApi):
+class SymbolsApi(Collection[SymbolInfo]):
     @read(_PROCEDURE, _SYMBOLS)
-    def __call__(
+    def _project(
         self,
         *,
         type: str | None = None,  # ruff: ignore[builtin-argument-shadowing]
     ) -> RpcArgs:
         return (type,)
+
+    def __call__(
+        self,
+        *,
+        type: str | None = None,  # ruff: ignore[builtin-argument-shadowing]
+    ) -> list[SymbolInfo]:
+        return self._project(type=type)
+
+    def _snapshot(self) -> list[SymbolInfo]:
+        return self._project(type=None)

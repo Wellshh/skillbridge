@@ -15,8 +15,8 @@
         (qtest::assertEqual "GND" (get projected 'net))
         (qtest::assertEqual "ETCH/TOP" (get projected 'layer))
         (qtest::assertEqual "dynamic" (get projected 'dynamic))
-        (qtest::assertEqual 1.0 (get (get (get projected 'bbox) 'lower_left) 'x))
-        (qtest::assertEqual 4.0 (get (get (get projected 'bbox) 'upper_right) 'y))
+        (qtest::assertEqual 1.0 (get (get (get projected 'bbox) 'll) 'x))
+        (qtest::assertEqual 4.0 (get (get (get projected 'bbox) 'ur) 'y))
         (qtest::assertNil (get projected 'dbid))))
 
     (qtest::TestCase test_shape_projection_handles_static_dummy_net
