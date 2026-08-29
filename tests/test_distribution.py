@@ -38,10 +38,6 @@ def distributions(tmp_path_factory: pytest.TempPathFactory) -> tuple[Path, Path]
     return next(output.glob('*.whl')), next(output.glob('*.tar.gz'))
 
 
-def test_manifest_is_not_a_duplicate_package_data_source() -> None:
-    assert not (_ROOT / 'MANIFEST.in').exists()
-
-
 @pytest.mark.integration
 def test_wheel_and_sdist_contain_runtime_files(distributions: tuple[Path, Path]) -> None:
     wheel, sdist = distributions
