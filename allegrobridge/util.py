@@ -9,13 +9,24 @@ ASSETS_DIR = Path(__file__).parent / "assets"
 TOKEN_PATTERN = re.compile(r"[A-Z]+(?=[A-Z][a-z0-9]|\b)|[A-Z][a-z0-9]*|[a-z0-9]+")
 
 
-def _split_api_tokens(api_name: str) -> list[str]:
+def split_api_tokens(api_name: str) -> tuple[str, ...]:
     if "_" in api_name:
         parts: list[str] = []
         for segment in api_name.split("_"):
             parts.extend(TOKEN_PATTERN.findall(segment))
-        return parts
-    return TOKEN_PATTERN.findall(api_name)
+        return tuple(parts)
+    return tuple(TOKEN_PATTERN.findall(api_name))
+
+
+def parse_api_name(api_name: str) -> tuple[str, str, str] | None:
+    tokens = split_api_tokens(api_name)
+    match tokens:
+        case (prefix, domain, *method) if prefix.lower() == "axl":
+            domain = domain.lower()
+            method = [token.lower() for token in method]
+            return domain, "_".join((domain, *method)), "_".join(method)
+        case _:
+            return None
 
 
 def _extract_apis(assets_dir: Path | str = ASSETS_DIR) -> list[str]:
@@ -38,8 +49,8 @@ def extract_api_domains(apis: list[str] | None = None) -> set[str]:
 
     domains: set[str] = set()
     for api in apis:
-        tokens = _split_api_tokens(api)
-        domain = tokens[1].lower() if len(tokens) > 1 and tokens[0].lower() == "axl" else "root"
+        names = parse_api_name(api)
+        domain = names[0] if names is not None else "root"
         domains.add(domain)
 
     return domains
@@ -61,7 +72,7 @@ def build_snake_to_axl_map(apis: list[str] | None = None) -> dict[str, str]:
 
     mapping: dict[str, str] = {}
     for api in apis:
-        tokens = _split_api_tokens(api)
+        tokens = split_api_tokens(api)
         lower_tokens = [t.lower() for t in tokens]
 
         mapping["_".join(lower_tokens)] = api

@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from pydantic import TypeAdapter
 
-from allegrobridge.client.base import SessionRecord
-from allegrobridge.client.base._rpc import RpcArgs, SessionApi, _core_api, read
+from allegrobridge.client.base import KeyedCollection, SessionRecord
+from allegrobridge.client.base._rpc import RpcArgs, _core_api, read
 
 _PROCEDURE = '__abProjectLayers'
 
@@ -26,7 +26,7 @@ _LAYERS = TypeAdapter(_LayerList)
 
 
 @_core_api
-class LayersApi(SessionApi):
+class LayersApi(KeyedCollection[str, LayerInfo]):
     @read(_PROCEDURE, _LAYERS)
     def _project(self, name: str | None, etch_only: bool) -> RpcArgs:
         return name, etch_only
@@ -34,9 +34,10 @@ class LayersApi(SessionApi):
     def __call__(self, *, etch_only: bool = False) -> list[LayerInfo]:
         return self._project(None, etch_only)
 
-    def __getitem__(self, name: str) -> LayerInfo:
+    def _snapshot(self) -> list[LayerInfo]:
         etch_only = False
-        layers = self._project(name, etch_only)
-        if not layers:
-            raise KeyError(name)
-        return layers[0]
+        return self._project(None, etch_only)
+
+    def _query_key(self, key: str) -> list[LayerInfo]:
+        etch_only = False
+        return self._project(key, etch_only)

@@ -108,7 +108,7 @@ class _Context:
         return variable
 
 
-def _render(node: _Node, context: _Context | None = None) -> SkillCode:  # ruff: ignore[complex-structure]
+def _render(node: _Node, context: _Context | None = None) -> SkillCode:  # ruff: ignore[complex-structure, too-many-locals]
     """Recursively compiles an AST expression node into valid SKILL code.
 
     Args:
@@ -128,43 +128,43 @@ def _render(node: _Node, context: _Context | None = None) -> SkillCode:  # ruff:
     """
     if context is None:
         context = _Context({})
-    if isinstance(node, _Bound):
-        variable = context.get(node)
-        if variable is None:
-            raise RuntimeError(
-                'bound iteration variable cannot be rendered '
-                'outside its enclosing operation (where/map/for_each)'
+
+    match node:
+        case _Bound():
+            variable = context.get(node)
+            if variable is None:
+                raise RuntimeError(
+                    'bound iteration variable cannot be rendered '
+                    'outside its enclosing operation (where/map/for_each)'
+                )
+            return SkillCode(variable)
+        case _Raw(source) | _Constant(source):
+            return source
+        case _Attribute(owner, name, operator):
+            return SkillCode(f'{_render(owner, context)}{operator}{name}')
+        case _Subscript(owner, index):
+            return SkillCode(f'nth({index} {_render(owner, context)})')
+        case _Call(name, arguments, keywords):
+            args: list[str] = [_render(argument, context) for argument in arguments]
+            args.extend(f'?{k} {_render(v, context)}' for k, v in keywords)
+            return SkillCode(f'{name}({" ".join(args)})')
+        case _Bind(kind, variable, values, predicate):
+            var_name = context.next_variable()
+            rendered_values = _render(values, context)
+            context.bind(variable, var_name)
+            rendered_predicate = _render(predicate, context)
+            context.unbind(variable)
+            if kind == 'where':
+                return SkillCode(f'setof({var_name} {rendered_values} {rendered_predicate})')
+            if kind == 'map':
+                return SkillCode(
+                    f'mapcar(lambda(({var_name}) {rendered_predicate}) {rendered_values})'
+                )
+            return SkillCode(
+                f'progn(foreach({var_name} {rendered_values} {rendered_predicate}) nil)'
             )
-        return SkillCode(variable)
-    if isinstance(node, (_Raw, _Constant)):
-        return node.source
-    if isinstance(node, _Attribute):
-        return SkillCode(f'{_render(node.owner, context)}{node.operator}{node.name}')
-    if isinstance(node, _Subscript):
-        return SkillCode(f'nth({node.index} {_render(node.owner, context)})')
-    if isinstance(node, _Call):
-        args: list[str] = [_render(argument, context) for argument in node.arguments]
-        args.extend(f'?{name} {_render(value, context)}' for name, value in node.keywords)
-        return SkillCode(f'{node.name}({" ".join(args)})')
-    if isinstance(node, _Bind):
-
-        def _render_bind(node: _Bind, context: _Context) -> SkillCode:
-            variable = context.next_variable()
-            values = _render(node.values, context)
-            context.bind(node.variable, variable)
-            predicate = _render(node.predicate, context)
-            context.unbind(node.variable)
-            if node.kind == 'where':
-                return SkillCode(f'setof({variable} {values} {predicate})')
-            if node.kind == 'map':
-                return SkillCode(f'mapcar(lambda(({variable}) {predicate}) {values})')
-            return SkillCode(f'progn(foreach({variable} {values} {predicate}) nil)')
-
-        return _render_bind(node, context)
-
-    left = _render(node.left, context)
-    right = _render(node.right, context)
-    return SkillCode(f'({left} {node.operator} {right})')
+        case _BinOp(left, operator, right):
+            return SkillCode(f'({_render(left, context)} {operator} {_render(right, context)})')
 
 
 @dataclass(frozen=True, slots=True, eq=False)  # ruff: ignore[too-many-public-methods]

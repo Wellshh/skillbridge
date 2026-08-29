@@ -4,6 +4,12 @@
 
 from __future__ import annotations
 
+from allegrobridge.client.base._datastructure import (
+    _Collection as Collection,
+)
+from allegrobridge.client.base._datastructure import (
+    _KeyedCollection as KeyedCollection,
+)
 from allegrobridge.client.base._extensions import _Extensions as Extensions
 from allegrobridge.client.base._extensions import extension
 from allegrobridge.client.base._future import Cmd, CmdResult
@@ -28,7 +34,9 @@ __all__ = [
     'Batch',
     'Cmd',
     'CmdResult',
+    'Collection',
     'Extensions',
+    'KeyedCollection',
     'RpcArgs',
     'RpcDef',
     'SessionApi',

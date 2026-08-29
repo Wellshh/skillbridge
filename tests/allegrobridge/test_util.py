@@ -13,6 +13,8 @@ from allegrobridge.util import (
     _extract_apis,  # ruff: ignore[import-private-name]
     build_snake_to_axl_map,
     extract_api_domains,
+    parse_api_name,
+    split_api_tokens,
 )
 
 
@@ -30,6 +32,20 @@ def test_extract_apis_fails_when_assets_are_missing(tmp_path: Path) -> None:
 
     with raises(FileNotFoundError, match=re.escape(missing.name)):
         _extract_apis(missing)
+
+
+def test_split_api_tokens_preserves_acronyms_and_underscores() -> None:
+    assert split_api_tokens('axlCNSGetSpacing') == ('axl', 'CNS', 'Get', 'Spacing')
+    assert split_api_tokens('axl_db_get_design') == ('axl', 'db', 'get', 'design')
+
+
+def test_parse_api_name_returns_shared_stub_and_runtime_names() -> None:
+    assert parse_api_name('axlCNSGetSpacing') == (
+        'cns',
+        'cns_get_spacing',
+        'get_spacing',
+    )
+    assert parse_api_name('not_an_axl_api') is None
 
 
 def test_build_map_supports_exact_and_snake_names() -> None:

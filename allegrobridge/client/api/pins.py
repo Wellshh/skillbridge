@@ -6,8 +6,8 @@ from typing import Literal
 
 from pydantic import TypeAdapter
 
-from allegrobridge.client.base import SessionRecord
-from allegrobridge.client.base._rpc import RpcArgs, SessionApi, _core_api, read
+from allegrobridge.client.base import KeyedCollection, SessionRecord
+from allegrobridge.client.base._rpc import RpcArgs, _core_api, read
 
 _PROCEDURE = '__abProjectPins'
 _OptionalFloat = float | None
@@ -32,7 +32,7 @@ _PINS = TypeAdapter(_PinList)
 
 
 @_core_api
-class PinsApi(SessionApi):
+class PinsApi(KeyedCollection[tuple[str, str], PinInfo]):
     @read(_PROCEDURE, _PINS)
     def _project(
         self,
@@ -50,9 +50,9 @@ class PinsApi(SessionApi):
     ) -> list[PinInfo]:
         return self._project(component, None, net)
 
-    def __getitem__(self, key: tuple[str, str]) -> PinInfo:
+    def _snapshot(self) -> list[PinInfo]:
+        return self._project(None, None, None)
+
+    def _query_key(self, key: tuple[str, str]) -> list[PinInfo]:
         component, number = key
-        pins = self._project(component, number, None)
-        if not pins:
-            raise KeyError(key)
-        return pins[0]
+        return self._project(component, number, None)

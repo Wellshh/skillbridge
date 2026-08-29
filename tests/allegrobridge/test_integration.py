@@ -479,6 +479,8 @@ class TestLayersApi:
         assert all(layer._id == _session_id(session) for layer in layers)
         if etch_only:
             assert all(layer.class_name == 'ETCH' for layer in layers)
+        else:
+            assert session.layers.snapshot() == layers
 
     def test_getitem_returns_layer_by_qualified_name(self, session: Session) -> None:
         expected = session.layers(etch_only=True)[0]
@@ -543,6 +545,7 @@ class TestComponentsApi:
         assert all(isinstance(component, ComponentInfo) for component in components)
         assert [component.refdes for component in components] == [item[0] for item in snapshot]
         assert all(component._id == _session_id(session) for component in components)
+        assert session.components.snapshot() == components
 
     def test_call_can_exclude_unplaced_components(
         self,
@@ -873,6 +876,18 @@ class TestNetsApi:
         with pytest.raises(KeyError, match='__MISSING_NET__'):
             _ = session.nets['__MISSING_NET__']
 
+    def test_collection_operations_preserve_lookup_semantics(self, session: Session) -> None:
+        snapshot = session.nets.snapshot()
+        expected = snapshot[0]
+
+        assert list(session.nets) == snapshot
+        assert session.nets.get(expected.name) == expected
+        assert expected.name in session.nets
+        assert session.nets.get('__MISSING_NET__') is None
+        assert '__MISSING_NET__' not in session.nets
+        with pytest.raises(TypeError, match='snapshot'):
+            bool(session.nets)
+
     def test_net_info_is_frozen(self, session: Session) -> None:
         net = session.nets()[0]
 
@@ -971,6 +986,7 @@ class TestPinsApi:
             for pin in pins
         ] == [tuple(item) for item in _pin_snapshot(ws)]
         assert all(pin._id == _session_id(session) for pin in pins)
+        assert session.pins.snapshot() == pins
 
     def test_call_filters_by_component_and_net(self, session: Session) -> None:
         expected = next(pin for pin in session.pins() if pin.net is not None)
@@ -1075,6 +1091,7 @@ class TestPadstacksApi:
             for padstack in padstacks
         ] == [tuple(item) for item in _padstack_snapshot(ws)]
         assert all(padstack._id == _session_id(session) for padstack in padstacks)
+        assert session.padstacks.snapshot() == padstacks
 
     def test_getitem_returns_padstack_by_name(self, session: Session) -> None:
         expected = session.padstacks()[0]

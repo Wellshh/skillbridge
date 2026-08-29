@@ -6,8 +6,8 @@ from typing import Literal
 
 from pydantic import TypeAdapter
 
-from allegrobridge.client.base import SessionRecord
-from allegrobridge.client.base._rpc import RpcArgs, SessionApi, _core_api, read, write
+from allegrobridge.client.base import KeyedCollection, SessionRecord
+from allegrobridge.client.base._rpc import RpcArgs, _core_api, read, write
 
 _PROCEDURE = '__abProjectComponents'
 _MOVE_PROCEDURE = '__abMoveComponent'
@@ -31,7 +31,7 @@ _COMPONENT = TypeAdapter(ComponentInfo)
 
 
 @_core_api
-class ComponentsApi(SessionApi):
+class ComponentsApi(KeyedCollection[str, ComponentInfo]):
     @read(_PROCEDURE, _COMPONENTS)
     def _project(self, refdes: str | None, include_unplaced: bool) -> RpcArgs:
         return refdes, include_unplaced
@@ -39,12 +39,13 @@ class ComponentsApi(SessionApi):
     def __call__(self, *, include_unplaced: bool = True) -> list[ComponentInfo]:
         return self._project(None, include_unplaced)
 
-    def __getitem__(self, refdes: str) -> ComponentInfo:
+    def _snapshot(self) -> list[ComponentInfo]:
         include_unplaced = True
-        components = self._project(refdes, include_unplaced)
-        if not components:
-            raise KeyError(refdes)
-        return components[0]
+        return self._project(None, include_unplaced)
+
+    def _query_key(self, key: str) -> list[ComponentInfo]:
+        include_unplaced = True
+        return self._project(key, include_unplaced)
 
     @write(_MOVE_PROCEDURE, _COMPONENT)
     def move(

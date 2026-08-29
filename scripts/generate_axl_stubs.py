@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import Literal
 
 from allegrobridge.client.session.domains import DOMAINS
+from allegrobridge.util import parse_api_name, split_api_tokens
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_API_NAMES = ROOT / 'allegrobridge' / 'assets' / 'api_names.txt'
@@ -24,7 +25,6 @@ DEFAULT_REFERENCES = (
 )
 DEFAULT_OUTPUT = ROOT / 'allegrobridge' / 'client' / '_axl_stubs.pyi'
 EXPECTED_API_COUNT = 792
-MIN_API_TOKEN_COUNT = 2
 MAX_UNION_ALTERNATIVES = 8
 ARROWS = ('⇒', '==>', '=>', '-=>', '-->', '->')
 API_NAME = re.compile(r'\baxl[A-Za-z0-9_]+\b')
@@ -32,7 +32,6 @@ ARGUMENT_CELL = re.compile(r'^\|\s*`?(?P<cell>[^`|\n]+)`?\s*\|')
 PLAIN_ARGUMENT = re.compile(r'^`(?P<name>[A-Za-z_][A-Za-z0-9_]*)`$')
 ARGUMENT_NAME = re.compile(r'[A-Za-z_][A-Za-z0-9_]*')
 KEYWORD_ARGUMENT = re.compile(r'\?([A-Za-z_][A-Za-z0-9_]*)\s+([A-Za-z0-9_/\']+)')
-NAME_TOKEN = re.compile(r'[A-Z]+(?=[A-Z][a-z0-9]|\b)|[A-Z][a-z0-9]*|[a-z0-9]+')
 SECTION_HEADING = re.compile(r'^####\s+(?P<text>.*?):?\s*$')
 BOLD_HEADING = re.compile(r'^\*\*(?P<text>[^*]+)\*\*:?\s*$')
 JUNK_CELL = re.compile(r'^\s*:?-+:?\s*$')
@@ -925,32 +924,18 @@ def render_report(specs: Sequence[ApiSpec]) -> str:
     return '\n'.join(lines)
 
 
-def _name_tokens(name: str) -> tuple[str, ...]:
-    return tuple(token for part in name.split('_') for token in NAME_TOKEN.findall(part))
-
-
 def _callable_class_name(api_name: str) -> str:
     return '_' + ''.join(part[:1].upper() + part[1:] for part in api_name.split('_'))
 
 
 def _snake_name(name: str) -> str:
-    tokens = _name_tokens(name)
+    tokens = split_api_tokens(name)
     value = '_'.join(token.lower() for token in tokens) or 'value'
     if value == 'nil':
         value = 'value'
     if keyword.iskeyword(value):
         value += '_'
     return value
-
-
-def _api_names(api_name: str) -> tuple[str, str, str] | None:
-    tokens = _name_tokens(api_name)
-    if len(tokens) < MIN_API_TOKEN_COUNT or tokens[0].lower() != 'axl':
-        return None
-    domain = tokens[1].lower()
-    flat_name = '_'.join(token.lower() for token in tokens[1:])
-    method_name = '_'.join(token.lower() for token in tokens[2:])
-    return domain, flat_name, method_name
 
 
 def _union(types: Iterable[str]) -> str:
@@ -1195,8 +1180,8 @@ def _render_member(name: str, spec: ApiSpec) -> list[str]:
 def _domain_class_names(specs: Sequence[ApiSpec]) -> dict[str, str]:
     candidates: dict[str, list[str]] = {}
     for spec in specs:
-        names = _api_names(spec.name)
-        tokens = _name_tokens(spec.name)
+        names = parse_api_name(spec.name)
+        tokens = split_api_tokens(spec.name)
         if names is not None:
             candidates.setdefault(names[0], []).append(tokens[1])
     result: dict[str, str] = {}
@@ -1229,7 +1214,7 @@ def render_stub(specs: Sequence[ApiSpec]) -> str:
     lines.append('class Axl(FunctionCollection):')
     flat_members = []
     for spec in callable_specs:
-        names = _api_names(spec.name)
+        names = parse_api_name(spec.name)
         if names is not None:
             flat_members.extend(_render_member(names[1], spec))
     lines.extend(flat_members or ['    pass'])
@@ -1237,7 +1222,7 @@ def render_stub(specs: Sequence[ApiSpec]) -> str:
 
     domain_members: dict[str, list[str]] = {}
     for spec in callable_specs:
-        names = _api_names(spec.name)
+        names = parse_api_name(spec.name)
         if names is None or not names[2] or keyword.iskeyword(names[2]):
             continue
         domain_members.setdefault(names[0], []).extend(_render_member(names[2], spec))

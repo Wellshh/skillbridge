@@ -36,12 +36,15 @@ from allegrobridge.client.api import (
     DrcApi,
     DrcInfo,
     LayerInfo,
+    LayersApi,
     NetInfo,
     NetRef,
     NetsApi,
     PadstackInfo,
+    PadstacksApi,
     PinInfo,
     PinRef,
+    PinsApi,
     Point,
     RouteInfo,
     RpcArgs,
@@ -443,6 +446,74 @@ class TestCoreKeyedApi:
         with pytest.raises(KeyError, match='MISSING'):
             _ = session.nets['MISSING']
 
+    def test_nets_exposes_single_request_collection_operations(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
+        net = object()
+        project = Mock(return_value=[net])
+        monkeypatch.setattr(NetsApi, '_project', project)
+        nets = _session().nets
+
+        assert nets.snapshot() == [net]
+        project.assert_called_once_with(None)
+        project.reset_mock()
+        assert list(nets) == [net]
+        project.assert_called_once_with(None)
+        project.reset_mock()
+        assert nets.get('GND') is net
+        project.assert_called_once_with('GND')
+        project.reset_mock()
+        assert 'GND' in nets
+        project.assert_called_once_with('GND')
+        project.reset_mock()
+        with pytest.raises(TypeError, match='snapshot'):
+            bool(nets)
+        project.assert_not_called()
+
+    def test_keyed_collection_distinguishes_missing_ambiguous_and_protocol_errors(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
+        project = Mock(side_effect=[[], [], [object(), object()], AllegroProtocolError('bad')])
+        monkeypatch.setattr(NetsApi, '_project', project)
+        nets = _session().nets
+
+        assert nets.get('MISSING') is None
+        assert 'MISSING' not in nets
+        with pytest.raises(AllegroProtocolError, match='multiple records'):
+            _ = nets['DUPLICATE']
+        with pytest.raises(AllegroProtocolError, match='bad'):
+            nets.get('BROKEN')
+
+    @pytest.mark.parametrize(
+        ('api_type', 'snapshot_args', 'key', 'query_args'),
+        [
+            (ComponentsApi, (None, True), 'R1', ('R1', True)),
+            (LayersApi, (None, False), 'ETCH/TOP', ('ETCH/TOP', False)),
+            (PadstacksApi, (None,), 'VIA12', ('VIA12',)),
+            (PinsApi, (None, None, None), ('U1', '1'), ('U1', '1', None)),
+        ],
+    )
+    def test_domain_collections_preserve_projection_arguments(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        api_type: type[SessionApi],
+        snapshot_args: tuple[object, ...],
+        key: object,
+        query_args: tuple[object, ...],
+    ) -> None:
+        item = object()
+        project = Mock(return_value=[item])
+        monkeypatch.setattr(api_type, '_project', project)
+        api = api_type(_session())
+
+        assert api.snapshot() == [item]  # type: ignore[attr-defined]
+        project.assert_called_once_with(*snapshot_args)
+        project.reset_mock()
+        assert api[key] is item  # type: ignore[index]
+        project.assert_called_once_with(*query_args)
+
 
 class TestRpcInheritance:
     def test_resolves_inheritance_and_reads_current_core_class(
@@ -488,12 +559,14 @@ class TestReadApi:
             'BoardInfo',
             'Cmd',
             'CmdResult',
+            'Collection',
             'ComponentRef',
             'ComponentInfo',
             'ComponentsApi',
             'DrcApi',
             'DrcInfo',
             'DrcObjectRef',
+            'KeyedCollection',
             'LayerInfo',
             'LayersApi',
             'NetInfo',

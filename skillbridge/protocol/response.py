@@ -70,6 +70,9 @@ class Response:
         # max_preamble_chars to prevent unbounded buffering.
         preamble_count = 0
         while True:
+            # NOTE: benchmark large framed responses.
+            # The current character-at-a-time parser is a likely hotspot;
+            # prefer buffered binary reads before considering native acceleration.
             marker = self._read_char(self._reader, "before response frame")
             if marker in {self.STX, self.NAK, self.RST}:
                 break

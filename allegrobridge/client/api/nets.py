@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from pydantic import NonNegativeInt, TypeAdapter
 
-from allegrobridge.client.base import SessionRecord
-from allegrobridge.client.base._rpc import RpcArgs, SessionApi, _core_api, read
+from allegrobridge.client.base import KeyedCollection, SessionRecord
+from allegrobridge.client.base._rpc import RpcArgs, _core_api, read
 
 _PROCEDURE = '__abProjectNets'
 
@@ -22,16 +22,16 @@ _NETS = TypeAdapter(_NetList)
 
 
 @_core_api
-class NetsApi(SessionApi):
+class NetsApi(KeyedCollection[str, NetInfo]):
     @read(_PROCEDURE, _NETS)
     def _project(self, name: str | None) -> RpcArgs:
         return (name,)
 
     def __call__(self) -> list[NetInfo]:
+        return self.snapshot()
+
+    def _snapshot(self) -> list[NetInfo]:
         return self._project(None)
 
-    def __getitem__(self, name: str) -> NetInfo:
-        nets = self._project(name)
-        if not nets:
-            raise KeyError(name)
-        return nets[0]
+    def _query_key(self, key: str) -> list[NetInfo]:
+        return self._project(key)
