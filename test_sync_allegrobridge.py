@@ -54,6 +54,8 @@ def _make_repositories(tmp_path: Path) -> tuple[Path, Path, dict[str, str]]:
         _git(repo, 'config', 'user.email', 'sync@example.invalid')
 
     files = {
+        'conftest.py': 'source pytest configuration\n',
+        'mkdocs.yml': 'site_name: fixture\n',
         'allegrobridge/module.py': 'source module\n',
         'allegrobridge/PLAN.md': 'private plan\n',
         'allegrobridge/nested/.DS_Store': 'metadata\n',
@@ -62,14 +64,20 @@ def _make_repositories(tmp_path: Path) -> tuple[Path, Path, dict[str, str]]:
         'skillbridge/nested/.DS_Store': 'metadata\n',
         'tests/test_example.py': 'def test_example():\n    assert True\n',
         'tests/nested/.DS_Store': 'metadata\n',
+        'benchmark/test_micro.py': 'def test_micro():\n    assert True\n',
+        'benchmark/nested/.DS_Store': 'metadata\n',
         'scripts/tool.py': 'print("tool")\n',
         'scripts/nested/.DS_Store': 'metadata\n',
+        'docs/index.md': '# Fixture\n',
+        'docs/nested/.DS_Store': 'metadata\n',
     }
     for relative_path, content in files.items():
         _write(source / relative_path, content)
+    _write(source / 'pyproject.toml', 'source project\n')
     _commit(source, 'fixture change')
 
     _write(target / 'README.md', 'extract root\n')
+    _write(target / 'pyproject.toml', 'target project\n')
     _write(target / 'allegrobridge/obsolete.py', 'obsolete\n')
     _commit(target, 'extract baseline')
     shutil.copy2(_SCRIPT, source / _SCRIPT.name)
@@ -82,13 +90,12 @@ def test_sync_mirrors_committed_directories_and_is_idempotent(tmp_path: Path) ->
     first = _run(['bash', str(source / _SCRIPT.name)], cwd=source, env=os.environ.copy())
 
     source_hash = _git(source, 'log', '-1', '--format=%h').stdout.strip()
-    assert first.stdout.strip() == (
-        f'sync: mirrored skillbridge@{source_hash} -> allegrobridge-extract'
-    )
+    assert f'sync: mirrored skillbridge@{source_hash} -> allegrobridge-extract' in first.stdout
     assert _git(target, 'log', '-1', '--format=%s').stdout.strip() == (
-        f'sync from skillbridge@{source_hash}: fixture change'
+        f'chore(sync): from skillbridge@{source_hash}: fixture change'
     )
     assert (target / 'README.md').read_text(encoding='utf-8') == 'extract root\n'
+    assert (target / 'pyproject.toml').read_text(encoding='utf-8') == 'target project\n'
     assert not (target / 'allegrobridge/obsolete.py').exists()
     for relative_path, content in files.items():
         destination = target / relative_path

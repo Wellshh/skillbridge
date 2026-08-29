@@ -58,6 +58,11 @@ jobs:
       run: |
         pytest
 
+    - name: Benchmark correctness smoke
+      if: matrix.python-version == '3.12'
+      run: |
+        pytest benchmark/test_micro.py --benchmark-disable --no-cov
+
   build-documentation:
     name: Build MkDocs Documentation
     runs-on: ubuntu-latest

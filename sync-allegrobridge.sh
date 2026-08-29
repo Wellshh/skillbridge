@@ -5,8 +5,8 @@ set -euo pipefail
 
 SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DST="$(dirname "$SRC")/allegrobridge-extract"
-DIRS=(allegrobridge skillbridge tests scripts docs)
-FILES=(mkdocs.yml)
+DIRS=(allegrobridge skillbridge tests scripts docs benchmark)
+FILES=(mkdocs.yml conftest.py)
 
 if [ ! -d "$DST/.git" ]; then
     echo "sync: $DST not found, skipping"

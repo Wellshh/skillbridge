@@ -11,6 +11,7 @@ skillbridge.egg-info/*
 **/.mypy_cache/*
 **/htmlcov/*
 .benchmarks/
+/results/
 
 env/*
 
