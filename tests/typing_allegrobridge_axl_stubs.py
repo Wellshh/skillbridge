@@ -6,12 +6,15 @@ from typing_extensions import assert_type
 
 from allegrobridge import Allegro, Session, SkillModule, Workspace
 from allegrobridge.client.api import (
+    BBox,
+    CmdResult,
     ComponentInfo,
     DrcInfo,
     LayerInfo,
     NetInfo,
     PadstackInfo,
     PinInfo,
+    Point,
     RouteInfo,
     SessionApi,
     ShapeInfo,
@@ -27,6 +30,21 @@ from skillbridge.client.objects import RemoteObject
 
 class BoundApi(SessionApi):
     module = SkillModule('example_plugin', 'server.il')
+
+
+def check_geometry_contract(session: Session) -> None:
+    point = Point(1.0, 2.0)
+    x, y = point
+    assert_type(x, float)
+    assert_type(y, float)
+    assert_type(point[0], float)
+    assert_type(BBox(point, Point(3.0, 4.0)).ll, Point)
+    assert_type(session.symbols.snapshot()[0].location, Point)
+    assert_type(session.vias.snapshot()[0].location, Point)
+    assert_type(session.components.snapshot()[0].location, Point | None)
+    assert_type(session.pins.snapshot()[0].location, Point | None)
+    session.vias.create.command('VIA12', at=point)
+    session.routes.create.command('GND', [point, Point(3.0, 4.0)], 'ETCH/TOP', 0.2)
 
 
 def check_axl_stub_contract(
@@ -57,6 +75,29 @@ def check_axl_stub_contract(
     assert_type(session.shapes.snapshot(), list[ShapeInfo])
     assert_type(session.drc.snapshot(), list[DrcInfo])
     assert_type(Workspace.open(), GWorkspace)
+
+    with session.batch() as batch:
+        assert_type(
+            batch.call(
+                session.components.move.command,
+                'R1',
+                x=1.0,
+                y=2.0,
+            ),
+            CmdResult[ComponentInfo],
+        )
+        batch.call(
+            session.components.move.command,
+            'R1',
+            x='invalid',  # type: ignore[arg-type]
+            y=2.0,
+        )
+        batch.call(
+            session.components.move,  # type: ignore[arg-type]
+            'R1',
+            x=1.0,
+            y=2.0,
+        )
 
     assert_type(ws.axl.db_get_design(), RemoteObject | None)
     assert_type(ws.db.get_design(), RemoteObject | None)

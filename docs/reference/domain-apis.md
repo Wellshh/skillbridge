@@ -58,7 +58,7 @@ construct these yourself — reach them through
 
 ::: allegrobridge.client.api.routes.RouteInfo
 
-::: allegrobridge.client.api.routes.Point
+::: allegrobridge.client.api.geometry.Point
 
 ## Shapes
 
@@ -66,7 +66,7 @@ construct these yourself — reach them through
 
 ::: allegrobridge.client.api.shapes.ShapeInfo
 
-::: allegrobridge.client.api.shapes.BBox
+::: allegrobridge.client.api.geometry.BBox
 
 ## DRC
 

@@ -6,8 +6,7 @@ from typing import TYPE_CHECKING, Literal
 
 from pydantic import TypeAdapter
 
-from allegrobridge.client.api.routes import Point
-from allegrobridge.client.api.shapes import BBox
+from allegrobridge.client.api.geometry import BBox, Point
 from allegrobridge.client.base import BaseRecord, Collection, SessionRecord, SkillModule
 from allegrobridge.client.base._rpc import RpcArgs, direct, read, write
 

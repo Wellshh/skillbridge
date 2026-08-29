@@ -6,23 +6,20 @@ from typing import Literal
 
 from pydantic import TypeAdapter
 
-from allegrobridge.client.base import KeyedCollection, SessionRecord
+from allegrobridge.client.api.geometry import _coerce_finite_float, _OptionalLocated
+from allegrobridge.client.base import KeyedCollection
 from allegrobridge.client.base._rpc import RpcArgs, _core_api, read, write
 
 _PROCEDURE = '__abProjectComponents'
 _MOVE_PROCEDURE = '__abMoveComponent'
-_OptionalFloat = float | None
 
 
-class ComponentInfo(SessionRecord):
+class ComponentInfo(_OptionalLocated):
     refdes: str
     device_type: str
     package: str
     component_class: str
     placement: Literal['placed', 'unplaced']
-    x: _OptionalFloat
-    y: _OptionalFloat
-    rotation: _OptionalFloat
 
 
 _ComponentList = list[ComponentInfo]
@@ -56,4 +53,9 @@ class ComponentsApi(KeyedCollection[str, ComponentInfo]):
         y: float,
         rotation: float | None = None,
     ) -> RpcArgs:
-        return refdes, x, y, rotation
+        return (
+            refdes,
+            _coerce_finite_float(x),
+            _coerce_finite_float(y),
+            None if rotation is None else _coerce_finite_float(rotation),
+        )

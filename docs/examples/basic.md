@@ -24,8 +24,9 @@ BoardInfo(path='.../demo.brd', units='mil', component_count=214, ...)
 ```python
 >>> len(pcb.components())
 214
->>> pcb.components["R101"]
-ComponentInfo(refdes='R101', package='R0603', x=100.0, y=45.0, ...)
+>>> component = pcb.components["R101"]
+>>> component.location
+Point(x=100.0, y=45.0)
 >>> pcb.components["R999"]
 Traceback (most recent call last):
 KeyError: 'R999'
@@ -33,7 +34,7 @@ KeyError: 'R999'
 
 Unplaced components are included by default; pass
 `include_unplaced=False` to skip them. Unplaced records have
-`placement='unplaced'` and `x`/`y`/`rotation` set to `None`.
+`placement='unplaced'`, `location=None`, and `x`/`y`/`rotation` set to `None`.
 
 **Nets and their pins**
 

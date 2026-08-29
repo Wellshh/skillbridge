@@ -6,17 +6,12 @@ from typing import Literal
 
 from pydantic import TypeAdapter
 
-from allegrobridge.client.api.routes import Point
-from allegrobridge.client.base import BaseRecord, Collection, SessionRecord, SkillModule
+from allegrobridge.client.api.geometry import BBox
+from allegrobridge.client.base import Collection, SessionRecord, SkillModule
 from allegrobridge.client.base._rpc import RpcArgs, read
 
 _PROJECT_PROCEDURE = '__abProjectShapes'
 _OptionalString = str | None
-
-
-class BBox(BaseRecord):
-    ll: Point
-    ur: Point
 
 
 class ShapeInfo(SessionRecord):

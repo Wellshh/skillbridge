@@ -130,6 +130,14 @@ class Batch:
         self._results.append(result)
         return result
 
+    def call(
+        self,
+        operation: Callable[P, Cmd[T]],
+        *args: P.args,
+        **kwargs: P.kwargs,
+    ) -> CmdResult[T]:
+        return self.add(operation(*args, **kwargs))
+
     def _execute(self) -> None:
         if not self._cmds:
             return

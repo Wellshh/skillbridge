@@ -4,20 +4,18 @@ from __future__ import annotations
 
 from pydantic import TypeAdapter
 
-from allegrobridge.client.base import Collection, SessionRecord
+from allegrobridge.client.api.geometry import _Located
+from allegrobridge.client.base import Collection
 from allegrobridge.client.base._rpc import RpcArgs, _core_api, read
 
 _PROCEDURE = '__abProjectSymbols'
 _OptionalString = str | None
 
 
-class SymbolInfo(SessionRecord):
+class SymbolInfo(_Located):
     name: str
     type: str
     refdes: _OptionalString
-    x: float
-    y: float
-    rotation: float
 
 
 _SymbolList = list[SymbolInfo]

@@ -5,9 +5,9 @@ result handle you read after the `with` block:
 
 ```python
 with pcb.batch("align caps") as batch:
-    c1 = batch.add(pcb.components.move.command("C101", x=120.0, y=45.0))
-    c2 = batch.add(pcb.components.move.command("C102", x=130.0, y=45.0))
-    c3 = batch.add(pcb.components.move.command("C103", x=140.0, y=45.0))
+    c1 = batch.call(pcb.components.move.command, "C101", x=120.0, y=45.0)
+    c2 = batch.call(pcb.components.move.command, "C102", x=130.0, y=45.0)
+    c3 = batch.call(pcb.components.move.command, "C103", x=140.0, y=45.0)
 
 for result in (c1, c2, c3):
     print(result.value.refdes, result.value.x)
@@ -17,7 +17,8 @@ for result in (c1, c2, c3):
 
 ## Rules
 
-- Commands are built with `.command(...)` — the form that defers execution.
+- `batch.call(operation.command, ...)` builds and adds the deferred command.
+  `batch.add(operation.command(...))` remains available for prebuilt commands.
   Calling `move(...)` inside the `with` body would execute immediately, once
   per call, defeating the batch.
 - `result.value` is only valid after the block exits. Reading it earlier
@@ -32,7 +33,7 @@ for result in (c1, c2, c3):
 
 ```python
 with pcb.batch("align caps", dry_run=True) as batch:
-    c1 = batch.add(pcb.components.move.command("C101", x=120.0, y=45.0))
+    c1 = batch.call(pcb.components.move.command, "C101", x=120.0, y=45.0)
 
 print(c1.value.rotation)  # reported, but nothing was committed
 ```

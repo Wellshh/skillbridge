@@ -6,23 +6,20 @@ from typing import Literal
 
 from pydantic import TypeAdapter
 
-from allegrobridge.client.base import KeyedCollection, SessionRecord
+from allegrobridge.client.api.geometry import _OptionalLocated
+from allegrobridge.client.base import KeyedCollection
 from allegrobridge.client.base._rpc import RpcArgs, _core_api, read
 
 _PROCEDURE = '__abProjectPins'
-_OptionalFloat = float | None
 _OptionalString = str | None
 
 
-class PinInfo(SessionRecord):
+class PinInfo(_OptionalLocated):
     refdes: str
     number: str
     net: _OptionalString
     padstack: _OptionalString
     placement: Literal['placed', 'unplaced']
-    x: _OptionalFloat
-    y: _OptionalFloat
-    rotation: _OptionalFloat
     start_layer: _OptionalString
     end_layer: _OptionalString
 

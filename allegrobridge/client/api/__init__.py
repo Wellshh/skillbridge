@@ -29,12 +29,13 @@ from allegrobridge.client.api.drc import (
     NetRef,
     PinRef,
 )
+from allegrobridge.client.api.geometry import BBox, Point
 from allegrobridge.client.api.layers import LayerInfo, LayersApi
 from allegrobridge.client.api.nets import NetInfo, NetsApi
 from allegrobridge.client.api.padstacks import PadstackInfo, PadstacksApi
 from allegrobridge.client.api.pins import PinInfo, PinsApi
-from allegrobridge.client.api.routes import Point, RouteInfo, RoutesApi
-from allegrobridge.client.api.shapes import BBox, ShapeInfo, ShapesApi
+from allegrobridge.client.api.routes import RouteInfo, RoutesApi
+from allegrobridge.client.api.shapes import ShapeInfo, ShapesApi
 from allegrobridge.client.api.symbols import SymbolInfo, SymbolsApi
 from allegrobridge.client.api.vias import ViaInfo, ViasApi
 from allegrobridge.client.base import (

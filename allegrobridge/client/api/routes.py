@@ -3,21 +3,19 @@
 from __future__ import annotations
 
 from collections.abc import Sequence
+from typing import Annotated
 
-from pydantic import PositiveFloat, TypeAdapter
+from pydantic import Field, TypeAdapter
 
-from allegrobridge.client.base import BaseRecord, Collection, SessionRecord, SkillModule
+from allegrobridge.client.api.geometry import Point, _coerce_finite_float, _coerce_point
+from allegrobridge.client.base import Collection, SessionRecord, SkillModule
 from allegrobridge.client.base._rpc import RpcArgs, read, write
 
 _PROJECT_PROCEDURE = '__abProjectRoutes'
 _CREATE_PROCEDURE = '__abCreateRoute'
 _POINT_SIZE = 2
 _OptionalString = str | None
-
-
-class Point(BaseRecord):
-    x: float
-    y: float
+_Width = Annotated[float, Field(gt=0, allow_inf_nan=False)]
 
 
 class RouteInfo(SessionRecord):
@@ -25,7 +23,7 @@ class RouteInfo(SessionRecord):
     layer: str
     start: Point
     end: Point
-    width: PositiveFloat
+    width: _Width
 
 
 _RouteList = list[RouteInfo]
@@ -59,7 +57,7 @@ class RoutesApi(Collection[RouteInfo]):
     def create(
         self,
         net: str,
-        points: Sequence[tuple[float, float]],
+        points: Sequence[Point | tuple[float, float]],
         layer: str,
         width: float,
     ) -> RpcArgs:
@@ -67,6 +65,8 @@ class RoutesApi(Collection[RouteInfo]):
             raise ValueError('a route requires at least two points')
         if any(len(point) != _POINT_SIZE for point in points):
             raise ValueError('route points must contain exactly two coordinates')
+        points = [_coerce_point(point) for point in points]
+        width = _coerce_finite_float(width)
         if width <= 0:
             raise ValueError('route width must be positive')
         return net, list(points), layer, width

@@ -13,7 +13,7 @@ from unittest.mock import MagicMock, Mock
 from weakref import ref
 
 import pytest
-from pydantic import Field, TypeAdapter
+from pydantic import Field, TypeAdapter, ValidationError
 
 import allegrobridge.client.api as api_module
 import allegrobridge.server
@@ -67,6 +67,7 @@ from allegrobridge.client.base._rpc import (  # ruff: ignore[import-private-name
     _core_procedures,
 )
 from allegrobridge.client.session import Session
+from allegrobridge.client.translator import Translator
 from allegrobridge.client.workspace import Workspace
 from allegrobridge.exceptions import (
     AllegroError,
@@ -548,6 +549,85 @@ class TestRpcInheritance:
         assert '__abLateCoreProbe' in _core_procedures()
 
 
+class TestGeometry:
+    def test_values_are_immutable_tuples(self) -> None:
+        point = Point(1.0, 2.0)
+        x, y = point
+        bbox = BBox(point, Point(3.0, 4.0))
+
+        assert (x, y) == (1.0, 2.0)
+        assert point[0] == point.x
+        assert bbox[1] == bbox.ur
+        with pytest.raises(AttributeError):
+            point.x = 3.0  # type: ignore[misc]
+
+    def test_values_use_explicit_skill_encoding(self) -> None:
+        translator = Translator()
+
+        assert translator.encode(Point(1.0, 2.0)) == '(list 1.0 2.0)'
+        assert translator.encode(BBox(Point(1.0, 2.0), Point(3.0, 4.0))) == (
+            '(list (list 1.0 2.0) (list 3.0 4.0))'
+        )
+
+    def test_records_expose_local_locations(self) -> None:
+        symbol = SymbolInfo(
+            name='RES_0402',
+            type='PACKAGE',
+            refdes='R1',
+            x=1.0,
+            y=2.0,
+            rotation=90.0,
+        )
+        placed = ComponentInfo(
+            refdes='R1',
+            device_type='RESISTOR',
+            package='RES_0402',
+            component_class='DISCRETE',
+            placement='placed',
+            x=1.0,
+            y=2.0,
+            rotation=90.0,
+        )
+        unplaced = placed.model_copy(
+            update={'placement': 'unplaced', 'x': None, 'y': None, 'rotation': None}
+        )
+
+        assert symbol.location == Point(1.0, 2.0)
+        assert placed.location == Point(1.0, 2.0)
+        assert unplaced.location is None
+
+    @pytest.mark.parametrize('value', [float('nan'), float('inf'), float('-inf')])
+    def test_records_reject_non_finite_locations(self, value: float) -> None:
+        with pytest.raises(ValidationError):
+            SymbolInfo(
+                name='RES_0402',
+                type='PACKAGE',
+                refdes='R1',
+                x=value,
+                y=2.0,
+                rotation=90.0,
+            )
+        with pytest.raises(ValidationError):
+            ComponentInfo(
+                refdes='R1',
+                device_type='RESISTOR',
+                package='RES_0402',
+                component_class='DISCRETE',
+                placement='placed',
+                x=value,
+                y=2.0,
+                rotation=90.0,
+            )
+
+    @pytest.mark.parametrize(
+        'value',
+        [True, '1.0', float('nan'), float('inf'), float('-inf')],
+    )
+    def test_encoder_rejects_invalid_coordinates(self, value: object) -> None:
+        with pytest.raises(ValidationError):
+            Translator().encode(Point(value, 2.0))  # type: ignore[arg-type]
+
+
 class TestReadApi:
     def test_client_api_exports_only_public_declarations(self) -> None:
         assert set(api_module.__all__) == {
@@ -973,8 +1053,30 @@ class TestReadApi:
 
         assert command.proc == '__abCreateVia'
         assert command.expr == SkillCode('__abCreateVia(...)')
-        assert remote.expr.call_args.args == ('VIA12', (1.0, 2.0), 'GND', True, 90.0)
-        assert type(remote.expr.call_args.args[1]) is tuple
+        assert remote.expr.call_args.args == ('VIA12', Point(1.0, 2.0), 'GND', True, 90.0)
+        assert isinstance(remote.expr.call_args.args[1], Point)
+
+    @pytest.mark.parametrize(
+        'value',
+        [True, '1.0', float('nan'), float('inf'), float('-inf')],
+    )
+    def test_via_create_rejects_invalid_geometry_before_rpc(self, value: object) -> None:
+        workspace = MagicMock()
+        session = _session(workspace)
+
+        invalid = [
+            ((value, 2.0), 0.0),
+            ((1.0, 2.0), value),
+        ]
+        for at, rotation in invalid:
+            with pytest.raises(ValidationError):
+                session.vias.create.command(
+                    'VIA12',
+                    at=at,  # type: ignore[arg-type]
+                    rotation=rotation,  # type: ignore[arg-type]
+                )
+
+        workspace.__getitem__.assert_not_called()
 
     def test_routes_load_extension_once_and_delegate_filters(self) -> None:
         workspace = MagicMock()
@@ -1025,12 +1127,12 @@ class TestReadApi:
         assert command.expr == SkillCode('__abCreateRoute(...)')
         assert remote.expr.call_args.args == (
             'GND',
-            [(1.0, 2.0), (3.0, 4.0)],
+            [Point(1.0, 2.0), Point(3.0, 4.0)],
             'ETCH/TOP',
             0.2,
         )
         assert type(remote.expr.call_args.args[1]) is list
-        assert all(type(point) is tuple for point in remote.expr.call_args.args[1])
+        assert all(isinstance(point, Point) for point in remote.expr.call_args.args[1])
 
     @pytest.mark.parametrize(
         ('points', 'width', 'message'),
@@ -1055,6 +1157,45 @@ class TestReadApi:
                 'ETCH/TOP',
                 width,
             )
+
+    @pytest.mark.parametrize(
+        'value',
+        [True, '1.0', float('nan'), float('inf'), float('-inf')],
+    )
+    def test_route_create_rejects_invalid_coordinates_before_rpc(self, value: object) -> None:
+        workspace = MagicMock()
+        session = _session(workspace)
+
+        invalid = [
+            ([(value, 2.0), (3.0, 4.0)], 0.2),
+            ([(1.0, 2.0), (3.0, 4.0)], value),
+        ]
+        for points, width in invalid:
+            with pytest.raises(ValidationError):
+                session.routes.create.command(
+                    'GND',
+                    points,  # type: ignore[arg-type]
+                    'ETCH/TOP',
+                    width,  # type: ignore[arg-type]
+                )
+
+        workspace.__getitem__.assert_not_called()
+
+    @pytest.mark.parametrize('value', [float('nan'), float('inf'), float('-inf')])
+    def test_route_projection_rejects_non_finite_geometry(self, value: float) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.return_value = [
+            {
+                'net': 'GND',
+                'layer': 'ETCH/TOP',
+                'start': {'x': value, 'y': 2.0},
+                'end': {'x': 3.0, 'y': 4.0},
+                'width': 0.2,
+            }
+        ]
+
+        with pytest.raises(AllegroProtocolError, match='__abProjectRoutes'):
+            _session(workspace).routes()
 
     @pytest.mark.parametrize(
         ('dynamic', 'encoded'),
@@ -1312,6 +1453,7 @@ class TestWriteApi:
         session = _session(workspace)
 
         command = session.components.move.command('R1', x=1.0, y=2.0)
+        rotated = session.components.move.command('R1', x=1, y=2, rotation=90)
 
         assert ComponentsApi.move.spec.proc == '__abMoveComponent'
         assert list(signature(session.components.move).parameters) == [
@@ -1323,6 +1465,8 @@ class TestWriteApi:
         assert isinstance(command, Cmd)
         assert command.proc == '__abMoveComponent'
         assert command.expr == '__abMoveComponent("R1" 1.0 2.0 nil)'
+        assert rotated.proc == '__abMoveComponent'
+        assert remote.expr.call_args.args == ('R1', 1.0, 2.0, 90.0)
         workspace.transaction.assert_not_called()
         with pytest.raises(FrozenInstanceError):
             command.proc = '__changed'
@@ -1332,6 +1476,30 @@ class TestWriteApi:
         assert moved.x == pytest.approx(1.0)
         _assert_id(moved, session)
         workspace.transaction.assert_called_once_with(command.expr)
+
+    @pytest.mark.parametrize(
+        'value',
+        [True, '1.0', float('nan'), float('inf'), float('-inf')],
+    )
+    def test_move_rejects_invalid_geometry_before_rpc(self, value: object) -> None:
+        workspace = MagicMock()
+        session = _session(workspace)
+        invalid = [
+            (value, 2.0, None),
+            (1.0, value, None),
+            (1.0, 2.0, value),
+        ]
+
+        for x, y, rotation in invalid:
+            with pytest.raises(ValidationError):
+                session.components.move.command(
+                    'R1',
+                    x=x,  # type: ignore[arg-type]
+                    y=y,  # type: ignore[arg-type]
+                    rotation=rotation,  # type: ignore[arg-type]
+                )
+
+        workspace.__getitem__.assert_not_called()
 
     def test_command_derives_id_from_session(self) -> None:
         session = _session()
@@ -1488,6 +1656,23 @@ class TestBatch:
         assert 'progn' in composite
         assert composite.index('move1()') < composite.index('move2()')
         assert 'reverse(results)' in composite
+        workspace.transaction.assert_called_once()
+
+    def test_call_builds_and_adds_typed_command(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.expr.return_value = Expr.raw_skill('move1()')
+        workspace.transaction.return_value = [self._payload('R1', 1.0)]
+        session = _session(workspace)
+
+        with session.batch() as batch:
+            result = batch.call(
+                session.components.move.command,
+                'R1',
+                x=1.0,
+                y=2.0,
+            )
+
+        assert result.value.refdes == 'R1'
         workspace.transaction.assert_called_once()
 
     def test_dry_run_uses_preview_and_empty_batch_sends_nothing(self) -> None:

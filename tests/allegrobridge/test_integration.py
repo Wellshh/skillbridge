@@ -525,6 +525,15 @@ class TestComponentsApi:
 
         assert all(isinstance(component, ComponentInfo) for component in components)
         assert [component.refdes for component in components] == [item[0] for item in snapshot]
+        assert all(
+            component.location
+            == (
+                None
+                if component.x is None or component.y is None
+                else Point(component.x, component.y)
+            )
+            for component in components
+        )
         assert all(component._id == _session_id(session) for component in components)
         assert session.components.snapshot() == components
 
@@ -626,12 +635,11 @@ class TestComponentsApi:
         try:
             with session.batch('move two components') as batch:
                 results = [
-                    batch.add(
-                        session.components.move.command(
-                            component.refdes,
-                            x=component.x + index + 1.0,
-                            y=component.y + index + 1.0,
-                        )
+                    batch.call(
+                        session.components.move.command,
+                        component.refdes,
+                        x=component.x + index + 1.0,
+                        y=component.y + index + 1.0,
                     )
                     for index, component in enumerate(originals)
                 ]
@@ -951,6 +959,10 @@ class TestPinsApi:
         pins = session.pins()
 
         assert all(isinstance(pin, PinInfo) for pin in pins)
+        assert all(
+            pin.location == (None if pin.x is None or pin.y is None else Point(pin.x, pin.y))
+            for pin in pins
+        )
         assert [
             (
                 pin.refdes,
@@ -1143,6 +1155,7 @@ class TestSymbolsApi:
         symbols = session.symbols()
 
         assert all(isinstance(symbol, SymbolInfo) for symbol in symbols)
+        assert all(symbol.location == Point(symbol.x, symbol.y) for symbol in symbols)
         assert [
             (symbol.name, symbol.type, symbol.refdes, symbol.x, symbol.y, symbol.rotation)
             for symbol in symbols
@@ -1248,6 +1261,7 @@ class TestViasApi:
 
         assert vias
         assert all(isinstance(via, ViaInfo) for via in vias)
+        assert all(via.location == Point(via.x, via.y) for via in vias)
         assert [self._values(via) for via in vias] == [tuple(item[:8]) for item in snapshot]
         assert all(via._id == _session_id(session) for via in vias)
         assert session.vias.snapshot() == vias
@@ -1276,7 +1290,7 @@ class TestViasApi:
     ) -> None:
         self._require_writable(allegro)
         original = session.vias()[0]
-        at = (original.x + 0.1, original.y + 0.1)
+        at = Point(original.x + 0.1, original.y + 0.1)
 
         created = session.vias.create(original.padstack, at=at, net=original.net)
 
@@ -1469,11 +1483,11 @@ class TestRoutesApi:
         return route, cast('str', route.net)
 
     @staticmethod
-    def _new_points(route: RouteInfo, direction: float = 1.0) -> list[tuple[float, float]]:
+    def _new_points(route: RouteInfo, direction: float = 1.0) -> list[Point]:
         distance = max(route.width * 4.0, 0.1)
         return [
-            (route.end.x, route.end.y),
-            (route.end.x + distance * direction, route.end.y),
+            Point(route.end.x, route.end.y),
+            Point(route.end.x + distance * direction, route.end.y),
         ]
 
     def test_default_call_projects_straight_routes(

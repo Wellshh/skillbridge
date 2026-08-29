@@ -6,7 +6,13 @@ from typing import Literal
 
 from pydantic import TypeAdapter
 
-from allegrobridge.client.base import Collection, SessionRecord, SkillModule
+from allegrobridge.client.api.geometry import (
+    Point,
+    _coerce_finite_float,
+    _coerce_point,
+    _Located,
+)
+from allegrobridge.client.base import Collection, SkillModule
 from allegrobridge.client.base._rpc import RpcArgs, read, write
 
 _PROJECT_PROCEDURE = '__abProjectVias'
@@ -14,12 +20,9 @@ _CREATE_PROCEDURE = '__abCreateVia'
 _OptionalString = str | None
 
 
-class ViaInfo(SessionRecord):
+class ViaInfo(_Located):
     padstack: str
     net: _OptionalString
-    x: float
-    y: float
-    rotation: float
     mirroring: Literal['mirrored', 'unmirrored']
     start_layer: str
     end_layer: str
@@ -60,9 +63,9 @@ class ViasApi(Collection[ViaInfo]):
         self,
         padstack: str,
         *,
-        at: tuple[float, float],
+        at: Point | tuple[float, float],
         net: str | None = None,
         rotation: float = 0.0,
         mirrored: bool = False,
     ) -> RpcArgs:
-        return padstack, at, net, mirrored, rotation
+        return padstack, _coerce_point(at), net, mirrored, _coerce_finite_float(rotation)

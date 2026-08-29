@@ -41,13 +41,15 @@ per command:
 
 ```python
 with pcb.batch("align caps") as batch:
-    c1 = batch.add(pcb.components.move.command("C101", x=120.0, y=45.0))
-    c2 = batch.add(pcb.components.move.command("C102", x=130.0, y=45.0))
+    c1 = batch.call(pcb.components.move.command, "C101", x=120.0, y=45.0)
+    c2 = batch.call(pcb.components.move.command, "C102", x=130.0, y=45.0)
 
 print(c1.value.rotation)
 ```
 
-- `batch.add(...)` returns a `CmdResult` — a promise that resolves when the
+- `batch.call(operation.command, ...)` constructs and adds a command while
+  preserving the operation's argument types. `batch.add(command)` remains the
+  lower-level entry point. Both return a `CmdResult` that resolves when the
   `with` block exits. Reading `.value` before that raises `RuntimeError`; if
   the batch failed, `.value` re-raises the error.
 - An exception inside the `with` body aborts the batch; nothing is executed.
