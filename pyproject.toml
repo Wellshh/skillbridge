@@ -104,7 +104,7 @@ exclude_also = ["raise NotImplementedError", "@overload"]
 [tool.mypy]
 python_version = "3.10"
 files = ["skillbridge", "allegrobridge", "tests/typing_allegrobridge_axl_stubs.py"]
-exclude = ["tests"]
+exclude = ["tests", "build", "dist", ".venv", "tmp"]
 platform = "linux"
 pretty = true
 show_error_context = true
