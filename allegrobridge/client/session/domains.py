@@ -3,7 +3,7 @@
 """Static metadata for the Session domain APIs.
 
 Single source of truth for the docs capability matrix and the generated API
-index; the explicit ``@cached_property`` accessors on ``Session`` stay as-is.
+index; the statically declared ``api_slot`` accessors on ``Session`` stay as-is.
 """
 
 from __future__ import annotations

@@ -2,10 +2,8 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 from __future__ import annotations
 
-import sys
 from collections.abc import Iterator
 from contextlib import suppress
-from importlib import import_module
 from json import dumps
 from pathlib import Path
 from shutil import copy2, copytree
@@ -19,8 +17,6 @@ from weakref import ref
 import pytest
 from pydantic import ValidationError
 
-import allegrobridge.client.api.extensions as extension_package
-import allegrobridge.server
 from allegrobridge import Allegro, OpenMode, Session, Workspace
 from allegrobridge.client.api import (
     BBox,
@@ -49,6 +45,8 @@ from allegrobridge.exceptions import (
 )
 from allegrobridge.util import ASSETS_DIR
 from skillbridge import SkillCode
+from tests.allegrobridge.fixtures.client_extensions.missing_server import MissingServerApi
+from tests.allegrobridge.fixtures.client_extensions.probe import ProbeApi
 
 ALObjectHandle = NewType('ALObjectHandle', str)
 _TEST_BOARD = ASSETS_DIR / 'shape1.brd'
@@ -92,26 +90,8 @@ def session(allegro: Allegro) -> Session:
 
 
 @pytest.fixture(scope='class')
-def extension_environment(session: Session) -> Iterator[None]:
-    fixture_root = Path(__file__).with_name('fixtures')
-    with pytest.MonkeyPatch.context() as monkeypatch:
-        monkeypatch.setattr(
-            extension_package,
-            '__path__',
-            [str(fixture_root / 'client_extensions')],
-        )
-        monkeypatch.setattr(
-            allegrobridge.server,
-            '__file__',
-            str(fixture_root / 'server' / '__init__.py'),
-        )
-        sys.modules.pop('allegrobridge.client.api.extensions.probe', None)
-        sys.modules.pop('allegrobridge.client.api.extensions.missing_server', None)
-        try:
-            yield
-        finally:
-            sys.modules.pop('allegrobridge.client.api.extensions.probe', None)
-            sys.modules.pop('allegrobridge.client.api.extensions.missing_server', None)
+def probe(session: Session) -> ProbeApi:
+    return session.bind(ProbeApi)
 
 
 @pytest.fixture(scope='class')
@@ -2120,8 +2100,7 @@ class TestDrcApi:
             drc()
 
 
-@pytest.mark.usefixtures('extension_environment')
-class TestExtensionApi:
+class TestBoundApi:
     def test_missing_extension_is_cached_and_core_api_survives(
         self,
         allegro: Allegro,
@@ -2131,9 +2110,9 @@ class TestExtensionApi:
             pytest.skip('extension loading test requires the Windows board copy')
 
         with pytest.raises(ExtensionError, match='missing_server') as first:
-            _ = session.ext.missing_server
+            session.bind(MissingServerApi)
         with pytest.raises(ExtensionError, match='missing_server') as second:
-            _ = session.ext.missing_server
+            session.bind(MissingServerApi)
 
         assert second.value is first.value
         assert session.raw['plus'](1, 2) == 3
@@ -2146,33 +2125,19 @@ class TestExtensionApi:
         self,
         allegro: Allegro,
         session: Session,
+        probe: ProbeApi,
     ) -> None:
         if allegro.mode != 'cli':
             pytest.skip('extension loading test requires the Windows board copy')
 
-        probe = session.ext.probe
-
-        assert probe is session.ext['probe']
-        assert probe() == session.components()
-
-    def test_bind_returns_typed_api_and_reuses_loaded_skill_module(
-        self,
-        allegro: Allegro,
-        session: Session,
-    ) -> None:
-        if allegro.mode != 'cli':
-            pytest.skip('extension loading test requires the Windows board copy')
-
-        api_type = import_module('allegrobridge.client.api.extensions.probe').ProbeApi
-        probe = session.bind(api_type)
-
-        assert session.bind(api_type) is probe
+        assert probe is session.bind(ProbeApi)
         assert probe() == session.components()
 
     def test_extension_write_commits_atomically(
         self,
         allegro: Allegro,
         session: Session,
+        probe: ProbeApi,
     ) -> None:
         if allegro.mode != 'cli':
             pytest.skip('extension write test requires the Windows board copy')
@@ -2182,7 +2147,7 @@ class TestExtensionApi:
         assert original.y is not None
 
         try:
-            moved = session.ext.probe.move(
+            moved = probe.move(
                 original.refdes,
                 x=original.x + 1.0,
                 y=original.y + 1.0,
@@ -2202,6 +2167,7 @@ class TestExtensionApi:
         self,
         allegro: Allegro,
         session: Session,
+        probe: ProbeApi,
     ) -> None:
         if allegro.mode != 'cli':
             pytest.skip('extension batch test requires the Windows board copy')
@@ -2213,7 +2179,7 @@ class TestExtensionApi:
         try:
             with session.batch('mixed extension batch') as batch:
                 extension_result = batch.add(
-                    session.ext.probe.move.command(
+                    probe.move.command(
                         originals[0].refdes,
                         x=originals[0].x + 1.0,
                         y=originals[0].y + 1.0,

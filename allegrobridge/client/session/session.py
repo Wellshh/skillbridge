@@ -25,7 +25,7 @@ from allegrobridge.client.api import (
     SymbolsApi,
     ViasApi,
 )
-from allegrobridge.client.base import Extensions, SkillModule
+from allegrobridge.client.base import SkillModule
 from allegrobridge.client.base._rpc import SessionApi, _api_procedures
 from allegrobridge.client.workspace import Workspace
 from allegrobridge.exceptions import ExtensionError
@@ -41,7 +41,18 @@ class _Allegro(Protocol):
 ApiT = TypeVar('ApiT', bound=SessionApi)
 
 
-class Session:  # ruff: ignore[too-many-public-methods]
+def api_slot(api_type: type[ApiT]) -> cached_property[ApiT]:
+    """Register core-api to Session."""
+
+    def slot(session: Session) -> ApiT:
+        if hasattr(api_type, 'module'):
+            return session.bind(api_type)
+        return api_type(session)
+
+    return cast('cached_property[ApiT]', cached_property(slot))
+
+
+class Session:
     def __init__(self, allegro: _Allegro) -> None:
         self._allegro = allegro
         self._generation = 1
@@ -113,73 +124,17 @@ class Session:  # ruff: ignore[too-many-public-methods]
             self._bindings[api_type] = api
             return api
 
-    # --- First-Class Domain APIs ---
-    # Direct access on Session. Heavy or version-sensitive domains (e.g. DRC)
-    # can delegate internally to lazy extension loaders to keep Workspace startup light.
-    @cached_property
-    def board(self) -> BoardApi:
-        return BoardApi(self)
-
-    @cached_property
-    def components(self) -> ComponentsApi:
-        return ComponentsApi(self)
-
-    @cached_property
-    def layers(self) -> LayersApi:
-        return LayersApi(self)
-
-    @cached_property
-    def nets(self) -> NetsApi:
-        return NetsApi(self)
-
-    @cached_property
-    def padstacks(self) -> PadstacksApi:
-        return PadstacksApi(self)
-
-    @cached_property
-    def pins(self) -> PinsApi:
-        return PinsApi(self)
-
-    @cached_property
-    def symbols(self) -> SymbolsApi:
-        return SymbolsApi(self)
-
-    @cached_property
-    def vias(self) -> ViasApi:
-        self.raw._ensure_extension(  # ruff: ignore[private-member-access]
-            'vias',
-            _api_procedures(ViasApi),
-        )
-        return ViasApi(self)
-
-    @cached_property
-    def routes(self) -> RoutesApi:
-        self.raw._ensure_extension(  # ruff: ignore[private-member-access]
-            'routes',
-            _api_procedures(RoutesApi),
-        )
-        return RoutesApi(self)
-
-    @cached_property
-    def shapes(self) -> ShapesApi:
-        self.raw._ensure_extension(  # ruff: ignore[private-member-access]
-            'shapes',
-            _api_procedures(ShapesApi),
-        )
-        return ShapesApi(self)
-
-    @cached_property
-    def drc(self) -> DrcApi:
-        self.raw._ensure_extension(  # ruff: ignore[private-member-access]
-            'drc',
-            _api_procedures(DrcApi),
-        )
-        return DrcApi(self)
-
-    # --- Bundled & Custom Extensions ---
-    @cached_property
-    def ext(self) -> Extensions:
-        return Extensions(self)
+    board = api_slot(BoardApi)
+    components = api_slot(ComponentsApi)
+    layers = api_slot(LayersApi)
+    nets = api_slot(NetsApi)
+    padstacks = api_slot(PadstacksApi)
+    pins = api_slot(PinsApi)
+    symbols = api_slot(SymbolsApi)
+    vias = api_slot(ViasApi)
+    routes = api_slot(RoutesApi)
+    shapes = api_slot(ShapesApi)
+    drc = api_slot(DrcApi)
 
     def close(self) -> None:
         if self._closed:

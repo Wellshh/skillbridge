@@ -1,74 +1,69 @@
 # Writing Extensions
 
-Extensions add your own domain APIs to `Session` without touching the core
-package. They are lazily imported, bound to the session, and cached.
+Extensions are ordinary typed `SessionApi` classes. The API class declares
+its packaged SKILL resource with `SkillModule`; applications attach it
+explicitly with `session.bind(ApiType)`.
 
 ## Contract
 
-1. **Location** — create `allegrobridge/client/api/extensions/<name>.py`
-   (`<name>` must be a lowercase Python identifier).
-2. **Implementation** — subclass `SessionApi` and mark the class with
-   `@extension`.
-3. **Constraint** — exactly one `@extension` class per module. Classes merely
-   imported into the module are ignored (`__module__` must match).
-4. **Usage** — access via `session.ext.<name>`. The first access imports the
-   module, loads the server-side SKILL file if needed, and caches the instance.
-
-## Server side
-
-If the extension calls SKILL procedures that are not part of the core runtime,
-declare them with `@read` / `@write` and provide
-`allegrobridge/server/extensions/<name>.il` defining those procedures. On first
-use, `Workspace._ensure_extension` loads the `.il` file and verifies every
-declared procedure is callable, raising `ExtensionError` otherwise. An
-extension whose methods only compose existing procedures needs no `.il` file.
+1. Subclass `SessionApi`.
+2. Set `module = SkillModule(package, resource)` on the class.
+3. Declare remote operations with `@read`, `@direct`, or `@write`.
+4. Bind the class with `session.bind(ApiType)`. Binding returns the precise API
+   type and caches one instance per session.
 
 ## Example
 
-`allegrobridge/client/api/extensions/stackup.py`:
+`my_plugin/api.py`:
 
 ```python
-from __future__ import annotations
-
 from pydantic import TypeAdapter
 
-from allegrobridge.client.base import RpcArgs, SessionApi, extension, read
+from allegrobridge import SkillModule
+from allegrobridge.client.api import RpcArgs, SessionApi, read
 
 _MATERIALS = TypeAdapter(list[str])
 
 
-@extension
 class StackupApi(SessionApi):
+    module = SkillModule('my_plugin', 'server/stackup.il')
+
     @read('__abListMaterials', _MATERIALS)
     def materials(self) -> RpcArgs:
         return ()
 ```
 
-`allegrobridge/server/extensions/stackup.il`:
+`my_plugin/server/stackup.il`:
 
 ```skill
 (defun __abListMaterials ()
-  ;; return a list of material names
   ...)
 ```
 
 Usage:
 
 ```python
-mats = session.ext.stackup.materials()
+from my_plugin.api import StackupApi
+
+stackup = session.bind(StackupApi)
+materials = stackup.materials()
 ```
+
+The package must include the `.il` resource. AllegroBridge checks all declared
+procedures in one RPC, loads the resource synchronously when needed, then
+checks readiness again. The temporary path from `importlib.resources` is never
+cached.
 
 !!! note
 
-    A SKILL procedure that returns an empty list yields `nil` on the wire,
-    which decodes as Python `None`. List-typed reads coerce that back to `[]`
-    automatically — you do not need a special adapter for empty results.
+    A SKILL procedure that returns an empty list yields `nil` on the wire.
+    List-typed reads coerce that back to `[]` automatically.
 
 ## Failure semantics
 
-- Unknown name → `KeyError`/`AttributeError` (not cached, retried each time).
-- Import error, missing `.il`, or failed readiness check → `ExtensionError`,
-  cached: subsequent accesses re-raise the same error. Restart the session to
-  retry after fixing the extension.
-- Loading is serialized by a lock, so concurrent first access from multiple
-  threads loads the extension exactly once.
+- Missing resource, load failure, or failed readiness check raises
+  `ExtensionError`.
+- Module load state is shared by `SkillModule`; two API classes may reuse one
+  resource while checking their own procedures independently.
+- Instances and readiness errors are cached per API class and session.
+- Binding is serialized, so concurrent calls return the same API instance.

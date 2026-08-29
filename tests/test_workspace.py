@@ -7,7 +7,6 @@ from collections import deque
 from io import StringIO
 from json import dumps
 from pathlib import Path
-from threading import Thread
 from types import SimpleNamespace
 from typing import Any
 
@@ -425,104 +424,6 @@ def test_allegro_workspace_loads_missing_core_runtime(
     opened.close()
 
 
-def test_allegro_workspace_loads_extension_once_across_threads(
-    monkeypatch: MonkeyPatch,
-    tmp_path: Path,
-) -> None:
-    package = tmp_path / 'server'
-    extension_dir = package / 'extensions'
-    extension_dir.mkdir(parents=True)
-    (extension_dir / 'constraints.il').touch()
-    monkeypatch.setattr(allegrobridge.server, '__file__', str(package / '__init__.py'))
-    channel = ScriptedChannel('None', 'None', 'True')
-    ws = AllegroWorkspace(channel=channel, id_=456)
-    threads = [
-        Thread(
-            target=ws._ensure_extension,
-            args=('constraints', ('__abp_constraints_project',)),
-        )
-        for _ in range(2)
-    ]
-    for thread in threads:
-        thread.start()
-    for thread in threads:
-        thread.join()
-
-    path = (extension_dir / 'constraints.il').resolve().as_posix()
-    assert channel.commands == [
-        "isCallable('__abp_constraints_project)",
-        f'load({dumps(path)})',
-        "isCallable('__abp_constraints_project)",
-    ]
-
-
-def test_allegro_workspace_caches_extension_failure(
-    monkeypatch: MonkeyPatch,
-    tmp_path: Path,
-) -> None:
-    package = tmp_path / 'server'
-    package.mkdir()
-    monkeypatch.setattr(allegrobridge.server, '__file__', str(package / '__init__.py'))
-    channel = ScriptedChannel('None')
-    ws = AllegroWorkspace(channel=channel, id_=456)
-
-    with raises(ExtensionError) as first:
-        ws._ensure_extension('missing', ('__abp_missing_project',))
-    with raises(ExtensionError) as second:
-        ws._ensure_extension('missing', ('__abp_missing_project',))
-
-    assert second.value is first.value
-    assert channel.commands == ["isCallable('__abp_missing_project)"]
-
-
-def test_allegro_workspace_skips_present_extension() -> None:
-    channel = ScriptedChannel('True')
-    ws = AllegroWorkspace(channel=channel, id_=456)
-
-    ws._ensure_extension('constraints', ('__abp_constraints_project',))
-    ws._ensure_extension('constraints', ('__abp_constraints_project',))
-
-    assert channel.commands == ["isCallable('__abp_constraints_project)"]
-
-
-def test_allegro_workspace_caches_extension_readiness_failure(
-    monkeypatch: MonkeyPatch,
-    tmp_path: Path,
-) -> None:
-    package = tmp_path / 'server'
-    extension_dir = package / 'extensions'
-    extension_dir.mkdir(parents=True)
-    (extension_dir / 'broken.il').touch()
-    monkeypatch.setattr(allegrobridge.server, '__file__', str(package / '__init__.py'))
-    channel = ScriptedChannel('None', 'None', 'None')
-    ws = AllegroWorkspace(channel=channel, id_=456)
-
-    with raises(ExtensionError, match='readiness') as first:
-        ws._ensure_extension('broken', ('__abp_broken_project',))
-    with raises(ExtensionError, match='readiness') as second:
-        ws._ensure_extension('broken', ('__abp_broken_project',))
-
-    path = (extension_dir / 'broken.il').resolve().as_posix()
-    assert second.value is first.value
-    assert channel.commands == [
-        "isCallable('__abp_broken_project)",
-        f'load({dumps(path)})',
-        "isCallable('__abp_broken_project)",
-    ]
-
-
-def test_allegro_workspace_caches_extension_transport_failure() -> None:
-    ws = AllegroWorkspace(channel=RejectingChannel(), id_=456)
-
-    with raises(ExtensionError, match="failed to load extension 'broken'") as first:
-        ws._ensure_extension('broken', ('__abp_broken_project',))
-    with raises(ExtensionError) as second:
-        ws._ensure_extension('broken', ('__abp_broken_project',))
-
-    assert second.value is first.value
-    assert isinstance(first.value.__cause__, RuntimeError)
-
-
 def test_allegro_workspace_loads_skill_module_once_for_multiple_apis() -> None:
     module = SkillModule('tests.allegrobridge.fixtures', 'server/extensions/probe.il')
     channel = ScriptedChannel('False', 'None', 'True', 'True')
@@ -602,6 +503,10 @@ def test_allegro_workspace_caches_skill_module_transport_failure() -> None:
     assert second.value is first.value
     assert isinstance(first.value.__cause__, RuntimeError)
     assert len(channel.commands) == 2
+
+
+def test_allegro_workspace_has_no_legacy_extension_loader() -> None:
+    assert not hasattr(AllegroWorkspace(channel=ScriptedChannel(), id_=456), '_ensure_extension')
 
 
 def test_allegro_workspace_closes_when_core_runtime_stays_incomplete(

@@ -51,9 +51,7 @@ class Workspace(_WorkspaceTypingMixin, GWorkspace):  # type: ignore[misc]
     ) -> None:
         super().__init__(channel, id_)
         self._transaction = Txn(self)
-        self._extension_lock = Lock()
-        self._loaded_extensions: set[str] = set()
-        self._extension_errors: dict[str, ExtensionError] = {}
+        self._module_lock = Lock()
         self._loaded_modules: set[SkillModule] = set()
         self._module_errors: dict[SkillModule, ExtensionError] = {}
 
@@ -111,34 +109,6 @@ class Workspace(_WorkspaceTypingMixin, GWorkspace):  # type: ignore[misc]
         if not self._has_procedures(procedures):
             raise AllegroLaunchError('Allegro core runtime failed to load')
 
-    def _ensure_extension(self, name: str, procedures: tuple[str, ...]) -> None:
-        def load() -> None:
-            if self._has_procedures(procedures):
-                return
-            server_dir = Path(allegrobridge.server.__file__).parent
-            path = server_dir / 'extensions' / f'{name}.il'
-            if not path.is_file():
-                raise ExtensionError(f'SKILL file for extension {name!r} was not found')
-            self['load'](path.resolve().as_posix())
-            if not self._has_procedures(procedures):
-                raise ExtensionError(f'extension {name!r} failed readiness check')
-
-        with self._extension_lock:
-            if name in self._loaded_extensions:
-                return
-            if name in self._extension_errors:
-                raise self._extension_errors[name]
-            try:
-                load()
-            except ExtensionError as error:
-                self._extension_errors[name] = error
-                raise
-            except Exception as error:
-                failure = ExtensionError(f'failed to load extension {name!r}')
-                self._extension_errors[name] = failure
-                raise failure from error
-            self._loaded_extensions.add(name)
-
     def _module_is_ready(
         self,
         module: SkillModule,
@@ -153,7 +123,7 @@ class Workspace(_WorkspaceTypingMixin, GWorkspace):  # type: ignore[misc]
             raise ExtensionError(f'SKILL module {module!r} readiness check failed') from error
 
     def _ensure_module(self, module: SkillModule, procedures: tuple[str, ...]) -> None:
-        with self._extension_lock:
+        with self._module_lock:
             if module in self._module_errors:
                 raise self._module_errors[module]
             if self._module_is_ready(module, procedures):

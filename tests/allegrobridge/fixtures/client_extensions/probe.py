@@ -9,7 +9,6 @@ from allegrobridge.client.api import (
     RpcArgs,
     SessionApi,
     SkillModule,
-    extension,
     read,
     write,
 )
@@ -18,7 +17,6 @@ _COMPONENTS = TypeAdapter(list[ComponentInfo])
 _COMPONENT = TypeAdapter(ComponentInfo)
 
 
-@extension
 class ProbeApi(SessionApi):
     module = SkillModule('tests.allegrobridge.fixtures', 'server/extensions/probe.il')
 

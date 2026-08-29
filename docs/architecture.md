@@ -66,12 +66,11 @@ Before any transaction the server checks `axlOKToProceed` and fails fast with
 1. **Core runtime** — `allegro_server.il` is loaded automatically whenever a
    `Workspace` connects and any procedure of `_TRANSACTION_FUNCTIONS` or a
    `@_core_api`-registered API is missing.
-2. **Lazy bundled domains** — heavy/optional domains (e.g. `vias`) register
-   their procedures but load their server-side `.il` only on first use via
-   `Workspace._ensure_extension`.
-3. **Custom extensions** — user modules under
-   `allegrobridge/client/api/extensions/` loaded through `session.ext.<name>`
+2. **Lazy bundled domains** — heavy/optional domains declare a `SkillModule`;
+   their static `Session` slot loads the packaged `.il` on first use.
+3. **Custom APIs** — third-party `SessionApi` classes declare their own
+   `SkillModule` and are attached explicitly with `session.bind(ApiType)`
    (see [extensions.md](guide/extensions.md)).
 
 Loading is idempotent, thread-safe, and failures are cached so a broken
-extension raises the same error on every access instead of retrying blindly.
+API raises the same error on every bind instead of retrying blindly.

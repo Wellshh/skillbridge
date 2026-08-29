@@ -13,10 +13,8 @@ API Layering & Loading Principles:
      (e.g. `session.board`, `session.drc`).
    - May be eagerly verified or backed lazily by extensions;
      failure is isolated to the specific domain.
-3. Bundled & Custom Extensions:
-   - Specialized, version-sensitive, or complex toolkits
-     (e.g. `session.ext.rules`, `session.ext.autoplace`).
-   - Lazily imported and isolated under `session.ext.<name>`.
+3. Custom APIs:
+   - Third-party API classes declare a `SkillModule` and bind through `Session.bind()`.
 """
 
 from __future__ import annotations
@@ -49,7 +47,6 @@ from allegrobridge.client.base import (
     RpcDef,
     SessionApi,
     SkillModule,
-    extension,
     read,
     write,
 )
@@ -92,7 +89,6 @@ __all__ = [
     'SymbolsApi',
     'ViaInfo',
     'ViasApi',
-    'extension',
     'read',
     'write',
 ]

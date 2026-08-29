@@ -5,7 +5,7 @@ AllegroBridge uses the standard `logging` module on both sides of the bridge.
 ## Python side
 
 Enable debug output to see process launches, workspace connections, and
-extension loads:
+SKILL module loads:
 
 ```python
 import logging

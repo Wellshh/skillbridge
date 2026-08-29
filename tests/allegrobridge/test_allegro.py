@@ -8,7 +8,6 @@ from collections.abc import Sequence
 from dataclasses import FrozenInstanceError
 from inspect import signature
 from pathlib import Path
-from types import ModuleType
 from typing import Annotated, TypeVar
 from unittest.mock import MagicMock, Mock
 from weakref import ref
@@ -27,6 +26,7 @@ from allegrobridge.allegro import (
 from allegrobridge.client.api import (
     Batch,
     BBox,
+    BoardApi,
     BoardInfo,
     Cmd,
     CmdResult,
@@ -57,7 +57,6 @@ from allegrobridge.client.api import (
     SymbolsApi,
     ViaInfo,
     ViasApi,
-    extension,
     read,
 )
 from allegrobridge.client.base import BaseRecord, SessionRecord, SkillModule
@@ -330,111 +329,6 @@ class TestSession:
         opened.close.assert_called_once_with()
 
 
-class TestSessionExtensions:
-    @staticmethod
-    def _module(
-        name: str = 'constraints',
-        procedure: str | None = None,
-    ) -> tuple[ModuleType, type[SessionApi]]:
-        module = ModuleType(f'allegrobridge.client.api.extensions.{name}')
-        namespace: dict[str, object] = {'__module__': module.__name__}
-        if procedure is not None:
-
-            def project(self: SessionApi) -> RpcArgs:
-                return ()
-
-            namespace['project'] = read(procedure, TypeAdapter(int))(project)
-        api = extension(type('ConstraintsApi', (SessionApi,), namespace))
-        module.ConstraintsApi = api
-        return module, api
-
-    def test_imports_on_first_access_and_caches_per_session(
-        self,
-        monkeypatch: pytest.MonkeyPatch,
-    ) -> None:
-        module, api = self._module()
-        importer = Mock(return_value=module)
-        monkeypatch.setattr('allegrobridge.client.base._extensions.import_module', importer)
-        session = _session()
-        ext = session.ext
-        importer.assert_not_called()
-
-        plugin = ext.constraints
-
-        assert isinstance(plugin, api)
-        assert ext['constraints'] is plugin
-        assert session.ext.constraints is plugin
-        importer.assert_called_once_with('allegrobridge.client.api.extensions.constraints')
-
-    def test_rpc_extension_prepares_workspace_before_binding(
-        self,
-        monkeypatch: pytest.MonkeyPatch,
-    ) -> None:
-        procedure = '__abp_constraints_project'
-        module, api = self._module(procedure=procedure)
-        monkeypatch.setattr(
-            'allegrobridge.client.base._extensions.import_module',
-            Mock(return_value=module),
-        )
-        workspace = MagicMock()
-        session = _session(workspace)
-
-        assert isinstance(session.ext.constraints, api)
-        workspace._ensure_extension.assert_called_once_with(
-            'constraints',
-            (procedure,),
-        )
-
-    def test_unknown_extension_uses_python_lookup_errors(
-        self,
-        monkeypatch: pytest.MonkeyPatch,
-    ) -> None:
-        module_name = 'allegrobridge.client.api.extensions.missing'
-        error = ModuleNotFoundError(name=module_name)
-        monkeypatch.setattr(
-            'allegrobridge.client.base._extensions.import_module',
-            Mock(side_effect=error),
-        )
-        ext = _session().ext
-
-        with pytest.raises(AttributeError, match='missing'):
-            _ = ext.missing
-        with pytest.raises(KeyError, match='missing'):
-            _ = ext['missing']
-        with pytest.raises(KeyError, match='not-valid'):
-            _ = ext['not-valid']
-        with pytest.raises(KeyError, match='Constraints'):
-            _ = ext['Constraints']
-
-    @pytest.mark.parametrize('failure', ['declaration', 'dependency', 'import'])
-    def test_extension_load_failure_is_isolated(
-        self,
-        monkeypatch: pytest.MonkeyPatch,
-        failure: str,
-    ) -> None:
-        module = ModuleType('allegrobridge.client.api.extensions.broken')
-        side_effect = {
-            'declaration': module,
-            'dependency': ModuleNotFoundError(name='dependency'),
-            'import': ValueError('import failed'),
-        }[failure]
-        importer = (
-            Mock(side_effect=side_effect)
-            if isinstance(side_effect, BaseException)
-            else Mock(return_value=side_effect)
-        )
-        monkeypatch.setattr('allegrobridge.client.base._extensions.import_module', importer)
-        session = _session()
-
-        with pytest.raises(ExtensionError, match='broken') as first:
-            _ = session.ext.broken
-        with pytest.raises(ExtensionError, match='broken') as second:
-            _ = session.ext.broken
-        assert second.value is first.value
-        importer.assert_called_once()
-        assert session.board is session.board
-
-
 class TestSessionBindings:
     module = SkillModule('tests.allegrobridge.fixtures', 'server/extensions/probe.il')
 
@@ -496,6 +390,17 @@ class TestSessionBindings:
 
         with pytest.raises(TypeError, match='SkillModule'):
             _session().bind(LocalApi)
+
+    def test_session_has_no_dynamic_extension_namespace(self) -> None:
+        assert not hasattr(_session(), 'ext')
+
+    def test_core_api_slot_is_local_and_cached(self) -> None:
+        workspace = MagicMock()
+        session = _session(workspace)
+
+        assert session.board is session.board
+        assert isinstance(session.board, BoardApi)
+        workspace._ensure_module.assert_not_called()
 
 
 class TestCoreKeyedApi:
@@ -683,7 +588,6 @@ class TestReadApi:
             'SymbolsApi',
             'ViaInfo',
             'ViasApi',
-            'extension',
             'read',
             'write',
         }
@@ -1029,8 +933,8 @@ class TestReadApi:
 
         vias = session.vias(net='GND', layer='ETCH/TOP', padstack='VIA12')
 
-        workspace._ensure_extension.assert_called_once_with(
-            'vias',
+        workspace._ensure_module.assert_called_once_with(
+            ViasApi.module,
             ('__abProjectVias', '__abCreateVia'),
         )
         assert session.vias is session.vias
@@ -1087,8 +991,8 @@ class TestReadApi:
 
         routes = session.routes(net='GND', layer='ETCH/TOP')
 
-        workspace._ensure_extension.assert_called_once_with(
-            'routes',
+        workspace._ensure_module.assert_called_once_with(
+            RoutesApi.module,
             ('__abProjectRoutes', '__abCreateRoute'),
         )
         assert session.routes is session.routes
@@ -1177,8 +1081,8 @@ class TestReadApi:
 
         shapes = session.shapes(net='GND', layer='ETCH/TOP', dynamic=dynamic)
 
-        workspace._ensure_extension.assert_called_once_with(
-            'shapes',
+        workspace._ensure_module.assert_called_once_with(
+            ShapesApi.module,
             ('__abProjectShapes',),
         )
         assert session.shapes is session.shapes
@@ -1226,8 +1130,8 @@ class TestReadApi:
 
         drcs = session.drc()
 
-        workspace._ensure_extension.assert_called_once_with(
-            'drc',
+        workspace._ensure_module.assert_called_once_with(
+            DrcApi.module,
             ('__abProjectDrcs', '__abUpdateDrcs', '__abCheckDrcs'),
         )
         assert session.drc is session.drc

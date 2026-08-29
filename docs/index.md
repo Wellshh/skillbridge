@@ -154,8 +154,8 @@ with Allegro.launch("designs/demo.brd") as allegro:
 
     ---
 
-    Extend the session with your own API domains, loaded lazily on first
-    access.
+    Bind typed API classes whose packaged SKILL modules load lazily on first
+    use.
 
     [:octicons-arrow-right-24: Writing extensions](guide/extensions.md)
 
@@ -183,4 +183,3 @@ and docstrings in a PEP 561-aware IDE:
   AXL access
 - Browse the [Examples](examples/index.md) for task-oriented recipes
 - Look up classes in the [Reference](reference/index.md)
-

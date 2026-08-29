@@ -6,7 +6,7 @@ from typing import Literal
 
 from pydantic import TypeAdapter
 
-from allegrobridge.client.base import Collection, SessionRecord
+from allegrobridge.client.base import Collection, SessionRecord, SkillModule
 from allegrobridge.client.base._rpc import RpcArgs, read, write
 
 _PROJECT_PROCEDURE = '__abProjectVias'
@@ -31,6 +31,8 @@ _VIA = TypeAdapter(ViaInfo)
 
 
 class ViasApi(Collection[ViaInfo]):
+    module = SkillModule('allegrobridge.server', 'extensions/vias.il')
+
     @read(_PROJECT_PROCEDURE, _VIAS)
     def _project(
         self,

@@ -8,7 +8,7 @@ from pydantic import TypeAdapter
 
 from allegrobridge.client.api.routes import Point
 from allegrobridge.client.api.shapes import BBox
-from allegrobridge.client.base import BaseRecord, Collection, SessionRecord
+from allegrobridge.client.base import BaseRecord, Collection, SessionRecord, SkillModule
 from allegrobridge.client.base._rpc import RpcArgs, direct, read, write
 
 if TYPE_CHECKING:  # pragma: no cover
@@ -58,6 +58,8 @@ _DRCS = TypeAdapter(_DrcList)
 
 
 class DrcApi(Collection[DrcInfo]):
+    module = SkillModule('allegrobridge.server', 'extensions/drc.il')
+
     @read(_PROCEDURE, _DRCS)
     def _project(self) -> RpcArgs:
         return ()

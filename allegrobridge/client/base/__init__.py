@@ -10,8 +10,7 @@ from allegrobridge.client.base._datastructure import (
 from allegrobridge.client.base._datastructure import (
     _KeyedCollection as KeyedCollection,
 )
-from allegrobridge.client.base._extensions import SkillModule, extension
-from allegrobridge.client.base._extensions import _Extensions as Extensions
+from allegrobridge.client.base._extensions import SkillModule
 from allegrobridge.client.base._future import Cmd, CmdResult
 from allegrobridge.client.base._record import (
     _ID,
@@ -35,7 +34,6 @@ __all__ = [
     'Cmd',
     'CmdResult',
     'Collection',
-    'Extensions',
     'KeyedCollection',
     'RpcArgs',
     'RpcDef',
@@ -43,7 +41,6 @@ __all__ = [
     'SessionRecord',
     'SkillModule',
     'direct',
-    'extension',
     'read',
     'write',
 ]

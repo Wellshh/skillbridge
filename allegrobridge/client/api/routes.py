@@ -6,7 +6,7 @@ from collections.abc import Sequence
 
 from pydantic import PositiveFloat, TypeAdapter
 
-from allegrobridge.client.base import BaseRecord, Collection, SessionRecord
+from allegrobridge.client.base import BaseRecord, Collection, SessionRecord, SkillModule
 from allegrobridge.client.base._rpc import RpcArgs, read, write
 
 _PROJECT_PROCEDURE = '__abProjectRoutes'
@@ -33,6 +33,8 @@ _ROUTES = TypeAdapter(_RouteList)
 
 
 class RoutesApi(Collection[RouteInfo]):
+    module = SkillModule('allegrobridge.server', 'extensions/routes.il')
+
     @read(_PROJECT_PROCEDURE, _ROUTES)
     def _project(
         self,
