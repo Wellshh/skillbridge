@@ -1,0 +1,416 @@
+{
+    "machine_info": {
+        "node": "JUNYANs-MacBook-Air.local",
+        "processor": "i386",
+        "machine": "arm64",
+        "python_compiler": "Clang 20.1.8 ",
+        "python_implementation": "CPython",
+        "python_implementation_version": "3.13.13",
+        "python_version": "3.13.13",
+        "python_build": [
+            "main",
+            "Apr 14 2026 06:14:06"
+        ],
+        "release": "25.5.0",
+        "system": "Darwin",
+        "cpu": {
+            "python_version": "3.13.13.final.0 (64 bit)",
+            "cpuinfo_version": [
+                10,
+                1,
+                1
+            ],
+            "cpuinfo_version_string": "10.1.1",
+            "arch": "ARM_8",
+            "bits": 64,
+            "count": 10,
+            "arch_string_raw": "arm64",
+            "brand_raw": "Apple M4",
+            "hz_actual_friendly": "2.4000 GHz",
+            "hz_actual": [
+                2400000000,
+                0
+            ],
+            "family": 6,
+            "flags": [
+                "acpi",
+                "aes",
+                "apic",
+                "clfsh",
+                "cmov",
+                "cx16",
+                "cx8",
+                "de",
+                "ds",
+                "dscpl",
+                "dtse64",
+                "est",
+                "fpu",
+                "fxsr",
+                "htt",
+                "mca",
+                "mce",
+                "mmx",
+                "mon",
+                "msr",
+                "mtrr",
+                "pae",
+                "pat",
+                "pbe",
+                "pclmulqdq",
+                "pdcm",
+                "pge",
+                "pse",
+                "pse36",
+                "seglim64",
+                "sep",
+                "ss",
+                "sse",
+                "sse2",
+                "sse3",
+                "sse4.1",
+                "sse4.2",
+                "ssse3",
+                "tm",
+                "tm2",
+                "tpr",
+                "tsc",
+                "vme",
+                "vmx"
+            ]
+        }
+    },
+    "commit_info": {
+        "id": "1d3485c0e52183d883a0f5e56269dda621eb21de",
+        "time": "2026-08-29T20:29:30+08:00",
+        "author_time": "2026-08-29T20:29:30+08:00",
+        "dirty": true,
+        "project": "skillbridge",
+        "branch": "ast-refactor"
+    },
+    "benchmarks": [
+        {
+            "group": "socket-header",
+            "name": "test_socket_encode_header",
+            "fullname": "benchmark/test_micro.py::test_socket_encode_header",
+            "params": null,
+            "param": null,
+            "extra_info": {},
+            "options": {
+                "disable_gc": false,
+                "timer": "perf_counter",
+                "min_rounds": 5,
+                "max_time": 1.0,
+                "min_time": 5e-06,
+                "precision": null,
+                "confidence": null,
+                "warmup": false
+            },
+            "stats": {
+                "min": 1.4365449997371642e-07,
+                "max": 2.428172718219716e-06,
+                "mean": 1.6506273865915527e-07,
+                "stddev": 1.732573702788085e-08,
+                "rounds": 193572,
+                "median": 1.652415135297282e-07,
+                "iqr": 5.724422376731351e-09,
+                "q1": 1.6237930234136252e-07,
+                "q3": 1.6810372471809387e-07,
+                "iqr_outliers": 39163,
+                "stddev_outliers": 6315,
+                "outliers": "6315;39163",
+                "ld15iqr": 1.5517158819169835e-07,
+                "hd15iqr": 1.7672247285472936e-07,
+                "ops": 6058302.486213685,
+                "total": 0.03195152444773,
+                "iterations": 29
+            }
+        },
+        {
+            "group": "socket-header",
+            "name": "test_socket_decode_header",
+            "fullname": "benchmark/test_micro.py::test_socket_decode_header",
+            "params": null,
+            "param": null,
+            "extra_info": {},
+            "options": {
+                "disable_gc": false,
+                "timer": "perf_counter",
+                "min_rounds": 5,
+                "max_time": 1.0,
+                "min_time": 5e-06,
+                "precision": null,
+                "confidence": null,
+                "warmup": false
+            },
+            "stats": {
+                "min": 8.300412446260452e-08,
+                "max": 1.5416997484862804e-05,
+                "mean": 1.5437760230292915e-07,
+                "stddev": 9.328429688260756e-08,
+                "rounds": 166668,
+                "median": 1.6600824892520905e-07,
+                "iqr": 4.196772351861e-08,
+                "q1": 1.25030055642128e-07,
+                "q3": 1.66997779160738e-07,
+                "iqr_outliers": 956,
+                "stddev_outliers": 956,
+                "outliers": "956;956",
+                "ld15iqr": 8.300412446260452e-08,
+                "hd15iqr": 2.4994369596242905e-07,
+                "ops": 6477623.600072107,
+                "total": 0.025729806220624596,
+                "iterations": 1
+            }
+        },
+        {
+            "group": "response-parser",
+            "name": "test_response_recv_stringio[64B]",
+            "fullname": "benchmark/test_micro.py::test_response_recv_stringio[64B]",
+            "params": {
+                "size": 64
+            },
+            "param": "64B",
+            "extra_info": {
+                "direction": "response",
+                "payload_chars": 64,
+                "payload_bytes": 64
+            },
+            "options": {
+                "disable_gc": false,
+                "timer": "perf_counter",
+                "min_rounds": 5,
+                "max_time": 1.0,
+                "min_time": 5e-06,
+                "precision": null,
+                "confidence": null,
+                "warmup": false
+            },
+            "stats": {
+                "min": 3.7080026231706142e-06,
+                "max": 4.80839516967535e-05,
+                "mean": 4.259190034584122e-06,
+                "stddev": 4.7272598213302674e-07,
+                "rounds": 64864,
+                "median": 4.292000085115433e-06,
+                "iqr": 3.750319592654705e-07,
+                "q1": 3.999972250312567e-06,
+                "q3": 4.375004209578037e-06,
+                "iqr_outliers": 2289,
+                "stddev_outliers": 2626,
+                "outliers": "2626;2289",
+                "ld15iqr": 3.7080026231706142e-06,
+                "hd15iqr": 4.957953933626413e-06,
+                "ops": 234786.42462067146,
+                "total": 0.2762681024032645,
+                "iterations": 1
+            }
+        },
+        {
+            "group": "response-parser",
+            "name": "test_response_recv_stringio[4KiB]",
+            "fullname": "benchmark/test_micro.py::test_response_recv_stringio[4KiB]",
+            "params": {
+                "size": 4096
+            },
+            "param": "4KiB",
+            "extra_info": {
+                "direction": "response",
+                "payload_chars": 4096,
+                "payload_bytes": 4096
+            },
+            "options": {
+                "disable_gc": false,
+                "timer": "perf_counter",
+                "min_rounds": 5,
+                "max_time": 1.0,
+                "min_time": 5e-06,
+                "precision": null,
+                "confidence": null,
+                "warmup": false
+            },
+            "stats": {
+                "min": 0.00021937501151114702,
+                "max": 0.00036004098365083337,
+                "mean": 0.0002459669168731182,
+                "stddev": 1.011403863775248e-05,
+                "rounds": 4121,
+                "median": 0.0002471249899826944,
+                "iqr": 1.1417025234550238e-05,
+                "q1": 0.00024050002684816718,
+                "q3": 0.0002519170520827174,
+                "iqr_outliers": 74,
+                "stddev_outliers": 1092,
+                "outliers": "1092;74",
+                "ld15iqr": 0.0002235409920103848,
+                "hd15iqr": 0.0002691670088097453,
+                "ops": 4065.587407902702,
+                "total": 1.01362966443412,
+                "iterations": 1
+            }
+        },
+        {
+            "group": "response-parser",
+            "name": "test_response_recv_stringio[1MiB]",
+            "fullname": "benchmark/test_micro.py::test_response_recv_stringio[1MiB]",
+            "params": {
+                "size": 1048576
+            },
+            "param": "1MiB",
+            "extra_info": {
+                "direction": "response",
+                "payload_chars": 1048576,
+                "payload_bytes": 1048576
+            },
+            "options": {
+                "disable_gc": false,
+                "timer": "perf_counter",
+                "min_rounds": 5,
+                "max_time": 1.0,
+                "min_time": 5e-06,
+                "precision": null,
+                "confidence": null,
+                "warmup": false
+            },
+            "stats": {
+                "min": 0.06261775002349168,
+                "max": 0.06467579200398177,
+                "mean": 0.0636271928124188,
+                "stddev": 0.0006192159082827202,
+                "rounds": 16,
+                "median": 0.06366208352847025,
+                "iqr": 0.0009492285025771707,
+                "q1": 0.06309912548749708,
+                "q3": 0.06404835399007425,
+                "iqr_outliers": 0,
+                "stddev_outliers": 7,
+                "outliers": "7;0",
+                "ld15iqr": 0.06261775002349168,
+                "hd15iqr": 0.06467579200398177,
+                "ops": 15.71655067273091,
+                "total": 1.0180350849987008,
+                "iterations": 1
+            }
+        },
+        {
+            "group": "translator",
+            "name": "test_translator_encode",
+            "fullname": "benchmark/test_micro.py::test_translator_encode",
+            "params": null,
+            "param": null,
+            "extra_info": {
+                "input_items": 256,
+                "encoded_bytes": 920
+            },
+            "options": {
+                "disable_gc": false,
+                "timer": "perf_counter",
+                "min_rounds": 5,
+                "max_time": 1.0,
+                "min_time": 5e-06,
+                "precision": null,
+                "confidence": null,
+                "warmup": false
+            },
+            "stats": {
+                "min": 0.00012087501818314195,
+                "max": 0.0003213750314898789,
+                "mean": 0.00013574068292922838,
+                "stddev": 7.166198756099273e-06,
+                "rounds": 5738,
+                "median": 0.000135354493977502,
+                "iqr": 3.1669624149799347e-06,
+                "q1": 0.00013445800868794322,
+                "q3": 0.00013762497110292315,
+                "iqr_outliers": 1229,
+                "stddev_outliers": 1090,
+                "outliers": "1090;1229",
+                "ld15iqr": 0.0001297079725190997,
+                "hd15iqr": 0.00014241598546504974,
+                "ops": 7366.988130753502,
+                "total": 0.7788800386479124,
+                "iterations": 1
+            }
+        },
+        {
+            "group": "translator",
+            "name": "test_translator_decode",
+            "fullname": "benchmark/test_micro.py::test_translator_decode",
+            "params": null,
+            "param": null,
+            "extra_info": {
+                "input_items": 256,
+                "encoded_bytes": 1170
+            },
+            "options": {
+                "disable_gc": false,
+                "timer": "perf_counter",
+                "min_rounds": 5,
+                "max_time": 1.0,
+                "min_time": 5e-06,
+                "precision": null,
+                "confidence": null,
+                "warmup": false
+            },
+            "stats": {
+                "min": 0.00012166699161753058,
+                "max": 0.00022770802024751902,
+                "mean": 0.00013446017433833756,
+                "stddev": 6.1399204056475225e-06,
+                "rounds": 6046,
+                "median": 0.0001353340339846909,
+                "iqr": 5.832989700138569e-06,
+                "q1": 0.00013112503802403808,
+                "q3": 0.00013695802772417665,
+                "iqr_outliers": 291,
+                "stddev_outliers": 1621,
+                "outliers": "1621;291",
+                "ld15iqr": 0.00012241600779816508,
+                "hd15iqr": 0.00014575000386685133,
+                "ops": 7437.146388667726,
+                "total": 0.8129462140495889,
+                "iterations": 1
+            }
+        },
+        {
+            "group": "expr-renderer",
+            "name": "test_expr_renderer",
+            "fullname": "benchmark/test_micro.py::test_expr_renderer",
+            "params": null,
+            "param": null,
+            "extra_info": {},
+            "options": {
+                "disable_gc": false,
+                "timer": "perf_counter",
+                "min_rounds": 5,
+                "max_time": 1.0,
+                "min_time": 5e-06,
+                "precision": null,
+                "confidence": null,
+                "warmup": false
+            },
+            "stats": {
+                "min": 1.9170111045241356e-06,
+                "max": 6.245804252102971e-05,
+                "mean": 2.2603009989126206e-06,
+                "stddev": 4.4253799011572784e-07,
+                "rounds": 45889,
+                "median": 2.2500171326100826e-06,
+                "iqr": 8.399365469813347e-08,
+                "q1": 2.207991201430559e-06,
+                "q3": 2.2919848561286926e-06,
+                "iqr_outliers": 6458,
+                "stddev_outliers": 1503,
+                "outliers": "1503;6458",
+                "ld15iqr": 2.082961145788431e-06,
+                "hd15iqr": 2.4579931050539017e-06,
+                "ops": 442418.95237894304,
+                "total": 0.10372295253910124,
+                "iterations": 1
+            }
+        }
+    ],
+    "datetime": "2026-08-29T15:04:52.789120+00:00",
+    "version": "5.3.0",
+    "benchmark_context": {}
+}
