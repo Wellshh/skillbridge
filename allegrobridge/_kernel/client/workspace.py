@@ -23,6 +23,11 @@ __all__ = ['Workspace', 'current_workspace']
 WorkspaceId = str | int | None
 T = TypeVar('T')
 _open_workspaces: dict[tuple[type[Workspace], WorkspaceId], Workspace] = {}
+
+# Must be reentrant: open() holds this across _create_workspace(), and the
+# Allegro subclass calls close() (same thread) when the core runtime fails to
+# load -- close() takes this lock too, so a plain Lock would self-deadlock.
+_workspaces_lock = RLock()
 _workspaces_lock = RLock()
 
 

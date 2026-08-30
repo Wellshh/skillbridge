@@ -17,6 +17,7 @@ from allegrobridge._kernel.client.functions import FunctionCollection
 from allegrobridge._kernel.client.hints import SkillCode
 from allegrobridge._kernel.client.translator import (
     DefaultTranslator,
+    ParseError,
     Translator,
     build_python_path,
     build_skill_path,
@@ -211,6 +212,81 @@ def test_list_roundtrip(decode_simple, i):
 def test_constants_to_python(decode_simple):
     assert decode_simple('None') is None
     assert decode_simple('True') is True
+
+
+@mark.parametrize(
+    'expression',
+    [
+        "().__class__.__base__.__subclasses__()",
+        'lambda: 1',
+        '[value for value in [1]]',
+        'unknown(1)',
+        'unknown',
+        'Symbol(name="x")',
+        'warning(*["message", 1])',
+        'warning("message", **{"result": 1})',
+        '{**{"x": 1}}',
+        '{1: "value"}',
+        '(1, 2)',
+        "b'value'",
+        '-True',
+        '[',
+    ],
+)
+def test_decode_rejects_unsafe_or_unsupported_python(expression, decode_simple):
+    with raises(ParseError):
+        decode_simple(expression)
+
+
+def test_decode_rejects_import_without_injecting_builtins():
+    translator = DefaultTranslator()
+    with raises(ParseError):
+        translator.decode("__import__('os').getcwd()")
+    assert '__builtins__' not in translator.context
+
+
+def test_decode_does_not_fall_back_from_empty_context():
+    translator = DefaultTranslator()
+    translator.context.clear()
+
+    with raises(ParseError, match='Unknown function: Symbol'):
+        translator.decode("Symbol('name')")
+
+
+@mark.parametrize(('expression', 'expected'), [('-10', -10), ('-1.5', -1.5), ('+10', 10)])
+def test_decode_supports_signed_numbers(expression, expected, decode_simple):
+    assert decode_simple(expression) == expected
+
+
+def test_decode_preserves_nested_values_and_registered_constructors(decode_simple):
+    value = decode_simple(
+        "[Symbol('name'), {'value': Remote('object:1'), 'items': [1, None, False]}]",
+    )
+    assert isinstance(value[0], Symbol)
+    assert value[0].name == 'name'
+    assert value[1]['value'] == 'object:1'
+    assert value[1]['items'] == [1, None, False]
+
+
+def test_decode_preserves_control_characters(decode_simple):
+    assert decode_simple(repr('left\x1e\x1b\\middle')) == 'left\x1e\x1b\\middle'
+
+
+def test_decode_warning_can_wrap_registered_constructor(decode_simple):
+    with warns(UserWarning, match='message'):
+        assert decode_simple("warning('message', Remote('object:1'))") == 'object:1'
+
+
+def test_decode_error_raises_parse_error(decode_simple):
+    with raises(ParseError, match='failure'):
+        decode_simple("error('failure')")
+
+
+def test_base_translator_defaults_and_variable_encoding():
+    translator = DefaultTranslator()
+    assert translator.function_names('prefix') == ()
+    assert translator.encode_read_variable('some_name') == 'someName'
+    assert translator.encode_assign('some_name', 1) == 'someName = 1 nil'
 
 
 @mark.parametrize('value', [..., Exception, open])

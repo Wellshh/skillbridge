@@ -137,6 +137,11 @@ class Session:
     drc = api_slot(DrcApi)
 
     def close(self) -> None:
+        """Close the session and the underlying Allegro instance.
+
+        For launched sessions, this tears down the whole process tree; use
+        ``Workspace.close()`` (``session.raw.close()``) to drop only the connection.
+        """
         if self._closed:
             return
         self._allegro.close()

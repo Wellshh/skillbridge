@@ -260,7 +260,12 @@
       "Bash(pytest tests/test_integration.py tests/test_misc.py -q --no-cov -p no:cacheprovider -m \"not allegro\")",
       "Bash(pytest tests/test_misc.py::test_direct_mode -q --no-cov -p no:cacheprovider)",
       "Bash(pytest tests/test_misc.py::test_direct_mode -q -p no:cacheprovider)",
-      "Bash(git stash *)"
+      "Bash(git stash *)",
+      "Bash(.venv/bin/python -m pip install pytest-timeout)",
+      "Bash(pytest -q \"tests/test_channel.py::test_use_current_workspace[tcp]\")",
+      "Bash(pytest -q -m \"not allegro\" -o addopts=\"--cov=allegrobridge --cov-report=term:skip-covered --cov-branch --no-cov-on-fail --cov-fail-under=0\")",
+      "Bash(.venv/bin/python -m pytest --co -q)",
+      "Bash(.venv/bin/python -m pytest -q -m \"not allegro\")"
     ],
     "additionalDirectories": [
       "/tmp"

@@ -761,6 +761,29 @@
                     (not (null (index portResult "__py_openfile_")))
                     (qub::startsWith fallbackResult "error("))
               ?msg "remote serialization must cover regex, other, port, and fallback"))
+          (close port))))
+    (qtest::TestCase test_remote_serialization_reuses_variable_for_identical_object
+      (let ((table (makeTable "registryCheck" nil))
+            (otherTable (makeTable "registryCheck" nil))
+            first second different)
+        (otherTable["key"] = 1)
+        (setq first (__pySaveToVariableAndReturn table))
+        (setq second (__pySaveToVariableAndReturn table))
+        (setq different (__pySaveToVariableAndReturn otherTable))
+        (qtest::assertEqual first second
+          ?msg "serializing the same object twice must reuse the remote variable")
+        (qtest::assertTrue (null (equal first different))
+          ?msg "distinct objects must get distinct remote variables")))
+
+    (qtest::TestCase test_remote_serialization_reuses_variable_for_identical_port
+      (let ((port (outstring))
+            first second)
+        (unwindProtect
+          (progn
+            (setq first (__pySkillToPython port))
+            (setq second (__pySkillToPython port))
+            (qtest::assertEqual first second
+              ?msg "serializing the same port twice must reuse the remote variable"))
           (close port)))))
 
   ;; Suite 9: Public start and script execution

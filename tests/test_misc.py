@@ -33,7 +33,7 @@ def test_obsolete_skill_container_wrappers_are_not_exported() -> None:
 
 @mark.parametrize(('id_', 'repr_'), [('0x10', 16), ('00001F', 31), ('10', 10)])
 def test_skill_id(id_, repr_):
-    assert RemoteObject(..., ..., SkillCode(f'__py_db_{id_}')).skill_id == repr_
+    assert RemoteObject(DummyChannel(), ..., SkillCode(f'__py_db_{id_}')).skill_id == repr_
 
 
 def test_workspace_get_item():
@@ -478,18 +478,48 @@ def test_static_completion_imports_mypy_generator() -> None:
 
 
 def test_double_hex_prefix_does_not_crash():
-    remote = RemoteObject(..., ..., SkillCode('__py_stuff_0x0xcafe'))
+    remote = RemoteObject(DummyChannel(), ..., SkillCode('__py_stuff_0x0xcafe'))
 
     assert remote.skill_id == 0xCAFE
     assert remote.skill_parent_type == 'stuff'
-    assert RemoteObject(..., ..., SkillCode('__py_stuff_0xcafe')).skill_id == 0xCAFE
+    assert RemoteObject(DummyChannel(), ..., SkillCode('__py_stuff_0xcafe')).skill_id == 0xCAFE
 
 
 def test_object_representation_does_not_send_requests():
     assert (
-        str([RemoteObject(..., ..., SkillCode('__py_stuff_0x0xcafe'))])
+        str([RemoteObject(DummyChannel(), ..., SkillCode('__py_stuff_0x0xcafe'))])
         == '[<remote object@0xcafe>]'
     )
+
+
+def test_remote_objects_are_hashable_and_deduplicate():
+    channel = DummyChannel()
+    first = RemoteObject(channel, ..., SkillCode('__py_db_123'))
+    second = RemoteObject(channel, ..., SkillCode('__py_db_123'))
+    third = RemoteObject(channel, ..., SkillCode('__py_db_234'))
+
+    assert len({first, second, third}) == 2
+    assert {first: 'value'}[second] == 'value'
+
+
+def test_remote_objects_from_different_channels_are_not_equal():
+    first = RemoteObject(DummyChannel(), ..., SkillCode('__py_db_123'))
+    second = RemoteObject(DummyChannel(), ..., SkillCode('__py_db_123'))
+
+    assert first != second
+    assert len({first, second}) == 2
+
+
+def test_remote_object_identity_includes_channel_epoch():
+    channel = DummyChannel()
+    first = RemoteObject(channel, ..., SkillCode('__py_db_123'))
+    cache = {first}
+    channel._epoch += 1
+    second = RemoteObject(channel, ..., SkillCode('__py_db_123'))
+
+    assert first != second
+    assert first in cache
+    assert len({first, second}) == 2
 
 
 def test_missing_remote_type_is_handled():

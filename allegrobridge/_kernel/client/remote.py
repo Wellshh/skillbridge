@@ -8,7 +8,7 @@ from .expr import Expr
 from .hints import Skill, SkillCode
 from .translator import Translator
 
-remote_variable_attributes = frozenset(('_channel', '_variable', '_translator'))
+remote_variable_attributes = frozenset(('_channel', '_variable', '_translator', '_epoch'))
 
 
 class RemoteVariable:

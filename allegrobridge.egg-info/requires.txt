@@ -9,6 +9,7 @@ wheel
 pytest
 pytest-benchmark<6,>=5
 pytest-cov
+pytest-timeout
 hypothesis
 mypy<2
 pyright==1.1.411

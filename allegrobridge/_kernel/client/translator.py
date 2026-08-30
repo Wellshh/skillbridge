@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 from __future__ import annotations
 
+from ast import AST, Call, Constant, Dict, List, Name, UAdd, UnaryOp, USub, parse
 from collections.abc import Callable, Iterable
 from json import dumps, loads
 from re import Match, findall, sub
@@ -37,11 +38,49 @@ _STATIC_EVAL_CONTEXT: dict[str, Any] = {
 }
 
 
+def _eval(node: AST, context: dict[str, Any]) -> Any:  # ruff: ignore[complex-structure, too-many-branches]
+    """Safely evaluate responses from skill server."""
+    match node:
+        case Constant(value=value):
+            if value is None or type(value) in {bool, float, int, str}:
+                return value
+            raise ParseError(f'Unsupported constant: {type(value).__name__}')
+        case List(elts=elements):
+            return [_eval(element, context) for element in elements]
+        case Dict(keys=keys, values=values):
+            result: dict[str, Any] = {}
+            for key_node, value_node in zip(keys, values, strict=True):
+                if key_node is None:
+                    raise ParseError('Dictionary unpacking is not supported')
+                key = _eval(key_node, context)
+                if not isinstance(key, str):
+                    raise ParseError('Dictionary keys must be strings')
+                result[key] = _eval(value_node, context)
+            return result
+        case UnaryOp(op=USub() | UAdd() as op, operand=operand):
+            if not isinstance(operand, Constant) or type(operand.value) not in {float, int}:
+                raise ParseError('Signed values must be numeric constants')
+            value = cast('int | float', operand.value)
+            return -value if isinstance(op, USub) else +value
+        case Call(func=func, args=args, keywords=keywords):
+            if not isinstance(func, Name) or keywords:
+                raise ParseError('Only positional calls to registered functions are supported')
+            try:
+                function = context[func.id]
+            except KeyError:
+                raise ParseError(f'Unknown function: {func.id}') from None
+            return function(*(_eval(argument, context) for argument in args))
+        case _:
+            raise ParseError(f'Unsupported response expression: {type(node).__name__}')
+
+
 def _skill_value_to_python(string: str, eval_context: dict[str, Any] | None = None) -> Skill:
-    return eval(  # type: ignore[no-any-return]  # ruff: ignore[suspicious-eval-usage]
-        string,
-        eval_context or _STATIC_EVAL_CONTEXT,
-    )
+    context = _STATIC_EVAL_CONTEXT if eval_context is None else eval_context
+    try:
+        expression = parse(string, mode='eval')
+    except SyntaxError as error:
+        raise ParseError(str(error)) from None
+    return cast('Skill', _eval(expression.body, context))
 
 
 def _upper_without_first(match: Match[str]) -> str:

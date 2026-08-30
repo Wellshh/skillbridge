@@ -9,6 +9,99 @@ resolution-markers = [
 ]
 
 [[package]]
+name = "allegrobridge"
+source = { editable = "." }
+dependencies = [
+    { name = "psutil" },
+    { name = "pydantic" },
+    { name = "typing-extensions" },
+]
+
+[package.optional-dependencies]
+dev = [
+    { name = "build" },
+    { name = "hypothesis" },
+    { name = "mypy" },
+    { name = "pyright" },
+    { name = "pytest" },
+    { name = "pytest-benchmark" },
+    { name = "pytest-cov" },
+    { name = "pytest-timeout" },
+    { name = "ruff" },
+    { name = "setuptools" },
+    { name = "types-psutil" },
+    { name = "wheel" },
+]
+doc = [
+    { name = "mkdocs-material" },
+    { name = "mkdocstrings", extra = ["python"] },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "build" },
+    { name = "hypothesis" },
+    { name = "mypy" },
+    { name = "pre-commit" },
+    { name = "pyright" },
+    { name = "pytest" },
+    { name = "pytest-benchmark" },
+    { name = "pytest-cov" },
+    { name = "pytest-timeout" },
+    { name = "ruff" },
+    { name = "setuptools" },
+    { name = "types-psutil" },
+    { name = "wheel" },
+]
+doc = [
+    { name = "mkdocs-material" },
+    { name = "mkdocstrings", extra = ["python"] },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "build", marker = "extra == 'dev'", specifier = ">=1,<2" },
+    { name = "hypothesis", marker = "extra == 'dev'" },
+    { name = "mkdocs-material", marker = "extra == 'doc'", specifier = ">=9.5" },
+    { name = "mkdocstrings", extras = ["python"], marker = "extra == 'doc'", specifier = ">=0.26" },
+    { name = "mypy", marker = "extra == 'dev'", specifier = "<2" },
+    { name = "psutil", specifier = ">=7,<8" },
+    { name = "pydantic", specifier = ">=2.12,<3" },
+    { name = "pyright", marker = "extra == 'dev'", specifier = "==1.1.411" },
+    { name = "pytest", marker = "extra == 'dev'" },
+    { name = "pytest-benchmark", marker = "extra == 'dev'", specifier = ">=5,<6" },
+    { name = "pytest-cov", marker = "extra == 'dev'" },
+    { name = "pytest-timeout", marker = "extra == 'dev'" },
+    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.2.1" },
+    { name = "setuptools", marker = "extra == 'dev'", specifier = ">=57" },
+    { name = "types-psutil", marker = "extra == 'dev'" },
+    { name = "typing-extensions", specifier = ">=4.6" },
+    { name = "wheel", marker = "extra == 'dev'" },
+]
+provides-extras = ["dev", "doc"]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "build", specifier = ">=1,<2" },
+    { name = "hypothesis" },
+    { name = "mypy", specifier = "<2" },
+    { name = "pre-commit" },
+    { name = "pyright", specifier = "==1.1.411" },
+    { name = "pytest" },
+    { name = "pytest-benchmark", specifier = ">=5,<6" },
+    { name = "pytest-cov" },
+    { name = "pytest-timeout" },
+    { name = "ruff", specifier = ">=0.2.1" },
+    { name = "setuptools", specifier = ">=57" },
+    { name = "types-psutil" },
+    { name = "wheel" },
+]
+doc = [
+    { name = "mkdocs-material", specifier = ">=9.5" },
+    { name = "mkdocstrings", extras = ["python"], specifier = ">=0.26" },
+]
+
+[[package]]
 name = "annotated-types"
 version = "0.8.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1329,6 +1422,18 @@ wheels = [
 ]
 
 [[package]]
+name = "pytest-timeout"
+version = "2.4.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pytest" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ac/82/4c9ecabab13363e72d880f2fb504c5f750433b2b6f16e99f4ec21ada284c/pytest_timeout-2.4.0.tar.gz", hash = "sha256:7e68e90b01f9eff71332b25001f85c75495fc4e3a836701876183c4bcfd0540a", size = 17973, upload-time = "2025-05-05T19:44:34.99Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/fa/b6/3127540ecdf1464a00e5a01ee60a1b09175f6913f0644ac748494d9c4b21/pytest_timeout-2.4.0-py3-none-any.whl", hash = "sha256:c42667e5cdadb151aeb5b26d114aff6bdf5a907f176a007a30b940d3d865b5c2", size = 14382, upload-time = "2025-05-05T19:44:33.502Z" },
+]
+
+[[package]]
 name = "python-dateutil"
 version = "2.9.0.post0"
 source = { registry = "https://pypi.org/simple" }
@@ -1484,95 +1589,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/94/e7/b2c673351809dca68a0e064b6af791aa332cf192da575fd474ed7d6f16a2/six-1.17.0.tar.gz", hash = "sha256:ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81", size = 34031, upload-time = "2024-12-04T17:35:28.174Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b7/ce/149a00dd41f10bc29e5921b496af8b574d8413afcd5e30dfa0ed46c2cc5e/six-1.17.0-py2.py3-none-any.whl", hash = "sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274", size = 11050, upload-time = "2024-12-04T17:35:26.475Z" },
-]
-
-[[package]]
-name = "skillbridge"
-source = { editable = "." }
-dependencies = [
-    { name = "psutil" },
-    { name = "pydantic" },
-    { name = "typing-extensions" },
-]
-
-[package.optional-dependencies]
-dev = [
-    { name = "build" },
-    { name = "hypothesis" },
-    { name = "mypy" },
-    { name = "pyright" },
-    { name = "pytest" },
-    { name = "pytest-benchmark" },
-    { name = "pytest-cov" },
-    { name = "ruff" },
-    { name = "setuptools" },
-    { name = "types-psutil" },
-    { name = "wheel" },
-]
-doc = [
-    { name = "mkdocs-material" },
-    { name = "mkdocstrings", extra = ["python"] },
-]
-
-[package.dev-dependencies]
-dev = [
-    { name = "build" },
-    { name = "hypothesis" },
-    { name = "mypy" },
-    { name = "pre-commit" },
-    { name = "pyright" },
-    { name = "pytest" },
-    { name = "pytest-benchmark" },
-    { name = "pytest-cov" },
-    { name = "ruff" },
-    { name = "setuptools" },
-    { name = "types-psutil" },
-    { name = "wheel" },
-]
-doc = [
-    { name = "mkdocs-material" },
-    { name = "mkdocstrings", extra = ["python"] },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "build", marker = "extra == 'dev'", specifier = ">=1,<2" },
-    { name = "hypothesis", marker = "extra == 'dev'" },
-    { name = "mkdocs-material", marker = "extra == 'doc'", specifier = ">=9.5" },
-    { name = "mkdocstrings", extras = ["python"], marker = "extra == 'doc'", specifier = ">=0.26" },
-    { name = "mypy", marker = "extra == 'dev'", specifier = "<2" },
-    { name = "psutil", specifier = ">=7,<8" },
-    { name = "pydantic", specifier = ">=2.12,<3" },
-    { name = "pyright", marker = "extra == 'dev'", specifier = "==1.1.411" },
-    { name = "pytest", marker = "extra == 'dev'" },
-    { name = "pytest-benchmark", marker = "extra == 'dev'", specifier = ">=5,<6" },
-    { name = "pytest-cov", marker = "extra == 'dev'" },
-    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.2.1" },
-    { name = "setuptools", marker = "extra == 'dev'", specifier = ">=57" },
-    { name = "types-psutil", marker = "extra == 'dev'" },
-    { name = "typing-extensions", specifier = ">=4.6" },
-    { name = "wheel", marker = "extra == 'dev'" },
-]
-provides-extras = ["dev", "doc"]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "build", specifier = ">=1,<2" },
-    { name = "hypothesis" },
-    { name = "mypy", specifier = "<2" },
-    { name = "pre-commit" },
-    { name = "pyright", specifier = "==1.1.411" },
-    { name = "pytest" },
-    { name = "pytest-benchmark", specifier = ">=5,<6" },
-    { name = "pytest-cov" },
-    { name = "ruff", specifier = ">=0.2.1" },
-    { name = "setuptools", specifier = ">=57" },
-    { name = "types-psutil" },
-    { name = "wheel" },
-]
-doc = [
-    { name = "mkdocs-material", specifier = ">=9.5" },
-    { name = "mkdocstrings", extras = ["python"], specifier = ">=0.26" },
 ]
 
 [[package]]

@@ -5,10 +5,15 @@ from __future__ import annotations
 
 from collections.abc import Iterator
 from typing import (
+    TYPE_CHECKING,
     Any,
     Final,
     cast,
 )
+
+if TYPE_CHECKING:
+    from .channel import Channel
+    from .translator import Translator
 
 from .hints import Skill, SkillCode, Symbol
 from .remote import RemoteVariable, remote_variable_attributes
@@ -119,8 +124,6 @@ class RemoteObject(WithAttributeAccess, RemoteVariable):
             return '<remote open_file>'
         return f'<remote {self.skill_parent_type}@{hex(self.skill_id)}>'
 
-    # Note: add __hash__ if caching or dict.get(RemoteObject) is needed
-
     def __repr__(self) -> str:
         return f"<remote object@{hex(self.skill_id)}>"
 
@@ -141,15 +144,21 @@ class RemoteObject(WithAttributeAccess, RemoteVariable):
     def help(self) -> str:
         return "Properties:\n- " + '\n- '.join(self.dir())
 
+    def __init__(self, channel: Channel, translator: Translator, variable: SkillCode) -> None:
+        super().__init__(channel, translator, variable)
+        self._epoch = channel.epoch
+
     def __eq__(self, other: object) -> bool:
         if isinstance(other, RemoteObject):
-            return self._variable == other._variable
+            return (self._channel, self._epoch, self._variable) == (
+                other._channel,
+                other._epoch,
+                other._variable,
+            )
         return NotImplemented
 
-    def __ne__(self, other: object) -> bool:
-        if isinstance(other, RemoteObject):
-            return self._variable != other._variable
-        return NotImplemented
+    def __hash__(self) -> int:
+        return hash((self._channel, self._epoch, self._variable))
 
     def __call__(self, *args: Any, **kwargs: Any) -> Any:
         return self._call('funcall', self, *args, **kwargs)

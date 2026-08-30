@@ -445,9 +445,32 @@ let((_filename _moduleFolder _logDirectory _unbound)
         )
     )
 
+    putd('__pyStableRemoteVariable nil)
+    defun(__pyStableRemoteVariable (thing prefix)
+        let((rest entry variableSymbol)
+            rest = __pyStableRemoteVariable.Registry
+            while(and(rest !variableSymbol)
+                entry = car(rest)
+                when(equal(cadr(entry) thing)
+                    variableSymbol = car(entry)
+                )
+                rest = cdr(rest)
+            )
+            if(!variableSymbol then
+                variableSymbol = gensym(prefix)
+                set(variableSymbol thing)
+                __pyStableRemoteVariable.Registry = cons(
+                    list(variableSymbol thing)
+                    __pyStableRemoteVariable.Registry
+                )
+            )
+            lsprintf("Remote(%L)" symbolToString(variableSymbol))
+        )
+    )
+
     putd('__pySaveToVariableAndReturn nil)
     defun(__pySaveToVariableAndReturn (thing)
-        let((repr variableName split objectType address variableSymbol)
+        let((repr variableName split objectType address)
             repr = lsprintf("%L" thing)
 
             if(rexExecute(repr) then
@@ -463,19 +486,9 @@ let((_filename _moduleFolder _logDirectory _unbound)
                 set(stringToSymbol(variableName) thing)
                 lsprintf("Remote(%L)" variableName)
             else if(otherp(thing) then
-                variableSymbol = gensym("__py_OTHER_")
-                set(variableSymbol thing)
-                lsprintf(
-                    "Remote(%L)"
-                    symbolToString(variableSymbol)
-                )
+                __pyStableRemoteVariable(thing "__py_OTHER_")
             else if(portp(thing) then
-                variableSymbol = gensym("__py_openfile_")
-                set(variableSymbol thing)
-                lsprintf(
-                    "Remote(%L)"
-                    symbolToString(variableSymbol)
-                )
+                __pyStableRemoteVariable(thing "__py_openfile_")
             else
                 printf("I COULD NOT PARSE %L\n" repr)
                 lsprintf("error(%L)" repr)
