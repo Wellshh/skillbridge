@@ -5,7 +5,7 @@ set -euo pipefail
 
 SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DST="$(dirname "$SRC")/allegrobridge-extract"
-DIRS=(allegrobridge skillbridge tests scripts docs benchmark)
+DIRS=(allegrobridge tests scripts docs benchmark)
 FILES=(mkdocs.yml conftest.py)
 
 if [ ! -d "$DST/.git" ]; then
@@ -22,8 +22,13 @@ TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 
 git -C "$SRC" archive HEAD "${DIRS[@]}" "${FILES[@]}" | tar -x -C "$TMP"
-rm -f "$TMP/allegrobridge/PLAN.md" "$TMP/skillbridge/server/SECRET.md"
+rm -f "$TMP/allegrobridge/PLAN.md" "$TMP/allegrobridge/_kernel/server/SECRET.md"
 find "$TMP" -name .DS_Store -delete
+
+if [ -d "$DST/skillbridge" ]; then
+    rm -rf "$DST/skillbridge"
+    git -C "$DST" rm -rf --ignore-unmatch skillbridge >/dev/null 2>&1 || true
+fi
 
 for dir in "${DIRS[@]}"; do
     rsync -a --delete "$TMP/$dir/" "$DST/$dir/"

@@ -59,9 +59,9 @@ def _make_repositories(tmp_path: Path) -> tuple[Path, Path, dict[str, str]]:
         'allegrobridge/module.py': 'source module\n',
         'allegrobridge/PLAN.md': 'private plan\n',
         'allegrobridge/nested/.DS_Store': 'metadata\n',
-        'skillbridge/server/module.py': 'source server\n',
-        'skillbridge/server/SECRET.md': 'private secret\n',
-        'skillbridge/nested/.DS_Store': 'metadata\n',
+        'allegrobridge/_kernel/server/module.py': 'source server\n',
+        'allegrobridge/_kernel/server/SECRET.md': 'private secret\n',
+        'allegrobridge/_kernel/nested/.DS_Store': 'metadata\n',
         'tests/test_example.py': 'def test_example():\n    assert True\n',
         'tests/nested/.DS_Store': 'metadata\n',
         'benchmark/test_micro.py': 'def test_micro():\n    assert True\n',
@@ -79,6 +79,7 @@ def _make_repositories(tmp_path: Path) -> tuple[Path, Path, dict[str, str]]:
     _write(target / 'README.md', 'extract root\n')
     _write(target / 'pyproject.toml', 'target project\n')
     _write(target / 'allegrobridge/obsolete.py', 'obsolete\n')
+    _write(target / 'skillbridge/legacy.py', 'legacy\n')
     _commit(target, 'extract baseline')
     shutil.copy2(_SCRIPT, source / _SCRIPT.name)
     return source, target, files
@@ -97,11 +98,12 @@ def test_sync_mirrors_committed_directories_and_is_idempotent(tmp_path: Path) ->
     assert (target / 'README.md').read_text(encoding='utf-8') == 'extract root\n'
     assert (target / 'pyproject.toml').read_text(encoding='utf-8') == 'target project\n'
     assert not (target / 'allegrobridge/obsolete.py').exists()
+    assert not (target / 'skillbridge').exists()
     for relative_path, content in files.items():
         destination = target / relative_path
         if destination.name == '.DS_Store' or relative_path in {
             'allegrobridge/PLAN.md',
-            'skillbridge/server/SECRET.md',
+            'allegrobridge/_kernel/server/SECRET.md',
         }:
             assert not destination.exists()
         else:

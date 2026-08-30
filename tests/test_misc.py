@@ -137,7 +137,7 @@ def test_direct_mode(no_cover):  # with coverage enabled this test breaks
         """,
     )
     virtuoso = b'success 1337\nsuccess 42'
-    p = run(['python', '-c', code], capture_output=True, input=virtuoso, check=False)
+    p = run([python, '-c', code], capture_output=True, input=virtuoso, check=False)
 
     out = p.stdout.replace(b'\r\n', b'\n').replace(b' ', b'')
     err = p.stderr.replace(b'\r\n', b'\n').replace(b' ', b'')
