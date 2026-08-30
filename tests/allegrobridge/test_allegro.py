@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 from __future__ import annotations
 
+import math
 import re
 import sys
 from collections.abc import Sequence
@@ -665,6 +666,7 @@ class TestGeometry:
 class TestReadApi:
     def test_client_api_exports_only_public_declarations(self) -> None:
         assert set(api_module.__all__) == {
+            'ArcTo',
             'Batch',
             'BBox',
             'BoardApi',
@@ -681,6 +683,7 @@ class TestReadApi:
             'KeyedCollection',
             'LayerInfo',
             'LayersApi',
+            'LineTo',
             'NetInfo',
             'NetRef',
             'NetsApi',
@@ -1136,7 +1139,7 @@ class TestReadApi:
 
         workspace._ensure_module.assert_called_once_with(
             RoutesApi.module,
-            ('__abProjectRoutes', '__abCreateRoute'),
+            ('__abProjectRoutes', '__abCreateRoute', '__abCreatePath'),
         )
         assert session.routes is session.routes
         assert [route.model_dump() for route in routes] == [
@@ -1166,7 +1169,7 @@ class TestReadApi:
                 'start': {'x': 1.0, 'y': 2.0},
                 'end': {'x': 3.0, 'y': 4.0},
                 'width': 0.2,
-                'length': 3.14,
+                'length': math.pi,
                 'radius': 5.0,
                 'is_clockwise': True,
                 'center': {'x': 2.0, 'y': 3.0},
@@ -1184,7 +1187,7 @@ class TestReadApi:
                 start=Point(x=1.0, y=2.0),
                 end=Point(x=3.0, y=4.0),
                 width=0.2,
-                length=3.14,
+                length=math.pi,
                 radius=5.0,
                 is_clockwise=True,
                 center=Point(x=2.0, y=3.0),
@@ -1293,7 +1296,7 @@ class TestReadApi:
         command = session.routes.create_path.command(
             'GND',
             (1.0, 2.0),
-            [LineTo((3.0, 4.0)), ArcTo((5.0, 6.0), (2.0, 3.0), True)],
+            [LineTo((3.0, 4.0)), ArcTo((5.0, 6.0), (2.0, 3.0), clockwise=True)],
             'ETCH/TOP',
             0.2,
         )
@@ -1303,7 +1306,7 @@ class TestReadApi:
         assert remote.expr.call_args.args == (
             'GND',
             Point(1.0, 2.0),
-            [LineTo(Point(3.0, 4.0)), ArcTo(Point(5.0, 6.0), Point(2.0, 3.0), True)],
+            [LineTo(Point(3.0, 4.0)), ArcTo(Point(5.0, 6.0), Point(2.0, 3.0), clockwise=True)],
             'ETCH/TOP',
             0.2,
         )
@@ -1328,7 +1331,11 @@ class TestReadApi:
 
         with pytest.raises(ValueError, match=message):
             session.routes.create_path.command(  # type: ignore[arg-type]
-                'GND', start, steps, 'ETCH/TOP', width,
+                'GND',
+                start,
+                steps,
+                'ETCH/TOP',
+                width,
             )
 
     def test_line_to_repr_skill_emits_property_list(self) -> None:
@@ -1337,7 +1344,9 @@ class TestReadApi:
         )
 
     def test_arc_to_repr_skill_emits_property_list(self) -> None:
-        assert ArcTo(Point(5.0, 6.0), Point(2.0, 3.0), True).__repr_skill__() == SkillCode(
+        assert ArcTo(
+            Point(5.0, 6.0), Point(2.0, 3.0), clockwise=True
+        ).__repr_skill__() == SkillCode(
             'list(nil \'type "arc" \'end (list 5.0 6.0) \'center (list 2.0 3.0) \'clockwise t)'
         )
 

@@ -29,7 +29,7 @@ from allegrobridge.client.api.drc import (
     NetRef,
     PinRef,
 )
-from allegrobridge.client.api.geometry import BBox, Point
+from allegrobridge.client.api.geometry import ArcTo, BBox, LineTo, Point
 from allegrobridge.client.api.layers import LayerInfo, LayersApi
 from allegrobridge.client.api.nets import NetInfo, NetsApi
 from allegrobridge.client.api.padstacks import PadstackInfo, PadstacksApi
@@ -53,6 +53,7 @@ from allegrobridge.client.base import (
 )
 
 __all__ = [
+    'ArcTo',
     'BBox',
     'Batch',
     'BoardApi',
@@ -69,6 +70,7 @@ __all__ = [
     'KeyedCollection',
     'LayerInfo',
     'LayersApi',
+    'LineTo',
     'NetInfo',
     'NetRef',
     'NetsApi',

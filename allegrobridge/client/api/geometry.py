@@ -20,6 +20,30 @@ class Point(NamedTuple):
         return python_value_to_skill(tuple(point))
 
 
+class LineTo(NamedTuple):
+    end: Point
+
+    def __repr_skill__(self) -> SkillCode:
+        return python_value_to_skill({'type': 'line', 'end': self.end})
+
+
+class ArcTo(NamedTuple):
+    end: Point
+    center: Point
+    clockwise: bool
+
+    def __repr_skill__(self) -> SkillCode:
+        return python_value_to_skill({
+            'type': 'arc',
+            'end': self.end,
+            'center': self.center,
+            'clockwise': self.clockwise,
+        })
+
+
+PathStep = LineTo | ArcTo
+
+
 class BBox(NamedTuple):
     ll: Point
     ur: Point

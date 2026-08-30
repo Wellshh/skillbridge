@@ -7,12 +7,20 @@ from typing import Annotated
 
 from pydantic import Field, FiniteFloat, TypeAdapter
 
-from allegrobridge.client.api.geometry import Point, _coerce_finite_float, _coerce_point
+from allegrobridge.client.api.geometry import (
+    ArcTo,
+    LineTo,
+    PathStep,
+    Point,
+    _coerce_finite_float,
+    _coerce_point,
+)
 from allegrobridge.client.base import Collection, SessionRecord, SkillModule
 from allegrobridge.client.base._rpc import RpcArgs, read, write
 
 _PROJECT_PROCEDURE = '__abProjectRoutes'
 _CREATE_PROCEDURE = '__abCreateRoute'
+_CREATE_PATH_PROCEDURE = '__abCreatePath'
 _POINT_SIZE = 2
 _OptionalString = str | None
 _Width = Annotated[float, Field(gt=0, allow_inf_nan=False)]
@@ -33,6 +41,14 @@ class RouteInfo(SessionRecord):
 
 _RouteList = list[RouteInfo]
 _ROUTES = TypeAdapter(_RouteList)
+
+
+def _coerce_step(step: PathStep) -> PathStep:
+    if isinstance(step, LineTo):
+        return LineTo(_coerce_point(step.end))
+    if isinstance(step, ArcTo):
+        return ArcTo(_coerce_point(step.end), _coerce_point(step.center), step.clockwise)
+    raise ValueError('path step must be a LineTo or ArcTo')
 
 
 class RoutesApi(Collection[RouteInfo]):
@@ -74,3 +90,19 @@ class RoutesApi(Collection[RouteInfo]):
         if width <= 0:
             raise ValueError('route width must be positive')
         return net, [_coerce_point(point) for point in points], layer, width
+
+    @write(_CREATE_PATH_PROCEDURE, _ROUTES)
+    def create_path(
+        self,
+        net: str,
+        start: Point | tuple[float, float],
+        steps: Sequence[PathStep],
+        layer: str,
+        width: float,
+    ) -> RpcArgs:
+        if not steps:
+            raise ValueError('a path requires at least one step')
+        width = _coerce_finite_float(width)
+        if width <= 0:
+            raise ValueError('route width must be positive')
+        return net, _coerce_point(start), [_coerce_step(step) for step in steps], layer, width

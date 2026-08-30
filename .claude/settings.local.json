@@ -278,7 +278,11 @@
       "Bash(.venv/bin/pytest tests/allegrobridge/test_allegro.py -k \"route\" -q -m \"not allegro\")",
       "Bash(.venv/bin/pytest tests/allegrobridge/test_allegro.py -k route -m \"not allegro\" -q)",
       "Bash(git -C /Users/wells/Documents/02_工作实习/Job/龙旗科技/代码库/skillbridge log --oneline -5 -- allegrobridge/server/extensions/routes.il)",
-      "Bash(.venv/bin/mypy allegrobridge/client/api/routes.py)"
+      "Bash(.venv/bin/mypy allegrobridge/client/api/routes.py)",
+      "Bash(.venv/bin/pytest tests/allegrobridge/test_allegro.py -m \"not allegro\" -q)",
+      "Bash(.venv/bin/pytest tests/allegrobridge/test_allegro.py -k \"route or repr_skill or path\" -m \"not allegro\" -q)",
+      "Bash(.venv/bin/pytest -m \"not allegro\" -q)",
+      "Bash(grep -E '[A-Z]{2,}[0-9]+|-->')"
     ],
     "additionalDirectories": [
       "/tmp"

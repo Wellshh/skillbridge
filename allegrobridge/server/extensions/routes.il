@@ -78,3 +78,24 @@
       (setq result (__abCollectRoutePaths (list path) (__abRouteNetName path)
                                           nil result)))
     (reverse result)))
+
+(putd '__abCreatePath nil)
+(defun __abCreatePath (net start stepDescs layer width)
+  (letseq ((path (axlPathStart (list start) width))
+           created
+           paths
+           result)
+    (foreach step stepDescs
+      (let ((typ (get step 'type)))
+        (cond
+          ((equal typ "line")
+           (axlPathLine path nil (get step 'end)))
+          ((equal typ "arc")
+           (axlPathArcCenter path width (get step 'end) (get step 'clockwise) (get step 'center))))))
+    (setq created (axlDBCreatePath path layer net))
+    (unless created
+      (error (sprintf nil "ROUTE_CREATE_FAILED: %L" net)))
+    (setq paths (car created))
+    (foreach path paths
+      (setq result (__abCollectRoutePaths (list path) (__abRouteNetName path) nil result)))
+    (reverse result)))
