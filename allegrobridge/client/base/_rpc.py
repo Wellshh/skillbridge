@@ -130,12 +130,25 @@ class Batch:
         self._results.append(result)
         return result
 
+    @overload
     def call(
         self,
         operation: Callable[P, Cmd[T]],
         *args: P.args,
         **kwargs: P.kwargs,
-    ) -> CmdResult[T]:
+    ) -> CmdResult[T]: ...
+
+    @overload
+    def call(
+        self,
+        operation: _BoundWrite[ApiT, P, T],
+        *args: P.args,
+        **kwargs: P.kwargs,
+    ) -> CmdResult[T]: ...
+
+    def call(self, operation: Any, *args: Any, **kwargs: Any) -> Any:
+        if isinstance(operation, _BoundWrite):
+            return self.add(operation.command(*args, **kwargs))
         return self.add(operation(*args, **kwargs))
 
     def _execute(self) -> None:

@@ -1803,6 +1803,26 @@ class TestBatch:
         assert result.value.refdes == 'R1'
         workspace.transaction.assert_called_once()
 
+    def test_call_accepts_bound_write_without_command_suffix(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.expr.return_value = Expr.raw_skill('move1()')
+        workspace.transaction.return_value = [self._payload('R1', 1.0)]
+        session = _session(workspace)
+
+        with session.batch() as batch:
+            result = batch.call(
+                session.components.move,
+                'R1',
+                x=1.0,
+                y=2.0,
+            )
+            with pytest.raises(RuntimeError, match='pending'):
+                _ = result.value
+            workspace.transaction.assert_not_called()
+
+        assert result.value.refdes == 'R1'
+        workspace.transaction.assert_called_once()
+
     def test_dry_run_uses_preview_and_empty_batch_sends_nothing(self) -> None:
         workspace = MagicMock()
         workspace.__getitem__.return_value.expr.return_value = Expr.raw_skill('move1()')

@@ -105,11 +105,14 @@ def check_axl_stub_contract(
             x='invalid',  # type: ignore[arg-type]
             y=2.0,
         )
-        batch.call(
-            session.components.move,  # type: ignore[arg-type]
-            'R1',
-            x=1.0,
-            y=2.0,
+        assert_type(
+            batch.call(
+                session.components.move,
+                'R1',
+                x=1.0,
+                y=2.0,
+            ),
+            CmdResult[ComponentInfo],
         )
 
     assert_type(ws.axl.db_get_design(), RemoteObject | None)
