@@ -11,7 +11,7 @@ from socket import socket
 from sys import platform
 from tempfile import TemporaryDirectory
 from time import sleep
-from typing import Any, NewType, cast
+from typing import Any, cast
 from weakref import ref
 
 import pytest
@@ -48,7 +48,6 @@ from allegrobridge.util import ASSETS_DIR
 from tests.allegrobridge.fixtures.client_extensions.missing_server import MissingServerApi
 from tests.allegrobridge.fixtures.client_extensions.probe import ProbeApi
 
-ALObjectHandle = NewType('ALObjectHandle', str)
 _TEST_BOARD = ASSETS_DIR / 'shape1.brd'
 
 
@@ -101,153 +100,183 @@ def design(ws: Workspace) -> object:
 
 
 def _board_counts(ws: Workspace) -> list[int]:
-    return ws['evalstring'](
-        '(letseq ((design (axlDBRefreshId (axlDBGetDesign)))) '
-        '(list (length design->components) (length design->symbols) (length design->nets)))'
+    return cast(
+        'list[int]',
+        ws['evalstring'](
+            '(letseq ((design (axlDBRefreshId (axlDBGetDesign)))) '
+            '(list (length design->components) (length design->symbols) (length design->nets)))'
+        ),
     )
 
 
 def _component_snapshot(ws: Workspace) -> list[list[object]]:
-    return ws['evalstring'](
-        '(letseq ((design (axlDBRefreshId (axlDBGetDesign))) result) '
-        '(foreach component design->components '
-        '(setq result (cons (list component->name (not (null component->symbol))) result))) '
-        '(reverse result))'
+    return cast(
+        'list[list[object]]',
+        ws['evalstring'](
+            '(letseq ((design (axlDBRefreshId (axlDBGetDesign))) result) '
+            '(foreach component design->components '
+            '(setq result (cons (list component->name (not (null component->symbol))) result))) '
+            '(reverse result))'
+        ),
     )
 
 
 def _layer_snapshot(ws: Workspace, etch_only: bool = False) -> list[list[object]]:
-    return ws['evalstring'](
-        "(let (result) "
-        "(foreach className (axlClasses) "
-        f"(when (or {'t' if not etch_only else 'nil'} (equal className \"ETCH\")) "
-        "(foreach subclass (axlSubclasses className) "
-        '(letseq ((name (strcat className "/" subclass)) '
-        "(layer (axlLayerGet name))) "
-        "(setq result (cons (list name className subclass layer->number) "
-        "result)))))) (reverse result))"
+    return cast(
+        'list[list[object]]',
+        ws['evalstring'](
+            "(let (result) "
+            "(foreach className (axlClasses) "
+            f"(when (or {'t' if not etch_only else 'nil'} (equal className \"ETCH\")) "
+            "(foreach subclass (axlSubclasses className) "
+            '(letseq ((name (strcat className "/" subclass)) '
+            "(layer (axlLayerGet name))) "
+            "(setq result (cons (list name className subclass layer->number) "
+            "result)))))) (reverse result))"
+        ),
     )
 
 
 def _net_snapshot(ws: Workspace) -> list[list[object]]:
-    return ws['evalstring'](
-        '(letseq ((design (axlDBRefreshId (axlDBGetDesign))) result) '
-        '(foreach net design->nets '
-        '(setq result '
-        '(cons (list net->name net->nBranches net->unconnected net->unplaced) result))) '
-        '(reverse result))'
+    return cast(
+        'list[list[object]]',
+        ws['evalstring'](
+            '(letseq ((design (axlDBRefreshId (axlDBGetDesign))) result) '
+            '(foreach net design->nets '
+            '(setq result '
+            '(cons (list net->name net->nBranches net->unconnected net->unplaced) result))) '
+            '(reverse result))'
+        ),
     )
 
 
 def _pin_snapshot(ws: Workspace) -> list[list[object]]:
-    return ws['evalstring'](
-        '(letseq ((design (axlDBRefreshId (axlDBGetDesign))) result) '
-        '(foreach component design->components '
-        '(foreach pin component->pins '
-        '(letseq ((symbol component->symbol) (netObject pin->net) '
-        '(netName (when (and netObject (not (stringp netObject)) '
-        '(not (equal netObject->name ""))) netObject->name)) '
-        '(span (when symbol pin->startEnd))) '
-        '(setq result (cons '
-        '(list component->name pin->number netName pin->name '
-        '(if symbol then "placed" else "unplaced") '
-        '(when symbol (car pin->xy)) (when symbol (cadr pin->xy)) '
-        '(when symbol pin->rotation) (when span (car span)) (when span (cadr span))) '
-        'result))))) (reverse result))'
+    return cast(
+        'list[list[object]]',
+        ws['evalstring'](
+            '(letseq ((design (axlDBRefreshId (axlDBGetDesign))) result) '
+            '(foreach component design->components '
+            '(foreach pin component->pins '
+            '(letseq ((symbol component->symbol) (netObject pin->net) '
+            '(netName (when (and netObject (not (stringp netObject)) '
+            '(not (equal netObject->name ""))) netObject->name)) '
+            '(span (when symbol pin->startEnd))) '
+            '(setq result (cons '
+            '(list component->name pin->number netName pin->name '
+            '(if symbol then "placed" else "unplaced") '
+            '(when symbol (car pin->xy)) (when symbol (cadr pin->xy)) '
+            '(when symbol pin->rotation) (when span (car span)) (when span (cadr span))) '
+            'result))))) (reverse result))'
+        ),
     )
 
 
 def _padstack_snapshot(ws: Workspace) -> list[list[object]]:
-    return ws['evalstring'](
-        '(letseq ((design (axlDBRefreshId (axlDBGetDesign))) result) '
-        '(foreach padstack design->padstacks '
-        '(let ((span padstack->startEnd)) '
-        '(setq result (cons '
-        '(list padstack->name padstack->type padstack->usage '
-        '(when span (car span)) (when span (cadr span))) result)))) '
-        '(reverse result))'
+    return cast(
+        'list[list[object]]',
+        ws['evalstring'](
+            '(letseq ((design (axlDBRefreshId (axlDBGetDesign))) result) '
+            '(foreach padstack design->padstacks '
+            '(let ((span padstack->startEnd)) '
+            '(setq result (cons '
+            '(list padstack->name padstack->type padstack->usage '
+            '(when span (car span)) (when span (cadr span))) result)))) '
+            '(reverse result))'
+        ),
     )
 
 
 def _symbol_snapshot(ws: Workspace, type_: str | None = None) -> list[list[object]]:
     encoded_type = 'nil' if type_ is None else dumps(type_)
-    return ws['evalstring'](
-        '(letseq ((design (axlDBRefreshId (axlDBGetDesign))) result) '
-        '(foreach symbol design->symbols '
-        f'(when (or (null {encoded_type}) (equal {encoded_type} symbol->type)) '
-        '(setq result (cons '
-        '(list symbol->name symbol->type symbol->refdes '
-        '(car symbol->xy) (cadr symbol->xy) symbol->rotation) result)))) '
-        '(reverse result))'
+    return cast(
+        'list[list[object]]',
+        ws['evalstring'](
+            '(letseq ((design (axlDBRefreshId (axlDBGetDesign))) result) '
+            '(foreach symbol design->symbols '
+            f'(when (or (null {encoded_type}) (equal {encoded_type} symbol->type)) '
+            '(setq result (cons '
+            '(list symbol->name symbol->type symbol->refdes '
+            '(car symbol->xy) (cadr symbol->xy) symbol->rotation) result)))) '
+            '(reverse result))'
+        ),
     )
 
 
 def _via_snapshot(ws: Workspace) -> list[list[object]]:
-    return ws['evalstring'](
-        '(letseq ((design (axlDBRefreshId (axlDBGetDesign))) result) '
-        '(foreach netObject design->nets '
-        '(foreach branch netObject->branches '
-        '(foreach item branch->children '
-        '(when (equal item->objType "via") '
-        '(let ((span item->startEnd)) '
-        '(setq result (cons '
-        '(list item->name netObject->name (car item->xy) (cadr item->xy) '
-        'item->rotation (if item->isMirrored then "mirrored" else "unmirrored") '
-        '(car span) (cadr span) item->pads~>layer) result))))))) '
-        '(foreach branch (axlDBGetLonelyBranches) '
-        '(foreach item branch->children '
-        '(when (equal item->objType "via") '
-        '(let ((span item->startEnd)) '
-        '(setq result (cons '
-        '(list item->name nil (car item->xy) (cadr item->xy) '
-        'item->rotation (if item->isMirrored then "mirrored" else "unmirrored") '
-        '(car span) (cadr span) item->pads~>layer) result)))))) '
-        '(reverse result))'
+    return cast(
+        'list[list[object]]',
+        ws['evalstring'](
+            '(letseq ((design (axlDBRefreshId (axlDBGetDesign))) result) '
+            '(foreach netObject design->nets '
+            '(foreach branch netObject->branches '
+            '(foreach item branch->children '
+            '(when (equal item->objType "via") '
+            '(let ((span item->startEnd)) '
+            '(setq result (cons '
+            '(list item->name netObject->name (car item->xy) (cadr item->xy) '
+            'item->rotation (if item->isMirrored then "mirrored" else "unmirrored") '
+            '(car span) (cadr span) item->pads~>layer) result))))))) '
+            '(foreach branch (axlDBGetLonelyBranches) '
+            '(foreach item branch->children '
+            '(when (equal item->objType "via") '
+            '(let ((span item->startEnd)) '
+            '(setq result (cons '
+            '(list item->name nil (car item->xy) (cadr item->xy) '
+            'item->rotation (if item->isMirrored then "mirrored" else "unmirrored") '
+            '(car span) (cadr span) item->pads~>layer) result)))))) '
+            '(reverse result))'
+        ),
     )
 
 
 def _route_snapshot(ws: Workspace) -> list[list[object]]:
-    return ws['evalstring'](
-        '(letseq ((design (axlDBRefreshId (axlDBGetDesign))) result) '
-        '(foreach netObject design->nets '
-        '(foreach branch netObject->branches '
-        '(foreach path branch->children '
-        '(when (and (equal path->objType "path") path->isEtch) '
-        '(foreach segment path->segments '
-        '(when (equal segment->objType "line") '
-        '(let ((ends segment->startEnd)) '
-        '(setq result (cons '
-        '(list netObject->name segment->layer '
-        '(car (car ends)) (cadr (car ends)) '
-        '(car (cadr ends)) (cadr (cadr ends)) segment->width) result))))))))) '
-        '(foreach branch (axlDBGetLonelyBranches) '
-        '(foreach path branch->children '
-        '(when (and (equal path->objType "path") path->isEtch) '
-        '(foreach segment path->segments '
-        '(when (equal segment->objType "line") '
-        '(let ((ends segment->startEnd)) '
-        '(setq result (cons '
-        '(list nil segment->layer '
-        '(car (car ends)) (cadr (car ends)) '
-        '(car (cadr ends)) (cadr (cadr ends)) segment->width) result)))))))) '
-        '(reverse result))'
+    return cast(
+        'list[list[object]]',
+        ws['evalstring'](
+            '(letseq ((design (axlDBRefreshId (axlDBGetDesign))) result) '
+            '(foreach netObject design->nets '
+            '(foreach branch netObject->branches '
+            '(foreach path branch->children '
+            '(when (and (equal path->objType "path") path->isEtch) '
+            '(foreach segment path->segments '
+            '(when (equal segment->objType "line") '
+            '(let ((ends segment->startEnd)) '
+            '(setq result (cons '
+            '(list netObject->name segment->layer '
+            '(car (car ends)) (cadr (car ends)) '
+            '(car (cadr ends)) (cadr (cadr ends)) segment->width) result))))))))) '
+            '(foreach branch (axlDBGetLonelyBranches) '
+            '(foreach path branch->children '
+            '(when (and (equal path->objType "path") path->isEtch) '
+            '(foreach segment path->segments '
+            '(when (equal segment->objType "line") '
+            '(let ((ends segment->startEnd)) '
+            '(setq result (cons '
+            '(list nil segment->layer '
+            '(car (car ends)) (cadr (car ends)) '
+            '(car (cadr ends)) (cadr (cadr ends)) segment->width) result)))))))) '
+            '(reverse result))'
+        ),
     )
 
 
 def _shape_snapshot(ws: Workspace) -> list[list[object]]:
-    return ws['evalstring'](
-        '(let (result) '
-        '(foreach shape (axlDBGetShapes nil) '
-        '(letseq ((netObject shape->net) '
-        '(netName (when (and netObject (not (stringp netObject)) '
-        '(not (equal netObject->name ""))) netObject->name)) '
-        '(bbox shape->bBox)) '
-        '(setq result (cons '
-        '(list netName shape->layer '
-        '(if shape->shapeIsBoundary then "dynamic" else "static") '
-        '(car (car bbox)) (cadr (car bbox)) '
-        '(car (cadr bbox)) (cadr (cadr bbox))) result)))) '
-        '(reverse result))'
+    return cast(
+        'list[list[object]]',
+        ws['evalstring'](
+            '(let (result) '
+            '(foreach shape (axlDBGetShapes nil) '
+            '(letseq ((netObject shape->net) '
+            '(netName (when (and netObject (not (stringp netObject)) '
+            '(not (equal netObject->name ""))) netObject->name)) '
+            '(bbox shape->bBox)) '
+            '(setq result (cons '
+            '(list netName shape->layer '
+            '(if shape->shapeIsBoundary then "dynamic" else "static") '
+            '(car (car bbox)) (cadr (car bbox)) '
+            '(car (cadr bbox)) (cadr (cadr bbox))) result)))) '
+            '(reverse result))'
+        ),
     )
 
 
@@ -335,7 +364,7 @@ class TestApi:
             "'components length(axlDBGetDesign()->components) "
             "'symbols length(axlDBGetDesign()->symbols))"
         )
-        original_snapshot = ws['evalstring'](snapshot)
+        original_snapshot = cast('dict[str, int]', ws['evalstring'](snapshot))
 
         try:
             success_command = f'progn(axlDBCreateNet("ITEST_TXN_SUCCESS") {get_nets})'
@@ -344,7 +373,7 @@ class TestApi:
                 SkillCode(success_command),
                 SkillCode(failed_command),
             ])
-            persisted = ws['evalstring'](snapshot)
+            persisted = cast('dict[str, int]', ws['evalstring'](snapshot))
 
             assert results[0] == {
                 'index': 0,
@@ -361,8 +390,11 @@ class TestApi:
                 )
             assert ws['evalstring'](snapshot) == persisted
 
-            preview = ws.transaction.preview(
-                SkillCode(f'progn(axlDBCreateNet("ITEST_TXN_PREVIEW") {snapshot})')
+            preview = cast(
+                'dict[str, int]',
+                ws.transaction.preview(
+                    SkillCode(f'progn(axlDBCreateNet("ITEST_TXN_PREVIEW") {snapshot})')
+                ),
             )
             assert preview.keys() == {'nets', 'components', 'symbols'}
             assert isinstance(preview['nets'], int)
@@ -628,12 +660,13 @@ class TestComponentsApi:
             ])
         finally:
             for component in originals:
-                session.components.move(
-                    component.refdes,
-                    x=component.x,
-                    y=component.y,
-                    rotation=component.rotation,
-                )
+                if component.x is not None and component.y is not None:
+                    session.components.move(
+                        component.refdes,
+                        x=component.x,
+                        y=component.y,
+                        rotation=component.rotation,
+                    )
 
     def test_move_by_preview_returns_projections_and_rolls_back(
         self,
@@ -693,6 +726,7 @@ class TestComponentsApi:
                         y=component.y + index + 1.0,
                     )
                     for index, component in enumerate(originals)
+                    if component.x is not None and component.y is not None
                 ]
 
             assert [result.value.refdes for result in results] == [
@@ -703,12 +737,13 @@ class TestComponentsApi:
             ]
         finally:
             for component in originals:
-                session.components.move(
-                    component.refdes,
-                    x=component.x,
-                    y=component.y,
-                    rotation=component.rotation,
-                )
+                if component.x is not None and component.y is not None:
+                    session.components.move(
+                        component.refdes,
+                        x=component.x,
+                        y=component.y,
+                        rotation=component.rotation,
+                    )
 
     def test_atomic_batch_failure_rolls_back_all(self, allegro: Allegro, session: Session) -> None:
         if allegro.mode != 'cli':
@@ -720,6 +755,8 @@ class TestComponentsApi:
         results = []
 
         def execute() -> None:
+            assert original.x is not None
+            assert original.y is not None
             with session.batch() as batch:
                 results.extend([
                     batch.call(
@@ -1316,13 +1353,20 @@ class TestViasApi:
         snapshot = _via_snapshot(ws)
         expected = snapshot[0]
         padstack, net, _, _, _, _, start_layer, _, pad_layers = expected
+        assert isinstance(padstack, str)
+        assert net is None or isinstance(net, str)
+        assert isinstance(start_layer, str)
+        assert isinstance(pad_layers, (list, tuple))
 
         vias = session.vias(net=net, layer=start_layer, padstack=padstack)
 
         assert [self._values(via) for via in vias] == [
             tuple(item[:8])
             for item in snapshot
-            if item[0] == padstack and (net is None or item[1] == net) and start_layer in item[8]
+            if item[0] == padstack
+            and (net is None or item[1] == net)
+            and isinstance(item[8], (list, tuple))
+            and start_layer in item[8]
         ]
         assert start_layer in pad_layers
 
@@ -2223,7 +2267,10 @@ class TestBoundApi:
 
         originals = session.components(include_unplaced=False)[:2]
         assert len(originals) == 2
-        assert all(component.x is not None and component.y is not None for component in originals)
+        assert originals[0].x is not None
+        assert originals[0].y is not None
+        assert originals[1].x is not None
+        assert originals[1].y is not None
 
         try:
             with session.batch('mixed extension batch') as batch:
@@ -2245,12 +2292,13 @@ class TestBoundApi:
             ]
         finally:
             for component in originals:
-                session.components.move(
-                    component.refdes,
-                    x=component.x,
-                    y=component.y,
-                    rotation=component.rotation,
-                )
+                if component.x is not None and component.y is not None:
+                    session.components.move(
+                        component.refdes,
+                        x=component.x,
+                        y=component.y,
+                        rotation=component.rotation,
+                    )
 
 
 class TestSkill:
@@ -2274,7 +2322,7 @@ class TestBasicOp:
     def _single_ping_test(self, obj_workspace: Workspace) -> bool:
         return obj_workspace['plus'](1, 2) == 3
 
-    def _basic_oop(self, attr: ALObjectHandle, length: int | None = None) -> None:
+    def _basic_oop(self, attr: str, length: int | None = None) -> None:
         obj = getattr(self._design, attr, None)
 
         assert obj is not None, f'No board is open: the design has no {attr} database.'

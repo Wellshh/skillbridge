@@ -4,9 +4,12 @@
 
 (letseq ((_fixtureDir (strcat (qub::scriptDir) "/fixtures"))
          (_fixture (strcat _fixtureDir "/branches.il"))
-         (_invalidFixture (strcat _fixtureDir "/invalid.il")))
-  (qtest::runSuites
-    (qtest::TestSuite ()
+         (_lexicalFixture (strcat _fixtureDir "/lexical.ils"))
+         (_invalidFixture (strcat _fixtureDir "/invalid.il"))
+         (_originalLexicalFixtureCall (getd 'qcoverIlsFixtureCall)))
+  (unwindProtect
+    (qtest::runSuites
+      (qtest::TestSuite ()
       (qtest::TestCase test_linereadstring_wraps_one_function_form
         (qtest::assertEq
           'procedure
@@ -32,7 +35,7 @@
             (list (get_result loadResult) (status debugMode))
             ?msg "Malformed load must fail and restore debugMode"))))
 
-    (qtest::TestSuite ()
+      (qtest::TestSuite ()
       (qtest::TestCase test_report_threshold_fails_for_missing_branch
         (qcover::reset)
         (qcover::load _fixture)
@@ -65,7 +68,7 @@
         (qtest::assertEqual '(0 0) (qcover:::coverageCounts)
                             ?msg "reset must clear covered and total branch counts")))
 
-    (qtest::TestSuite ()
+      (qtest::TestSuite ()
       (qtest::TestCase test_all_condition_outcomes_reach_full_coverage
         (qcover::reset)
         (qcover::load _fixture)
@@ -100,7 +103,19 @@
                             (qcoverFixtureQuoted)
                             ?msg "quoted branch-shaped data must not be instrumented")
         (qtest::assertEqual 100.0 (qcover::report ?minimum 100.0)
-                            ?msg "all executable condition outcomes must be covered"))))
+                            ?msg "all executable condition outcomes must be covered")))
 
-  ;; The project coverage run starts from a clean registry after framework tests.
-  (qcover::reset))
+    (qtest::TestSuite ()
+      (qtest::TestCase test_ils_lexical_fixture_qualification
+        (qcover::reset)
+        (qcover::load _lexicalFixture)
+        (qtest::assertEqual '(0 2) (qcover:::coverageCounts)
+                            ?msg "lexical closure must register exactly one decision before execution")
+        (qtest::assertEqual 'yes (qcoverIlsFixtureCall t))
+        (qtest::assertEqual 'no (qcoverIlsFixtureCall nil))
+        (qtest::assertEqual '(2 2) (qcover:::coverageCounts))
+        (qtest::assertEqual 100.0 (qcover::report ?minimum 100.0)
+                            ?msg "lexical .ils fixture must reach full coverage"))))
+    (progn
+      (qcover::reset)
+      (putd 'qcoverIlsFixtureCall _originalLexicalFixtureCall))))
