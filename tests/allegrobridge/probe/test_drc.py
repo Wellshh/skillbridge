@@ -14,6 +14,7 @@ from typing import TYPE_CHECKING, cast
 import pytest
 
 from allegrobridge import Allegro
+from allegrobridge.exceptions import AllegroTimeoutError
 from allegrobridge.util import ASSETS_DIR
 from tests.allegrobridge.probe.drc import (
     DrcProbe,
@@ -48,12 +49,22 @@ class FakeWorkspace:
 def drc_allegro(tmp_path_factory: pytest.TempPathFactory) -> Iterator[Allegro]:
     if platform != 'win32':
         pytest.skip('DRC probes require the Windows board copy')
-    board = Path(copy2(_TEST_BOARD, tmp_path_factory.mktemp('drc-allegro')))
-    with socket() as listener:
-        listener.bind(('localhost', 0))
-        workspace_id = str(listener.getsockname()[1])
-    with Allegro.open(mode='cli', board=board, workspace_id=workspace_id) as opened:
-        yield opened
+    for attempt in range(2):
+        board = Path(copy2(_TEST_BOARD, tmp_path_factory.mktemp('drc-allegro')))
+        with socket() as listener:
+            listener.bind(('localhost', 0))
+            workspace_id = str(listener.getsockname()[1])
+        try:
+            opened = Allegro.open(mode='cli', board=board, workspace_id=workspace_id)
+        except AllegroTimeoutError:
+            if attempt == 1:
+                raise
+            continue
+        try:
+            yield opened
+        finally:
+            opened.close()
+        return
 
 
 @pytest.fixture

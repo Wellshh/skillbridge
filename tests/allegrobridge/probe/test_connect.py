@@ -59,6 +59,10 @@ def connect_allegro(tmp_path_factory: pytest.TempPathFactory) -> Iterator[Allegr
 
 @pytest.fixture
 def connect_probe(connect_allegro: Allegro) -> ConnectProbe:
+    # connect.il delegates route projection to the first-class RoutesApi.
+    # The probe owns only its sibling script, so explicitly touch the public
+    # lazy-loaded API before invoking the private probe entrypoints.
+    _ = connect_allegro.session.routes
     return ConnectProbe(connect_allegro.workspace)
 
 

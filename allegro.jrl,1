@@ -1,0 +1,72 @@
+\t (00:00:09) allegro 17.2 S048 Windows SPB 64-bit Edition
+\t (00:00:09)     Journal start - Sun Aug 30 22:57:54 2026
+\t (00:00:09)         Host=SZ-BAIJUNYAN1 User=baijunyan Pid=45924 CPUs=20
+\t (00:00:09) CmdLine= D:\Cadence\Cadence_SPB_17.2-2016\tools\bin\allegro.exe -s C:/Users/BAIJUN~1/AppData/Local/Temp/allegrobridge-m49lcg6n/startup.scr
+\t (00:00:09) 
+   (00:00:09) Loading axlcore.cxt 
+\t (00:00:09) [PCB-GRID] Version=2026-08-11.8 loaded; planning entry=pcb_grid_plan_v2(modules).
+\t (00:00:09) [PCB-PR] Strict TSV placement-plan importer loaded: 2026-08-11.12.
+\t (00:00:09) PCB PR DEV Capture highlight watcher started.
+   (00:00:09) PCB PR bootstrap: C:/Users/baijunyan/AppData/Local/PCB_PR
+   (00:00:09) PCB PR bootstrap loaded.
+\t (00:00:10) Starting new design...
+   (00:00:10) PCB PR menu inserted.
+\i (00:00:11) trapsize 29310
+\i (00:00:12) replay C:/Users/BAIJUN~1/AppData/Local/Temp/allegrobridge-m49lcg6n/startup.scr 
+\i (00:00:12) skill 'load("D:/AutoPlacer/skillbridge/allegrobridge/_kernel/server/python_server.il")' 
+   (00:00:12) Available commands:
+   (00:00:12) 	pyStartServer ?id "default" ?logLevel "WARNING" ?singleMode nil ?timeout nil ?python "python" ?forceTcp nil
+   (00:00:12) 	pyKillServer
+   (00:00:12) 	pyRestartServer
+   (00:00:12) 	pyReloadScript
+   (00:00:12) 	pyShowLog [numberOfLines]
+   (00:00:12) 	pyRunScript path ?args list() ?python "python"
+   (00:00:12) t
+\i (00:00:12) skill 'load("D:/AutoPlacer/skillbridge/allegrobridge/server/allegro_server.il")' 
+   (00:00:12) t
+\i (00:00:12) skill 'axlSetVariable("noconfirm" t)' 
+   (00:00:12) t
+\i (00:00:12) skill '__abLaunchToken = "494eb5dc60b849b6a2f3a92bd7847609"' 
+   (00:00:12) "494eb5dc60b849b6a2f3a92bd7847609"
+\i (00:00:12) skill 'unless(axlOpenDesign(?design "C:/Users/baijunyan/AppData/Local/Temp/pytest-of-baijunyan/pytest-389/drc-allegro6/shape1.brd" ?mode "wf") error("ALLEGRO_BOARD_OPEN_FAILED"))' 
+\i (00:00:12) trapsize 632
+\t (00:00:12) Opening existing design...
+   (00:00:13) PCB PR menu inserted.
+\i (00:00:13) trapsize 91
+\i (00:00:13) trapsize 92
+\i (00:00:14) trapsize 141
+\d (00:00:14) Design opened: C:/Users/baijunyan/AppData/Local/Temp/pytest-of-baijunyan/pytest-389/drc-allegro6/shape1.brd
+\i (00:00:14) trapsize 139
+   (00:00:14) nil
+\i (00:00:14) skill 'unless(axlDBRefreshId(axlDBGetDesign()) error("ALLEGRO_DESIGN_REFRESH_FAILED"))' 
+   (00:00:14) nil
+\i (00:00:14) skill 'unless(pyStartServer(?id "58386" ?singleMode t ?python "D:/AutoPlacer/skillbridge/.venv/Scripts/python.exe") error("ALLEGRO_SERVER_START_FAILED"))' 
+   (00:00:14) nil
+\i (00:00:14) trapsize 139
+\i (00:00:15) generaledit 
+\t (00:00:18) Performing DRC...
+\t (00:00:18) The number of threads for DRC checking is reduced from 20 to the maximum supported (16).
+\t (00:00:18) Multithreaded DRC update (16 threads).
+\t (00:00:18) DRC done; 59 errors detected.
+\t (00:00:18) Performing DRC...
+\t (00:00:18) The number of threads for DRC checking is reduced from 20 to the maximum supported (16).
+\t (00:00:18) Multithreaded DRC update (16 threads).
+\t (00:00:18) DRC done; 59 errors detected.
+\t (00:00:18) Performing DRC...
+\t (00:00:18) The number of threads for DRC checking is reduced from 20 to the maximum supported (16).
+\t (00:00:18) Multithreaded DRC update (16 threads).
+\t (00:00:18) DRC done; 59 errors detected.
+\t (00:00:18) Performing DRC...
+\t (00:00:18) The number of threads for DRC checking is reduced from 20 to the maximum supported (16).
+\t (00:00:18) Multithreaded DRC update (16 threads).
+\t (00:00:18) DRC done; 59 errors detected.
+\t (00:00:18) Performing DRC...
+\t (00:00:18) The number of threads for DRC checking is reduced from 20 to the maximum supported (16).
+\t (00:00:18) Multithreaded DRC update (16 threads).
+\t (00:00:18) DRC done; 59 errors detected.
+\t (00:00:18) Performing DRC...
+\t (00:00:18) The number of threads for DRC checking is reduced from 20 to the maximum supported (16).
+\t (00:00:18) Multithreaded DRC update (16 threads).
+\t (00:00:18) DRC done; 59 errors detected.
+\t (00:00:18) Performing DRC...
+\t (00:00:18) The number of threads for DRC checkin
