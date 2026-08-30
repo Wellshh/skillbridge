@@ -120,13 +120,12 @@ if UnixStreamServer is not None:  # pragma: no branch
 def _respond_to_client(sock: Socket, response: SkillResp) -> None:
     restarting = response.status == 'restart'
     status = 'success' if restarting else response.status
-    result = f'{status} {response.payload}'
     if restarting:
         logger.info("graceful restart requested; exiting daemon")
 
-    payload = result.encode()
+    payload = response.payload.encode()
     try:
-        sock.send_frame(payload)
+        sock.send_frame(payload, prefix=f'{status} '.encode())
         logger.debug("sent response to client")
     finally:
         if restarting:

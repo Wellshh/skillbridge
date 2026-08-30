@@ -179,6 +179,28 @@ class TestFrame:
 
         assert Socket(receiver).recv_frame() == b'four'
 
+    def test_send_prepends_payload_prefix(
+        self,
+        raw_socket_pair: tuple[socket, socket],
+    ) -> None:
+        sender, receiver = raw_socket_pair
+
+        Socket(sender).send_frame(b'body', prefix=b'success ')
+
+        assert Socket(receiver).recv_frame() == b'success body'
+
+    def test_send_limit_includes_payload_prefix(
+        self,
+        raw_socket_pair: tuple[socket, socket],
+    ) -> None:
+        sender, _ = raw_socket_pair
+
+        with raises(FrameTooLargeError) as caught:
+            Socket(sender).send_frame(b'body', prefix=b'x', max_size=4)
+
+        assert caught.value.size == 5
+        assert caught.value.max_size == 4
+
     def test_receive_rejects_declared_size_above_limit(
         self,
         raw_socket_pair: tuple[socket, socket],

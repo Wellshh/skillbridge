@@ -199,6 +199,10 @@ def test_timeout_response_explains_recovery() -> None:
         Channel.decode_response('failure <timeout>')
 
 
+def test_decode_response_accepts_wire_bytes() -> None:
+    assert Channel.decode_response('success 中文'.encode()) == '中文'
+
+
 def test_tcp_channel_configures_fast_loopback_when_available(monkeypatch) -> None:
     control_code = object()
     raw_socket = Mock()

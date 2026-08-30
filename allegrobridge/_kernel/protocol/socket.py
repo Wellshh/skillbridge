@@ -86,13 +86,15 @@ class Socket:
         self,
         payload: bytes,
         *,
+        prefix: bytes = b'',
         max_size: int | None = None,
     ) -> None:
         limit = self._max_payload_size if max_size is None else max_size
-        if len(payload) > limit:
-            raise FrameTooLargeError(len(payload), limit)
+        size = len(prefix) + len(payload)
+        if size > limit:
+            raise FrameTooLargeError(size, limit)
         # ALWAYS sendall to ensure data is sent out
-        self._sock.sendall(self.encode_header(len(payload)) + payload)
+        self._sock.sendall(self.encode_header(size) + prefix + payload)
 
     @classmethod
     def encode_header(cls, size: int) -> bytes:

@@ -54,17 +54,22 @@ class Channel:
             self.close()
 
     @staticmethod
-    def decode_response(response: str) -> str:
-        status, response = response.split(' ', maxsplit=1)
+    def decode_response(response: str | bytes) -> str:
+        if isinstance(response, bytes):
+            separator = response.index(b' ')
+            status = response[:separator].decode()
+            payload = str(memoryview(response)[separator + 1 :], encoding='utf-8')
+        else:
+            status, payload = response.split(' ', maxsplit=1)
 
         if status == 'failure':
-            if response == '<timeout>':
+            if payload == '<timeout>':
                 raise RuntimeError(
                     "Timeout: you should restart the skill server and "
                     "increase the timeout `pyStartServer ?timeout X`.",
                 )
-            raise RuntimeError(response)
-        return response
+            raise RuntimeError(payload)
+        return payload
 
 
 class DirectChannel(Channel):
@@ -154,7 +159,7 @@ class TcpChannel(Channel):
                 self.reconnect()
             raise RuntimeError("The server unexpectedly died") from e
 
-        return self.decode_response(payload.decode())
+        return self.decode_response(payload)
 
     def send(self, data: str) -> str:
         self._send_only(data)

@@ -238,7 +238,10 @@
       "Bash(pytest tests/allegrobridge/test_main.py tests/test_main.py -q -m \"not allegro\")",
       "Bash(pytest tests/allegrobridge/test_main.py -q -m \"not allegro\" -p no:cacheprovider)",
       "Bash(pytest tests/test_distribution.py -v -m \"not allegro\")",
-      "Bash(echo \"grep exit status: $?\")"
+      "Bash(echo \"grep exit status: $?\")",
+      "Bash(env)",
+      "Bash(curl -s --max-time 5 https://rsxermu666.cn)",
+      "Bash(curl -s --max-time 5 https://rsxermu666.cn/v1/models)"
     ],
     "additionalDirectories": [
       "/tmp"
