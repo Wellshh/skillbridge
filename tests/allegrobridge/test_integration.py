@@ -5,6 +5,7 @@ from __future__ import annotations
 from collections.abc import Iterator
 from contextlib import suppress
 from json import dumps
+from os import environ
 from pathlib import Path
 from shutil import copy2, copytree
 from socket import socket
@@ -74,8 +75,17 @@ def allegro(
     if mode == 'cli':
         board = Path(copy2(_TEST_BOARD, tmp_path_factory.mktemp('allegro')))
 
-    with Allegro.open(mode=mode, board=board, workspace_id=workspace_id) as opened:
-        yield opened
+    log_directory = tmp_path_factory.mktemp('allegrobridge-logs')
+    previous_log_directory = environ.get('ALLEGROBRIDGE_LOG_DIRECTORY')
+    environ['ALLEGROBRIDGE_LOG_DIRECTORY'] = log_directory.as_posix()
+    try:
+        with Allegro.open(mode=mode, board=board, workspace_id=workspace_id) as opened:
+            yield opened
+    finally:
+        if previous_log_directory is None:
+            environ.pop('ALLEGROBRIDGE_LOG_DIRECTORY', None)
+        else:
+            environ['ALLEGROBRIDGE_LOG_DIRECTORY'] = previous_log_directory
 
 
 @pytest.fixture(scope='class')
@@ -2371,27 +2381,23 @@ class TestBasicOp:
     def test_py_show_log_prints_latest_lines_and_closes_port(
         self,
         ws: Workspace,
-        tmp_path: Path,
     ) -> None:
-        log_path = tmp_path / 'skillbridge_py_show_log_test.log'
+        log_path = Path(environ['ALLEGROBRIDGE_LOG_DIRECTORY']) / 'allegrobridge_skill.log'
         log_lines = [f'log-entry-{index}\n' for index in range(5)]
         log_path.write_text(''.join(log_lines), encoding='utf-8')
 
         def capture_py_show_log(requested_length: int) -> str:
             skill_code = f"""
-                let((capturePort oldLogName output)
-                    oldLogName = pyShowLog.logName
+                let((capturePort output)
                     capturePort = outstring()
                     unwindProtect(
                         {{
-                            pyShowLog.logName = {dumps(log_path.as_posix())}
                             let(((poport capturePort))
                                 pyShowLog({requested_length})
                             )
                             output = getOutstring(capturePort)
                         }}
                         {{
-                            pyShowLog.logName = oldLogName
                             close(capturePort)
                         }}
                     )
