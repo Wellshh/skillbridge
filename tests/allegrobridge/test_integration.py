@@ -266,6 +266,7 @@ def _run_skill_suite(workspace_id: str | None) -> str:
             temporary_repository / 'allegrobridge' / 'server' / 'extensions',
         )
         for source in (
+            repository / 'allegrobridge' / '__init__.py',
             repository / 'allegrobridge' / '_kernel' / '__init__.py',
             repository / 'allegrobridge' / '_kernel' / 'server' / 'python_server.il',
             repository / 'allegrobridge' / 'server' / 'allegro_server.il',
