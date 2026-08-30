@@ -119,20 +119,22 @@
             (setq failureText (sprintf nil "%L" errset.errset)))
           (putd '__abCreateLineObject originalCreate))
         (qtest::assertNil result)
-        (qtest::assertTrue (index failureText "ROUTE_CREATE_FAILED")))
+        (qtest::assertTrue (index failureText "ROUTE_CREATE_FAILED"))))
 
     (qtest::TestCase test_create_path_projects_created_segments
       (let ((originalPathStart (getd 'axlPathStart))
             (originalPathLine (getd 'axlPathLine))
             (originalPathArc (getd 'axlPathArcCenter))
-            (originalCreate (getd 'axlDBCreatePath))
+            (originalCreate (getd '__abCreatePathObject))
+            (debugModeBefore (status debugMode))
             result)
         (unwindProtect
           (progn
+            (sstatus debugMode t)
             (putd 'axlPathStart (lambda (_pts _w) 'fakePath))
             (putd 'axlPathLine (lambda (_path _w _end) nil))
             (putd 'axlPathArcCenter (lambda (_path _w _end _cw _center) nil))
-            (putd 'axlDBCreatePath
+            (putd '__abCreatePathObject
               (lambda (_path _layer _net)
                 (list
                   (list
@@ -142,7 +144,7 @@
                           (list (list nil 'objType "line" 'layer _layer
                                       'startEnd '((1.0 2.0) (3.0 4.0))
                                       'width 0.2))))
-                  nil))))
+                  nil)))
             (setq result (__abCreatePath "GND" '(1.0 2.0)
                                          (list (list nil 'type "line" 'end '(3.0 4.0))
                                                (list nil 'type "arc" 'end '(5.0 6.0)
@@ -152,26 +154,33 @@
             (putd 'axlPathStart originalPathStart)
             (putd 'axlPathLine originalPathLine)
             (putd 'axlPathArcCenter originalPathArc)
-            (putd 'axlDBCreatePath originalCreate)))
+            (putd '__abCreatePathObject originalCreate)
+            (sstatus debugMode debugModeBefore)))
         (qtest::assertEqual 1 (length result))
         (qtest::assertEqual "GND" (get (car result) 'net))
-        (qtest::assertEqual "line" (get (car result) 'obj_type)))
+        (qtest::assertEqual "line" (get (car result) 'obj_type))))
 
     (qtest::TestCase test_create_path_rejects_nil_result
       (let ((originalPathStart (getd 'axlPathStart))
-            (originalCreate (getd 'axlDBCreatePath))
+            (originalPathLine (getd 'axlPathLine))
+            (originalCreate (getd '__abCreatePathObject))
+            (debugModeBefore (status debugMode))
             result
             failureText)
         (unwindProtect
           (progn
+            (sstatus debugMode t)
             (putd 'axlPathStart (lambda (_pts _w) 'fakePath))
-            (putd 'axlDBCreatePath (lambda (_path _layer _net) nil))
+            (putd 'axlPathLine (lambda (_path _w _end) nil))
+            (putd '__abCreatePathObject (lambda (_path _layer _net) nil))
             (setq result (errset (__abCreatePath "GND" '(1.0 2.0)
                                                  (list (list nil 'type "line" 'end '(3.0 4.0)))
                                                  "ETCH/TOP" 0.2)))
             (setq failureText (sprintf nil "%L" errset.errset)))
           (progn
             (putd 'axlPathStart originalPathStart)
-            (putd 'axlDBCreatePath originalCreate)))
+            (putd 'axlPathLine originalPathLine)
+            (putd '__abCreatePathObject originalCreate)
+            (sstatus debugMode debugModeBefore)))
         (qtest::assertNil result)
-        (qtest::assertTrue (index failureText "ROUTE_CREATE_FAILED")))))))
+        (qtest::assertTrue (index failureText "ROUTE_CREATE_FAILED"))))))

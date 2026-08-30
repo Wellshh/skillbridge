@@ -10,6 +10,10 @@
 (defun __abCreateLineObject (points width layer net)
   (axlDBCreateLine points width layer net))
 
+(putd '__abCreatePathObject nil)
+(defun __abCreatePathObject (path layer net)
+  (axlDBCreatePath path layer net))
+
 (putd '__abProjectRoutePoint nil)
 (defun __abProjectRoutePoint (point)
   (list nil 'x (car point) 'y (cadr point)))
@@ -92,7 +96,7 @@
            (axlPathLine path nil (get step 'end)))
           ((equal typ "arc")
            (axlPathArcCenter path width (get step 'end) (get step 'clockwise) (get step 'center))))))
-    (setq created (axlDBCreatePath path layer net))
+    (setq created (__abCreatePathObject path layer net))
     (unless created
       (error (sprintf nil "ROUTE_CREATE_FAILED: %L" net)))
     (setq paths (car created))

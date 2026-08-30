@@ -165,6 +165,7 @@
           (qcover::load _multipleFixture)
           (setq after (_qcoverTemps (car (axlDMFileParts _multipleFixture))))
           (setq created (_setDifference after before))
+          (qtest::assertEqual 1 (length created))
           (setq port (outstring))
           (unwindProtect
             (progn
@@ -172,7 +173,6 @@
               (qcover::report ?port port)
               (setq report (getOutstring port)))
             (close port))
-          (qtest::assertEqual 1 (length created))
           (qtest::assertNil (_setDifference before after))
           (qtest::assertTrue
             (and (qub::startsWith (qub::getFileName (car created)) ".qcover-")

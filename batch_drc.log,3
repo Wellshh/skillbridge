@@ -4,7 +4,7 @@
 (                                                                     )
 (    Drawing          : shape1.brd                                    )
 (    Software Version : 17.2S048                                      )
-(    Date/Time        : Sun Aug 30 15:46:07 2026                      )
+(    Date/Time        : Sun Aug 30 19:48:24 2026                      )
 (                                                                     )
 (---------------------------------------------------------------------)
 
@@ -20,7 +20,7 @@
  ========= check standalone text              0:00:00
  ========= check standalone rectangles        0:00:00
 
- ..... Total number of DRC errors  59
+ ..... Total number of DRC errors  61
 
 
 WARNING: 1 dynamic shape(s) out of date; checking skipped on these elements.
