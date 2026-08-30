@@ -6,9 +6,11 @@ suite lives in `tests/skill/` and is built from two parts:
 - **qtest** (`tests/skill/qtest/src/qtest/`) — a unittest-style framework,
   vendored from MatthewLoveQUB's SKILL Tools (MIT).
 - **qcover** (`tests/skill/qtest/src/qcover/`) — our extension that adds branch
-  coverage for classic SKILL. Written in SKILL++, it instruments `.il` function
-  bodies by rewriting every `if`/`when`/`unless`/`cond` condition into a
-  counting decision point, then re-loading the transformed definition.
+  coverage for classic SKILL (`.il`) and SKILL++ (`.ils`). Written in SKILL++,
+  it instruments classic function bodies and rewrites only callable bodies in
+  `.ils` (`lambda`/`nlambda`/`defglobalfun`, including nested callables), not
+  top-level conditionals, by rewriting conditions into counting decision
+  points, then re-loading the transformed definition.
 
 Tests are SKILL++ files (`test_*.ils`). Loading a test file runs its tests.
 
@@ -44,8 +46,9 @@ Tests are SKILL++ files (`test_*.ils`). Loading a test file runs its tests.
 
 ## Coverage
 
-- Load the file under test with `qcover::load` instead of `load`. Never load
-  it both ways.
+- Load the file under test with `qcover::load` instead of `load`; it supports
+  both `.il` classic SKILL and `.ils` SKILL++. Never load it both ways. Reports
+  retain the original source path.
 - Both outcomes of every condition count, so reaching 100% means exercising
   the true and false branch of each `if`/`when`/`unless`/`cond`.
 - Quoted forms (`quote`, backquote) are not instrumented, and the `t` clause
@@ -53,7 +56,9 @@ Tests are SKILL++ files (`test_*.ils`). Loading a test file runs its tests.
 - `qcover::report ?minimum 100.0` prints `covered/total branches` plus one
   line per unhit branch, and errors if the percentage is below the threshold.
   The threshold lives only in `run.ils`, not in individual test cases.
-- `qcover::reset` restores the original function definitions.
+- `qcover::reset` restores the original function definitions and function
+  slots, and deletes qcover-created `.qcover-*` temporary files in the source
+  directory.
 
 ## Running
 
@@ -78,5 +83,12 @@ New test files are **not** auto-discovered: add a `load` line for your
   `qtest/src` on the SKILL path first.
 - In SKILL++, write `(f ?port p)`, never `(f(?port p))` — the outer parens
   would re-evaluate the result as a function.
+- `.ils` source directories must be writable; successful candidate temp files
+  remain until `qcover::reset`. A failed load is atomic for qcover counts,
+  registries, function slots, and qcover-owned temp files, but external
+  top-level side effects made by the loaded file before the error are not
+  rolled back. qcover `.ils` instrumentation and load lifecycle are supported
+  only for serial qtest execution; concurrent qcover loads or runs are not
+  supported.
 - Helper functions at the top of a test file are fine; cases in one file run
   before the next file is loaded.

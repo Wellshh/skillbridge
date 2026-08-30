@@ -5,19 +5,43 @@
 qcover:::_branches = makeTable("qcoverBranches" nil)
 qcover:::_hits = makeTable("qcoverHits" 0)
 qcover:::_originalDefinitions = makeTable("qcoverOriginalDefinitions" nil)
+qcover:::_ilsOriginalDefinitions = makeTable("qcoverIlsOriginalDefinitions" nil)
+qcover:::_ownedTemps = nil
+
+(defun qcover:::copyTable (source defaultValue name)
+  (let ((resultTable (makeTable name defaultValue)))
+    (foreach key source
+      (setarray resultTable key source[key]))
+    resultTable))
 qcover:::_currentFile = nil
 qcover:::_currentFunction = nil
 qcover:::_nextDecision = 0
 
 (defun qcover::reset ()
   "Restore instrumented functions and clear all coverage state."
-  (foreach functionName qcover:::_originalDefinitions
-    (putd functionName qcover:::_originalDefinitions[functionName]))
+  (letseq ((oldDebugMode (status debugMode))
+        (completed nil))
+    (unwindProtect
+      (progn
+        (sstatus debugMode t)
+        (foreach functionName qcover:::_ilsOriginalDefinitions
+          (putd functionName (car qcover:::_ilsOriginalDefinitions[functionName])))
+        (foreach functionName qcover:::_originalDefinitions
+          (putd functionName qcover:::_originalDefinitions[functionName]))
+        (foreach tempFile qcover:::_ownedTemps
+          (deleteFile tempFile))
+        (setq completed t))
+      (sstatus debugMode oldDebugMode))
+    (unless completed
+      (error "qcover: reset cleanup failed")))
 
   (setq qcover:::_branches (makeTable "qcoverBranches" nil))
   (setq qcover:::_hits (makeTable "qcoverHits" 0))
   (setq qcover:::_originalDefinitions
         (makeTable "qcoverOriginalDefinitions" nil))
+  (setq qcover:::_ilsOriginalDefinitions
+        (makeTable "qcoverIlsOriginalDefinitions" nil))
+  (setq qcover:::_ownedTemps nil)
   (setq qcover:::_currentFile nil)
   (setq qcover:::_currentFunction nil)
   (setq qcover:::_nextDecision 0)
@@ -70,6 +94,126 @@ qcover:::_nextDecision = 0
     (list 'qcover:::decision
           decisionId
           (qcover:::transformExpression condition))))
+
+(defun qcover:::transformIlsTop (expression)
+  (if (or (atom expression) (qcover:::quotedForm (car expression)))
+      expression
+      (let ((head (car expression)))
+        (cond
+          ((eq head 'defglobalfun)
+           (append (list head (cadr expression) (caddr expression))
+                   (mapcar qcover:::transformExpression (cdddr expression))))
+          ((member head '(lambda nlambda))
+           (cons head
+                 (cons (cadr expression)
+                       (mapcar qcover:::transformExpression
+                               (cddr expression)))))
+          (t
+           (mapcar qcover:::transformIlsTop expression))))))
+
+(defun qcover:::scanIlsDefinitions (expression definitions)
+  (unless (atom expression)
+    (unless (qcover:::quotedForm (car expression))
+      (when (eq (car expression) 'defglobalfun)
+        (let ((functionName (cadr expression)))
+          (unless definitions[functionName]
+            (setarray definitions functionName
+                      (list (getd functionName))))))
+      (foreach form expression
+        (qcover:::scanIlsDefinitions form definitions)))))
+
+(defun qcover:::readIlsForms (fileName)
+  (let ((input (infile fileName))
+        forms
+        line)
+    (unless input
+      (error "qcover: cannot open %L" fileName))
+    (unwindProtect
+      (progn
+        (while (setq line (lineread input))
+          (unless (eq line t)
+            (setq forms (append forms line))))
+        forms)
+      (close input))))
+
+(defun qcover:::writeIlsTemp (directory forms)
+  (let ((markers nil)
+        (marker nil)
+        (candidate nil)
+        markerPort
+        output
+        ownedCandidate
+        result
+        savedError)
+    (setq result
+          (errset
+            (progn
+              (while (null ownedCandidate)
+                (setq marker (makeTempFileName (strcat directory "/.qcover-")))
+                (setq markerPort (outfile marker "w"))
+                (unless markerPort
+                  (error "qcover: cannot reserve %L" marker))
+                (setq markers (cons marker markers))
+                (close markerPort)
+                (setq markerPort nil)
+                (setq candidate (strcat marker ".ils"))
+                (unless (isFile candidate)
+                  (setq output (outfile candidate "w"))
+                  (unless output
+                    (error "qcover: cannot acquire %L" candidate))
+                  (setq ownedCandidate candidate)))
+              (foreach marker markers
+                (deleteFile marker))
+              (setq markers nil)
+              (foreach form forms
+                (pprint form output)
+                (newline output))
+              (close output)
+              (setq output nil)
+              ownedCandidate)))
+    (unless result
+      (setq savedError errset.errset)
+      (when markerPort
+        (errset (close markerPort)))
+      (when output
+        (errset (close output)))
+      (foreach marker markers
+        (errset (deleteFile marker)))
+      (when ownedCandidate
+        (errset (deleteFile ownedCandidate)))
+      (putprop 'errset savedError 'errset)
+      (err))
+    (car result)))
+
+(defun qcover:::loadIls (normalizedFile attemptDefinitions)
+  (letseq ((parts (axlDMFileParts normalizedFile))
+           (directory (car parts))
+           (forms (qcover:::readIlsForms normalizedFile))
+           transformed
+           tempFile)
+    (foreach form forms
+      (qcover:::scanIlsDefinitions form attemptDefinitions))
+    (setq qcover:::_currentFile normalizedFile)
+    (setq qcover:::_currentFunction 'lexical)
+    (setq qcover:::_nextDecision 0)
+    (setq transformed
+          (mapcar
+            (lambda (form)
+              (qcover:::transformIlsTop form))
+            forms))
+    (setq tempFile (qcover:::writeIlsTemp directory transformed))
+    (setq qcover:::_ownedTemps (cons tempFile qcover:::_ownedTemps))
+    (let ((input (infile tempFile)))
+      (unless input
+        (error "qcover: cannot open %L" tempFile))
+      (unwindProtect
+        (loadPort input ?langMode 'ils)
+        (close input)))
+    (foreach functionName attemptDefinitions
+      (unless qcover:::_ilsOriginalDefinitions[functionName]
+        (setarray qcover:::_ilsOriginalDefinitions functionName
+                  attemptDefinitions[functionName])))
+    t))
 
 (defun qcover:::transformCondClause (clause)
   (if (or (atom clause) (null clause))
@@ -156,24 +300,78 @@ qcover:::_nextDecision = 0
 
 (defun qcover::load (fileName)
   "Load and instrument every classic SKILL function defined by fileName."
-  (let ((oldDebugMode (status debugMode))
+  (letseq ((oldDebugMode (status debugMode))
         (normalizedFile (qub::normalizePath (simplifyFilename fileName)))
+        (oldBranches qcover:::_branches)
+        (oldHits qcover:::_hits)
+        (oldOriginalDefinitions qcover:::_originalDefinitions)
+        (oldIlsOriginalDefinitions qcover:::_ilsOriginalDefinitions)
+        (oldOwnedTemps qcover:::_ownedTemps)
+        (oldCurrentFile qcover:::_currentFile)
+        (oldCurrentFunction qcover:::_currentFunction)
+        (oldNextDecision qcover:::_nextDecision)
+        (isIls (equal (cadr (cddr (axlDMFileParts normalizedFile))) "ils"))
         functions
+        attemptDefinitions
+        savedError
+        attemptResult
         success)
     (unwindProtect
       (progn
         (sstatus debugMode t)
-        (load normalizedFile)
-        (setq functions
-              (getFunctions (qub::getFileName normalizedFile)))
-        (setq qcover:::_currentFile normalizedFile)
-        (foreach functionName functions
-          (qcover:::instrumentFunction functionName))
+        (if isIls
+            (progn
+              (setq attemptResult
+                    (errset
+                      (progn
+                        (setq qcover:::_branches
+                              (qcover:::copyTable oldBranches nil "qcoverBranches"))
+                        (setq qcover:::_hits
+                              (qcover:::copyTable oldHits 0 "qcoverHits"))
+                        (setq qcover:::_originalDefinitions
+                              (qcover:::copyTable oldOriginalDefinitions nil
+                                                  "qcoverOriginalDefinitions"))
+                        (setq qcover:::_ilsOriginalDefinitions
+                              (qcover:::copyTable oldIlsOriginalDefinitions nil
+                                                  "qcoverIlsOriginalDefinitions"))
+                        (setq attemptDefinitions
+                              (makeTable "qcoverIlsAttemptDefinitions" nil))
+                        (qcover:::loadIls normalizedFile attemptDefinitions))))
+              (if attemptResult
+                  nil
+                  (progn
+                    (setq savedError errset.errset)
+                    (foreach functionName attemptDefinitions
+                      (errset
+                        (putd functionName
+                              (car attemptDefinitions[functionName]))))
+                    (foreach tempFile (setof temp qcover:::_ownedTemps
+                                            (not (member temp oldOwnedTemps)))
+                      (errset (deleteFile tempFile)))
+                    (setq qcover:::_branches oldBranches)
+                    (setq qcover:::_hits oldHits)
+                    (setq qcover:::_originalDefinitions oldOriginalDefinitions)
+                    (setq qcover:::_ilsOriginalDefinitions oldIlsOriginalDefinitions)
+                    (setq qcover:::_ownedTemps oldOwnedTemps)
+                    (setq qcover:::_currentFile oldCurrentFile)
+                    (setq qcover:::_currentFunction oldCurrentFunction)
+                    (setq qcover:::_nextDecision oldNextDecision)
+                    (putprop 'errset savedError 'errset)
+                    (err))))
+            (progn
+              (load normalizedFile)
+              (setq functions
+                    (getFunctions (qub::getFileName normalizedFile)))
+              (setq qcover:::_currentFile normalizedFile)
+              (foreach functionName functions
+                (qcover:::instrumentFunction functionName))))
         (setq success t))
       (progn
         (sstatus debugMode oldDebugMode)
-        (unless success
-          (qcover::reset))))
+        (unless (or success isIls)
+          (qcover::reset))
+        (when (and savedError (not success))
+          (putprop 'errset savedError 'errset))))
     t))
 
 (defun qcover:::coverageCounts ()

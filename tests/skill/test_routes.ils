@@ -148,7 +148,8 @@
             (setq result (__abCreatePath "GND" '(1.0 2.0)
                                          (list (list nil 'type "line" 'end '(3.0 4.0))
                                                (list nil 'type "arc" 'end '(5.0 6.0)
-                                                     'clockwise t 'center '(2.0 3.0)))
+                                                     'clockwise t 'center '(2.0 3.0))
+                                               (list nil 'type "unknown"))
                                          "ETCH/TOP" 0.2)))
           (progn
             (putd 'axlPathStart originalPathStart)
