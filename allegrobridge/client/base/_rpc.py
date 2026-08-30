@@ -22,10 +22,10 @@ from weakref import ref
 from pydantic import TypeAdapter
 from typing_extensions import ParamSpec, Self
 
+from allegrobridge._kernel.client.hints import Skill, SkillCode
 from allegrobridge.client.base._future import Cmd, CmdResult, _validate
 from allegrobridge.client.base._record import _ID
 from allegrobridge.exceptions import AllegroProtocolError
-from skillbridge.client.hints import Skill, SkillCode
 
 if TYPE_CHECKING:  # pragma: no cover
     from allegrobridge.client.session.session import Session

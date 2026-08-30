@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import ClassVar
 
-from skillbridge.exception import ProtocolError, SkillBridgeError
+from allegrobridge._kernel.exception import ProtocolError, SkillBridgeError
 
 __all__ = [
     'AllegroError',

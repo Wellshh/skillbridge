@@ -20,7 +20,7 @@ __all__ = [
 
 
 class SkillBridgeError(Exception):
-    code: ClassVar[str] = 'skillbridge_error'
+    code: ClassVar[str] = 'allegrobridge_error'
     default_hint: ClassVar[str | None] = None
 
     def __init__(self, message: str, *, hint: str | None = None) -> None:

@@ -4,15 +4,51 @@
 
 from __future__ import annotations
 
+from ._kernel import (
+    UNBOUND,
+    Expr,
+    Function,
+    Globals,
+    GlobalVar,
+    Key,
+    ListExpr,
+    ParseError,
+    RemoteObject,
+    RemoteTable,
+    RemoteVector,
+    SkillCode,
+    Symbol,
+    current_workspace,
+    generate_static_completion,
+    keys,
+)
 from .allegro import Allegro, OpenMode
 from .client.base import SkillModule
 from .client.session import Session
 from .client.workspace import Workspace
+from .version import __version__
 
 __all__ = [
+    'UNBOUND',
     'Allegro',
+    'Expr',
+    'Function',
+    'GlobalVar',
+    'Globals',
+    'Key',
+    'ListExpr',
     'OpenMode',
+    'ParseError',
+    'RemoteObject',
+    'RemoteTable',
+    'RemoteVector',
     'Session',
+    'SkillCode',
     'SkillModule',
+    'Symbol',
     'Workspace',
+    '__version__',
+    'current_workspace',
+    'generate_static_completion',
+    'keys',
 ]

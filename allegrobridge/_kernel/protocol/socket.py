@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Final
 
-from skillbridge.exception import FrameTooLargeError, PeerClosedError, ProtocolError
+from allegrobridge._kernel.exception import FrameTooLargeError, PeerClosedError, ProtocolError
 
 if TYPE_CHECKING:
     from socket import socket
@@ -13,6 +13,22 @@ DEFAULT_MAX_PAYLOAD_SIZE: Final[int] = 64 * 1024 * 1024  # 64 MiB
 
 
 class Socket:
+    """Framed TCP socket channel between client and Python server.
+
+    Wire frame format:
+    +-------------------------+-----------------------------------+
+    | Length Header (10 bytes)|         Payload (N bytes)         |
+    +-------------------------+-----------------------------------+
+    | Right-aligned ASCII     | Raw binary data                   |
+    | decimal integer         |                                   |
+    | (e.g. b"      1024")    |                                   |
+    +-------------------------+-----------------------------------+
+
+    Attributes:
+        HEADER_SIZE_: Length of the fixed-size ASCII length header (10 bytes).
+        DEFAULT_MAX_PAYLOAD_SIZE: Default upper bound for incoming/outgoing frames (64 MiB).
+    """
+
     __slots__ = (
         "_max_payload_size",
         "_sock",

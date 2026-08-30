@@ -28,10 +28,10 @@ def print_skill_script_location() -> None:
 
 
 def shell_command(ws_id: str | None, ping: bool, force_tcp: bool) -> None:
-    import skillbridge  # ruff: ignore[import-outside-top-level]
+    import allegrobridge._kernel as _kernel  # ruff: ignore[import-outside-top-level, manual-from-import]
 
-    variables = {name: getattr(skillbridge, name) for name in dir(skillbridge)}
-    ws = skillbridge.Workspace.open(ws_id, force_tcp=force_tcp)
+    variables = {name: getattr(_kernel, name) for name in dir(_kernel)}
+    ws = _kernel.Workspace.open(ws_id, force_tcp=force_tcp)
     variables['ws'] = ws
 
     if ping:
@@ -40,14 +40,16 @@ def shell_command(ws_id: str | None, ping: bool, force_tcp: bool) -> None:
 
         assert ws['plus'](x, y) == x + y, "simple command failed"
 
-    interact("Interactive Python interpreter with skillbridge Workspace `ws`", local=variables)
+    interact(
+        "Interactive Python interpreter with allegrobridge._kernel Workspace `ws`", local=variables
+    )
 
 
 def main() -> None:
     parser = ArgumentParser(
-        'skillbridge',
+        'allegrobridge._kernel',
         description="""
-        CLI utility for the various skillbridge management commands
+        CLI utility for the various allegrobridge._kernel management commands
         """,
     )
 

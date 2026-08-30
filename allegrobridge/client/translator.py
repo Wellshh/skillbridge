@@ -6,9 +6,9 @@ from json import loads
 
 from typing_extensions import override
 
+from allegrobridge._kernel.client.hints import SkillCode
+from allegrobridge._kernel.client.translator import DefaultTranslator as GDefaultTranslator
 from allegrobridge.util import build_snake_to_axl_map
-from skillbridge.client.hints import SkillCode
-from skillbridge.client.translator import DefaultTranslator as GDefaultTranslator
 
 _SNAKE_TO_AXL = build_snake_to_axl_map()
 

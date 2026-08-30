@@ -5,7 +5,7 @@ from ast import literal_eval
 from sys import argv
 from time import sleep
 
-from skillbridge import Symbol, Workspace
+from allegrobridge._kernel import Symbol, Workspace
 
 ws = Workspace.open(direct=True)
 

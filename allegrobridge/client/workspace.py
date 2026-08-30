@@ -12,17 +12,17 @@ from typing import TYPE_CHECKING, Literal, TypedDict, cast
 from typing_extensions import override
 
 import allegrobridge.server
+from allegrobridge._kernel.client.channel import Channel
+from allegrobridge._kernel.client.expr import Expr
+from allegrobridge._kernel.client.functions import FunctionCollection
+from allegrobridge._kernel.client.hints import Skill, SkillCode, Symbol
+from allegrobridge._kernel.client.objects import RemoteObject, RemoteTable, RemoteVector
+from allegrobridge._kernel.client.workspace import Workspace as GWorkspace
+from allegrobridge._kernel.client.workspace import WorkspaceId
 from allegrobridge.client.base import SkillModule
 from allegrobridge.client.base._rpc import _core_procedures
 from allegrobridge.exceptions import AllegroLaunchError, ExtensionError
 from allegrobridge.util import extract_api_domains
-from skillbridge.client.channel import Channel
-from skillbridge.client.expr import Expr
-from skillbridge.client.functions import FunctionCollection
-from skillbridge.client.hints import Skill, SkillCode, Symbol
-from skillbridge.client.objects import RemoteObject, RemoteTable, RemoteVector
-from skillbridge.client.workspace import Workspace as GWorkspace
-from skillbridge.client.workspace import WorkspaceId
 
 from .translator import Translator
 

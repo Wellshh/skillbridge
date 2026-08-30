@@ -7,8 +7,8 @@ from typing import Any
 
 from pytest import raises
 
-from skillbridge.client.expr import Expr, ListExpr
-from skillbridge.client.hints import SkillCode
+from allegrobridge._kernel.client.expr import Expr, ListExpr
+from allegrobridge._kernel.client.hints import SkillCode
 
 
 class EncodedOnce:

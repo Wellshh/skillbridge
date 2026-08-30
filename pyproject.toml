@@ -6,12 +6,12 @@ build-backend = "setuptools.build_meta"
 version = "1.8.0"
 
 [project]
-name = "skillbridge"
+name = "allegrobridge"
 authors = [
     {name = "Niels Buwen", email = "dev@niels-buwen.de"},
     {name = "Tobias Markus", email = "tobias_markus@gmx.net"},
 ]
-description = "A seamless Python remote bridge to Cadence's Skill in Virtuoso"
+description = "A seamless Python bridge to Cadence Allegro SKILL"
 readme = {file = "README.md", content-type = "text/markdown"}
 requires-python = ">=3.10"
 dependencies = [
@@ -19,7 +19,7 @@ dependencies = [
     "psutil>=7,<8",
     "typing_extensions>=4.6",
 ]
-urls = {Repository = "https://github.com/unihd-cag/skillbridge"}
+urls = {Repository = "https://github.com/Wellshh/skillbridge"}
 license = "LGPL-3.0-or-later"
 license-files = ["LICENSE"]
 classifiers = [
@@ -40,7 +40,7 @@ classifiers = [
 dynamic = ["version"]
 
 [tool.setuptools.dynamic]
-version = {attr = "skillbridge.version.__version__"}
+version = {attr = "allegrobridge.version.__version__"}
 
 [project.optional-dependencies]
 dev = [
@@ -82,25 +82,26 @@ doc = [
 ]
 
 [project.scripts]
-skillbridge = "skillbridge.__main__:main"
+allegrobridge = "allegrobridge.__main__:main"
 
 [tool.setuptools.packages.find]
-include = ["skillbridge*", "allegrobridge*"]
+include = ["allegrobridge*"]
 namespaces = false
 
 [tool.setuptools.package-data]
 allegrobridge = [
     "py.typed",
+    "_kernel/py.typed",
+    "_kernel/server/*.il",
     "client/*.pyi",
     "assets/*.txt",
     "server/*.il",
     "server/extensions/*.il",
 ]
-skillbridge = ["py.typed", "server/*.il"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "--cov=skillbridge --cov=allegrobridge --cov-report=html --cov-report=term:skip-covered --cov-branch --no-cov-on-fail --cov-fail-under=0"
+addopts = "--cov=allegrobridge --cov-report=html --cov-report=term:skip-covered --cov-branch --no-cov-on-fail --cov-fail-under=0"
 markers = [
     "allegro: integration tests requiring an Allegro server (enabled with --allegro)",
     "integration: exercises real sockets, threads, pipes, or subprocesses",
@@ -112,7 +113,7 @@ exclude_also = ["raise NotImplementedError", "@overload"]
 
 [tool.mypy]
 python_version = "3.10"
-files = ["skillbridge", "allegrobridge", "tests/typing_allegrobridge_axl_stubs.py"]
+files = ["allegrobridge", "tests/typing_allegrobridge_axl_stubs.py"]
 exclude = ["tests", "build", "dist", ".venv", "tmp"]
 platform = "linux"
 pretty = true
@@ -155,6 +156,7 @@ target-version = "py310"
 select = ["ALL"]
 ignore = [
     "builtin-attribute-shadowing",
+    "import-private-name",
     "ANN10", "any-type",
     "no-explicit-stacklevel",
     "missing-trailing-comma",
@@ -179,7 +181,7 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"skillbridge/client/hints.py" = [
+"allegrobridge/_kernel/client/hints.py" = [
     "subclass-builtin",
 ]
 "allegrobridge/client/base/_rpc.py" = [
@@ -212,5 +214,5 @@ docstring-code-format = true
 quote-style = "preserve"
 
 [[tool.mypy.overrides]]
-module = "skillbridge.server.python_server"
+module = "allegrobridge._kernel.server.python_server"
 disable_error_code = ["unreachable"]

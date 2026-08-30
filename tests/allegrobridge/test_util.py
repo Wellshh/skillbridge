@@ -10,7 +10,7 @@ from pytest import raises
 import allegrobridge.server
 from allegrobridge import Allegro
 from allegrobridge.util import (
-    _extract_apis,  # ruff: ignore[import-private-name]
+    _extract_apis,
     build_snake_to_axl_map,
     extract_api_domains,
     parse_api_name,

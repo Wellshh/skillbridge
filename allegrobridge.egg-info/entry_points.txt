@@ -1,0 +1,2 @@
+[console_scripts]
+allegrobridge = allegrobridge.__main__:main

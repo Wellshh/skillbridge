@@ -11,7 +11,7 @@ import pytest
 from allegrobridge import __main__ as main_module
 
 PYTHON_SERVER = (
-    Path(__file__).parents[2] / 'skillbridge' / 'server' / 'python_server.il'
+    Path(__file__).parents[2] / 'allegrobridge' / '_kernel' / 'server' / 'python_server.il'
 ).resolve()
 ALLEGRO_SERVER = (
     Path(__file__).parents[2] / 'allegrobridge' / 'server' / 'allegro_server.il'

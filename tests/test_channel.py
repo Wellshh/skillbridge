@@ -17,11 +17,16 @@ from unittest.mock import Mock
 from _pytest.fixtures import SubRequest
 from pytest import fixture, mark, raises
 
-from skillbridge import Workspace, current_workspace
-from skillbridge.client.channel import Channel, DirectChannel, TcpChannel, create_channel_class
-from skillbridge.client.objects import RemoteObject
-from skillbridge.exception import PeerClosedError
-from skillbridge.protocol.socket import DEFAULT_MAX_PAYLOAD_SIZE, Socket
+from allegrobridge._kernel import Workspace, current_workspace
+from allegrobridge._kernel.client.channel import (
+    Channel,
+    DirectChannel,
+    TcpChannel,
+    create_channel_class,
+)
+from allegrobridge._kernel.client.objects import RemoteObject
+from allegrobridge._kernel.exception import PeerClosedError
+from allegrobridge._kernel.protocol.socket import DEFAULT_MAX_PAYLOAD_SIZE, Socket
 from tests.virtuoso import Virtuoso
 
 WORKSPACE_ID = "8976"
@@ -592,7 +597,7 @@ class TestTcpChannelCleanup:
         channel, _ = channel_raising(error)
         readiness = iter([([channel.socket], [], []), ([], [], [])])
         monkeypatch.setattr(
-            'skillbridge.client.channel.select',
+            'allegrobridge._kernel.client.channel.select',
             lambda *_args, **_kwargs: next(readiness),
         )
 

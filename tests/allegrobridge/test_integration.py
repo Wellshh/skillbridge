@@ -18,6 +18,7 @@ import pytest
 from pydantic import ValidationError
 
 from allegrobridge import Allegro, OpenMode, Session, Workspace
+from allegrobridge._kernel import SkillCode
 from allegrobridge.client.api import (
     BBox,
     BoardInfo,
@@ -37,14 +38,13 @@ from allegrobridge.client.api import (
     SymbolInfo,
     ViaInfo,
 )
-from allegrobridge.client.base._record import _ID  # ruff: ignore[import-private-name]
+from allegrobridge.client.base._record import _ID
 from allegrobridge.exceptions import (
     AllegroProtocolError,
     ExtensionError,
     RecordIDError,
 )
 from allegrobridge.util import ASSETS_DIR
-from skillbridge import SkillCode
 from tests.allegrobridge.fixtures.client_extensions.missing_server import MissingServerApi
 from tests.allegrobridge.fixtures.client_extensions.probe import ProbeApi
 
@@ -266,8 +266,8 @@ def _run_skill_suite(workspace_id: str | None) -> str:
             temporary_repository / 'allegrobridge' / 'server' / 'extensions',
         )
         for source in (
-            repository / 'skillbridge' / '__init__.py',
-            repository / 'skillbridge' / 'server' / 'python_server.il',
+            repository / 'allegrobridge' / '_kernel' / '__init__.py',
+            repository / 'allegrobridge' / '_kernel' / 'server' / 'python_server.il',
             repository / 'allegrobridge' / 'server' / 'allegro_server.il',
             _TEST_BOARD,
         ):
@@ -686,7 +686,7 @@ class TestComponentsApi:
             with session.batch('move two components') as batch:
                 results = [
                     batch.call(
-                        session.components.move.command,
+                        session.components.move,
                         component.refdes,
                         x=component.x + index + 1.0,
                         y=component.y + index + 1.0,
@@ -721,16 +721,13 @@ class TestComponentsApi:
         def execute() -> None:
             with session.batch() as batch:
                 results.extend([
-                    batch.add(
-                        session.components.move.command(
-                            original.refdes,
-                            x=original.x + 1.0,
-                            y=original.y + 1.0,
-                        )
+                    batch.call(
+                        session.components.move,
+                        original.refdes,
+                        x=original.x + 1.0,
+                        y=original.y + 1.0,
                     ),
-                    batch.add(
-                        session.components.move.command('__MISSING_COMPONENT__', x=1.0, y=2.0)
-                    ),
+                    batch.call(session.components.move, '__MISSING_COMPONENT__', x=1.0, y=2.0),
                 ])
 
         with pytest.raises(RuntimeError, match='COMPONENT_NOT_FOUND'):
@@ -757,12 +754,11 @@ class TestComponentsApi:
         assert original.y is not None
 
         with session.batch('preview move', dry_run=True) as batch:
-            result = batch.add(
-                session.components.move.command(
-                    original.refdes,
-                    x=original.x + 1.0,
-                    y=original.y + 1.0,
-                )
+            result = batch.call(
+                session.components.move,
+                original.refdes,
+                x=original.x + 1.0,
+                y=original.y + 1.0,
             )
 
         assert result.value.x == pytest.approx(original.x + 1.0)
@@ -773,13 +769,12 @@ class TestComponentsApi:
 
         def execute() -> None:
             with session.batch('stale batch') as batch:
-                batch.add(
-                    session.components.move.command(
-                        component.refdes,
-                        x=cast('float', component.x),
-                        y=cast('float', component.y),
-                        rotation=component.rotation,
-                    )
+                batch.call(
+                    session.components.move,
+                    component.refdes,
+                    x=cast('float', component.x),
+                    y=cast('float', component.y),
+                    rotation=component.rotation,
                 )
                 session.refresh()
 
@@ -1387,19 +1382,17 @@ class TestViasApi:
         before = len(session.vias())
 
         with session.batch('create two vias') as batch:
-            first = batch.add(
-                session.vias.create.command(
-                    original.padstack,
-                    at=(original.x + 0.3, original.y + 0.3),
-                    net=original.net,
-                )
+            first = batch.call(
+                session.vias.create,
+                original.padstack,
+                at=(original.x + 0.3, original.y + 0.3),
+                net=original.net,
             )
-            second = batch.add(
-                session.vias.create.command(
-                    original.padstack,
-                    at=(original.x + 0.4, original.y + 0.4),
-                    net=original.net,
-                )
+            second = batch.call(
+                session.vias.create,
+                original.padstack,
+                at=(original.x + 0.4, original.y + 0.4),
+                net=original.net,
             )
 
         assert first.value.x == pytest.approx(original.x + 0.3)
@@ -1418,18 +1411,16 @@ class TestViasApi:
 
         def execute() -> None:
             with session.batch('rollback invalid via') as batch:
-                batch.add(
-                    session.vias.create.command(
-                        original.padstack,
-                        at=(original.x + 0.5, original.y + 0.5),
-                        net=original.net,
-                    )
+                batch.call(
+                    session.vias.create,
+                    original.padstack,
+                    at=(original.x + 0.5, original.y + 0.5),
+                    net=original.net,
                 )
-                batch.add(
-                    session.vias.create.command(
-                        '__MISSING_PADSTACK__',
-                        at=(original.x + 0.6, original.y + 0.6),
-                    )
+                batch.call(
+                    session.vias.create,
+                    '__MISSING_PADSTACK__',
+                    at=(original.x + 0.6, original.y + 0.6),
                 )
 
         with pytest.raises(RuntimeError):
@@ -1448,12 +1439,11 @@ class TestViasApi:
         before = _via_snapshot(ws)
 
         with session.batch('preview vias', dry_run=True) as batch:
-            result = batch.add(
-                session.vias.create.command(
-                    original.padstack,
-                    at=(original.x + 0.7, original.y + 0.7),
-                    net=original.net,
-                )
+            result = batch.call(
+                session.vias.create,
+                original.padstack,
+                at=(original.x + 0.7, original.y + 0.7),
+                net=original.net,
             )
 
         assert result.value.x == pytest.approx(original.x + 0.7)
@@ -1621,21 +1611,19 @@ class TestRoutesApi:
         source, net = self._source(session)
 
         with session.batch('create two routes') as batch:
-            first = batch.add(
-                session.routes.create.command(
-                    net,
-                    self._new_points(source),
-                    source.layer,
-                    source.width,
-                )
+            first = batch.call(
+                session.routes.create,
+                net,
+                self._new_points(source),
+                source.layer,
+                source.width,
             )
-            second = batch.add(
-                session.routes.create.command(
-                    net,
-                    self._new_points(source, -1.0),
-                    source.layer,
-                    source.width,
-                )
+            second = batch.call(
+                session.routes.create,
+                net,
+                self._new_points(source, -1.0),
+                source.layer,
+                source.width,
             )
 
         assert first.value
@@ -1653,21 +1641,19 @@ class TestRoutesApi:
 
         def execute() -> None:
             with session.batch('rollback invalid route') as batch:
-                batch.add(
-                    session.routes.create.command(
-                        net,
-                        self._new_points(source),
-                        source.layer,
-                        source.width,
-                    )
+                batch.call(
+                    session.routes.create,
+                    net,
+                    self._new_points(source),
+                    source.layer,
+                    source.width,
                 )
-                batch.add(
-                    session.routes.create.command(
-                        net,
-                        self._new_points(source),
-                        '__MISSING_LAYER__',
-                        source.width,
-                    )
+                batch.call(
+                    session.routes.create,
+                    net,
+                    self._new_points(source),
+                    '__MISSING_LAYER__',
+                    source.width,
                 )
 
         with pytest.raises(RuntimeError):
@@ -1686,13 +1672,12 @@ class TestRoutesApi:
         before = _route_snapshot(ws)
 
         with session.batch('preview route', dry_run=True) as batch:
-            result = batch.add(
-                session.routes.create.command(
-                    net,
-                    self._new_points(source),
-                    source.layer,
-                    source.width,
-                )
+            result = batch.call(
+                session.routes.create,
+                net,
+                self._new_points(source),
+                source.layer,
+                source.width,
             )
 
         assert result.value
@@ -2012,15 +1997,14 @@ class TestDrcApi:
 
         try:
             with session.batch('move then update DRC') as batch:
-                moved = batch.add(
-                    session.components.move.command(
-                        source.refdes,
-                        x=cast('float', target.x),
-                        y=cast('float', target.y),
-                        rotation=cast('float', target.rotation),
-                    )
+                moved = batch.call(
+                    session.components.move,
+                    source.refdes,
+                    x=cast('float', target.x),
+                    y=cast('float', target.y),
+                    rotation=cast('float', target.rotation),
                 )
-                drcs = batch.add(session.drc.update.command())
+                drcs = batch.call(session.drc.update)
 
             assert moved.value.x == pytest.approx(target.x)
             assert self._snapshot(drcs.value) != self._snapshot(baseline)
@@ -2039,15 +2023,14 @@ class TestDrcApi:
         baseline = session.drc.update()
 
         with session.batch('preview move and DRC', dry_run=True) as batch:
-            moved = batch.add(
-                session.components.move.command(
-                    source.refdes,
-                    x=cast('float', target.x),
-                    y=cast('float', target.y),
-                    rotation=cast('float', target.rotation),
-                )
+            moved = batch.call(
+                session.components.move,
+                source.refdes,
+                x=cast('float', target.x),
+                y=cast('float', target.y),
+                rotation=cast('float', target.rotation),
             )
-            drcs = batch.add(session.drc.update.command())
+            drcs = batch.call(session.drc.update)
 
         assert moved.value.x == pytest.approx(target.x)
         assert self._snapshot(drcs.value) != self._snapshot(baseline)
@@ -2067,21 +2050,19 @@ class TestDrcApi:
         def execute() -> None:
             with session.batch('rollback move and DRC') as batch:
                 results.extend([
-                    batch.add(
-                        session.components.move.command(
-                            source.refdes,
-                            x=cast('float', target.x),
-                            y=cast('float', target.y),
-                            rotation=cast('float', target.rotation),
-                        )
+                    batch.call(
+                        session.components.move,
+                        source.refdes,
+                        x=cast('float', target.x),
+                        y=cast('float', target.y),
+                        rotation=cast('float', target.rotation),
                     ),
-                    batch.add(session.drc.update.command()),
-                    batch.add(
-                        session.components.move.command(
-                            '__MISSING_COMPONENT__',
-                            x=1.0,
-                            y=2.0,
-                        )
+                    batch.call(session.drc.update),
+                    batch.call(
+                        session.components.move,
+                        '__MISSING_COMPONENT__',
+                        x=1.0,
+                        y=2.0,
                     ),
                 ])
 
@@ -2245,19 +2226,17 @@ class TestBoundApi:
 
         try:
             with session.batch('mixed extension batch') as batch:
-                extension_result = batch.add(
-                    probe.move.command(
-                        originals[0].refdes,
-                        x=originals[0].x + 1.0,
-                        y=originals[0].y + 1.0,
-                    )
+                extension_result = batch.call(
+                    probe.move,
+                    originals[0].refdes,
+                    x=originals[0].x + 1.0,
+                    y=originals[0].y + 1.0,
                 )
-                core_result = batch.add(
-                    session.components.move.command(
-                        originals[1].refdes,
-                        x=originals[1].x + 2.0,
-                        y=originals[1].y + 2.0,
-                    )
+                core_result = batch.call(
+                    session.components.move,
+                    originals[1].refdes,
+                    x=originals[1].x + 2.0,
+                    y=originals[1].y + 2.0,
                 )
 
             assert [extension_result.value.refdes, core_result.value.refdes] == [

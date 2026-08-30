@@ -10,7 +10,7 @@ from warnings import warn
 
 import pytest
 
-from skillbridge import Workspace
+from allegrobridge._kernel import Workspace
 
 # The channel integration tests use ``pty``, which is unavailable on Windows.
 collect_ignore_glob: list[str] = []

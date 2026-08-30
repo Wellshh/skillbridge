@@ -7,7 +7,7 @@ from warnings import warn
 
 from pytest import fixture, mark, raises, skip
 
-from skillbridge import UNBOUND, Expr, RemoteTable, Symbol, Workspace
+from allegrobridge._kernel import UNBOUND, Expr, RemoteTable, Symbol, Workspace
 
 here = Path(__file__).parent
 

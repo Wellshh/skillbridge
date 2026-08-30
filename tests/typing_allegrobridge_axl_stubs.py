@@ -5,6 +5,11 @@ from __future__ import annotations
 from typing_extensions import assert_type
 
 from allegrobridge import Allegro, Session, SkillModule, Workspace
+from allegrobridge._kernel import Expr
+from allegrobridge._kernel import Workspace as GWorkspace
+from allegrobridge._kernel.client.functions import LiteralRemoteFunction
+from allegrobridge._kernel.client.hints import Skill, Symbol
+from allegrobridge._kernel.client.objects import RemoteObject
 from allegrobridge.client.api import (
     BBox,
     CmdResult,
@@ -21,11 +26,6 @@ from allegrobridge.client.api import (
     SymbolInfo,
     ViaInfo,
 )
-from skillbridge import Expr
-from skillbridge import Workspace as GWorkspace
-from skillbridge.client.functions import LiteralRemoteFunction
-from skillbridge.client.hints import Skill, Symbol
-from skillbridge.client.objects import RemoteObject
 
 
 class BoundApi(SessionApi):

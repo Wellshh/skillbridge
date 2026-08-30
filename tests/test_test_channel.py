@@ -3,9 +3,9 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 from pytest import fixture, raises, warns
 
-from skillbridge import Key, ParseError
-from skillbridge.test import DummyWorkspace, PassWorkspace
-from skillbridge.test.channel import DummyChannel
+from allegrobridge._kernel import Key, ParseError
+from tests.support import DummyWorkspace, PassWorkspace
+from tests.support.channel import DummyChannel
 
 
 @fixture

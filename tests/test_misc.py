@@ -11,16 +11,16 @@ from unittest.mock import Mock
 
 from pytest import mark, raises
 
-import skillbridge as skillbridge_module
-import skillbridge.client.hints as hints_module
-import skillbridge.client.objects as objects_module
-from skillbridge import Expr, Key, SkillCode, keys
-from skillbridge.client.channel import Channel
-from skillbridge.client.functions import FunctionCollection, LiteralRemoteFunction
-from skillbridge.client.objects import RemoteObject, RemoteTable, RemoteVector
-from skillbridge.client.translator import DefaultTranslator, Symbol
-from skillbridge.test.channel import DummyChannel
-from skillbridge.test.workspace import DummyWorkspace
+import allegrobridge._kernel as skillbridge_module
+import allegrobridge._kernel.client.hints as hints_module
+import allegrobridge._kernel.client.objects as objects_module
+from allegrobridge._kernel import Expr, Key, SkillCode, keys
+from allegrobridge._kernel.client.channel import Channel
+from allegrobridge._kernel.client.functions import FunctionCollection, LiteralRemoteFunction
+from allegrobridge._kernel.client.objects import RemoteObject, RemoteTable, RemoteVector
+from allegrobridge._kernel.client.translator import DefaultTranslator, Symbol
+from tests.support.channel import DummyChannel
+from tests.support.workspace import DummyWorkspace
 
 python = sys.executable
 
@@ -108,7 +108,7 @@ def test_remote_function_introspection_is_explicit() -> None:
 
 
 def test_reports_skill_server_correctly():
-    out = check_output([python, '-m', 'skillbridge', 'path'], encoding='utf-8')
+    out = check_output([python, '-m', 'allegrobridge._kernel', 'path'], encoding='utf-8')
     assert Path(out.splitlines()[1].strip()).exists()
 
 
@@ -126,7 +126,7 @@ def test_cannot_use_abc():
 def test_direct_mode(no_cover):  # with coverage enabled this test breaks
     code = dedent(
         """
-        from skillbridge import Workspace
+        from allegrobridge._kernel import Workspace
 
         ws = Workspace.open(direct=True)
         cv = ws.ge.get_edit_cell_view()

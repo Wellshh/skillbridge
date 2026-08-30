@@ -3,8 +3,8 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 from __future__ import annotations
 
-from ..client.hints import Skill, SkillCode
-from ..client.translator import Translator
+from allegrobridge._kernel.client.hints import Skill, SkillCode
+from allegrobridge._kernel.client.translator import Translator
 
 
 class PassTranslator(Translator):

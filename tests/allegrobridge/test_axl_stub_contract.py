@@ -5,7 +5,7 @@ from __future__ import annotations
 import ast
 from pathlib import Path
 
-from allegrobridge.util import _extract_apis  # ruff: ignore[import-private-name]
+from allegrobridge.util import _extract_apis
 from scripts.generate_axl_stubs import DOCUMENT_ONLY_NAMES
 
 STUB_PATH = Path(__file__).parents[2] / 'allegrobridge' / 'client' / '_axl_stubs.pyi'
@@ -94,7 +94,7 @@ def test_generated_stub_declares_axl_contract() -> None:
     assert 'axlDBGetDesign()' in member_doc.value.value
 
     stub = STUB_PATH.read_text(encoding='utf-8')
-    assert 'from skillbridge.client.expr import Expr' in stub
+    assert 'from allegrobridge._kernel.client.expr import Expr' in stub
     assert 'def __call__(self, /) -> RemoteObject | None:' in stub
     assert 'def __call__(self, s_type: Symbol, t_name: str, /) -> RemoteObject | None:' in stub
     assert 'def expr(self, /) -> Expr[RemoteObject | None]: ...' in stub

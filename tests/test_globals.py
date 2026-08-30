@@ -5,10 +5,10 @@ from typing import Any
 
 from pytest import fixture, mark, raises
 
-from skillbridge.client.channel import Channel
-from skillbridge.client.expr import Expr
-from skillbridge.client.globals import DirectGlobals, Globals, GlobalVar, is_variable_name
-from skillbridge.client.translator import DefaultTranslator
+from allegrobridge._kernel.client.channel import Channel
+from allegrobridge._kernel.client.expr import Expr
+from allegrobridge._kernel.client.globals import DirectGlobals, Globals, GlobalVar, is_variable_name
+from allegrobridge._kernel.client.translator import DefaultTranslator
 
 
 class Redirect(Channel):

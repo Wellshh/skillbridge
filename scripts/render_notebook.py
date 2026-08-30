@@ -1,12 +1,5 @@
 # Copyright (c) 2025-2026 Bai Junyan and contributors.
 # SPDX-License-Identifier: LGPL-3.0-or-later
-"""Render docs/examples/*.ipynb into themed Markdown pages.
-
-Code cells become PYTHON blocks; recorded outputs become OUTPUT blocks under a
-`.nb-output` wrapper; markdown cells pass through. Run after executing the
-notebook locally so the recorded outputs appear on the site.
-"""
-
 from __future__ import annotations
 
 import argparse

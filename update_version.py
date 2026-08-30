@@ -25,7 +25,7 @@ def checkout_master() -> None:
 def bump_version(ref: str) -> None:
     *_, version = ref.split('/')
     here = Path(__file__).parent
-    version_py = here / 'skillbridge' / 'version.py'
+    version_py = here / 'allegrobridge' / 'version.py'
 
     version_py.write_text(f"__version__ = '{version}'\n")
 

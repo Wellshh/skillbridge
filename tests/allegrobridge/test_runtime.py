@@ -13,7 +13,7 @@ from unittest.mock import Mock
 import psutil
 import pytest
 
-from allegrobridge._runtime import CliRuntime  # ruff: ignore[import-private-name]
+from allegrobridge._runtime import CliRuntime
 from allegrobridge.exceptions import AllegroLaunchError
 
 _PYTHON = getattr(sys, '_base_executable', None) or sys.executable

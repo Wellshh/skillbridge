@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from collections import deque
 from collections.abc import Iterator
-from io import StringIO, TextIOWrapper
+from io import BytesIO, StringIO, TextIOWrapper
 from os import fdopen, pipe
 from select import select
 from socket import SHUT_WR, socket, socketpair
@@ -12,14 +12,14 @@ from sys import platform
 
 from pytest import fixture, mark, raises
 
-from skillbridge.exception import (
+from allegrobridge._kernel.exception import (
     FrameTooLargeError,
     InvalidResponseError,
     PeerClosedError,
     ProtocolError,
 )
-from skillbridge.protocol.response import Response, SkillResp
-from skillbridge.protocol.socket import DEFAULT_MAX_PAYLOAD_SIZE, Socket
+from allegrobridge._kernel.protocol.response import Response, SkillResp
+from allegrobridge._kernel.protocol.socket import DEFAULT_MAX_PAYLOAD_SIZE, Socket
 
 SOCKET_TIMEOUT_SECONDS = 1.0
 
@@ -217,6 +217,12 @@ class TestResponse:
         assert response.recv() == SkillResp('failure', 'second')
         assert response.recv() == SkillResp('restart', 'third')
 
+    def test_binary_reader_decodes_payload(self) -> None:
+        payload = '中文'
+        reader = BytesIO(f'{Response.STX}{payload}{Response.RS}'.encode())
+
+        assert Response(reader).recv() == SkillResp('success', payload)
+
     def test_rejects_character_before_response_frame(self) -> None:
         with raises(InvalidResponseError) as caught:
             Response(StringIO(f'noise{Response.STX}ok{Response.RS}')).recv()
@@ -288,4 +294,6 @@ def test_response_roundtrip_over_os_pipe(
         readable, _, _ = select([reader], [], [], SOCKET_TIMEOUT_SECONDS)
         assert readable == [reader]
 
-    assert Response(reader).recv() == SkillResp('success', 'line one\nline two')
+    assert Response(reader.buffer, encoding=reader.encoding).recv() == SkillResp(
+        'success', 'line one\nline two'
+    )

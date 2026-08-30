@@ -14,18 +14,18 @@ from pytest import MonkeyPatch, mark, raises
 
 import allegrobridge.server
 from allegrobridge import Workspace as AllegroWorkspace
-from allegrobridge.client.base import SkillModule
-from allegrobridge.exceptions import ExtensionError
-from skillbridge import Workspace
-from skillbridge.client import workspace as workspace_module
-from skillbridge.client.channel import Channel
-from skillbridge.client.expr import Expr
-from skillbridge.client.objects import RemoteTable, RemoteVector
-from skillbridge.client.translator import DefaultTranslator
-from skillbridge.client.workspace import (
-    _open_workspaces,  # ruff: ignore[import-private-name]
+from allegrobridge._kernel import Workspace
+from allegrobridge._kernel.client import workspace as workspace_module
+from allegrobridge._kernel.client.channel import Channel
+from allegrobridge._kernel.client.expr import Expr
+from allegrobridge._kernel.client.objects import RemoteTable, RemoteVector
+from allegrobridge._kernel.client.translator import DefaultTranslator
+from allegrobridge._kernel.client.workspace import (
+    _open_workspaces,
     current_workspace,
 )
+from allegrobridge.client.base import SkillModule
+from allegrobridge.exceptions import ExtensionError
 
 
 class DummyChannel(Channel):

@@ -8,8 +8,8 @@ from unittest.mock import MagicMock
 
 import pytest
 
-import skillbridge
-from skillbridge import __main__ as main_module
+import allegrobridge._kernel
+from allegrobridge._kernel import __main__ as main_module
 
 
 def test_main_dispatches_path_generate_shell_and_help(
@@ -21,23 +21,23 @@ def test_main_dispatches_path_generate_shell_and_help(
     monkeypatch.setattr(main_module, 'generate_static_completion', generate)
     monkeypatch.setattr(main_module, 'shell_command', shell)
 
-    monkeypatch.setattr(sys, 'argv', ['skillbridge', 'path'])
+    monkeypatch.setattr(sys, 'argv', ['allegrobridge._kernel', 'path'])
     main_module.main()
     assert 'python_server.il' in capsys.readouterr().out
 
-    monkeypatch.setattr(sys, 'argv', ['skillbridge', 'generate'])
+    monkeypatch.setattr(sys, 'argv', ['allegrobridge._kernel', 'generate'])
     main_module.main()
     generate.assert_called_once_with()
 
     monkeypatch.setattr(
         sys,
         'argv',
-        ['skillbridge', 'shell', '--id', '7', '--ping', '--force-tcp'],
+        ['allegrobridge._kernel', 'shell', '--id', '7', '--ping', '--force-tcp'],
     )
     main_module.main()
     assert shell.call_args.args == ('7', True, True)
 
-    monkeypatch.setattr(sys, 'argv', ['skillbridge'])
+    monkeypatch.setattr(sys, 'argv', ['allegrobridge._kernel'])
     main_module.main()
     assert 'shell' in capsys.readouterr().out
 
@@ -51,7 +51,7 @@ def test_shell_command_opens_workspace_and_optionally_pings(
     workspace.__getitem__.return_value.return_value = 9
     open_workspace = MagicMock(return_value=workspace)
     interact = MagicMock()
-    monkeypatch.setattr(skillbridge.Workspace, 'open', open_workspace)
+    monkeypatch.setattr(allegrobridge._kernel.Workspace, 'open', open_workspace)
     monkeypatch.setattr(main_module, 'interact', interact)
     monkeypatch.setattr(main_module, 'randrange', MagicMock(side_effect=[4, 5]))
 

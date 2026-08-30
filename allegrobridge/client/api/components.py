@@ -7,10 +7,10 @@ from typing import Literal
 
 from pydantic import TypeAdapter
 
+from allegrobridge._kernel.client.hints import Skill
 from allegrobridge.client.api.geometry import _coerce_finite_float, _OptionalLocated
 from allegrobridge.client.base import KeyedCollection
 from allegrobridge.client.base._rpc import RpcArgs, _core_api, read, write
-from skillbridge.client.hints import Skill
 
 _PROCEDURE = '__abProjectComponents'
 _MOVE_PROCEDURE = '__abMoveComponent'

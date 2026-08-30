@@ -6,9 +6,9 @@ from typing import NamedTuple
 
 from pydantic import FiniteFloat, TypeAdapter
 
+from allegrobridge._kernel.client.hints import SkillCode
+from allegrobridge._kernel.client.translator import python_value_to_skill
 from allegrobridge.client.base import SessionRecord
-from skillbridge.client.hints import SkillCode
-from skillbridge.client.translator import python_value_to_skill
 
 
 class Point(NamedTuple):

@@ -1,6 +1,5 @@
 {
     "include": [
-        "skillbridge",
         "allegrobridge",
         "tests/typing_allegrobridge_axl_stubs.py"
     ],

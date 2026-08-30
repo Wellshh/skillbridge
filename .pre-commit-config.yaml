@@ -37,7 +37,7 @@ repos:
         entry: poetry run mypy
         language: system
         types: [python]
-        files: ^(skillbridge|allegrobridge)/
+        files: ^allegrobridge/
         stages: [pre-commit]
 
       - id: pyright

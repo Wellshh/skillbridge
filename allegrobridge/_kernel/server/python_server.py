@@ -7,6 +7,7 @@ from __future__ import annotations
 import os
 from argparse import ArgumentParser
 from contextlib import suppress
+from io import BufferedIOBase
 from logging import basicConfig, getLogger
 from os import getenv
 from pathlib import Path
@@ -24,18 +25,18 @@ except ImportError:  # pragma: no cover - Windows: unix domain sockets unavailab
 from sys import platform, stdin, stdout
 from typing import cast
 
-from skillbridge.exception import (
+from allegrobridge._kernel.exception import (
     FrameTooLargeError,
     PeerClosedError,
     SkillPipeError,
     SkillPipeTimeoutError,
 )
-from skillbridge.protocol.response import SkillResp
-from skillbridge.protocol.socket import DEFAULT_MAX_PAYLOAD_SIZE, Socket
-from skillbridge.server._pipe import Pipe
+from allegrobridge._kernel.protocol.response import SkillResp
+from allegrobridge._kernel.protocol.socket import DEFAULT_MAX_PAYLOAD_SIZE, Socket
+from allegrobridge._kernel.server._pipe import Pipe
 
-LOG_DIRECTORY = Path(getenv('SKILLBRIDGE_LOG_DIRECTORY', '.'))
-LOG_FILE = LOG_DIRECTORY / 'skillbridge_server.log'
+LOG_DIRECTORY = Path(getenv('ALLEGROBRIDGE_LOG_DIRECTORY', '.'))
+LOG_FILE = LOG_DIRECTORY / 'allegrobridge_server.log'
 LOG_FORMAT = '%(asctime)s %(levelname)s %(message)s'
 LOG_DATE_FORMAT = '%d.%m.%Y %H:%M:%S'
 basicConfig(filename=LOG_FILE, format=LOG_FORMAT, datefmt=LOG_DATE_FORMAT)
@@ -229,7 +230,11 @@ def main(
 ) -> None:
     logger.setLevel(log_level)
     with (
-        Pipe(stdin, stdout) as pipe,
+        Pipe(
+            cast("BufferedIOBase", stdin.buffer),
+            stdout,
+            reader_encoding=stdin.encoding,
+        ) as pipe,
         create_server(
             id_,
             pipe=pipe,
@@ -242,7 +247,7 @@ def main(
         Thread(
             target=_watch_pipe_death,
             args=(pipe,),
-            name="skillbridge-pipe-watcher",
+            name="allegrobridge-pipe-watcher",
             daemon=True,
         ).start()
         logger.info(

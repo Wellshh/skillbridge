@@ -9,7 +9,7 @@ from re import sub
 from typing import cast
 
 from allegrobridge import Workspace
-from skillbridge.client.hints import Skill
+from allegrobridge._kernel.client.hints import Skill
 
 _SIGNATURE_FIELDS = ('type', 'name', 'source', 'layer')
 

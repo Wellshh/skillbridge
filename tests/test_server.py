@@ -18,16 +18,16 @@ from typing import cast
 
 from pytest import FixtureRequest, MonkeyPatch, approx, fixture, mark, param, raises
 
-from skillbridge.client.channel import Channel, TcpChannel, create_channel_class
-from skillbridge.exception import (
+from allegrobridge._kernel.client.channel import Channel, TcpChannel, create_channel_class
+from allegrobridge._kernel.exception import (
     SkillPipeBrokenError,
     SkillPipeClosedError,
     SkillPipeDesynchronizedError,
     SkillPipeTimeoutError,
 )
-from skillbridge.protocol.response import SkillResp
-from skillbridge.protocol.socket import DEFAULT_MAX_PAYLOAD_SIZE, Socket
-from skillbridge.server import python_server
+from allegrobridge._kernel.protocol.response import SkillResp
+from allegrobridge._kernel.protocol.socket import DEFAULT_MAX_PAYLOAD_SIZE, Socket
+from allegrobridge._kernel.server import python_server
 
 TEST_TIMEOUT = 1.0
 channel_class = create_channel_class()

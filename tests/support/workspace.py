@@ -4,7 +4,8 @@
 from re import match
 from typing import Any
 
-from ..client.workspace import Workspace
+from allegrobridge._kernel.client.workspace import Workspace
+
 from .channel import DummyChannel
 from .translator import PassTranslator
 

@@ -20,8 +20,8 @@ _RUNTIME_FILES = {
     'allegrobridge/server/extensions/routes.il',
     'allegrobridge/server/extensions/shapes.il',
     'allegrobridge/server/extensions/vias.il',
-    'skillbridge/py.typed',
-    'skillbridge/server/python_server.il',
+    'allegrobridge/_kernel/py.typed',
+    'allegrobridge/_kernel/server/python_server.il',
 }
 
 
@@ -68,11 +68,11 @@ def test_wheel_imports_and_reads_runtime_resources(
 from importlib.resources import files
 import allegrobridge
 import allegrobridge.server.extensions
-import skillbridge
+import allegrobridge._kernel
 
 assert allegrobridge.__file__.startswith({str(install)!r})
 assert allegrobridge.server.extensions.__file__.startswith({str(install)!r})
-assert skillbridge.__file__.startswith({str(install)!r})
+assert allegrobridge._kernel.__file__.startswith({str(install)!r})
 for path in {sorted(_RUNTIME_FILES)!r}:
     package, resource = path.split('/', 1)
     assert files(package).joinpath(resource).is_file()

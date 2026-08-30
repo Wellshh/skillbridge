@@ -6,7 +6,7 @@ from __future__ import annotations
 from collections import deque
 from typing import Any
 
-from ..client.channel import Channel
+from allegrobridge._kernel.client.channel import Channel
 
 _MAX_ERROR_REPORT = 100
 

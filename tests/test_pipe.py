@@ -1,6 +1,6 @@
 # Copyright (c) 2025-2026 Bai Junyan and contributors.
 # SPDX-License-Identifier: LGPL-3.0-or-later
-"""Test framework for Pipe; see ``skillbridge/server/SECRET.md`` for its design."""
+"""Test framework for Pipe; see ``allegrobridge/_kernel/server/SECRET.md`` for its design."""
 
 from __future__ import annotations
 
@@ -13,14 +13,14 @@ from queue import Empty, Queue
 
 from pytest import MonkeyPatch, fixture, mark, raises
 
-from skillbridge.exception import (
+from allegrobridge._kernel.exception import (
     SkillPipeBrokenError,
     SkillPipeClosedError,
     SkillPipeDesynchronizedError,
     SkillPipeTimeoutError,
 )
-from skillbridge.protocol.response import Response, RespStatus, SkillResp
-from skillbridge.server._pipe import (  # ruff: ignore[import-private-name]
+from allegrobridge._kernel.protocol.response import Response, RespStatus, SkillResp
+from allegrobridge._kernel.server._pipe import (
     Pipe,
     _PipeState,
     _StateMachine,

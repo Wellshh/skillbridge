@@ -4,10 +4,10 @@
 # mypy: disable-error-code="override, overload-cannot-match, overload-overlap"
 from typing import Literal, overload
 
-from skillbridge.client.expr import Expr
-from skillbridge.client.functions import FunctionCollection, LiteralRemoteFunction
-from skillbridge.client.hints import Number, Skill, Symbol
-from skillbridge.client.objects import RemoteObject
+from allegrobridge._kernel.client.expr import Expr
+from allegrobridge._kernel.client.functions import FunctionCollection, LiteralRemoteFunction
+from allegrobridge._kernel.client.hints import Number, Skill, Symbol
+from allegrobridge._kernel.client.objects import RemoteObject
 
 class _AxlAddAutoAssignNetAlgorithm(LiteralRemoteFunction):
     def __call__(self, t_algorithm: str, t_display_name: str, /) -> bool | None:

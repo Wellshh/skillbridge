@@ -5,10 +5,10 @@ from io import StringIO
 import pytest
 from pytest_benchmark.fixture import BenchmarkFixture
 
-from skillbridge import Expr
-from skillbridge.client.translator import DefaultTranslator
-from skillbridge.protocol.response import Response
-from skillbridge.protocol.socket import Socket
+from allegrobridge._kernel import Expr
+from allegrobridge._kernel.client.translator import DefaultTranslator
+from allegrobridge._kernel.protocol.response import Response
+from allegrobridge._kernel.protocol.socket import Socket
 
 _ONE_MIB = 1_048_576
 _PAYLOAD_SIZES = (64, 4096, _ONE_MIB)

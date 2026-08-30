@@ -16,8 +16,8 @@ from uuid import uuid4
 from typing_extensions import Self
 
 import allegrobridge.server
-import skillbridge.server
-from skillbridge.client.workspace import WorkspaceId
+from allegrobridge._kernel import server as _kernel_server
+from allegrobridge._kernel.client.workspace import WorkspaceId
 
 from ._runtime import CliRuntime
 from .client.session import Session
@@ -62,7 +62,7 @@ def _default_workspace_id(*, force_tcp: bool) -> str:
 def _build_startup_script(
     *, board: Path | None, workspace_id: str, force_tcp: bool, nonce: str
 ) -> str:
-    python_server = Path(skillbridge.server.__file__).with_name('python_server.il').as_posix()
+    python_server = Path(_kernel_server.__file__).with_name('python_server.il').as_posix()
     allegro_runtime = Path(allegrobridge.server.__file__).with_name('allegro_server.il').as_posix()
     force_tcp_flag = ' ?forceTcp t' if force_tcp else ''
     lines = [

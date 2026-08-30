@@ -15,13 +15,16 @@ from weakref import ref
 import pytest
 from pydantic import Field, TypeAdapter, ValidationError
 
+import allegrobridge._kernel.server
 import allegrobridge.client.api as api_module
 import allegrobridge.server
-import skillbridge.server
 from allegrobridge import Allegro
+from allegrobridge._kernel import SkillCode
+from allegrobridge._kernel.client.expr import Expr
+from allegrobridge._kernel.exception import ProtocolError, SkillBridgeError
 from allegrobridge.allegro import (
-    _build_startup_script,  # ruff: ignore[import-private-name]
-    _resolve_executable,  # ruff: ignore[import-private-name]
+    _build_startup_script,
+    _resolve_executable,
 )
 from allegrobridge.client.api import (
     Batch,
@@ -60,8 +63,8 @@ from allegrobridge.client.api import (
     read,
 )
 from allegrobridge.client.base import BaseRecord, SessionRecord, SkillModule
-from allegrobridge.client.base._record import _ID  # ruff: ignore[import-private-name]
-from allegrobridge.client.base._rpc import (  # ruff: ignore[import-private-name]
+from allegrobridge.client.base._record import _ID
+from allegrobridge.client.base._rpc import (
     _api_procedures,
     _core_api,
     _core_procedures,
@@ -79,9 +82,6 @@ from allegrobridge.exceptions import (
     ExtensionError,
     RecordIDError,
 )
-from skillbridge import SkillCode
-from skillbridge.client.expr import Expr
-from skillbridge.exception import ProtocolError, SkillBridgeError
 
 
 def _assert_id(record: SessionRecord, session: Session) -> None:
@@ -157,7 +157,7 @@ def test_startup_script_orders_nonce_board_and_guarded_server(tmp_path: Path) ->
         nonce='launch-instance',
     )
     lines = script.splitlines()
-    core = Path(skillbridge.server.__file__).with_name('python_server.il')
+    core = Path(allegrobridge._kernel.server.__file__).with_name('python_server.il')
     runtime = Path(allegrobridge.server.__file__).with_name('allegro_server.il')
     assert lines[:2] == [
         f'skill load("{core.as_posix()}")',
@@ -1772,8 +1772,8 @@ class TestBatch:
 
         with session.batch('move two') as batch:
             assert isinstance(batch, Batch)
-            first = batch.add(session.components.move.command('R1', x=1.0, y=2.0))
-            second = batch.add(session.components.move.command('R2', x=2.0, y=2.0))
+            first = batch.call(session.components.move, 'R1', x=1.0, y=2.0)
+            second = batch.call(session.components.move, 'R2', x=2.0, y=2.0)
             with pytest.raises(RuntimeError, match='pending'):
                 _ = first.value
 
@@ -1794,7 +1794,7 @@ class TestBatch:
 
         with session.batch() as batch:
             result = batch.call(
-                session.components.move.command,
+                session.components.move,
                 'R1',
                 x=1.0,
                 y=2.0,
@@ -1830,7 +1830,7 @@ class TestBatch:
         session = _session(workspace)
 
         with session.batch(dry_run=True) as batch:
-            result = batch.add(session.components.move.command('R1', x=1.0, y=2.0))
+            result = batch.call(session.components.move, 'R1', x=1.0, y=2.0)
 
         assert result.value.refdes == 'R1'
         workspace.transaction.assert_not_called()
@@ -1883,7 +1883,7 @@ class TestBatch:
 
         def execute() -> None:
             with session.batch() as batch:
-                results.append(batch.add(session.components.move.command('R1', x=1.0, y=2.0)))
+                results.append(batch.call(session.components.move, 'R1', x=1.0, y=2.0))
                 session.refresh()
 
         with pytest.raises(RecordIDError, match=r'Batch.*stale') as raised:
@@ -1910,7 +1910,7 @@ class TestBatch:
 
         def execute() -> None:
             with session.batch() as batch:
-                results.append(batch.add(session.components.move.command('R1', x=1.0, y=2.0)))
+                results.append(batch.call(session.components.move, 'R1', x=1.0, y=2.0))
 
         with pytest.raises(RecordIDError, match=r'Batch.*stale') as raised:
             execute()
@@ -1929,7 +1929,7 @@ class TestBatch:
 
         def cancel() -> None:
             with session.batch() as batch:
-                results.append(batch.add(session.components.move.command('R1', x=1.0, y=2.0)))
+                results.append(batch.call(session.components.move, 'R1', x=1.0, y=2.0))
                 raise error
 
         with pytest.raises(ValueError, match='body'):
@@ -1950,7 +1950,7 @@ class TestBatch:
 
         def execute() -> None:
             with session.batch() as batch:
-                results.append(batch.add(session.components.move.command('R1', x=1.0, y=2.0)))
+                results.append(batch.call(session.components.move, 'R1', x=1.0, y=2.0))
 
         with pytest.raises(AllegroProtocolError, match='batch'):
             execute()
@@ -1971,8 +1971,8 @@ class TestBatch:
         def execute() -> None:
             with session.batch() as batch:
                 results.extend([
-                    batch.add(session.components.move.command('R1', x=1.0, y=2.0)),
-                    batch.add(session.components.move.command('R2', x=2.0, y=2.0)),
+                    batch.call(session.components.move, 'R1', x=1.0, y=2.0),
+                    batch.call(session.components.move, 'R2', x=2.0, y=2.0),
                 ])
 
         with pytest.raises(AllegroProtocolError, match='__abMoveComponent'):

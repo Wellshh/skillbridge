@@ -6,10 +6,10 @@ let((_filename _moduleFolder _logDirectory _unbound)
     _filename = get_filename(piport)
     _filename = pcreReplace(pcreCompile("^ +| +$") _filename "" 0)
     _moduleFolder = pcreReplace(
-        pcreCompile("[\\\\/][^\\\\/]+[\\\\/][^\\\\/]+[\\\\/][^\\\\/]+$")
+        pcreCompile("[\\\\/][^\\\\/]+[\\\\/][^\\\\/]+[\\\\/][^\\\\/]+[\\\\/][^\\\\/]+$")
         _filename "" 0
     )
-    _logDirectory = getShellEnvVar("SKILLBRIDGE_LOG_DIRECTORY") || "."
+    _logDirectory = getShellEnvVar("ALLEGROBRIDGE_LOG_DIRECTORY") || "."
     _unbound = makeTable("JustForUnbound")[""]
 
     ; Thin wrappers around the internal (non-redefinable) IPC built-ins so that
@@ -83,7 +83,7 @@ let((_filename _moduleFolder _logDirectory _unbound)
             )
 
             executableWithArgs = lsprintf(
-                "\"%s\" -m skillbridge.server.python_server %s"
+                "\"%s\" -m allegrobridge._kernel.server.python_server %s"
                 pyStartServer.python
                 executableWithArgs
             )
@@ -229,7 +229,7 @@ let((_filename _moduleFolder _logDirectory _unbound)
     )
 
     pyShowLog.logName = lsprintf(
-        "%s/skillbridge_skill.log"
+        "%s/allegrobridge_skill.log"
         _logDirectory
     )
 
@@ -561,7 +561,7 @@ let((_filename _moduleFolder _logDirectory _unbound)
     )
 
     pyStartServer.logName = lsprintf(
-        "%s/skillbridge_skill.log"
+        "%s/allegrobridge_skill.log"
         _logDirectory
     )
 
@@ -612,7 +612,7 @@ let((_filename _moduleFolder _logDirectory _unbound)
     )
 
     pyRunScript.logName = lsprintf(
-        "%s/skillbridge_script.log"
+        "%s/allegrobridge_script.log"
         _logDirectory
     )
 

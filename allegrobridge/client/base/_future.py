@@ -8,9 +8,9 @@ from weakref import ref
 
 from pydantic import TypeAdapter, ValidationError
 
+from allegrobridge._kernel.client.hints import SkillCode
 from allegrobridge.client.base._record import _ID
 from allegrobridge.exceptions import AllegroProtocolError
-from skillbridge.client.hints import SkillCode
 
 if TYPE_CHECKING:  # pragma: no cover
     from allegrobridge.client.session.session import Session

@@ -11,12 +11,11 @@ from hypothesis import given
 from hypothesis.strategies import floats, integers, lists, none, text
 from pytest import fixture, mark, raises, warns
 
-from allegrobridge.client.translator import Translator as ATranslator
-from skillbridge import Symbol
-from skillbridge.client.expr import Expr
-from skillbridge.client.functions import FunctionCollection
-from skillbridge.client.hints import SkillCode
-from skillbridge.client.translator import (
+from allegrobridge._kernel import Symbol
+from allegrobridge._kernel.client.expr import Expr
+from allegrobridge._kernel.client.functions import FunctionCollection
+from allegrobridge._kernel.client.hints import SkillCode
+from allegrobridge._kernel.client.translator import (
     DefaultTranslator,
     Translator,
     build_python_path,
@@ -24,7 +23,8 @@ from skillbridge.client.translator import (
     camel_to_snake,
     snake_to_camel,
 )
-from skillbridge.test.channel import DummyChannel
+from allegrobridge.client.translator import Translator as ATranslator
+from tests.support.channel import DummyChannel
 
 floats = floats(allow_infinity=False, allow_nan=False)
 ints = integers(min_value=-(2**63), max_value=2**63 - 1)

@@ -9,16 +9,17 @@ import time
 from collections.abc import Callable
 from contextlib import suppress
 from enum import Enum, auto
+from io import BufferedIOBase
 from types import TracebackType
 from typing import TextIO, cast
 
-from skillbridge.exception import (
+from allegrobridge._kernel.exception import (
     SkillPipeBrokenError,
     SkillPipeClosedError,
     SkillPipeDesynchronizedError,
     SkillPipeTimeoutError,
 )
-from skillbridge.protocol.response import Response, SkillResp
+from allegrobridge._kernel.protocol.response import Response, SkillResp
 
 logger = logging.getLogger(__name__)
 
@@ -53,7 +54,7 @@ class _DrainTimer:
         if self._timeout is None:
             return
         timer = threading.Timer(self._timeout, on_expired)
-        timer.name = "skillbridge-drain-timeout"
+        timer.name = "allegrobridge-drain-timeout"
         timer.daemon = True
         self._timer = timer
         timer.start()
@@ -272,15 +273,16 @@ class Pipe:
     _decoder: Response
     _lock: threading.Lock
     _machine: _StateMachine
-    _reader: TextIO
+    _reader: TextIO | BufferedIOBase
     _thread: threading.Thread
     _writer: TextIO
 
     def __init__(
         self,
-        reader: TextIO,
+        reader: TextIO | BufferedIOBase,
         writer: TextIO,
         *,
+        reader_encoding: str = "utf-8",
         drain_timeout: float | None = 30.0,
         max_payload_chars: int = Response.DEFAULT_MAX_PAYLOAD_CHARS,
         ignore_preamble: bool = False,
@@ -290,6 +292,7 @@ class Pipe:
         self._writer = writer
         self._decoder = Response(
             reader,
+            encoding=reader_encoding,
             max_payload_chars=max_payload_chars,
             ignore_preamble=ignore_preamble,
             max_preamble_chars=max_preamble_chars,
@@ -420,7 +423,7 @@ class Pipe:
 
         self._thread = threading.Thread(
             target=loop,
-            name="skillbridge-pipe-reader",
+            name="allegrobridge-pipe-reader",
             daemon=True,
         )
         self._thread.start()

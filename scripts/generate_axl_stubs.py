@@ -1,7 +1,5 @@
 # Copyright (c) 2025-2026 Bai Junyan and contributors.
 # SPDX-License-Identifier: LGPL-3.0-or-later
-"""Parse bundled Allegro API references for static stub generation."""
-
 from __future__ import annotations
 
 import argparse
@@ -1202,10 +1200,13 @@ def render_stub(specs: Sequence[ApiSpec]) -> str:
         '# mypy: disable-error-code="override, overload-cannot-match, overload-overlap"',
         'from typing import Literal, overload',
         '',
-        'from skillbridge.client.expr import Expr',
-        'from skillbridge.client.functions import FunctionCollection, LiteralRemoteFunction',
-        'from skillbridge.client.hints import Number, Skill, Symbol',
-        'from skillbridge.client.objects import RemoteObject',
+        'from allegrobridge._kernel.client.expr import Expr',
+        (
+            'from allegrobridge._kernel.client.functions import FunctionCollection, '
+            'LiteralRemoteFunction'
+        ),
+        'from allegrobridge._kernel.client.hints import Number, Skill, Symbol',
+        'from allegrobridge._kernel.client.objects import RemoteObject',
         '',
     ]
     for spec in callable_specs:

@@ -10,8 +10,8 @@ from sys import executable
 from threading import Thread
 from tty import setraw
 
-from skillbridge.protocol.response import Response, RespStatus
-from skillbridge.server import python_server
+from allegrobridge._kernel.protocol.response import Response, RespStatus
+from allegrobridge._kernel.server import python_server
 
 
 class Virtuoso(Thread):

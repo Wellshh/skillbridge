@@ -2,7 +2,7 @@
 ;;; SPDX-License-Identifier: LGPL-3.0-or-later
 ;;; test_server.ils - Unit tests for python_server.il using qtest
 
-(qcover::load (strcat (qub::scriptDir) "/../../skillbridge/server/python_server.il"))
+(qcover::load (strcat (qub::scriptDir) "/../../allegrobridge/_kernel/server/python_server.il"))
 
 (defun __pyTestServerState ()
   (list pyStartServer.ipc
@@ -139,7 +139,7 @@
               '(t running t t nil nil nil nil stopped t t t)
               (list firstResult
                     firstState
-                    (not (null (index (car commands) "-m skillbridge.server.python_server")))
+                    (not (null (index (car commands) "-m allegrobridge._kernel.server.python_server")))
                     (null (index (car commands) "python_server.py"))
                     (not (null (index (car commands) "--single")))
                     (not (null (index (car commands) "--force-tcp")))
@@ -221,19 +221,19 @@
                 unsetShellEnvVar("PYTHONPATH"))
             (__pyTestRestoreServerState savedState)))))
 
-    ; Regression: moduleFolder must be the repo root (skillbridge package's
+    ; Regression: moduleFolder must be the repo root (allegrobridge package's
     ; PARENT), not the package dir. __pySpawnServer sets PYTHONPATH to it so a
-    ; python with no editable install can `import skillbridge`. With the package
-    ; dir, `import skillbridge` fails (ModuleNotFoundError) -- the package dir
-    ; has no `skillbridge/` child. The package's __init__.py therefore lives at
-    ; moduleFolder/skillbridge/__init__.py, never at moduleFolder/__init__.py.
+    ; python with no editable install can `import allegrobridge`. With the package
+    ; dir, `import allegrobridge` fails (ModuleNotFoundError) -- the package dir
+    ; has no `allegrobridge/` child. The package's __init__.py therefore lives at
+    ; moduleFolder/allegrobridge/__init__.py, never at moduleFolder/__init__.py.
     (qtest::TestCase test_module_folder_is_package_parent
-      (let ((pkgInit (strcat pyStartServer.moduleFolder "/skillbridge/__init__.py"))
+      (let ((pkgInit (strcat pyStartServer.moduleFolder "/allegrobridge/__init__.py"))
             (rootInit (strcat pyStartServer.moduleFolder "/__init__.py")))
         (qtest::assertEqual
           (list t nil)
           (list (isFile pkgInit) (isFile rootInit))
-          ?msg "moduleFolder must be the package parent so PYTHONPATH resolves skillbridge")))
+          ?msg "moduleFolder must be the package parent so PYTHONPATH resolves allegrobridge")))
 
     (qtest::TestCase test_kill_and_restart_lifecycle
       (let ((originalKill (getd '__pyIpcKillProcess))

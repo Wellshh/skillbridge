@@ -4,8 +4,8 @@ import pytest
 from pytest_benchmark.fixture import BenchmarkFixture
 
 from allegrobridge import Allegro
+from allegrobridge._kernel.client.translator import DefaultTranslator
 from allegrobridge.client.api import BoardInfo, ComponentInfo, NetInfo
-from skillbridge.client.translator import DefaultTranslator
 
 _PLUS_RESULT = 3
 _ONE_MIB = 1_048_576

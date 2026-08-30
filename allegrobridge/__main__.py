@@ -10,7 +10,7 @@ here = Path(__file__).parent.resolve()
 
 
 def print_skill_script_locations() -> None:
-    python_server = (here.parent / 'skillbridge' / 'server' / 'python_server.il').resolve()
+    python_server = (here / '_kernel' / 'server' / 'python_server.il').resolve()
     allegro_server = (here / 'server' / 'allegro_server.il').resolve()
 
     print('Type this into the Allegro SKILL console:')

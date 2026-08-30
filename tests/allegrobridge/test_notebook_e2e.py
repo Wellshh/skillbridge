@@ -15,11 +15,11 @@ from typing import Any, cast
 from pytest import TempPathFactory, fixture, mark, raises
 
 from allegrobridge import Allegro, Workspace
+from allegrobridge._kernel import UNBOUND, RemoteObject, RemoteTable, RemoteVector
+from allegrobridge._kernel.client.hints import SkillCode
 from allegrobridge.client.translator import Translator
 from allegrobridge.util import ASSETS_DIR
-from skillbridge import UNBOUND, RemoteObject, RemoteTable, RemoteVector
-from skillbridge.client.hints import SkillCode
-from skillbridge.test.channel import DummyChannel
+from tests.support.channel import DummyChannel
 
 JUPYTER_PROBES = (
     '_ipython_canary_method_should_not_exist_',

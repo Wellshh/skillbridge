@@ -10,9 +10,9 @@ from socket import socket
 import pytest
 
 from allegrobridge import Allegro
+from allegrobridge._kernel.client.hints import Symbol
 from allegrobridge.client.api import BoardInfo
 from allegrobridge.util import ASSETS_DIR
-from skillbridge.client.hints import Symbol
 
 _BENCHMARK_CONTEXT: dict[str, object] = {}
 
