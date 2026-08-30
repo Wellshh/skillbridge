@@ -92,6 +92,12 @@ class DirectChannel(Channel):
 
 
 class TcpChannel(Channel):
+    # NOT thread-safe. send() is synchronous and single-in-flight with no
+    # request id, so two threads calling send() at once get each other's
+    # responses. Do not close() from another thread during an in-flight send():
+    # its receive treats the closed socket as a dead server and reconnect()
+    # silently reopens the channel you just closed. Serialize cross-thread use.
+
     address_family = AF_INET
     socket_kind = SOCK_STREAM
 
