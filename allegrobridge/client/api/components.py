@@ -8,7 +8,7 @@ from typing import Literal
 from pydantic import TypeAdapter
 
 from allegrobridge._kernel.client.hints import Skill
-from allegrobridge.client.api.geometry import _coerce_finite_float, _OptionalLocated
+from allegrobridge.client.api.geometry import _OptionalLocated, finite
 from allegrobridge.client.base import KeyedCollection
 from allegrobridge.client.base._rpc import RpcArgs, _core_api, read, write
 
@@ -60,9 +60,9 @@ class ComponentsApi(KeyedCollection[str, ComponentInfo]):
     ) -> RpcArgs:
         return (
             refdes,
-            _coerce_finite_float(x),
-            _coerce_finite_float(y),
-            None if rotation is None else _coerce_finite_float(rotation),
+            finite(x),
+            finite(y),
+            None if rotation is None else finite(rotation),
         )
 
     @write(_MOVE_BY_PROCEDURE, _COMPONENTS)
@@ -83,6 +83,6 @@ class ComponentsApi(KeyedCollection[str, ComponentInfo]):
             refdeses.append(component.refdes)
         return (
             refdeses,
-            _coerce_finite_float(dx),
-            _coerce_finite_float(dy),
+            finite(dx),
+            finite(dy),
         )

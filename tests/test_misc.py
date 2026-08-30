@@ -7,6 +7,7 @@ from pathlib import Path
 from subprocess import check_output, run
 from textwrap import dedent
 from types import SimpleNamespace
+from typing import Any, cast
 from unittest.mock import Mock
 
 from pytest import mark, raises
@@ -33,7 +34,8 @@ def test_obsolete_skill_container_wrappers_are_not_exported() -> None:
 
 @mark.parametrize(('id_', 'repr_'), [('0x10', 16), ('00001F', 31), ('10', 10)])
 def test_skill_id(id_, repr_):
-    assert RemoteObject(DummyChannel(), ..., SkillCode(f'__py_db_{id_}')).skill_id == repr_
+    remote = RemoteObject(DummyChannel(), cast('Any', ...), SkillCode(f'__py_db_{id_}'))
+    assert remote.skill_id == repr_
 
 
 def test_workspace_get_item():
@@ -226,7 +228,7 @@ def test_remote_table_dunders_do_not_hide_remote_io() -> None:
     with raises(TypeError, match=r'length\(\)'):
         bool(table)
     with raises(TypeError):
-        len(table)
+        len(table)  # type: ignore[arg-type]
     assert not channel.outputs
 
 
@@ -331,7 +333,7 @@ def test_unbound_is_a_public_read_only_sentinel() -> None:
     assert str(skillbridge_module.UNBOUND) == 'UNBOUND'
     assert repr(skillbridge_module.UNBOUND) == 'UNBOUND'
     with raises(AttributeError):
-        skillbridge_module.UNBOUND.value = 1
+        skillbridge_module.UNBOUND.value = 1  # type: ignore[attr-defined,misc]
 
 
 def test_remote_vector_dunders_and_negative_indexes_do_not_send_requests() -> None:
@@ -346,7 +348,7 @@ def test_remote_vector_dunders_and_negative_indexes_do_not_send_requests() -> No
     with raises(TypeError, match=r'length\(\)'):
         bool(vector)
     with raises(TypeError):
-        len(vector)
+        len(vector)  # type: ignore[arg-type]
     with raises(IndexError, match='-1'):
         _ = vector[-1]
     with raises(IndexError, match='-1'):
@@ -478,33 +480,36 @@ def test_static_completion_imports_mypy_generator() -> None:
 
 
 def test_double_hex_prefix_does_not_crash():
-    remote = RemoteObject(DummyChannel(), ..., SkillCode('__py_stuff_0x0xcafe'))
+    remote = RemoteObject(DummyChannel(), cast('Any', ...), SkillCode('__py_stuff_0x0xcafe'))
 
     assert remote.skill_id == 0xCAFE
     assert remote.skill_parent_type == 'stuff'
-    assert RemoteObject(DummyChannel(), ..., SkillCode('__py_stuff_0xcafe')).skill_id == 0xCAFE
+    assert (
+        RemoteObject(DummyChannel(), cast('Any', ...), SkillCode('__py_stuff_0xcafe')).skill_id
+        == 0xCAFE
+    )
 
 
 def test_object_representation_does_not_send_requests():
     assert (
-        str([RemoteObject(DummyChannel(), ..., SkillCode('__py_stuff_0x0xcafe'))])
+        str([RemoteObject(DummyChannel(), cast('Any', ...), SkillCode('__py_stuff_0x0xcafe'))])
         == '[<remote object@0xcafe>]'
     )
 
 
 def test_remote_objects_are_hashable_and_deduplicate():
     channel = DummyChannel()
-    first = RemoteObject(channel, ..., SkillCode('__py_db_123'))
-    second = RemoteObject(channel, ..., SkillCode('__py_db_123'))
-    third = RemoteObject(channel, ..., SkillCode('__py_db_234'))
+    first = RemoteObject(channel, cast('Any', ...), SkillCode('__py_db_123'))
+    second = RemoteObject(channel, cast('Any', ...), SkillCode('__py_db_123'))
+    third = RemoteObject(channel, cast('Any', ...), SkillCode('__py_db_234'))
 
     assert len({first, second, third}) == 2
     assert {first: 'value'}[second] == 'value'
 
 
 def test_remote_objects_from_different_channels_are_not_equal():
-    first = RemoteObject(DummyChannel(), ..., SkillCode('__py_db_123'))
-    second = RemoteObject(DummyChannel(), ..., SkillCode('__py_db_123'))
+    first = RemoteObject(DummyChannel(), cast('Any', ...), SkillCode('__py_db_123'))
+    second = RemoteObject(DummyChannel(), cast('Any', ...), SkillCode('__py_db_123'))
 
     assert first != second
     assert len({first, second}) == 2
@@ -512,10 +517,10 @@ def test_remote_objects_from_different_channels_are_not_equal():
 
 def test_remote_object_identity_includes_channel_epoch():
     channel = DummyChannel()
-    first = RemoteObject(channel, ..., SkillCode('__py_db_123'))
+    first = RemoteObject(channel, cast('Any', ...), SkillCode('__py_db_123'))
     cache = {first}
     channel._epoch += 1
-    second = RemoteObject(channel, ..., SkillCode('__py_db_123'))
+    second = RemoteObject(channel, cast('Any', ...), SkillCode('__py_db_123'))
 
     assert first != second
     assert first in cache

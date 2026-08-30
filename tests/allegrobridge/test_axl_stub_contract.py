@@ -17,9 +17,9 @@ def _literal_value(annotation: ast.expr | None) -> str | None:
     if not isinstance(annotation.value, ast.Name) or annotation.value.id != 'Literal':
         return None
     value = annotation.slice
-    if isinstance(value, ast.Index):
-        value = value.value
-    return value.value if isinstance(value, ast.Constant) and isinstance(value.value, str) else None
+    if isinstance(value, ast.Constant) and isinstance(value.value, str):
+        return value.value
+    return None
 
 
 def test_generated_stub_declares_axl_contract() -> None:
@@ -29,7 +29,9 @@ def test_generated_stub_declares_axl_contract() -> None:
     classes = {node.name: node for node in tree.body if isinstance(node, ast.ClassDef)}
 
     axl_methods = {
-        node.target.id for node in classes['Axl'].body if isinstance(node, ast.AnnAssign)
+        node.target.id
+        for node in classes['Axl'].body
+        if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Name)
     }
     assert {
         'air_gap',
@@ -42,7 +44,9 @@ def test_generated_stub_declares_axl_contract() -> None:
     } <= axl_methods
 
     db_methods = {
-        node.target.id for node in classes['AxlDB'].body if isinstance(node, ast.AnnAssign)
+        node.target.id
+        for node in classes['AxlDB'].body
+        if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Name)
     }
     assert {
         'create_prop_dict_entry',
@@ -91,6 +95,8 @@ def test_generated_stub_declares_axl_contract() -> None:
     )
     member_doc = axl_body[get_design_member + 1]
     assert isinstance(member_doc, ast.Expr)
+    assert isinstance(member_doc.value, ast.Constant)
+    assert isinstance(member_doc.value.value, str)
     assert 'axlDBGetDesign()' in member_doc.value.value
 
     stub = STUB_PATH.read_text(encoding='utf-8')

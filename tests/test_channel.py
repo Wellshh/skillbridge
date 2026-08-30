@@ -11,7 +11,7 @@ from io import StringIO
 from select import select
 from socket import socket, socketpair
 from threading import Thread
-from typing import Literal
+from typing import Any, Literal, cast
 from unittest.mock import Mock
 
 from _pytest.fixtures import SubRequest
@@ -115,8 +115,8 @@ def channel_raising(error: BaseException) -> tuple[TcpChannel, TrackingSocket]:
     channel._max_transmission_length = 1_000_000
     channel._epoch = 0
     channel.connected = True
-    channel.socket = raw_socket
-    channel._socket = RaisingSocketWrapper(error)
+    cast("Any", channel).socket = raw_socket
+    channel._socket = cast("Any", RaisingSocketWrapper(error))
     return channel, raw_socket
 
 
@@ -269,7 +269,7 @@ def test_function_call_is_send(server: Virtuoso, ws: Workspace):
     server.answer_success("1")
     cell = ws.ge.get_edit_cell_view()
 
-    assert "geGetEditCellView" in server.last_question
+    assert "geGetEditCellView" in (server.last_question or '')
     assert cell == 1
 
     function = ws.ge.get_edit_cell_view
@@ -285,7 +285,7 @@ def test_unknown_function_raises(server: Virtuoso, ws: Workspace):
         ws.ge.this_does_not_exist_and_will_hopefully_never_exist()
 
     server.answer_success('Remote("__py_object_123")')
-    result = ws.ge.get_edit_cell_view()
+    result = cast("RemoteObject", ws.ge.get_edit_cell_view())
     with raises(AttributeError):
         _ = result._repr_html_
 
@@ -299,7 +299,7 @@ def test_list_is_mapped(server: Virtuoso, ws: Workspace):
 
 def test_property_list_is_mapped(server: Virtuoso, ws: Workspace):
     server.answer_success("{'x': 1, 'y': 2}")
-    result = ws.ge.get_edit_cell_view()
+    result = cast("dict[str, Any]", ws.ge.get_edit_cell_view())
 
     assert result["x"] == 1
     assert result["y"] == 2
@@ -321,27 +321,27 @@ def test_object_is_mapped(server: Virtuoso, ws: Workspace):
 
 def test_db_object_repr(server: Virtuoso, ws: Workspace):
     server.answer_object("db", 1234)
-    db = ws.ge.get_edit_cell_view()
+    db = cast("RemoteObject", ws.ge.get_edit_cell_view())
     assert str(db) == '<remote db@0x4d2>'
 
     server.answer_success('"instance"')
     assert db.remote_type() == 'instance'
-    assert "objType" in server.last_question
+    assert "objType" in (server.last_question or '')
 
 
 def test_dd_object_repr(server: Virtuoso, ws: Workspace):
     server.answer_object("dd", 1234)
-    dd = ws.ge.get_edit_cell_view()
+    dd = cast("RemoteObject", ws.ge.get_edit_cell_view())
     assert str(dd) == '<remote dd@0x4d2>'
 
     server.answer_success('Symbol("DDthingTYPE")')
     assert dd.remote_type() == 'thing'
-    assert "objType" in server.last_question
+    assert "objType" in (server.last_question or '')
 
 
 def test_nested_remote_object(server: Virtuoso, ws: Workspace):
     server.answer_object("parent", 1234)
-    parent = ws.ge.get_edit_cell_view()
+    parent = cast("RemoteObject", ws.ge.get_edit_cell_view())
     server.answer_object("child", 1234)
     child = parent.child
     assert isinstance(child, RemoteObject)
@@ -352,19 +352,19 @@ def test_send_back_objects(server: Virtuoso, ws: Workspace):
     result = ws.ge.get_edit_cell_view()
 
     server.answer_object("window", 234)
-    window = ws.ge.get_cell_view_window(result)
+    window = cast("RemoteObject", ws.ge.get_cell_view_window(result))
 
     assert window._variable == "__py_window_234"
 
 
 def test_setattr(server: Virtuoso, ws: Workspace):
     server.answer_object("object", 123)
-    result = ws.ge.get_edit_cell_view()
+    result = cast("RemoteObject", ws.ge.get_edit_cell_view())
 
     server.answer_success("123")
     result.x = 234
 
-    assert server.last_question.strip().replace(" ", "") == "__py_object_123->x=234"
+    assert (server.last_question or '').strip().replace(" ", "") == "__py_object_123->x=234"
 
 
 def test_object_equality(server: Virtuoso, ws: Workspace):
@@ -409,7 +409,7 @@ class TestTcpChannelCleanup:
         raw_socket = FailingConnectSocket()
 
         with raises(TimeoutError):
-            channel.connect(raw_socket)
+            channel.connect(cast("Any", raw_socket))
 
         assert raw_socket.closed
         assert not channel.connected
@@ -526,7 +526,7 @@ class TestTcpChannelCleanup:
         assert channel.try_repair() == 'late response'
 
         error = RuntimeError('still broken')
-        channel._socket = RaisingSocketWrapper(error)
+        channel._socket = cast("Any", RaisingSocketWrapper(error))
         assert channel.try_repair() is error
 
     def test_close_sends_close_frame_and_releases_socket(
@@ -653,7 +653,7 @@ def test_warning_is_printed(server: Virtuoso, ws: Workspace):
 
 def test_funcall_shortcut(server: Virtuoso, ws: Workspace):
     server.answer_object("testfun", 123)
-    fun = ws.ge.get_edit_cell_view()
+    fun = cast("Any", ws.ge.get_edit_cell_view())
 
     server.answer_success("42")
     assert fun() == 42
@@ -674,7 +674,7 @@ def test_funcall_shortcut(server: Virtuoso, ws: Workspace):
 
 def test_open_file(server: Virtuoso, ws: Workspace):
     server.answer_object("openfile", 22)
-    f = ws.ge.get_edit_cell_view()
+    f = cast("RemoteObject", ws.ge.get_edit_cell_view())
 
     assert f.remote_type() == "open_file"
     assert str(f) == '<remote open_file>'
@@ -684,7 +684,7 @@ def test_open_file(server: Virtuoso, ws: Workspace):
 def test_globals_direct_write(server: Virtuoso, ws: Workspace):
     g = ws.globals("prefix")
     server.answer_success("None")
-    g.x << "123"
+    _ = g.x << "123"
     assert server.last_question == 'prefixX = "123" nil'
 
 
@@ -769,7 +769,7 @@ def test_globals_raises_when_attribute_is_invalid(
 def test_raw_object_access(server: Virtuoso, ws: Workspace):
     server.answer_object("object", 22)
 
-    x = ws.db.get_stuff()
+    x = cast("RemoteObject", ws.db.get_stuff())
 
     server.answer_success("123")
     i = x.abc_def

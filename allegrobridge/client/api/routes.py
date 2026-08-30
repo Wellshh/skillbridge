@@ -12,8 +12,7 @@ from allegrobridge.client.api.geometry import (
     LineTo,
     PathStep,
     Point,
-    _coerce_finite_float,
-    _coerce_point,
+    finite,
 )
 from allegrobridge.client.base import Collection, SessionRecord, SkillModule
 from allegrobridge.client.base._rpc import RpcArgs, read, write
@@ -45,14 +44,6 @@ _RouteList = list[RouteInfo]
 _ROUTES = TypeAdapter(_RouteList)
 
 
-def _coerce_step(item: PathStep | Point | tuple[float, float]) -> PathStep:
-    if isinstance(item, LineTo):
-        return LineTo(_coerce_point(item.end))
-    if isinstance(item, ArcTo):
-        return ArcTo(_coerce_point(item.end), _coerce_point(item.center), item.clockwise)
-    return LineTo(_coerce_point(item))
-
-
 class RoutesApi(Collection[RouteInfo]):
     module = SkillModule('allegrobridge.server', 'extensions/routes.il')
 
@@ -80,19 +71,19 @@ class RoutesApi(Collection[RouteInfo]):
     def create(
         self,
         net: str,
-        path: Sequence[Point | tuple[float, float] | PathStep],
+        path: Sequence[Point | tuple[float, float] | LineTo | ArcTo],
         layer: str,
         width: float,
     ) -> RpcArgs:
         if len(path) < _POINT_SIZE:
             raise ValueError('a route requires at least two points')
-        width = _coerce_finite_float(width)
+        width = finite(width)
         if width <= 0:
             raise ValueError('route width must be positive')
         return (
             net,
-            _coerce_point(cast('Point | tuple[float, float]', path[0])),
-            [_coerce_step(item) for item in path[1:]],
+            Point.of(cast('Point | tuple[float, float]', path[0])),
+            [PathStep.of(item) for item in path[1:]],
             layer,
             width,
         )

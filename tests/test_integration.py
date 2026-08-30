@@ -3,11 +3,12 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 from pathlib import Path
 from time import sleep
+from typing import Any, cast
 from warnings import warn
 
 from pytest import fixture, mark, raises, skip
 
-from allegrobridge._kernel import UNBOUND, Expr, RemoteTable, Symbol, Workspace
+from allegrobridge._kernel import UNBOUND, Expr, RemoteObject, RemoteTable, Symbol, Workspace
 
 here = Path(__file__).parent
 
@@ -32,7 +33,7 @@ def dd_libs(ws: Workspace) -> list:
     integration tests probe it once and skip gracefully on other backends.
     """
     try:
-        return ws.dd.get_lib_list()
+        return cast('list', ws.dd.get_lib_list())
     except RuntimeError as exc:
         if 'undefined function' in str(exc):
             skip('ddGetLibList unavailable (not a Virtuoso/dfII backend)')
@@ -96,7 +97,7 @@ def test_hash_table_snapshot_preserves_non_dict_keys(ws: Workspace) -> None:
     t = ws.make_table('T')
 
     t[None] = Symbol('nilValue')
-    t[[1, 2]] = 3
+    t[cast('Any', [1, 2])] = 3
 
     snapshot = t.snapshot()
     assert (None, Symbol('nilValue')) in snapshot
@@ -146,7 +147,7 @@ def test_missing_key_raises_key_error(ws: Workspace) -> None:
 
 
 def test_open_file(ws: Workspace) -> None:
-    file = ws['outfile']('__test_skill_python.txt', 'w')
+    file = cast('RemoteObject', ws['outfile']('__test_skill_python.txt', 'w'))
 
     assert file.skill_parent_type == 'openfile'
     assert file.remote_type() == 'open_file'
@@ -184,7 +185,7 @@ def test_list_expression(ws: Workspace, dd_libs: list) -> None:
     cells = lib.expr().cells.as_list()
 
     assert isinstance(lib.cells, list)
-    assert ws['length'](cells) > 0
+    assert cast('int', ws['length'](cells)) > 0
     assert ws['length'](cells.where(lambda cell: cell.name == '__no_cell_is_named_this')) == 0
 
     assert ws.eval(cells[0]) == lib.cells[0]
@@ -211,7 +212,7 @@ def test_list_expression(ws: Workspace, dd_libs: list) -> None:
     write_only = cells.where(lambda cell: ~cell.is_readable & cell.is_writable)
     nothing = cells.where(lambda cell: ~cell.is_readable & ~cell.is_writable)
     assert ws['length'](cells) == sum(
-        ws['length'](group) for group in (read_only, read_write, write_only, nothing)
+        cast('int', ws['length'](group)) for group in (read_only, read_write, write_only, nothing)
     )
 
 
@@ -293,7 +294,7 @@ def test_form_vectors_have_dir(ws: Workspace) -> None:
 @mark.skip
 def test_form_vectors_have_getattr(ws: Workspace) -> None:
     form = ws.hi.get_current_form()
-    assert isinstance(form.button_layout, list)
+    assert isinstance(cast('Any', form).button_layout, list)
 
 
 def test_outstring(ws: Workspace) -> None:

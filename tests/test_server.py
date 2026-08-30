@@ -14,7 +14,7 @@ from socket import socketpair
 from socketserver import BaseServer
 from sys import platform
 from types import SimpleNamespace
-from typing import cast
+from typing import Any, cast
 
 from pytest import FixtureRequest, MonkeyPatch, approx, fixture, mark, param, raises
 
@@ -80,7 +80,7 @@ class Server(threading.Thread):
         try:
             server = python_server.create_server(
                 self.identifier,
-                pipe=self.redirect,
+                pipe=cast('Any', self.redirect),
                 single=False,
                 timeout=None,
                 force_tcp=self.use_tcp,
@@ -279,7 +279,7 @@ def test_windows_factory_uses_tcp_and_preserves_timeout(
     monkeypatch.setattr(python_server, 'platform', 'win32')
     server = python_server.create_server(
         '0',
-        pipe=redirect,
+        pipe=cast('Any', redirect),
         single=True,
         timeout=0.25,
         force_tcp=False,
@@ -350,7 +350,7 @@ def test_pipe_death_watcher_exits_process(monkeypatch: MonkeyPatch) -> None:
     exits: list[int] = []
     monkeypatch.setattr(python_server.os, '_exit', exits.append)
 
-    python_server._watch_pipe_death(pipe)
+    python_server._watch_pipe_death(cast('Any', pipe))
 
     assert exits == [0]
 
@@ -360,7 +360,7 @@ def test_pipe_death_watcher_ignores_local_close(monkeypatch: MonkeyPatch) -> Non
     exits: list[int] = []
     monkeypatch.setattr(python_server.os, '_exit', exits.append)
 
-    python_server._watch_pipe_death(pipe)
+    python_server._watch_pipe_death(cast('Any', pipe))
 
     assert exits == []
 
@@ -371,7 +371,7 @@ def test_create_server_rejects_payload_size_smaller_than_minimum(
     with raises(AssertionError, match='max_payload_size must be at least 28 bytes'):
         python_server.create_server(
             '0',
-            pipe=redirect,
+            pipe=cast('Any', redirect),
             single=True,
             timeout=None,
             force_tcp=True,
@@ -425,7 +425,7 @@ def test_tcp_server_bind_uses_fast_path_when_available(monkeypatch: MonkeyPatch)
     server = python_server.SingleTcpServer(
         '0',
         python_server.Handler,
-        pipe=redirect,
+        pipe=cast('Any', redirect),
         timeout=None,
     )
     try:

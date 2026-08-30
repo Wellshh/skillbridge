@@ -9,7 +9,7 @@ from collections.abc import Sequence
 from dataclasses import FrozenInstanceError
 from inspect import signature
 from pathlib import Path
-from typing import Annotated, TypeVar
+from typing import Annotated, Any, TypeVar
 from unittest.mock import MagicMock, Mock
 from weakref import ref
 
@@ -765,13 +765,13 @@ class TestReadApi:
             api.sequence()
         with pytest.raises(AllegroProtocolError, match='__abNonEmptyList'):
             api.non_empty_items()
-        assert ProbeApi.items.spec == RpcDef('read', '__abList')
-        assert DrcApi.check.spec == RpcDef('direct', '__abCheckDrcs')
+        assert ProbeApi.items.spec == RpcDef('read', '__abList')  # type: ignore[attr-defined]
+        assert DrcApi.check.spec == RpcDef('direct', '__abCheckDrcs')  # type: ignore[attr-defined]
         assert ComponentsApi.move.spec == RpcDef('write', '__abMoveComponent')
         assert ComponentsApi.move_by.spec == RpcDef('write', '__abMoveComponentsBy')
-        assert not hasattr(ProbeApi.items.spec, 'nil_as_empty_list')
+        assert not hasattr(ProbeApi.items.spec, 'nil_as_empty_list')  # type: ignore[attr-defined]
         with pytest.raises(FrozenInstanceError):
-            ProbeApi.items.spec.kind = 'write'
+            ProbeApi.items.spec.kind = 'write'  # type: ignore[attr-defined,misc]
 
     def test_declaration_preserves_signature_and_sends_once(self) -> None:
         workspace = MagicMock()
@@ -1294,7 +1294,7 @@ class TestReadApi:
 
         command = session.routes.create.command(
             'GND',
-            [(1.0, 2.0), (3.0, 4.0), ArcTo((5.0, 6.0), (2.0, 3.0), clockwise=True)],
+            [(1.0, 2.0), (3.0, 4.0), ArcTo(Point(5.0, 6.0), Point(2.0, 3.0), clockwise=True)],
             'ETCH/TOP',
             0.2,
         )
@@ -1594,7 +1594,7 @@ class TestWriteApi:
         assert remote.expr.call_args.args == ('R1', 1.0, 2.0, 90.0)
         workspace.transaction.assert_not_called()
         with pytest.raises(FrozenInstanceError):
-            command.proc = '__changed'
+            command.proc = '__changed'  # type: ignore[misc]
 
         moved = session.components.move('R1', x=1.0, y=2.0)
 
@@ -2016,7 +2016,7 @@ class TestBatch:
         workspace.__getitem__.return_value.expr.return_value = Expr.raw_skill('move1()')
         session = _session(workspace)
         error = ValueError('body')
-        results: list[CmdResult[object]] = []
+        results: list[CmdResult[Any]] = []
 
         def cancel() -> None:
             with session.batch() as batch:
@@ -2037,7 +2037,7 @@ class TestBatch:
         workspace.__getitem__.return_value.expr.return_value = Expr.raw_skill('move1()')
         workspace.transaction.return_value = payload
         session = _session(workspace)
-        results: list[CmdResult[object]] = []
+        results: list[CmdResult[Any]] = []
 
         def execute() -> None:
             with session.batch() as batch:
@@ -2057,7 +2057,7 @@ class TestBatch:
         ]
         workspace.transaction.return_value = [self._payload('R1', 1.0), None]
         session = _session(workspace)
-        results: list[CmdResult[object]] = []
+        results: list[CmdResult[Any]] = []
 
         def execute() -> None:
             with session.batch() as batch:

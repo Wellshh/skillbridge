@@ -9,7 +9,7 @@ from io import StringIO
 from json import dumps
 from pathlib import Path
 from types import SimpleNamespace
-from typing import Any
+from typing import Any, cast
 
 from pytest import MonkeyPatch, mark, raises
 
@@ -19,7 +19,7 @@ from allegrobridge._kernel import Workspace
 from allegrobridge._kernel.client import workspace as workspace_module
 from allegrobridge._kernel.client.channel import Channel
 from allegrobridge._kernel.client.expr import Expr
-from allegrobridge._kernel.client.objects import RemoteTable, RemoteVector
+from allegrobridge._kernel.client.objects import RemoteObject, RemoteTable, RemoteVector
 from allegrobridge._kernel.client.translator import DefaultTranslator
 from allegrobridge._kernel.client.workspace import (
     _open_workspaces,
@@ -31,7 +31,8 @@ from allegrobridge.exceptions import ExtensionError
 
 class DummyChannel(Channel):
     def send(self, data: str) -> str:
-        pass
+        del data
+        return ''
 
     def flush(self) -> None:
         pass
@@ -39,7 +40,7 @@ class DummyChannel(Channel):
     def try_repair(self) -> Any:
         pass
 
-    def close(self):
+    def close(self) -> None:
         raise RuntimeError("no, i won't close")
 
 
@@ -62,7 +63,8 @@ class RejectingChannel(DummyChannel):
         super().__init__(1)
         self.closed = False
 
-    def send(self, _data: str) -> str:
+    def send(self, data: str) -> str:
+        del data
         raise RuntimeError('server rejected the request')
 
     def close(self) -> None:
@@ -170,7 +172,7 @@ def test_allegro_workspace_decodes_remote_handles() -> None:
 
     # The allegro translator must register the Remote/Table/Vector eval types
     # (via _prepare_default_translator) so decoded SKILL handles resolve.
-    result = ws._translator.decode('Remote("dbobject:123")')
+    result = cast('RemoteObject', ws._translator.decode('Remote("dbobject:123")'))
     assert result._variable == 'dbobject:123'
 
 
@@ -256,7 +258,7 @@ def test_workspace_direct_mode_uses_original_stdout(monkeypatch: MonkeyPatch) ->
     ws = Workspace.open('direct', direct=True)
 
     assert ws.id == 'direct'
-    assert ws._channel.stdout is stdout
+    assert cast('Any', ws._channel).stdout is stdout
     assert workspace_module.sys.stdout is stderr
 
 
@@ -310,13 +312,13 @@ def test_allegro_workspace_namespaces_and_chaining() -> None:
     )
     assert ws.cns.get_via_zpvf.expr().render() == 'axlCNSGetViaZPVF()'
     assert ws.drc.get_count.expr().render() == 'axlDRCGetCount()'
-    assert ws.form.create.expr('my_form').render() == 'axlFormCreate("my_form")'
+    assert ws.form.create.expr('my_form').render() == 'axlFormCreate("my_form")'  # type: ignore[call-arg,arg-type]
 
     # Fallback to standard axl top-level
     assert ws.axl.clear_sel_set.expr().render() == 'axlClearSelSet()'
     assert ws['plus'].expr(1, 2).render() == 'plus(1 2)'
-    assert ws['axlcreate'].expr().render() == 'axlcreate()'
-    assert ws['axldo'].expr().render() == 'axldo()'
+    assert ws['axlcreate'].expr().render() == 'axlcreate()'  # type: ignore[call-arg]
+    assert ws['axldo'].expr().render() == 'axldo()'  # type: ignore[call-arg]
 
 
 def test_allegro_workspace_annotations_do_not_pollute_base_workspace() -> None:
@@ -336,7 +338,7 @@ def test_allegro_workspace_expr_chaining_and_transaction_integration() -> None:
     )
     assert (design.board_thickness > 1.6).render() == '(axlDBGetDesign()->boardThickness > 1.6)'
 
-    nested_cmd = ws.axl.db_add_prop.expr(design, ['BOARD_THICKNESS', 0.12]).render()
+    nested_cmd = ws.axl.db_add_prop.expr(design, ['BOARD_THICKNESS', 0.12]).render()  # type: ignore[arg-type]
     assert nested_cmd == 'axlDBAddProp(axlDBGetDesign() (list "BOARD_THICKNESS" 0.12))'
 
     res = ws.transaction(nested_cmd)

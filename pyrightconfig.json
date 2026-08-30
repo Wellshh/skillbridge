@@ -1,7 +1,7 @@
 {
     "include": [
         "allegrobridge",
-        "tests/typing_allegrobridge_axl_stubs.py"
+        "tests"
     ],
     "ignore": ["allegrobridge/client/_axl_stubs.pyi"],
     "pythonVersion": "3.10",

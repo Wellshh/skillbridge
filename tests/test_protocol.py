@@ -9,6 +9,7 @@ from os import fdopen, pipe
 from select import select
 from socket import SHUT_WR, socket, socketpair
 from sys import platform
+from typing import Any, cast
 
 from pytest import fixture, mark, raises
 
@@ -18,7 +19,7 @@ from allegrobridge._kernel.exception import (
     PeerClosedError,
     ProtocolError,
 )
-from allegrobridge._kernel.protocol.response import Response, SkillResp
+from allegrobridge._kernel.protocol.response import Response, RespStatus, SkillResp
 from allegrobridge._kernel.protocol.socket import DEFAULT_MAX_PAYLOAD_SIZE, Socket
 
 SOCKET_TIMEOUT_SECONDS = 1.0
@@ -101,12 +102,12 @@ class TestHeader:
 
 class TestReceive:
     def test_collects_fragmented_data(self) -> None:
-        connection = Socket(FragmentedSocket(b'a', b'bc', b'def'))
+        connection = Socket(cast('Any', FragmentedSocket(b'a', b'bc', b'def')))
 
         assert connection.recv(6) == b'abcdef'
 
     def test_reports_peer_closed_from_fake(self) -> None:
-        connection = Socket(FragmentedSocket(b'ab', b'c'))
+        connection = Socket(cast('Any', FragmentedSocket(b'ab', b'c')))
 
         with raises(PeerClosedError) as caught:
             connection.recv(5)
@@ -233,7 +234,11 @@ class TestResponse:
             (Response.RST, 'restart'),
         ],
     )
-    def test_receives_status_and_multiline_payload(self, marker: str, expected_status: str) -> None:
+    def test_receives_status_and_multiline_payload(
+        self,
+        marker: str,
+        expected_status: RespStatus,
+    ) -> None:
         reader = StringIO(f'{marker}line one\nline two{Response.RS}')
 
         assert Response(reader).recv() == SkillResp(expected_status, 'line one\nline two')
@@ -286,7 +291,7 @@ class TestResponse:
             Response.ESC + 'right' + Response.RS,
         )
 
-        assert Response(reader).recv() == SkillResp(
+        assert Response(cast('Any', reader)).recv() == SkillResp(
             'success',
             f'left{Response.RS}{Response.ESC}right',
         )
@@ -327,7 +332,7 @@ class TestResponse:
 
     def test_rejects_unterminated_chunk_above_limit(self) -> None:
         response = Response(
-            FragmentedTextReader(Response.STX + 'ab', Response.RS),
+            cast('Any', FragmentedTextReader(Response.STX + 'ab', Response.RS)),
             max_payload_chars=1,
         )
 
@@ -356,7 +361,7 @@ class TestResponse:
 
     def test_rejects_chunk_without_response_marker(self) -> None:
         with raises(InvalidResponseError) as caught:
-            Response(FragmentedTextReader('noise')).recv()
+            Response(cast('Any', FragmentedTextReader('noise'))).recv()
 
         assert caught.value.response == 'n'
         assert caught.value.reason == 'unexpected character before response frame'
@@ -369,7 +374,7 @@ class TestResponse:
 
     def test_ignore_preamble_discards_noise_across_reads(self) -> None:
         reader = FragmentedTextReader('noise', f'{Response.STX}ok{Response.RS}')
-        response = Response(reader, ignore_preamble=True)
+        response = Response(cast('Any', reader), ignore_preamble=True)
 
         assert response.recv() == SkillResp('success', 'ok')
 
@@ -385,7 +390,7 @@ class TestResponse:
 
     def test_ignore_preamble_rejects_oversized_chunk_before_marker(self) -> None:
         reader = FragmentedTextReader('12345', f'{Response.STX}ok{Response.RS}')
-        response = Response(reader, ignore_preamble=True, max_preamble_chars=4)
+        response = Response(cast('Any', reader), ignore_preamble=True, max_preamble_chars=4)
 
         with raises(FrameTooLargeError) as caught:
             response.recv()
@@ -441,6 +446,6 @@ def test_response_roundtrip_over_os_pipe(
         readable, _, _ = select([reader], [], [], SOCKET_TIMEOUT_SECONDS)
         assert readable == [reader]
 
-    assert Response(reader.buffer, encoding=reader.encoding).recv() == SkillResp(
+    assert Response(cast('Any', reader.buffer), encoding=reader.encoding).recv() == SkillResp(
         'success', 'line one\nline two'
     )

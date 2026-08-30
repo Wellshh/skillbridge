@@ -15,8 +15,14 @@ class Point(NamedTuple):
     x: FiniteFloat
     y: FiniteFloat
 
+    @classmethod
+    def of(cls, value: Point | tuple[float, float]) -> Point:
+        if isinstance(value, Point):
+            return value
+        return _POINT.validate_python(value, strict=True)
+
     def __repr_skill__(self) -> SkillCode:
-        point = _coerce_point(self)
+        point = _POINT.validate_python(self, strict=True)
         return python_value_to_skill(tuple(point))
 
 
@@ -41,7 +47,14 @@ class ArcTo(NamedTuple):
         })
 
 
-PathStep = LineTo | ArcTo
+class PathStep:
+    @staticmethod
+    def of(item: LineTo | ArcTo | Point | tuple[float, float]) -> LineTo | ArcTo:
+        if isinstance(item, ArcTo):
+            return ArcTo(Point.of(item.end), Point.of(item.center), item.clockwise)
+        if isinstance(item, LineTo):
+            return LineTo(Point.of(item.end))
+        return LineTo(Point.of(item))
 
 
 class BBox(NamedTuple):
@@ -80,9 +93,5 @@ _BBOX = TypeAdapter(BBox)
 _FINITE_FLOAT = TypeAdapter(FiniteFloat)
 
 
-def _coerce_point(value: Point | tuple[float, float]) -> Point:
-    return _POINT.validate_python(value, strict=True)
-
-
-def _coerce_finite_float(value: float) -> float:
+def finite(value: float) -> float:
     return _FINITE_FLOAT.validate_python(value, strict=True)

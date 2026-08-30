@@ -8,9 +8,8 @@ from pydantic import TypeAdapter
 
 from allegrobridge.client.api.geometry import (
     Point,
-    _coerce_finite_float,
-    _coerce_point,
     _Located,
+    finite,
 )
 from allegrobridge.client.base import Collection, SkillModule
 from allegrobridge.client.base._rpc import RpcArgs, read, write
@@ -68,4 +67,4 @@ class ViasApi(Collection[ViaInfo]):
         rotation: float = 0.0,
         mirrored: bool = False,
     ) -> RpcArgs:
-        return padstack, _coerce_point(at), net, mirrored, _coerce_finite_float(rotation)
+        return padstack, Point.of(at), net, mirrored, finite(rotation)

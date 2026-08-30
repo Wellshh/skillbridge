@@ -6,6 +6,7 @@ import runpy
 import sys
 from collections.abc import Callable
 from pathlib import Path
+from typing import Any
 
 import pytest
 
@@ -90,7 +91,7 @@ def _reports(tmp_path: Path) -> tuple[list[Path], list[Path]]:
     return baseline, candidate
 
 
-def _rewrite(path: Path, update: Callable[[dict[str, object]], None]) -> None:
+def _rewrite(path: Path, update: Callable[[dict[str, Any]], None]) -> None:
     report = json.loads(path.read_text(encoding='utf-8'))
     update(report)
     path.write_text(json.dumps(report), encoding='utf-8')
@@ -169,7 +170,7 @@ def test_formats_a_deterministic_sorted_report(tmp_path: Path) -> None:
 def test_rejects_incomparable_reports(
     tmp_path: Path,
     label: str,
-    mutate: Callable[[dict[str, object]], None],
+    mutate: Callable[[dict[str, Any]], None],
     error: str,
 ) -> None:
     baseline, candidate = _reports(tmp_path)

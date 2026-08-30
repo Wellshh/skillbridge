@@ -264,8 +264,9 @@ def test_close_waits_until_recursive_descendants_exit() -> None:
         text=True,
     )
     runtime = CliRuntime()
-    runtime._process = parent
+    runtime._process = parent  # type: ignore[assignment]
     runtime._root_process = psutil.Process(parent.pid)
+    assert parent.stdout is not None
     child_pid = int(parent.stdout.readline())
     try:
         runtime._discover_descendants()
@@ -293,8 +294,10 @@ def test_close_uses_saved_identity_after_parent_exits() -> None:
         text=True,
     )
     runtime = CliRuntime()
-    runtime._process = parent
+    runtime._process = parent  # type: ignore[assignment]
     runtime._root_process = psutil.Process(parent.pid)
+    assert parent.stdout is not None
+    assert parent.stdin is not None
     child_pid = int(parent.stdout.readline())
     try:
         runtime._discover_descendants()

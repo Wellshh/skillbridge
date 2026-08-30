@@ -68,7 +68,7 @@ def test_expr_renders_attributes_indexes_and_binary_operations() -> None:
         design['not-valid']
 
     with raises(TypeError, match='as_list'):
-        design.components[0]
+        design.components[0]  # type: ignore[index,arg-type]
 
 
 def test_expr_rejects_python_protocol_attributes() -> None:
@@ -100,7 +100,7 @@ def test_list_expr_renders_list_indexing_and_mapped_attributes() -> None:
         components.each['not-valid']
 
     with raises((AttributeError, TypeError)):
-        components.each.typo = 1
+        components.each.typo = 1  # type: ignore[misc,assignment]
 
 
 def test_list_expr_has_no_nil_decoding_policy() -> None:

@@ -9,6 +9,7 @@ from subprocess import PIPE, STDOUT, Popen
 from sys import executable
 from threading import Thread
 from tty import setraw
+from typing import TextIO
 
 from allegrobridge._kernel.protocol.response import Response, RespStatus
 from allegrobridge._kernel.server import python_server
@@ -20,18 +21,18 @@ class Virtuoso(Thread):
         self.daemon = True
 
         self.force_tcp = force_tcp
-        self.queue = Queue()
-        self.questions = []
+        self.queue: Queue[str] = Queue()
+        self.questions: list[str] = []
         self.should_run = True
-        self.server = None
+        self.server: Popen[str] | None = None
         self.running = False
-        self.pin = None
+        self.pin: TextIO | None = None
         self.workspace_id = workspace_id
 
     def wait_until_ready(self):
         while not self.running:
             if not self.should_run:
-                raise RuntimeError(f"could not start server:\n {self.server.stdout.read()}")
+                raise RuntimeError("could not start server")
 
     def _create_subprocess(self):
         master, slave = openpty()
@@ -56,7 +57,7 @@ class Virtuoso(Thread):
 
     def _wait_for_notification(self):
         read = self.read()
-        assert read == 'running', f"expected 'running', got {self.server.stdout.read()}"
+        assert read == 'running', f"expected 'running', got {read}"
 
     def run(self):
         try:
@@ -64,8 +65,9 @@ class Virtuoso(Thread):
         finally:
             self.running = False
             self.should_run = False
-            self.server.kill()
-            self.server.wait()
+            if self.server:
+                self.server.kill()
+                self.server.wait()
 
     def _run(self):
         self.questions.clear()
@@ -92,20 +94,24 @@ class Virtuoso(Thread):
         for timeout in (0.1, 0.5, 1, 2, 4, 8):
             if not self.should_run:
                 return None
+            if not self.server or not self.server.stdout:
+                return None
             readable, _, _ = select([self.server.stdout], [], [], timeout)
             if readable:
                 return self.server.stdout.readline().strip()
         return None
 
     def write(self, message: str):
-        self.pin.write(message)
-        self.pin.flush()
+        if self.pin:
+            self.pin.write(message)
+            self.pin.flush()
 
     def stop(self):
         self.should_run = False
         self.join()
-        self.server.kill()
-        self.server.wait()
+        if self.server:
+            self.server.kill()
+            self.server.wait()
 
     def answer_with(self, status: RespStatus, message: str):
         marker = {
@@ -118,9 +124,14 @@ class Virtuoso(Thread):
     def answer_success(self, message: str):
         self.answer_with('success', message)
 
-    def answer_object(self, type_: type, address: str, object_type: str = ()):
+    def answer_object(
+        self,
+        type_: type | str,
+        address: str | int,
+        object_type: str | None = None,
+    ):
         self.answer_success(f'Remote("__py_{type_}_{address}")')
-        if object_type != ():
+        if object_type is not None:
             self.answer_success(repr(object_type))
 
     def answer_failure(self, message: str):
@@ -128,6 +139,4 @@ class Virtuoso(Thread):
 
     @property
     def last_question(self):
-        if self.questions:
-            return self.questions.pop()
-        return None
+        return self.questions[-1] if self.questions else None

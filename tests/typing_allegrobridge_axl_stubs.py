@@ -99,12 +99,7 @@ def check_axl_stub_contract(
             ),
             CmdResult[list[ComponentInfo]],
         )
-        batch.call(
-            session.components.move.command,
-            'R1',
-            x='invalid',  # type: ignore[arg-type]
-            y=2.0,
-        )
+        batch.call(session.components.move.command, 'R1', x='invalid', y=2.0)  # type: ignore[arg-type]
         assert_type(
             batch.call(
                 session.components.move,
