@@ -180,10 +180,11 @@
       (qtest::assertEqual '(2 stopped funobj funobj funobj funobj funobj funobj) actual))
     (qtest::TestCase test_spawn_server_passes_string_id_unquoted
       (setq actual (__pyTestWithFakeIpc handles nil (lambda (a)
-        let((b) pyStartServer.ipc=nil pyStartServer.id="7777" pyStartServer()
-          b=car(funcall(nth(2 a))) list(not(null(index("python_server 7777 INFO" nth(1 b))))
-          index(nth(1 b) "\"7777\""))))))
-      (qtest::assertEqual '(t nil) actual))
+        let((b) pyStartServer.ipc=nil pyStartServer(?id "7777")
+          b=car(funcall(nth(2 a))) nth(1 b)))))
+      (qtest::assertEqual
+        "\"python\" -m allegrobridge._kernel.server.python_server 7777 INFO"
+        actual))
     (qtest::TestCase test_spawn_server_temporarily_sets_and_restores_pythonpath
       (setq actual (__pyTestWithFakeIpc handles nil (lambda (a)
         let((old) old=getShellEnvVar("PYTHONPATH") unsetShellEnvVar("PYTHONPATH")
@@ -374,9 +375,9 @@
       (setq actual (__pyTestWithFakeIpc handles nil (lambda (a)
         let((b post p) pyStartServer.ipc=nil pyStartServer() b=car(funcall(nth(2 a))) p=nth(0 b) post=nth(5 b)
           list(
-            progn(funcall(post 'stale 1) list(pyStartServer.ipc pyStartServer.state))
+            progn(funcall(post 'stale 1) list(eq(p pyStartServer.ipc) pyStartServer.state))
             progn(funcall(post p 0) list(pyStartServer.ipc pyStartServer.state)))))))
-      (qtest::assertEqual '((stale running) (nil stopped)) actual)))
+      (qtest::assertEqual '((t running) (nil stopped)) actual)))
 
   (qtest::TestSuite ((actual nil))
     (qtest::TestCase test_remote_serialization_handles_regex_other_port_and_fallback
@@ -408,8 +409,8 @@
     (qtest::TestCase test_remote_serialization_reuses_variable_for_identical_object
       (setq actual
         (let (first second bindings names result)
-          (setq first (qtest:::makeResult 'Pass "" nil nil))
-          (setq second (qtest:::makeResult 'Pass "" nil nil))
+          (setq first (pcreCompile "abc"))
+          (setq second (pcreCompile "def"))
           (unwindProtect
             (progn
               (setq bindings (__pyTestBindGlobals (list first second)))
@@ -490,10 +491,10 @@
               (setq processB (nth 0 (cadr begins)))
               (setq callbackA (nth 3 (car begins)))
               (setq callbackB (nth 3 (cadr begins)))
-              (funcall callbackA processA "plus(1 ")
-              (funcall callbackB processB "plus(10 ")
-              (funcall callbackA processA "2)\n")
-              (funcall callbackB processB "20)\n")
+              (funcall callbackA processA "0")
+              (funcall callbackB processB "0")
+              (funcall callbackA processA "3\n")
+              (funcall callbackB processB "30\n")
               (mapcar 'cadr (funcall (nth 4 accessors)))))))
       (qtest::assertEqual '("success 3\n" "success 30\n") actual))
     (qtest::TestCase test_run_script_reused_id_drops_late_callbacks
@@ -506,19 +507,19 @@
               (setq oldEntry (car (funcall (nth 2 accessors))))
               (setq oldCallback (nth 3 oldEntry))
               (setq oldPost (nth 5 oldEntry))
-              (funcall oldCallback process "plus(1 ")
+              (funcall oldCallback process "1")
               (funcall oldPost process 0)
               (pyRunScript "new")
               (setq begins (funcall (nth 2 accessors)))
               (setq newEntry (cadr begins))
               (setq newCallback (nth 3 newEntry))
               (setq newPost (nth 5 newEntry))
-              (funcall oldCallback process "2)\n")
-              (funcall newCallback process "plus(3 ")
+              (funcall oldCallback process "2\n")
+              (funcall newCallback process "0")
               (funcall oldPost process 0)
-              (funcall newCallback process "4)\n")
+              (funcall newCallback process "7\n")
               (funcall newPost process 0)
-              (funcall newCallback process "plus(9 9)\n")
+              (funcall newCallback process "18\n")
               (mapcar 'cadr (funcall (nth 4 accessors)))))))
       (qtest::assertEqual '("success 7\n") actual))
     (qtest::TestCase test_reload_rejects_old_callback_and_preserves_public_api
