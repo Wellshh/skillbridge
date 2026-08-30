@@ -3,8 +3,8 @@
 ;;; lexical_multiple.ils - Phase 1A whole-file qualification fixture.
 
 (if t
-    'top-level
-  'top-level)
+    'topLevel
+  'unexpectedTopLevel)
 
 (letseq ((counter 0)
          (worker

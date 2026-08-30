@@ -27,6 +27,7 @@ from allegrobridge.allegro import (
     _resolve_executable,
 )
 from allegrobridge.client.api import (
+    ArcTo,
     Batch,
     BBox,
     BoardApi,
@@ -40,6 +41,7 @@ from allegrobridge.client.api import (
     DrcInfo,
     LayerInfo,
     LayersApi,
+    LineTo,
     NetInfo,
     NetRef,
     NetsApi,
@@ -1281,6 +1283,63 @@ class TestReadApi:
 
         with pytest.raises(AllegroProtocolError, match='__abProjectRoutes'):
             _session(workspace).routes()
+
+    def test_route_create_path_command_builds_step_arguments(self) -> None:
+        workspace = MagicMock()
+        remote = workspace.__getitem__.return_value
+        remote.expr.return_value = Expr.raw_skill('__abCreatePath(...)')
+        session = _session(workspace)
+
+        command = session.routes.create_path.command(
+            'GND',
+            (1.0, 2.0),
+            [LineTo((3.0, 4.0)), ArcTo((5.0, 6.0), (2.0, 3.0), True)],
+            'ETCH/TOP',
+            0.2,
+        )
+
+        assert command.proc == '__abCreatePath'
+        assert command.expr == SkillCode('__abCreatePath(...)')
+        assert remote.expr.call_args.args == (
+            'GND',
+            Point(1.0, 2.0),
+            [LineTo(Point(3.0, 4.0)), ArcTo(Point(5.0, 6.0), Point(2.0, 3.0), True)],
+            'ETCH/TOP',
+            0.2,
+        )
+        assert all(isinstance(step, (LineTo, ArcTo)) for step in remote.expr.call_args.args[2])
+
+    @pytest.mark.parametrize(
+        ('start', 'steps', 'width', 'message'),
+        [
+            ((1.0, 2.0), [], 0.2, 'at least one step'),
+            ((1.0, 2.0), [(3.0, 4.0)], 0.2, 'LineTo or ArcTo'),
+            ((1.0, 2.0), [LineTo((3.0, 4.0))], 0.0, 'positive'),
+        ],
+    )
+    def test_route_create_path_rejects_invalid_geometry(
+        self,
+        start: tuple[float, float],
+        steps: list[object],
+        width: float,
+        message: str,
+    ) -> None:
+        session = _session()
+
+        with pytest.raises(ValueError, match=message):
+            session.routes.create_path.command(  # type: ignore[arg-type]
+                'GND', start, steps, 'ETCH/TOP', width,
+            )
+
+    def test_line_to_repr_skill_emits_property_list(self) -> None:
+        assert LineTo(Point(3.0, 4.0)).__repr_skill__() == SkillCode(
+            'list(nil \'type "line" \'end (list 3.0 4.0))'
+        )
+
+    def test_arc_to_repr_skill_emits_property_list(self) -> None:
+        assert ArcTo(Point(5.0, 6.0), Point(2.0, 3.0), True).__repr_skill__() == SkillCode(
+            'list(nil \'type "arc" \'end (list 5.0 6.0) \'center (list 2.0 3.0) \'clockwise t)'
+        )
 
     @pytest.mark.parametrize(
         ('dynamic', 'encoded'),
