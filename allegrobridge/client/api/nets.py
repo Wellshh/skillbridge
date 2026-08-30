@@ -23,6 +23,8 @@ _NETS = TypeAdapter(_NetList)
 
 @_core_api
 class NetsApi(KeyedCollection[str, NetInfo]):
+    _key_type = str
+
     @read(_PROCEDURE, _NETS)
     def _project(self, name: str | None) -> RpcArgs:
         return (name,)

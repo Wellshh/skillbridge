@@ -27,6 +27,8 @@ _LAYERS = TypeAdapter(_LayerList)
 
 @_core_api
 class LayersApi(KeyedCollection[str, LayerInfo]):
+    _key_type = str
+
     @read(_PROCEDURE, _LAYERS)
     def _project(self, name: str | None, etch_only: bool) -> RpcArgs:
         return name, etch_only

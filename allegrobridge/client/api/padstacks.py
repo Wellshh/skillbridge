@@ -25,6 +25,8 @@ _PADSTACKS = TypeAdapter(_PadstackList)
 
 @_core_api
 class PadstacksApi(KeyedCollection[str, PadstackInfo]):
+    _key_type = str
+
     @read(_PROCEDURE, _PADSTACKS)
     def _project(self, name: str | None) -> RpcArgs:
         return (name,)

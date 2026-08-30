@@ -30,6 +30,13 @@ _PINS = TypeAdapter(_PinList)
 
 @_core_api
 class PinsApi(KeyedCollection[tuple[str, str], PinInfo]):
+    def _is_key(self, key: object) -> bool:
+        match key:
+            case (str(), str()) if isinstance(key, tuple):
+                return True
+            case _:
+                return False
+
     @read(_PROCEDURE, _PINS)
     def _project(
         self,

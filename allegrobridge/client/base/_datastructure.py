@@ -6,6 +6,7 @@ from __future__ import annotations
 
 from collections.abc import Iterator
 from typing import (
+    ClassVar,
     Generic,
     TypeVar,
     cast,
@@ -71,6 +72,11 @@ class _KeyedCollection(_Collection[T], Generic[K, T]):
         T: The record type representing individual items in the remote collection.
     """
 
+    _key_type: ClassVar[type[object]]
+
+    def _is_key(self, key: object) -> bool:
+        return isinstance(key, self._key_type)
+
     def _query_key(self, key: K) -> list[T]:
         raise NotImplementedError
 
@@ -124,6 +130,8 @@ class _KeyedCollection(_Collection[T], Generic[K, T]):
         Returns:
             True if the entity exists, False otherwise.
         """
+        if not self._is_key(key):
+            return False
         try:
             self[cast('K', key)]
         except KeyError:

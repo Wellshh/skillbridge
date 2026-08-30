@@ -48,7 +48,7 @@ moved = pcb.components.move_by(components, dx=10.0, dy=-5.0)
 
 This is one RPC, one Allegro list transform, and one atomic transaction. The
 returned records follow the input order. The input records must belong to the
-current session and generation.
+current session and generation, and each reference designator may appear only once.
 
 ## Preview before committing
 

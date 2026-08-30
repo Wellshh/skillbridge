@@ -460,6 +460,35 @@ class TestCoreKeyedApi:
             nets.get('BROKEN')
 
     @pytest.mark.parametrize(
+        ('api_type', 'key'),
+        [
+            (ComponentsApi, 42),
+            (LayersApi, ('ETCH/TOP',)),
+            (NetsApi, 42),
+            (PadstacksApi, object()),
+            (PinsApi, 'GND'),
+            (PinsApi, 'ab'),
+            (PinsApi, ('U1',)),
+            (PinsApi, ('U1', '1', 'extra')),
+            (PinsApi, (1, '1')),
+            (PinsApi, ['U1', '1']),
+            (PinsApi, 42),
+        ],
+    )
+    def test_contains_rejects_invalid_keys_without_rpc(
+        self,
+        monkeypatch: pytest.MonkeyPatch,
+        api_type: type[SessionApi],
+        key: object,
+    ) -> None:
+        project = Mock()
+        monkeypatch.setattr(api_type, '_project', project)
+        api = api_type(_session())
+
+        assert key not in api  # type: ignore[operator]
+        project.assert_not_called()
+
+    @pytest.mark.parametrize(
         ('api_type', 'snapshot_args', 'key', 'query_args'),
         [
             (ComponentsApi, (None, True), 'R1', ('R1', True)),
@@ -485,6 +514,9 @@ class TestCoreKeyedApi:
         project.assert_called_once_with(*snapshot_args)
         project.reset_mock()
         assert api[key] is item  # type: ignore[index]
+        project.assert_called_once_with(*query_args)
+        project.reset_mock()
+        assert key in api  # type: ignore[operator]
         project.assert_called_once_with(*query_args)
 
 
@@ -1562,6 +1594,19 @@ class TestWriteApi:
                 dx=dx,  # type: ignore[arg-type]
                 dy=dy,  # type: ignore[arg-type]
             )
+
+        workspace.__getitem__.assert_not_called()
+
+    def test_move_by_rejects_duplicate_refdes_before_rpc(self) -> None:
+        workspace = MagicMock()
+        session = _session(workspace)
+        component = _bind_id(
+            ComponentInfo.model_validate(self._component_payload(1.0)),
+            session,
+        )
+
+        with pytest.raises(ValueError, match="duplicate component refdes: 'R1'"):
+            session.components.move_by.command([component, component], dx=1.0, dy=2.0)
 
         workspace.__getitem__.assert_not_called()
 

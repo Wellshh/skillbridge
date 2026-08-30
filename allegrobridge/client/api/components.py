@@ -10,6 +10,7 @@ from pydantic import TypeAdapter
 from allegrobridge.client.api.geometry import _coerce_finite_float, _OptionalLocated
 from allegrobridge.client.base import KeyedCollection
 from allegrobridge.client.base._rpc import RpcArgs, _core_api, read, write
+from skillbridge.client.hints import Skill
 
 _PROCEDURE = '__abProjectComponents'
 _MOVE_PROCEDURE = '__abMoveComponent'
@@ -31,6 +32,8 @@ _COMPONENT = TypeAdapter(ComponentInfo)
 
 @_core_api
 class ComponentsApi(KeyedCollection[str, ComponentInfo]):
+    _key_type = str
+
     @read(_PROCEDURE, _COMPONENTS)
     def _project(self, refdes: str | None, include_unplaced: bool) -> RpcArgs:
         return refdes, include_unplaced
@@ -70,10 +73,16 @@ class ComponentsApi(KeyedCollection[str, ComponentInfo]):
         dx: float,
         dy: float,
     ) -> RpcArgs:
+        refdeses: list[Skill] = []
+        seen: set[str] = set()
         for component in components:
             component._check_id(self._session)  # ruff: ignore[private-member-access]
+            if component.refdes in seen:
+                raise ValueError(f'duplicate component refdes: {component.refdes!r}')
+            seen.add(component.refdes)
+            refdeses.append(component.refdes)
         return (
-            [component.refdes for component in components],
+            refdeses,
             _coerce_finite_float(dx),
             _coerce_finite_float(dy),
         )
