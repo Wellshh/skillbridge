@@ -17,6 +17,7 @@ from allegrobridge import Allegro
 from allegrobridge.util import ASSETS_DIR
 from tests.allegrobridge.probe.connect import (
     ConnectProbe,
+    _classify_activity,
     _classify_blocking,
     _classify_post,
     _classify_rollback,
@@ -294,6 +295,172 @@ def test_post_report_classifies_fire_and_forget() -> None:
     assert workspace.calls[-2] == ('__abpAddConnectPost', (None, 'add connect'))
 
 
+def test_classifies_activity_from_fingerprints() -> None:
+    mid = _route_snapshot(None)
+    unchanged = _route_snapshot(None)
+    changed = _route_snapshot([_route('new')])
+
+    assert _classify_activity(mid, changed) == 'active'
+    assert _classify_activity(mid, unchanged) == 'cancelled'
+
+
+def test_active_report_classifies_background_active() -> None:
+    launch = {
+        'allegro_version': '17.2',
+        'status': 'completed',
+        'before': _route_snapshot(None),
+        'mid': _route_snapshot(None),
+    }
+    drive = {
+        'command': 'pick 0.0 0.0; pick 1.0 1.0; done',
+        'during': _route_snapshot([_route('new')]),
+        'after_rollback': _route_snapshot(None),
+        'rolled_back': True,
+    }
+    workspace = FakeWorkspace(
+        {
+            '__abpAddConnectLaunch': launch,
+            '__abpAddConnectActiveDrive': drive,
+            '__abpAddConnectCleanup': {'after_cleanup': _route_snapshot(None)},
+            'plus': 3,
+        },
+    )
+    probe = ConnectProbe(cast('Workspace', workspace))
+
+    report = probe.active('GND', 'add connect -net GND', (0.0, 0.0), (1.0, 1.0))
+
+    assert isinstance(report['elapsed_seconds'], float)
+    assert report['status'] == 'completed'
+    assert report['route_change'] == 'cancel'
+    assert report['activity'] == 'active'
+    assert report['rollback_coverage'] == 'rolled_back'
+    assert report['ping'] == 3
+    assert workspace.calls[-4] == ('__abpAddConnectLaunch', ('GND', 'add connect -net GND'))
+    assert workspace.calls[-3] == ('__abpAddConnectActiveDrive', ('GND', 0.0, 0.0, 1.0, 1.0))
+    assert workspace.calls[-2] == ('__abpAddConnectCleanup', ('GND',))
+
+
+def test_active_report_classifies_cancelled() -> None:
+    launch = {
+        'allegro_version': '17.2',
+        'status': 'completed',
+        'before': _route_snapshot(None),
+        'mid': _route_snapshot(None),
+    }
+    drive = {
+        'command': 'pick 0.0 0.0; pick 1.0 1.0; done',
+        'during': _route_snapshot(None),
+        'after_rollback': _route_snapshot(None),
+        'rolled_back': True,
+    }
+    workspace = FakeWorkspace(
+        {
+            '__abpAddConnectLaunch': launch,
+            '__abpAddConnectActiveDrive': drive,
+            '__abpAddConnectCleanup': {'after_cleanup': _route_snapshot(None)},
+            'plus': 3,
+        },
+    )
+    probe = ConnectProbe(cast('Workspace', workspace))
+
+    report = probe.active(None, 'add connect', (0.0, 0.0), (1.0, 1.0))
+
+    assert report['activity'] == 'cancelled'
+    assert report['rollback_coverage'] == 'inconclusive'
+    assert workspace.calls[-4] == ('__abpAddConnectLaunch', (None, 'add connect'))
+
+
+def test_active_report_cleans_up_when_drive_fails() -> None:
+    def fail(*args: object) -> object:
+        raise RuntimeError('shell died')
+
+    launch = {
+        'allegro_version': '17.2',
+        'status': 'completed',
+        'before': _route_snapshot(None),
+        'mid': _route_snapshot(None),
+    }
+    workspace = FakeWorkspace(
+        {
+            '__abpAddConnectLaunch': launch,
+            '__abpAddConnectActiveDrive': fail,
+            '__abpAddConnectCleanup': {'after_cleanup': _route_snapshot(None)},
+            'plus': 3,
+        },
+    )
+    probe = ConnectProbe(cast('Workspace', workspace))
+
+    with pytest.raises(RuntimeError, match='shell died'):
+        probe.active(None, 'add connect', (0.0, 0.0), (1.0, 1.0))
+
+    assert workspace.calls[-1] == ('__abpAddConnectCleanup', (None,))
+
+
+def test_active_report_cleans_up_when_launch_fails() -> None:
+    def fail(*args: object) -> object:
+        raise RuntimeError('launch died')
+
+    workspace = FakeWorkspace(
+        {
+            '__abpAddConnectLaunch': fail,
+            '__abpAddConnectCleanup': {'after_cleanup': _route_snapshot(None)},
+            'plus': 3,
+        },
+    )
+    probe = ConnectProbe(cast('Workspace', workspace))
+
+    with pytest.raises(RuntimeError, match='launch died'):
+        probe.active(None, 'add connect', (0.0, 0.0), (1.0, 1.0))
+
+    assert workspace.calls[-1] == ('__abpAddConnectCleanup', (None,))
+
+
+def test_driven_report_classifies_done_and_rollback() -> None:
+    completed = {
+        'status': 'completed',
+        'command': 'add connect; pick 0.0 0.0; pick 1.0 1.0; done',
+        'before': _route_snapshot(None),
+        'during': _route_snapshot([_route('new')]),
+        'after_rollback': _route_snapshot(None),
+        'after_cleanup': _route_snapshot(None),
+    }
+    workspace = FakeWorkspace({'__abpAddConnectDriven': completed, 'plus': 3})
+    probe = ConnectProbe(cast('Workspace', workspace))
+
+    report = probe.driven('GND', 'add connect', (0.0, 0.0), (1.0, 1.0))
+
+    assert isinstance(report['elapsed_seconds'], float)
+    assert report['route_change'] == 'done'
+    assert report['rollback_coverage'] == 'rolled_back'
+    assert report['ping'] == 3
+    assert workspace.calls[-2] == (
+        '__abpAddConnectDriven',
+        ('GND', 'add connect', 0.0, 0.0, 1.0, 1.0),
+    )
+
+
+def test_driven_report_classifies_cancel_as_inconclusive() -> None:
+    canceled = {
+        'status': 'completed',
+        'command': 'add connect; pick 0.0 0.0; pick 1.0 1.0; done',
+        'before': _route_snapshot(None),
+        'during': _route_snapshot(None),
+        'after_rollback': _route_snapshot(None),
+        'after_cleanup': _route_snapshot(None),
+    }
+    workspace = FakeWorkspace({'__abpAddConnectDriven': canceled, 'plus': 3})
+    probe = ConnectProbe(cast('Workspace', workspace))
+
+    report = probe.driven(None, 'add connect', (0.0, 0.0), (1.0, 1.0))
+
+    assert report['route_change'] == 'cancel'
+    assert report['rollback_coverage'] == 'inconclusive'
+    assert workspace.calls[-2] == (
+        '__abpAddConnectDriven',
+        (None, 'add connect', 0.0, 0.0, 1.0, 1.0),
+    )
+
+
 @pytest.mark.allegro
 @pytest.mark.timeout(600)
 class TestConnectProbe:
@@ -349,4 +516,57 @@ class TestConnectProbe:
         connect_probe.emit('connect-flag-syntax.json', report)
         assert report['status'] == 'completed'
         assert isinstance(report['during'], dict)
+        assert report['ping'] == 3
+
+    def test_add_connect_stays_active_after_axlshell_returns(
+        self,
+        connect_probe: ConnectProbe,
+        connect_allegro: Allegro,
+    ) -> None:
+        routes = cast('list[dict[str, object]] | None', connect_probe.snapshot(None)['routes'])
+        if not routes:
+            pytest.skip('shape1.brd has no routable net')
+        net = cast('str', routes[0]['net'])
+        pin = next(iter(connect_allegro.session.pins(net=net)), None)
+        if pin is None or pin.x is None or pin.y is None:
+            pytest.skip(f'net {net} has no placed pin')
+        start = (pin.x, pin.y)
+        end = (pin.x + 1.0, pin.y + 1.0)
+        report = connect_probe.active(net, f'add connect -net {net}', start, end)
+        connect_probe.emit('connect-activity.json', report)
+        assert report['status'] == 'completed'
+        assert report['route_change'] == 'cancel'
+        assert report['activity'] in {'active', 'cancelled'}
+        assert report['rollback_coverage'] in {
+            'inconclusive',
+            'rolled_back',
+            'persisted',
+            'partial',
+        }
+        assert report['ping'] == 3
+
+    def test_driven_add_connect_completes_route(
+        self,
+        connect_probe: ConnectProbe,
+        connect_allegro: Allegro,
+    ) -> None:
+        routes = cast('list[dict[str, object]] | None', connect_probe.snapshot(None)['routes'])
+        if not routes:
+            pytest.skip('shape1.brd has no routable net')
+        net = cast('str', routes[0]['net'])
+        pin = next(iter(connect_allegro.session.pins(net=net)), None)
+        if pin is None or pin.x is None or pin.y is None:
+            pytest.skip(f'net {net} has no placed pin')
+        start = (pin.x, pin.y)
+        end = (pin.x + 1.0, pin.y + 1.0)
+        report = connect_probe.driven(net, f'add connect -net {net}', start, end)
+        connect_probe.emit('connect-driven.json', report)
+        assert report['status'] == 'completed'
+        assert report['route_change'] in {'done', 'cancel'}
+        assert report['rollback_coverage'] in {
+            'inconclusive',
+            'rolled_back',
+            'persisted',
+            'partial',
+        }
         assert report['ping'] == 3

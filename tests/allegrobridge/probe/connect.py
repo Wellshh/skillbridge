@@ -26,6 +26,12 @@ def _classify_route_change(before: dict[str, object], during: dict[str, object])
     return 'cancel'
 
 
+def _classify_activity(mid: dict[str, object], during: dict[str, object]) -> str:
+    if _route_fingerprint(during) != _route_fingerprint(mid):
+        return 'active'
+    return 'cancelled'
+
+
 def _classify_blocking(
     report: dict[str, object],
     *,
@@ -98,6 +104,72 @@ class ConnectProbe:
         after = cast('dict[str, object]', report['after_rollback'])
         report['route_change'] = _classify_route_change(before, during)
         report['blocking_semantics'] = _classify_blocking(report)
+        report['rollback_coverage'] = _classify_rollback(before, during, after)
+        report['ping'] = self.workspace['plus'](1, 2)
+        return report
+
+    def active(
+        self,
+        net: str | None,
+        command: str,
+        start: tuple[float, float],
+        end: tuple[float, float],
+    ) -> dict[str, object]:
+        start_time = perf_counter()
+        try:
+            launch = self._call('__abpAddConnectLaunch', net, command)
+            drive = self._call(
+                '__abpAddConnectActiveDrive',
+                net,
+                start[0],
+                start[1],
+                end[0],
+                end[1],
+            )
+        finally:
+            cleanup = self._call('__abpAddConnectCleanup', net)
+        before = cast('dict[str, object]', launch['before'])
+        mid = cast('dict[str, object]', launch['mid'])
+        during = cast('dict[str, object]', drive['during'])
+        after = cast('dict[str, object]', drive['after_rollback'])
+        report: dict[str, object] = {
+            'allegro_version': launch['allegro_version'],
+            'status': launch['status'],
+            'before': before,
+            'mid': mid,
+            'during': during,
+            'after_rollback': after,
+            'after_cleanup': cleanup['after_cleanup'],
+        }
+        report['elapsed_seconds'] = perf_counter() - start_time
+        report['route_change'] = _classify_route_change(before, mid)
+        report['activity'] = _classify_activity(mid, during)
+        report['rollback_coverage'] = _classify_rollback(mid, during, after)
+        report['ping'] = self.workspace['plus'](1, 2)
+        return report
+
+    def driven(
+        self,
+        net: str | None,
+        command: str,
+        start: tuple[float, float],
+        end: tuple[float, float],
+    ) -> dict[str, object]:
+        start_time = perf_counter()
+        report = self._call(
+            '__abpAddConnectDriven',
+            net,
+            command,
+            start[0],
+            start[1],
+            end[0],
+            end[1],
+        )
+        report['elapsed_seconds'] = perf_counter() - start_time
+        before = cast('dict[str, object]', report['before'])
+        during = cast('dict[str, object]', report['during'])
+        after = cast('dict[str, object]', report['after_rollback'])
+        report['route_change'] = _classify_route_change(before, during)
         report['rollback_coverage'] = _classify_rollback(before, during, after)
         report['ping'] = self.workspace['plus'](1, 2)
         return report
