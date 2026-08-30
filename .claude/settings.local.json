@@ -265,7 +265,16 @@
       "Bash(pytest -q \"tests/test_channel.py::test_use_current_workspace[tcp]\")",
       "Bash(pytest -q -m \"not allegro\" -o addopts=\"--cov=allegrobridge --cov-report=term:skip-covered --cov-branch --no-cov-on-fail --cov-fail-under=0\")",
       "Bash(.venv/bin/python -m pytest --co -q)",
-      "Bash(.venv/bin/python -m pytest -q -m \"not allegro\")"
+      "Bash(.venv/bin/python -m pytest -q -m \"not allegro\")",
+      "Bash(rg -ln \"branches|->segments|isArc|startEnd|->children|->width\" api_index.part*.md algroskill/)",
+      "Bash(rg -n \"length\" api_index.part*.md)",
+      "Bash(rg -rln \"add connect|addconnect|add_connect\" examples/ algroskill/)",
+      "Bash(rg -rln \"->branches|->segments|->children|isEtch|startEnd\" examples/)",
+      "Bash(rg -rin \"add connect\" algroskill/ examples/)",
+      "Bash(rg -rin \"axlShell.*\\\\\\(|axlShellPost\" examples/ algroskill/09cmdshl.md)",
+      "Bash(rg -rln \"->segments|segments\\\\\\(|->branches|branch->|isEtch|isClockwise\" examples/)",
+      "Bash(rg -rin \"isArc\" algroskill/)",
+      "Bash(rg -rin \"axlDBAddConnect\" algroskill/ api_index.part*.md)"
     ],
     "additionalDirectories": [
       "/tmp"

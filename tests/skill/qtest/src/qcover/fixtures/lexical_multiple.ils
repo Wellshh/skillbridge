@@ -1,0 +1,22 @@
+;;; Copyright (c) 2025-2026 Bai Junyan and contributors.
+;;; SPDX-License-Identifier: LGPL-3.0-or-later
+;;; lexical_multiple.ils - Phase 1A whole-file qualification fixture.
+
+(if t
+    'top-level
+  'top-level)
+
+(letseq ((counter 0)
+         (worker
+           (lambda (value)
+             (if (progn
+                   (setq counter (add1 counter))
+                   value)
+                 'yes
+               'no))))
+  (defglobalfun qcoverIlsMultipleCall (value)
+    (funcall worker value))
+  (defglobalfun qcoverIlsMultipleCount ()
+    counter)
+  (defglobalfun qcoverIlsMultipleQuoted ()
+    '(if(t then 'yes else 'no))))
