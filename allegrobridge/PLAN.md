@@ -103,7 +103,7 @@ allegrobridge/
     └── allegro_server.il     # Allegro core runtime
 ```
 
-通用 `skillbridge/server/python_server.il` 不得引用任何 `axl*` API。`allegro_server.il` 作为核心运行时被加载，不是独立用户命令，因此不需要为内部 procedure 额外注册 `axlCmdRegister`。该 `.il` 文件必须加入 wheel package-data，并增加 wheel 内文件存在性测试。
+通用 `skillbridge/server/python_server.ils` 不得引用任何 `axl*` API。`allegro_server.il` 作为核心运行时被加载，不是独立用户命令，因此不需要为内部 procedure 额外注册 `axlCmdRegister`。该脚本文件必须加入 wheel package-data，并增加 wheel 内文件存在性测试。
 
 `client/api` 不预先创建空模块；board、components、nets 依次随首个真实方法落地。每个模块同时保存该领域的 API 对象、少量公开返回记录和模块级校验器，避免横向拆成 models/schemas/serializers/service 层。LGPL-3.0 许可与归属继续保留。
 
@@ -339,7 +339,7 @@ _ALLOWED_CALLS = {
 
 ---
 
-## 4. `skillbridge/server/python_server.il`
+## 4. `skillbridge/server/python_server.ils`
 
 这个文件继续作为 Cadence 宿主无关的通用内核，不直接调用 `axlDBTransaction*` 或任何其他 Allegro AXL API。它只负责：
 
@@ -371,7 +371,7 @@ __abRunDryTransaction(command)
 CLI 模式的 startup script 按顺序执行：
 
 ```skill
-skill load(".../skillbridge/server/python_server.il")
+skill load(".../skillbridge/server/python_server.ils")
 skill load(".../allegrobridge/server/allegro_server.il")
 skill pyStartServer(...)
 ```
@@ -500,7 +500,7 @@ CLI 可以打印 SKILL 文件位置
 在 Allegro SKILL prompt 中：
 
 ```skill
-load("C:/path/to/skillbridge/server/python_server.il")
+load("C:/path/to/skillbridge/server/python_server.ils")
 
 pyStartServer(
     ?id "7777"
@@ -1098,7 +1098,7 @@ Python 路径含空格
 Windows 本机连接
 Allegro.open() 的 cli/manual 生命周期
 Allegro Workspace 与真实 API 名映射
-allegro_server.il 与通用 python_server.il 分层加载
+allegro_server.il 与通用 python_server.ils 分层加载
 单次 RPC 原子 transaction
 成功 commit，SKILL error rollback
 savepoint batch 部分成功语义

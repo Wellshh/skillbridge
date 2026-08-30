@@ -3,6 +3,7 @@
 * text=auto
 *.py text eol=lf
 *.il text eol=lf
+*.ils text eol=lf
 *.toml text eol=lf
 *.md text eol=lf
 *.yml text eol=lf

@@ -8,3 +8,4 @@
 - [SKILL++ 调用分组与 errset 状态](skill-ils-calls-and-errset-state.md) — `(f(...))` 会把 conventional call 返回值再次求值；用当前 `errset` 返回值判定成功，失败描述须在 cleanup 前保存
 - [Windows Allegro 集成测试启动与验收](windows-allegro-integration-validation.md) — 当前进程补安装根与用户级许可证变量；单项 smoke、17 项连续两轮、SKILL/qcover、进程与 7777 端口验收
 - [qcover `.ils` Phase 1 生命周期](qcover-ils-phase1.md) — SKILL++ loadPort/句柄清理、attempt-local 原子回滚、临时文件所有权、串行执行与验证门槛
+- [python_server.il -> python_server.ils Phase 2A 纠错经验](phase2a-correction-lessons.md) — qtest 宏构造/运行期诊断、SKILL++ 清理与调用语法、远程对象 expected-red、Windows 许可证和 141=136/5 验证基线

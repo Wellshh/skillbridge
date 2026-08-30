@@ -30,5 +30,5 @@
   <text class="b" x="84" y="246">Workspace/RemoteFunction → Translator → Channel → Pipe</text>
   <text class="c" x="84" y="268">derived from unihd-cag/skillbridge</text>
   <text class="t" x="84" y="350">Allegro PCB Editor process</text>
-  <text class="b" x="84" y="374">python_server.il (IPC) + allegro_server.il (txn kernel)</text>
+  <text class="b" x="84" y="374">python_server.ils (IPC) + allegro_server.il (txn kernel)</text>
 </svg>

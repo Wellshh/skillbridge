@@ -23,7 +23,7 @@ def test_main_dispatches_path_generate_shell_and_help(
 
     monkeypatch.setattr(sys, 'argv', ['allegrobridge._kernel', 'path'])
     main_module.main()
-    assert 'python_server.il' in capsys.readouterr().out
+    assert 'python_server.ils' in capsys.readouterr().out
 
     monkeypatch.setattr(sys, 'argv', ['allegrobridge._kernel', 'generate'])
     main_module.main()

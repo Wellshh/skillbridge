@@ -28,7 +28,7 @@ back.
 
 ### Lifecycle
 
-`Allegro.launch()` builds a startup script that loads `python_server.il` and
+`Allegro.launch()` builds a startup script that loads `python_server.ils` and
 `allegro_server.il` inside a fresh `allegro.exe`, plants a random launch token,
 and polls until the workspace answers — then verifies the token so a client
 never attaches to the wrong window. `Allegro.connect()` attaches to a session

@@ -16,7 +16,7 @@ here = Path(__file__).parent.resolve()
 
 
 def print_skill_script_location() -> None:
-    skill_source = here / 'server' / 'python_server.il'
+    skill_source = here / 'server' / 'python_server.ils'
 
     print("Path to Skill server script:")
     print(skill_source)

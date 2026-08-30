@@ -21,7 +21,7 @@ _RUNTIME_FILES = {
     'allegrobridge/server/extensions/shapes.il',
     'allegrobridge/server/extensions/vias.il',
     'allegrobridge/_kernel/py.typed',
-    'allegrobridge/_kernel/server/python_server.il',
+    'allegrobridge/_kernel/server/python_server.ils',
 }
 
 

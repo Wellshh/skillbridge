@@ -160,7 +160,7 @@ def test_startup_script_orders_nonce_board_and_guarded_server(tmp_path: Path) ->
         nonce='launch-instance',
     )
     lines = script.splitlines()
-    core = Path(allegrobridge._kernel.server.__file__).with_name('python_server.il')
+    core = Path(allegrobridge._kernel.server.__file__).with_name('python_server.ils')
     runtime = Path(allegrobridge.server.__file__).with_name('allegro_server.il')
     assert lines[:2] == [
         f'skill load("{core.as_posix()}")',

@@ -94,7 +94,7 @@ namespaces = false
 allegrobridge = [
     "py.typed",
     "_kernel/py.typed",
-    "_kernel/server/*.il",
+    "_kernel/server/*.ils",
     "client/*.pyi",
     "assets/*.txt",
     "server/*.il",

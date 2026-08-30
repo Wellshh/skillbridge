@@ -23,7 +23,7 @@ workspace and terminates the process tree.
 Start the server once, in the Allegro SKILL console:
 
 ```text
-load(".../skillbridge/server/python_server.il")
+load(".../skillbridge/server/python_server.ils")
 load(".../allegrobridge/server/allegro_server.il")
 pyStartServer(?id "7777")
 ```
