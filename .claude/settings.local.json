@@ -289,7 +289,20 @@
       "Bash(python3 -c \"print\\(len\\('axlDBGetDesign\\(\\)->name'\\)\\)\")",
       "Bash(git -C . status --short)",
       "Bash(.venv/bin/python -c ' *)",
-      "Bash(git -C \"/Users/wells/Documents/02_工作实习/Job/龙旗科技/代码库/skillbridge\" ls-files)"
+      "Bash(git -C \"/Users/wells/Documents/02_工作实习/Job/龙旗科技/代码库/skillbridge\" ls-files)",
+      "Bash(rg -rn -i \"add connect\" .)",
+      "Bash(rg -rn -i \"diffpair|differential pair|add connect|slide|delay tune|tune|__abCollect\" .)",
+      "Bash(rg -rn \"axlShell\" examples/)",
+      "Bash(rg -rn \"axlShellPost|axlShell\" examples/skill/ash/)",
+      "Bash(rg -rn -i \"__abCollect|CollectRoute|axlDBGetDesign->nets|->clines|->branches|->nset|->path|axlDBAddClauses|axlDBCreateContact|axlDBAddPath|axlDBCreatePath\\\\b\" .)",
+      "Bash(rg -rn -i \"\\\\\"add connect\\\\\"|'add connect'|add connect|\\\\\"slide\\\\\"|\\\\\"delay tune\\\\\"|\\\\\"tune\\\\\"|\\\\\"swap components\\\\\"|\\\\\"move\\\\\"\" algroskill/ examples/)",
+      "Bash(rg -rln -i \"RoutesApi|routes_api|def connect|axlShell|add connect\" --type python)",
+      "Bash(rg -rln -i \"add connect|axlShell\" --glob '*.il' --glob '*.ils')",
+      "Bash(rg -n \"class .*Shell|axlShell|def shell|LiteralRemoteFunction\" allegrobridge/client/_axl_stubs.pyi allegrobridge/client/*.py)",
+      "Bash(mypy)",
+      "Bash(pytest tests/allegrobridge/probe/test_connect.py -m \"not allegro\" -q)",
+      "Bash(pytest tests/allegrobridge/probe/test_connect.py -q)",
+      "Bash(pytest tests/allegrobridge -m \"not allegro\" -q)"
     ],
     "additionalDirectories": [
       "/tmp"
