@@ -179,7 +179,14 @@
       "Bash(git commit -q -m 'fix\\(docs\\): resolve api-index.json path for the command palette *)",
       "Bash(git commit -q -m 'feat\\(docs\\): make the api palette navigable and clickable *)",
       "Bash(python3 -c ' *)",
-      "Bash(git commit -q -m 'docs: render the quickstart notebook as a themed page *)"
+      "Bash(git commit -q -m 'docs: render the quickstart notebook as a themed page *)",
+      "Read(//Users/wells/.cc-switch/**)",
+      "Read(//Users/wells/.config/**)",
+      "Read(//Users/wells/**)",
+      "Bash(sqlite3 ~/.cc-switch/cc-switch.db \".tables\")",
+      "Bash(sqlite3 ~/.cc-switch/cc-switch.db \".schema providers\")",
+      "Bash(sqlite3 ~/.cc-switch/cc-switch.db \"SELECT * FROM providers WHERE id='15eac394-a9ca-43d1-9d3f-040920377f0c';\")",
+      "Bash(sqlite3 ~/.cc-switch/cc-switch.db \".schema provider_endpoints\")"
     ]
   }
 }

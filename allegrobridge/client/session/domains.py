@@ -1,11 +1,5 @@
 # Copyright (c) 2025-2026 Bai Junyan and contributors.
 # SPDX-License-Identifier: LGPL-3.0-or-later
-"""Static metadata for the Session domain APIs.
-
-Single source of truth for the docs capability matrix and the generated API
-index; the statically declared ``api_slot`` accessors on ``Session`` stay as-is.
-"""
-
 from __future__ import annotations
 
 from typing import NamedTuple

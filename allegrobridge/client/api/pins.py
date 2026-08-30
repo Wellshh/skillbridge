@@ -16,7 +16,7 @@ _OptionalString = str | None
 
 class PinInfo(_OptionalLocated):
     refdes: str
-    number: str
+    number: str  # pin number
     net: _OptionalString
     padstack: _OptionalString
     placement: Literal['placed', 'unplaced']
