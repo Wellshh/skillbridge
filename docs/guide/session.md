@@ -67,8 +67,8 @@ Each record is stamped with the session it came from and the
 
 ## Escape hatches
 
-- `pcb.raw` — the underlying [raw workspace](raw-axl.md) with all 792 `axl*`
-  functions.
+- `pcb.workspace` — the underlying [raw workspace](raw-axl.md) with all 792
+  `axl*` functions.
 - `pcb.ext.<name>` — lazily loaded [custom extensions](extensions.md).
 - `pcb.batch(...)` — compose several writes into one
   [transaction](transactions.md).

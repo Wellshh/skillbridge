@@ -156,7 +156,7 @@ class Batch:
             return
         self._check_id()
         expr = self._compile()
-        transaction = self._session.raw.transaction
+        transaction = self._session.workspace.transaction
         payload = transaction.preview(expr) if self.dry_run else transaction(expr)
         # catch Session.refresh()
         self._check_id()
@@ -205,7 +205,7 @@ def _rpc(
         @wraps(build_args)
         def call(self: ApiT, *args: P.args, **kwargs: P.kwargs) -> T:
             rpc_args = build_args(self, *args, **kwargs)
-            payload = self._session.raw[proc](*rpc_args)
+            payload = self._session.workspace[proc](*rpc_args)
             return _validate(
                 payload,
                 adapter,
@@ -276,7 +276,7 @@ class _Write(Generic[ApiT, P, T]):
         **kwargs: P.kwargs,
     ) -> Cmd[T]:
         rpc_args = self._build_args(instance, *args, **kwargs)
-        expr = instance._session.raw[self.spec.proc].expr(*rpc_args).render()
+        expr = instance._session.workspace[self.spec.proc].expr(*rpc_args).render()
         return Cmd(
             instance._session,
             expr,

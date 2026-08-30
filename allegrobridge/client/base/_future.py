@@ -81,7 +81,7 @@ class Cmd(Generic[T]):
 
     def _execute(self, *, preview: bool = False) -> T:
         self._check_id(self._session)
-        transaction = self._session.raw.transaction
+        transaction = self._session.workspace.transaction
         payload = transaction.preview(self.expr) if preview else transaction(self.expr)
         self._check_id(self._session)
         return self._validate(payload)

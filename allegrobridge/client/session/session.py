@@ -56,20 +56,20 @@ class Session:
     def __init__(self, allegro: _Allegro) -> None:
         self._allegro = allegro
         self._generation = 1
-        self._epoch = self.raw.epoch
+        self._epoch = self.workspace.epoch
         self._closed = False
         self._bindings: dict[type[SessionApi], SessionApi] = {}
         self._binding_errors: dict[type[SessionApi], ExtensionError] = {}
         self._binding_lock = Lock()
 
     @property
-    def raw(self) -> Workspace:
+    def workspace(self) -> Workspace:
         return self._allegro.workspace
 
     @property
     def generation(self) -> int:
         # Lazily absorb underlying connection reconnects into session generation.
-        epoch = self.raw.epoch
+        epoch = self.workspace.epoch
         self._generation += epoch - self._epoch
         self._epoch = epoch
         return self._generation
@@ -113,7 +113,7 @@ class Session:
             if not isinstance(module, SkillModule):
                 raise TypeError(f'{api_type.__name__} must declare a SkillModule')
             try:
-                self.raw._ensure_module(  # ruff: ignore[private-member-access]
+                self.workspace._ensure_module(  # ruff: ignore[private-member-access]
                     module,
                     _api_procedures(api_type),
                 )
@@ -140,7 +140,7 @@ class Session:
         """Close the session and the underlying Allegro instance.
 
         For launched sessions, this tears down the whole process tree; use
-        ``Workspace.close()`` (``session.raw.close()``) to drop only the connection.
+        ``Workspace.close()`` (``session.workspace.close()``) to drop only the connection.
         """
         if self._closed:
             return

@@ -56,7 +56,7 @@ def check_axl_stub_contract(
 ) -> None:
     ws = allegro.workspace
     assert_type(ws, Workspace)
-    assert_type(session.raw, Workspace)
+    assert_type(session.workspace, Workspace)
     assert_type(session.bind(BoundApi), BoundApi)
     assert_type(session.nets.snapshot(), list[NetInfo])
     assert_type(session.nets['GND'], NetInfo)

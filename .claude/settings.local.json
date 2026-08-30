@@ -282,7 +282,11 @@
       "Bash(.venv/bin/pytest tests/allegrobridge/test_allegro.py -m \"not allegro\" -q)",
       "Bash(.venv/bin/pytest tests/allegrobridge/test_allegro.py -k \"route or repr_skill or path\" -m \"not allegro\" -q)",
       "Bash(.venv/bin/pytest -m \"not allegro\" -q)",
-      "Bash(grep -E '[A-Z]{2,}[0-9]+|-->')"
+      "Bash(grep -E '[A-Z]{2,}[0-9]+|-->')",
+      "Bash(awk -F: '{print $1}')",
+      "Bash(sed -i '' 's/self\\\\.raw\\\\./self.workspace./g; s/session\\\\.raw\\\\.close/session.workspace.close/g' allegrobridge/client/session/session.py)",
+      "Bash(sed -i '' 's/\\\\.raw\\\\./.workspace./g' allegrobridge/client/base/_rpc.py allegrobridge/client/base/_future.py)",
+      "Bash(python3 -c \"print\\(len\\('axlDBGetDesign\\(\\)->name'\\)\\)\")"
     ],
     "additionalDirectories": [
       "/tmp"

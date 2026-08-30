@@ -4,7 +4,7 @@ The typed domain APIs cover the common cases. Everything else is available on
 the raw workspace:
 
 ```python
-ws = allegro.workspace  # or: pcb.raw from a Session
+ws = allegro.workspace  # or: pcb.workspace from a Session
 ```
 
 ## Calling axl functions

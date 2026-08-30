@@ -294,12 +294,12 @@ class TestSession:
         )
         assert isinstance(opened.session, Session)
         assert opened.session is opened.session
-        assert opened.session.raw is workspace
+        assert opened.session.workspace is workspace
 
     def test_exposes_workspace_and_epoch(self) -> None:
         workspace = Mock(epoch=0)
         session = _session(workspace)
-        assert session.raw is workspace
+        assert session.workspace is workspace
         assert session.generation == 1
 
         session.refresh()
@@ -1139,7 +1139,7 @@ class TestReadApi:
 
         workspace._ensure_module.assert_called_once_with(
             RoutesApi.module,
-            ('__abProjectRoutes', '__abCreateRoute', '__abCreatePath'),
+            ('__abProjectRoutes', '__abCreatePath'),
         )
         assert session.routes is session.routes
         assert [route.model_dump() for route in routes] == [
@@ -1198,7 +1198,7 @@ class TestReadApi:
     def test_route_create_command_uses_expression_and_keeps_arguments(self) -> None:
         workspace = MagicMock()
         remote = workspace.__getitem__.return_value
-        remote.expr.return_value = Expr.raw_skill('__abCreateRoute(...)')
+        remote.expr.return_value = Expr.raw_skill('__abCreatePath(...)')
         session = _session(workspace)
 
         command = session.routes.create.command(
@@ -1208,28 +1208,27 @@ class TestReadApi:
             0.2,
         )
 
-        assert command.proc == '__abCreateRoute'
-        assert command.expr == SkillCode('__abCreateRoute(...)')
+        assert command.proc == '__abCreatePath'
+        assert command.expr == SkillCode('__abCreatePath(...)')
         assert remote.expr.call_args.args == (
             'GND',
-            [Point(1.0, 2.0), Point(3.0, 4.0)],
+            Point(1.0, 2.0),
+            [LineTo(Point(3.0, 4.0))],
             'ETCH/TOP',
             0.2,
         )
-        assert type(remote.expr.call_args.args[1]) is list
-        assert all(isinstance(point, Point) for point in remote.expr.call_args.args[1])
+        assert all(isinstance(step, (LineTo, ArcTo)) for step in remote.expr.call_args.args[2])
 
     @pytest.mark.parametrize(
-        ('points', 'width', 'message'),
+        ('path', 'width', 'message'),
         [
             ([(1.0, 2.0)], 0.2, 'at least two'),
-            ([(1.0, 2.0), (3.0,)], 0.2, 'two coordinates'),
             ([(1.0, 2.0), (3.0, 4.0)], 0.0, 'positive'),
         ],
     )
     def test_route_create_rejects_invalid_geometry(
         self,
-        points: list[tuple[float, ...]],
+        path: list[object],
         width: float,
         message: str,
     ) -> None:
@@ -1238,7 +1237,7 @@ class TestReadApi:
         with pytest.raises(ValueError, match=message):
             session.routes.create.command(
                 'GND',
-                points,  # type: ignore[arg-type]
+                path,  # type: ignore[arg-type]
                 'ETCH/TOP',
                 width,
             )
@@ -1255,11 +1254,11 @@ class TestReadApi:
             ([(value, 2.0), (3.0, 4.0)], 0.2),
             ([(1.0, 2.0), (3.0, 4.0)], value),
         ]
-        for points, width in invalid:
+        for path, width in invalid:
             with pytest.raises(ValidationError):
                 session.routes.create.command(
                     'GND',
-                    points,  # type: ignore[arg-type]
+                    path,  # type: ignore[arg-type]
                     'ETCH/TOP',
                     width,  # type: ignore[arg-type]
                 )
@@ -1287,16 +1286,15 @@ class TestReadApi:
         with pytest.raises(AllegroProtocolError, match='__abProjectRoutes'):
             _session(workspace).routes()
 
-    def test_route_create_path_command_builds_step_arguments(self) -> None:
+    def test_route_create_command_builds_arc_step_arguments(self) -> None:
         workspace = MagicMock()
         remote = workspace.__getitem__.return_value
         remote.expr.return_value = Expr.raw_skill('__abCreatePath(...)')
         session = _session(workspace)
 
-        command = session.routes.create_path.command(
+        command = session.routes.create.command(
             'GND',
-            (1.0, 2.0),
-            [LineTo((3.0, 4.0)), ArcTo((5.0, 6.0), (2.0, 3.0), clockwise=True)],
+            [(1.0, 2.0), (3.0, 4.0), ArcTo((5.0, 6.0), (2.0, 3.0), clockwise=True)],
             'ETCH/TOP',
             0.2,
         )
@@ -1311,32 +1309,6 @@ class TestReadApi:
             0.2,
         )
         assert all(isinstance(step, (LineTo, ArcTo)) for step in remote.expr.call_args.args[2])
-
-    @pytest.mark.parametrize(
-        ('start', 'steps', 'width', 'message'),
-        [
-            ((1.0, 2.0), [], 0.2, 'at least one step'),
-            ((1.0, 2.0), [(3.0, 4.0)], 0.2, 'LineTo or ArcTo'),
-            ((1.0, 2.0), [LineTo((3.0, 4.0))], 0.0, 'positive'),
-        ],
-    )
-    def test_route_create_path_rejects_invalid_geometry(
-        self,
-        start: tuple[float, float],
-        steps: list[object],
-        width: float,
-        message: str,
-    ) -> None:
-        session = _session()
-
-        with pytest.raises(ValueError, match=message):
-            session.routes.create_path.command(  # type: ignore[arg-type]
-                'GND',
-                start,
-                steps,
-                'ETCH/TOP',
-                width,
-            )
 
     def test_line_to_repr_skill_emits_property_list(self) -> None:
         assert LineTo(Point(3.0, 4.0)).__repr_skill__() == SkillCode(

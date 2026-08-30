@@ -12,14 +12,14 @@
 
 # 架构共识决议（2026-08 架构对齐）
 
-| 维度 | 决策方案 | 实施准则 |
-| :--- | :--- | :--- |
-| **1. Session 架构 (Phase 4)** | **轻量级内存会话 (In-Memory `Session`)** | 仅聚焦于所有权、连接代际 (`generation`) 与生命周期。**暂不引入 SQLite 持久化和应用级逆向 Undo 日志**，保持架构极简与敏捷。 |
-| **2. 只读查询与协议记录 (Phase 5)** | **纯 RPC + SKILL 单次投影 + Pydantic 严格验收** | SKILL 一次投影返回 DPL/list，沿用现有 Translator 解码；Python 仅在 `client/api` 信任边界严格校验，不增加第二套序列化。**仅在实测出现帧或性能瓶颈时才增加 Bulk 通道**。 |
-| **3. 领域写操作与批处理 (Phase 6)** | **单写即时原子 + `with session.batch():` 延迟复合事务** | 单个写方法（如 `components.move()`）立即发起单次 RPC 原子提交；多操作组合时支持客户端上下文管理器收集指令，退出上下文时编译为单个 SKILL 复合事务一次性提交（All-or-Nothing）。 |
-| **4. 交互冲突策略 (Active Command)** | **严格非侵入式 (Fail-Fast)** | 若 Allegro 正忙（`axlOKToProceed` 为 `nil`），立即抛出 `BUSY_ACTIVE_COMMAND`，**绝不自动发送 done/cancel 中断用户前台交互**，保障人工设计安全。 |
-| **5. SDK 入口与命名空间** | **分层封装 (`Allegro` + `Session`)** | 顶层统一从 `allegrobridge` 导出 `Allegro` 与 `Session`；领域 API 位于 `allegrobridge.client.api`，底层裸 `Workspace` 收敛在 `session.raw` 下供高级调试使用。 |
-| **6. API 分层与加载边界 (Three Tiers)** | **顶层暴露与加载策略彻底解耦** | **Core Runtime**（必需内核，握手阻塞加载）；**First-Class Domain API**（常用稳定，挂在 `session.<api>`，可内部惰性化隔离，如 `session.drc`）；**Bundled Extension**（高危/复杂/版本敏感，挂在 `session.ext.<name>`，如 `rules`）。 |
+| 维度　　　　　　　　　　　　　　　　　　| 决策方案　　　　　　　　　　　　　　　　　　　　　　　　| 实施准则　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　 |
+| :----------------------------------------| :--------------------------------------------------------| :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **1. Session 架构 (Phase 4)**　　　　　 | **轻量级内存会话 (In-Memory `Session`)**　　　　　　　　| 仅聚焦于所有权、连接代际 (`generation`) 与生命周期。**暂不引入 SQLite 持久化和应用级逆向 Undo 日志**，保持架构极简与敏捷。　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　 |
+| **2. 只读查询与协议记录 (Phase 5)**　　 | **纯 RPC + SKILL 单次投影 + Pydantic 严格验收**　　　　 | SKILL 一次投影返回 DPL/list，沿用现有 Translator 解码；Python 仅在 `client/api` 信任边界严格校验，不增加第二套序列化。**仅在实测出现帧或性能瓶颈时才增加 Bulk 通道**。　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　 |
+| **3. 领域写操作与批处理 (Phase 6)**　　 | **单写即时原子 + `with session.batch():` 延迟复合事务** | 单个写方法（如 `components.move()`）立即发起单次 RPC 原子提交；多操作组合时支持客户端上下文管理器收集指令，退出上下文时编译为单个 SKILL 复合事务一次性提交（All-or-Nothing）。　　　　　　　　　　　　　　　　　　　　　　　　　　 |
+| **4. 交互冲突策略 (Active Command)**　　| **严格非侵入式 (Fail-Fast)**　　　　　　　　　　　　　　| 若 Allegro 正忙（`axlOKToProceed` 为 `nil`），立即抛出 `BUSY_ACTIVE_COMMAND`，**绝不自动发送 done/cancel 中断用户前台交互**，保障人工设计安全。　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　|
+| **5. SDK 入口与命名空间**　　　　　　　 | **分层封装 (`Allegro` + `Session`)**　　　　　　　　　　| 顶层统一从 `allegrobridge` 导出 `Allegro` 与 `Session`；领域 API 位于 `allegrobridge.client.api`，底层裸 `Workspace` 收敛在 `session.workspace` 下供高级调试使用。　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　 |
+| **6. API 分层与加载边界 (Three Tiers)** | **顶层暴露与加载策略彻底解耦**　　　　　　　　　　　　　| **Core Runtime**（必需内核，握手阻塞加载）；**First-Class Domain API**（常用稳定，挂在 `session.<api>`，可内部惰性化隔离，如 `session.drc`）；**Bundled Extension**（高危/复杂/版本敏感，挂在 `session.ext.<name>`，如 `rules`）。 |
 
 ---
 
@@ -36,7 +36,7 @@
 │ In-Memory Session                                         │
 │ 代际跟踪 (generation)、batch 批处理收集、领域服务分发       │
 ├───────────────────────────────────────────────────────────┤
-│ Raw Workspace Adapter (`session.raw`)                     │
+│ Raw Workspace Adapter (`session.workspace`)                     │
 │ 基于 skillbridge 的函数调用、类型转换、RemoteObject          │
 ├───────────────────────────────────────────────────────────┤
 │ TCP Protocol                                               │
@@ -697,7 +697,7 @@ with Allegro.open(mode="manual", workspace_id="7777") as allegro:
 ```python
 with Allegro.open(mode="manual", workspace_id="7777") as allegro:
     session = allegro.session
-    assert session.raw is allegro.workspace
+    assert session.workspace is allegro.workspace
 ```
 
 - `Session` 持有 `Allegro`，`raw` 直接返回其 `Workspace`，关闭语义保持幂等。
@@ -774,11 +774,11 @@ r101 = session.components["R101"]
 gnd = session.nets["GND"]
 ```
 
-- `Session.board`、`components`、`nets` 使用 `cached_property` 返回轻量 API 对象，并由它们调用 `session.raw` 下的固定 `__ab*` procedure。
+- `Session.board`、`components`、`nets` 使用 `cached_property` 返回轻量 API 对象，并由它们调用 `session.workspace` 下的固定 `__ab*` procedure。
 - `Api.__call__()` 表示该领域的默认查询；`__getitem__()` 表示按稳定业务 key 精确取一个对象。
 - 不实现 `__iter__()`、`__len__()` 或会隐藏 RPC 的数据 property，避免看似本地的表达式意外触发远程 IO。
 - records 不保存 DBID、`RemoteObject`、Workspace 或 Channel；记录包含创建时的 `session_generation`，需要长期保存时由调用方自行决定。
-- 底层调试仍使用 `session.raw`；领域 API 不接受任意 SKILL 字符串。
+- 底层调试仍使用 `session.workspace`；领域 API 不接受任意 SKILL 字符串。
 
 ### 5.4 已完成交付
 
@@ -879,7 +879,7 @@ from allegrobridge.client.api import BoardInfo, ComponentInfo
 
 with Allegro.open(mode="manual", workspace_id="7777") as allegro:
     pcb: Session = allegro.session
-    assert pcb.raw is allegro.workspace
+    assert pcb.workspace is allegro.workspace
 
     board: BoardInfo = pcb.board()
     components: list[ComponentInfo] = pcb.components(include_unplaced=True)
@@ -906,7 +906,7 @@ with Allegro.open(mode="manual", workspace_id="7777") as allegro:
 - 查询一个对象返回 record，查询集合返回 `list[record]`，无对象时按方法契约返回 `None` 或抛出明确的 not-found 异常。
 - 写操作成功时返回更新后的领域 record，纯命令成功时返回 `None`；失败使用现有异常链，不包装 `ok/value/error`。
 - savepoint batch 只有在“部分成功”本身是业务语义时才返回逐项结果，不把这种特殊结构推广到所有 API。
-- `Session.raw` 是唯一 raw escape hatch；高级调用者使用 `Workspace`、`RemoteFunction.expr()`、`Workspace.eval()` 和 transaction API。
+- `Session.workspace` 是唯一 raw escape hatch；高级调用者使用 `Workspace`、`RemoteFunction.expr()`、`Workspace.eval()` 和 transaction API。
 
 ---
 

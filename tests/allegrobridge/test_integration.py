@@ -340,9 +340,9 @@ class TestApi:
         session = allegro.session
 
         assert isinstance(session, Session)
-        assert session.raw is ws
+        assert session.workspace is ws
         assert session.generation == 1
-        assert session.raw['plus'](1, 2) == 3
+        assert session.workspace['plus'](1, 2) == 3
 
     def test_transaction_extension_commits_and_rolls_back(self, ws: Workspace) -> None:
         assert ws.transaction(SkillCode('42')) == 42
@@ -469,7 +469,7 @@ class TestBoardApi:
         payload: dict[str, object],
         session: Session,
     ) -> None:
-        monkeypatch.setattr(session.raw._channel, 'send', lambda _: repr(payload))
+        monkeypatch.setattr(session.workspace._channel, 'send', lambda _: repr(payload))
 
         with pytest.raises(AllegroProtocolError, match='__abProjectBoard'):
             session.board()
@@ -541,7 +541,7 @@ class TestLayersApi:
         payload: object,
         session: Session,
     ) -> None:
-        monkeypatch.setattr(session.raw._channel, 'send', lambda _: repr(payload))
+        monkeypatch.setattr(session.workspace._channel, 'send', lambda _: repr(payload))
 
         with pytest.raises(AllegroProtocolError, match='__abProjectLayers'):
             session.layers()
@@ -819,7 +819,7 @@ class TestComponentsApi:
         with pytest.raises(RecordIDError, match=r'Batch.*stale'):
             execute()
 
-        assert session.raw['plus'](1, 2) == 3
+        assert session.workspace['plus'](1, 2) == 3
 
     def test_component_info_is_frozen(self, session: Session) -> None:
         component = session.components()[0]
@@ -838,7 +838,7 @@ class TestComponentsApi:
             commands.append(command)
             return 'None'
 
-        monkeypatch.setattr(session.raw._channel, 'send', send)
+        monkeypatch.setattr(session.workspace._channel, 'send', send)
 
         assert session.components() == []
         assert commands == ['__abProjectComponents(nil t)']
@@ -854,7 +854,7 @@ class TestComponentsApi:
             commands.append(command)
             return repr({'refdes': 'R1'})
 
-        monkeypatch.setattr(session.raw._channel, 'send', send)
+        monkeypatch.setattr(session.workspace._channel, 'send', send)
 
         with pytest.raises(AllegroProtocolError, match='__abMoveComponent'):
             session.components.move('R1', x=1.0, y=2.0)
@@ -916,7 +916,7 @@ class TestComponentsApi:
             commands.append(command)
             return repr(payload)
 
-        monkeypatch.setattr(session.raw._channel, 'send', send)
+        monkeypatch.setattr(session.workspace._channel, 'send', send)
 
         with pytest.raises(AllegroProtocolError, match='__abProjectComponents'):
             session.components()
@@ -977,7 +977,7 @@ class TestNetsApi:
             commands.append(command)
             return 'None'
 
-        monkeypatch.setattr(session.raw._channel, 'send', send)
+        monkeypatch.setattr(session.workspace._channel, 'send', send)
 
         assert session.nets() == []
         assert commands == ['__abProjectNets(nil)']
@@ -1026,7 +1026,7 @@ class TestNetsApi:
             commands.append(command)
             return repr(payload)
 
-        monkeypatch.setattr(session.raw._channel, 'send', send)
+        monkeypatch.setattr(session.workspace._channel, 'send', send)
 
         with pytest.raises(AllegroProtocolError, match='__abProjectNets'):
             session.nets()
@@ -1141,7 +1141,7 @@ class TestPinsApi:
         payload: object,
         session: Session,
     ) -> None:
-        monkeypatch.setattr(session.raw._channel, 'send', lambda _: repr(payload))
+        monkeypatch.setattr(session.workspace._channel, 'send', lambda _: repr(payload))
 
         with pytest.raises(AllegroProtocolError, match='__abProjectPins'):
             session.pins()
@@ -1223,7 +1223,7 @@ class TestPadstacksApi:
         payload: object,
         session: Session,
     ) -> None:
-        monkeypatch.setattr(session.raw._channel, 'send', lambda _: repr(payload))
+        monkeypatch.setattr(session.workspace._channel, 'send', lambda _: repr(payload))
 
         with pytest.raises(AllegroProtocolError, match='__abProjectPadstacks'):
             session.padstacks()
@@ -1313,7 +1313,7 @@ class TestSymbolsApi:
         payload: object,
         session: Session,
     ) -> None:
-        monkeypatch.setattr(session.raw._channel, 'send', lambda _: repr(payload))
+        monkeypatch.setattr(session.workspace._channel, 'send', lambda _: repr(payload))
 
         with pytest.raises(AllegroProtocolError, match='__abProjectSymbols'):
             session.symbols()
@@ -1538,7 +1538,7 @@ class TestViasApi:
         payload: object,
         session: Session,
     ) -> None:
-        monkeypatch.setattr(session.raw._channel, 'send', lambda _: repr(payload))
+        monkeypatch.setattr(session.workspace._channel, 'send', lambda _: repr(payload))
 
         with pytest.raises(AllegroProtocolError, match='__abProjectVias'):
             session.vias()
@@ -1766,7 +1766,7 @@ class TestRoutesApi:
         payload: object,
         session: Session,
     ) -> None:
-        monkeypatch.setattr(session.raw._channel, 'send', lambda _: repr(payload))
+        monkeypatch.setattr(session.workspace._channel, 'send', lambda _: repr(payload))
 
         with pytest.raises(AllegroProtocolError, match='__abProjectRoutes'):
             session.routes()
@@ -1887,7 +1887,7 @@ class TestShapesApi:
         payload: object,
         session: Session,
     ) -> None:
-        monkeypatch.setattr(session.raw._channel, 'send', lambda _: repr(payload))
+        monkeypatch.setattr(session.workspace._channel, 'send', lambda _: repr(payload))
 
         with pytest.raises(AllegroProtocolError, match='__abProjectShapes'):
             session.shapes()
@@ -2015,7 +2015,7 @@ class TestDrcApi:
 
         with pytest.raises(RecordIDError, match='stale'):
             session.drc.check(target)
-        assert session.raw['plus'](1, 2) == 3
+        assert session.workspace['plus'](1, 2) == 3
 
     def test_update_commits_current_markers(
         self,
@@ -2184,7 +2184,7 @@ class TestDrcApi:
         session: Session,
     ) -> None:
         drc = session.drc
-        monkeypatch.setattr(session.raw._channel, 'send', lambda _: repr(payload))
+        monkeypatch.setattr(session.workspace._channel, 'send', lambda _: repr(payload))
 
         with pytest.raises(AllegroProtocolError, match='__abProjectDrcs'):
             drc()
@@ -2208,11 +2208,11 @@ class TestBoundApi:
             session.bind(MissingServerApi)
 
         assert second.value is first.value
-        assert session.raw['plus'](1, 2) == 3
+        assert session.workspace['plus'](1, 2) == 3
         assert session.board()._id == _session_id(session)
         assert isinstance(session.components(), list)
         assert isinstance(session.nets(), list)
-        assert session.raw.transaction(SkillCode('42')) == 42
+        assert session.workspace.transaction(SkillCode('42')) == 42
 
     def test_extension_read_loads_and_returns_strict_records(
         self,
