@@ -1,0 +1,66 @@
+........................................................................ [ 10%]
+........................................................................ [ 21%]
+........................................................................ [ 32%]
+........................................................................ [ 43%]
+........................................................................ [ 54%]
+...............................................................sssssssss [ 64%]
+ssssssssssssssssss...................................................... [ 75%]
+........................................................................ [ 86%]
+........................................................................ [ 97%]
+.................                                                        [100%]
+============================== warnings summary ===============================
+tests/allegrobridge/test_integration.py::TestShapesApi::test_missing_filters_return_empty_collection
+  Skill response:0: UserWarning:  (axlDBGetShapes): No match for class name - "__MISSING_LAYER__"
+
+tests/allegrobridge/test_integration.py::TestShapesApi::test_missing_filters_return_empty_collection
+  Skill response:1: UserWarning:
+
+tests/allegrobridge/test_integration.py::TestSkill::test_run_skill_suite_returns_report_to_python
+  Skill response:0: UserWarning:  (removeMethod): method does not exist :_ilSharedInitialize for class:qtest:::Result
+
+tests/allegrobridge/test_integration.py::TestSkill::test_run_skill_suite_returns_report_to_python
+  Skill response:1: UserWarning:
+
+tests/allegrobridge/test_integration.py::TestSkill::test_run_skill_suite_returns_report_to_python
+  Skill response:2: UserWarning:  (def): macro __pyCaptureWarnings redefined
+
+tests/allegrobridge/test_integration.py::TestSkill::test_run_skill_suite_returns_report_to_python
+  Skill response:3: UserWarning:  (reader): expression was improperly terminated by EOF at line 1 of string "("
+
+tests/allegrobridge/test_integration.py::TestSkill::test_run_skill_suite_returns_report_to_python
+  Skill response:4: UserWarning:  (reader): expression was improperly terminated by EOF at line 1 of string "("
+
+tests/allegrobridge/test_integration.py::TestSkill::test_run_skill_suite_returns_report_to_python
+  Skill response:5: UserWarning:  (axlDBGetShapes): No match for class name - "__MISSING_LAYER__"
+
+tests/allegrobridge/test_integration.py::TestSkill::test_run_skill_suite_returns_report_to_python
+  Skill response:6: UserWarning:
+
+tests/allegrobridge/test_main.py::test_main_entry_point
+  <frozen runpy>:128: RuntimeWarning: 'allegrobridge.__main__' found in sys.modules after import of package 'allegrobridge', but prior to execution of 'allegrobridge.__main__'; this may result in unpredictable behaviour
+
+tests/test_integration.py::test_can_add_two_numbers
+  D:\AutoPlacer\skillbridge\tests\test_integration.py:21: UserWarning: Skipping integration tests, because Workspace could not connect
+    warn("Skipping integration tests, because Workspace could not connect", UserWarning)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=============================== tests coverage ================================
+_______________ coverage: platform win32, python 3.12.0-final-0 _______________
+
+Name                                  Stmts   Miss Branch BrPart   Cover
+------------------------------------------------------------------------
+allegrobridge\_runtime.py               208     30     72     16  83.57%
+allegrobridge\allegro.py                153     13     32      8  88.65%
+skillbridge\client\channel.py           154     29     14      2  80.36%
+skillbridge\client\objects.py           156     11     26      3  91.21%
+skillbridge\client\workspace.py         267      6     20      0  97.91%
+skillbridge\exception.py                 66      4      4      2  91.43%
+skillbridge\server\_pipe.py             250      1     68      1  99.37%
+skillbridge\server\python_server.py     148     20     14      0  87.65%
+skillbridge\version.py                    1      1      0      0   0.00%
+------------------------------------------------------------------------
+TOTAL                                  3210    115    496     32  95.93%
+
+49 files skipped due to complete coverage.
+Coverage HTML written to dir htmlcov
+638 passed, 27 skipped, 11 warnings in 317.72s (0:05:17)

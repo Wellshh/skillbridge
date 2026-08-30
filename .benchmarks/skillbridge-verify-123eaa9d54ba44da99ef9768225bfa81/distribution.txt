@@ -1,0 +1,63 @@
+..                                                                       [100%]
+=============================== tests coverage ================================
+_______________ coverage: platform win32, python 3.12.0-final-0 _______________
+
+Name                                          Stmts   Miss Branch BrPart   Cover
+--------------------------------------------------------------------------------
+allegrobridge\__init__.py                         6      6      0      0   0.00%
+allegrobridge\__main__.py                        19     19      2      0   0.00%
+allegrobridge\_runtime.py                       208    208     72      0   0.00%
+allegrobridge\allegro.py                        153    153     32      0   0.00%
+allegrobridge\client\api\__init__.py             15     15      0      0   0.00%
+allegrobridge\client\api\board.py                17     17      0      0   0.00%
+allegrobridge\client\api\components.py           48     48      4      0   0.00%
+allegrobridge\client\api\drc.py                  59     59      8      0   0.00%
+allegrobridge\client\api\geometry.py             41     41      2      0   0.00%
+allegrobridge\client\api\layers.py               29     29      0      0   0.00%
+allegrobridge\client\api\nets.py                 24     24      0      0   0.00%
+allegrobridge\client\api\padstacks.py            26     26      0      0   0.00%
+allegrobridge\client\api\pins.py                 36     36      2      0   0.00%
+allegrobridge\client\api\routes.py               39     39      6      0   0.00%
+allegrobridge\client\api\shapes.py               25     25      0      0   0.00%
+allegrobridge\client\api\symbols.py              22     22      0      0   0.00%
+allegrobridge\client\api\vias.py                 30     30      0      0   0.00%
+allegrobridge\client\base\__init__.py             8      8      0      0   0.00%
+allegrobridge\client\base\_datastructure.py      41     41      6      0   0.00%
+allegrobridge\client\base\_extensions.py          6      6      0      0   0.00%
+allegrobridge\client\base\_future.py             59     59     10      0   0.00%
+allegrobridge\client\base\_record.py             30     30     10      0   0.00%
+allegrobridge\client\base\_rpc.py               145    145     22      0   0.00%
+allegrobridge\client\session\__init__.py          3      3      0      0   0.00%
+allegrobridge\client\session\domains.py           7      7      0      0   0.00%
+allegrobridge\client\session\session.py          78     78     10      0   0.00%
+allegrobridge\client\translator.py               31     31      4      0   0.00%
+allegrobridge\client\workspace.py               124    124     22      0   0.00%
+allegrobridge\exceptions.py                      20     20      0      0   0.00%
+allegrobridge\util.py                            44     44     16      0   0.00%
+skillbridge\__init__.py                          49     31     12      0  29.51%
+skillbridge\__main__.py                          40     40      2      0   0.00%
+skillbridge\client\channel.py                   154    103     14      0  30.36%
+skillbridge\client\expr.py                      214    104     40      0  44.09%
+skillbridge\client\functions.py                  51     28      4      0  41.82%
+skillbridge\client\globals.py                    70     40      8      0  38.46%
+skillbridge\client\hints.py                      30      6      0      0  80.00%
+skillbridge\client\objects.py                   156    103     26      0  29.12%
+skillbridge\client\remote.py                     21      9      0      0  57.14%
+skillbridge\client\translator.py                122     71     26      0  34.46%
+skillbridge\client\workspace.py                 267     82     20      0  64.46%
+skillbridge\exception.py                         66     26      4      0  57.14%
+skillbridge\protocol\response.py                 55     55     16      0   0.00%
+skillbridge\protocol\socket.py                   58     37     14      0  29.17%
+skillbridge\server\_pipe.py                     250    250     68      0   0.00%
+skillbridge\server\python_server.py             148    148     14      0   1.23%
+skillbridge\test\__init__.py                      2      2      0      0   0.00%
+skillbridge\test\channel.py                      26     26      0      0   0.00%
+skillbridge\test\translator.py                    8      8      0      0   0.00%
+skillbridge\test\workspace.py                    28     28      0      0   0.00%
+skillbridge\version.py                            1      1      0      0   0.00%
+--------------------------------------------------------------------------------
+TOTAL                                          3210   2591    496      0  16.81%
+
+7 files skipped due to complete coverage.
+Coverage HTML written to dir htmlcov
+2 passed in 10.48s

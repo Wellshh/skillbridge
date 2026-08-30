@@ -1,0 +1,28 @@
+--- Allegro context ---
+{"allegro_full_version": "17.2-2016 S048", "allegro_release": "S048", "board_sha256": "3e59d640ca48030bd38b1c823c316dfcb75bc71d9590f74da67d0b81911f7863", "board_component_count": 15, "board_symbol_count": 15, "board_net_count": 32}
+--- commit ---
+{"id": "eeb253ea58b4c2b68d7ce6ce45509aa890bf4eb3", "time": "2026-08-30T09:46:58+08:00", "author_time": "2026-08-30T09:46:58+08:00", "dirty": false, "project": "skillbridge", "branch": "ast-refactor"}
+--- cross-process median summary (ms, ops/s from center) ---
+benchmark/test_allegro.py::test_domain_read[board] median_center_ms=0.600 min_ms=0.595 max_ms=0.611 mad_ms=0.005 center_ops_s=1666.944
+benchmark/test_allegro.py::test_domain_read[components] median_center_ms=1.166 min_ms=1.149 max_ms=1.231 mad_ms=0.017 center_ops_s=857.412
+benchmark/test_allegro.py::test_domain_read[nets] median_center_ms=1.313 min_ms=1.306 max_ms=1.368 mad_ms=0.007 center_ops_s=761.905
+benchmark/test_allegro.py::test_echo_payload[1MiB] median_center_ms=173.913 min_ms=168.301 max_ms=176.924 mad_ms=3.010 center_ops_s=5.750
+benchmark/test_allegro.py::test_echo_payload[4KiB] median_center_ms=1.229 min_ms=1.192 max_ms=1.259 mad_ms=0.030 center_ops_s=813.703
+benchmark/test_allegro.py::test_echo_payload[64B] median_center_ms=0.515 min_ms=0.507 max_ms=0.566 mad_ms=0.008 center_ops_s=1940.053
+benchmark/test_allegro.py::test_raw_noop median_center_ms=0.428 min_ms=0.412 max_ms=0.486 mad_ms=0.016 center_ops_s=2335.630
+benchmark/test_allegro.py::test_request_payload[1MiB] median_center_ms=29.489 min_ms=29.409 max_ms=30.391 mad_ms=0.081 center_ops_s=33.910
+benchmark/test_allegro.py::test_request_payload[4KiB] median_center_ms=0.597 min_ms=0.502 max_ms=0.617 mad_ms=0.019 center_ops_s=1673.780
+benchmark/test_allegro.py::test_request_payload[64B] median_center_ms=0.449 min_ms=0.408 max_ms=0.495 mad_ms=0.042 center_ops_s=2225.437
+benchmark/test_allegro.py::test_response_payload[1MiB] median_center_ms=137.401 min_ms=134.277 max_ms=141.485 mad_ms=3.124 center_ops_s=7.278
+benchmark/test_allegro.py::test_response_payload[4KiB] median_center_ms=0.961 min_ms=0.859 max_ms=0.968 mad_ms=0.006 center_ops_s=1040.420
+benchmark/test_allegro.py::test_response_payload[64B] median_center_ms=0.401 min_ms=0.363 max_ms=0.493 mad_ms=0.038 center_ops_s=2491.901
+benchmark/test_allegro.py::test_steady_state_plus median_center_ms=0.508 min_ms=0.425 max_ms=0.526 mad_ms=0.018 center_ops_s=1967.149
+--- micro (median, ops/s) ---
+benchmark/test_micro.py::test_socket_encode_header median_us=0.238 ops_s=4020747.848
+benchmark/test_micro.py::test_socket_decode_header median_us=0.204 ops_s=4870338.175
+benchmark/test_micro.py::test_response_recv_stringio[64B] median_us=7.600 ops_s=130970.371
+benchmark/test_micro.py::test_response_recv_stringio[4KiB] median_us=333.400 ops_s=2708.987
+benchmark/test_micro.py::test_response_recv_stringio[1MiB] median_us=116042.600 ops_s=8.708
+benchmark/test_micro.py::test_translator_encode median_us=220.900 ops_s=4923.454
+benchmark/test_micro.py::test_translator_decode median_us=108.100 ops_s=9165.291
+benchmark/test_micro.py::test_expr_renderer median_us=3.800 ops_s=260700.032

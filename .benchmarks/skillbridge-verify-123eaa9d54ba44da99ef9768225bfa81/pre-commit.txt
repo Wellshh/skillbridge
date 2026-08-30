@@ -1,0 +1,3572 @@
+ruff format..............................................................Passed
+ruff lint................................................................Failed
+- hook id: ruff
+- exit code: 1
+
+All checks passed!
+deprecated-import: [*] Import from `collections.abc` instead: `Sequence`
+  --> .agents\skills\cadence-skill-agent\scripts\convert_pdf_references.py:12:1
+   |
+10 | import subprocess
+11 | from pathlib import Path
+12 | from typing import Dict, List, NamedTuple, Optional, Sequence, Tuple
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+13 |
+14 | TOKEN_LIMIT = 15_000
+   |
+help: Import from `collections.abc`
+   |
+11 | from pathlib import Path
+   - from typing import Dict, List, NamedTuple, Optional, Sequence, Tuple
+12 + from typing import Dict, List, NamedTuple, Optional, Tuple
+13 + from collections.abc import Sequence
+14 |
+   |
+
+deprecated-import: `typing.Dict` is deprecated, use `dict` instead
+  --> .agents\skills\cadence-skill-agent\scripts\convert_pdf_references.py:12:1
+   |
+10 | import subprocess
+11 | from pathlib import Path
+12 | from typing import Dict, List, NamedTuple, Optional, Sequence, Tuple
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+13 |
+14 | TOKEN_LIMIT = 15_000
+   |
+
+deprecated-import: `typing.List` is deprecated, use `list` instead
+  --> .agents\skills\cadence-skill-agent\scripts\convert_pdf_references.py:12:1
+   |
+10 | import subprocess
+11 | from pathlib import Path
+12 | from typing import Dict, List, NamedTuple, Optional, Sequence, Tuple
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+13 |
+14 | TOKEN_LIMIT = 15_000
+   |
+
+deprecated-import: `typing.Tuple` is deprecated, use `tuple` instead
+  --> .agents\skills\cadence-skill-agent\scripts\convert_pdf_references.py:12:1
+   |
+10 | import subprocess
+11 | from pathlib import Path
+12 | from typing import Dict, List, NamedTuple, Optional, Sequence, Tuple
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+13 |
+14 | TOKEN_LIMIT = 15_000
+   |
+
+non-pep585-annotation: [*] Use `tuple` instead of `Tuple` for type annotation
+  --> .agents\skills\cadence-skill-agent\scripts\convert_pdf_references.py:31:12
+   |
+30 | class ApiDeclaration(NamedTuple):
+31 |     names: Tuple[str, ...]
+   |            ^^^^^
+32 |     signature: str
+   |
+help: Replace with `tuple`
+   |
+30 | class ApiDeclaration(NamedTuple):
+   -     names: Tuple[str, ...]
+31 +     names: tuple[str, ...]
+32 |     signature: str
+   |
+
+subprocess-without-shell-equals-true: `subprocess` call: check for execution of untrusted input
+  --> .agents\skills\cadence-skill-agent\scripts\convert_pdf_references.py:39:14
+   |
+37 |     if executable is None:
+38 |         raise RuntimeError("pdftotext is required to convert bundled PDF references")
+39 |     result = subprocess.run(
+   |              ^^^^^^^^^^^^^^
+40 |         [executable, "-layout", str(path), "-"],
+41 |         check=False,
+   |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+  --> .agents\skills\cadence-skill-agent\scripts\convert_pdf_references.py:51:30
+   |
+51 | def _pdf_pages(text: str) -> List[str]:
+   |                              ^^^^
+52 |     pages = text.replace("\r\n", "\n").replace("\r", "\n").split("\f")
+53 |     while pages and not pages[-1].strip():
+   |
+help: Replace with `list`
+   |
+50 |
+   - def _pdf_pages(text: str) -> List[str]:
+51 + def _pdf_pages(text: str) -> list[str]:
+52 |     pages = text.replace("\r\n", "\n").replace("\r", "\n").split("\f")
+   |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+  --> .agents\skills\cadence-skill-agent\scripts\convert_pdf_references.py:58:44
+   |
+58 | def extract_api_declarations(page: str) -> List[ApiDeclaration]:
+   |                                            ^^^^
+59 |     """Extract formal declarations, excluding examples that merely call an API."""
+60 |     lines = [line.strip() for line in page.splitlines()]
+   |
+help: Replace with `list`
+   |
+57 |
+   - def extract_api_declarations(page: str) -> List[ApiDeclaration]:
+58 + def extract_api_declarations(page: str) -> list[ApiDeclaration]:
+59 |     """Extract formal declarations, excluding examples that merely call an API."""
+   |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+  --> .agents\skills\cadence-skill-agent\scripts\convert_pdf_references.py:61:19
+   |
+59 |     """Extract formal declarations, excluding examples that merely call an API."""
+60 |     lines = [line.strip() for line in page.splitlines()]
+61 |     declarations: List[ApiDeclaration] = []
+   |                   ^^^^
+62 |     for index, value in enumerate(lines):
+63 |         if API_NAME.fullmatch(value) is None:
+   |
+help: Replace with `list`
+   |
+60 |     lines = [line.strip() for line in page.splitlines()]
+   -     declarations: List[ApiDeclaration] = []
+61 +     declarations: list[ApiDeclaration] = []
+62 |     for index, value in enumerate(lines):
+   |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+  --> .agents\skills\cadence-skill-agent\scripts\convert_pdf_references.py:71:26
+   |
+69 |         if cursor >= len(lines) or not lines[cursor].startswith(f"{names[0]}("):
+70 |             continue
+71 |         signature_lines: List[str] = []
+   |                          ^^^^
+72 |         for candidate in lines[cursor : cursor + 30]:
+73 |             if candidate:
+   |
+help: Replace with `list`
+   |
+70 |             continue
+   -         signature_lines: List[str] = []
+71 +         signature_lines: list[str] = []
+72 |         for candidate in lines[cursor : cursor + 30]:
+   |
+
+complex-structure: `render_document` is too complex (11 > 10)
+   --> .agents\skills\cadence-skill-agent\scripts\convert_pdf_references.py:100:5
+    |
+100 | def render_document(stem: str, pages: Sequence[str]) -> List[str]:
+    |     ^^^^^^^^^^^^^^^
+101 |     if stem not in DOCUMENT_TITLES:
+102 |         raise ValueError(f"unsupported PDF reference: {stem}")
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\convert_pdf_references.py:100:57
+    |
+100 | def render_document(stem: str, pages: Sequence[str]) -> List[str]:
+    |                                                         ^^^^
+101 |     if stem not in DOCUMENT_TITLES:
+102 |         raise ValueError(f"unsupported PDF reference: {stem}")
+    |
+help: Replace with `list`
+    |
+99  |
+    - def render_document(stem: str, pages: Sequence[str]) -> List[str]:
+100 + def render_document(stem: str, pages: Sequence[str]) -> list[str]:
+101 |     if stem not in DOCUMENT_TITLES:
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\convert_pdf_references.py:103:20
+    |
+101 |     if stem not in DOCUMENT_TITLES:
+102 |         raise ValueError(f"unsupported PDF reference: {stem}")
+103 |     atomic_chunks: List[str] = []
+    |                    ^^^^
+104 |     current_api: List[str] = []
+105 |     seen_api = False
+    |
+help: Replace with `list`
+    |
+102 |         raise ValueError(f"unsupported PDF reference: {stem}")
+    -     atomic_chunks: List[str] = []
+103 +     atomic_chunks: list[str] = []
+104 |     current_api: List[str] = []
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\convert_pdf_references.py:104:18
+    |
+102 |         raise ValueError(f"unsupported PDF reference: {stem}")
+103 |     atomic_chunks: List[str] = []
+104 |     current_api: List[str] = []
+    |                  ^^^^
+105 |     seen_api = False
+106 |     for index, page in enumerate(pages, start=1):
+    |
+help: Replace with `list`
+    |
+103 |     atomic_chunks: List[str] = []
+    -     current_api: List[str] = []
+104 +     current_api: list[str] = []
+105 |     seen_api = False
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\convert_pdf_references.py:120:12
+    |
+118 |         atomic_chunks.append("".join(current_api))
+119 |
+120 |     parts: List[str] = []
+    |            ^^^^
+121 |     current: List[str] = []
+122 |     current_chars = 0
+    |
+help: Replace with `list`
+    |
+119 |
+    -     parts: List[str] = []
+120 +     parts: list[str] = []
+121 |     current: List[str] = []
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\convert_pdf_references.py:121:14
+    |
+120 |     parts: List[str] = []
+121 |     current: List[str] = []
+    |              ^^^^
+122 |     current_chars = 0
+123 |     for chunk in atomic_chunks:
+    |
+help: Replace with `list`
+    |
+120 |     parts: List[str] = []
+    -     current: List[str] = []
+121 +     current: list[str] = []
+122 |     current_chars = 0
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\convert_pdf_references.py:133:15
+    |
+131 |         parts.append("".join(current))
+132 |
+133 |     rendered: List[str] = []
+    |               ^^^^
+134 |     for part_number, body in enumerate(parts, start=1):
+135 |         rendered.append(
+    |
+help: Replace with `list`
+    |
+132 |
+    -     rendered: List[str] = []
+133 +     rendered: list[str] = []
+134 |     for part_number, body in enumerate(parts, start=1):
+    |
+
+non-pep585-annotation: [*] Use `dict` instead of `Dict` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\convert_pdf_references.py:144:59
+    |
+144 | def expected_outputs(root: Path, stems: Sequence[str]) -> Dict[Path, str]:
+    |                                                           ^^^^
+145 |     outputs: Dict[Path, str] = {}
+146 |     for stem in stems:
+    |
+help: Replace with `dict`
+    |
+143 |
+    - def expected_outputs(root: Path, stems: Sequence[str]) -> Dict[Path, str]:
+144 + def expected_outputs(root: Path, stems: Sequence[str]) -> dict[Path, str]:
+145 |     outputs: Dict[Path, str] = {}
+    |
+
+non-pep585-annotation: [*] Use `dict` instead of `Dict` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\convert_pdf_references.py:145:14
+    |
+144 | def expected_outputs(root: Path, stems: Sequence[str]) -> Dict[Path, str]:
+145 |     outputs: Dict[Path, str] = {}
+    |              ^^^^
+146 |     for stem in stems:
+147 |         source = root / "docs" / f"{stem}.pdf"
+    |
+help: Replace with `dict`
+    |
+144 | def expected_outputs(root: Path, stems: Sequence[str]) -> Dict[Path, str]:
+    -     outputs: Dict[Path, str] = {}
+145 +     outputs: dict[Path, str] = {}
+146 |     for stem in stems:
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\convert_pdf_references.py:183:48
+    |
+183 | def check(root: Path, stems: Sequence[str]) -> List[str]:
+    |                                                ^^^^
+184 |     outputs = expected_outputs(root, stems)
+185 |     errors: List[str] = []
+    |
+help: Replace with `list`
+    |
+182 |
+    - def check(root: Path, stems: Sequence[str]) -> List[str]:
+183 + def check(root: Path, stems: Sequence[str]) -> list[str]:
+184 |     outputs = expected_outputs(root, stems)
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\convert_pdf_references.py:185:13
+    |
+183 | def check(root: Path, stems: Sequence[str]) -> List[str]:
+184 |     outputs = expected_outputs(root, stems)
+185 |     errors: List[str] = []
+    |             ^^^^
+186 |     for path, expected in outputs.items():
+187 |         if not path.is_file() or path.read_text(encoding="utf-8") != expected:
+    |
+help: Replace with `list`
+    |
+184 |     outputs = expected_outputs(root, stems)
+    -     errors: List[str] = []
+185 +     errors: list[str] = []
+186 |     for path, expected in outputs.items():
+    |
+
+manual-list-comprehension: Use `list.extend` to create a transformed list
+   --> .agents\skills\cadence-skill-agent\scripts\convert_pdf_references.py:194:17
+    |
+192 |         for path in destination.glob(f"{stem}.part*.md") if destination.is_dir() else ():
+193 |             if path not in expected_paths:
+194 |                 errors.append(f"unexpected converted reference part: {path.relative_to(root)}")
+    |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+195 |     return errors
+    |
+help: Replace for loop with list.extend
+
+non-pep604-annotation-optional: [*] Use `X | None` for type annotations
+   --> .agents\skills\cadence-skill-agent\scripts\convert_pdf_references.py:202:16
+    |
+202 | def main(argv: Optional[Sequence[str]] = None) -> int:
+    |                ^^^^^^^^^^^^^^^^^^^^^^^
+203 |     parser = argparse.ArgumentParser(description=__doc__)
+204 |     parser.add_argument("--root", type=Path, default=_default_root())
+    |
+help: Convert to `X | None`
+    |
+201 |
+    - def main(argv: Optional[Sequence[str]] = None) -> int:
+202 + def main(argv: Sequence[str] | None = None) -> int:
+203 |     parser = argparse.ArgumentParser(description=__doc__)
+    |
+
+Found 23 errors.
+[*] 17 fixable with the `--fix` option (1 hidden fix can be enabled with the `--unsafe-fixes` option).
+All checks passed!
+All checks passed!
+All checks passed!
+All checks passed!
+implicit-namespace-package: File `.agents\skills\cadence-skill-agent\tests\test_convert_pdf_references.py` is part of an implicit namespace package. Add an `__init__.py`.
+--> .agents\skills\cadence-skill-agent\tests\test_convert_pdf_references.py:1:1
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `load_converter`
+  --> .agents\skills\cadence-skill-agent\tests\test_convert_pdf_references.py:8:5
+   |
+ 8 | def load_converter():
+   |     ^^^^^^^^^^^^^^
+ 9 |     spec = importlib.util.spec_from_file_location("convert_pdf_references", SCRIPT_PATH)
+10 |     if spec is None or spec.loader is None:
+   |
+help: Add return type annotation
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_extracts_multiline_formal_declaration`
+  --> .agents\skills\cadence-skill-agent\tests\test_convert_pdf_references.py:18:9
+   |
+17 | class PdfReferenceConverterTests(unittest.TestCase):
+18 |     def test_extracts_multiline_formal_declaration(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+19 |         page = (
+20 |             "ipcBeginProcess\n"
+   |
+help: Add return type annotation: `None`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+  --> .agents\skills\cadence-skill-agent\tests\test_convert_pdf_references.py:31:9
+   |
+29 |         declarations = load_converter().extract_api_declarations(page)
+30 |
+31 |         self.assertEqual([entry.names for entry in declarations], [("ipcBeginProcess",)])
+   |         ^^^^^^^^^^^^^^^^
+32 |         self.assertEqual(
+33 |             declarations[0].signature,
+   |
+help: Replace `assertEqual(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+  --> .agents\skills\cadence-skill-agent\tests\test_convert_pdf_references.py:32:9
+   |
+31 |         self.assertEqual([entry.names for entry in declarations], [("ipcBeginProcess",)])
+32 |         self.assertEqual(
+   |         ^^^^^^^^^^^^^^^^
+33 |             declarations[0].signature,
+34 |             "ipcBeginProcess( t_command [ t_hostName ] ) => o_childId",
+   |
+help: Replace `assertEqual(...)` with `assert ...`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_does_not_treat_example_call_as_a_declaration`
+  --> .agents\skills\cadence-skill-agent\tests\test_convert_pdf_references.py:37:9
+   |
+35 |         )
+36 |
+37 |     def test_does_not_treat_example_call_as_a_declaration(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+38 |         page = "Example\nresult = ipcBeginProcess(\"hostname\")\n=> ipc:3\n"
+   |
+help: Add return type annotation: `None`
+
+avoidable-escaped-quote: [*] Change outer quotes to avoid escaping inner quotes
+  --> .agents\skills\cadence-skill-agent\tests\test_convert_pdf_references.py:38:16
+   |
+37 |     def test_does_not_treat_example_call_as_a_declaration(self):
+38 |         page = "Example\nresult = ipcBeginProcess(\"hostname\")\n=> ipc:3\n"
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+39 |
+40 |         declarations = load_converter().extract_api_declarations(page)
+   |
+help: Change outer quotes to avoid escaping inner quotes
+   |
+37 |     def test_does_not_treat_example_call_as_a_declaration(self):
+   -         page = "Example\nresult = ipcBeginProcess(\"hostname\")\n=> ipc:3\n"
+38 +         page = 'Example\nresult = ipcBeginProcess("hostname")\n=> ipc:3\n'
+39 |
+   |
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+  --> .agents\skills\cadence-skill-agent\tests\test_convert_pdf_references.py:42:9
+   |
+40 |         declarations = load_converter().extract_api_declarations(page)
+41 |
+42 |         self.assertEqual(declarations, [])
+   |         ^^^^^^^^^^^^^^^^
+43 |
+44 |     def test_splits_only_between_physical_pages(self):
+   |
+help: Replace `assertEqual(...)` with `assert ...`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_splits_only_between_physical_pages`
+  --> .agents\skills\cadence-skill-agent\tests\test_convert_pdf_references.py:44:9
+   |
+42 |         self.assertEqual(declarations, [])
+43 |
+44 |     def test_splits_only_between_physical_pages(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+45 |         converter = load_converter()
+46 |         page = "x" * (converter.PART_CHAR_LIMIT // 2 + 100)
+   |
+help: Add return type annotation: `None`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+  --> .agents\skills\cadence-skill-agent\tests\test_convert_pdf_references.py:50:9
+   |
+48 |         parts = converter.render_document("skipcref", [page, page, page])
+49 |
+50 |         self.assertEqual(len(parts), 3)
+   |         ^^^^^^^^^^^^^^^^
+51 |         self.assertIn("## PDF page 1", parts[0])
+52 |         self.assertIn("## PDF page 2", parts[1])
+   |
+help: Replace `assertEqual(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertIn`
+  --> .agents\skills\cadence-skill-agent\tests\test_convert_pdf_references.py:51:9
+   |
+50 |         self.assertEqual(len(parts), 3)
+51 |         self.assertIn("## PDF page 1", parts[0])
+   |         ^^^^^^^^^^^^^
+52 |         self.assertIn("## PDF page 2", parts[1])
+53 |         self.assertIn("## PDF page 3", parts[2])
+   |
+help: Replace `assertIn(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertIn`
+  --> .agents\skills\cadence-skill-agent\tests\test_convert_pdf_references.py:52:9
+   |
+50 |         self.assertEqual(len(parts), 3)
+51 |         self.assertIn("## PDF page 1", parts[0])
+52 |         self.assertIn("## PDF page 2", parts[1])
+   |         ^^^^^^^^^^^^^
+53 |         self.assertIn("## PDF page 3", parts[2])
+   |
+help: Replace `assertIn(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertIn`
+  --> .agents\skills\cadence-skill-agent\tests\test_convert_pdf_references.py:53:9
+   |
+51 |         self.assertIn("## PDF page 1", parts[0])
+52 |         self.assertIn("## PDF page 2", parts[1])
+53 |         self.assertIn("## PDF page 3", parts[2])
+   |         ^^^^^^^^^^^^^
+54 |
+55 |     def test_keeps_multi_page_api_entry_in_one_part(self):
+   |
+help: Replace `assertIn(...)` with `assert ...`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_keeps_multi_page_api_entry_in_one_part`
+  --> .agents\skills\cadence-skill-agent\tests\test_convert_pdf_references.py:55:9
+   |
+53 |         self.assertIn("## PDF page 3", parts[2])
+54 |
+55 |     def test_keeps_multi_page_api_entry_in_one_part(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+56 |         converter = load_converter()
+57 |         first_api = "firstApi\nfirstApi(\n)\n=> t\n"
+   |
+help: Add return type annotation: `None`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+  --> .agents\skills\cadence-skill-agent\tests\test_convert_pdf_references.py:66:9
+   |
+64 |         )
+65 |
+66 |         self.assertEqual(len(parts), 2)
+   |         ^^^^^^^^^^^^^^^^
+67 |         self.assertIn("### firstApi", parts[0])
+68 |         self.assertIn("## PDF page 2", parts[0])
+   |
+help: Replace `assertEqual(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertIn`
+  --> .agents\skills\cadence-skill-agent\tests\test_convert_pdf_references.py:67:9
+   |
+66 |         self.assertEqual(len(parts), 2)
+67 |         self.assertIn("### firstApi", parts[0])
+   |         ^^^^^^^^^^^^^
+68 |         self.assertIn("## PDF page 2", parts[0])
+69 |         self.assertNotIn("### secondApi", parts[0])
+   |
+help: Replace `assertIn(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertIn`
+  --> .agents\skills\cadence-skill-agent\tests\test_convert_pdf_references.py:68:9
+   |
+66 |         self.assertEqual(len(parts), 2)
+67 |         self.assertIn("### firstApi", parts[0])
+68 |         self.assertIn("## PDF page 2", parts[0])
+   |         ^^^^^^^^^^^^^
+69 |         self.assertNotIn("### secondApi", parts[0])
+70 |         self.assertIn("### secondApi", parts[1])
+   |
+help: Replace `assertIn(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertNotIn`
+  --> .agents\skills\cadence-skill-agent\tests\test_convert_pdf_references.py:69:9
+   |
+67 |         self.assertIn("### firstApi", parts[0])
+68 |         self.assertIn("## PDF page 2", parts[0])
+69 |         self.assertNotIn("### secondApi", parts[0])
+   |         ^^^^^^^^^^^^^^^^
+70 |         self.assertIn("### secondApi", parts[1])
+   |
+help: Replace `assertNotIn(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertIn`
+  --> .agents\skills\cadence-skill-agent\tests\test_convert_pdf_references.py:70:9
+   |
+68 |         self.assertIn("## PDF page 2", parts[0])
+69 |         self.assertNotIn("### secondApi", parts[0])
+70 |         self.assertIn("### secondApi", parts[1])
+   |         ^^^^^^^^^^^^^
+   |
+help: Replace `assertIn(...)` with `assert ...`
+
+Found 19 errors.
+[*] 1 fixable with the `--fix` option (16 hidden fixes can be enabled with the `--unsafe-fixes` option).
+All checks passed!
+All checks passed!
+All checks passed!
+implicit-namespace-package: File `.agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py` is part of an implicit namespace package. Add an `__init__.py`.
+--> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:1:1
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `load_builder`
+  --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:11:5
+   |
+11 | def load_builder():
+   |     ^^^^^^^^^^^^
+12 |     spec = importlib.util.spec_from_file_location("build_reference_indexes", SCRIPT_PATH)
+13 |     if spec is None or spec.loader is None:
+   |
+help: Add return type annotation
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `setUp`
+  --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:21:9
+   |
+20 | class ReferenceIndexBuilderTests(unittest.TestCase):
+21 |     def setUp(self):
+   |         ^^^^^
+22 |         self.temp_dir = tempfile.TemporaryDirectory()
+23 |         self.root = Path(self.temp_dir.name)
+   |
+help: Add return type annotation: `None`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `tearDown`
+  --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:31:9
+   |
+29 |         (self.root / "docs").mkdir()
+30 |
+31 |     def tearDown(self):
+   |         ^^^^^^^^
+32 |         self.temp_dir.cleanup()
+   |
+help: Add return type annotation: `None`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_extracts_only_api_headings_with_signatures`
+  --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:34:9
+   |
+32 |         self.temp_dir.cleanup()
+33 |
+34 |     def test_extracts_only_api_headings_with_signatures(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+35 |         source = self.root / "sklangref" / "core.md"
+36 |         source.write_text(
+   |
+help: Add return type annotation: `None`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+  --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:47:9
+   |
+45 |         entries = load_builder().extract_api_entries(self.root)
+46 |
+47 |         self.assertEqual([entry.name for entry in entries], ["arglist"])
+   |         ^^^^^^^^^^^^^^^^
+48 |         self.assertEqual(entries[0].signature, "arglist( g_function ) => l_argumentList")
+49 |         self.assertEqual(entries[0].path, "sklangref/core.md")
+   |
+help: Replace `assertEqual(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+  --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:48:9
+   |
+47 |         self.assertEqual([entry.name for entry in entries], ["arglist"])
+48 |         self.assertEqual(entries[0].signature, "arglist( g_function ) => l_argumentList")
+   |         ^^^^^^^^^^^^^^^^
+49 |         self.assertEqual(entries[0].path, "sklangref/core.md")
+   |
+help: Replace `assertEqual(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+  --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:49:9
+   |
+47 |         self.assertEqual([entry.name for entry in entries], ["arglist"])
+48 |         self.assertEqual(entries[0].signature, "arglist( g_function ) => l_argumentList")
+49 |         self.assertEqual(entries[0].path, "sklangref/core.md")
+   |         ^^^^^^^^^^^^^^^^
+50 |
+51 |     def test_extracts_fenced_declaration_without_falling_through_to_example(self):
+   |
+help: Replace `assertEqual(...)` with `assert ...`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_extracts_fenced_declaration_without_falling_through_to_example`
+  --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:51:9
+   |
+49 |         self.assertEqual(entries[0].path, "sklangref/core.md")
+50 |
+51 |     def test_extracts_fenced_declaration_without_falling_through_to_example(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+52 |         source = self.root / "sklangref" / "list.md"
+53 |         source.write_text(
+   |
+help: Add return type annotation: `None`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+  --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:63:9
+   |
+61 |         entries = load_builder().extract_api_entries(self.root)
+62 |
+63 |         self.assertEqual(entries[0].signature, "append( l_list1 l_list2 ) => l_result")
+   |         ^^^^^^^^^^^^^^^^
+64 |
+65 |     def test_normalizes_markdown_markup_in_api_names(self):
+   |
+help: Replace `assertEqual(...)` with `assert ...`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_normalizes_markdown_markup_in_api_names`
+  --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:65:9
+   |
+63 |         self.assertEqual(entries[0].signature, "append( l_list1 l_list2 ) => l_result")
+64 |
+65 |     def test_normalizes_markdown_markup_in_api_names(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+66 |         source = self.root / "sklangref" / "dataoperator.md"
+67 |         source.write_text(
+   |
+help: Add return type annotation: `None`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+  --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:74:9
+   |
+72 |         entries = load_builder().extract_api_entries(self.root)
+73 |
+74 |         self.assertEqual(entries[0].name, "setf_<helper>")
+   |         ^^^^^^^^^^^^^^^^
+75 |
+76 |     def test_joins_multiline_inline_signature_and_ignores_ellipsis_alias(self):
+   |
+help: Replace `assertEqual(...)` with `assert ...`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_joins_multiline_inline_signature_and_ignores_ellipsis_alias`
+  --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:76:9
+   |
+74 |         self.assertEqual(entries[0].name, "setf_<helper>")
+75 |
+76 |     def test_joins_multiline_inline_signature_and_ignores_ellipsis_alias(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+77 |         source = self.root / "sklangref" / "inputoutput.md"
+78 |         source.write_text(
+   |
+help: Add return type annotation: `None`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+  --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:88:9
+   |
+86 |         entries = load_builder().extract_api_entries(self.root)
+87 |
+88 |         self.assertEqual([entry.name for entry in entries], ["putc"])
+   |         ^^^^^^^^^^^^^^^^
+89 |         self.assertEqual(
+90 |             entries[0].signature,
+   |
+help: Replace `assertEqual(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+  --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:89:9
+   |
+88 |         self.assertEqual([entry.name for entry in entries], ["putc"])
+89 |         self.assertEqual(
+   |         ^^^^^^^^^^^^^^^^
+90 |             entries[0].signature,
+91 |             "putc( s_character [ p_outputPort ] ) => s_symbol",
+   |
+help: Replace `assertEqual(...)` with `assert ...`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_builds_api_and_topic_indexes_with_relative_targets`
+  --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:94:9
+   |
+92 |         )
+93 |
+94 |     def test_builds_api_and_topic_indexes_with_relative_targets(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+95 |         (self.root / "sklangref" / "core.md").write_text(
+96 |             "### arglist\n\n`arglist( g_function ) => l_argumentList`\n",
+   |
+help: Add return type annotation: `None`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertIn`
+   --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:114:9
+    |
+112 |         symbol_index = (self.root / "sklang_api_index.part03.md").read_text(encoding="utf-8")
+113 |         topic_index = (self.root / "sklang_topic_index.md").read_text(encoding="utf-8")
+114 |         self.assertIn(
+    |         ^^^^^^^^^^^^^
+115 |             "| `arglist` | `arglist( g_function ) => l_argumentList` | `sklangref/core.md` |",
+116 |             api_index,
+    |
+help: Replace `assertIn(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertIn`
+   --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:118:9
+    |
+116 |             api_index,
+117 |         )
+118 |         self.assertIn(
+    |         ^^^^^^^^^^^^^
+119 |             "| `strlen` | `strlen( t_string ) => x_length` | `sklangref/stringfunc.part02.md` |",
+120 |             symbol_index,
+    |
+help: Replace `assertIn(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertIn`
+   --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:122:9
+    |
+120 |             symbol_index,
+121 |         )
+122 |         self.assertIn("| Getting Started | `sklanguser/chap1.md` |", topic_index)
+    |         ^^^^^^^^^^^^^
+123 |         self.assertIn("| Solving Common Problems | `sklanguser/chap1.md` |", topic_index)
+    |
+help: Replace `assertIn(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertIn`
+   --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:123:9
+    |
+121 |         )
+122 |         self.assertIn("| Getting Started | `sklanguser/chap1.md` |", topic_index)
+123 |         self.assertIn("| Solving Common Problems | `sklanguser/chap1.md` |", topic_index)
+    |         ^^^^^^^^^^^^^
+124 |
+125 |     def test_indexes_supplemental_skill_api_references(self):
+    |
+help: Replace `assertIn(...)` with `assert ...`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_indexes_supplemental_skill_api_references`
+   --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:125:9
+    |
+123 |         self.assertIn("| Solving Common Problems | `sklanguser/chap1.md` |", topic_index)
+124 |
+125 |     def test_indexes_supplemental_skill_api_references(self):
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+126 |         (self.root / "skipcref" / "skipcref.part01.md").write_text(
+127 |             "### ipcBeginProcess\n\n`ipcBeginProcess( t_command [ t_hostName ] ) => o_childId`\n",
+    |
+help: Add return type annotation: `None`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertIn`
+   --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:140:9
+    |
+138 |         ipc_index = (self.root / "sklang_api_index.part02.md").read_text(encoding="utf-8")
+139 |         object_index = (self.root / "sklang_api_index.part02.md").read_text(encoding="utf-8")
+140 |         self.assertIn("`skipcref/skipcref.part01.md`", ipc_index)
+    |         ^^^^^^^^^^^^^
+141 |         self.assertIn("`skoopref/skoopref.part01.md`", object_index)
+    |
+help: Replace `assertIn(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertIn`
+   --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:141:9
+    |
+139 |         object_index = (self.root / "sklang_api_index.part02.md").read_text(encoding="utf-8")
+140 |         self.assertIn("`skipcref/skipcref.part01.md`", ipc_index)
+141 |         self.assertIn("`skoopref/skoopref.part01.md`", object_index)
+    |         ^^^^^^^^^^^^^
+142 |
+143 |     def test_manifest_is_portable_and_reports_legacy_links(self):
+    |
+help: Replace `assertIn(...)` with `assert ...`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_manifest_is_portable_and_reports_legacy_links`
+   --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:143:9
+    |
+141 |         self.assertIn("`skoopref/skoopref.part01.md`", object_index)
+142 |
+143 |     def test_manifest_is_portable_and_reports_legacy_links(self):
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+144 |         (self.root / "sklangref" / "core.md").write_text(
+145 |             "### arglist\n\n`arglist( g_function ) => l_argumentList`\n\n"
+    |
+help: Add return type annotation: `None`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+   --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:157:9
+    |
+155 |         )
+156 |         serialized = json.dumps(manifest)
+157 |         self.assertEqual(manifest["schema_version"], 2)
+    |         ^^^^^^^^^^^^^^^^
+158 |         self.assertEqual(
+159 |             manifest["indexes"]["api_reference_dirs"],
+    |
+help: Replace `assertEqual(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+   --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:158:9
+    |
+156 |         serialized = json.dumps(manifest)
+157 |         self.assertEqual(manifest["schema_version"], 2)
+158 |         self.assertEqual(
+    |         ^^^^^^^^^^^^^^^^
+159 |             manifest["indexes"]["api_reference_dirs"],
+160 |             ["sklangref", "skipcref", "skdevref", "skoopref"],
+    |
+help: Replace `assertEqual(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertNotIn`
+   --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:162:9
+    |
+160 |             ["sklangref", "skipcref", "skdevref", "skoopref"],
+161 |         )
+162 |         self.assertNotIn(str(self.root), serialized)
+    |         ^^^^^^^^^^^^^^^^
+163 |         self.assertEqual(manifest["quality"]["legacy_html_links"], 1)
+164 |         self.assertEqual(manifest["documents"][0]["path"], "sklangref/core.md")
+    |
+help: Replace `assertNotIn(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+   --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:163:9
+    |
+161 |         )
+162 |         self.assertNotIn(str(self.root), serialized)
+163 |         self.assertEqual(manifest["quality"]["legacy_html_links"], 1)
+    |         ^^^^^^^^^^^^^^^^
+164 |         self.assertEqual(manifest["documents"][0]["path"], "sklangref/core.md")
+    |
+help: Replace `assertEqual(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+   --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:164:9
+    |
+162 |         self.assertNotIn(str(self.root), serialized)
+163 |         self.assertEqual(manifest["quality"]["legacy_html_links"], 1)
+164 |         self.assertEqual(manifest["documents"][0]["path"], "sklangref/core.md")
+    |         ^^^^^^^^^^^^^^^^
+165 |
+166 |     def test_check_rejects_a_document_over_the_token_limit(self):
+    |
+help: Replace `assertEqual(...)` with `assert ...`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_check_rejects_a_document_over_the_token_limit`
+   --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:166:9
+    |
+164 |         self.assertEqual(manifest["documents"][0]["path"], "sklangref/core.md")
+165 |
+166 |     def test_check_rejects_a_document_over_the_token_limit(self):
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+167 |         (self.root / "sklangref" / "huge.md").write_text("x" * 60_004, encoding="utf-8")
+    |
+help: Add return type annotation: `None`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertFalse`
+   --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:171:9
+    |
+169 |         result = load_builder().check(self.root)
+170 |
+171 |         self.assertFalse(result.ok)
+    |         ^^^^^^^^^^^^^^^^
+172 |         self.assertTrue(any("huge.md" in error for error in result.errors))
+    |
+help: Replace `assertFalse(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertTrue`
+   --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:172:9
+    |
+171 |         self.assertFalse(result.ok)
+172 |         self.assertTrue(any("huge.md" in error for error in result.errors))
+    |         ^^^^^^^^^^^^^^^
+173 |
+174 |     def test_check_rejects_a_stale_generated_index(self):
+    |
+help: Replace `assertTrue(...)` with `assert ...`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_check_rejects_a_stale_generated_index`
+   --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:174:9
+    |
+172 |         self.assertTrue(any("huge.md" in error for error in result.errors))
+173 |
+174 |     def test_check_rejects_a_stale_generated_index(self):
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+175 |         (self.root / "sklangref" / "core.md").write_text(
+176 |             "### arglist\n\n`arglist( g_function ) => l_argumentList`\n",
+    |
+help: Add return type annotation: `None`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertFalse`
+   --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:185:9
+    |
+183 |         result = builder.check(self.root)
+184 |
+185 |         self.assertFalse(result.ok)
+    |         ^^^^^^^^^^^^^^^^
+186 |         self.assertTrue(any("stale generated index" in error for error in result.errors))
+    |
+help: Replace `assertFalse(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertTrue`
+   --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:186:9
+    |
+185 |         self.assertFalse(result.ok)
+186 |         self.assertTrue(any("stale generated index" in error for error in result.errors))
+    |         ^^^^^^^^^^^^^^^
+187 |
+188 |     def test_check_rejects_a_stale_pagination_manifest(self):
+    |
+help: Replace `assertTrue(...)` with `assert ...`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_check_rejects_a_stale_pagination_manifest`
+   --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:188:9
+    |
+186 |         self.assertTrue(any("stale generated index" in error for error in result.errors))
+187 |
+188 |     def test_check_rejects_a_stale_pagination_manifest(self):
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+189 |         source = self.root / "sklangref" / "core.md"
+190 |         source.write_text(
+    |
+help: Add return type annotation: `None`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertFalse`
+   --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:200:9
+    |
+198 |         result = builder.check(self.root)
+199 |
+200 |         self.assertFalse(result.ok)
+    |         ^^^^^^^^^^^^^^^^
+201 |         self.assertTrue(any("stale pagination manifest" in error for error in result.errors))
+    |
+help: Replace `assertFalse(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertTrue`
+   --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:201:9
+    |
+200 |         self.assertFalse(result.ok)
+201 |         self.assertTrue(any("stale pagination manifest" in error for error in result.errors))
+    |         ^^^^^^^^^^^^^^^
+202 |
+203 |     def test_check_reuses_recorded_page_count_when_pdfinfo_is_unavailable(self):
+    |
+help: Replace `assertTrue(...)` with `assert ...`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_check_reuses_recorded_page_count_when_pdfinfo_is_unavailable`
+   --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:203:9
+    |
+201 |         self.assertTrue(any("stale pagination manifest" in error for error in result.errors))
+202 |
+203 |     def test_check_reuses_recorded_page_count_when_pdfinfo_is_unavailable(self):
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+204 |         (self.root / "docs" / "manual.pdf").write_bytes(b"test pdf fixture")
+205 |         builder = load_builder()
+    |
+help: Add return type annotation: `None`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertTrue`
+   --> .agents\skills\cadence-skill-agent\tests\test_build_reference_indexes.py:212:9
+    |
+210 |             result = builder.check(self.root)
+211 |
+212 |         self.assertTrue(result.ok, result.errors)
+    |         ^^^^^^^^^^^^^^^
+    |
+help: Replace `assertTrue(...)` with `assert ...`
+
+Found 40 errors.
+No fixes available (38 hidden fixes can be enabled with the `--unsafe-fixes` option).
+All checks passed!
+warning: Failed to write cache file `D:\AutoPlacer\skillbridge\.ruff_cache\0.16.0\4523476367337175508`: 拒绝访问。 (os error 5)
+warning: Failed to write cache file `D:\AutoPlacer\skillbridge\.ruff_cache\0.16.0\14947236458635257465`: 拒绝访问。 (os error 5)
+deprecated-import: [*] Import from `collections.abc` instead: `Iterable`, `Sequence`
+  --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:14:1
+   |
+12 | import subprocess
+13 | from pathlib import Path
+14 | from typing import Dict, Iterable, List, NamedTuple, Optional, Sequence, Tuple
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+15 |
+16 | TOKEN_LIMIT = 15_000
+   |
+help: Import from `collections.abc`
+   |
+13 | from pathlib import Path
+   - from typing import Dict, Iterable, List, NamedTuple, Optional, Sequence, Tuple
+14 + from typing import Dict, List, NamedTuple, Optional, Tuple
+15 + from collections.abc import Iterable, Sequence
+16 |
+   |
+
+deprecated-import: `typing.Dict` is deprecated, use `dict` instead
+  --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:14:1
+   |
+12 | import subprocess
+13 | from pathlib import Path
+14 | from typing import Dict, Iterable, List, NamedTuple, Optional, Sequence, Tuple
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+15 |
+16 | TOKEN_LIMIT = 15_000
+   |
+
+deprecated-import: `typing.List` is deprecated, use `list` instead
+  --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:14:1
+   |
+12 | import subprocess
+13 | from pathlib import Path
+14 | from typing import Dict, Iterable, List, NamedTuple, Optional, Sequence, Tuple
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+15 |
+16 | TOKEN_LIMIT = 15_000
+   |
+
+deprecated-import: `typing.Tuple` is deprecated, use `tuple` instead
+  --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:14:1
+   |
+12 | import subprocess
+13 | from pathlib import Path
+14 | from typing import Dict, Iterable, List, NamedTuple, Optional, Sequence, Tuple
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+15 |
+16 | TOKEN_LIMIT = 15_000
+   |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+  --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:61:13
+   |
+59 | class CheckResult(NamedTuple):
+60 |     ok: bool
+61 |     errors: List[str]
+   |             ^^^^
+62 |     warnings: List[str]
+   |
+help: Replace with `list`
+   |
+60 |     ok: bool
+   -     errors: List[str]
+61 +     errors: list[str]
+62 |     warnings: List[str]
+   |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+  --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:62:15
+   |
+60 |     ok: bool
+61 |     errors: List[str]
+62 |     warnings: List[str]
+   |               ^^^^
+   |
+help: Replace with `list`
+   |
+61 |     errors: List[str]
+   -     warnings: List[str]
+62 +     warnings: list[str]
+63 |
+   |
+
+non-pep604-annotation-optional: [*] Use `X | None` for type annotations
+  --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:80:75
+   |
+80 | def _signature_after_heading(lines: Sequence[str], heading_index: int) -> Optional[str]:
+   |                                                                           ^^^^^^^^^^^^^
+81 |     in_code_block = False
+82 |     code_lines: List[str] = []
+   |
+help: Convert to `X | None`
+   |
+79 |
+   - def _signature_after_heading(lines: Sequence[str], heading_index: int) -> Optional[str]:
+80 + def _signature_after_heading(lines: Sequence[str], heading_index: int) -> str | None:
+81 |     in_code_block = False
+   |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+  --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:82:17
+   |
+80 | def _signature_after_heading(lines: Sequence[str], heading_index: int) -> Optional[str]:
+81 |     in_code_block = False
+82 |     code_lines: List[str] = []
+   |                 ^^^^
+83 |     inline_lines: List[str] = []
+84 |     for line in lines[heading_index + 1 :]:
+   |
+help: Replace with `list`
+   |
+81 |     in_code_block = False
+   -     code_lines: List[str] = []
+82 +     code_lines: list[str] = []
+83 |     inline_lines: List[str] = []
+   |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+  --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:83:19
+   |
+81 |     in_code_block = False
+82 |     code_lines: List[str] = []
+83 |     inline_lines: List[str] = []
+   |                   ^^^^
+84 |     for line in lines[heading_index + 1 :]:
+85 |         if line.startswith(("### ", "#### Description")):
+   |
+help: Replace with `list`
+   |
+82 |     code_lines: List[str] = []
+   -     inline_lines: List[str] = []
+83 +     inline_lines: list[str] = []
+84 |     for line in lines[heading_index + 1 :]:
+   |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:110:40
+    |
+110 | def extract_api_entries(root: Path) -> List[ApiEntry]:
+    |                                        ^^^^
+111 |     """Extract formal SKILL API headings followed by a documented signature."""
+112 |     entries: List[ApiEntry] = []
+    |
+help: Replace with `list`
+    |
+109 |
+    - def extract_api_entries(root: Path) -> List[ApiEntry]:
+110 + def extract_api_entries(root: Path) -> list[ApiEntry]:
+111 |     """Extract formal SKILL API headings followed by a documented signature."""
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:112:14
+    |
+110 | def extract_api_entries(root: Path) -> List[ApiEntry]:
+111 |     """Extract formal SKILL API headings followed by a documented signature."""
+112 |     entries: List[ApiEntry] = []
+    |              ^^^^
+113 |     for path in _markdown_files(root, API_REFERENCE_DIRS):
+114 |         lines = path.read_text(encoding="utf-8").splitlines()
+    |
+help: Replace with `list`
+    |
+111 |     """Extract formal SKILL API headings followed by a documented signature."""
+    -     entries: List[ApiEntry] = []
+112 +     entries: list[ApiEntry] = []
+113 |     for path in _markdown_files(root, API_REFERENCE_DIRS):
+    |
+
+manual-list-comprehension: Use `list.extend` to create a transformed list
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:128:17
+    |
+126 |               ]
+127 |               for name in names:
+128 | /                 entries.append(
+129 | |                     ApiEntry(
+130 | |                         name=name,
+131 | |                         signature=signature,
+132 | |                         path=_relative(path, root),
+133 | |                         line=index + 1,
+134 | |                     )
+135 | |                 )
+    | |_________________^
+136 |       return sorted(entries, key=lambda entry: (entry.name.casefold(), entry.path, entry.line))
+    |
+help: Replace for loop with list.extend
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:154:42
+    |
+154 | def extract_topic_entries(root: Path) -> List[TopicEntry]:
+    |                                          ^^^^
+155 |     """Extract navigable section headings from the SKILL User Guide chapters."""
+156 |     entries: List[TopicEntry] = []
+    |
+help: Replace with `list`
+    |
+153 |
+    - def extract_topic_entries(root: Path) -> List[TopicEntry]:
+154 + def extract_topic_entries(root: Path) -> list[TopicEntry]:
+155 |     """Extract navigable section headings from the SKILL User Guide chapters."""
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:156:14
+    |
+154 | def extract_topic_entries(root: Path) -> List[TopicEntry]:
+155 |     """Extract navigable section headings from the SKILL User Guide chapters."""
+156 |     entries: List[TopicEntry] = []
+    |              ^^^^
+157 |     seen: set = set()
+158 |     for path in _markdown_files(root, ("sklanguser",)):
+    |
+help: Replace with `list`
+    |
+155 |     """Extract navigable section headings from the SKILL User Guide chapters."""
+    -     entries: List[TopicEntry] = []
+156 +     entries: list[TopicEntry] = []
+157 |     seen: set = set()
+    |
+
+non-pep604-annotation-optional: [*] Use `X | None` for type annotations
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:163:20
+    |
+161 |         lines = path.read_text(encoding="utf-8").splitlines()
+162 |         for index, line in enumerate(lines):
+163 |             topic: Optional[str] = None
+    |                    ^^^^^^^^^^^^^
+164 |             if line.startswith(("## ", "### ")):
+165 |                 topic = line.lstrip("#").strip()
+    |
+help: Convert to `X | None`
+    |
+162 |         for index, line in enumerate(lines):
+    -             topic: Optional[str] = None
+163 +             topic: str | None = None
+164 |             if line.startswith(("## ", "### ")):
+    |
+
+implicit-string-concatenation-in-collection-literal: Unparenthesized implicit string concatenation in collection
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:198:9
+    |
+196 |           f"# SKILL API Index ({ranges[part]})",
+197 |           "",
+198 | /         "Search this file for an exact function name, then read the referenced source entry. "
+199 | |         "It covers the language, IPC, development, and SKILL++ references.",
+    | |___________________________________________________________________________^
+200 |           "",
+201 |           "| Symbol | Documented declaration | Source | Line |",
+    |
+help: Did you forget a comma?
+help: Wrap implicitly concatenated strings in parentheses
+
+manual-list-comprehension: Use `list.extend` to create a transformed list
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:205:9
+    |
+203 |       ]
+204 |       for entry in entries:
+205 | /         lines.append(
+206 | |             f"| `{_escape_table(entry.name)}` | `{_escape_table(entry.signature)}` | "
+207 | |             f"`{entry.path}` | {entry.line} |"
+208 | |         )
+    | |_________^
+209 |       return "\n".join(lines) + "\n"
+    |
+help: Replace for loop with list.extend
+
+manual-list-comprehension: Use `list.extend` to create a transformed list
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:224:9
+    |
+222 |     ]
+223 |     for entry in entries:
+224 |         lines.append(f"| {_escape_table(entry.topic)} | `{entry.path}` | {entry.line} |")
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+225 |     return "\n".join(lines) + "\n"
+    |
+help: Replace for loop with list.extend
+
+non-pep604-annotation-optional: [*] Use `X | None` for type annotations
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:240:31
+    |
+240 | def _pdf_pages(path: Path) -> Optional[int]:
+    |                               ^^^^^^^^^^^^^
+241 |     executable = shutil.which("pdfinfo")
+242 |     if executable is None:
+    |
+help: Convert to `X | None`
+    |
+239 |
+    - def _pdf_pages(path: Path) -> Optional[int]:
+240 + def _pdf_pages(path: Path) -> int | None:
+241 |     executable = shutil.which("pdfinfo")
+    |
+
+subprocess-without-shell-equals-true: `subprocess` call: check for execution of untrusted input
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:244:14
+    |
+242 |     if executable is None:
+243 |         return None
+244 |     result = subprocess.run(
+    |              ^^^^^^^^^^^^^^
+245 |         [executable, str(path)],
+246 |         check=False,
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:256:38
+    |
+256 | def _document_records(root: Path) -> List[Dict[str, object]]:
+    |                                      ^^^^
+257 |     records: List[Dict[str, object]] = []
+258 |     for path in _markdown_files(root, REFERENCE_DIRS):
+    |
+help: Replace with `list`
+    |
+255 |
+    - def _document_records(root: Path) -> List[Dict[str, object]]:
+256 + def _document_records(root: Path) -> list[Dict[str, object]]:
+257 |     records: List[Dict[str, object]] = []
+    |
+
+non-pep585-annotation: [*] Use `dict` instead of `Dict` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:256:43
+    |
+256 | def _document_records(root: Path) -> List[Dict[str, object]]:
+    |                                           ^^^^
+257 |     records: List[Dict[str, object]] = []
+258 |     for path in _markdown_files(root, REFERENCE_DIRS):
+    |
+help: Replace with `dict`
+    |
+255 |
+    - def _document_records(root: Path) -> List[Dict[str, object]]:
+256 + def _document_records(root: Path) -> List[dict[str, object]]:
+257 |     records: List[Dict[str, object]] = []
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:257:14
+    |
+256 | def _document_records(root: Path) -> List[Dict[str, object]]:
+257 |     records: List[Dict[str, object]] = []
+    |              ^^^^
+258 |     for path in _markdown_files(root, REFERENCE_DIRS):
+259 |         text = path.read_text(encoding="utf-8")
+    |
+help: Replace with `list`
+    |
+256 | def _document_records(root: Path) -> List[Dict[str, object]]:
+    -     records: List[Dict[str, object]] = []
+257 +     records: list[Dict[str, object]] = []
+258 |     for path in _markdown_files(root, REFERENCE_DIRS):
+    |
+
+non-pep585-annotation: [*] Use `dict` instead of `Dict` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:257:19
+    |
+256 | def _document_records(root: Path) -> List[Dict[str, object]]:
+257 |     records: List[Dict[str, object]] = []
+    |                   ^^^^
+258 |     for path in _markdown_files(root, REFERENCE_DIRS):
+259 |         text = path.read_text(encoding="utf-8")
+    |
+help: Replace with `dict`
+    |
+256 | def _document_records(root: Path) -> List[Dict[str, object]]:
+    -     records: List[Dict[str, object]] = []
+257 +     records: List[dict[str, object]] = []
+258 |     for path in _markdown_files(root, REFERENCE_DIRS):
+    |
+
+non-pep604-annotation-optional: [*] Use `X | None` for type annotations
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:273:21
+    |
+271 | def _source_records(
+272 |     root: Path,
+273 |     existing_pages: Optional[Dict[str, object]] = None,
+    |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+274 | ) -> List[Dict[str, object]]:
+275 |     records: List[Dict[str, object]] = []
+    |
+help: Convert to `X | None`
+    |
+272 |     root: Path,
+    -     existing_pages: Optional[Dict[str, object]] = None,
+273 +     existing_pages: Dict[str, object] | None = None,
+274 | ) -> List[Dict[str, object]]:
+    |
+
+non-pep585-annotation: [*] Use `dict` instead of `Dict` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:273:30
+    |
+271 | def _source_records(
+272 |     root: Path,
+273 |     existing_pages: Optional[Dict[str, object]] = None,
+    |                              ^^^^
+274 | ) -> List[Dict[str, object]]:
+275 |     records: List[Dict[str, object]] = []
+    |
+help: Replace with `dict`
+    |
+272 |     root: Path,
+    -     existing_pages: Optional[Dict[str, object]] = None,
+273 +     existing_pages: Optional[dict[str, object]] = None,
+274 | ) -> List[Dict[str, object]]:
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:274:6
+    |
+272 |     root: Path,
+273 |     existing_pages: Optional[Dict[str, object]] = None,
+274 | ) -> List[Dict[str, object]]:
+    |      ^^^^
+275 |     records: List[Dict[str, object]] = []
+276 |     docs = root / "docs"
+    |
+help: Replace with `list`
+    |
+273 |     existing_pages: Optional[Dict[str, object]] = None,
+    - ) -> List[Dict[str, object]]:
+274 + ) -> list[Dict[str, object]]:
+275 |     records: List[Dict[str, object]] = []
+    |
+
+non-pep585-annotation: [*] Use `dict` instead of `Dict` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:274:11
+    |
+272 |     root: Path,
+273 |     existing_pages: Optional[Dict[str, object]] = None,
+274 | ) -> List[Dict[str, object]]:
+    |           ^^^^
+275 |     records: List[Dict[str, object]] = []
+276 |     docs = root / "docs"
+    |
+help: Replace with `dict`
+    |
+273 |     existing_pages: Optional[Dict[str, object]] = None,
+    - ) -> List[Dict[str, object]]:
+274 + ) -> List[dict[str, object]]:
+275 |     records: List[Dict[str, object]] = []
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:275:14
+    |
+273 |     existing_pages: Optional[Dict[str, object]] = None,
+274 | ) -> List[Dict[str, object]]:
+275 |     records: List[Dict[str, object]] = []
+    |              ^^^^
+276 |     docs = root / "docs"
+277 |     if not docs.is_dir():
+    |
+help: Replace with `list`
+    |
+274 | ) -> List[Dict[str, object]]:
+    -     records: List[Dict[str, object]] = []
+275 +     records: list[Dict[str, object]] = []
+276 |     docs = root / "docs"
+    |
+
+non-pep585-annotation: [*] Use `dict` instead of `Dict` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:275:19
+    |
+273 |     existing_pages: Optional[Dict[str, object]] = None,
+274 | ) -> List[Dict[str, object]]:
+275 |     records: List[Dict[str, object]] = []
+    |                   ^^^^
+276 |     docs = root / "docs"
+277 |     if not docs.is_dir():
+    |
+help: Replace with `dict`
+    |
+274 | ) -> List[Dict[str, object]]:
+    -     records: List[Dict[str, object]] = []
+275 +     records: List[dict[str, object]] = []
+276 |     docs = root / "docs"
+    |
+
+non-pep604-annotation-optional: [*] Use `X | None` for type annotations
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:311:21
+    |
+309 |     api_count: int,
+310 |     topic_count: int,
+311 |     existing_pages: Optional[Dict[str, object]] = None,
+    |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+312 | ) -> Dict[str, object]:
+313 |     return {
+    |
+help: Convert to `X | None`
+    |
+310 |     topic_count: int,
+    -     existing_pages: Optional[Dict[str, object]] = None,
+311 +     existing_pages: Dict[str, object] | None = None,
+312 | ) -> Dict[str, object]:
+    |
+
+non-pep585-annotation: [*] Use `dict` instead of `Dict` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:311:30
+    |
+309 |     api_count: int,
+310 |     topic_count: int,
+311 |     existing_pages: Optional[Dict[str, object]] = None,
+    |                              ^^^^
+312 | ) -> Dict[str, object]:
+313 |     return {
+    |
+help: Replace with `dict`
+    |
+310 |     topic_count: int,
+    -     existing_pages: Optional[Dict[str, object]] = None,
+311 +     existing_pages: Optional[dict[str, object]] = None,
+312 | ) -> Dict[str, object]:
+    |
+
+non-pep585-annotation: [*] Use `dict` instead of `Dict` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:312:6
+    |
+310 |     topic_count: int,
+311 |     existing_pages: Optional[Dict[str, object]] = None,
+312 | ) -> Dict[str, object]:
+    |      ^^^^
+313 |     return {
+314 |         "schema_version": 2,
+    |
+help: Replace with `dict`
+    |
+311 |     existing_pages: Optional[Dict[str, object]] = None,
+    - ) -> Dict[str, object]:
+312 + ) -> dict[str, object]:
+313 |     return {
+    |
+
+non-pep604-annotation-optional: [*] Use `X | None` for type annotations
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:339:21
+    |
+337 |     api_count: int,
+338 |     topic_count: int,
+339 |     existing_pages: Optional[Dict[str, object]] = None,
+    |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+340 | ) -> str:
+341 |     return (
+    |
+help: Convert to `X | None`
+    |
+338 |     topic_count: int,
+    -     existing_pages: Optional[Dict[str, object]] = None,
+339 +     existing_pages: Dict[str, object] | None = None,
+340 | ) -> str:
+    |
+
+non-pep585-annotation: [*] Use `dict` instead of `Dict` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:339:30
+    |
+337 |     api_count: int,
+338 |     topic_count: int,
+339 |     existing_pages: Optional[Dict[str, object]] = None,
+    |                              ^^^^
+340 | ) -> str:
+341 |     return (
+    |
+help: Replace with `dict`
+    |
+338 |     topic_count: int,
+    -     existing_pages: Optional[Dict[str, object]] = None,
+339 +     existing_pages: Optional[dict[str, object]] = None,
+340 | ) -> str:
+    |
+
+non-pep585-annotation: [*] Use `dict` instead of `Dict` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:351:45
+    |
+351 | def _existing_physical_pages(root: Path) -> Dict[str, object]:
+    |                                             ^^^^
+352 |     path = root / ".paginate" / "pagination_manifest.json"
+353 |     if not path.is_file():
+    |
+help: Replace with `dict`
+    |
+350 |
+    - def _existing_physical_pages(root: Path) -> Dict[str, object]:
+351 + def _existing_physical_pages(root: Path) -> dict[str, object]:
+352 |     path = root / ".paginate" / "pagination_manifest.json"
+    |
+
+non-pep585-annotation: [*] Use `dict` instead of `Dict` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:366:38
+    |
+366 | def _rendered_indexes(root: Path) -> Dict[str, str]:
+    |                                      ^^^^
+367 |     api_entries = extract_api_entries(root)
+368 |     topic_entries = extract_topic_entries(root)
+    |
+help: Replace with `dict`
+    |
+365 |
+    - def _rendered_indexes(root: Path) -> Dict[str, str]:
+366 + def _rendered_indexes(root: Path) -> dict[str, str]:
+367 |     api_entries = extract_api_entries(root)
+    |
+
+non-pep585-annotation: [*] Use `dict` instead of `Dict` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:369:15
+    |
+367 |     api_entries = extract_api_entries(root)
+368 |     topic_entries = extract_topic_entries(root)
+369 |     rendered: Dict[str, str] = {}
+    |               ^^^^
+370 |     for part in (1, 2, 3):
+371 |         selected = [entry for entry in api_entries if _api_part(entry.name) == part]
+    |
+help: Replace with `dict`
+    |
+368 |     topic_entries = extract_topic_entries(root)
+    -     rendered: Dict[str, str] = {}
+369 +     rendered: dict[str, str] = {}
+370 |     for part in (1, 2, 3):
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:391:33
+    |
+391 | def _part_errors(root: Path) -> List[str]:
+    |                                 ^^^^
+392 |     groups: Dict[Tuple[str, str], List[int]] = {}
+393 |     for path in _markdown_files(root, REFERENCE_DIRS):
+    |
+help: Replace with `list`
+    |
+390 |
+    - def _part_errors(root: Path) -> List[str]:
+391 + def _part_errors(root: Path) -> list[str]:
+392 |     groups: Dict[Tuple[str, str], List[int]] = {}
+    |
+
+non-pep585-annotation: [*] Use `dict` instead of `Dict` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:392:13
+    |
+391 | def _part_errors(root: Path) -> List[str]:
+392 |     groups: Dict[Tuple[str, str], List[int]] = {}
+    |             ^^^^
+393 |     for path in _markdown_files(root, REFERENCE_DIRS):
+394 |         match = PART_NAME.match(path.name)
+    |
+help: Replace with `dict`
+    |
+391 | def _part_errors(root: Path) -> List[str]:
+    -     groups: Dict[Tuple[str, str], List[int]] = {}
+392 +     groups: dict[Tuple[str, str], List[int]] = {}
+393 |     for path in _markdown_files(root, REFERENCE_DIRS):
+    |
+
+non-pep585-annotation: [*] Use `tuple` instead of `Tuple` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:392:18
+    |
+391 | def _part_errors(root: Path) -> List[str]:
+392 |     groups: Dict[Tuple[str, str], List[int]] = {}
+    |                  ^^^^^
+393 |     for path in _markdown_files(root, REFERENCE_DIRS):
+394 |         match = PART_NAME.match(path.name)
+    |
+help: Replace with `tuple`
+    |
+391 | def _part_errors(root: Path) -> List[str]:
+    -     groups: Dict[Tuple[str, str], List[int]] = {}
+392 +     groups: Dict[tuple[str, str], List[int]] = {}
+393 |     for path in _markdown_files(root, REFERENCE_DIRS):
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:392:35
+    |
+391 | def _part_errors(root: Path) -> List[str]:
+392 |     groups: Dict[Tuple[str, str], List[int]] = {}
+    |                                   ^^^^
+393 |     for path in _markdown_files(root, REFERENCE_DIRS):
+394 |         match = PART_NAME.match(path.name)
+    |
+help: Replace with `list`
+    |
+391 | def _part_errors(root: Path) -> List[str]:
+    -     groups: Dict[Tuple[str, str], List[int]] = {}
+392 +     groups: Dict[Tuple[str, str], list[int]] = {}
+393 |     for path in _markdown_files(root, REFERENCE_DIRS):
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:399:13
+    |
+397 |         key = (path.parent.name, match.group("stem"))
+398 |         groups.setdefault(key, []).append(int(match.group("number")))
+399 |     errors: List[str] = []
+    |             ^^^^
+400 |     for (directory, stem), numbers in sorted(groups.items()):
+401 |         expected = list(range(1, max(numbers) + 1))
+    |
+help: Replace with `list`
+    |
+398 |         groups.setdefault(key, []).append(int(match.group("number")))
+    -     errors: List[str] = []
+399 +     errors: list[str] = []
+400 |     for (directory, stem), numbers in sorted(groups.items()):
+    |
+
+complex-structure: `check` is too complex (11 > 10)
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:407:5
+    |
+407 | def check(root: Path) -> CheckResult:
+    |     ^^^^^
+408 |     """Validate pagination and generated index targets without mutating the corpus."""
+409 |     errors = _part_errors(root)
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:410:15
+    |
+408 |     """Validate pagination and generated index targets without mutating the corpus."""
+409 |     errors = _part_errors(root)
+410 |     warnings: List[str] = []
+    |               ^^^^
+411 |     api_entries = extract_api_entries(root)
+412 |     topic_entries = extract_topic_entries(root)
+    |
+help: Replace with `list`
+    |
+409 |     errors = _part_errors(root)
+    -     warnings: List[str] = []
+410 +     warnings: list[str] = []
+411 |     api_entries = extract_api_entries(root)
+    |
+
+non-pep604-annotation-optional: [*] Use `X | None` for type annotations
+   --> .agents\skills\cadence-skill-agent\scripts\build_reference_indexes.py:461:16
+    |
+461 | def main(argv: Optional[Sequence[str]] = None) -> int:
+    |                ^^^^^^^^^^^^^^^^^^^^^^^
+462 |     parser = argparse.ArgumentParser(description=__doc__)
+463 |     parser.add_argument("--root", type=Path, default=_default_root())
+    |
+help: Convert to `X | None`
+    |
+460 |
+    - def main(argv: Optional[Sequence[str]] = None) -> int:
+461 + def main(argv: Sequence[str] | None = None) -> int:
+462 |     parser = argparse.ArgumentParser(description=__doc__)
+    |
+
+implicit-namespace-package: File `.claude\tests\test_build_reference_indexes.py` is part of an implicit namespace package. Add an `__init__.py`.
+--> .claude\tests\test_build_reference_indexes.py:1:1
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `load_builder`
+  --> .claude\tests\test_build_reference_indexes.py:11:5
+   |
+11 | def load_builder():
+   |     ^^^^^^^^^^^^
+12 |     spec = importlib.util.spec_from_file_location("build_reference_indexes", SCRIPT_PATH)
+13 |     if spec is None or spec.loader is None:
+   |
+help: Add return type annotation
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `setUp`
+  --> .claude\tests\test_build_reference_indexes.py:21:9
+   |
+20 | class ReferenceIndexBuilderTests(unittest.TestCase):
+21 |     def setUp(self):
+   |         ^^^^^
+22 |         self.temp_dir = tempfile.TemporaryDirectory()
+23 |         self.root = Path(self.temp_dir.name)
+   |
+help: Add return type annotation: `None`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `tearDown`
+  --> .claude\tests\test_build_reference_indexes.py:31:9
+   |
+29 |         (self.root / "docs").mkdir()
+30 |
+31 |     def tearDown(self):
+   |         ^^^^^^^^
+32 |         self.temp_dir.cleanup()
+   |
+help: Add return type annotation: `None`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_extracts_only_api_headings_with_signatures`
+  --> .claude\tests\test_build_reference_indexes.py:34:9
+   |
+32 |         self.temp_dir.cleanup()
+33 |
+34 |     def test_extracts_only_api_headings_with_signatures(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+35 |         source = self.root / "sklangref" / "core.md"
+36 |         source.write_text(
+   |
+help: Add return type annotation: `None`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+  --> .claude\tests\test_build_reference_indexes.py:47:9
+   |
+45 |         entries = load_builder().extract_api_entries(self.root)
+46 |
+47 |         self.assertEqual([entry.name for entry in entries], ["arglist"])
+   |         ^^^^^^^^^^^^^^^^
+48 |         self.assertEqual(entries[0].signature, "arglist( g_function ) => l_argumentList")
+49 |         self.assertEqual(entries[0].path, "sklangref/core.md")
+   |
+help: Replace `assertEqual(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+  --> .claude\tests\test_build_reference_indexes.py:48:9
+   |
+47 |         self.assertEqual([entry.name for entry in entries], ["arglist"])
+48 |         self.assertEqual(entries[0].signature, "arglist( g_function ) => l_argumentList")
+   |         ^^^^^^^^^^^^^^^^
+49 |         self.assertEqual(entries[0].path, "sklangref/core.md")
+   |
+help: Replace `assertEqual(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+  --> .claude\tests\test_build_reference_indexes.py:49:9
+   |
+47 |         self.assertEqual([entry.name for entry in entries], ["arglist"])
+48 |         self.assertEqual(entries[0].signature, "arglist( g_function ) => l_argumentList")
+49 |         self.assertEqual(entries[0].path, "sklangref/core.md")
+   |         ^^^^^^^^^^^^^^^^
+50 |
+51 |     def test_extracts_fenced_declaration_without_falling_through_to_example(self):
+   |
+help: Replace `assertEqual(...)` with `assert ...`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_extracts_fenced_declaration_without_falling_through_to_example`
+  --> .claude\tests\test_build_reference_indexes.py:51:9
+   |
+49 |         self.assertEqual(entries[0].path, "sklangref/core.md")
+50 |
+51 |     def test_extracts_fenced_declaration_without_falling_through_to_example(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+52 |         source = self.root / "sklangref" / "list.md"
+53 |         source.write_text(
+   |
+help: Add return type annotation: `None`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+  --> .claude\tests\test_build_reference_indexes.py:63:9
+   |
+61 |         entries = load_builder().extract_api_entries(self.root)
+62 |
+63 |         self.assertEqual(entries[0].signature, "append( l_list1 l_list2 ) => l_result")
+   |         ^^^^^^^^^^^^^^^^
+64 |
+65 |     def test_normalizes_markdown_markup_in_api_names(self):
+   |
+help: Replace `assertEqual(...)` with `assert ...`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_normalizes_markdown_markup_in_api_names`
+  --> .claude\tests\test_build_reference_indexes.py:65:9
+   |
+63 |         self.assertEqual(entries[0].signature, "append( l_list1 l_list2 ) => l_result")
+64 |
+65 |     def test_normalizes_markdown_markup_in_api_names(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+66 |         source = self.root / "sklangref" / "dataoperator.md"
+67 |         source.write_text(
+   |
+help: Add return type annotation: `None`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+  --> .claude\tests\test_build_reference_indexes.py:74:9
+   |
+72 |         entries = load_builder().extract_api_entries(self.root)
+73 |
+74 |         self.assertEqual(entries[0].name, "setf_<helper>")
+   |         ^^^^^^^^^^^^^^^^
+75 |
+76 |     def test_joins_multiline_inline_signature_and_ignores_ellipsis_alias(self):
+   |
+help: Replace `assertEqual(...)` with `assert ...`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_joins_multiline_inline_signature_and_ignores_ellipsis_alias`
+  --> .claude\tests\test_build_reference_indexes.py:76:9
+   |
+74 |         self.assertEqual(entries[0].name, "setf_<helper>")
+75 |
+76 |     def test_joins_multiline_inline_signature_and_ignores_ellipsis_alias(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+77 |         source = self.root / "sklangref" / "inputoutput.md"
+78 |         source.write_text(
+   |
+help: Add return type annotation: `None`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+  --> .claude\tests\test_build_reference_indexes.py:88:9
+   |
+86 |         entries = load_builder().extract_api_entries(self.root)
+87 |
+88 |         self.assertEqual([entry.name for entry in entries], ["putc"])
+   |         ^^^^^^^^^^^^^^^^
+89 |         self.assertEqual(
+90 |             entries[0].signature,
+   |
+help: Replace `assertEqual(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+  --> .claude\tests\test_build_reference_indexes.py:89:9
+   |
+88 |         self.assertEqual([entry.name for entry in entries], ["putc"])
+89 |         self.assertEqual(
+   |         ^^^^^^^^^^^^^^^^
+90 |             entries[0].signature,
+91 |             "putc( s_character [ p_outputPort ] ) => s_symbol",
+   |
+help: Replace `assertEqual(...)` with `assert ...`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_builds_api_and_topic_indexes_with_relative_targets`
+  --> .claude\tests\test_build_reference_indexes.py:94:9
+   |
+92 |         )
+93 |
+94 |     def test_builds_api_and_topic_indexes_with_relative_targets(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+95 |         (self.root / "sklangref" / "core.md").write_text(
+96 |             "### arglist\n\n`arglist( g_function ) => l_argumentList`\n",
+   |
+help: Add return type annotation: `None`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertIn`
+   --> .claude\tests\test_build_reference_indexes.py:114:9
+    |
+112 |         symbol_index = (self.root / "sklang_api_index.part03.md").read_text(encoding="utf-8")
+113 |         topic_index = (self.root / "sklang_topic_index.md").read_text(encoding="utf-8")
+114 |         self.assertIn(
+    |         ^^^^^^^^^^^^^
+115 |             "| `arglist` | `arglist( g_function ) => l_argumentList` | `sklangref/core.md` |",
+116 |             api_index,
+    |
+help: Replace `assertIn(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertIn`
+   --> .claude\tests\test_build_reference_indexes.py:118:9
+    |
+116 |             api_index,
+117 |         )
+118 |         self.assertIn(
+    |         ^^^^^^^^^^^^^
+119 |             "| `strlen` | `strlen( t_string ) => x_length` | `sklangref/stringfunc.part02.md` |",
+120 |             symbol_index,
+    |
+help: Replace `assertIn(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertIn`
+   --> .claude\tests\test_build_reference_indexes.py:122:9
+    |
+120 |             symbol_index,
+121 |         )
+122 |         self.assertIn("| Getting Started | `sklanguser/chap1.md` |", topic_index)
+    |         ^^^^^^^^^^^^^
+123 |         self.assertIn("| Solving Common Problems | `sklanguser/chap1.md` |", topic_index)
+    |
+help: Replace `assertIn(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertIn`
+   --> .claude\tests\test_build_reference_indexes.py:123:9
+    |
+121 |         )
+122 |         self.assertIn("| Getting Started | `sklanguser/chap1.md` |", topic_index)
+123 |         self.assertIn("| Solving Common Problems | `sklanguser/chap1.md` |", topic_index)
+    |         ^^^^^^^^^^^^^
+124 |
+125 |     def test_indexes_supplemental_skill_api_references(self):
+    |
+help: Replace `assertIn(...)` with `assert ...`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_indexes_supplemental_skill_api_references`
+   --> .claude\tests\test_build_reference_indexes.py:125:9
+    |
+123 |         self.assertIn("| Solving Common Problems | `sklanguser/chap1.md` |", topic_index)
+124 |
+125 |     def test_indexes_supplemental_skill_api_references(self):
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+126 |         (self.root / "skipcref" / "skipcref.part01.md").write_text(
+127 |             "### ipcBeginProcess\n\n`ipcBeginProcess( t_command [ t_hostName ] ) => o_childId`\n",
+    |
+help: Add return type annotation: `None`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertIn`
+   --> .claude\tests\test_build_reference_indexes.py:140:9
+    |
+138 |         ipc_index = (self.root / "sklang_api_index.part02.md").read_text(encoding="utf-8")
+139 |         object_index = (self.root / "sklang_api_index.part02.md").read_text(encoding="utf-8")
+140 |         self.assertIn("`skipcref/skipcref.part01.md`", ipc_index)
+    |         ^^^^^^^^^^^^^
+141 |         self.assertIn("`skoopref/skoopref.part01.md`", object_index)
+    |
+help: Replace `assertIn(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertIn`
+   --> .claude\tests\test_build_reference_indexes.py:141:9
+    |
+139 |         object_index = (self.root / "sklang_api_index.part02.md").read_text(encoding="utf-8")
+140 |         self.assertIn("`skipcref/skipcref.part01.md`", ipc_index)
+141 |         self.assertIn("`skoopref/skoopref.part01.md`", object_index)
+    |         ^^^^^^^^^^^^^
+142 |
+143 |     def test_manifest_is_portable_and_reports_legacy_links(self):
+    |
+help: Replace `assertIn(...)` with `assert ...`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_manifest_is_portable_and_reports_legacy_links`
+   --> .claude\tests\test_build_reference_indexes.py:143:9
+    |
+141 |         self.assertIn("`skoopref/skoopref.part01.md`", object_index)
+142 |
+143 |     def test_manifest_is_portable_and_reports_legacy_links(self):
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+144 |         (self.root / "sklangref" / "core.md").write_text(
+145 |             "### arglist\n\n`arglist( g_function ) => l_argumentList`\n\n"
+    |
+help: Add return type annotation: `None`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+   --> .claude\tests\test_build_reference_indexes.py:157:9
+    |
+155 |         )
+156 |         serialized = json.dumps(manifest)
+157 |         self.assertEqual(manifest["schema_version"], 2)
+    |         ^^^^^^^^^^^^^^^^
+158 |         self.assertEqual(
+159 |             manifest["indexes"]["api_reference_dirs"],
+    |
+help: Replace `assertEqual(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+   --> .claude\tests\test_build_reference_indexes.py:158:9
+    |
+156 |         serialized = json.dumps(manifest)
+157 |         self.assertEqual(manifest["schema_version"], 2)
+158 |         self.assertEqual(
+    |         ^^^^^^^^^^^^^^^^
+159 |             manifest["indexes"]["api_reference_dirs"],
+160 |             ["sklangref", "skipcref", "skdevref", "skoopref"],
+    |
+help: Replace `assertEqual(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertNotIn`
+   --> .claude\tests\test_build_reference_indexes.py:162:9
+    |
+160 |             ["sklangref", "skipcref", "skdevref", "skoopref"],
+161 |         )
+162 |         self.assertNotIn(str(self.root), serialized)
+    |         ^^^^^^^^^^^^^^^^
+163 |         self.assertEqual(manifest["quality"]["legacy_html_links"], 1)
+164 |         self.assertEqual(manifest["documents"][0]["path"], "sklangref/core.md")
+    |
+help: Replace `assertNotIn(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+   --> .claude\tests\test_build_reference_indexes.py:163:9
+    |
+161 |         )
+162 |         self.assertNotIn(str(self.root), serialized)
+163 |         self.assertEqual(manifest["quality"]["legacy_html_links"], 1)
+    |         ^^^^^^^^^^^^^^^^
+164 |         self.assertEqual(manifest["documents"][0]["path"], "sklangref/core.md")
+    |
+help: Replace `assertEqual(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+   --> .claude\tests\test_build_reference_indexes.py:164:9
+    |
+162 |         self.assertNotIn(str(self.root), serialized)
+163 |         self.assertEqual(manifest["quality"]["legacy_html_links"], 1)
+164 |         self.assertEqual(manifest["documents"][0]["path"], "sklangref/core.md")
+    |         ^^^^^^^^^^^^^^^^
+165 |
+166 |     def test_check_rejects_a_document_over_the_token_limit(self):
+    |
+help: Replace `assertEqual(...)` with `assert ...`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_check_rejects_a_document_over_the_token_limit`
+   --> .claude\tests\test_build_reference_indexes.py:166:9
+    |
+164 |         self.assertEqual(manifest["documents"][0]["path"], "sklangref/core.md")
+165 |
+166 |     def test_check_rejects_a_document_over_the_token_limit(self):
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+167 |         (self.root / "sklangref" / "huge.md").write_text("x" * 60_004, encoding="utf-8")
+    |
+help: Add return type annotation: `None`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertFalse`
+   --> .claude\tests\test_build_reference_indexes.py:171:9
+    |
+169 |         result = load_builder().check(self.root)
+170 |
+171 |         self.assertFalse(result.ok)
+    |         ^^^^^^^^^^^^^^^^
+172 |         self.assertTrue(any("huge.md" in error for error in result.errors))
+    |
+help: Replace `assertFalse(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertTrue`
+   --> .claude\tests\test_build_reference_indexes.py:172:9
+    |
+171 |         self.assertFalse(result.ok)
+172 |         self.assertTrue(any("huge.md" in error for error in result.errors))
+    |         ^^^^^^^^^^^^^^^
+173 |
+174 |     def test_check_rejects_a_stale_generated_index(self):
+    |
+help: Replace `assertTrue(...)` with `assert ...`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_check_rejects_a_stale_generated_index`
+   --> .claude\tests\test_build_reference_indexes.py:174:9
+    |
+172 |         self.assertTrue(any("huge.md" in error for error in result.errors))
+173 |
+174 |     def test_check_rejects_a_stale_generated_index(self):
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+175 |         (self.root / "sklangref" / "core.md").write_text(
+176 |             "### arglist\n\n`arglist( g_function ) => l_argumentList`\n",
+    |
+help: Add return type annotation: `None`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertFalse`
+   --> .claude\tests\test_build_reference_indexes.py:185:9
+    |
+183 |         result = builder.check(self.root)
+184 |
+185 |         self.assertFalse(result.ok)
+    |         ^^^^^^^^^^^^^^^^
+186 |         self.assertTrue(any("stale generated index" in error for error in result.errors))
+    |
+help: Replace `assertFalse(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertTrue`
+   --> .claude\tests\test_build_reference_indexes.py:186:9
+    |
+185 |         self.assertFalse(result.ok)
+186 |         self.assertTrue(any("stale generated index" in error for error in result.errors))
+    |         ^^^^^^^^^^^^^^^
+187 |
+188 |     def test_check_rejects_a_stale_pagination_manifest(self):
+    |
+help: Replace `assertTrue(...)` with `assert ...`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_check_rejects_a_stale_pagination_manifest`
+   --> .claude\tests\test_build_reference_indexes.py:188:9
+    |
+186 |         self.assertTrue(any("stale generated index" in error for error in result.errors))
+187 |
+188 |     def test_check_rejects_a_stale_pagination_manifest(self):
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+189 |         source = self.root / "sklangref" / "core.md"
+190 |         source.write_text(
+    |
+help: Add return type annotation: `None`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertFalse`
+   --> .claude\tests\test_build_reference_indexes.py:200:9
+    |
+198 |         result = builder.check(self.root)
+199 |
+200 |         self.assertFalse(result.ok)
+    |         ^^^^^^^^^^^^^^^^
+201 |         self.assertTrue(any("stale pagination manifest" in error for error in result.errors))
+    |
+help: Replace `assertFalse(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertTrue`
+   --> .claude\tests\test_build_reference_indexes.py:201:9
+    |
+200 |         self.assertFalse(result.ok)
+201 |         self.assertTrue(any("stale pagination manifest" in error for error in result.errors))
+    |         ^^^^^^^^^^^^^^^
+202 |
+203 |     def test_check_reuses_recorded_page_count_when_pdfinfo_is_unavailable(self):
+    |
+help: Replace `assertTrue(...)` with `assert ...`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_check_reuses_recorded_page_count_when_pdfinfo_is_unavailable`
+   --> .claude\tests\test_build_reference_indexes.py:203:9
+    |
+201 |         self.assertTrue(any("stale pagination manifest" in error for error in result.errors))
+202 |
+203 |     def test_check_reuses_recorded_page_count_when_pdfinfo_is_unavailable(self):
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+204 |         (self.root / "docs" / "manual.pdf").write_bytes(b"test pdf fixture")
+205 |         builder = load_builder()
+    |
+help: Add return type annotation: `None`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertTrue`
+   --> .claude\tests\test_build_reference_indexes.py:212:9
+    |
+210 |             result = builder.check(self.root)
+211 |
+212 |         self.assertTrue(result.ok, result.errors)
+    |         ^^^^^^^^^^^^^^^
+    |
+help: Replace `assertTrue(...)` with `assert ...`
+
+Found 86 errors.
+[*] 37 fixable with the `--fix` option (42 hidden fixes can be enabled with the `--unsafe-fixes` option).
+implicit-namespace-package: File `.agents\skills\cadence-skill-agent\scripts\sync_claude.py` is part of an implicit namespace package. Add an `__init__.py`.
+--> .agents\skills\cadence-skill-agent\scripts\sync_claude.py:1:1
+
+deprecated-import: [*] Import from `collections.abc` instead: `Sequence`
+  --> .claude\scripts\convert_pdf_references.py:12:1
+   |
+10 | import subprocess
+11 | from pathlib import Path
+12 | from typing import Dict, List, NamedTuple, Optional, Sequence, Tuple
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+13 |
+14 | TOKEN_LIMIT = 15_000
+   |
+help: Import from `collections.abc`
+   |
+11 | from pathlib import Path
+   - from typing import Dict, List, NamedTuple, Optional, Sequence, Tuple
+12 + from typing import Dict, List, NamedTuple, Optional, Tuple
+13 + from collections.abc import Sequence
+14 |
+   |
+
+deprecated-import: `typing.Dict` is deprecated, use `dict` instead
+  --> .claude\scripts\convert_pdf_references.py:12:1
+   |
+10 | import subprocess
+11 | from pathlib import Path
+12 | from typing import Dict, List, NamedTuple, Optional, Sequence, Tuple
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+13 |
+14 | TOKEN_LIMIT = 15_000
+   |
+
+deprecated-import: `typing.List` is deprecated, use `list` instead
+  --> .claude\scripts\convert_pdf_references.py:12:1
+   |
+10 | import subprocess
+11 | from pathlib import Path
+12 | from typing import Dict, List, NamedTuple, Optional, Sequence, Tuple
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+13 |
+14 | TOKEN_LIMIT = 15_000
+   |
+
+deprecated-import: `typing.Tuple` is deprecated, use `tuple` instead
+  --> .claude\scripts\convert_pdf_references.py:12:1
+   |
+10 | import subprocess
+11 | from pathlib import Path
+12 | from typing import Dict, List, NamedTuple, Optional, Sequence, Tuple
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+13 |
+14 | TOKEN_LIMIT = 15_000
+   |
+
+non-pep585-annotation: [*] Use `tuple` instead of `Tuple` for type annotation
+  --> .claude\scripts\convert_pdf_references.py:31:12
+   |
+30 | class ApiDeclaration(NamedTuple):
+31 |     names: Tuple[str, ...]
+   |            ^^^^^
+32 |     signature: str
+   |
+help: Replace with `tuple`
+   |
+30 | class ApiDeclaration(NamedTuple):
+   -     names: Tuple[str, ...]
+31 +     names: tuple[str, ...]
+32 |     signature: str
+   |
+
+subprocess-without-shell-equals-true: `subprocess` call: check for execution of untrusted input
+  --> .claude\scripts\convert_pdf_references.py:39:14
+   |
+37 |     if executable is None:
+38 |         raise RuntimeError("pdftotext is required to convert bundled PDF references")
+39 |     result = subprocess.run(
+   |              ^^^^^^^^^^^^^^
+40 |         [executable, "-layout", str(path), "-"],
+41 |         check=False,
+   |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+  --> .claude\scripts\convert_pdf_references.py:51:30
+   |
+51 | def _pdf_pages(text: str) -> List[str]:
+   |                              ^^^^
+52 |     pages = text.replace("\r\n", "\n").replace("\r", "\n").split("\f")
+53 |     while pages and not pages[-1].strip():
+   |
+help: Replace with `list`
+   |
+50 |
+   - def _pdf_pages(text: str) -> List[str]:
+51 + def _pdf_pages(text: str) -> list[str]:
+52 |     pages = text.replace("\r\n", "\n").replace("\r", "\n").split("\f")
+   |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+  --> .claude\scripts\convert_pdf_references.py:58:44
+   |
+58 | def extract_api_declarations(page: str) -> List[ApiDeclaration]:
+   |                                            ^^^^
+59 |     """Extract formal declarations, excluding examples that merely call an API."""
+60 |     lines = [line.strip() for line in page.splitlines()]
+   |
+help: Replace with `list`
+   |
+57 |
+   - def extract_api_declarations(page: str) -> List[ApiDeclaration]:
+58 + def extract_api_declarations(page: str) -> list[ApiDeclaration]:
+59 |     """Extract formal declarations, excluding examples that merely call an API."""
+   |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+  --> .claude\scripts\convert_pdf_references.py:61:19
+   |
+59 |     """Extract formal declarations, excluding examples that merely call an API."""
+60 |     lines = [line.strip() for line in page.splitlines()]
+61 |     declarations: List[ApiDeclaration] = []
+   |                   ^^^^
+62 |     for index, value in enumerate(lines):
+63 |         if API_NAME.fullmatch(value) is None:
+   |
+help: Replace with `list`
+   |
+60 |     lines = [line.strip() for line in page.splitlines()]
+   -     declarations: List[ApiDeclaration] = []
+61 +     declarations: list[ApiDeclaration] = []
+62 |     for index, value in enumerate(lines):
+   |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+  --> .claude\scripts\convert_pdf_references.py:71:26
+   |
+69 |         if cursor >= len(lines) or not lines[cursor].startswith(f"{names[0]}("):
+70 |             continue
+71 |         signature_lines: List[str] = []
+   |                          ^^^^
+72 |         for candidate in lines[cursor : cursor + 30]:
+73 |             if candidate:
+   |
+help: Replace with `list`
+   |
+70 |             continue
+   -         signature_lines: List[str] = []
+71 +         signature_lines: list[str] = []
+72 |         for candidate in lines[cursor : cursor + 30]:
+   |
+
+complex-structure: `render_document` is too complex (11 > 10)
+   --> .claude\scripts\convert_pdf_references.py:100:5
+    |
+100 | def render_document(stem: str, pages: Sequence[str]) -> List[str]:
+    |     ^^^^^^^^^^^^^^^
+101 |     if stem not in DOCUMENT_TITLES:
+102 |         raise ValueError(f"unsupported PDF reference: {stem}")
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .claude\scripts\convert_pdf_references.py:100:57
+    |
+100 | def render_document(stem: str, pages: Sequence[str]) -> List[str]:
+    |                                                         ^^^^
+101 |     if stem not in DOCUMENT_TITLES:
+102 |         raise ValueError(f"unsupported PDF reference: {stem}")
+    |
+help: Replace with `list`
+    |
+99  |
+    - def render_document(stem: str, pages: Sequence[str]) -> List[str]:
+100 + def render_document(stem: str, pages: Sequence[str]) -> list[str]:
+101 |     if stem not in DOCUMENT_TITLES:
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .claude\scripts\convert_pdf_references.py:103:20
+    |
+101 |     if stem not in DOCUMENT_TITLES:
+102 |         raise ValueError(f"unsupported PDF reference: {stem}")
+103 |     atomic_chunks: List[str] = []
+    |                    ^^^^
+104 |     current_api: List[str] = []
+105 |     seen_api = False
+    |
+help: Replace with `list`
+    |
+102 |         raise ValueError(f"unsupported PDF reference: {stem}")
+    -     atomic_chunks: List[str] = []
+103 +     atomic_chunks: list[str] = []
+104 |     current_api: List[str] = []
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .claude\scripts\convert_pdf_references.py:104:18
+    |
+102 |         raise ValueError(f"unsupported PDF reference: {stem}")
+103 |     atomic_chunks: List[str] = []
+104 |     current_api: List[str] = []
+    |                  ^^^^
+105 |     seen_api = False
+106 |     for index, page in enumerate(pages, start=1):
+    |
+help: Replace with `list`
+    |
+103 |     atomic_chunks: List[str] = []
+    -     current_api: List[str] = []
+104 +     current_api: list[str] = []
+105 |     seen_api = False
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .claude\scripts\convert_pdf_references.py:120:12
+    |
+118 |         atomic_chunks.append("".join(current_api))
+119 |
+120 |     parts: List[str] = []
+    |            ^^^^
+121 |     current: List[str] = []
+122 |     current_chars = 0
+    |
+help: Replace with `list`
+    |
+119 |
+    -     parts: List[str] = []
+120 +     parts: list[str] = []
+121 |     current: List[str] = []
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .claude\scripts\convert_pdf_references.py:121:14
+    |
+120 |     parts: List[str] = []
+121 |     current: List[str] = []
+    |              ^^^^
+122 |     current_chars = 0
+123 |     for chunk in atomic_chunks:
+    |
+help: Replace with `list`
+    |
+120 |     parts: List[str] = []
+    -     current: List[str] = []
+121 +     current: list[str] = []
+122 |     current_chars = 0
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .claude\scripts\convert_pdf_references.py:133:15
+    |
+131 |         parts.append("".join(current))
+132 |
+133 |     rendered: List[str] = []
+    |               ^^^^
+134 |     for part_number, body in enumerate(parts, start=1):
+135 |         rendered.append(
+    |
+help: Replace with `list`
+    |
+132 |
+    -     rendered: List[str] = []
+133 +     rendered: list[str] = []
+134 |     for part_number, body in enumerate(parts, start=1):
+    |
+
+non-pep585-annotation: [*] Use `dict` instead of `Dict` for type annotation
+   --> .claude\scripts\convert_pdf_references.py:144:59
+    |
+144 | def expected_outputs(root: Path, stems: Sequence[str]) -> Dict[Path, str]:
+    |                                                           ^^^^
+145 |     outputs: Dict[Path, str] = {}
+146 |     for stem in stems:
+    |
+help: Replace with `dict`
+    |
+143 |
+    - def expected_outputs(root: Path, stems: Sequence[str]) -> Dict[Path, str]:
+144 + def expected_outputs(root: Path, stems: Sequence[str]) -> dict[Path, str]:
+145 |     outputs: Dict[Path, str] = {}
+    |
+
+non-pep585-annotation: [*] Use `dict` instead of `Dict` for type annotation
+   --> .claude\scripts\convert_pdf_references.py:145:14
+    |
+144 | def expected_outputs(root: Path, stems: Sequence[str]) -> Dict[Path, str]:
+145 |     outputs: Dict[Path, str] = {}
+    |              ^^^^
+146 |     for stem in stems:
+147 |         source = root / "docs" / f"{stem}.pdf"
+    |
+help: Replace with `dict`
+    |
+144 | def expected_outputs(root: Path, stems: Sequence[str]) -> Dict[Path, str]:
+    -     outputs: Dict[Path, str] = {}
+145 +     outputs: dict[Path, str] = {}
+146 |     for stem in stems:
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .claude\scripts\convert_pdf_references.py:183:48
+    |
+183 | def check(root: Path, stems: Sequence[str]) -> List[str]:
+    |                                                ^^^^
+184 |     outputs = expected_outputs(root, stems)
+185 |     errors: List[str] = []
+    |
+help: Replace with `list`
+    |
+182 |
+    - def check(root: Path, stems: Sequence[str]) -> List[str]:
+183 + def check(root: Path, stems: Sequence[str]) -> list[str]:
+184 |     outputs = expected_outputs(root, stems)
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .claude\scripts\convert_pdf_references.py:185:13
+    |
+183 | def check(root: Path, stems: Sequence[str]) -> List[str]:
+184 |     outputs = expected_outputs(root, stems)
+185 |     errors: List[str] = []
+    |             ^^^^
+186 |     for path, expected in outputs.items():
+187 |         if not path.is_file() or path.read_text(encoding="utf-8") != expected:
+    |
+help: Replace with `list`
+    |
+184 |     outputs = expected_outputs(root, stems)
+    -     errors: List[str] = []
+185 +     errors: list[str] = []
+186 |     for path, expected in outputs.items():
+    |
+
+manual-list-comprehension: Use `list.extend` to create a transformed list
+   --> .claude\scripts\convert_pdf_references.py:194:17
+    |
+192 |         for path in destination.glob(f"{stem}.part*.md") if destination.is_dir() else ():
+193 |             if path not in expected_paths:
+194 |                 errors.append(f"unexpected converted reference part: {path.relative_to(root)}")
+    |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+195 |     return errors
+    |
+help: Replace for loop with list.extend
+
+non-pep604-annotation-optional: [*] Use `X | None` for type annotations
+   --> .claude\scripts\convert_pdf_references.py:202:16
+    |
+202 | def main(argv: Optional[Sequence[str]] = None) -> int:
+    |                ^^^^^^^^^^^^^^^^^^^^^^^
+203 |     parser = argparse.ArgumentParser(description=__doc__)
+204 |     parser.add_argument("--root", type=Path, default=_default_root())
+    |
+help: Convert to `X | None`
+    |
+201 |
+    - def main(argv: Optional[Sequence[str]] = None) -> int:
+202 + def main(argv: Sequence[str] | None = None) -> int:
+203 |     parser = argparse.ArgumentParser(description=__doc__)
+    |
+
+Found 24 errors.
+[*] 17 fixable with the `--fix` option (1 hidden fix can be enabled with the `--unsafe-fixes` option).
+implicit-namespace-package: File `.agents\skills\cadence-skill-agent\tests\test_sync_claude.py` is part of an implicit namespace package. Add an `__init__.py`.
+--> .agents\skills\cadence-skill-agent\tests\test_sync_claude.py:1:1
+
+deprecated-import: [*] Import from `collections.abc` instead: `Iterable`, `Sequence`
+  --> .claude\scripts\build_reference_indexes.py:14:1
+   |
+12 | import subprocess
+13 | from pathlib import Path
+14 | from typing import Dict, Iterable, List, NamedTuple, Optional, Sequence, Tuple
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+15 |
+16 | TOKEN_LIMIT = 15_000
+   |
+help: Import from `collections.abc`
+   |
+13 | from pathlib import Path
+   - from typing import Dict, Iterable, List, NamedTuple, Optional, Sequence, Tuple
+14 + from typing import Dict, List, NamedTuple, Optional, Tuple
+15 + from collections.abc import Iterable, Sequence
+16 |
+   |
+
+deprecated-import: `typing.Dict` is deprecated, use `dict` instead
+  --> .claude\scripts\build_reference_indexes.py:14:1
+   |
+12 | import subprocess
+13 | from pathlib import Path
+14 | from typing import Dict, Iterable, List, NamedTuple, Optional, Sequence, Tuple
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+15 |
+16 | TOKEN_LIMIT = 15_000
+   |
+
+deprecated-import: `typing.List` is deprecated, use `list` instead
+  --> .claude\scripts\build_reference_indexes.py:14:1
+   |
+12 | import subprocess
+13 | from pathlib import Path
+14 | from typing import Dict, Iterable, List, NamedTuple, Optional, Sequence, Tuple
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+15 |
+16 | TOKEN_LIMIT = 15_000
+   |
+
+deprecated-import: `typing.Tuple` is deprecated, use `tuple` instead
+  --> .claude\scripts\build_reference_indexes.py:14:1
+   |
+12 | import subprocess
+13 | from pathlib import Path
+14 | from typing import Dict, Iterable, List, NamedTuple, Optional, Sequence, Tuple
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+15 |
+16 | TOKEN_LIMIT = 15_000
+   |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+  --> .claude\scripts\build_reference_indexes.py:61:13
+   |
+59 | class CheckResult(NamedTuple):
+60 |     ok: bool
+61 |     errors: List[str]
+   |             ^^^^
+62 |     warnings: List[str]
+   |
+help: Replace with `list`
+   |
+60 |     ok: bool
+   -     errors: List[str]
+61 +     errors: list[str]
+62 |     warnings: List[str]
+   |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+  --> .claude\scripts\build_reference_indexes.py:62:15
+   |
+60 |     ok: bool
+61 |     errors: List[str]
+62 |     warnings: List[str]
+   |               ^^^^
+   |
+help: Replace with `list`
+   |
+61 |     errors: List[str]
+   -     warnings: List[str]
+62 +     warnings: list[str]
+63 |
+   |
+
+non-pep604-annotation-optional: [*] Use `X | None` for type annotations
+  --> .claude\scripts\build_reference_indexes.py:80:75
+   |
+80 | def _signature_after_heading(lines: Sequence[str], heading_index: int) -> Optional[str]:
+   |                                                                           ^^^^^^^^^^^^^
+81 |     in_code_block = False
+82 |     code_lines: List[str] = []
+   |
+help: Convert to `X | None`
+   |
+79 |
+   - def _signature_after_heading(lines: Sequence[str], heading_index: int) -> Optional[str]:
+80 + def _signature_after_heading(lines: Sequence[str], heading_index: int) -> str | None:
+81 |     in_code_block = False
+   |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+  --> .claude\scripts\build_reference_indexes.py:82:17
+   |
+80 | def _signature_after_heading(lines: Sequence[str], heading_index: int) -> Optional[str]:
+81 |     in_code_block = False
+82 |     code_lines: List[str] = []
+   |                 ^^^^
+83 |     inline_lines: List[str] = []
+84 |     for line in lines[heading_index + 1 :]:
+   |
+help: Replace with `list`
+   |
+81 |     in_code_block = False
+   -     code_lines: List[str] = []
+82 +     code_lines: list[str] = []
+83 |     inline_lines: List[str] = []
+   |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+  --> .claude\scripts\build_reference_indexes.py:83:19
+   |
+81 |     in_code_block = False
+82 |     code_lines: List[str] = []
+83 |     inline_lines: List[str] = []
+   |                   ^^^^
+84 |     for line in lines[heading_index + 1 :]:
+85 |         if line.startswith(("### ", "#### Description")):
+   |
+help: Replace with `list`
+   |
+82 |     code_lines: List[str] = []
+   -     inline_lines: List[str] = []
+83 +     inline_lines: list[str] = []
+84 |     for line in lines[heading_index + 1 :]:
+   |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .claude\scripts\build_reference_indexes.py:110:40
+    |
+110 | def extract_api_entries(root: Path) -> List[ApiEntry]:
+    |                                        ^^^^
+111 |     """Extract formal SKILL API headings followed by a documented signature."""
+112 |     entries: List[ApiEntry] = []
+    |
+help: Replace with `list`
+    |
+109 |
+    - def extract_api_entries(root: Path) -> List[ApiEntry]:
+110 + def extract_api_entries(root: Path) -> list[ApiEntry]:
+111 |     """Extract formal SKILL API headings followed by a documented signature."""
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .claude\scripts\build_reference_indexes.py:112:14
+    |
+110 | def extract_api_entries(root: Path) -> List[ApiEntry]:
+111 |     """Extract formal SKILL API headings followed by a documented signature."""
+112 |     entries: List[ApiEntry] = []
+    |              ^^^^
+113 |     for path in _markdown_files(root, API_REFERENCE_DIRS):
+114 |         lines = path.read_text(encoding="utf-8").splitlines()
+    |
+help: Replace with `list`
+    |
+111 |     """Extract formal SKILL API headings followed by a documented signature."""
+    -     entries: List[ApiEntry] = []
+112 +     entries: list[ApiEntry] = []
+113 |     for path in _markdown_files(root, API_REFERENCE_DIRS):
+    |
+
+manual-list-comprehension: Use `list.extend` to create a transformed list
+   --> .claude\scripts\build_reference_indexes.py:128:17
+    |
+126 |               ]
+127 |               for name in names:
+128 | /                 entries.append(
+129 | |                     ApiEntry(
+130 | |                         name=name,
+131 | |                         signature=signature,
+132 | |                         path=_relative(path, root),
+133 | |                         line=index + 1,
+134 | |                     )
+135 | |                 )
+    | |_________________^
+136 |       return sorted(entries, key=lambda entry: (entry.name.casefold(), entry.path, entry.line))
+    |
+help: Replace for loop with list.extend
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .claude\scripts\build_reference_indexes.py:154:42
+    |
+154 | def extract_topic_entries(root: Path) -> List[TopicEntry]:
+    |                                          ^^^^
+155 |     """Extract navigable section headings from the SKILL User Guide chapters."""
+156 |     entries: List[TopicEntry] = []
+    |
+help: Replace with `list`
+    |
+153 |
+    - def extract_topic_entries(root: Path) -> List[TopicEntry]:
+154 + def extract_topic_entries(root: Path) -> list[TopicEntry]:
+155 |     """Extract navigable section headings from the SKILL User Guide chapters."""
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .claude\scripts\build_reference_indexes.py:156:14
+    |
+154 | def extract_topic_entries(root: Path) -> List[TopicEntry]:
+155 |     """Extract navigable section headings from the SKILL User Guide chapters."""
+156 |     entries: List[TopicEntry] = []
+    |              ^^^^
+157 |     seen: set = set()
+158 |     for path in _markdown_files(root, ("sklanguser",)):
+    |
+help: Replace with `list`
+    |
+155 |     """Extract navigable section headings from the SKILL User Guide chapters."""
+    -     entries: List[TopicEntry] = []
+156 +     entries: list[TopicEntry] = []
+157 |     seen: set = set()
+    |
+
+non-pep604-annotation-optional: [*] Use `X | None` for type annotations
+   --> .claude\scripts\build_reference_indexes.py:163:20
+    |
+161 |         lines = path.read_text(encoding="utf-8").splitlines()
+162 |         for index, line in enumerate(lines):
+163 |             topic: Optional[str] = None
+    |                    ^^^^^^^^^^^^^
+164 |             if line.startswith(("## ", "### ")):
+165 |                 topic = line.lstrip("#").strip()
+    |
+help: Convert to `X | None`
+    |
+162 |         for index, line in enumerate(lines):
+    -             topic: Optional[str] = None
+163 +             topic: str | None = None
+164 |             if line.startswith(("## ", "### ")):
+    |
+
+implicit-string-concatenation-in-collection-literal: Unparenthesized implicit string concatenation in collection
+   --> .claude\scripts\build_reference_indexes.py:198:9
+    |
+196 |           f"# SKILL API Index ({ranges[part]})",
+197 |           "",
+198 | /         "Search this file for an exact function name, then read the referenced source entry. "
+199 | |         "It covers the language, IPC, development, and SKILL++ references.",
+    | |___________________________________________________________________________^
+200 |           "",
+201 |           "| Symbol | Documented declaration | Source | Line |",
+    |
+help: Did you forget a comma?
+help: Wrap implicitly concatenated strings in parentheses
+
+manual-list-comprehension: Use `list.extend` to create a transformed list
+   --> .claude\scripts\build_reference_indexes.py:205:9
+    |
+203 |       ]
+204 |       for entry in entries:
+205 | /         lines.append(
+206 | |             f"| `{_escape_table(entry.name)}` | `{_escape_table(entry.signature)}` | "
+207 | |             f"`{entry.path}` | {entry.line} |"
+208 | |         )
+    | |_________^
+209 |       return "\n".join(lines) + "\n"
+    |
+help: Replace for loop with list.extend
+
+manual-list-comprehension: Use `list.extend` to create a transformed list
+   --> .claude\scripts\build_reference_indexes.py:224:9
+    |
+222 |     ]
+223 |     for entry in entries:
+224 |         lines.append(f"| {_escape_table(entry.topic)} | `{entry.path}` | {entry.line} |")
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+225 |     return "\n".join(lines) + "\n"
+    |
+help: Replace for loop with list.extend
+
+non-pep604-annotation-optional: [*] Use `X | None` for type annotations
+   --> .claude\scripts\build_reference_indexes.py:240:31
+    |
+240 | def _pdf_pages(path: Path) -> Optional[int]:
+    |                               ^^^^^^^^^^^^^
+241 |     executable = shutil.which("pdfinfo")
+242 |     if executable is None:
+    |
+help: Convert to `X | None`
+    |
+239 |
+    - def _pdf_pages(path: Path) -> Optional[int]:
+240 + def _pdf_pages(path: Path) -> int | None:
+241 |     executable = shutil.which("pdfinfo")
+    |
+
+subprocess-without-shell-equals-true: `subprocess` call: check for execution of untrusted input
+   --> .claude\scripts\build_reference_indexes.py:244:14
+    |
+242 |     if executable is None:
+243 |         return None
+244 |     result = subprocess.run(
+    |              ^^^^^^^^^^^^^^
+245 |         [executable, str(path)],
+246 |         check=False,
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .claude\scripts\build_reference_indexes.py:256:38
+    |
+256 | def _document_records(root: Path) -> List[Dict[str, object]]:
+    |                                      ^^^^
+257 |     records: List[Dict[str, object]] = []
+258 |     for path in _markdown_files(root, REFERENCE_DIRS):
+    |
+help: Replace with `list`
+    |
+255 |
+    - def _document_records(root: Path) -> List[Dict[str, object]]:
+256 + def _document_records(root: Path) -> list[Dict[str, object]]:
+257 |     records: List[Dict[str, object]] = []
+    |
+
+non-pep585-annotation: [*] Use `dict` instead of `Dict` for type annotation
+   --> .claude\scripts\build_reference_indexes.py:256:43
+    |
+256 | def _document_records(root: Path) -> List[Dict[str, object]]:
+    |                                           ^^^^
+257 |     records: List[Dict[str, object]] = []
+258 |     for path in _markdown_files(root, REFERENCE_DIRS):
+    |
+help: Replace with `dict`
+    |
+255 |
+    - def _document_records(root: Path) -> List[Dict[str, object]]:
+256 + def _document_records(root: Path) -> List[dict[str, object]]:
+257 |     records: List[Dict[str, object]] = []
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .claude\scripts\build_reference_indexes.py:257:14
+    |
+256 | def _document_records(root: Path) -> List[Dict[str, object]]:
+257 |     records: List[Dict[str, object]] = []
+    |              ^^^^
+258 |     for path in _markdown_files(root, REFERENCE_DIRS):
+259 |         text = path.read_text(encoding="utf-8")
+    |
+help: Replace with `list`
+    |
+256 | def _document_records(root: Path) -> List[Dict[str, object]]:
+    -     records: List[Dict[str, object]] = []
+257 +     records: list[Dict[str, object]] = []
+258 |     for path in _markdown_files(root, REFERENCE_DIRS):
+    |
+
+non-pep585-annotation: [*] Use `dict` instead of `Dict` for type annotation
+   --> .claude\scripts\build_reference_indexes.py:257:19
+    |
+256 | def _document_records(root: Path) -> List[Dict[str, object]]:
+257 |     records: List[Dict[str, object]] = []
+    |                   ^^^^
+258 |     for path in _markdown_files(root, REFERENCE_DIRS):
+259 |         text = path.read_text(encoding="utf-8")
+    |
+help: Replace with `dict`
+    |
+256 | def _document_records(root: Path) -> List[Dict[str, object]]:
+    -     records: List[Dict[str, object]] = []
+257 +     records: List[dict[str, object]] = []
+258 |     for path in _markdown_files(root, REFERENCE_DIRS):
+    |
+
+non-pep604-annotation-optional: [*] Use `X | None` for type annotations
+   --> .claude\scripts\build_reference_indexes.py:273:21
+    |
+271 | def _source_records(
+272 |     root: Path,
+273 |     existing_pages: Optional[Dict[str, object]] = None,
+    |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+274 | ) -> List[Dict[str, object]]:
+275 |     records: List[Dict[str, object]] = []
+    |
+help: Convert to `X | None`
+    |
+272 |     root: Path,
+    -     existing_pages: Optional[Dict[str, object]] = None,
+273 +     existing_pages: Dict[str, object] | None = None,
+274 | ) -> List[Dict[str, object]]:
+    |
+
+non-pep585-annotation: [*] Use `dict` instead of `Dict` for type annotation
+   --> .claude\scripts\build_reference_indexes.py:273:30
+    |
+271 | def _source_records(
+272 |     root: Path,
+273 |     existing_pages: Optional[Dict[str, object]] = None,
+    |                              ^^^^
+274 | ) -> List[Dict[str, object]]:
+275 |     records: List[Dict[str, object]] = []
+    |
+help: Replace with `dict`
+    |
+272 |     root: Path,
+    -     existing_pages: Optional[Dict[str, object]] = None,
+273 +     existing_pages: Optional[dict[str, object]] = None,
+274 | ) -> List[Dict[str, object]]:
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .claude\scripts\build_reference_indexes.py:274:6
+    |
+272 |     root: Path,
+273 |     existing_pages: Optional[Dict[str, object]] = None,
+274 | ) -> List[Dict[str, object]]:
+    |      ^^^^
+275 |     records: List[Dict[str, object]] = []
+276 |     docs = root / "docs"
+    |
+help: Replace with `list`
+    |
+273 |     existing_pages: Optional[Dict[str, object]] = None,
+    - ) -> List[Dict[str, object]]:
+274 + ) -> list[Dict[str, object]]:
+275 |     records: List[Dict[str, object]] = []
+    |
+
+non-pep585-annotation: [*] Use `dict` instead of `Dict` for type annotation
+   --> .claude\scripts\build_reference_indexes.py:274:11
+    |
+272 |     root: Path,
+273 |     existing_pages: Optional[Dict[str, object]] = None,
+274 | ) -> List[Dict[str, object]]:
+    |           ^^^^
+275 |     records: List[Dict[str, object]] = []
+276 |     docs = root / "docs"
+    |
+help: Replace with `dict`
+    |
+273 |     existing_pages: Optional[Dict[str, object]] = None,
+    - ) -> List[Dict[str, object]]:
+274 + ) -> List[dict[str, object]]:
+275 |     records: List[Dict[str, object]] = []
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .claude\scripts\build_reference_indexes.py:275:14
+    |
+273 |     existing_pages: Optional[Dict[str, object]] = None,
+274 | ) -> List[Dict[str, object]]:
+275 |     records: List[Dict[str, object]] = []
+    |              ^^^^
+276 |     docs = root / "docs"
+277 |     if not docs.is_dir():
+    |
+help: Replace with `list`
+    |
+274 | ) -> List[Dict[str, object]]:
+    -     records: List[Dict[str, object]] = []
+275 +     records: list[Dict[str, object]] = []
+276 |     docs = root / "docs"
+    |
+
+non-pep585-annotation: [*] Use `dict` instead of `Dict` for type annotation
+   --> .claude\scripts\build_reference_indexes.py:275:19
+    |
+273 |     existing_pages: Optional[Dict[str, object]] = None,
+274 | ) -> List[Dict[str, object]]:
+275 |     records: List[Dict[str, object]] = []
+    |                   ^^^^
+276 |     docs = root / "docs"
+277 |     if not docs.is_dir():
+    |
+help: Replace with `dict`
+    |
+274 | ) -> List[Dict[str, object]]:
+    -     records: List[Dict[str, object]] = []
+275 +     records: List[dict[str, object]] = []
+276 |     docs = root / "docs"
+    |
+
+non-pep604-annotation-optional: [*] Use `X | None` for type annotations
+   --> .claude\scripts\build_reference_indexes.py:311:21
+    |
+309 |     api_count: int,
+310 |     topic_count: int,
+311 |     existing_pages: Optional[Dict[str, object]] = None,
+    |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+312 | ) -> Dict[str, object]:
+313 |     return {
+    |
+help: Convert to `X | None`
+    |
+310 |     topic_count: int,
+    -     existing_pages: Optional[Dict[str, object]] = None,
+311 +     existing_pages: Dict[str, object] | None = None,
+312 | ) -> Dict[str, object]:
+    |
+
+non-pep585-annotation: [*] Use `dict` instead of `Dict` for type annotation
+   --> .claude\scripts\build_reference_indexes.py:311:30
+    |
+309 |     api_count: int,
+310 |     topic_count: int,
+311 |     existing_pages: Optional[Dict[str, object]] = None,
+    |                              ^^^^
+312 | ) -> Dict[str, object]:
+313 |     return {
+    |
+help: Replace with `dict`
+    |
+310 |     topic_count: int,
+    -     existing_pages: Optional[Dict[str, object]] = None,
+311 +     existing_pages: Optional[dict[str, object]] = None,
+312 | ) -> Dict[str, object]:
+    |
+
+non-pep585-annotation: [*] Use `dict` instead of `Dict` for type annotation
+   --> .claude\scripts\build_reference_indexes.py:312:6
+    |
+310 |     topic_count: int,
+311 |     existing_pages: Optional[Dict[str, object]] = None,
+312 | ) -> Dict[str, object]:
+    |      ^^^^
+313 |     return {
+314 |         "schema_version": 2,
+    |
+help: Replace with `dict`
+    |
+311 |     existing_pages: Optional[Dict[str, object]] = None,
+    - ) -> Dict[str, object]:
+312 + ) -> dict[str, object]:
+313 |     return {
+    |
+
+non-pep604-annotation-optional: [*] Use `X | None` for type annotations
+   --> .claude\scripts\build_reference_indexes.py:339:21
+    |
+337 |     api_count: int,
+338 |     topic_count: int,
+339 |     existing_pages: Optional[Dict[str, object]] = None,
+    |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+340 | ) -> str:
+341 |     return (
+    |
+help: Convert to `X | None`
+    |
+338 |     topic_count: int,
+    -     existing_pages: Optional[Dict[str, object]] = None,
+339 +     existing_pages: Dict[str, object] | None = None,
+340 | ) -> str:
+    |
+
+non-pep585-annotation: [*] Use `dict` instead of `Dict` for type annotation
+   --> .claude\scripts\build_reference_indexes.py:339:30
+    |
+337 |     api_count: int,
+338 |     topic_count: int,
+339 |     existing_pages: Optional[Dict[str, object]] = None,
+    |                              ^^^^
+340 | ) -> str:
+341 |     return (
+    |
+help: Replace with `dict`
+    |
+338 |     topic_count: int,
+    -     existing_pages: Optional[Dict[str, object]] = None,
+339 +     existing_pages: Optional[dict[str, object]] = None,
+340 | ) -> str:
+    |
+
+non-pep585-annotation: [*] Use `dict` instead of `Dict` for type annotation
+   --> .claude\scripts\build_reference_indexes.py:351:45
+    |
+351 | def _existing_physical_pages(root: Path) -> Dict[str, object]:
+    |                                             ^^^^
+352 |     path = root / ".paginate" / "pagination_manifest.json"
+353 |     if not path.is_file():
+    |
+help: Replace with `dict`
+    |
+350 |
+    - def _existing_physical_pages(root: Path) -> Dict[str, object]:
+351 + def _existing_physical_pages(root: Path) -> dict[str, object]:
+352 |     path = root / ".paginate" / "pagination_manifest.json"
+    |
+
+non-pep585-annotation: [*] Use `dict` instead of `Dict` for type annotation
+   --> .claude\scripts\build_reference_indexes.py:366:38
+    |
+366 | def _rendered_indexes(root: Path) -> Dict[str, str]:
+    |                                      ^^^^
+367 |     api_entries = extract_api_entries(root)
+368 |     topic_entries = extract_topic_entries(root)
+    |
+help: Replace with `dict`
+    |
+365 |
+    - def _rendered_indexes(root: Path) -> Dict[str, str]:
+366 + def _rendered_indexes(root: Path) -> dict[str, str]:
+367 |     api_entries = extract_api_entries(root)
+    |
+
+non-pep585-annotation: [*] Use `dict` instead of `Dict` for type annotation
+   --> .claude\scripts\build_reference_indexes.py:369:15
+    |
+367 |     api_entries = extract_api_entries(root)
+368 |     topic_entries = extract_topic_entries(root)
+369 |     rendered: Dict[str, str] = {}
+    |               ^^^^
+370 |     for part in (1, 2, 3):
+371 |         selected = [entry for entry in api_entries if _api_part(entry.name) == part]
+    |
+help: Replace with `dict`
+    |
+368 |     topic_entries = extract_topic_entries(root)
+    -     rendered: Dict[str, str] = {}
+369 +     rendered: dict[str, str] = {}
+370 |     for part in (1, 2, 3):
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .claude\scripts\build_reference_indexes.py:391:33
+    |
+391 | def _part_errors(root: Path) -> List[str]:
+    |                                 ^^^^
+392 |     groups: Dict[Tuple[str, str], List[int]] = {}
+393 |     for path in _markdown_files(root, REFERENCE_DIRS):
+    |
+help: Replace with `list`
+    |
+390 |
+    - def _part_errors(root: Path) -> List[str]:
+391 + def _part_errors(root: Path) -> list[str]:
+392 |     groups: Dict[Tuple[str, str], List[int]] = {}
+    |
+
+non-pep585-annotation: [*] Use `dict` instead of `Dict` for type annotation
+   --> .claude\scripts\build_reference_indexes.py:392:13
+    |
+391 | def _part_errors(root: Path) -> List[str]:
+392 |     groups: Dict[Tuple[str, str], List[int]] = {}
+    |             ^^^^
+393 |     for path in _markdown_files(root, REFERENCE_DIRS):
+394 |         match = PART_NAME.match(path.name)
+    |
+help: Replace with `dict`
+    |
+391 | def _part_errors(root: Path) -> List[str]:
+    -     groups: Dict[Tuple[str, str], List[int]] = {}
+392 +     groups: dict[Tuple[str, str], List[int]] = {}
+393 |     for path in _markdown_files(root, REFERENCE_DIRS):
+    |
+
+non-pep585-annotation: [*] Use `tuple` instead of `Tuple` for type annotation
+   --> .claude\scripts\build_reference_indexes.py:392:18
+    |
+391 | def _part_errors(root: Path) -> List[str]:
+392 |     groups: Dict[Tuple[str, str], List[int]] = {}
+    |                  ^^^^^
+393 |     for path in _markdown_files(root, REFERENCE_DIRS):
+394 |         match = PART_NAME.match(path.name)
+    |
+help: Replace with `tuple`
+    |
+391 | def _part_errors(root: Path) -> List[str]:
+    -     groups: Dict[Tuple[str, str], List[int]] = {}
+392 +     groups: Dict[tuple[str, str], List[int]] = {}
+393 |     for path in _markdown_files(root, REFERENCE_DIRS):
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .claude\scripts\build_reference_indexes.py:392:35
+    |
+391 | def _part_errors(root: Path) -> List[str]:
+392 |     groups: Dict[Tuple[str, str], List[int]] = {}
+    |                                   ^^^^
+393 |     for path in _markdown_files(root, REFERENCE_DIRS):
+394 |         match = PART_NAME.match(path.name)
+    |
+help: Replace with `list`
+    |
+391 | def _part_errors(root: Path) -> List[str]:
+    -     groups: Dict[Tuple[str, str], List[int]] = {}
+392 +     groups: Dict[Tuple[str, str], list[int]] = {}
+393 |     for path in _markdown_files(root, REFERENCE_DIRS):
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .claude\scripts\build_reference_indexes.py:399:13
+    |
+397 |         key = (path.parent.name, match.group("stem"))
+398 |         groups.setdefault(key, []).append(int(match.group("number")))
+399 |     errors: List[str] = []
+    |             ^^^^
+400 |     for (directory, stem), numbers in sorted(groups.items()):
+401 |         expected = list(range(1, max(numbers) + 1))
+    |
+help: Replace with `list`
+    |
+398 |         groups.setdefault(key, []).append(int(match.group("number")))
+    -     errors: List[str] = []
+399 +     errors: list[str] = []
+400 |     for (directory, stem), numbers in sorted(groups.items()):
+    |
+
+complex-structure: `check` is too complex (11 > 10)
+   --> .claude\scripts\build_reference_indexes.py:407:5
+    |
+407 | def check(root: Path) -> CheckResult:
+    |     ^^^^^
+408 |     """Validate pagination and generated index targets without mutating the corpus."""
+409 |     errors = _part_errors(root)
+    |
+
+non-pep585-annotation: [*] Use `list` instead of `List` for type annotation
+   --> .claude\scripts\build_reference_indexes.py:410:15
+    |
+408 |     """Validate pagination and generated index targets without mutating the corpus."""
+409 |     errors = _part_errors(root)
+410 |     warnings: List[str] = []
+    |               ^^^^
+411 |     api_entries = extract_api_entries(root)
+412 |     topic_entries = extract_topic_entries(root)
+    |
+help: Replace with `list`
+    |
+409 |     errors = _part_errors(root)
+    -     warnings: List[str] = []
+410 +     warnings: list[str] = []
+411 |     api_entries = extract_api_entries(root)
+    |
+
+non-pep604-annotation-optional: [*] Use `X | None` for type annotations
+   --> .claude\scripts\build_reference_indexes.py:461:16
+    |
+461 | def main(argv: Optional[Sequence[str]] = None) -> int:
+    |                ^^^^^^^^^^^^^^^^^^^^^^^
+462 |     parser = argparse.ArgumentParser(description=__doc__)
+463 |     parser.add_argument("--root", type=Path, default=_default_root())
+    |
+help: Convert to `X | None`
+    |
+460 |
+    - def main(argv: Optional[Sequence[str]] = None) -> int:
+461 + def main(argv: Sequence[str] | None = None) -> int:
+462 |     parser = argparse.ArgumentParser(description=__doc__)
+    |
+
+Found 47 errors.
+[*] 37 fixable with the `--fix` option (4 hidden fixes can be enabled with the `--unsafe-fixes` option).
+implicit-namespace-package: File `.claude\scripts\sync_claude.py` is part of an implicit namespace package. Add an `__init__.py`.
+--> .claude\scripts\sync_claude.py:1:1
+
+Found 1 error.
+All checks passed!
+implicit-namespace-package: File `.claude\tests\test_convert_pdf_references.py` is part of an implicit namespace package. Add an `__init__.py`.
+--> .claude\tests\test_convert_pdf_references.py:1:1
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `load_converter`
+  --> .claude\tests\test_convert_pdf_references.py:8:5
+   |
+ 8 | def load_converter():
+   |     ^^^^^^^^^^^^^^
+ 9 |     spec = importlib.util.spec_from_file_location("convert_pdf_references", SCRIPT_PATH)
+10 |     if spec is None or spec.loader is None:
+   |
+help: Add return type annotation
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_extracts_multiline_formal_declaration`
+  --> .claude\tests\test_convert_pdf_references.py:18:9
+   |
+17 | class PdfReferenceConverterTests(unittest.TestCase):
+18 |     def test_extracts_multiline_formal_declaration(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+19 |         page = (
+20 |             "ipcBeginProcess\n"
+   |
+help: Add return type annotation: `None`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+  --> .claude\tests\test_convert_pdf_references.py:31:9
+   |
+29 |         declarations = load_converter().extract_api_declarations(page)
+30 |
+31 |         self.assertEqual([entry.names for entry in declarations], [("ipcBeginProcess",)])
+   |         ^^^^^^^^^^^^^^^^
+32 |         self.assertEqual(
+33 |             declarations[0].signature,
+   |
+help: Replace `assertEqual(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+  --> .claude\tests\test_convert_pdf_references.py:32:9
+   |
+31 |         self.assertEqual([entry.names for entry in declarations], [("ipcBeginProcess",)])
+32 |         self.assertEqual(
+   |         ^^^^^^^^^^^^^^^^
+33 |             declarations[0].signature,
+34 |             "ipcBeginProcess( t_command [ t_hostName ] ) => o_childId",
+   |
+help: Replace `assertEqual(...)` with `assert ...`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_does_not_treat_example_call_as_a_declaration`
+  --> .claude\tests\test_convert_pdf_references.py:37:9
+   |
+35 |         )
+36 |
+37 |     def test_does_not_treat_example_call_as_a_declaration(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+38 |         page = 'Example\nresult = ipcBeginProcess("hostname")\n=> ipc:3\n'
+   |
+help: Add return type annotation: `None`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+  --> .claude\tests\test_convert_pdf_references.py:42:9
+   |
+40 |         declarations = load_converter().extract_api_declarations(page)
+41 |
+42 |         self.assertEqual(declarations, [])
+   |         ^^^^^^^^^^^^^^^^
+43 |
+44 |     def test_splits_only_between_physical_pages(self):
+   |
+help: Replace `assertEqual(...)` with `assert ...`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_splits_only_between_physical_pages`
+  --> .claude\tests\test_convert_pdf_references.py:44:9
+   |
+42 |         self.assertEqual(declarations, [])
+43 |
+44 |     def test_splits_only_between_physical_pages(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+45 |         converter = load_converter()
+46 |         page = "x" * (converter.PART_CHAR_LIMIT // 2 + 100)
+   |
+help: Add return type annotation: `None`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+  --> .claude\tests\test_convert_pdf_references.py:50:9
+   |
+48 |         parts = converter.render_document("skipcref", [page, page, page])
+49 |
+50 |         self.assertEqual(len(parts), 3)
+   |         ^^^^^^^^^^^^^^^^
+51 |         self.assertIn("## PDF page 1", parts[0])
+52 |         self.assertIn("## PDF page 2", parts[1])
+   |
+help: Replace `assertEqual(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertIn`
+  --> .claude\tests\test_convert_pdf_references.py:51:9
+   |
+50 |         self.assertEqual(len(parts), 3)
+51 |         self.assertIn("## PDF page 1", parts[0])
+   |         ^^^^^^^^^^^^^
+52 |         self.assertIn("## PDF page 2", parts[1])
+53 |         self.assertIn("## PDF page 3", parts[2])
+   |
+help: Replace `assertIn(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertIn`
+  --> .claude\tests\test_convert_pdf_references.py:52:9
+   |
+50 |         self.assertEqual(len(parts), 3)
+51 |         self.assertIn("## PDF page 1", parts[0])
+52 |         self.assertIn("## PDF page 2", parts[1])
+   |         ^^^^^^^^^^^^^
+53 |         self.assertIn("## PDF page 3", parts[2])
+   |
+help: Replace `assertIn(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertIn`
+  --> .claude\tests\test_convert_pdf_references.py:53:9
+   |
+51 |         self.assertIn("## PDF page 1", parts[0])
+52 |         self.assertIn("## PDF page 2", parts[1])
+53 |         self.assertIn("## PDF page 3", parts[2])
+   |         ^^^^^^^^^^^^^
+54 |
+55 |     def test_keeps_multi_page_api_entry_in_one_part(self):
+   |
+help: Replace `assertIn(...)` with `assert ...`
+
+missing-return-type-undocumented-public-function: Missing return type annotation for public function `test_keeps_multi_page_api_entry_in_one_part`
+  --> .claude\tests\test_convert_pdf_references.py:55:9
+   |
+53 |         self.assertIn("## PDF page 3", parts[2])
+54 |
+55 |     def test_keeps_multi_page_api_entry_in_one_part(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+56 |         converter = load_converter()
+57 |         first_api = "firstApi\nfirstApi(\n)\n=> t\n"
+   |
+help: Add return type annotation: `None`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertEqual`
+  --> .claude\tests\test_convert_pdf_references.py:66:9
+   |
+64 |         )
+65 |
+66 |         self.assertEqual(len(parts), 2)
+   |         ^^^^^^^^^^^^^^^^
+67 |         self.assertIn("### firstApi", parts[0])
+68 |         self.assertIn("## PDF page 2", parts[0])
+   |
+help: Replace `assertEqual(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertIn`
+  --> .claude\tests\test_convert_pdf_references.py:67:9
+   |
+66 |         self.assertEqual(len(parts), 2)
+67 |         self.assertIn("### firstApi", parts[0])
+   |         ^^^^^^^^^^^^^
+68 |         self.assertIn("## PDF page 2", parts[0])
+69 |         self.assertNotIn("### secondApi", parts[0])
+   |
+help: Replace `assertIn(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertIn`
+  --> .claude\tests\test_convert_pdf_references.py:68:9
+   |
+66 |         self.assertEqual(len(parts), 2)
+67 |         self.assertIn("### firstApi", parts[0])
+68 |         self.assertIn("## PDF page 2", parts[0])
+   |         ^^^^^^^^^^^^^
+69 |         self.assertNotIn("### secondApi", parts[0])
+70 |         self.assertIn("### secondApi", parts[1])
+   |
+help: Replace `assertIn(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertNotIn`
+  --> .claude\tests\test_convert_pdf_references.py:69:9
+   |
+67 |         self.assertIn("### firstApi", parts[0])
+68 |         self.assertIn("## PDF page 2", parts[0])
+69 |         self.assertNotIn("### secondApi", parts[0])
+   |         ^^^^^^^^^^^^^^^^
+70 |         self.assertIn("### secondApi", parts[1])
+   |
+help: Replace `assertNotIn(...)` with `assert ...`
+
+pytest-unittest-assertion: Use a regular `assert` instead of unittest-style `assertIn`
+  --> .claude\tests\test_convert_pdf_references.py:70:9
+   |
+68 |         self.assertIn("## PDF page 2", parts[0])
+69 |         self.assertNotIn("### secondApi", parts[0])
+70 |         self.assertIn("### secondApi", parts[1])
+   |         ^^^^^^^^^^^^^
+   |
+help: Replace `assertIn(...)` with `assert ...`
+
+implicit-namespace-package: File `.claude\tests\test_sync_claude.py` is part of an implicit namespace package. Add an `__init__.py`.
+--> .claude\tests\test_sync_claude.py:1:1
+
+Found 19 errors.
+No fixes available (16 hidden fixes can be enabled with the `--unsafe-fixes` option).
+All checks passed!
+All checks passed!
+
+mypy.....................................................................Passed
+pyright..................................................................Passed
+Allegro stub drift.......................................................Passed
+pytest...................................................................Passed

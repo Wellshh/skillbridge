@@ -1,0 +1,35 @@
+.............................ssssssss................................... [ 10%]
+........................................................................ [ 21%]
+...........................................................sssssssssssss [ 32%]
+ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss [ 43%]
+sssssssssssssssssssssssssssssssssssssssssssss.........s................. [ 54%]
+...............................................................sssssssss [ 64%]
+ssssssssssssssssss...................................................... [ 75%]
+........................................................................ [ 86%]
+........................................................................ [ 97%]
+.................                                                        [100%]
+============================== warnings summary ===============================
+tests/allegrobridge/test_main.py::test_main_entry_point
+  <frozen runpy>:128: RuntimeWarning: 'allegrobridge.__main__' found in sys.modules after import of package 'allegrobridge', but prior to execution of 'allegrobridge.__main__'; this may result in unpredictable behaviour
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=============================== tests coverage ================================
+_______________ coverage: platform win32, python 3.12.0-final-0 _______________
+
+Name                                  Stmts   Miss Branch BrPart   Cover
+------------------------------------------------------------------------
+allegrobridge\_runtime.py               208     38     72     16  80.00%
+allegrobridge\allegro.py                153     31     32      8  75.68%
+skillbridge\client\channel.py           154     47     14      3  69.05%
+skillbridge\client\objects.py           156     11     26      3  91.21%
+skillbridge\client\workspace.py         267      6     20      0  97.91%
+skillbridge\exception.py                 66      4      4      2  91.43%
+skillbridge\server\_pipe.py             250      1     68      1  99.37%
+skillbridge\server\python_server.py     148     20     14      0  87.65%
+skillbridge\version.py                    1      1      0      0   0.00%
+------------------------------------------------------------------------
+TOTAL                                  3210    159    496     33  94.50%
+
+49 files skipped due to complete coverage.
+Coverage HTML written to dir htmlcov
+499 passed, 166 skipped, 1 warning in 33.22s
