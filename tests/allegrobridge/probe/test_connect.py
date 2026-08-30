@@ -351,6 +351,34 @@ def test_driven_report_classifies_cancel() -> None:
     )
 
 
+def _resolve_anchor(
+    connect_probe: ConnectProbe,
+    connect_allegro: Allegro,
+) -> tuple[str, dict[str, object], list[dict[str, object]], float, float]:
+    routes = cast('list[dict[str, object]] | None', connect_probe.snapshot(None)['routes'])
+    if not routes:
+        pytest.skip('shape1.brd has no routable net')
+    net = cast('str', routes[0]['net'])
+    placed = [
+        pin
+        for pin in connect_allegro.session.pins(net=net)
+        if pin.x is not None and pin.y is not None
+    ]
+    pin = next(iter(placed), None)
+    if pin is None or pin.x is None or pin.y is None:
+        pytest.skip(f'net {net} has no placed pin')
+    anchor: dict[str, object] = {
+        'refdes': pin.refdes,
+        'number': pin.number,
+        'x': pin.x,
+        'y': pin.y,
+        'padstack': pin.padstack,
+        'placement': pin.placement,
+    }
+    net_pins = [{'refdes': p.refdes, 'number': p.number, 'x': p.x, 'y': p.y} for p in placed]
+    return net, anchor, net_pins, pin.x, pin.y
+
+
 @pytest.mark.allegro
 @pytest.mark.timeout(600)
 class TestConnectProbe:
@@ -414,16 +442,33 @@ class TestConnectProbe:
         connect_probe: ConnectProbe,
         connect_allegro: Allegro,
     ) -> None:
-        routes = cast('list[dict[str, object]] | None', connect_probe.snapshot(None)['routes'])
-        if not routes:
-            pytest.skip('shape1.brd has no routable net')
-        net = cast('str', routes[0]['net'])
-        pin = next(iter(connect_allegro.session.pins(net=net)), None)
-        if pin is None or pin.x is None or pin.y is None:
-            pytest.skip(f'net {net} has no placed pin')
-        start = (pin.x, pin.y)
-        end = (pin.x + 1.0, pin.y + 1.0)
-        report = connect_probe.driven(net, f'add connect -net {net}', start, end)
+        net, anchor, net_pins, x, y = _resolve_anchor(connect_probe, connect_allegro)
+        report = connect_probe.driven(
+            net,
+            f'add connect -net {net}',
+            (x, y),
+            (x + 1.0, y + 1.0),
+        )
+        report['anchor'] = anchor
+        report['net_pins'] = net_pins
         connect_probe.emit('connect-driven.json', report)
+        assert report['route_change'] in {'done', 'cancel'}
+        assert report['ping'] == 3
+
+    def test_driven_add_connect_large_delta(
+        self,
+        connect_probe: ConnectProbe,
+        connect_allegro: Allegro,
+    ) -> None:
+        net, anchor, net_pins, x, y = _resolve_anchor(connect_probe, connect_allegro)
+        report = connect_probe.driven(
+            net,
+            f'add connect -net {net}',
+            (x, y),
+            (x + 100.0, y + 100.0),
+        )
+        report['anchor'] = anchor
+        report['net_pins'] = net_pins
+        connect_probe.emit('connect-driven-large-delta.json', report)
         assert report['route_change'] in {'done', 'cancel'}
         assert report['ping'] == 3
