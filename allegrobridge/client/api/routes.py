@@ -34,6 +34,8 @@ class RouteInfo(SessionRecord):
     end: Point
     width: _Width
     length: FiniteFloat
+
+    # optional Arc attributes
     radius: FiniteFloat | None
     is_clockwise: bool | None
     center: Point | None
