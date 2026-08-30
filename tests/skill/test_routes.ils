@@ -17,20 +17,42 @@
         (qtest::assertEqual 2.0 (get (get projected 'start) 'y))
         (qtest::assertEqual 3.0 (get (get projected 'end) 'x))
         (qtest::assertEqual 4.0 (get (get projected 'end) 'y))
-        (qtest::assertEqual 0.2 (get projected 'width))))
+        (qtest::assertEqual 0.2 (get projected 'width))
+        (qtest::assertEqual "line" (get projected 'obj_type))
+        (qtest::assertNil (get projected 'length))
+        (qtest::assertNil (get projected 'radius))
+        (qtest::assertNil (get projected 'is_clockwise))
+        (qtest::assertNil (get projected 'center))))
+
+    (qtest::TestCase test_route_projection_decodes_arc_segment
+      (letseq ((segment (list nil 'objType "arc" 'layer "ETCH/TOP"
+                              'startEnd '((1.0 2.0) (3.0 4.0)) 'width 0.2
+                              'radius 5.0 'isClockwise t 'xy '(2.0 3.0)))
+               (projected (__abProjectRoute segment "CLK")))
+        (qtest::assertEqual "arc" (get projected 'obj_type))
+        (qtest::assertEqual "CLK" (get projected 'net))
+        (qtest::assertEqual "ETCH/TOP" (get projected 'layer))
+        (qtest::assertEqual 1.0 (get (get projected 'start) 'x))
+        (qtest::assertEqual 5.0 (get projected 'radius))
+        (qtest::assertTrue (get projected 'is_clockwise))
+        (qtest::assertEqual 2.0 (get (get projected 'center) 'x))
+        (qtest::assertEqual 3.0 (get (get projected 'center) 'y))
+        (qtest::assertNil (get projected 'length))))
 
     (qtest::TestCase test_route_collection_filters_non_straight_etch
       (letseq ((line (list nil 'objType "line" 'layer "ETCH/TOP"
                            'startEnd '((1.0 2.0) (3.0 4.0)) 'width 0.2))
-               (arc (list nil 'objType "arc" 'layer "ETCH/TOP"))
+               (arc (list nil 'objType "arc" 'layer "ETCH/TOP"
+                          'startEnd '((1.0 2.0) (3.0 4.0)) 'width 0.2
+                          'radius 5.0 'isClockwise t 'xy '(2.0 3.0)))
                (etchPath (list nil 'objType "path" 'isEtch t
                                'segments (list line arc)))
                (linePath (list nil 'objType "path" 'isEtch nil
                                'segments (list line)))
                (other (list nil 'objType "via"))
                (paths (list etchPath linePath other)))
-        (qtest::assertEqual 1 (length (__abCollectRoutePaths paths "GND" nil nil)))
-        (qtest::assertEqual 1
+        (qtest::assertEqual 2 (length (__abCollectRoutePaths paths "GND" nil nil)))
+        (qtest::assertEqual 2
                             (length (__abCollectRoutePaths paths "GND"
                                                            "ETCH/TOP" nil)))
         (qtest::assertNil (__abCollectRoutePaths paths "GND" "ETCH/BOTTOM" nil))))

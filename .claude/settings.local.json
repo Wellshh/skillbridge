@@ -274,7 +274,11 @@
       "Bash(rg -rin \"axlShell.*\\\\\\(|axlShellPost\" examples/ algroskill/09cmdshl.md)",
       "Bash(rg -rln \"->segments|segments\\\\\\(|->branches|branch->|isEtch|isClockwise\" examples/)",
       "Bash(rg -rin \"isArc\" algroskill/)",
-      "Bash(rg -rin \"axlDBAddConnect\" algroskill/ api_index.part*.md)"
+      "Bash(rg -rin \"axlDBAddConnect\" algroskill/ api_index.part*.md)",
+      "Bash(.venv/bin/pytest tests/allegrobridge/test_allegro.py -k \"route\" -q -m \"not allegro\")",
+      "Bash(.venv/bin/pytest tests/allegrobridge/test_allegro.py -k route -m \"not allegro\" -q)",
+      "Bash(git -C /Users/wells/Documents/02_工作实习/Job/龙旗科技/代码库/skillbridge log --oneline -5 -- allegrobridge/server/extensions/routes.il)",
+      "Bash(.venv/bin/mypy allegrobridge/client/api/routes.py)"
     ],
     "additionalDirectories": [
       "/tmp"

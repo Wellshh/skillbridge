@@ -1118,9 +1118,14 @@ class TestReadApi:
             {
                 'net': 'GND',
                 'layer': 'ETCH/TOP',
+                'obj_type': 'line',
                 'start': {'x': 1.0, 'y': 2.0},
                 'end': {'x': 3.0, 'y': 4.0},
                 'width': 0.2,
+                'length': 2.8284271247461903,
+                'radius': None,
+                'is_clockwise': None,
+                'center': None,
             }
         ]
         session = _session(workspace)
@@ -1136,13 +1141,54 @@ class TestReadApi:
             RouteInfo(
                 net='GND',
                 layer='ETCH/TOP',
+                obj_type='line',
                 start=Point(x=1.0, y=2.0),
                 end=Point(x=3.0, y=4.0),
                 width=0.2,
+                length=2.8284271247461903,
+                radius=None,
+                is_clockwise=None,
+                center=None,
             ).model_dump()
         ]
         _assert_id(routes[0], session)
         workspace.__getitem__.return_value.assert_called_once_with('GND', 'ETCH/TOP')
+
+    def test_route_projection_decodes_arc_segment(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.return_value = [
+            {
+                'net': 'CLK',
+                'layer': 'ETCH/TOP',
+                'obj_type': 'arc',
+                'start': {'x': 1.0, 'y': 2.0},
+                'end': {'x': 3.0, 'y': 4.0},
+                'width': 0.2,
+                'length': 3.14,
+                'radius': 5.0,
+                'is_clockwise': True,
+                'center': {'x': 2.0, 'y': 3.0},
+            }
+        ]
+        session = _session(workspace)
+
+        routes = session.routes(net='CLK', layer='ETCH/TOP')
+
+        assert [route.model_dump() for route in routes] == [
+            RouteInfo(
+                net='CLK',
+                layer='ETCH/TOP',
+                obj_type='arc',
+                start=Point(x=1.0, y=2.0),
+                end=Point(x=3.0, y=4.0),
+                width=0.2,
+                length=3.14,
+                radius=5.0,
+                is_clockwise=True,
+                center=Point(x=2.0, y=3.0),
+            ).model_dump()
+        ]
+        _assert_id(routes[0], session)
 
     def test_route_create_command_uses_expression_and_keeps_arguments(self) -> None:
         workspace = MagicMock()
@@ -1222,9 +1268,14 @@ class TestReadApi:
             {
                 'net': 'GND',
                 'layer': 'ETCH/TOP',
+                'obj_type': 'line',
                 'start': {'x': value, 'y': 2.0},
                 'end': {'x': 3.0, 'y': 4.0},
                 'width': 0.2,
+                'length': 2.0,
+                'radius': None,
+                'is_clockwise': None,
+                'center': None,
             }
         ]
 

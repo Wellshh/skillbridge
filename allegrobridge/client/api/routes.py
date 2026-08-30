@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import Sequence
 from typing import Annotated
 
-from pydantic import Field, TypeAdapter
+from pydantic import Field, FiniteFloat, TypeAdapter
 
 from allegrobridge.client.api.geometry import Point, _coerce_finite_float, _coerce_point
 from allegrobridge.client.base import Collection, SessionRecord, SkillModule
@@ -21,9 +21,14 @@ _Width = Annotated[float, Field(gt=0, allow_inf_nan=False)]
 class RouteInfo(SessionRecord):
     net: _OptionalString
     layer: str
+    obj_type: str
     start: Point
     end: Point
     width: _Width
+    length: FiniteFloat
+    radius: FiniteFloat | None
+    is_clockwise: bool | None
+    center: Point | None
 
 
 _RouteList = list[RouteInfo]

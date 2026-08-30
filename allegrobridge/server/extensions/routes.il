@@ -16,20 +16,26 @@
 
 (putd '__abProjectRoute nil)
 (defun __abProjectRoute (segment net)
-  (let ((ends segment->startEnd))
+  (let ((ends segment->startEnd)
+        (isArc (equal segment->objType "arc")))
     (list nil
           'net net
           'layer segment->layer
+          'obj_type segment->objType
           'start (__abProjectRoutePoint (car ends))
           'end (__abProjectRoutePoint (cadr ends))
-          'width segment->width)))
+          'width segment->width
+          'length (axlDBGetLength segment)
+          'radius (when isArc segment->radius)
+          'is_clockwise (when isArc segment->isClockwise)
+          'center (when isArc (__abProjectRoutePoint segment->xy)))))
 
 (putd '__abCollectRoutePaths nil)
 (defun __abCollectRoutePaths (paths net layer result)
   (foreach path paths
     (when (and (equal path->objType "path") path->isEtch)
       (foreach segment path->segments
-        (when (and (equal segment->objType "line")
+        (when (and (member segment->objType '("line" "arc"))
                    (or (null layer) (equal layer segment->layer)))
           (setq result (cons (__abProjectRoute segment net) result))))))
   result)
