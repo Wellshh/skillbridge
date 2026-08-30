@@ -7,6 +7,7 @@ import sys
 from collections.abc import Iterable
 from functools import partial
 from logging import getLogger
+from threading import RLock
 from typing import Any, NoReturn, TypeVar, cast
 
 from .channel import Channel, DirectChannel, create_channel_class
@@ -22,6 +23,7 @@ __all__ = ['Workspace', 'current_workspace']
 WorkspaceId = str | int | None
 T = TypeVar('T')
 _open_workspaces: dict[tuple[type[Workspace], WorkspaceId], Workspace] = {}
+_workspaces_lock = RLock()
 
 
 logger = getLogger(__name__)
@@ -290,22 +292,23 @@ class Workspace:
             return cls._create_workspace(DirectChannel(stdout), workspace_id)
 
         cache_key = (cls, workspace_id)
-        if cache_key not in _open_workspaces:
-            try:
-                channel_class = create_channel_class(force_tcp)
-                channel = channel_class(workspace_id)
-            except FileNotFoundError:
-                raise RuntimeError("No server found. Is it running?") from None
-
-            try:
-                _open_workspaces[cache_key] = cls._create_workspace(channel, workspace_id)
-            except BaseException:
+        with _workspaces_lock:
+            if cache_key not in _open_workspaces:
                 try:
-                    channel.close()
+                    channel_class = create_channel_class(force_tcp)
+                    channel = channel_class(workspace_id)
+                except FileNotFoundError:
+                    raise RuntimeError("No server found. Is it running?") from None
+
+                try:
+                    _open_workspaces[cache_key] = cls._create_workspace(channel, workspace_id)
                 except BaseException:
-                    logger.exception("Failed to close channel after workspace creation failed")
-                raise
-        return _open_workspaces[cache_key]
+                    try:
+                        channel.close()
+                    except BaseException:
+                        logger.exception("Failed to close channel after workspace creation failed")
+                    raise
+            return _open_workspaces[cache_key]
 
     def close(self, log_exception: bool = True) -> None:
         try:
@@ -314,9 +317,10 @@ class Workspace:
             if log_exception:
                 logger.exception("Failed to close workspace")
 
-        for cache_key, workspace in tuple(_open_workspaces.items()):
-            if workspace is self:
-                _open_workspaces.pop(cache_key)
+        with _workspaces_lock:
+            for cache_key, workspace in tuple(_open_workspaces.items()):
+                if workspace is self:
+                    _open_workspaces.pop(cache_key)
 
         if current_workspace.__dict__ is self.__dict__:
             current_workspace.__class__ = cast('type[Workspace]', _NoWorkspace)

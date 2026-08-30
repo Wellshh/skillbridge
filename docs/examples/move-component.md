@@ -19,7 +19,7 @@ back, and returns the updated record.
 === "Wire"
 
     ```text
-    STX {"cmd":"__abRunTransaction","fn":"move","args":["R101",120.0,45.0,90.0]} ETX
+    STX {"cmd":"__abRunTransaction","fn":"move","args":["R101",120.0,45.0,90.0]} RS
     ```
 
 *Skill equivalent:* moving the component attached to `R101`'s `dbid`, then

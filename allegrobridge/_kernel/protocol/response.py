@@ -39,6 +39,7 @@ class Response:
     STX: Final[str] = "\x02"  # success: start of payload
     NAK: Final[str] = "\x15"  # failed: start of payload
     RST: Final[str] = "\x12"  # restart: start of payload
+    ESC: Final[str] = "\x1b"
     RS: Final[str] = "\x1e"  # end of payload
 
     DEFAULT_MAX_PAYLOAD_CHARS: Final[int] = 16 * 1024 * 1024
@@ -87,7 +88,7 @@ class Response:
             self._eof = not raw
             self._buffer = self._decoder.decode(raw, final=self._eof)
 
-    def recv(self) -> SkillResp:  # ruff: ignore[complex-structure] - framed stream parser
+    def recv(self) -> SkillResp:  # ruff: ignore[complex-structure,too-many-branches,too-many-statements] - framed stream parser
         # When ignore_preamble is True, gracefully skip noise characters
         # (e.g. Cadence logs/warnings) before the frame, bounded by
         # max_preamble_chars to prevent unbounded buffering.
@@ -136,17 +137,43 @@ class Response:
 
         payload: list[str] = []
         payload_size = 0
+        escaped = False
         while True:
             self._fill("inside response frame")
-            marker_index = self._buffer.find(self.RS)
-            chunk = self._buffer if marker_index < 0 else self._buffer[:marker_index]
-            payload.append(chunk)
-            payload_size += len(chunk)
-            if payload_size > self._max_payload_chars:
-                raise FrameTooLargeError(self._max_payload_chars + 1, self._max_payload_chars)
+            if escaped:
+                payload.append(self._buffer[0])
+                payload_size += 1
+                if payload_size > self._max_payload_chars:
+                    raise FrameTooLargeError(payload_size, self._max_payload_chars)
+                self._buffer = self._buffer[1:]
+                escaped = False
+                continue
 
-            if marker_index >= 0:
-                self._buffer = self._buffer[marker_index + 1 :]
+            marker_index = min(
+                (
+                    index
+                    for marker in (self.ESC, self.RS)
+                    if (index := self._buffer.find(marker)) >= 0
+                ),
+                default=-1,
+            )
+            if marker_index < 0:
+                payload.append(self._buffer)
+                payload_size += len(self._buffer)
+                if payload_size > self._max_payload_chars:
+                    raise FrameTooLargeError(payload_size, self._max_payload_chars)
+                self._buffer = ""
+                continue
+
+            if marker_index:
+                chunk = self._buffer[:marker_index]
+                payload.append(chunk)
+                payload_size += len(chunk)
+                if payload_size > self._max_payload_chars:
+                    raise FrameTooLargeError(payload_size, self._max_payload_chars)
+
+            marker = self._buffer[marker_index]
+            self._buffer = self._buffer[marker_index + 1 :]
+            if marker == self.RS:
                 return SkillResp(status, "".join(payload))
-
-            self._buffer = ""
+            escaped = True

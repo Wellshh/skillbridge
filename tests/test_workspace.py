@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 from __future__ import annotations
 
+import threading
 from collections import deque
 from io import StringIO
 from json import dumps
@@ -103,6 +104,64 @@ def test_a_crash_while_closing_still_clears_the_cache():
 
     ws.close()
     assert (Workspace, 123) not in _open_workspaces
+
+
+@mark.integration
+def test_concurrent_open_same_id_creates_one_channel(monkeypatch: MonkeyPatch) -> None:
+    """Two threads opening the same workspace id must share one channel.
+
+    Regression for the global ``_open_workspaces`` check-then-act race: without
+    a lock, both threads passed the ``cache_key not in _open_workspaces`` guard
+    and created duplicate channels (one was overwritten and leaked).
+    """
+    created: list[Channel] = []
+    created_lock = threading.Lock()
+    second_creator = threading.Event()
+
+    class CountingChannel(DummyChannel):
+        def __init__(self, _workspace_id: object = None) -> None:
+            super().__init__(1)
+            with created_lock:
+                created.append(self)
+                is_first = len(created) == 1
+            if is_first:
+                # Hold the first creator inside the check-then-set window so a
+                # second thread can also pass the membership guard. Under the
+                # bug the second creator arrives (created grows to 2); under the
+                # lock it cannot, blocked on the cache lock.
+                second_creator.wait(timeout=0.5)
+            else:
+                second_creator.set()
+
+    monkeypatch.setattr(
+        workspace_module, 'create_channel_class', lambda _force_tcp: CountingChannel
+    )
+    _open_workspaces.pop((Workspace, 'race-id'), None)
+
+    barrier = threading.Barrier(2, timeout=5)
+    results: list[Workspace | None] = [None, None]
+    errors: list[Exception] = []
+
+    def opener(idx: int) -> None:
+        try:
+            barrier.wait()
+            results[idx] = Workspace.open('race-id')
+        except Exception as exc:  # ruff: ignore[blind-except]
+            errors.append(exc)
+
+    threads = [threading.Thread(target=opener, args=(i,), daemon=True) for i in (0, 1)]
+    for thread in threads:
+        thread.start()
+    for thread in threads:
+        thread.join(timeout=10)
+        assert not thread.is_alive(), 'opener thread hung'
+
+    try:
+        assert not errors, f'opener threads raised: {errors!r}'
+        assert len(created) == 1, f'expected one channel, created {len(created)}'
+        assert results[0] is results[1], 'concurrent opens returned different workspaces'
+    finally:
+        _open_workspaces.pop((Workspace, 'race-id'), None)
 
 
 def test_allegro_workspace_decodes_remote_handles() -> None:

@@ -55,6 +55,15 @@ class FragmentedSocket:
         return received
 
 
+class FragmentedTextReader:
+    def __init__(self, *chunks: str) -> None:
+        self._chunks = deque(chunks)
+
+    def read(self, size: int = -1) -> str:
+        del size
+        return self._chunks.popleft() if self._chunks else ''
+
+
 class TestHeader:
     @mark.parametrize(
         ('size', 'encoded'),
@@ -239,6 +248,99 @@ class TestResponse:
         assert response.recv() == SkillResp('failure', 'second')
         assert response.recv() == SkillResp('restart', 'third')
 
+    def test_consecutive_responses_with_stuffed_payloads(self) -> None:
+        first = f'first{Response.ESC}{Response.RS}'
+        second = f'second{Response.ESC}{Response.ESC}'
+        reader = StringIO(
+            f'{Response.STX}{first}{Response.RS}{Response.NAK}{second}{Response.RS}',
+        )
+        response = Response(reader)
+
+        assert response.recv() == SkillResp('success', f'first{Response.RS}')
+        assert response.recv() == SkillResp('failure', f'second{Response.ESC}')
+
+    def test_unstuffs_rs_and_esc_in_payload(self) -> None:
+        payload = f'left{Response.RS}{Response.ESC}right'
+        stuffed = payload.replace(Response.ESC, Response.ESC * 2).replace(
+            Response.RS,
+            Response.ESC + Response.RS,
+        )
+        reader = StringIO(f'{Response.STX}{stuffed}{Response.RS}')
+
+        assert Response(reader).recv() == SkillResp('success', payload)
+
+    def test_binary_reader_unstuffs_rs_and_esc(self) -> None:
+        payload = f'left{Response.RS}{Response.ESC}right'
+        stuffed = payload.replace(Response.ESC, Response.ESC * 2).replace(
+            Response.RS,
+            Response.ESC + Response.RS,
+        )
+        reader = BytesIO(f'{Response.STX}{stuffed}{Response.RS}'.encode())
+
+        assert Response(reader).recv() == SkillResp('success', payload)
+
+    def test_unstuffs_pairs_split_across_reads(self) -> None:
+        reader = FragmentedTextReader(
+            Response.STX + 'left' + Response.ESC,
+            Response.RS + Response.ESC,
+            Response.ESC + 'right' + Response.RS,
+        )
+
+        assert Response(reader).recv() == SkillResp(
+            'success',
+            f'left{Response.RS}{Response.ESC}right',
+        )
+
+    def test_unstuffs_payload_before_enforcing_limit(self) -> None:
+        stuffed_rs = Response.ESC + Response.RS
+        response = Response(
+            StringIO(f'{Response.STX}{stuffed_rs}{Response.RS}'),
+            max_payload_chars=1,
+        )
+
+        assert response.recv() == SkillResp('success', Response.RS)
+
+    def test_rejects_logical_payload_above_limit(self) -> None:
+        stuffed_rs = Response.ESC + Response.RS
+        response = Response(
+            StringIO(f'{Response.STX}a{stuffed_rs}{Response.RS}'),
+            max_payload_chars=1,
+        )
+
+        with raises(FrameTooLargeError) as caught:
+            response.recv()
+
+        assert caught.value.size == 2
+        assert caught.value.max_size == 1
+
+    def test_rejects_unmarked_chunk_above_limit(self) -> None:
+        response = Response(
+            StringIO(f'{Response.STX}ab{Response.RS}'),
+            max_payload_chars=1,
+        )
+
+        with raises(FrameTooLargeError) as caught:
+            response.recv()
+
+        assert caught.value.size == 2
+        assert caught.value.max_size == 1
+
+    def test_rejects_unterminated_chunk_above_limit(self) -> None:
+        response = Response(
+            FragmentedTextReader(Response.STX + 'ab', Response.RS),
+            max_payload_chars=1,
+        )
+
+        with raises(FrameTooLargeError) as caught:
+            response.recv()
+
+        assert caught.value.size == 2
+        assert caught.value.max_size == 1
+
+    def test_reports_dangling_escape_at_end_of_stream(self) -> None:
+        with raises(EOFError, match='inside response frame'):
+            Response(StringIO(f'{Response.STX}partial{Response.ESC}')).recv()
+
     def test_binary_reader_decodes_payload(self) -> None:
         payload = '中文'
         reader = BytesIO(f'{Response.STX}{payload}{Response.RS}'.encode())
@@ -252,14 +354,37 @@ class TestResponse:
         assert caught.value.response == 'n'
         assert caught.value.reason == 'unexpected character before response frame'
 
+    def test_rejects_chunk_without_response_marker(self) -> None:
+        with raises(InvalidResponseError) as caught:
+            Response(FragmentedTextReader('noise')).recv()
+
+        assert caught.value.response == 'n'
+        assert caught.value.reason == 'unexpected character before response frame'
+
     def test_ignore_preamble_discards_noise_before_frame(self) -> None:
         reader = StringIO(f'*WARNING* noise\n{Response.STX}ok{Response.RS}')
         response = Response(reader, ignore_preamble=True)
 
         assert response.recv() == SkillResp('success', 'ok')
 
+    def test_ignore_preamble_discards_noise_across_reads(self) -> None:
+        reader = FragmentedTextReader('noise', f'{Response.STX}ok{Response.RS}')
+        response = Response(reader, ignore_preamble=True)
+
+        assert response.recv() == SkillResp('success', 'ok')
+
     def test_ignore_preamble_rejects_oversized_preamble(self) -> None:
         reader = StringIO(f'12345{Response.STX}ok{Response.RS}')
+        response = Response(reader, ignore_preamble=True, max_preamble_chars=4)
+
+        with raises(FrameTooLargeError) as caught:
+            response.recv()
+
+        assert caught.value.size == 5
+        assert caught.value.max_size == 4
+
+    def test_ignore_preamble_rejects_oversized_chunk_before_marker(self) -> None:
+        reader = FragmentedTextReader('12345', f'{Response.STX}ok{Response.RS}')
         response = Response(reader, ignore_preamble=True, max_preamble_chars=4)
 
         with raises(FrameTooLargeError) as caught:

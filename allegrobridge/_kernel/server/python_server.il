@@ -31,6 +31,18 @@ let((_filename _moduleFolder _logDirectory _unbound)
 
     putd('__pyWriteFrame nil)
     defun(__pyWriteFrame (id marker payload)
+        payload = pcreReplace(
+            __pyWriteFrame.ESCPattern
+            payload
+            strcat(__pyWriteFrame.ESC __pyWriteFrame.ESC)
+            0
+        )
+        payload = pcreReplace(
+            __pyWriteFrame.RSPattern
+            payload
+            strcat(__pyWriteFrame.ESC __pyWriteFrame.RS)
+            0
+        )
         __pyIpcWriteProcess(
             id
             lsprintf("%s%s%s" marker payload __pyWriteFrame.RS)
@@ -41,7 +53,10 @@ let((_filename _moduleFolder _logDirectory _unbound)
     __pyWriteFrame.STX = strcat(intToChar(2))
     __pyWriteFrame.NAK = strcat(intToChar(21))
     __pyWriteFrame.RST = strcat(intToChar(18))
+    __pyWriteFrame.ESC = strcat(intToChar(27))
     __pyWriteFrame.RS = strcat(intToChar(30))
+    __pyWriteFrame.ESCPattern = pcreCompile(__pyWriteFrame.ESC)
+    __pyWriteFrame.RSPattern = pcreCompile(__pyWriteFrame.RS)
 
     putd('__pyIpcWait nil)
     defun(__pyIpcWait (@rest args)

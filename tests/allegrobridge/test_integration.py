@@ -17,7 +17,7 @@ from weakref import ref
 import pytest
 from pydantic import ValidationError
 
-from allegrobridge import Allegro, OpenMode, Session, Workspace
+from allegrobridge import Allegro, OpenMode, Session, Symbol, Workspace
 from allegrobridge._kernel import SkillCode
 from allegrobridge.client.api import (
     BBox,
@@ -2304,6 +2304,11 @@ class TestBasicOp:
     def test_ping(self, ws: Workspace) -> None:
         for i in range(1_000):
             assert ws['plus'](i, 0) == i
+
+    def test_frame_payload_roundtrips_control_characters(self, ws: Workspace) -> None:
+        result = ws['evalstring'](r'(concat "left\033middle\036right")')
+
+        assert result == Symbol(f'left{chr(27)}middle{chr(30)}right')
 
     def test_geo_rotate_pt(self, ws: Workspace) -> None:
         rotated = ws.geo.rotate_pt(90.0, [100.0, 0.0], None)

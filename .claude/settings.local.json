@@ -241,7 +241,26 @@
       "Bash(echo \"grep exit status: $?\")",
       "Bash(env)",
       "Bash(curl -s --max-time 5 https://rsxermu666.cn)",
-      "Bash(curl -s --max-time 5 https://rsxermu666.cn/v1/models)"
+      "Bash(curl -s --max-time 5 https://rsxermu666.cn/v1/models)",
+      "Bash(claude status *)",
+      "Bash(python *)",
+      "Bash(jq -r 'select\\(.model == \"k3-256k\"\\) | {model, sessionId, timestamp}' ~/.claude/telemetry/1p_failed_events.*.json)",
+      "Bash(pytest tests/test_workspace.py::test_concurrent_open_same_id_creates_one_channel -v -m \"not allegro\")",
+      "Bash(grep -nE 'import|^from|^$')",
+      "Bash(git -C \"/Users/wells/Documents/02_工作实习/Job/龙旗科技/代码库/skillbridge\" diff allegrobridge/_kernel/client/workspace.py)",
+      "Bash(pytest tests/test_workspace.py::test_concurrent_open_same_id_creates_one_channel -q -m \"not allegro\")",
+      "Bash(pytest tests/test_workspace.py::test_a_crash_while_closing_still_clears_the_cache -q)",
+      "Bash(pytest tests/test_workspace.py -q -m \"not allegro\" -p no:cacheprovider --no-cov)",
+      "Bash(command -v py-spy)",
+      "Bash(py-spy dump *)",
+      "Bash(pytest \"tests/test_workspace.py::test_allegro_workspace_closes_when_core_runtime_stays_incomplete\" -q --no-cov -p no:cacheprovider)",
+      "Bash(pytest tests/test_workspace.py::test_allegro_workspace_closes_when_core_runtime_stays_incomplete tests/test_workspace.py::test_allegro_workspace_open_closes_channel_when_server_rejects_request tests/test_workspace.py::test_concurrent_open_same_id_creates_one_channel \"tests/test_workspace.py::test_a_crash_while_closing_still_clears_the_cache\" -q --no-cov -p no:cacheprovider)",
+      "Bash(pytest tests/test_workspace.py -q --no-cov -p no:cacheprovider)",
+      "Bash(pytest tests/test_integration -q --no-cov -p no:cacheprovider -m \"not allegro\")",
+      "Bash(pytest tests/test_integration.py tests/test_misc.py -q --no-cov -p no:cacheprovider -m \"not allegro\")",
+      "Bash(pytest tests/test_misc.py::test_direct_mode -q --no-cov -p no:cacheprovider)",
+      "Bash(pytest tests/test_misc.py::test_direct_mode -q -p no:cacheprovider)",
+      "Bash(git stash *)"
     ],
     "additionalDirectories": [
       "/tmp"

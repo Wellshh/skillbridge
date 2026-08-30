@@ -13,8 +13,8 @@ back.
 - **Framed transport** (`protocol/socket.py`): 10-byte length header plus
   payload, capped at 64 MiB, over TCP (Windows) or Unix sockets (Linux).
 - **Response protocol** (`protocol/response.py`): server replies are control-
-  character framed (`STX … ETX` success, `NAK` failure, `RST` interruption),
-  so partial reads and stream desynchronization are detectable.
+  character framed (`STX` success, `NAK` failure, `RST` restart, unescaped
+  `RS` terminator), with `ESC` byte-stuffing inside payloads.
 - **Serialized pipe** (`server/_pipe.py`): exactly one in-flight request per
   server. Cross-platform timeouts, draining of late responses after a timeout,
   and explicit `DESYNCHRONIZED` / `BROKEN` / `CLOSED` terminal states.

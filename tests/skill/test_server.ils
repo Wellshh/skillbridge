@@ -347,12 +347,49 @@
         (list (strcat (intToChar 2))
               (strcat (intToChar 21))
               (strcat (intToChar 18))
+              (strcat (intToChar 27))
               (strcat (intToChar 30)))
         (list __pyWriteFrame.STX
               __pyWriteFrame.NAK
               __pyWriteFrame.RST
+              __pyWriteFrame.ESC
               __pyWriteFrame.RS)
         ?msg "frame protocol constants must match Python Response markers"))
+
+    (qtest::TestCase test_write_frame_escapes_payload_delimiters
+      (let ((originalWrite (getd '__pyIpcWriteProcess))
+            writes)
+        (unwindProtect
+          (progn
+            (putd '__pyIpcWriteProcess
+                  (lambda (process data)
+                    (setq writes (cons (list process data) writes))
+                    t))
+
+            (__pyWriteFrame
+              'process
+              __pyWriteFrame.STX
+              (strcat "left"
+                      __pyWriteFrame.ESC
+                      "middle"
+                      __pyWriteFrame.RS
+                      "right"))
+
+            (qtest::assertEqual
+              (list
+                'process
+                (strcat __pyWriteFrame.STX
+                        "left"
+                        __pyWriteFrame.ESC
+                        __pyWriteFrame.ESC
+                        "middle"
+                        __pyWriteFrame.ESC
+                        __pyWriteFrame.RS
+                        "right"
+                        __pyWriteFrame.RS))
+              (car writes)
+              ?msg "frame writer must stuff ESC and RS inside payloads"))
+          (putd '__pyIpcWriteProcess originalWrite))))
 
     (qtest::TestCase test_on_data_buffers_partial_and_multiple_lines
       (let ((originalWrite (getd '__pyIpcWriteProcess))

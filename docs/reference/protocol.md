@@ -20,15 +20,17 @@ Windows and a Unix socket on Linux (`force_tcp=True` selects TCP everywhere).
 
 ## Response framing
 
-`skillbridge/protocol/response.py` — the server wraps each reply in control
-characters so partial reads and stream desynchronization are detectable:
+`allegrobridge/_kernel/protocol/response.py` — the server wraps each reply in
+control characters so partial reads and stream desynchronization are detectable:
 
-| Marker | Meaning |
+| Frame | Meaning |
 | --- | --- |
-| `STX … ETX` | success payload |
-| `NAK …` | failure (SKILL error text follows) |
-| `RST …` | interrupted |
-| `RS …` | stream resynchronization after a timeout |
+| `STX … RS` | success payload |
+| `NAK … RS` | failure payload |
+| `RST … RS` | success payload followed by a server restart |
+
+Within a payload, `ESC` and `RS` are byte-stuffed as `ESC ESC` and `ESC RS`.
+Only an unescaped `RS` ends the frame.
 
 A reply that does not start with a known marker raises `InvalidResponseError`.
 
