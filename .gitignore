@@ -3,7 +3,7 @@
 
 build/*
 dist/*
-skillbridge.egg-info/*
+*.egg-info/
 
 .idea/*
 **/.coverage*
@@ -18,8 +18,6 @@ env/*
 **/__pycache__/*
 
 *.log
-skillbridge/client/definitions*
-skillbridge/client/workspace.pyi
 
 test.py
 test.ipynb

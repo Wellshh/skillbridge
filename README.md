@@ -1,100 +1,99 @@
-# Python-Skill Bridge
+# AllegroBridge
 
-[![PyPI version](https://badge.fury.io/py/skillbridge.svg)](https://badge.fury.io/py/skillbridge)
-![build](https://github.com/unihd-cag/skillbridge/workflows/Python%20package/badge.svg)
+![build](https://github.com/Wellshh/allegrobridge/actions/workflows/pythonpackage.yml/badge.svg)
+
+A Python bridge to Cadence Allegro PCB Editor 17.2. Query the design database,
+move components, place vias, and compose edits inside atomic SKILL
+transactions, through a typed, pydantic-validated API.
 
 ### Prerequisites
 
 - Python 3.10 or higher
 - pip
-- IC 6.1.7 or ICADV/M or higher
+- Cadence Allegro PCB Editor 17.2 (Windows is the primary target; Linux works over TCP)
 
 ### Features
 
-- Run Virtuoso's Skill functions from Python
-- Automatically translate all Skill objects to Python
-- Automatically translate Python numbers, booleans, strings, lists and dictionaries to Skill
-- Retrieve Skill function documentation in Python
-- Convenient tab-completion (+ jupyter support)
-  - object attributes
-  - global function list
-  - methods
+- Run Allegro's AXL/SKILL functions from Python
+- Process lifecycle: launch Allegro from Python, or attach to a running session with an identity-checked handshake
+- Atomic transactions: every write runs in an atomic transaction, with savepoint batches and dry-run previews
+- Typed domain APIs (board, components, layers, nets, padstacks, pins, symbols, vias, routes, shapes, drc) returned as frozen pydantic models
+- Raw AXL access: all 792 documented `axl*` functions with snake_case names; PEP 561 type stubs ship pre-generated (autocompletion, signature hints, and docstrings in the IDE, no user-side generation step)
+- Extensions: bind typed API classes whose packaged SKILL modules load lazily on first use
+- SKILL-side testing: vendored qtest framework plus qcover, a branch-coverage instrumenter for classic SKILL
 
-Read more in the [full documentation](https://unihd-cag.github.io/skillbridge/).
+The generated stubs give every `axl*` function autocompletion, signature hints,
+and docstrings in the IDE:
+
+![IDE autocompletion demo](docs/assets/ide_completion.gif)
+
+Read more in the [full documentation](https://github.com/Wellshh/allegrobridge).
 
 ### Installation
 
 ```bash
-pip install skillbridge
+pip install git+https://github.com/Wellshh/allegrobridge.git
 ```
 
-Add the `--user`  option if you don't want to install it systemwide.
+AllegroBridge vendors a modified `skillbridge` package and cannot coexist with
+the upstream `pip install skillbridge` in the same environment — uninstall the
+upstream package first.
 
-Before you can use the Skill bridge you must generate the function definitions from
-Virtuoso via the Skill console.
+Before you can use the bridge you must load the server scripts in Allegro.
 
-1. Type `skillbridge path` into your shell to acquire the correct `PATH-TO-IPC-SERVER`
-2. Open Virtuoso
-2. Type these commands into the Skill console
-    - `load("PATH-TO-IPC-SERVER")`
-
-After that you can also generate the static completion stub files. This is useful for code completion
-in certain IDEs (e.g. PyCharm)
-
-- Type `skillbridge generate` into your shell.
+1. Type `allegrobridge path` into your shell to acquire the correct `PATH-TO-SERVER`
+2. Open Allegro PCB Editor
+3. Type these commands into the SKILL console
+    - `load("PATH-TO-SERVER/python_server.ils")`
+    - `load("PATH-TO-SERVER/allegro_server.il")`
+    - `pyStartServer(?id "7777")`
 
 ### Updating
 
 In order to update the python package type this
 
 ```bash
-pip install skillbridge --upgrade
+pip install git+https://github.com/Wellshh/allegrobridge.git --upgrade
 ```
 
 ### Examples
 
-**_Note:_** All these examples assume that the Skill server is running. You can
-start it by typing the following command into the Skill console.
+**_Note:_** All these examples assume that the SKILL server is running. You can
+start it by typing `pyStartServer(?id "7777")` into the SKILL console after
+loading the server scripts.
 
-```lisp
-load("PATH-TO-IPC-SERVER")
-pyStartServer
-```
-
-##### Connecting to the server
+##### Attaching to a running server
 
 ```python
-from skillbridge import Workspace
+from allegrobridge import Allegro
 
-ws = Workspace.open()
+with Allegro.open(mode="manual", workspace_id="7777") as allegro:
+    ...
 ```
 
-##### Accessing the currently open edit cell view
+##### Launching Allegro from Python
 
 ```python
-cell_view = ws.ge.get_edit_cell_view()
+from allegrobridge import Allegro
+
+with Allegro.launch("designs/demo.brd") as allegro:
+    pcb = allegro.session
 ```
 
-##### Inspecting available properties
+##### Reading the board and moving a component
 
 ```python
->>> cell_view.dir()
-['DBUPerUU', 'any_inst_count', 'area_boundaries', 'assoc_text_displays', 'b_box', ...]
+board = pcb.board()                                    # frozen pydantic model
+r101 = pcb.components["R101"]
+pcb.components.move("R101", x=120.0, y=45.0, rotation=90.0)   # atomic transaction
 ```
 
-`str()`, `repr()`, and built-in `dir()` are local Python operations. Use
-`cell_view.dir()` to query remote SKILL properties.
-
-##### Reading properties
+##### Raw workspace: call any SKILL function
 
 ```python
->>> print(cell_view.b_box)
-[[0, 10], [2, 8]]
-```
+from allegrobridge import Workspace
 
-##### Call any SKILL function
-
-```python
+ws = Workspace.open("7777")
 >>> ws['plus'](3, 4)
 7
 ```

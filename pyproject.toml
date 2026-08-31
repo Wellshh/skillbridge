@@ -19,7 +19,7 @@ dependencies = [
     "psutil>=7,<8",
     "typing_extensions>=4.6",
 ]
-urls = {Repository = "https://github.com/Wellshh/skillbridge"}
+urls = {Repository = "https://github.com/Wellshh/allegrobridge"}
 license = "LGPL-3.0-or-later"
 license-files = ["LICENSE"]
 classifiers = [
