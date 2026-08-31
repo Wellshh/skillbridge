@@ -1,0 +1,10 @@
+{
+  "query_bytes_sliced": 9848,
+  "query_bytes_whole_chapter": 180050,
+  "skill_lint": {
+    "catch_rate": 1.0,
+    "fp_rate": 0.06666666666666667,
+    "valid_count": 15,
+    "invalid_count": 3
+  }
+}

@@ -83,10 +83,7 @@ def _plain_heading(value: str) -> str:
 
 def _normalize_arrow(declaration: str) -> str:
     return (
-        declaration.replace("==>", "=>")
-        .replace("⇒", "=>")
-        .replace("-->", "=>")
-        .replace("->", "=>")
+        declaration.replace("==>", "=>").replace("⇒", "=>").replace("-->", "=>").replace("->", "=>")
     )
 
 
@@ -122,9 +119,7 @@ def _signature_after_heading(lines: Sequence[str], heading_index: int) -> Option
     return None
 
 
-def extract_api_entries(
-    root: Path, dirs: Sequence[str] = API_REFERENCE_DIRS
-) -> List[ApiEntry]:
+def extract_api_entries(root: Path, dirs: Sequence[str] = API_REFERENCE_DIRS) -> List[ApiEntry]:
     """Extract formal SKILL API headings followed by a documented signature."""
     entries: List[ApiEntry] = []
     for path in _markdown_files(root, dirs):
@@ -201,9 +196,7 @@ def _api_part(name: str) -> int:
     return 3
 
 
-def _split_parts(
-    entries: Sequence[ApiEntry], parts: int = 3
-) -> List[List[ApiEntry]]:
+def _split_parts(entries: Sequence[ApiEntry], parts: int = 3) -> List[List[ApiEntry]]:
     count = len(entries)
     base, remainder = divmod(count, parts)
     sizes = [base + (1 if index < remainder else 0) for index in range(parts)]

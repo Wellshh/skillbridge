@@ -125,8 +125,8 @@
     },
     {
       "path": "algroskill/09cmdshl.md",
-      "chars": 19593,
-      "estimated_tokens": 4899,
+      "chars": 19923,
+      "estimated_tokens": 4981,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
@@ -202,8 +202,8 @@
     },
     {
       "path": "algroskill/17dbtran.md",
-      "chars": 8148,
-      "estimated_tokens": 2037,
+      "chars": 9529,
+      "estimated_tokens": 2383,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
@@ -216,8 +216,8 @@
     },
     {
       "path": "algroskill/18consmgt.part02.md",
-      "chars": 32125,
-      "estimated_tokens": 8032,
+      "chars": 32199,
+      "estimated_tokens": 8050,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
@@ -720,7 +720,7 @@
     }
   ],
   "indexes": {
-    "api_entries": 621,
+    "api_entries": 622,
     "api_reference_dirs": [
       "sklangref",
       "skipcref",
@@ -732,11 +732,14 @@
       "sklang_api_index.part01.md",
       "sklang_api_index.part02.md",
       "sklang_api_index.part03.md",
-      "sklang_topic_index.md"
+      "sklang_topic_index.md",
+      "api_index.part01.md",
+      "api_index.part02.md",
+      "api_index.part03.md"
     ]
   },
   "quality": {
     "legacy_html_links": 3159,
-    "signature_name_mismatches": 15
+    "signature_name_mismatches": 16
   }
 }

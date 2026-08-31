@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "facts": [
+    {
+      "id": "axlShellPost-underscore-prefix",
+      "api": "axlShellPost",
+      "constraint": "post 命令内链超过一条命令时,后续命令必须加 `_` 前缀以抑制 scripting,例如 axlShellPost(\"zoom points; _pick 10 20\")。",
+      "evidence": [{"path": "algroskill/09cmdshl.md", "line": 632}],
+      "verified_on": {"allegro": "17.2-2016"},
+      "status": "documented",
+      "source": "reference-doc"
+    },
+    {
+      "id": "axlShellPost-no-override-infinite-loop",
+      "api": "axlShellPost",
+      "constraint": "不得用 axlShellPost 覆盖已有 Allegro PCB Editor 命令后再调用原命令——会产生死循环。",
+      "evidence": [{"path": "algroskill/09cmdshl.md", "line": 636}],
+      "verified_on": {"allegro": "17.2-2016"},
+      "status": "documented",
+      "source": "reference-doc"
+    },
+    {
+      "id": "axlShellPost-returns-before-execute",
+      "api": "axlShellPost",
+      "constraint": "axlShellPost 先返回 Skill 解释器,再执行命令;命令在 Skill 返回后才激活并留给用户交互(即返、非阻塞)。真机实测 connect-post 探针:elapsed 0.08s、fire_and_forget=True、shell_return=t。",
+      "evidence": [
+        {"path": "algroskill/09cmdshl.md", "line": 632},
+        {"probe": ".artifacts/connect-probes-fixed-full/connect-post.json"}
+      ],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe+reference-doc"
+    },
+    {
+      "id": "axlShell-no-done-cancel-signal",
+      "api": "axlShell",
+      "constraint": "axlShell 对纯交互命令无完成/取消的直接信号,恒返回 t;用户取消时非阻塞返回,必须快照命令前后状态对比判定 done/cancel。真机实测 connect-blocking 探针:blocking_semantics=non_blocking、route_change=cancel、ping=3(通道存活)。",
+      "evidence": [
+        {"path": "algroskill/09cmdshl.md", "line": 590},
+        {"probe": ".artifacts/connect-probes-fixed-full/connect-blocking.json"}
+      ],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe+reference-doc"
+    },
+    {
+      "id": "axlDBTransaction-not-active-across-commands",
+      "api": "axlDBTransactionStart",
+      "constraint": "不能启动事务并跨 Allegro 命令保持活动以支持 undo;SKILL 代码终止时取消未提交事务;save/open 数据库会取消事务。",
+      "evidence": [{"path": "algroskill/17dbtran.md", "line": 233}],
+      "verified_on": {"allegro": "17.2-2016"},
+      "status": "documented",
+      "source": "reference-doc"
+    },
+    {
+      "id": "axlDBTransaction-no-cloak-crossing",
+      "api": "axlDBTransactionStart",
+      "constraint": "不得在 cloak 内启动事务再在 cloak 外终止(terminate=Rollback/Commit/Oops);在 cloak 内启动须返回前完成。",
+      "evidence": [{"path": "algroskill/17dbtran.md", "line": 71}],
+      "verified_on": {"allegro": "17.2-2016"},
+      "status": "documented",
+      "source": "reference-doc"
+    },
+    {
+      "id": "axlCmdRegister-argument-matrix",
+      "api": "axlCmdRegister",
+      "constraint": "axlCmdRegister(t_allegroCmd ts_callback ?cmdType t_cmdType ?doneCmd ts_doneCmd ?cancelCmd ts_cancelCmd ?undo t)。cmdType: interactive(默认)/general(立即执行,即使另一命令进行中)/sub_cmd(须在 interactive 内);doneCmd/cancelCmd 为 nil 时默认调 axlFinishEnterFun/axlCancelEnterFun;undo 仅 interactive 适用。",
+      "evidence": [
+        {"path": "algroskill/19cmdctl.md", "line": 19},
+        {"path": "algroskill/19cmdctl.md", "line": 87},
+        {"path": "algroskill/19cmdctl.md", "line": 88}
+      ],
+      "verified_on": {"allegro": "17.2-2016"},
+      "status": "documented",
+      "source": "reference-doc"
+    }
+  ]
+}

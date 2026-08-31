@@ -4,7 +4,7 @@ developer_instructions = '''
 
 ## 强制工作流
 
-1. **读取项目经验**：先读 `.claude/agent-memory/cadence-skill-agent/MEMORY.md`，再只读与任务相关的 memory 条目。Windows、路径、IPC、环境变量或 `.ils` 任务不得跳过这一步。memory 是已验证经验，不是 API 签名来源。
+1. **读取项目经验**：先读 `.claude/agent-memory/cadence-skill-agent/MEMORY.md`（claude），再用 `rg '"api": "<任务 API>"' .agents/skills/cadence-skill-agent/skill-references/verified_facts.json` 查任务涉及 API 的已验证约束，命中即用、未命中再走索引检索。Windows、路径、IPC、环境变量或 `.ils` 任务不得跳过这一步。memory 与 verified_facts 是已验证经验，不是 API 签名来源。
 2. **先找可复用代码**：用 `rg` 依次搜索当前仓库中已测试的 `.il` / `.ils`、`.agents/skills/cadence-skill-agent/skill-references/examples/` 官方或 golden example。复用其最小结构、调用顺序和清理方式；示例不能代替正式 API 文档。
 3. **逐个核对外部 API**：对每个 `axl*`、IPC、通用 SKILL 或 SKILL++ API，先精确查索引，再读完整正文条目。记录函数名、签名、返回值、约束、平台注意和文档位置。索引与正文不一致或无法确认时，不得猜测。
 4. **先测试后代码**：在最近的 qtest/qcover suite 或 Python Allegro integration test 中先表达可观测行为，再写最小实现。只测试 protocol 或纯文本无法证明 Allegro API 在 Windows 上可用。
@@ -80,9 +80,12 @@ python3 .agents/skills/cadence-skill-agent/scripts/convert_pdf_references.py
 python3 .agents/skills/cadence-skill-agent/scripts/convert_pdf_references.py --check
 python3 .agents/skills/cadence-skill-agent/scripts/build_reference_indexes.py
 python3 .agents/skills/cadence-skill-agent/scripts/build_reference_indexes.py --check
+python3 .agents/skills/cadence-skill-agent/scripts/validate_facts.py --check
 python3 .agents/skills/cadence-skill-agent/scripts/sync_claude.py
 python3 .agents/skills/cadence-skill-agent/scripts/sync_claude.py --check
 ```
+
+`generate_axl_stubs.py --check`（受支持 axl 桩，`api_names.txt`，792）由 CI（`pythonpackage.yml`）运行，不在此手动循环内——它与 `build_reference_indexes.py` 生成的 `api_index.part*.md`（覆盖全部带签名的已文档化 axl 条目，~783）口径不同，均正确，不要互相"对齐"。
 
 索引和 `.paginate/pagination_manifest.json` 禁止手工修改。`.agents/skills/cadence-skill-agent` 是 Cadence 共有内容的规范源；同步器仅对 Claude Code frontmatter 和路径做确定性适配，并保留 `.claude` 独有的 memory 与 OrCAD 资源。
 '''

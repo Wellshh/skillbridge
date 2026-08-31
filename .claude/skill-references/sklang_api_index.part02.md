@@ -40,7 +40,7 @@ Search this file for an exact function name, then read the referenced source ent
 | `getNativeContextVersion` | `getNativeContextVersion( ) => x_nativeVers` | `skdevref/skdevref.part02.md` | 1329 |
 | `getOutstring` | `getOutstring( s_port) => t_string/nil` | `sklangref/inputoutput.part01.md` | 767 |
 | `getPrompts` | `getPrompts( ) => l_strings` | `sklangref/environment.md` | 468 |
-| `getq` | `getq( sl_id S_name ) => g_result \| nilsl_id->S_name => g_result \| nil` | `sklangref/dataoperator.md` | 247 |
+| `getq` | `getq( sl_id S_name ) => g_result \| nilsl_id=>S_name => g_result \| nil` | `sklangref/dataoperator.md` | 247 |
 | `getqq` | `getqq( s_id S_name ) => g_result \| nilsl_id.S_name => g_result \| nil` | `sklangref/dataoperator.md` | 289 |
 | `gets` | `gets( s_variableName [ p_inputPort ] ) => t_string \|nil` | `sklangref/inputoutput.part01.md` | 818 |
 | `getSG` | `getSG(g_objS_prop)=>g_propValue` | `sklangref/dataoperator.md` | 210 |
@@ -268,7 +268,7 @@ Search this file for an exact function name, then read the referenced source ent
 | `putc` | `putc(x_symbolp_port) => s_symbol` | `sklangref/inputoutput.part02.md` | 79 |
 | `putd` | `putd( s_functionName u_functionDef ) => u_functionDef` | `sklangref/funcprog.part02.md` | 268 |
 | `putprop` | `putprop( sl_id g_value S_name ) => g_value` | `sklangref/dataoperator.md` | 860 |
-| `putpropq` | `putpropq( sl_id g_value S_name ) => g_valuesl_id->S_name = g_value => g_value` | `sklangref/dataoperator.md` | 896 |
+| `putpropq` | `putpropq( sl_id g_value S_name ) => g_valuesl_id=>S_name = g_value => g_value` | `sklangref/dataoperator.md` | 896 |
 | `putpropqq` | `putpropqq( s_id g_value S_name ) => g_values_id.S_name = g_value => g_value` | `sklangref/dataoperator.md` | 932 |
 | `quote` | `quote( g_expr ) => g_result` | `sklangref/dataoperator.md` | 968 |
 | `quotient` | `quotient( n_op1 n_op2 [ n_op3 ... ] ) => n_result` | `sklangref/arithmetic.md` | 993 |
