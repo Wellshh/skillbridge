@@ -325,7 +325,20 @@
       "Bash(python3 .agents/skills/cadence-skill-agent/scripts/skill_lint.py tests/skill/qtest/src/qcover/fixtures/invalid.il)",
       "Bash(python3 .agents/skills/cadence-skill-agent/scripts/skill_lint.py /tmp/sk_unbal.il)",
       "Bash(python3 .agents/skills/cadence-skill-agent/scripts/skill_lint.py /tmp/sk_str.il)",
-      "Bash(python3 .agents/skills/cadence-skill-agent/scripts/skill_lint.py /tmp/sk_ok.il)"
+      "Bash(python3 .agents/skills/cadence-skill-agent/scripts/skill_lint.py /tmp/sk_ok.il)",
+      "Bash(python3 .claude/scripts/skill_lint.py tests/skill/qtest/src/qcover/fixtures/invalid.il)",
+      "Bash(echo \"claude-side exit=$?\")",
+      "Bash(python3 -m pytest .agents/skills/cadence-skill-agent/tests/test_build_reference_indexes.py::AxlIndexBuilderTests -q --no-header)",
+      "Bash(python3 -m pytest .agents/skills/cadence-skill-agent/tests/test_build_reference_indexes.py -q --no-header)",
+      "Bash(python3 .agents/skills/cadence-skill-agent/scripts/build_reference_indexes.py)",
+      "Bash(python3 .agents/skills/cadence-skill-agent/scripts/build_reference_indexes.py --check)",
+      "Bash(rg -n 'axlShellPost' .agents/skills/cadence-skill-agent/skill-references/api_index.part*.md)",
+      "Bash(rg -c '^\\\\| `' .agents/skills/cadence-skill-agent/skill-references/api_index.part*.md)",
+      "Bash(awk -F: '{s+=$2} END{print \"total axl index rows:\", s}')",
+      "Bash(echo \"check exit=$?\")",
+      "Bash(awk -F: '{s+=$2} END{print s+0}')",
+      "Bash(rg -n 'axlDBCreatePath' .agents/skills/cadence-skill-agent/skill-references/api_index.part*.md)",
+      "Bash(rg -n '\\\\| \\\\`axlShell\\\\`' .agents/skills/cadence-skill-agent/skill-references/api_index.part*.md)"
     ],
     "additionalDirectories": [
       "/tmp"

@@ -58,6 +58,7 @@ Search this file for an exact function name, then read the referenced source ent
 | `caadr` | `ca\|d[ a\|d ][ a\|d ][ a\|d ]r( l_list ) => g_result` | `sklangref/list.md` | 98 |
 | `caar` | `ca\|d[ a\|d ][ a\|d ][ a\|d ]r( l_list ) => g_result` | `sklangref/list.md` | 98 |
 | `caddr` | `ca\|d[ a\|d ][ a\|d ][ a\|d ]r( l_list ) => g_result` | `sklangref/list.md` | 98 |
+| `Cadence SKILL Language Reference Product Version 6.1.6 November 2014` | `get <=> putprop` | `sklangref/appB.md` | 1 |
 | `cadr` | `ca\|d[ a\|d ][ a\|d ][ a\|d ]r( l_list ) => g_result` | `sklangref/list.md` | 98 |
 | `callAs` | `callAs( us_class s_genericFunction g_arg1 [ g_arg2 ... ] ) => g_value` | `skoopref/skoopref.part02.md` | 9 |
 | `callInitProc` | `callInitProc( t_contextName ) => t` | `skdevref/skdevref.part02.md` | 525 |

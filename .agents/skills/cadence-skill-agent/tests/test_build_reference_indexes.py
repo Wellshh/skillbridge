@@ -212,5 +212,91 @@ class ReferenceIndexBuilderTests(unittest.TestCase):
         self.assertTrue(result.ok, result.errors)
 
 
+class AxlIndexBuilderTests(unittest.TestCase):
+    def setUp(self):
+        self.temp_dir = tempfile.TemporaryDirectory()
+        self.root = Path(self.temp_dir.name)
+        for directory in (
+            "algroskill",
+            "sklangref",
+            "sklanguser",
+            "skipcref",
+            "skdevref",
+            "skoopref",
+            "docs",
+        ):
+            (self.root / directory).mkdir()
+
+    def tearDown(self):
+        self.temp_dir.cleanup()
+
+    def test_extracts_axl_signature_with_unicode_arrow(self):
+        (self.root / "algroskill" / "selfnd.md").write_text(
+            "### axlAddSelectAll\n\n`axlAddSelectAll()⇒ t/nil`\n\n#### Description\n\nText.\n",
+            encoding="utf-8",
+        )
+
+        entries = load_builder().extract_api_entries(
+            self.root, load_builder().AXL_REFERENCE_DIRS
+        )
+
+        self.assertEqual([entry.name for entry in entries], ["axlAddSelectAll"])
+        self.assertIn("=>", entries[0].signature)
+
+    def test_builds_axl_index_with_line_column_and_source(self):
+        (self.root / "algroskill" / "cmdshl.md").write_text(
+            "### axlShellPost\n\n`axlShellPost(t_command) ==> t`\n\n#### Description\n\nText.\n",
+            encoding="utf-8",
+        )
+
+        builder = load_builder()
+        builder.build(self.root)
+
+        index = (self.root / "api_index.part01.md").read_text(encoding="utf-8")
+        self.assertIn("| Symbol | Documented declaration | Source | Line |", index)
+        self.assertIn("`axlShellPost`", index)
+        self.assertIn("`algroskill/cmdshl.md`", index)
+
+    def test_distributes_axl_entries_across_three_parts(self):
+        for letter in "ABCDEF":
+            (self.root / "algroskill" / f"{letter.lower()}.md").write_text(
+                f"### axl{letter}\n\n`axl{letter}() => t`\n", encoding="utf-8"
+            )
+
+        builder = load_builder()
+        builder.build(self.root)
+
+        combined = ""
+        for part in (1, 2, 3):
+            content = (self.root / f"api_index.part{part:02d}.md").read_text(encoding="utf-8")
+            self.assertIn("`axl", content, f"axl part {part} unexpectedly empty")
+            combined += content
+        for letter in "ABCDEF":
+            self.assertIn(f"`axl{letter}`", combined)
+
+    def test_check_passes_after_build_with_axl(self):
+        (self.root / "algroskill" / "cmdshl.md").write_text(
+            "### axlShell\n\n`axlShell(t_command) ==> t`\n", encoding="utf-8"
+        )
+
+        builder = load_builder()
+        builder.build(self.root)
+
+        result = builder.check(self.root)
+        self.assertTrue(result.ok, result.errors)
+
+    def test_multi_chapter_axl_api_produces_multiple_rows(self):
+        for filename in ("a.md", "b.md"):
+            (self.root / "algroskill" / filename).write_text(
+                "### axlCmdRegister\n\n`axlCmdRegister(...) => t`\n", encoding="utf-8"
+            )
+
+        entries = load_builder().extract_api_entries(
+            self.root, load_builder().AXL_REFERENCE_DIRS
+        )
+
+        self.assertEqual(len(entries), 2)
+
+
 if __name__ == "__main__":
     unittest.main()
