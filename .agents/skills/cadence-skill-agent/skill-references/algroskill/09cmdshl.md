@@ -63,16 +63,16 @@ Requests the value of the specified funckey,`t_alias`. If given `nil`, returns a
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_alias` | Name of the environment funckey.
-| `nil` | Returns list of all current funckeys
+|           |                                      |
+| -----------| --------------------------------------|
+| `t_alias` | Name of the environment funckey.     |
+| `nil`     | Returns list of all current funckeys |
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_value/nil` | String value of the environment funckey. Returns`nil` if the funckey is not set.
-| `lt_names` | If passed`nil,` returns list of funckeys names.
+|               |                                                                                  |
+| ---------------| ----------------------------------------------------------------------------------|
+| `t_value/nil` | String value of the environment funckey. Returns`nil` if the funckey is not set. |
+| `lt_names`    | If passed`nil,` returns list of funckeys names.                                  |
 #### See Also
 
 [axlSetFunckey](#895632 "8")`,`[axlGetAlias](#894702 "8")

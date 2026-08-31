@@ -66,15 +66,15 @@ gmode options (if multiple required pass a list of options
 
 * Database transactions and cloaking (axlDBTransactionStart):
 
-|  |  |
-| --- | --- | ---
-|  |  | Do NOT start and transaction inside a cloak and then terminate it outside the cloak. Terminate means calling either axlDBTransactionRollback, axlDBTransactionCommit axlDBTransactionOops.
-|  |  |
-| --- | --- | ---
-|  |  | If you start a transaction inside a cloak then complete it before returning.
-|  |  |
-| --- | --- | ---
-|  |  | If you start a transaction outside the cloak then its completion must outside the cloak.
+|     |     |                                                                                                                                                                                            |
+| -----| -----| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|     |     | Do NOT start and transaction inside a cloak and then terminate it outside the cloak. Terminate means calling either axlDBTransactionRollback, axlDBTransactionCommit axlDBTransactionOops. |
+|     |     |                                                                                                                                                                                            |
+| -----| -----| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|     |     | If you start a transaction inside a cloak then complete it before returning.                                                                                                               |
+|     |     |                                                                                                                                                                                            |
+| -----| -----| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|     |     | If you start a transaction outside the cloak then its completion must outside the cloak.                                                                                                   |
 * For effective debugging, first call your function directly from the top level function, then wrap in the cloak call.
 
 #### Arguments

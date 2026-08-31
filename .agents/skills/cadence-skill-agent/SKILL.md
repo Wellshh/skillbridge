@@ -12,7 +12,7 @@ description: Use when generating, reviewing, debugging, or modifying Cadence All
 3. **逐个核对外部 API**：对每个 `axl*`、IPC、通用 SKILL 或 SKILL++ API，先精确查索引，再读完整正文条目。记录函数名、签名、返回值、约束、平台注意和文档位置。索引与正文不一致或无法确认时，不得猜测。
 4. **先测试后代码**：在最近的 qtest/qcover suite 或 Python Allegro integration test 中先表达可观测行为，再写最小实现。只测试 protocol 或纯文本无法证明 Allegro API 在 Windows 上可用。
 5. **生成最小脚本**：优先一个公开入口、一个资源所有者和一条清理路径。不增加没有当前需求的 wrapper、factory、全局状态、注册命令或防御检查。
-6. **有限验证循环**：按“静态检查 → load → smoke/qtest → 修复”执行，最多 3 轮。每轮只根据当前失败的确切证据修复；同一失败指纹连续出现两次就停止并报告，不自旋。
+6. **有限验证循环**：按“静态检查 → load → smoke/qtest → 修复”执行，最多 3 轮。静态检查先跑离线 `python3 .agents/skills/cadence-skill-agent/scripts/skill_lint.py <file.il>`（纯 lexical、不启动 Allegro；比 17.2 reader 更严，拦未闭合括号/字符串），有错直接修；`sklint` 仍在 Windows 门（步骤2）作权威。每轮只根据当前失败的确切证据修复；同一失败指纹连续出现两次就停止并报告，不自旋。
 
 ## API 检索路由
 

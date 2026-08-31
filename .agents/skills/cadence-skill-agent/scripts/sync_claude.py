@@ -104,6 +104,7 @@ def expected_files() -> dict[Path, bytes]:
     for name in (
         "build_reference_indexes.py",
         "convert_pdf_references.py",
+        "skill_lint.py",
         "sync_claude.py",
     ):
         files[CLAUDE / "scripts" / name] = (SOURCE / "scripts" / name).read_bytes()

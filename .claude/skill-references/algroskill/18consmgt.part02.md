@@ -846,10 +846,10 @@ None.
 
 Performs a DRC check on the indicated item(s). The`dbid` may be any `dbid` type (except the design). If the same item appears multiple times in the list, then the same DRC error(s) are returned, and the count is the sum of errors created by each `dbid`. The `g_mode` option controls two return options:
 
-|  |
-| --- | ---
-| `nil` | Returns DRC error count.
-| `t` | Returns list of DRC errors.
+|       |                             |
+| -------| -----------------------------|
+| `nil` | Returns DRC error count.    |
+| `t`   | Returns list of DRC errors. |
 This obeys current DRC mode settings, which includes the master DRC on/off switch.
 
 Due to waive and duplicate DRC suppression processing, the list of DRCs returned using`g_mode=t` may be less then the count returned by `g_mode=nil`.
