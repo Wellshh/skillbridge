@@ -7,7 +7,7 @@ from __future__ import annotations
 from functools import cached_property
 from threading import Lock
 from types import TracebackType
-from typing import Protocol, TypeVar, cast
+from typing import Literal, Protocol, TypeVar, cast
 
 from typing_extensions import Self
 
@@ -32,6 +32,8 @@ from allegrobridge.exceptions import ExtensionError
 
 
 class _Allegro(Protocol):
+    mode: Literal['cli', 'manual']
+
     @property
     def workspace(self) -> Workspace: ...
 
@@ -61,6 +63,7 @@ class Session:
         self._bindings: dict[type[SessionApi], SessionApi] = {}
         self._binding_errors: dict[type[SessionApi], ExtensionError] = {}
         self._binding_lock = Lock()
+        self._connect_lock = Lock()
 
     @property
     def workspace(self) -> Workspace:

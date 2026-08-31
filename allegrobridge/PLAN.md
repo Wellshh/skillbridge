@@ -6,7 +6,7 @@
 
 `skillbridge` 已经具备三个很有价值的基础：Python/SKILL 类型转换、远程对象属性访问，以及 Windows 下的 localhost TCP 通道；它的 `Workspace` 甚至已经预留了 `axl` 函数集合。 
 
-当前通信内核已经具备帧收发、严格串行执行、Windows timeout、超时后响应排空、SKILL callback 缓冲和写请求不自动重发。Python/SKILL 单次 RPC 事务、savepoint batch 与 dry-run 也已通过 Windows Allegro 实机验收。`Allegro` 窗口生命周期、最小内存 `Session` 门面、Phase 5 只读领域 API 和 Phase 6 声明式领域写 API 已完成，并已通过 Windows Allegro 实机验收。当前按需扩展机制已覆盖惰性 Python import、SKILL load、成功路径、混合 core/extension Batch 以及缺失 `.il` 的错误缓存与核心 API 隔离。基础领域 API `layers`、`pins`、`padstacks`、`symbols`，以及惰性加载的 `vias`、直线 `routes`、`session.shapes` 和只读 `session.drc` 查询已完成，并通过 Windows Allegro 实机验收。产品范围固定为 Allegro 17.2-2016 S048；Probe 6/7 证明全量 `axlDRCUpdate` 的 marker 与领域数据库写入可由同一 outer transaction 整体恢复。`session.drc.update()` 已复用现有 `@write` 实现立即执行、`preview`、`command` 和原子 `Batch`，并已通过 Windows Allegro 真机验收；`drcEnable` 由 `unwindProtect` 显式恢复。后续真机探针证明 `axlDRCItem` 产生的局部 marker 副作用不会随数据库 transaction 可靠回滚，因此 `session.drc.check(component | net | pin)` 已实现为显式非事务操作，不提供 `preview`、`command` 或 `Batch`，并已通过 Windows Allegro 真机验收。CLI 启动已出现旧 listener 被误认作新实例的真实故障，因此允许使用仅在本地启动阶段回读的实例 nonce；它不进入 RPC envelope，不承担认证、授权或请求去重。除此之外，在没有真实需求或故障证据前，不引入 UUID envelope、安全 token、结果缓存或更多恢复状态。
+当前通信内核已经具备帧收发、严格串行执行、Windows timeout、超时后响应排空、SKILL callback 缓冲和写请求不自动重发。Python/SKILL 单次 RPC 事务、savepoint batch 与 dry-run 也已通过 Windows Allegro 实机验收。`Allegro` 窗口生命周期、最小内存 `Session` 门面、Phase 5 只读领域 API 和 Phase 6 声明式领域写 API 已完成，并已通过 Windows Allegro 实机验收。当前按需扩展机制已覆盖惰性 Python import、SKILL load、成功路径、混合 core/extension Batch 以及缺失 `.il` 的错误缓存与核心 API 隔离。基础领域 API `layers`、`pins`、`padstacks`、`symbols`，以及惰性加载的 `vias`、直线 `routes`、`session.shapes` 和只读 `session.drc` 查询已完成，并通过 Windows Allegro 实机验收。产品范围固定为 Allegro 17.2-2016 S048；Probe 6/7 证明全量 `axlDRCUpdate` 的 marker 与领域数据库写入可由同一 outer transaction 整体恢复。`session.drc.update()` 已复用现有 `@write` 实现立即执行、`preview`、`command` 和原子 `Batch`，并已通过 Windows Allegro 真机验收；`drcEnable` 由 `unwindProtect` 显式恢复。后续真机探针证明 `axlDRCItem` 产生的局部 marker 副作用不会随数据库 transaction 可靠回滚，因此 `session.drc.check(component | net | pin)` 已实现为显式非事务操作，不提供 `preview`、`command` 或 `Batch`，并已通过 Windows Allegro 真机验收。`add connect` 真机探针进一步证明完整的 `add connect; pick; pick; done` 可由 CLI 独立实例自动完成，但 rollback 与 preview 均不能可靠撤销其修改，新线段只能在 `axlShell` 所在顶层 RPC 返回后稳定观测。因此 `session.routes.connect()` 固定为 CLI-only 的立即操作，不提供 `preview`、`command` 或 Batch；它在 `axlShell` 后刷新 Session 代际，执行一个不包含 connect 的内部空 commit 作为物化屏障，再在目标网络纯值投影中返回 Allegro 实际创建的 `RouteInfo`。该屏障只推进 Allegro 已完成命令的数据库可见性，不赋予 connect rollback、preview 或 Batch 语义。CLI 启动已出现旧 listener 被误认作新实例的真实故障，因此允许使用仅在本地启动阶段回读的实例 nonce；它不进入 RPC envelope，不承担认证、授权或请求去重。除此之外，在没有真实需求或故障证据前，不引入 UUID envelope、安全 token、结果缓存或更多恢复状态。
 
 ---
 
@@ -787,6 +787,8 @@ gnd = session.nets["GND"]
 3. `NetsApi.__call__()` / `__getitem__()`：沿用相同边界。
 4. `@read` / `@write` 声明式 API、惰性 `session.ext` 扩展加载与严格协议边界已完成，并通过 Windows Allegro 实机验收。
 5. `layers`、`pins`、`padstacks`、`symbols` 核心只读 API，以及惰性 `vias`、直线 `routes` API 已完成，并通过 Windows Allegro 实机验收。
+
+`session.routes.connect(net, start, end, layer, width)` 采用固定参数而非原始 Allegro command 字符串。net、layer、width 和两个端点在 Python 信任边界严格校验；SKILL 在 fresh design 内确认 net 与 layer 存在，并在 `axlShell` 前返回目标网络纯值快照。Python 随后刷新 Session 代际，通过一个内部空 commit RPC 建立确定的物化屏障，再获取目标网络最终快照并执行 RouteInfo 多重集差分。请求 layer/width 只是 Allegro 命令输入，公开结果始终以实际生成的 RouteInfo 为准。CLI 独占实例与 Session 内串行锁是归因边界；若没有新 line/arc 或出现无法与两个 pick 形成单一变化链的额外改动，操作明确失败，不构造 operation envelope 或伪稳定 ID。
 
 `session.shapes` 惰性只读 API 已完成，并已通过 Windows Allegro 实机验收：支持 `net`、`layer`、`dynamic` 过滤；只返回不含 DBID 的快照，不实现创建、修改、删除，也不建立通用 geometry AST。
 

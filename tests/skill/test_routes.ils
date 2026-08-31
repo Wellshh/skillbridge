@@ -184,4 +184,97 @@
             (putd '__abCreatePathObject originalCreate)
             (sstatus debugMode debugModeBefore)))
         (qtest::assertNil result)
-        (qtest::assertTrue (index failureText "ROUTE_CREATE_FAILED"))))))
+        (qtest::assertTrue (index failureText "ROUTE_CREATE_FAILED"))))
+
+    (qtest::TestCase test_connect_routes_returns_pre_shell_pure_snapshot
+      (letseq ((routes (__abProjectRoutes nil nil))
+               sample
+               net
+               layer
+               start
+               end
+               width
+               (originalShell (getd '__abRouteShell))
+               command
+               result)
+        (foreach route routes
+          (when (and (null sample) (get route 'net))
+            (setq sample route)))
+        (setq net (get sample 'net))
+        (setq layer (get sample 'layer))
+        (setq start (list (get (get sample 'start) 'x)
+                          (get (get sample 'start) 'y)))
+        (setq end (list (get (get sample 'end) 'x)
+                        (get (get sample 'end) 'y)))
+        (setq width (get sample 'width))
+        (unwindProtect
+          (progn
+            (putd '__abRouteShell (lambda (value) (setq command value)))
+            (setq result (__abConnectRoutes net start end layer width)))
+          (putd '__abRouteShell originalShell))
+        (qtest::assertEqual (__abProjectRoutes net nil) result)
+        (qtest::assertEqual
+          (lsprintf "add connect -net %s -layer %s -width %L; pick %L %L; pick %L %L; done"
+                    net layer width (car start) (cadr start) (car end) (cadr end))
+          command)
+        (qtest::assertNil (get (car result) 'dbid))))
+
+    (qtest::TestCase test_connect_routes_rejects_missing_net_and_layer
+      (letseq ((routes (__abProjectRoutes nil nil))
+               sample
+               net
+               start
+               end
+               width
+               missingNet
+               missingLayer
+               missingNetText
+               missingLayerText)
+        (foreach route routes
+          (when (and (null sample) (get route 'net))
+            (setq sample route)))
+        (setq net (get sample 'net))
+        (setq start (list (get (get sample 'start) 'x)
+                          (get (get sample 'start) 'y)))
+        (setq end (list (get (get sample 'end) 'x)
+                        (get (get sample 'end) 'y)))
+        (setq width (get sample 'width))
+        (setq missingNet
+              (errset (__abConnectRoutes "__MISSING_NET__" start end
+                                          (get sample 'layer) width)))
+        (setq missingNetText (sprintf nil "%L" errset.errset))
+        (setq missingLayer
+              (errset (__abConnectRoutes net start end "__MISSING_LAYER__" width)))
+        (setq missingLayerText (sprintf nil "%L" errset.errset))
+        (qtest::assertNil missingNet)
+        (qtest::assertTrue (index missingNetText "ROUTE_CONNECT_NET_NOT_FOUND"))
+        (qtest::assertNil missingLayer)
+        (qtest::assertTrue (index missingLayerText "ROUTE_CONNECT_LAYER_NOT_FOUND"))))
+
+    (qtest::TestCase test_connect_routes_propagates_shell_error
+      (letseq ((routes (__abProjectRoutes nil nil))
+               sample
+               (originalShell (getd '__abRouteShell))
+               result
+               failureText)
+        (foreach route routes
+          (when (and (null sample) (get route 'net))
+            (setq sample route)))
+        (unwindProtect
+          (progn
+            (putd '__abRouteShell
+                  (lambda (_command) (error "SHELL_PROBE_FAILED")))
+            (setq result
+                  (errset
+                    (__abConnectRoutes
+                      (get sample 'net)
+                      (list (get (get sample 'start) 'x)
+                            (get (get sample 'start) 'y))
+                      (list (get (get sample 'end) 'x)
+                            (get (get sample 'end) 'y))
+                      (get sample 'layer)
+                      (get sample 'width))))
+            (setq failureText (sprintf nil "%L" errset.errset)))
+          (putd '__abRouteShell originalShell))
+        (qtest::assertNil result)
+        (qtest::assertTrue (index failureText "SHELL_PROBE_FAILED"))))))

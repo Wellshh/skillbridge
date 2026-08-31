@@ -19,7 +19,7 @@ from pydantic import Field, TypeAdapter, ValidationError
 import allegrobridge._kernel.server
 import allegrobridge.client.api as api_module
 import allegrobridge.server
-from allegrobridge import Allegro
+from allegrobridge import Allegro, OpenMode
 from allegrobridge._kernel import SkillCode
 from allegrobridge._kernel.client.expr import Expr
 from allegrobridge._kernel.exception import ProtocolError, SkillBridgeError
@@ -99,10 +99,32 @@ def _bind_id(record: RecordT, session: Session) -> RecordT:
     return record
 
 
-def _session(workspace: Mock | None = None) -> Session:
+def _session(workspace: Mock | None = None, *, mode: OpenMode = 'cli') -> Session:
     workspace = MagicMock() if workspace is None else workspace
     workspace.epoch = 0
-    return Session(Mock(workspace=workspace))
+    return Session(Mock(workspace=workspace, mode=mode))
+
+
+def _route_payload(
+    start: tuple[float, float],
+    end: tuple[float, float],
+    *,
+    net: str = 'GND',
+    layer: str = 'ETCH/TOP',
+    width: float = 0.2,
+) -> dict[str, object]:
+    return {
+        'net': net,
+        'layer': layer,
+        'obj_type': 'line',
+        'start': {'x': start[0], 'y': start[1]},
+        'end': {'x': end[0], 'y': end[1]},
+        'width': width,
+        'length': math.dist(start, end),
+        'radius': None,
+        'is_clockwise': None,
+        'center': None,
+    }
 
 
 @pytest.fixture
@@ -178,7 +200,9 @@ def test_startup_script_orders_nonce_board_and_guarded_server(tmp_path: Path) ->
     )
     assert 'ALLEGRO_BOARD_OPEN_FAILED' in board_open
     assert 'ALLEGRO_DESIGN_REFRESH_FAILED' in design_refresh
-    assert server_start.startswith('skill unless(')
+    assert lines[-1] == server_start
+    assert server_start.startswith('skill if(pyStartServer(')
+    assert server_start.endswith(') then t else error("ALLEGRO_SERVER_START_FAILED"))')
     assert 'ALLEGRO_SERVER_START_FAILED' in server_start
     assert '?forceTcp t' in server_start
     assert Path(sys.executable).as_posix() in server_start
@@ -1139,7 +1163,7 @@ class TestReadApi:
 
         workspace._ensure_module.assert_called_once_with(
             RoutesApi.module,
-            ('__abProjectRoutes', '__abCreatePath'),
+            ('__abProjectRoutes', '__abConnectRoutes', '__abCreatePath'),
         )
         assert session.routes is session.routes
         assert [route.model_dump() for route in routes] == [
@@ -1218,6 +1242,201 @@ class TestReadApi:
             0.2,
         )
         assert all(isinstance(step, (LineTo, ArcTo)) for step in remote.expr.call_args.args[2])
+
+    def test_route_connect_returns_actual_added_segments_after_refresh(self) -> None:
+        workspace = MagicMock()
+        before = [_route_payload((0.0, 0.0), (1.0, 0.0), net='VCC')]
+        first = _route_payload(
+            (1.0, 0.0),
+            (2.0, 0.0),
+            net='VCC',
+            layer='ETCH/GND',
+            width=25.0,
+        )
+        second = _route_payload(
+            (2.0, 0.0),
+            (3.0, 0.0),
+            net='VCC',
+            layer='ETCH/GND',
+            width=25.0,
+        )
+        connect_rpc = MagicMock(return_value=before)
+        project_rpc = MagicMock(return_value=[*before, first, second])
+        workspace.__getitem__.side_effect = {
+            '__abConnectRoutes': connect_rpc,
+            '__abProjectRoutes': project_rpc,
+        }.__getitem__
+        session = _session(workspace)
+        generation = session.generation
+
+        created = session.routes.connect(
+            'VCC',
+            (1.0, 0.0),
+            Point(3.0, 0.0),
+            'ETCH/TOP',
+            0.2,
+        )
+
+        assert [route.model_dump() for route in created] == [
+            RouteInfo.model_validate(first).model_dump(),
+            RouteInfo.model_validate(second).model_dump(),
+        ]
+        assert all(
+            route.layer == 'ETCH/GND' and math.isclose(route.width, 25.0) for route in created
+        )
+        assert session.generation == generation + 1
+        assert all(route._id == _ID(ref(session), session.generation) for route in created)
+        connect_rpc.assert_called_once_with(
+            'VCC',
+            Point(1.0, 0.0),
+            Point(3.0, 0.0),
+            'ETCH/TOP',
+            0.2,
+        )
+        project_rpc.assert_called_once_with('VCC', None)
+        workspace.transaction.assert_called_once_with(SkillCode('t'))
+        assert not hasattr(session.routes.connect, 'preview')
+        assert not hasattr(session.routes.connect, 'command')
+
+    def test_route_connect_preserves_duplicate_multiplicity(self) -> None:
+        workspace = MagicMock()
+        duplicate = _route_payload((1.0, 0.0), (2.0, 0.0), net='VCC')
+        connect_rpc = MagicMock(return_value=[duplicate])
+        project_rpc = MagicMock(return_value=[duplicate, duplicate.copy()])
+        workspace.__getitem__.side_effect = {
+            '__abConnectRoutes': connect_rpc,
+            '__abProjectRoutes': project_rpc,
+        }.__getitem__
+
+        created = _session(workspace).routes.connect(
+            'VCC',
+            (1.0, 0.0),
+            (2.0, 0.0),
+            'ETCH/TOP',
+            0.2,
+        )
+
+        assert len(created) == 1
+        assert created[0].model_dump() == RouteInfo.model_validate(duplicate).model_dump()
+
+    def test_route_connect_rejects_no_change_and_disconnected_change(self) -> None:
+        source = _route_payload((0.0, 0.0), (1.0, 0.0), net='VCC')
+        cases = [
+            ([source], 'ROUTE_CONNECT_NO_CHANGE'),
+            (
+                [
+                    source,
+                    _route_payload((1.0, 0.0), (2.0, 0.0), net='VCC'),
+                    _route_payload((10.0, 0.0), (11.0, 0.0), net='VCC'),
+                ],
+                'ROUTE_CONNECT_AMBIGUOUS',
+            ),
+        ]
+        for after, message in cases:
+            workspace = MagicMock()
+            workspace.__getitem__.side_effect = {
+                '__abConnectRoutes': MagicMock(return_value=[source]),
+                '__abProjectRoutes': MagicMock(return_value=after),
+            }.__getitem__
+
+            with pytest.raises(RuntimeError, match=message):
+                _session(workspace).routes.connect(
+                    'VCC',
+                    (1.0, 0.0),
+                    (2.0, 0.0),
+                    'ETCH/TOP',
+                    0.2,
+                )
+
+    @pytest.mark.parametrize(
+        ('net', 'layer'),
+        [
+            ('', 'ETCH/TOP'),
+            ('V CC', 'ETCH/TOP'),
+            ('VCC;delete', 'ETCH/TOP'),
+            ('VCC', ''),
+            ('VCC', 'ETCH/TO"P'),
+            ('VCC', 'ETCH/TO\x1fP'),
+        ],
+    )
+    def test_route_connect_rejects_unsafe_names_before_rpc(self, net: str, layer: str) -> None:
+        workspace = MagicMock()
+
+        with pytest.raises(ValueError):
+            _session(workspace).routes.connect(
+                net,
+                (1.0, 2.0),
+                (3.0, 4.0),
+                layer,
+                0.2,
+            )
+
+        workspace.__getitem__.assert_not_called()
+
+    @pytest.mark.parametrize('value', [True, '1.0', float('nan'), float('inf')])
+    def test_route_connect_rejects_invalid_geometry_before_rpc(self, value: object) -> None:
+        workspace = MagicMock()
+        session = _session(workspace)
+
+        with pytest.raises(ValidationError):
+            session.routes.connect(
+                'VCC',
+                (value, 2.0),  # type: ignore[arg-type]
+                (3.0, 4.0),
+                'ETCH/TOP',
+                0.2,
+            )
+        with pytest.raises(ValidationError):
+            session.routes.connect(
+                'VCC',
+                (1.0, 2.0),
+                (3.0, 4.0),
+                'ETCH/TOP',
+                value,  # type: ignore[arg-type]
+            )
+        with pytest.raises(ValueError, match='positive'):
+            session.routes.connect(
+                'VCC',
+                (1.0, 2.0),
+                (3.0, 4.0),
+                'ETCH/TOP',
+                0.0,
+            )
+
+        workspace.__getitem__.assert_not_called()
+
+    def test_route_connect_rejects_manual_session_before_rpc(self) -> None:
+        workspace = MagicMock()
+
+        with pytest.raises(RuntimeError, match=r"mode='cli'"):
+            _session(workspace, mode='manual').routes.connect(
+                'VCC',
+                (1.0, 2.0),
+                (3.0, 4.0),
+                'ETCH/TOP',
+                0.2,
+            )
+
+        workspace.__getitem__.assert_not_called()
+
+    def test_route_connect_refreshes_generation_when_shell_rpc_fails(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.side_effect = {
+            '__abConnectRoutes': MagicMock(side_effect=RuntimeError('shell failed')),
+        }.__getitem__
+        session = _session(workspace)
+        generation = session.generation
+
+        with pytest.raises(RuntimeError, match='shell failed'):
+            session.routes.connect(
+                'VCC',
+                (1.0, 2.0),
+                (3.0, 4.0),
+                'ETCH/TOP',
+                0.2,
+            )
+
+        assert session.generation == generation + 1
 
     @pytest.mark.parametrize(
         ('path', 'width', 'message'),

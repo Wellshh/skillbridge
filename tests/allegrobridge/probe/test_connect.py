@@ -16,10 +16,12 @@ from allegrobridge import Allegro
 from allegrobridge.util import ASSETS_DIR
 from tests.allegrobridge.probe.connect import (
     ConnectProbe,
+    _added_routes,
     _classify_activity,
     _classify_blocking,
     _classify_post,
     _classify_route_change,
+    _route_fingerprint,
 )
 
 if TYPE_CHECKING:
@@ -107,6 +109,17 @@ def test_classifies_route_change_from_fingerprints(
     assert _classify_route_change(before, during) == expected
 
 
+def test_added_routes_preserves_duplicate_fingerprint_multiplicity() -> None:
+    route = _route('same')
+
+    added = _added_routes(
+        _route_snapshot([route]),
+        _route_snapshot([route, route.copy()]),
+    )
+
+    assert added == [route]
+
+
 def _blocking_report(
     during_routes: list[dict[str, object]] | None,
     elapsed: float,
@@ -143,13 +156,16 @@ def test_blocking_threshold_override_reclassifies_wait() -> None:
 
 
 def test_classifies_post_immediate_snapshot_as_fire_and_forget() -> None:
-    report = {'before': _route_snapshot(None), 'immediate': _route_snapshot(None)}
+    report: dict[str, object] = {
+        'before': _route_snapshot(None),
+        'immediate': _route_snapshot(None),
+    }
 
     assert _classify_post(report) is True
 
 
 def test_classifies_post_immediate_execution_as_not_fire_and_forget() -> None:
-    report = {
+    report: dict[str, object] = {
         'before': _route_snapshot(None),
         'immediate': _route_snapshot([_route('new')]),
     }
@@ -351,6 +367,27 @@ def test_driven_report_classifies_cancel() -> None:
     )
 
 
+def test_structured_command_validates_inputs() -> None:
+    assert ConnectProbe.build_command('VCC', 'ETCH/TOP', 0.2) == (
+        'add connect -net VCC -layer ETCH/TOP -width 0.2'
+    )
+    with pytest.raises(ValueError, match='net'):
+        ConnectProbe.build_command('V CC', 'ETCH/TOP', 0.2)
+    with pytest.raises(ValueError, match='layer'):
+        ConnectProbe.build_command('VCC', '', 0.2)
+    with pytest.raises(ValueError, match='width'):
+        ConnectProbe.build_command('VCC', 'ETCH/TOP', 0.0)
+
+
+@pytest.mark.parametrize('unsafe_name', ['VCC;delete', "VCC'", 'VCC"', 'VCC\x1b'])
+def test_structured_command_rejects_command_syntax_in_names(unsafe_name: str) -> None:
+    with pytest.raises(ValueError, match='net'):
+        ConnectProbe.build_command(unsafe_name, 'ETCH/TOP', 0.2)
+
+    with pytest.raises(ValueError, match='layer'):
+        ConnectProbe.build_command('VCC', unsafe_name, 0.2)
+
+
 def _resolve_anchor(
     connect_probe: ConnectProbe,
     connect_allegro: Allegro,
@@ -379,6 +416,35 @@ def _resolve_anchor(
     return net, anchor, net_pins, pin.x, pin.y
 
 
+def _resolve_route_input(
+    connect_probe: ConnectProbe,
+    connect_allegro: Allegro,
+) -> tuple[str, str, float, tuple[float, float], tuple[float, float], str]:
+    net, _anchor, _pins, x, y = _resolve_anchor(connect_probe, connect_allegro)
+    snapshot = connect_probe.snapshot(net)
+    routes = cast('list[dict[str, object]]', snapshot['routes'])
+    route = routes[0]
+    placed = [
+        pin
+        for pin in connect_allegro.session.pins(net=net)
+        if pin.x is not None and pin.y is not None
+    ]
+    if len(placed) > 1 and placed[1].x is not None and placed[1].y is not None:
+        end = (placed[1].x, placed[1].y)
+        source = 'two_stable_pins'
+    else:
+        end = (x + 100.0, y + 100.0)
+        source = 'synthetic_large_delta_no_second_pin'
+    return (
+        net,
+        cast('str', route['layer']),
+        float(cast('float', route['width'])),
+        (x, y),
+        end,
+        source,
+    )
+
+
 @pytest.mark.allegro
 @pytest.mark.timeout(600)
 class TestConnectProbe:
@@ -404,7 +470,7 @@ class TestConnectProbe:
         connect_probe.emit('connect-post.json', report)
         assert report['shell_return'] is True
         assert report['fire_and_forget'] is True
-        assert report['elapsed_seconds'] < 1.0
+        assert cast('float', report['elapsed_seconds']) < 1.0
         assert report['ping'] == 3
 
     def test_add_connect_flag_syntax(self, connect_probe: ConnectProbe) -> None:
@@ -471,4 +537,109 @@ class TestConnectProbe:
         report['net_pins'] = net_pins
         connect_probe.emit('connect-driven-large-delta.json', report)
         assert report['route_change'] in {'done', 'cancel'}
+        assert report['ping'] == 3
+
+    def test_structured_add_connect_reports_added_routes(
+        self,
+        connect_probe: ConnectProbe,
+        connect_allegro: Allegro,
+    ) -> None:
+        net, _anchor, _pins, x, y = _resolve_anchor(connect_probe, connect_allegro)
+        report = connect_probe.driven_structured(
+            net, 'ETCH/TOP', 0.2, (x, y), (x + 100.0, y + 100.0)
+        )
+        connect_probe.emit('connect-structured.json', report)
+        assert isinstance(report['added_routes'], list)
+        assert report['ping'] == 3
+        for route in cast('list[object]', report['added_routes']):
+            assert isinstance(route, dict)
+
+    def test_add_connect_transaction_commit(
+        self,
+        connect_probe: ConnectProbe,
+        connect_allegro: Allegro,
+    ) -> None:
+        net, layer, width, start, end, source = _resolve_route_input(connect_probe, connect_allegro)
+        report = connect_probe.transaction(net, layer, width, start, end, 'commit')
+        report['geometry_source'] = source
+        connect_probe.emit('connect-transaction-commit.json', report)
+        assert report['action'] == 'commit'
+        assert isinstance(report['terminal_added_routes'], list)
+
+    def test_add_connect_transaction_rollback(
+        self,
+        connect_probe: ConnectProbe,
+        connect_allegro: Allegro,
+    ) -> None:
+        net, layer, width, start, end, source = _resolve_route_input(connect_probe, connect_allegro)
+        before = connect_probe.snapshot(net)
+        rollback = connect_probe.transaction(net, layer, width, start, end, 'rollback')
+        after = connect_probe.snapshot(net)
+        rollback['geometry_source'] = source
+        rollback['rollback_effect'] = (
+            'rolled_back'
+            if _route_fingerprint(cast('dict[str, object]', after)) == _route_fingerprint(before)
+            else 'not_rolled_back'
+        )
+        connect_probe.emit('connect-transaction-rollback.json', rollback)
+        assert rollback['action'] == 'rollback'
+        assert rollback['rollback_effect'] in {'rolled_back', 'not_rolled_back'}
+
+    def test_add_connect_preview_is_observed_on_a_fresh_board(
+        self,
+        connect_probe: ConnectProbe,
+        connect_allegro: Allegro,
+    ) -> None:
+        net, layer, width, start, end, source = _resolve_route_input(connect_probe, connect_allegro)
+        before = connect_probe.snapshot(net)
+        preview = connect_probe.preview(net, layer, width, start, end)
+        preview['geometry_source'] = source
+        after_preview = connect_probe.snapshot(net)
+        preview['real_board_after'] = after_preview
+        preview['real_board_unchanged'] = _route_fingerprint(after_preview) == _route_fingerprint(
+            before
+        )
+        connect_probe.emit('connect-preview.json', preview)
+        assert preview['status'] in {'success', 'error'}
+        if preview['status'] == 'success':
+            assert isinstance(preview['added_routes'], list)
+
+    def test_add_connect_batch_is_observed_on_a_fresh_board(
+        self,
+        connect_probe: ConnectProbe,
+        connect_allegro: Allegro,
+    ) -> None:
+        net, layer, width, start, end, source = _resolve_route_input(connect_probe, connect_allegro)
+        batch_before = connect_probe.snapshot(net)
+        batch = connect_probe.batch(net, layer, width, start, end)
+        batch['geometry_source'] = source
+        batch['real_board_after'] = connect_probe.snapshot(net)
+        batch['real_board_unchanged'] = _route_fingerprint(
+            cast('dict[str, object]', batch['real_board_after'])
+        ) == _route_fingerprint(batch_before)
+        connect_probe.emit('connect-batch.json', batch)
+        assert batch['status'] in {'success', 'error'}
+
+    def test_add_connect_invalid_dbids_are_reported_after_shell(
+        self,
+        connect_probe: ConnectProbe,
+        connect_allegro: Allegro,
+    ) -> None:
+        net, layer, width, start, end, source = _resolve_route_input(connect_probe, connect_allegro)
+        report = connect_probe.dbid(net, layer, width, start, end)
+        report['geometry_source'] = source
+        connect_probe.emit('connect-dbid.json', report)
+        assert isinstance(report['fresh_routes'], dict)
+        assert report['ping'] == 3
+
+    def test_add_connect_post_scripted_completion_is_observed(
+        self,
+        connect_probe: ConnectProbe,
+        connect_allegro: Allegro,
+    ) -> None:
+        net, layer, width, start, end, source = _resolve_route_input(connect_probe, connect_allegro)
+        report = connect_probe.post_driven(net, layer, width, start, end)
+        report['geometry_source'] = source
+        connect_probe.emit('connect-post-driven.json', report)
+        assert isinstance(report['immediate'], dict)
         assert report['ping'] == 3

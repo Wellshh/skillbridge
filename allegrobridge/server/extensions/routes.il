@@ -14,6 +14,14 @@
 (defun __abCreatePathObject (path layer net)
   (axlDBCreatePath path layer net))
 
+(putd '__abRouteLayerGet nil)
+(defun __abRouteLayerGet (layer)
+  (axlLayerGet layer))
+
+(putd '__abRouteShell nil)
+(defun __abRouteShell (command)
+  (axlShell command))
+
 (putd '__abProjectRoutePoint nil)
 (defun __abProjectRoutePoint (point)
   (list nil 'x (car point) 'y (cadr point)))
@@ -62,6 +70,30 @@
       (setq result (__abCollectRoutes (__abRouteLonelyBranches) nil
                                       layer result)))
     (reverse result)))
+
+(putd '__abRouteNetExists nil)
+(defun __abRouteNetExists (design net)
+  (let (found)
+    (foreach netObject design->nets
+      (when (equal net netObject->name)
+        (setq found t)))
+    found))
+
+(putd '__abConnectRoutes nil)
+(defun __abConnectRoutes (net start end layer width)
+  (letseq ((design (__abFreshDesign))
+           before
+           command)
+    (unless (__abRouteNetExists design net)
+      (error (sprintf nil "ROUTE_CONNECT_NET_NOT_FOUND: %s" net)))
+    (unless (__abRouteLayerGet layer)
+      (error (sprintf nil "ROUTE_CONNECT_LAYER_NOT_FOUND: %s" layer)))
+    (setq before (__abProjectRoutes net nil))
+    (setq command
+          (lsprintf "add connect -net %s -layer %s -width %L; pick %L %L; pick %L %L; done"
+                    net layer width (car start) (cadr start) (car end) (cadr end)))
+    (__abRouteShell command)
+    before))
 
 (putd '__abRouteNetName nil)
 (defun __abRouteNetName (path)

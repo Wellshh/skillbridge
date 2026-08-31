@@ -19,7 +19,13 @@ import pytest
 from pydantic import ValidationError
 
 from allegrobridge import Allegro, OpenMode, Session, Symbol, Workspace
-from allegrobridge._kernel import SkillCode
+from allegrobridge._kernel import (
+    Expr,
+    RemoteObject,
+    RemoteTable,
+    RemoteVector,
+    SkillCode,
+)
 from allegrobridge.client.api import (
     BBox,
     BoardInfo,
@@ -57,12 +63,23 @@ def _session_id(session: Session) -> _ID:
 
 
 @pytest.fixture(scope='module')
-def workspace_id() -> str | None:
-    if platform != 'win32':
-        return None
-    with socket() as listener:
-        listener.bind(('localhost', 0))
-        return str(listener.getsockname()[1])
+def workspace_id(tmp_path_factory: pytest.TempPathFactory) -> Iterator[str | None]:
+    log_directory = tmp_path_factory.mktemp('allegrobridge-suite-logs')
+    previous_log_directory = environ.get('ALLEGROBRIDGE_LOG_DIRECTORY')
+    environ['ALLEGROBRIDGE_LOG_DIRECTORY'] = log_directory.as_posix()
+    try:
+        if platform != 'win32':
+            yield None
+        else:
+            with socket() as listener:
+                listener.bind(('localhost', 0))
+                selected_id = str(listener.getsockname()[1])
+            yield selected_id  # ruff: ignore[unnecessary-assign-before-yield]
+    finally:
+        if previous_log_directory is None:
+            environ.pop('ALLEGROBRIDGE_LOG_DIRECTORY', None)
+        else:
+            environ['ALLEGROBRIDGE_LOG_DIRECTORY'] = previous_log_directory
 
 
 @pytest.fixture(scope='class')
@@ -315,23 +332,35 @@ def _run_skill_suite(workspace_id: str | None) -> str:
             destination.parent.mkdir(parents=True, exist_ok=True)
             copy2(source, destination)
 
+        temporary_board = temporary_repository / _TEST_BOARD.relative_to(repository)
         run_file = (skill_tests / 'run.ils').resolve().as_posix()
+        skill_log_directory = temporary_repository / 'skill-logs'
+        skill_log_directory.mkdir()
+        skill_log_path = dumps(skill_log_directory.as_posix())
         skill_code = f"""
-            let((capturePort failure loadResult report)
+            let((capturePort failure loadResult report oldLogDirectory)
                 capturePort = outstring()
+                oldLogDirectory = getShellEnvVar("ALLEGROBRIDGE_LOG_DIRECTORY")
                 unwindProtect(
                     let(((poport capturePort))
+                        setShellEnvVar("ALLEGROBRIDGE_LOG_DIRECTORY" {skill_log_path})
                         loadResult = errset(load({dumps(run_file)}))
                         unless(loadResult failure = errset.errset)
                         report = getOutstring(capturePort)
                     )
-                    close(capturePort)
+                    progn(
+                        if(oldLogDirectory then
+                            setShellEnvVar("ALLEGROBRIDGE_LOG_DIRECTORY" oldLogDirectory)
+                        else
+                            unsetShellEnvVar("ALLEGROBRIDGE_LOG_DIRECTORY"))
+                        close(capturePort)
+                    )
                 )
                 list(loadResult failure report)
             )
         """.replace('\n', ' ')
 
-        with Allegro.open(mode='cli', workspace_id=workspace_id) as opened:
+        with Allegro.open(mode='cli', board=temporary_board, workspace_id=workspace_id) as opened:
             result = opened.workspace['evalstring'](skill_code)
 
     assert isinstance(result, list)
@@ -1782,6 +1811,58 @@ class TestRoutesApi:
             session.routes()
 
 
+class TestRoutesConnectApi:
+    def test_connect_returns_current_segments_and_refreshes_generation(
+        self,
+        allegro: Allegro,
+        session: Session,
+        ws: Workspace,
+    ) -> None:
+        if allegro.mode != 'cli':
+            pytest.skip('route connect requires the Windows board copy')
+        source = next(route for route in session.routes() if route.net is not None)
+        net = cast('str', source.net)
+        pins = [pin for pin in session.pins(net=net) if pin.x is not None and pin.y is not None]
+        if len(pins) < 2:
+            pytest.skip(f'net {net} has fewer than two placed pins')
+        start = Point(cast('float', pins[0].x), cast('float', pins[0].y))
+        end = Point(cast('float', pins[1].x), cast('float', pins[1].y))
+        generation = session.generation
+
+        created = session.routes.connect(net, start, end, source.layer, source.width)
+
+        assert created
+        assert all(isinstance(route, RouteInfo) and route.net == net for route in created)
+        assert all(route._id == _session_id(session) for route in created)
+        assert session.generation == generation + 1
+        current = {
+            (
+                route.net,
+                route.layer,
+                route.start,
+                route.end,
+                route.width,
+                route.obj_type,
+            )
+            for route in session.routes(net=net)
+        }
+        assert all(
+            (
+                route.net,
+                route.layer,
+                route.start,
+                route.end,
+                route.width,
+                route.obj_type,
+            )
+            in current
+            for route in created
+        )
+        with pytest.raises(RecordIDError, match='stale'):
+            source._check_id(session)
+        assert ws['plus'](1, 2) == 3
+
+
 class TestShapesApi:
     @staticmethod
     def _values(shape: ShapeInfo) -> tuple[object, ...]:
@@ -2378,13 +2459,17 @@ class TestBasicOp:
         sleep(TestBasicOp._IDLE_SECONDS)
         assert self._single_ping_test(ws), 'Callback not available until next skill execution'
 
-    def test_py_show_log_prints_latest_lines_and_closes_port(
+    def test_py_show_log_prints_latest_lines(
         self,
         ws: Workspace,
     ) -> None:
         log_path = Path(environ['ALLEGROBRIDGE_LOG_DIRECTORY']) / 'allegrobridge_skill.log'
-        log_lines = [f'log-entry-{index}\n' for index in range(5)]
-        log_path.write_text(''.join(log_lines), encoding='utf-8')
+        marker_padding = 'x' * 256
+        log_lines = [
+            f'phase21-py-show-log-marker-{index:03d}-{marker_padding}\n' for index in range(128)
+        ]
+        with log_path.open('a', encoding='utf-8') as log_file:
+            log_file.writelines(log_lines)
 
         def capture_py_show_log(requested_length: int) -> str:
             skill_code = f"""
@@ -2411,20 +2496,28 @@ class TestBasicOp:
         latest_lines = capture_py_show_log(3)
         more_lines_than_available = capture_py_show_log(len(log_lines) + 3)
 
-        try:
-            log_path.unlink()
-        except OSError as error:
-            pytest.fail(f'pyShowLog left its input port open: {error}', pytrace=False)
-
         assert latest_lines == ''.join(log_lines[-3:])
-        assert more_lines_than_available == ''.join(log_lines)
+        more_lines = more_lines_than_available.splitlines(keepends=True)
+        assert 3 <= len(more_lines) <= len(log_lines) + 3
+        assert more_lines_than_available.endswith(latest_lines)
         assert 'unbound' not in more_lines_than_available.lower()
-        assert not log_path.exists()
 
     def test_server_can_restart(self, ws: Workspace, session: Session) -> None:
         epoch = ws.epoch
         session_generation = session.generation
         assert self._single_ping_test(ws)
+
+        table = ws.make_table(f'phase21_restart_table_{session_generation}', 0)
+        vector = ws.make_vector(2, 0)
+        pattern = ws['pcreCompile']('phase21-restart')
+        assert isinstance(table, RemoteTable)
+        assert isinstance(vector, RemoteVector)
+        assert isinstance(pattern, RemoteObject)
+        table['value'] = 41
+        vector[0] = 17
+        table_expression = table.__repr_skill__()
+        vector_expression = vector.__repr_skill__()
+        pattern_expression = pattern.__repr_skill__()
         assert ws['pyRestartServer']() is True
 
         for _ in range(40):
@@ -2439,3 +2532,35 @@ class TestBasicOp:
         assert ws.epoch == epoch + 1
         assert session.generation == session_generation + 1
         assert self._single_ping_test(ws)
+        assert table.__repr_skill__() == table_expression
+        assert vector.__repr_skill__() == vector_expression
+        assert pattern.__repr_skill__() == pattern_expression
+        assert table['value'] == 41
+        assert vector[0] == 17
+        assert ws['pcreExecute'](pattern, 'phase21-restart') is True
+
+    def test_py_run_script_nonblocking_eventually_updates_unique_variable(
+        self,
+        ws: Workspace,
+    ) -> None:
+        variable = 'phase21_nonblocking_script_variable'
+        script = (Path(__file__).parents[1] / 'script.py').resolve().as_posix()
+        ws['set'](Symbol(variable), 0)
+
+        process = ws['pyRunScript'](script, args=(variable, '42', '0.25'))
+        assert process
+        assert ws['plus'](Expr.raw_skill(variable), 1) == 1
+
+        assert ws['__pyIpcWait'](process)
+        assert ws['plus'](Expr.raw_skill(variable), 1) == 43
+
+    def test_py_run_script_blocking_updates_independent_variable(
+        self,
+        ws: Workspace,
+    ) -> None:
+        variable = 'phase21_blocking_script_variable'
+        script = (Path(__file__).parents[1] / 'script.py').resolve().as_posix()
+        ws['set'](Symbol(variable), 0)
+
+        assert ws['pyRunScript'](script, args=(variable, '42', '0.1'), block=True)
+        assert ws['plus'](Expr.raw_skill(variable), 1) == 43

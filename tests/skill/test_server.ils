@@ -19,16 +19,19 @@
       (setq snapshots
         (cons
           (list name
-                (if (boundp name (theEnvironment))
-                    (symeval name (theEnvironment))
-                    'unbound))
+                (boundp name (theEnvironment))
+                (when (boundp name (theEnvironment))
+                  (symeval name (theEnvironment))))
           snapshots))
       (set name value)
       (setq names (cons name names)))
     (list (reverse names) (reverse snapshots))))
 
 (defun __pyTestRestoreGlobals (snapshots)
-  (foreach snapshot snapshots set(car(snapshot) cadr(snapshot)))
+  (foreach snapshot snapshots
+    (if (cadr snapshot)
+        (set (car snapshot) (caddr snapshot))
+        (set (car snapshot) 'unbound)))
   t)
 
 (defun __pyTestLegacySlots ()
@@ -44,9 +47,53 @@
     (pyStartServer requestIpc) (pyStartServer receiveBuffer) (pyStartServer state)
     (pyStartServer moduleFolder) (pyStartServer logName)
     (pyRunScript logName) (pyShowLog logName) (pyReloadServer filename)
+    (__pyStableRemoteVariable Registry)
     (__pyWriteFrame STX) (__pyWriteFrame NAK) (__pyWriteFrame RST)
     (__pyWriteFrame ESC) (__pyWriteFrame RS) (__pyWriteFrame ESCPattern)
     (__pyWriteFrame RSPattern)))
+
+(defun __pyTestSurfaceSlots ()
+  (append
+    (__pyTestLegacySlots)
+    '(pyStartServer pyKillServer pyRestartServer pyReloadScript pyShowLog pyRunScript
+      __pyIpcBeginProcess __pyIpcKillProcess __pyIpcWriteProcess __pyIpcWait)))
+
+(defun __pyTestPropertyPresentp (property properties)
+  (if properties
+      (if (eq property (car properties))
+          t
+          (__pyTestPropertyPresentp property (cddr properties)))
+      nil))
+
+(defun __pyTestSnapshotLegacySurface ()
+  (let ((slots nil) (properties nil) property propertyList present)
+    (foreach name (__pyTestSurfaceSlots)
+      (setq slots (cons (list name (getd name)) slots)))
+    (foreach pair (__pyTestLegacyProperties)
+      (setq property (cadr pair))
+      (setq propertyList (plist (car pair)))
+      (setq present (__pyTestPropertyPresentp property propertyList))
+      (setq properties
+        (cons
+          (list (car pair) property present
+                (when present (get (car pair) property)))
+          properties)))
+    (list slots properties
+          (__pyTestPropertyPresentp 'userProperty (plist 'pyStartServer))
+          (get 'pyStartServer 'userProperty))))
+
+(defun __pyTestRestoreLegacySurface (snapshot)
+  (let (slot property)
+    (foreach slot (car snapshot)
+      (putd (car slot) (cadr slot)))
+    (foreach property (cadr snapshot)
+      (if (caddr property)
+          (putprop (car property) (cadddr property) (cadr property))
+          (remprop (car property) (cadr property))))
+    (if (caddr snapshot)
+        (putprop 'pyStartServer (cadddr snapshot) 'userProperty)
+        (remprop 'pyStartServer 'userProperty))
+    t))
 
 (defun __pyTestSeedLegacySurface ()
   (foreach name (__pyTestLegacySlots)
@@ -64,11 +111,12 @@
   t)
 
 (defun __pyTestLegacySurfaceGone ()
-  (let ((gone t))
+  (let ((gone t) propertyList)
     (foreach name (__pyTestLegacySlots)
       (when (not (null (getd name))) (setq gone nil)))
     (foreach property (__pyTestLegacyProperties)
-      (when (not (null (get (car property) (cadr property)))) (setq gone nil)))
+      (setq propertyList (plist (car property)))
+      (when (__pyTestPropertyPresentp (cadr property) propertyList) (setq gone nil)))
     gone))
 
 (defun __pyTestPublicSurfacePresent ()
@@ -78,54 +126,133 @@
       (when (null (getd name)) (setq present nil)))
     present))
 
+(defun __pyTestFinishedp (id ids)
+  (if ids
+      (if (equal id (car ids)) t (__pyTestFinishedp id (cdr ids)))
+      nil))
+
 (defun __pyTestWithFakeIpc (handles waitResult thunk)
   (let ((originalBegin (getd '__pyIpcBeginProcess))
         (originalWrite (getd '__pyIpcWriteProcess))
         (originalKill (getd '__pyIpcKillProcess))
         (originalWait (getd '__pyIpcWait))
         (originalPythonPath (getShellEnvVar "PYTHONPATH"))
+        installedBegin
+        installedWrite
+        installedKill
+        installedWait
         accessors)
     handles["begins"] = nil
     handles["writes"] = nil
     handles["kills"] = nil
     handles["waits"] = nil
+    handles["finished"] = nil
     accessors = list(nil 'begins (lambda () handles["begins"])
                      'writes (lambda () handles["writes"])
                      'kills (lambda () handles["kills"])
                      'waits (lambda () handles["waits"]))
     unwindProtect(
       progn(
-        putd('__pyIpcBeginProcess
+        (setq installedBegin
           (lambda (command host dataHandler errorHandler postHandler logFile)
-            let((handle)
+            let((handle wrappedPost)
               handle = if(handles["handle"] then handles["handle"]
                           else gensym("__py_test_child_"))
+              (setq wrappedPost
+                (lambda (id status)
+                  handles["finished"] = cons(id handles["finished"])
+                  funcall(postHandler id status)))
               handles["begins"] = append(handles["begins"]
-                list(list(handle command host dataHandler errorHandler postHandler logFile
+                list(list(if(handles["failBegin"] then nil else handle)
+                          command host dataHandler errorHandler wrappedPost logFile
                           (getShellEnvVar "PYTHONPATH"))))
-              handle)))
-        putd('__pyIpcWriteProcess
+              if(handles["failBegin"] then nil else handle))))
+        (setq installedWrite
           (lambda (process data)
             handles["writes"] = append(handles["writes"] list(list(process data))) t))
-        putd('__pyIpcKillProcess
+        (setq installedKill
           (lambda (process)
             handles["kills"] = append(handles["kills"] list(process)) t))
-        putd('__pyIpcWait
+        (setq installedWait
           (lambda (process)
             handles["waits"] = append(handles["waits"] list(process)) waitResult))
+        putd('__pyIpcBeginProcess installedBegin)
+        putd('__pyIpcWriteProcess installedWrite)
+        putd('__pyIpcKillProcess installedKill)
+        putd('__pyIpcWait installedWait)
         funcall(thunk accessors))
       progn(
+        when(handles["begins"] pyKillServer())
         when(handles["begins"]
           foreach(begin handles["begins"]
-            when(nth(5 begin)
+            when(and(nth(0 begin) nth(5 begin)
+                     (not (__pyTestFinishedp (nth 0 begin) handles["finished"])))
               funcall(nth(5 begin) nth(0 begin) 0))))
-        putd('__pyIpcBeginProcess originalBegin)
-        putd('__pyIpcWriteProcess originalWrite)
-        putd('__pyIpcKillProcess originalKill)
-        putd('__pyIpcWait originalWait)
+        when(eq(getd('__pyIpcBeginProcess) installedBegin)
+          putd('__pyIpcBeginProcess originalBegin))
+        when(eq(getd('__pyIpcWriteProcess) installedWrite)
+          putd('__pyIpcWriteProcess originalWrite))
+        when(eq(getd('__pyIpcKillProcess) installedKill)
+          putd('__pyIpcKillProcess originalKill))
+        when(eq(getd('__pyIpcWait) installedWait)
+          putd('__pyIpcWait originalWait))
         if(originalPythonPath then setShellEnvVar("PYTHONPATH" originalPythonPath)
           else unsetShellEnvVar("PYTHONPATH"))
+        handles["failBegin"] = nil
         t))))
+
+(defun __pyTestRequestContextAfterWriteError ()
+  (__pyTestWithFakeIpc (makeTable "write-error" nil) nil
+    (lambda (accessors)
+      (let (entry callback process failed fakeWrite errorWrite restartResult killCount)
+        (pyStartServer)
+        (setq entry (car (funcall (nth 2 accessors))))
+        (setq process (nth 0 entry))
+        (setq callback (nth 3 entry))
+        (setq fakeWrite (getd '__pyIpcWriteProcess))
+        (setq errorWrite
+          (lambda (_process _data) (error "qtest write boom")))
+        (putd '__pyIpcWriteProcess errorWrite)
+        (setq failed (null (errset (funcall callback process "plus(1 2)\n"))))
+        (setq restartResult (errset (pyRestartServer)))
+        (setq killCount (length (funcall (nth 6 accessors))))
+        (putd '__pyIpcWriteProcess fakeWrite)
+        (list failed killCount)))))
+
+(defun __pyTestReloadRejectsOldCallback ()
+  (let ((handlesForReload (makeTable "reload" nil))
+        (nestedHandles (makeTable "reload-nested" nil))
+        old
+        oldData
+        oldProcess
+        stopped
+        killCount
+        nested
+        callables)
+    handlesForReload["handle"] = 'reloadProcess
+    nestedHandles["handle"] = 'reloadProcess
+    (__pyTestWithFakeIpc handlesForReload nil
+      (lambda (accessors)
+        (pyStartServer)
+        (setq old (car (funcall (nth 2 accessors))))
+        (setq oldProcess (nth 0 old))
+        (setq oldData (nth 3 old))
+        (pyReloadScript)
+        (setq stopped (pyKillServer))
+        (setq killCount (length (funcall (nth 6 accessors))))
+        (setq nested
+          (__pyTestWithFakeIpc nestedHandles nil
+            (lambda (newAccessors)
+              (let (started newData writes)
+                (setq started (pyStartServer))
+                (setq newData (nth 3 (car (funcall (nth 2 newAccessors)))))
+                (funcall oldData oldProcess "plus(1 2)\n")
+                (funcall newData 'reloadProcess "plus(3 4)\n")
+                (setq writes (mapcar 'cadr (funcall (nth 4 newAccessors))))
+                (list writes started)))))
+        (setq callables
+          (list (__pyTestPublicSurfacePresent)))
+        (list nested stopped killCount callables)))))
 
 (qtest::runSuites
   (qtest::TestSuite ((actual nil) (handles (makeTable "s1" nil)))
@@ -148,7 +275,15 @@
       (setq actual (__pyTestWithFakeIpc handles nil (lambda (a)
         let((b cb p) p=pyRunScript("x") b=car(funcall(nth(2 a))) cb=nth(3 b)
           funcall(cb p "'my_symbol\n") mapcar('cadr funcall(nth(4 a)))))))
-      (qtest::assertEqual '("success Symbol('my_symbol')\n") actual)))
+      (qtest::assertEqual '("success Symbol('my_symbol')\n") actual))
+    (qtest::TestCase test_script_unbound_result_is_reported_publicly
+      (setq actual (__pyTestWithFakeIpc handles nil (lambda (a)
+        let((b cb p)
+          p=pyRunScript("x") b=car(funcall(nth(2 a))) cb=nth(3 b)
+          funcall(cb p
+            "makeTable(\"phase21-unbound-script\")[\"missing\"]\n")
+          cadr(car(funcall(nth(4 a))))))))
+      (qtest::assertEqual "success error('unbound')\n" actual)))
 
   (qtest::TestSuite ((actual nil) (handles (makeTable "s2" nil)))
     (qtest::TestCase test_serialize_list
@@ -179,13 +314,13 @@
   (qtest::TestSuite ((actual nil) (handles (makeTable "initial" nil)))
     (qtest::TestCase test_server_initial_state
       (setq actual (__pyTestWithFakeIpc handles nil (lambda (_accessors)
-        progn(pyStartServer
+        progn(pyStartServer()
               list((not (null (getd 'pyKillServer)))
                    (not (null (getd 'pyRestartServer)))
                    (not (null (getd 'pyReloadScript)))
                    (not (null (getd 'pyShowLog)))
                    (not (null (getd 'pyRunScript))))))))
-      (qtest::assertEqual '(t t t t t t) actual)))
+      (qtest::assertEqual '(t t t t t) actual)))
 
   (qtest::TestSuite ((actual nil) (handles (makeTable "s5" nil)))
     (qtest::TestCase test_spawn_server_builds_all_command_variants
@@ -200,7 +335,7 @@
             (type (nth 3 (cadr (funcall (nth 2 a)))))
             (type (nth 4 (cadr (funcall (nth 2 a)))))
             (type (nth 5 (cadr (funcall (nth 2 a))))))))))
-      (qtest::assertEqual '(2 funobj funobj funobj funobj funobj funobj funobj) actual))
+      (qtest::assertEqual '(2 funobj funobj funobj funobj funobj funobj) actual))
     (qtest::TestCase test_spawn_server_passes_string_id_unquoted
       (setq actual (__pyTestWithFakeIpc handles nil (lambda (a)
         let((b) pyStartServer(?id "7777")
@@ -210,14 +345,29 @@
         actual))
     (qtest::TestCase test_spawn_server_temporarily_sets_and_restores_pythonpath
       (setq actual (__pyTestWithFakeIpc handles nil (lambda (a)
-        let((old) old=getShellEnvVar("PYTHONPATH") unsetShellEnvVar("PYTHONPATH")
-          pyStartServer() setShellEnvVar("PYTHONPATH" "qtest-original-path")
-          pyStartServer() getShellEnvVar("PYTHONPATH")))))
-      (qtest::assertEqual "qtest-original-path" actual))
+        let((old first second post)
+          old=getShellEnvVar("PYTHONPATH") unsetShellEnvVar("PYTHONPATH")
+          pyStartServer() first=car(funcall(nth(2 a))) post=nth(5 first)
+          funcall(post nth(0 first) 0)
+          setShellEnvVar("PYTHONPATH" "qtest-original-path")
+          pyStartServer() second=cadr(funcall(nth(2 a)))
+           list(not(null(index(nth(6 second) "allegrobridge")))
+                equal(getShellEnvVar("PYTHONPATH") "qtest-original-path"))))))
+      (qtest::assertEqual '(t t) actual))
     (qtest::TestCase test_module_folder_is_package_parent
       (setq actual (__pyTestWithFakeIpc handles nil
-        (lambda (a) pyRunScript("x") index(nth(6 (car(funcall(nth(2 a))))) "allegrobridge"))))
+        (lambda (a)
+          let((begin)
+            pyRunScript("x")
+            begin=car(funcall(nth(2 a)))
+            not(null(index(nth(6 begin) "allegrobridge")))))))
       (qtest::assertTrue actual))
+    (qtest::TestCase test_start_server_reports_begin_failure
+      handles["failBegin"] = t
+      (setq actual (__pyTestWithFakeIpc handles nil (lambda (_accessors)
+        pyStartServer())))
+      handles["failBegin"] = nil
+      (qtest::assertEqual nil actual))
     (qtest::TestCase test_kill_and_restart_lifecycle
       (setq actual (__pyTestWithFakeIpc handles nil (lambda (a)
         let((b)
@@ -234,38 +384,46 @@
         (let ((logFile (strcat (or (getShellEnvVar "ALLEGROBRIDGE_LOG_DIRECTORY") ".")
                                "/allegrobridge_skill.log"))
               (capture (outstring))
-              oldOutput)
+              oldOutput invalid missing empty short ring)
           (unwindProtect
             (progn
               (__pyTestWriteLines logFile '("one" "two" "three"))
               (setq oldOutput (symeval 'poport))
               (set 'poport capture)
-              (list (pyShowLog 0) (pyShowLog 2) (getOutstring capture)
+              (setq invalid (pyShowLog 0))
+              (deleteFile logFile)
+              (setq missing (pyShowLog 2))
+              (__pyTestWriteLines logFile nil)
+              (setq empty (pyShowLog 2))
+              (__pyTestWriteLines logFile '("one" "two" "three"))
+              (setq short (pyShowLog 5))
+              (setq ring (pyShowLog 2))
+              (list invalid missing empty short ring (getOutstring capture)
                     (pyShowLog -1)))
             (progn
               (set 'poport oldOutput)
               (close capture)
               (deleteFile logFile)))))
-      (qtest::assertEqual '(nil t "two\nthree\n" nil) actual)))
+      (qtest::assertEqual '(nil nil t t t "one\ntwo\nthree\ntwo\nthree\n" nil) actual)))
 
   (qtest::TestSuite ((actual nil) (handles (makeTable "s7" nil)))
-    (qtest::TestCase test_write_frame_escapes_payload_delimiters
+    (qtest::TestCase test_serialized_control_character_text_stays_framed
       (setq actual
         (__pyTestWithFakeIpc handles nil (lambda (a)
           let((b c p) pyStartServer() b=car(funcall(nth(2 a)))
             p=nth(0 b) c=nth(3 b)
-            funcall(c p "concat(\"left\" strcat(intToChar(27)) \"middle\" strcat(intToChar(30)) \"right\")\n")
+            funcall(c p "strcat(\"left\" strcat(intToChar(27)) \"middle\" strcat(intToChar(30)) \"right\")\n")
             cadr(car(funcall(nth(4 a))))))))
       (qtest::assertEqual
-        (strcat (intToChar 2)
-                      "left"
-                      (intToChar 27)
-                      (intToChar 27)
-                      "middle"
-                      (intToChar 27)
-                      (intToChar 30)
-                      "right"
-                      (intToChar 30))
+        (strcat
+          (intToChar 2)
+          (lsprintf "%L"
+            (strcat "left"
+                    (intToChar 27)
+                    "middle"
+                    (intToChar 30)
+                    "right"))
+          (intToChar 30))
         actual))
     (qtest::TestCase test_on_data_buffers_partial_and_multiple_lines
       (setq actual (__pyTestWithFakeIpc handles nil (lambda (a)
@@ -290,12 +448,42 @@
                 (strcat (intToChar 2) "7" (intToChar 30)))
           "")
         actual))
+    (qtest::TestCase test_server_unbound_result_is_framed_publicly
+      (setq actual (__pyTestWithFakeIpc handles nil (lambda (a)
+        let((b c p)
+          pyStartServer() b=car(funcall(nth(2 a))) p=nth(0 b) c=nth(3 b)
+          funcall(c p
+            "makeTable(\"phase21-unbound-server\")[\"missing\"]\n")
+          cadr(car(funcall(nth(4 a))))))))
+      (qtest::assertEqual
+        (strcat (intToChar 2) "error('unbound')" (intToChar 30))
+        actual))
+    (qtest::TestCase test_request_restart_emits_rst_before_kill
+      (setq actual (__pyTestWithFakeIpc handles nil (lambda (a)
+        let((b c p writes)
+          pyStartServer() b=car(funcall(nth(2 a))) p=nth(0 b) c=nth(3 b)
+          funcall(c p "pyRestartServer()\n")
+          writes=mapcar('cadr funcall(nth(4 a)))
+          list((car writes) (length (funcall (nth 6 a))))))))
+      (qtest::assertEqual
+        (lsprintf "%L" (strcat (intToChar 18) "True" (intToChar 30)))
+        (lsprintf "%L" (car actual)))
+      (qtest::assertEqual 0 (cadr actual)))
     (qtest::TestCase test_receive_buffer_follows_process_lifecycle
       (setq actual (__pyTestWithFakeIpc handles nil (lambda (a)
-        let((b p post) pyStartServer() b=car(funcall(nth(2 a))) p=nth(0 b) post=nth(5 b)
-          funcall(post 'stale 0) funcall(post p 0)
-          list(length(funcall(nth(6 a))) length(funcall(nth(2 a))))))))
-      (qtest::assertEqual '(0 1) actual))
+        let((b c p post b2 c2 p2 writes)
+          pyStartServer() b=car(funcall(nth(2 a))) p=nth(0 b) c=nth(3 b) post=nth(5 b)
+          funcall(c p "plus(1 ") funcall(post 'stale 0) funcall(c p "2)\n")
+          funcall(c p "plus(3 ") funcall(post p 0) funcall(c p "4)\n")
+          pyStartServer() b2=cadr(funcall(nth(2 a))) p2=nth(0 b2) c2=nth(3 b2)
+          funcall(c2 p2 "4)\n") writes=mapcar('cadr funcall(nth(4 a)))
+          list(length(writes) (car writes) (cadr writes))))))
+      (qtest::assertEqual 2 (car actual))
+      (qtest::assertTrue (qub::startsWith (cadr actual) (strcat (intToChar 2) "3")))
+      (qtest::assertTrue (qub::startsWith (caddr actual) (strcat (intToChar 2))))
+      (qtest::assertTrue (index (caddr actual) "warning"))
+      (qtest::assertTrue (index (caddr actual) ", 4)"))
+      (qtest::assertTrue (null (index (caddr actual) "7"))))
     (qtest::TestCase test_on_data_writes_error_unbound_warning_success_and_restart
       (setq actual (__pyTestWithFakeIpc handles nil (lambda (a)
         let((b c p old sentinel same restored writes)
@@ -377,7 +565,7 @@
       (qtest::assertEqual '(1 2 1) actual)))
 
   (qtest::TestSuite ((actual nil))
-    (qtest::TestCase test_remote_serialization_handles_regex_other_port_and_fallback
+    (qtest::TestCase test_remote_serialization_handles_regex_and_port
       (setq actual
         (let (port bindings names result)
           (setq port (outstring))
@@ -385,7 +573,7 @@
             (progn
               (setq bindings
                 (__pyTestBindGlobals
-                  (list (pcreCompile "abc") (qtest:::makeResult 'Pass "" nil nil) port)))
+                  (list (pcreCompile "abc") port)))
               (setq names (car bindings))
               (setq result
                 (__pyTestWithFakeIpc (makeTable "r1" nil) nil
@@ -396,13 +584,36 @@
                       (setq callback (nth 3 entry))
                       (funcall callback process (strcat (symbolToString (nth 0 names)) "\n"))
                       (funcall callback process (strcat (symbolToString (nth 1 names)) "\n"))
-                      (funcall callback process (strcat (symbolToString (nth 2 names)) "\n"))
                       (mapcar 'cadr (funcall (nth 4 accessors)))))))
               result)
             (progn
               (when bindings (__pyTestRestoreGlobals (cadr bindings)))
               (when port (close port))))))
-      (qtest::assertEqual 3 (length actual)))
+      (qtest::assertEqual 2 (length actual)))
+    (qtest::TestCase test_remote_serialization_handles_other_object
+      (setq actual
+        (__pyTestWithFakeIpc (makeTable "r-other" nil) nil
+          (lambda (accessors)
+            (let (entry callback process)
+              (setq process (pyRunScript "x"))
+              (setq entry (car (funcall (nth 2 accessors))))
+              (setq callback (nth 3 entry))
+              (funcall callback process "getSymbolNamespace('car)\n")
+              (cadr (car (funcall (nth 4 accessors))))))))
+      (qtest::assertTrue
+        (qub::startsWith actual "success Remote(\"__py_OTHER_")))
+    (qtest::TestCase test_remote_serialization_reports_unhandled_funobj
+      (setq actual
+        (__pyTestWithFakeIpc (makeTable "r-fallback" nil) nil
+          (lambda (accessors)
+            (let (entry callback process)
+              (setq process (pyRunScript "x"))
+              (setq entry (car (funcall (nth 2 accessors))))
+              (setq callback (nth 3 entry))
+              (funcall callback process "getd('car)\n")
+              (cadr (car (funcall (nth 4 accessors))))))))
+      (qtest::assertTrue (qub::startsWith actual "success error("))
+      (qtest::assertTrue (index actual "primop:car")))
     (qtest::TestCase test_remote_serialization_reuses_variable_for_identical_object
       (setq actual
         (let (first second bindings names result)
@@ -454,18 +665,18 @@
   (qtest::TestSuite ((actual nil) (handles (makeTable "s9" nil)))
     (qtest::TestCase test_start_server_rejects_duplicate_and_forwards_configuration
       (setq actual (__pyTestWithFakeIpc handles nil (lambda (a)
-        let((x y begins first post)
+        let((x duplicate configured begins first post)
           x=pyStartServer()
           first=car(funcall(nth(2 a))) post=nth(5 first)
-          y=pyStartServer(?id "configured")
+          duplicate=pyStartServer(?id "configured")
           funcall(post nth(0 first) 0)
-          y=pyStartServer(?id "configured" ?logLevel "DEBUG" ?singleMode t ?timeout 4.0 ?python "python-test" ?forceTcp t)
+          configured=pyStartServer(?id "configured" ?logLevel "DEBUG" ?singleMode t ?timeout 4.0 ?python "python-test" ?forceTcp t)
           begins=funcall(nth(2 a))
-          list(x y length(begins) (nth 1 (cadr begins)))))
-      (qtest::assertEqual '(t nil 2 "\"python-test\" -m allegrobridge._kernel.server.python_server configured DEBUG --single --force-tcp --timeout 4.0") actual))
+          list(x duplicate configured length(begins) (nth 1 (cadr begins)))))))
+      (qtest::assertEqual '(t nil t 2 "\"python-test\" -m allegrobridge._kernel.server.python_server configured DEBUG --single --force-tcp --timeout 4.0") actual))
     (qtest::TestCase test_run_script_inherits_server_python_and_restores_pythonpath
       (setq actual (__pyTestWithFakeIpc handles nil (lambda (a)
-        let((old b) old=getShellEnvVar("PYTHONPATH") pyStartServer(?python "server-python-exe") pyRunScript("x") b=car(funcall(nth(2 a)))
+        let((old b) old=getShellEnvVar("PYTHONPATH") pyStartServer(?python "server-python-exe") pyRunScript("x") b=cadr(funcall(nth(2 a)))
           list(not(null(index(nth(1 b) "server-python-exe x"))) equal(getShellEnvVar("PYTHONPATH") old))))))
       (qtest::assertEqual '(t t) actual))
     (qtest::TestCase test_run_script_restores_preexisting_pythonpath
@@ -494,94 +705,53 @@
               (setq callbackA (nth 3 (car begins)))
               (setq callbackB (nth 3 (cadr begins)))
               (funcall callbackA processA "0")
-              (funcall callbackB processB "0")
+              (funcall callbackB processB "3")
               (funcall callbackA processA "3\n")
-              (funcall callbackB processB "30\n")
+              (funcall callbackB processB "0\n")
               (mapcar 'cadr (funcall (nth 4 accessors)))))))
       (qtest::assertEqual '("success 3\n" "success 30\n") actual))
     (qtest::TestCase test_run_script_reused_id_drops_late_callbacks
       (setq actual
         (__pyTestWithFakeIpc handles nil
           (lambda (accessors)
-            (let (begins process oldEntry newEntry oldCallback newCallback oldPost newPost)
-              handles["handle"] = 'shared
+            (let (begins process newProcess oldEntry newEntry oldCallback newCallback oldPost newPost)
+              handles["handle"] = list('shared)
               (setq process (pyRunScript "old"))
               (setq oldEntry (car (funcall (nth 2 accessors))))
               (setq oldCallback (nth 3 oldEntry))
               (setq oldPost (nth 5 oldEntry))
-              (funcall oldCallback process "1")
-              (funcall oldPost process 0)
-              (pyRunScript "new")
+              (funcall oldCallback (list 'shared) "1")
+              (funcall oldPost 'wrong 0)
+              (funcall oldPost (list 'shared) 0)
+              handles["handle"] = list('shared)
+              (setq newProcess (pyRunScript "new"))
               (setq begins (funcall (nth 2 accessors)))
               (setq newEntry (cadr begins))
               (setq newCallback (nth 3 newEntry))
               (setq newPost (nth 5 newEntry))
-              (funcall oldCallback process "2\n")
-              (funcall newCallback process "0")
-              (funcall oldPost process 0)
-              (funcall newCallback process "7\n")
-              (funcall newPost process 0)
-              (funcall newCallback process "18\n")
-              (mapcar 'cadr (funcall (nth 4 accessors)))))))
-      (qtest::assertEqual '("success 7\n") actual))
+              (funcall oldCallback (list 'shared) "2\n")
+              (funcall newCallback (list 'shared) "0")
+              (funcall oldPost (list 'shared) 0)
+              (funcall newCallback (list 'shared) "7\n")
+              (funcall newPost (list 'shared) 0)
+              (funcall newCallback (list 'shared) "18\n")
+              (list (listp process) (listp newProcess)
+                    (equal process newProcess) (not (eq process newProcess))
+                    (mapcar 'cadr (funcall (nth 4 accessors))))))))
+      (qtest::assertEqual '(t t t t ("success 7\n")) actual))
     (qtest::TestCase test_reload_rejects_old_callback_and_preserves_public_api
-      (setq actual
-        (let ((handlesForReload (makeTable "reload" nil))
-              old
-              oldData
-              reloadIpc
-              reloadBegins
-              nested
-              callables)
-          handlesForReload["handle"] = 'reloadProcess
-          (__pyTestWithFakeIpc handlesForReload nil
-            (lambda (accessors)
-              (pyStartServer)
-              (setq old (car (funcall (nth 2 accessors))))
-              (setq oldData (nth 3 old))
-              (pyReloadScript)
-              (setq reloadIpc (nth 0 (car (funcall (nth 2 accessors)))))
-              (setq reloadBegins (length (funcall (nth 2 accessors))))
-              (setq callables
-                (list (not (null (getd 'pyStartServer)))
-                      (not (null (getd 'pyKillServer)))
-                      (not (null (getd 'pyRestartServer)))
-                      (not (null (getd 'pyReloadScript)))
-                      (not (null (getd 'pyShowLog)))
-                      (not (null (getd 'pyRunScript)))))
-              (setq nested
-                (__pyTestWithFakeIpc handlesForReload nil
-                  (lambda (newAccessors)
-                    (let (entry data)
-                      (pyStartServer)
-                      (setq entry (car (funcall (nth 2 newAccessors))))
-                      (setq data (nth 3 entry))
-                      (funcall oldData 'reloadProcess "plus(1 2)\n")
-                      (funcall data 'reloadProcess "plus(3 4)\n")
-                      (mapcar 'cadr (funcall (nth 4 newAccessors)))))))
-              (list nested reloadIpc reloadBegins callables)))))
-      (qtest::assertEqual 1 (length (car actual)))
+      (setq actual (__pyTestReloadRejectsOldCallback))
+      (qtest::assertEqual 1 (length (car (car actual))))
       (qtest::assertEqual
         (strcat (intToChar 2) "7" (intToChar 30))
-        (car (car actual)))
+        (car (car (car actual))))
+      (qtest::assertEqual t (cadr (car actual)))
       (qtest::assertEqual nil (cadr actual))
       (qtest::assertEqual 1 (caddr actual))
-      (qtest::assertEqual '(t t t t t t) (cadddr actual)))
+      (qtest::assertTrue (car (cadddr actual))))
 
     (qtest::TestCase test_request_context_is_cleared_after_write_error
-      (setq actual
-        (__pyTestWithFakeIpc (makeTable "write-error" nil) nil
-          (lambda (accessors)
-            (let (entry callback process failed)
-              (pyStartServer)
-              (setq entry (car (funcall (nth 2 accessors))))
-              (setq process (nth 0 entry))
-              (setq callback (nth 3 entry))
-              (putd '__pyIpcWriteProcess
-                (lambda (_process _data) (error "qtest write boom")))
-              (setq failed (null (errset (funcall callback process "plus(1 2)\n"))))
-              (pyRestartServer)
-              (list failed (length (funcall (nth 6 accessors))))))))
+      (setq actual (__pyTestRequestContextAfterWriteError))
       (qtest::assertEqual '(t 1) actual)))
 
   (qtest::TestSuite ((actual nil))
@@ -589,31 +759,36 @@
       (setq actual
         (let ((moduleFile (strcat (qub::scriptDir)
                                   "/../../allegrobridge/_kernel/server/python_server.ils"))
+              snapshot
               result)
-          (__pyTestSeedLegacySurface)
-          (load moduleFile)
-          (setq result
-            (list (__pyTestLegacySurfaceGone)
-                  (__pyTestPublicSurfacePresent)
-                  (equal (get 'pyStartServer 'userProperty) 'keep)))
-          (__pyTestClearLegacySurface)
-          result))
+          (setq snapshot (__pyTestSnapshotLegacySurface))
+          (unwindProtect
+            (progn
+              (__pyTestSeedLegacySurface)
+              (load moduleFile)
+              (setq result
+                (list (__pyTestLegacySurfaceGone)
+                      (__pyTestPublicSurfacePresent)
+                      (equal (get 'pyStartServer 'userProperty) 'keep)))
+              result)
+            (__pyTestRestoreLegacySurface snapshot))))
       (qtest::assertEqual '(t t t) actual)))
 
   (qtest::TestSuite ((actual nil) (handles (makeTable "hot-reload" nil)))
     (qtest::TestCase test_hot_reload_removes_legacy_surface_and_keeps_user_property
       (setq actual
-        (__pyTestWithFakeIpc handles nil
-          (lambda (_accessors)
-            (__pyTestSeedLegacySurface)
-            (pyStartServer)
-            (pyReloadScript)
-            (setq actual
-              (list (__pyTestLegacySurfaceGone)
-                    (__pyTestPublicSurfacePresent)
-                    (equal (get 'pyStartServer 'userProperty) 'keep)))
-            (__pyTestClearLegacySurface)
-            actual)))
+        (let (snapshot)
+          (setq snapshot (__pyTestSnapshotLegacySurface))
+          (unwindProtect
+            (__pyTestWithFakeIpc handles nil
+              (lambda (_accessors)
+                (__pyTestSeedLegacySurface)
+                (pyStartServer)
+                (pyReloadScript)
+                (list (__pyTestLegacySurfaceGone)
+                      (__pyTestPublicSurfacePresent)
+                      (equal (get 'pyStartServer 'userProperty) 'keep))))
+            (__pyTestRestoreLegacySurface snapshot))))
       (qtest::assertEqual '(t t t) actual)))
 
   (qtest::TestSuite ((actual nil))
@@ -633,4 +808,4 @@
           (list (not (null process)) (index data "lexical-data") finished)))
       (qtest::assertTrue (car actual))
       (qtest::assertTrue (cadr actual))
-      (qtest::assertEqual 0 (caddr actual)))))))
+      (qtest::assertEqual 0 (caddr actual)))))

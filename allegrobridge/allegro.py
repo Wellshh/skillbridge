@@ -81,10 +81,10 @@ def _build_startup_script(
             'skill unless(axlDBRefreshId(axlDBGetDesign()) error("ALLEGRO_DESIGN_REFRESH_FAILED"))',
         ])
     lines.append(
-        'skill unless('
+        'skill if('
         f'pyStartServer(?id "{workspace_id}" ?singleMode t '
         f'?python "{Path(sys.executable).as_posix()}"{force_tcp_flag}) '
-        'error("ALLEGRO_SERVER_START_FAILED"))'
+        'then t else error("ALLEGRO_SERVER_START_FAILED"))'
     )
     return '\n'.join(lines) + '\n'
 
@@ -102,7 +102,7 @@ class Allegro:
         runtime: CliRuntime | None = None,
         force_tcp: bool = False,
     ) -> None:
-        self.mode = mode
+        self.mode: OpenMode = mode
         self.workspace_id = workspace_id
         self.board = board
         self._workspace = workspace

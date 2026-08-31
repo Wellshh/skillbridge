@@ -1,709 +1,453 @@
 ;;; Copyright (c) 2019-2024 the skillbridge authors (Niels Buwen, Tobias Markus)
 ;;; Derived from skillbridge (https://github.com/unihd-cag/skillbridge)
 ;;; SPDX-License-Identifier: LGPL-3.0-only
-let((_filename _moduleFolder _logDirectory
-     __pyStartServer __pyKillServer __pyRestartServer __pyReloadScript
-     __pyShowLog __pySpawnServer __pyOnData __pyOnError __pyOnFinish
-     __pyEvalLine
-     __pyPropertyListToPython __pyStableRemoteVariable
-     __pySaveToVariableAndReturn __pyListToPython __pyVectorToPython
-     __pyTableToPython __pySkillToPython __pyRunScript
-     remoteRegistry serverEntry)
+letseq(
+  ((_filename (pcreReplace (pcreCompile "^ +| +$") (get_filename piport) "" 0))
+   (_moduleFolder
+    (pcreReplace
+      (pcreCompile "[\\\\/][^\\\\/]+[\\\\/][^\\\\/]+[\\\\/][^\\\\/]+[\\\\/][^\\\\/]+$")
+      _filename "" 0))
+   (_logDirectory (or (getShellEnvVar "ALLEGROBRIDGE_LOG_DIRECTORY") "."))
+   (_stderr (symeval 'stderr))
+   (_state (list nil 'ipc nil 'id "default" 'logLevel "INFO"
+                'singleMode nil 'timeout nil 'python "python" 'forceTcp nil
+                'restartPending nil 'requestIpc nil 'receiveBuffer ""
+                'acceptData nil))
+   (_stx (strcat (intToChar 2)))
+   (_nak (strcat (intToChar 21)))
+   (_rst (strcat (intToChar 18)))
+   (_esc (strcat (intToChar 27)))
+   (_rs (strcat (intToChar 30)))
+   (_escPattern (pcreCompile _esc))
+   (_rsPattern (pcreCompile _rs))
+   (_serverLogName (lsprintf "%s/allegrobridge_skill.log" _logDirectory))
+   (_scriptLogName (lsprintf "%s/allegrobridge_script.log" _logDirectory))
+   (_oldName nil)
+   (_oldProperty nil)
+   (remoteRegistry nil)
+   (feedLines nil)
+   (captureWarnings nil)
+   (evaluateLine nil)
+   (writeFrame nil)
+   (propertyListToPython nil)
+   (stableRemoteVariable nil)
+   (saveToVariableAndReturn nil)
+   (listToPython nil)
+   (vectorToPython nil)
+   (tableToPython nil)
+   (skillToPython nil)
+   (spawnServer nil)
+   (onData nil)
+   (onError nil)
+   (onFinish nil))
 
-    (setq _filename (get_filename piport))
-    (setq _filename (pcreReplace(pcreCompile("^ +| +$") _filename "" 0)))
-    (setq _moduleFolder (pcreReplace(
-        pcreCompile("[\\\\/][^\\\\/]+[\\\\/][^\\\\/]+[\\\\/][^\\\\/]+[\\\\/][^\\\\/]+$")
-        _filename "" 0
-    )))
-    (setq _logDirectory (or (getShellEnvVar "ALLEGROBRIDGE_LOG_DIRECTORY") "."))
-    (setq remoteRegistry nil)
-    ; Thin wrappers around the internal (non-redefinable) IPC built-ins so that
-    ; tests can putd-mock them. User-defined, so they carry no "internal" flag.
-    (defglobalfun __pyIpcBeginProcess (@rest args)
-        apply('ipcBeginProcess args)
-    )
+  (defglobalfun __pyIpcBeginProcess
+    (command host dataHandler errorHandler finishHandler logFile)
+    (ipcBeginProcess command host dataHandler errorHandler finishHandler logFile))
+  (defglobalfun __pyIpcKillProcess (process)
+    (ipcKillProcess process))
+  (defglobalfun __pyIpcWriteProcess (process data)
+    (ipcWriteProcess process data))
+  (defglobalfun __pyIpcWait (process)
+    (ipcWait process))
 
-    (defglobalfun __pyIpcKillProcess (@rest args)
-        apply('ipcKillProcess args)
-    )
+  (setq feedLines
+    (lambda (buffer data)
+      (let ((combined (strcat buffer data)) (lines nil) newlineTail lineLength line)
+        (setq newlineTail (index combined "\n"))
+        (while newlineTail
+          (setq lineLength difference(strlen(combined) strlen(newlineTail)))
+          (when (and (greaterp lineLength 0)
+                     (equal (substring combined lineLength 1)
+                            (strcat (intToChar 13))))
+            (setq lineLength difference(lineLength 1)))
+          (when (greaterp lineLength 0)
+            (setq line (substring combined 1 lineLength))
+            (setq lines (append lines (list line))))
+          (setq combined (or (substring newlineTail 2) ""))
+          (setq newlineTail (index combined "\n")))
+        (list combined lines))))
 
-    (defglobalfun __pyIpcWriteProcess (@rest args)
-        apply('ipcWriteProcess args)
-    )
+  (setq captureWarnings
+    (lambda (port)
+      (warn "")
+      (getWarn)
+      (getOutstring port)))
 
-    (defglobalfun __pyWriteFrame (id marker payload)
-        (setq payload (pcreReplace(
-            __pyWriteFrame.ESCPattern
-            payload
-            strcat(__pyWriteFrame.ESC __pyWriteFrame.ESC)
-            0
-        )))
-        (setq payload (pcreReplace(
-            __pyWriteFrame.RSPattern
-            payload
-            strcat(__pyWriteFrame.ESC __pyWriteFrame.RS)
-            0
-        )))
-        __pyIpcWriteProcess(
-            id
-            lsprintf("%s%s%s" marker payload __pyWriteFrame.RS)
-        )
-    )
+  (setq evaluateLine
+    (lambda (line)
+      (let ((tempPort nil) (oldPort nil) (captured nil) (completed nil)
+            (result nil) (resultValue nil) (resultBound nil) (outerError nil))
+        (setq tempPort (outstring))
+        (setq oldPort (symeval 'woport))
+        (unwindProtect
+          (progn
+            (set 'woport tempPort)
+            (setq completed (errset (setq result (evalstring line 'il))))
+            (unless completed (setq outerError errset.errset))
+            ; In classic SKILL, assigning the special value `unbound` leaves the
+            ; dynamic result variable unbound.  A lexical SKILL++ variable keeps
+            ; that value as the symbol 'unbound, so preserve the classic wire
+            ; behavior explicitly in addition to the lexical boundp check.
+            (setq resultBound
+              (and (boundp 'result (theEnvironment))
+                   (not (eq result 'unbound))))
+            (when resultBound (setq resultValue result))
+            (setq captured (funcall captureWarnings tempPort))
+            (list completed resultBound resultValue outerError captured))
+          (progn
+            (set 'woport oldPort)
+            (close tempPort))))))
 
-    ; Frame markers match protocol/response.py: STX, NAK, RST start payload; RS ends it.
-    __pyWriteFrame.STX = strcat(intToChar(2))
-    __pyWriteFrame.NAK = strcat(intToChar(21))
-    __pyWriteFrame.RST = strcat(intToChar(18))
-    __pyWriteFrame.ESC = strcat(intToChar(27))
-    __pyWriteFrame.RS = strcat(intToChar(30))
-    __pyWriteFrame.ESCPattern = pcreCompile(__pyWriteFrame.ESC)
-    __pyWriteFrame.RSPattern = pcreCompile(__pyWriteFrame.RS)
+  (setq writeFrame
+    (lambda (id marker payload)
+      (setq payload
+        (pcreReplace _escPattern payload (strcat _esc _esc) 0))
+      (setq payload
+        (pcreReplace _rsPattern payload (strcat _esc _rs) 0))
+      (__pyIpcWriteProcess id (lsprintf "%s%s%s" marker payload _rs))))
 
-    (defglobalfun __pyIpcWait (@rest args)
-        apply('ipcWait args)
-    )
+  (setq propertyListToPython
+    (lambda (propList)
+      (let ((rest (cdr propList)) parts)
+        (while rest
+          (setq parts
+            (cons (lsprintf "'%s':%s" (car rest)
+                            (funcall skillToPython (cadr rest)))
+                  parts))
+          (setq rest (cddr rest)))
+        (strcat "{" (buildString (reverse parts) ",") "}"))))
 
-    (setq __pySpawnServer (lambda ()
-        let((executableWithArgs process oldPythonPath)
-            pyStartServer.state = 'starting
-            pyStartServer.receiveBuffer = ""
+  (setq stableRemoteVariable
+    (lambda (thing prefix)
+      (let ((rest remoteRegistry) entry variableSymbol)
+        (while (and rest (not variableSymbol))
+          (setq entry (car rest))
+          (when (equal (cadr entry) thing)
+            (setq variableSymbol (car entry)))
+          (setq rest (cdr rest)))
+        (unless variableSymbol
+          (setq variableSymbol (gensym prefix))
+          (set variableSymbol thing)
+          (setq remoteRegistry
+            (cons (list variableSymbol thing) remoteRegistry)))
+        (lsprintf "Remote(%L)" (symbolToString variableSymbol)))))
 
-            (setq executableWithArgs (lsprintf(
-                "%s %s"
-                pyStartServer.id
-                pyStartServer.logLevel
-            )))
+  (setq saveToVariableAndReturn
+    (lambda (thing)
+      (let ((repr (lsprintf "%L" thing)) split objectType address variableName)
+        (if (rexExecute repr)
+            (progn
+              (setq split (buildString (parseString repr "_") ""))
+              (setq split (parseString split "@:"))
+              (setq objectType (car split))
+              (setq address (cadr split))
+              (setq variableName
+                (lsprintf "__py_%s_%s" objectType address))
+              (set (stringToSymbol variableName) thing)
+              (lsprintf "Remote(%L)" variableName))
+          (if (otherp thing)
+              (funcall stableRemoteVariable thing "__py_OTHER_")
+            (if (portp thing)
+                (funcall stableRemoteVariable thing "__py_openfile_")
+              (progn
+                (printf "I COULD NOT PARSE %L\n" repr)
+                (lsprintf "error(%L)" repr))))))))
 
-            if(pyStartServer.singleMode then
-                (setq executableWithArgs (lsprintf(
-                    "%s --single"
-                    executableWithArgs
-                )))
-            )
+  (setq listToPython
+    (lambda (thing)
+      (strcat "[" (buildString (mapcar skillToPython thing) ",") "]")))
 
-            if(pyStartServer.forceTcp then
-                (setq executableWithArgs (lsprintf(
-                    "%s --force-tcp"
-                    executableWithArgs
-                )))
-            )
+  (setq vectorToPython
+    (lambda (collection)
+      (let ((symbol (gensym "__py_vector_")))
+        (set symbol collection)
+        (lsprintf "Vector(%L)" (symbolToString symbol)))))
 
-            if(pyStartServer.timeout then
-                (setq executableWithArgs (lsprintf(
-                    "%s --timeout %L"
-                    executableWithArgs
-                    pyStartServer.timeout
-                )))
-            )
+  (setq tableToPython
+    (lambda (collection)
+      (let ((symbol (gensym "__py_table_")))
+        (set symbol collection)
+        (lsprintf "Table(%L)" (symbolToString symbol)))))
 
-            (setq executableWithArgs (lsprintf(
-                "\"%s\" -m allegrobridge._kernel.server.python_server %s"
-                pyStartServer.python
-                executableWithArgs
-            )))
-
-            (setq oldPythonPath (getShellEnvVar "PYTHONPATH"))
-            (setq process (unwindProtect(
-                progn(
-                    setShellEnvVar("PYTHONPATH" pyStartServer.moduleFolder)
-                    __pyIpcBeginProcess(
-                        executableWithArgs
-                        ""
-                        __pyOnData
-                        __pyOnError
-                        __pyOnFinish
-                        pyStartServer.logName
-                    )
-                )
-                if(oldPythonPath then
-                    setShellEnvVar("PYTHONPATH" oldPythonPath)
-                else
-                    unsetShellEnvVar("PYTHONPATH")
-                )
-            )))
-
-            if(process then
-                pyStartServer.ipc = process
-                pyStartServer.state = 'running
-                t
-            else
-                pyStartServer.ipc = nil
-                pyStartServer.state = 'stopped
-                fprintf(stderr "failed to start server\n")
-                nil
-            )
-        )
-    ))
-
-    (setq __pyKillServer (lambda ()
-        if(!pyStartServer.ipc then
-            printf("server was not running\n")
-            nil
-        else
-            pyStartServer.restartPending = nil
-            pyStartServer.state = 'stopping
-
-            ; ipcKillProcess only requests termination. The process handle
-            ; remains owned by __pyOnFinish until the matching callback arrives.
-            __pyIpcKillProcess(pyStartServer.ipc)
-            t
-        )
-    ))
-
-    (setq __pyRestartServer (lambda ()
-        if(!pyStartServer.ipc then
-            funcall(__pySpawnServer)
-        else
-            pyStartServer.restartPending = t
-            pyStartServer.state = 'restarting
-
-            if(pyStartServer.requestIpc == pyStartServer.ipc then
-                t
-            else
-                __pyIpcKillProcess(pyStartServer.ipc)
-                t
-            )
-        )
-    ))
-
-    (setq __pyReloadScript (lambda ()
-        printf("killing the old server\n")
-        pyKillServer()
-        load(pyReloadServer.filename)
-        t
-    ))
-
-    pyReloadServer.filename = _filename
-
-    (setq __pyShowLog (lambda (@optional (length 20) "x")
-        if(!fixp(length) || length <= 0 then
-            fprintf(
-                stderr
-                "pyShowLog: length must be a positive integer\n"
-            )
-            nil
-        else
-            let((
-                fin
-                line
-                (lines declare(lines[length]))
-                (ptr 0)
-                (count 0)
-                (start 0)
-                i
-            )
-                (setq fin (infile pyShowLog.logName))
-
-                if(!fin then
-                    fprintf(
-                        stderr
-                        "pyShowLog: cannot open log file %s\n"
-                        pyShowLog.logName
-                    )
-                    nil
-                else
-                    unwindProtect(
-                        while(gets(line fin)
-                            lines[ptr] = line
-                            ptr = mod(ptr + 1 length)
-
-                            when(count < length
-                                (setq count (+ count 1))
-                            )
-                        )
-                        close(fin)
-                    )
-
-                    ; Before the buffer fills, valid lines start at index 0.
-                    ; After it fills, ptr points to the oldest retained line.
-                    if(count < length then
-                        (setq start 0)
-                    else
-                        (setq start ptr)
-                    )
-
-                    when(count > 0
-                        for(i 0 count-1
-                            printf(
-                                "%s"
-                                lines[mod(start + i length)]
-                            )
-                        )
-                    )
-
-                    printf("")
-                    t
-                )
-            )
-        )
-    ))
-
-    pyShowLog.logName = lsprintf(
-        "%s/allegrobridge_skill.log"
-        _logDirectory
-    )
-
-    (setq __pyEvalLine
-        (lambda (line)
-            (let ((tempPort nil) (oldPort nil) (captured nil) (completed nil)
-                  (result nil) (resultValue nil) (resultBound nil) (outerError nil))
-                (setq tempPort (outstring))
-                (setq oldPort (symeval 'woport))
-                (unwindProtect
-                    (progn
-                        (set 'woport tempPort)
-                        (setq completed (errset (setq result (evalstring line 'il))))
-                        (unless completed (setq outerError errset.errset))
-                        (setq resultBound (boundp 'result (theEnvironment)))
-                        (when resultBound (setq resultValue result))
-                        (warn "")
-                        (getWarn)
-                        (setq captured (getOutstring tempPort))
-                        (list completed
-                              resultBound resultValue outerError captured))
-                    (progn
-                        (set 'woport oldPort)
-                        (close tempPort))))))
-
-    (setq __pyOnData (lambda (id data)
-        when(and(id == pyStartServer.ipc
-                 eq(serverEntry (getd 'pyStartServer)))
-            let((newlineTail lineLength line)
-                pyStartServer.receiveBuffer = strcat(
-                    pyStartServer.receiveBuffer
-                    data
-                )
-                (setq newlineTail (index pyStartServer.receiveBuffer "\n"))
-
-                while(newlineTail
-                    (setq lineLength (- (strlen pyStartServer.receiveBuffer) (strlen newlineTail)))
-                    when(
-                        lineLength > 0 &&
-                        substring(pyStartServer.receiveBuffer lineLength 1) == strcat(intToChar(13))
-                        (setq lineLength (- lineLength 1))
-                    )
-                    when(lineLength > 0
-                        (setq line (substring(
-                            pyStartServer.receiveBuffer
-                            1
-                            lineLength
-                        )))
-                    )
-                    pyStartServer.receiveBuffer =
-                        substring(newlineTail 2) || ""
-
-                    when(lineLength > 0
-                        let((evaluation result capturedWarning pythonCode responseMarker completed boundResult outerError)
-                            ; Remember which process is currently executing the request.
-                            pyStartServer.requestIpc = id
-
-                            (setq evaluation (funcall __pyEvalLine line))
-                            (setq completed (car evaluation))
-                            (setq boundResult (cadr evaluation))
-                            (setq result (caddr evaluation))
-                            (setq outerError (cadddr evaluation))
-                            (setq capturedWarning (nth 4 evaluation))
-
-                            if(boundResult then
-                                if(completed then
-                                    (setq pythonCode (funcall __pySkillToPython result))
-
-                                    if(
-                                        capturedWarning != "" &&
-                                        capturedWarning != "*WARNING* "
-                                    then
-                                        (setq pythonCode (lsprintf(
-                                            "warning(%L, %s)"
-                                            capturedWarning
-                                            pythonCode
-                                        )))
-                                    )
-
-                                    if(
-                                        pyStartServer.restartPending &&
-                                        id == pyStartServer.ipc
-                                    then
-                                        (setq responseMarker __pyWriteFrame.RST)
-                                    else
-                                        (setq responseMarker __pyWriteFrame.STX)
-                                    )
-
-                                    __pyWriteFrame(
-                                        id
-                                        responseMarker
-                                        pythonCode
-                                    )
-                                else
-                                    printf(
-                                        "command %L resulted in error %L\n"
-                                        line
-                                        outerError
-                                    )
-                                    __pyWriteFrame(
-                                        id
-                                        __pyWriteFrame.NAK
-                                        lsprintf("%L" outerError)
-                                    )
-                                )
-                            else
-                                __pyWriteFrame(
-                                    id
-                                    __pyWriteFrame.STX
-                                    "error('unbound')"
-                                )
-                            )
-
-                            pyStartServer.requestIpc = nil
-                        )
-                    )
-
-                    (setq newlineTail (index pyStartServer.receiveBuffer "\n"))
-                )
-            )
-        )
-    ))
-
-    (setq __pyOnError (lambda (_ data)
-        fprintf(stderr "PYTHON: %s\n" data)
-    ))
-
-    (setq __pyOnFinish (lambda (id exitStatus)
-        if(and(id == pyStartServer.ipc
-               eq(serverEntry (getd 'pyStartServer))) then
-            let((shouldRestart)
-                printf(
-                    "server was stopped with code %L\n"
-                    exitStatus
-                )
-
-                (setq shouldRestart pyStartServer.restartPending)
-
-                pyStartServer.ipc = nil
-                pyStartServer.requestIpc = nil
-                pyStartServer.restartPending = nil
-                pyStartServer.receiveBuffer = ""
-                pyStartServer.state = 'stopped
-
-                when(shouldRestart
-            (funcall __pySpawnServer)
-                )
-            )
-        else
-            printf(
-                "ignoring stale server finish callback with code %L\n"
-                exitStatus
-            )
-        )
-    ))
-
-    (setq __pyPropertyListToPython (lambda (propList)
-        ; Iterate (key val ...) directly to preserve DPL order (propList->? order is unspecified).
-        let((rest parts)
-            (setq rest (cdr propList))
-            while(rest
-                (setq parts (cons(
-                    lsprintf("'%s':%s" car(rest) (funcall __pySkillToPython (cadr rest)))
-                    parts
-                )))
-                (setq rest (cddr rest))
-            )
-            strcat(
-                "{"
-                buildString(reverse(parts) ",")
-                "}"
-            )
-        )
-    ))
-
-    (setq __pyStableRemoteVariable (lambda (thing prefix)
-        let((rest entry variableSymbol)
-            (setq rest remoteRegistry)
-            while(and(rest !variableSymbol)
-                (setq entry (car rest))
-                when(equal(cadr(entry) thing)
-                    (setq variableSymbol (car entry))
-                )
-                (setq rest (cdr rest))
-            )
-            if(!variableSymbol then
-                (setq variableSymbol (gensym prefix))
-                set(variableSymbol thing)
-                (setq remoteRegistry (cons(
-                    list(variableSymbol thing)
-                    remoteRegistry
-                )))
-            )
-            lsprintf("Remote(%L)" symbolToString(variableSymbol))
-        )
-    ))
-
-    (setq __pySaveToVariableAndReturn (lambda (thing)
-        let((repr variableName split objectType address)
-            (setq repr (lsprintf "%L" thing))
-
-            if(rexExecute(repr) then
-                (setq split (buildString (parseString repr "_") ""))
-                (setq split (parseString split "@:"))
-                (setq objectType (car split))
-                (setq address (cadr split))
-                (setq variableName (lsprintf(
-                    "__py_%s_%s"
-                    objectType
-                    address
-                )))
-                set(stringToSymbol(variableName) thing)
-                lsprintf("Remote(%L)" variableName)
-            else if(otherp(thing) then
-                (funcall __pyStableRemoteVariable thing "__py_OTHER_")
-            else if(portp(thing) then
-                (funcall __pyStableRemoteVariable thing "__py_openfile_")
-            else
-                printf("I COULD NOT PARSE %L\n" repr)
-                lsprintf("error(%L)" repr)
-            )))
-        )
-    ))
-
-    (setq __pyListToPython (lambda (thing)
-        strcat(
-            "["
-            buildString(mapcar(__pySkillToPython thing) ",")
-            "]"
-        )
-    ))
-
-    (setq __pyVectorToPython (lambda (collection)
-        let((symbol)
-            (setq symbol (gensym "__py_vector_"))
-            set(symbol collection)
-            lsprintf(
-                "Vector(%L)"
-                symbolToString(symbol)
-            )
-        )
-    ))
-
-    (setq __pyTableToPython (lambda (collection)
-        let((symbol)
-            (setq symbol (gensym "__py_table_"))
-            set(symbol collection)
-            lsprintf(
-                "Table(%L)"
-                symbolToString(symbol)
-            )
-        )
-    ))
-
-    (setq __pySkillToPython (lambda (thing)
-        if(thing == t then
-            "True"
-        else if(!thing then
+  (setq skillToPython
+    (lambda (thing)
+      (if (equal thing t)
+          "True"
+        (if (not thing)
             "None"
-        else if(or(numberp(thing) stringp(thing)) then
-            lsprintf("%L" thing)
-        else if(symbolp(thing) then
-            lsprintf("Symbol('%s')" thing)
-        else if(listp(thing) then
-            if(
-                and(
-                    !car(thing)
-                    symbolp(cadr(thing))
-                    cadr(thing) != t
-                )
-            then
-                (funcall __pyPropertyListToPython thing)
-            else
-                (funcall __pyListToPython thing)
-            )
-        else if(tablep(thing) then
-            (funcall __pyTableToPython thing)
-        else if(vectorp(thing) then
-            (funcall __pyVectorToPython thing)
-        else
-            rexCompile("^[_a-zA-Z]+[:@][x0-9a-fA-F]+$")
-            (funcall __pySaveToVariableAndReturn thing)
-        )))))))
-    ))
+          (if (or (numberp thing) (stringp thing))
+              (lsprintf "%L" thing)
+            (if (symbolp thing)
+                (lsprintf "Symbol('%s')" thing)
+              (if (listp thing)
+                  (if (and (not (car thing))
+                           (symbolp (cadr thing))
+                           (not (equal (cadr thing) t)))
+                      (funcall propertyListToPython thing)
+                    (funcall listToPython thing))
+                (if (tablep thing)
+                    (funcall tableToPython thing)
+                  (if (vectorp thing)
+                      (funcall vectorToPython thing)
+                    (progn
+                      (rexCompile "^[_a-zA-Z]+[:@][x0-9a-fA-F]+$")
+                      (funcall saveToVariableAndReturn thing)))))))))))
 
-    (setq __pyStartServer (lambda (
-        @key
-        (id "default")
-        (logLevel "INFO")
-        (singleMode nil)
-        (timeout nil)
-        (python "python")
-        (forceTcp nil)
-        "ttggtg"
-    )
-        if(pyStartServer.ipc then
-            fprintf(stderr "server is already running\n")
-            nil
-        else
-            pyStartServer.id = id
-            pyStartServer.logLevel = logLevel
-            pyStartServer.singleMode = singleMode
-            pyStartServer.timeout = timeout
-            pyStartServer.python = python
-            pyStartServer.forceTcp = forceTcp
-            pyStartServer.restartPending = nil
+  (setq spawnServer
+    (lambda ()
+      (let ((command nil) process oldPythonPath)
+        _state->acceptData = t
+        _state->receiveBuffer = ""
+        (setq command (lsprintf "%s %s" _state->id _state->logLevel))
+        (when _state->singleMode
+          (setq command (lsprintf "%s --single" command)))
+        (when _state->forceTcp
+          (setq command (lsprintf "%s --force-tcp" command)))
+        (when _state->timeout
+          (setq command (lsprintf "%s --timeout %L" command _state->timeout)))
+        (setq command
+          (lsprintf "\"%s\" -m allegrobridge._kernel.server.python_server %s"
+                    _state->python command))
+        (setq oldPythonPath (getShellEnvVar "PYTHONPATH"))
+        (setq process
+          (unwindProtect
+            (progn
+              (setShellEnvVar "PYTHONPATH" _moduleFolder)
+              (__pyIpcBeginProcess command "" onData onError onFinish _serverLogName))
+            (if oldPythonPath
+                (setShellEnvVar "PYTHONPATH" oldPythonPath)
+              (unsetShellEnvVar "PYTHONPATH"))))
+        (if process
+            (progn
+              _state->ipc = process
+              _state->acceptData = t
+              t)
+          (progn
+            _state->ipc = nil
+            _state->acceptData = nil
+            (fprintf _stderr "failed to start server\n")
+            nil)))))
 
-            (funcall __pySpawnServer)
-        )
-    ))
+  (setq onData
+    (lambda (id data)
+      (when (and _state->acceptData (equal id _state->ipc))
+        (let ((fed nil) line evaluation completed boundResult result
+              outerError capturedWarning pythonCode marker)
+          (setq fed (funcall feedLines _state->receiveBuffer data))
+          _state->receiveBuffer = car(fed)
+          (foreach line (cadr fed)
+            _state->requestIpc = id
+            (unwindProtect
+              (progn
+                (setq evaluation (funcall evaluateLine line))
+                (setq completed (car evaluation))
+                (setq boundResult (cadr evaluation))
+                (setq result (caddr evaluation))
+                (setq outerError (cadddr evaluation))
+                (setq capturedWarning (nth 4 evaluation))
+                (if boundResult
+                    (if completed
+                        (progn
+                          (setq pythonCode (funcall skillToPython result))
+                          (when (and (not (equal capturedWarning ""))
+                                     (not (equal capturedWarning "*WARNING* ")))
+                            (setq pythonCode
+                              (lsprintf "warning(%L, %s)"
+                                        capturedWarning pythonCode)))
+                          (if (and _state->restartPending
+                                   (equal id _state->ipc))
+                              (setq marker _rst)
+                            (setq marker _stx))
+                          (funcall writeFrame id marker pythonCode))
+                      (progn
+                        (printf "command %L resulted in error %L\n" line outerError)
+                        (funcall writeFrame id _nak (lsprintf "%L" outerError))))
+                  (funcall writeFrame id _stx "error('unbound')")))
+              _state->requestIpc = nil))))))
 
-    pyStartServer.logName = lsprintf(
-        "%s/allegrobridge_skill.log"
-        _logDirectory
-    )
+  (setq onError
+    (lambda (_id data)
+      (fprintf _stderr "PYTHON: %s\n" data)))
 
-    (setq __pyRunScript (lambda (
-        script
-        @key
-        (python "")
-        (args nil)
-        (block nil)
-        "ttlg"
-    )
-        let((effectivePython command process oldPythonPath active buffer dataHandler postHandler)
-            (setq active t)
+  (setq onFinish
+    (lambda (id exitStatus)
+      (if (equal id _state->ipc)
+          (let ((shouldRestart _state->restartPending))
+            (printf "server was stopped with code %L\n" exitStatus)
+            _state->acceptData = nil
+            _state->ipc = nil
+            _state->requestIpc = nil
+            _state->restartPending = nil
+            _state->receiveBuffer = ""
+            (when shouldRestart (funcall spawnServer)))
+        (printf "ignoring stale server finish callback with code %L\n" exitStatus))))
+
+  (defglobalfun pyStartServer
+    (@key (id "default") (logLevel "INFO") (singleMode nil)
+          (timeout nil) (python "python") (forceTcp nil) "ttggtg")
+    (if _state->ipc
+        (progn
+          (fprintf _stderr "server is already running\n")
+          nil)
+      (progn
+        _state->id = id
+        _state->logLevel = logLevel
+        _state->singleMode = singleMode
+        _state->timeout = timeout
+        _state->python = python
+        _state->forceTcp = forceTcp
+        _state->restartPending = nil
+        (funcall spawnServer))))
+
+  (defglobalfun pyKillServer ()
+    (if (not _state->ipc)
+        (progn
+          (printf "server was not running\n")
+          nil)
+      (progn
+        _state->restartPending = nil
+        (__pyIpcKillProcess _state->ipc)
+        t)))
+
+  (defglobalfun pyRestartServer ()
+    (if (not _state->ipc)
+        (funcall spawnServer)
+      (progn
+        _state->restartPending = t
+        (if (equal _state->requestIpc _state->ipc)
+            t
+          (progn
+            (__pyIpcKillProcess _state->ipc)
+            t)))))
+
+  (defglobalfun pyReloadScript ()
+    (printf "killing the old server\n")
+    _state->acceptData = nil
+    (pyKillServer)
+    (load _filename)
+    t)
+
+  (defglobalfun pyShowLog (@optional (length 20) "x")
+    (if (or (not (fixp length)) (lessp length 1))
+        (progn
+          (fprintf _stderr "pyShowLog: length must be a positive integer\n")
+          nil)
+      (let ((fin nil) line (lines declare(lines[length])) (ptr 0)
+            (count 0) (start 0) i)
+        (setq fin (infile _serverLogName))
+        (if (not fin)
+            (progn
+              (fprintf _stderr "pyShowLog: cannot open log file %s\n" _serverLogName)
+              nil)
+          (progn
+            (unwindProtect
+              (while (gets line fin)
+                lines[ptr] = line
+                ptr = mod(ptr + 1 length)
+                (when (lessp count length)
+                  count = count + 1))
+              (close fin))
+            (if (lessp count length)
+                (setq start 0)
+              (setq start ptr))
+            (when (greaterp count 0)
+              (for i 0 count-1
+                (printf "%s" lines[mod(start + i length)])))
+            (printf "")
+            t)))))
+
+  (defglobalfun pyRunScript
+    (script @key (python "") (args nil) (block nil) "ttlg")
+    (let ((effectivePython nil) (command nil) process oldPythonPath
+          (active t) (buffer "") dataHandler finishHandler)
+      (setq effectivePython
+        (if (equal python "") then _state->python else python))
+      (setq command
+        (lsprintf "%s %s %s" effectivePython script (buildString args)))
+      (setq dataHandler
+        (lambda (id data)
+          (when (and active (equal id process))
+            (let ((fed nil) line evaluation completed boundResult result
+                  outerError capturedWarning pythonCode)
+              (setq fed (funcall feedLines buffer data))
+              (setq buffer (car fed))
+              (foreach line (cadr fed)
+                (setq evaluation (funcall evaluateLine line))
+                (setq completed (car evaluation))
+                (setq boundResult (cadr evaluation))
+                (setq result (caddr evaluation))
+                (setq outerError (cadddr evaluation))
+                (setq capturedWarning (nth 4 evaluation))
+                (if boundResult
+                    (if completed
+                        (progn
+                          (setq pythonCode (funcall skillToPython result))
+                          (when (and (not (equal capturedWarning ""))
+                                     (not (equal capturedWarning "*WARNING* ")))
+                            (setq pythonCode
+                              (lsprintf "warning(%L, %s)"
+                                        capturedWarning pythonCode)))
+                          (__pyIpcWriteProcess id
+                            (lsprintf "success %s\n" pythonCode)))
+                      (__pyIpcWriteProcess id
+                        (lsprintf "failure %L\n" outerError)))
+                  (__pyIpcWriteProcess id "success error('unbound')\n")))))))
+      (setq finishHandler
+        (lambda (id exitStatus)
+          (when (equal id process)
+            (setq active nil)
             (setq buffer "")
-            (setq effectivePython (if(python == "" then pyStartServer.python else python)))
-            (setq command (lsprintf(
-                "%s %s %s"
-                effectivePython
-                script
-                buildString(args)
-            )))
-            (setq dataHandler
-                (lambda (id data)
-                    (when(and active (eq id process))
-                        (setq buffer (strcat buffer data))
-                        (let (newlineTail lineLength line evaluation result capturedWarning completed boundResult outerError pythonCode)
-                            (setq newlineTail (index buffer "\n"))
-                            (while newlineTail
-                                (setq lineLength (- (strlen buffer) (strlen newlineTail)))
-                                (when(and (> lineLength 0)
-                                          (equal (substring buffer lineLength 1) (strcat (intToChar 13))))
-                                    (setq lineLength (- lineLength 1)))
-                                (when(> lineLength 0)
-                                    (setq line (substring buffer 1 lineLength))
-                                    (setq evaluation (funcall __pyEvalLine line))
-                                    (setq completed (car evaluation))
-                                    (setq boundResult (cadr evaluation))
-                                    (setq result (caddr evaluation))
-                                    (setq outerError (cadddr evaluation))
-                                    (setq capturedWarning (nth 4 evaluation))
-                                    (if boundResult then
-                                        (if completed then
-                                            (setq pythonCode (funcall __pySkillToPython result))
-                                            (when(and (not (equal capturedWarning ""))
-                                                      (not (equal capturedWarning "*WARNING* ")))
-                                                (setq pythonCode (lsprintf "warning(%L, %s)" capturedWarning pythonCode)))
-                                            (__pyIpcWriteProcess id (lsprintf "success %s\n" pythonCode))
-                                        else
-                                            (__pyIpcWriteProcess id (lsprintf "failure %L\n" outerError)))
-                                    else
-                                        (__pyIpcWriteProcess id "success error('unbound')\n")))
-                                (setq buffer (or (substring newlineTail 2) ""))
-                                (setq newlineTail (index buffer "\n")))))))
-            (setq postHandler
-                (lambda (id exitStatus)
-                    (when(eq id process)
-                        (setq active nil)
-                        (printf "script finished with code %L\n" exitStatus))))
+            (printf "script finished with code %L\n" exitStatus))))
+      (setq oldPythonPath (getShellEnvVar "PYTHONPATH"))
+      (setq process
+        (unwindProtect
+          (progn
+            (setShellEnvVar "PYTHONPATH" _moduleFolder)
+            (__pyIpcBeginProcess command "" dataHandler onError finishHandler _scriptLogName))
+          (if oldPythonPath
+              (setShellEnvVar "PYTHONPATH" oldPythonPath)
+            (unsetShellEnvVar "PYTHONPATH"))))
+      (if block
+          (__pyIpcWait process)
+        process)))
 
-            (setq oldPythonPath (getShellEnvVar "PYTHONPATH"))
-            (setq process (unwindProtect(
-                progn(
-                    setShellEnvVar("PYTHONPATH" pyStartServer.moduleFolder)
-                    __pyIpcBeginProcess(
-                        command
-                        ""
-                        dataHandler
-                        __pyOnError
-                        postHandler
-                        pyRunScript.logName
-                    )
-                )
-                if(oldPythonPath then
-                    setShellEnvVar("PYTHONPATH" oldPythonPath)
-                else
-                    unsetShellEnvVar("PYTHONPATH")
-                )
-            )))
+  _state->ipc = nil
+  _state->id = "default"
+  _state->logLevel = "INFO"
+  _state->singleMode = nil
+  _state->timeout = nil
+  _state->python = "python"
+  _state->forceTcp = nil
+  _state->restartPending = nil
+  _state->requestIpc = nil
+  _state->receiveBuffer = ""
+  _state->acceptData = nil
 
-            if(block then
-                (__pyIpcWait process)
-            else
-                process
-            )
-        )
-    ))
+  (printf "Available commands:\n")
+  (printf "\tpyStartServer ?id \"default\" ?logLevel \"WARNING\" ?singleMode nil ?timeout nil ?python \"python\" ?forceTcp nil\n")
+  (printf "\tpyKillServer\n")
+  (printf "\tpyRestartServer\n")
+  (printf "\tpyReloadScript\n")
+  (printf "\tpyShowLog [numberOfLines]\n")
+  (printf "\tpyRunScript path ?args list() ?python \"python\"\n")
 
-    pyRunScript.logName = lsprintf(
-        "%s/allegrobridge_script.log"
-        _logDirectory
-    )
-
-    pyStartServer.ipc = nil
-    pyStartServer.moduleFolder = _moduleFolder
-    pyStartServer.id = "default"
-    pyStartServer.logLevel = "INFO"
-    pyStartServer.singleMode = nil
-    pyStartServer.timeout = nil
-    pyStartServer.python = "python"
-    pyStartServer.forceTcp = nil
-    pyStartServer.restartPending = nil
-    pyStartServer.requestIpc = nil
-    pyStartServer.receiveBuffer = ""
-    pyStartServer.state = 'stopped
-
-    (setq serverEntry nil)
-    (defglobalfun pyStartServer (
-        @key
-        (id "default")
-        (logLevel "INFO")
-        (singleMode nil)
-        (timeout nil)
-        (python "python")
-        (forceTcp nil)
-        "ttggtg"
-    )
-        apply(__pyStartServer
-              (list '?id id '?logLevel logLevel '?singleMode singleMode
-                    '?timeout timeout '?python python '?forceTcp forceTcp))
-    )
-    (defglobalfun pyKillServer ()
-        funcall(__pyKillServer)
-    )
-    (defglobalfun pyRestartServer ()
-        funcall(__pyRestartServer)
-    )
-    (defglobalfun pyReloadScript ()
-        funcall(__pyReloadScript)
-    )
-    (defglobalfun pyShowLog (@optional (length 20) "x")
-        funcall(__pyShowLog length)
-    )
-    (defglobalfun pyRunScript (
-        script
-        @key
-        (python "")
-        (args nil)
-        (block nil)
-        "ttlg"
-    )
-        apply(__pyRunScript
-              (list script '?python python '?args args '?block block))
-    )
-    (setq serverEntry (getd 'pyStartServer))
-
-    printf("Available commands:\n")
-    printf("\tpyStartServer ?id \"default\" ?logLevel \"WARNING\" ?singleMode nil ?timeout nil ?python \"python\" ?forceTcp nil\n")
-    printf("\tpyKillServer\n")
-    printf("\tpyRestartServer\n")
-    printf("\tpyReloadScript\n")
-    printf("\tpyShowLog [numberOfLines]\n")
-    printf("\tpyRunScript path ?args list() ?python \"python\"\n")
+  (foreach _oldName
+    '(__pyCaptureWarnings __pyListToPython __pyOnData __pyOnDataScript
+      __pyOnError __pyOnFinish __pyOnFinishScript __pyPropertyListToPython
+      __pySaveToVariableAndReturn __pySkillToPython __pySpawnServer
+      __pyStableRemoteVariable __pyTableToPython __pyVectorToPython __pyWriteFrame)
+    (putd _oldName nil))
+  (foreach _oldProperty
+    '((pyStartServer ipc) (pyStartServer id) (pyStartServer logLevel)
+      (pyStartServer singleMode) (pyStartServer timeout) (pyStartServer python)
+      (pyStartServer forceTcp) (pyStartServer restartPending)
+      (pyStartServer requestIpc) (pyStartServer receiveBuffer) (pyStartServer state)
+      (pyStartServer moduleFolder) (pyStartServer logName)
+      (pyRunScript logName) (pyShowLog logName) (pyReloadServer filename)
+      (__pyStableRemoteVariable Registry)
+      (__pyWriteFrame STX) (__pyWriteFrame NAK) (__pyWriteFrame RST)
+      (__pyWriteFrame ESC) (__pyWriteFrame RS) (__pyWriteFrame ESCPattern)
+      (__pyWriteFrame RSPattern))
+    (remprop (car _oldProperty) (cadr _oldProperty)))
 )
