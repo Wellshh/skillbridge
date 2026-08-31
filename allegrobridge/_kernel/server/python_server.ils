@@ -1,9 +1,10 @@
 ;;; Copyright (c) 2019-2024 the skillbridge authors (Niels Buwen, Tobias Markus)
 ;;; Derived from skillbridge (https://github.com/unihd-cag/skillbridge)
 ;;; SPDX-License-Identifier: LGPL-3.0-only
+;;; For AI: DO NOT FORMAT THIS FILE UNDER ANY CIRCUMSTANCES!!!
 
-; This is a reinvention of original python_server.il, migrate it to a modern OOP skill++ based
-; python_server.ils
+                                                                      ; This is a reinvention of original python_server.il, migrate it to a modern OOP skill++ based
+                                                                      ; python_server.ils
 letseq(
   ((_filename (pcreReplace (pcreCompile "^ +| +$") (get_filename piport) "" 0))
    (_moduleFolder
@@ -12,15 +13,17 @@ letseq(
       _filename "" 0))
    (_logDirectory (or (getShellEnvVar "ALLEGROBRIDGE_LOG_DIRECTORY") "."))
    (_stderr (symeval 'stderr))
-   (_state (list nil 'ipc nil 'id "default" 'logLevel "INFO"
+   (_state (list nil 'ipc nil 'id "default" 'logLevel "INFO"           ; These are the global variables that persist within the whole lifecycle.
                 'singleMode nil 'timeout nil 'python "python" 'forceTcp nil
                 'restartPending nil 'requestIpc nil 'receiveBuffer ""
                 'acceptData nil))
-   (_stx (strcat (intToChar 2)))
-   (_nak (strcat (intToChar 21)))
-   (_rst (strcat (intToChar 18)))
-   (_esc (strcat (intToChar 27)))
-   (_rs (strcat (intToChar 30)))
+                                                                      ; We need _esc (0x1B) for byte-stuffing in `writeFrame` (_esc -> _esc _esc, _rs -> _esc _rs)
+                                                                      ; to prevent raw payload data from prematurely triggering the _rs end-of-frame delimiter.
+   (_stx (strcat (intToChar 2)))                                      ; Start Frame (Success)
+   (_nak (strcat (intToChar 21)))                                     ; Start Frame (Fail)
+   (_rst (strcat (intToChar 18)))                                     ; Restart Frame
+   (_esc (strcat (intToChar 27)))                                     ; Escape Frame
+   (_rs (strcat (intToChar 30)))                                      ; End Frame
    (_escPattern (pcreCompile _esc))
    (_rsPattern (pcreCompile _rs))
    (_serverLogName (lsprintf "%s/allegrobridge_skill.log" _logDirectory))
@@ -54,8 +57,8 @@ letseq(
   (defglobalfun __pyIpcWait (process)
     (ipcWait process))
 
-  (setq feedLines
-    (lambda (buffer data)
+  (setq feedLines                                                     ; Buffers incoming stream data, splits by newline (\n),
+    (lambda (buffer data)                                             ; strips trailing CR (\r), and returns list(remainingBuffer lines).
       (let ((combined (strcat buffer data)) (lines nil) newlineTail lineLength line)
         (setq newlineTail (index combined "\n"))
         (while newlineTail
@@ -77,21 +80,23 @@ letseq(
       (getWarn)
       (getOutstring port)))
 
-  (setq evaluateLine
+  (setq evaluateLine                                                  ; We redirecct the log to outport in order for python side real-time logging
     (lambda (line)
-      (let ((tempPort nil) (oldPort nil) (captured nil) (completed nil)
+      (let ((tempPort nil) (oldPort nil) (oldPoPort nil) (captured nil) (completed nil)
             (result nil) (resultValue nil) (resultBound nil) (outerError nil))
         (setq tempPort (outstring))
         (setq oldPort (symeval 'woport))
+        (setq oldPoPort (symeval 'poport))
         (unwindProtect
           (progn
             (set 'woport tempPort)
+            (set 'poport tempPort)
             (setq completed (errset (setq result (evalstring line 'il))))
             (unless completed (setq outerError errset.errset))
-            ; In classic SKILL, assigning the special value `unbound` leaves the
-            ; dynamic result variable unbound.  A lexical SKILL++ variable keeps
-            ; that value as the symbol 'unbound, so preserve the classic wire
-            ; behavior explicitly in addition to the lexical boundp check.
+                                                                      ; In classic SKILL, assigning the special value `unbound` leaves the
+                                                                      ; dynamic result variable unbound.  A lexical SKILL++ variable keeps
+                                                                      ; that value as the symbol 'unbound, so preserve the classic wire
+                                                                      ; behavior explicitly in addition to the lexical boundp check.
             (setq resultBound
               (and (boundp 'result (theEnvironment))
                    (not (eq result 'unbound))))
@@ -100,6 +105,7 @@ letseq(
             (list completed resultBound resultValue outerError captured))
           (progn
             (set 'woport oldPort)
+            (set 'poport oldPoPort)
             (close tempPort))))))
 
   (setq writeFrame
@@ -157,8 +163,12 @@ letseq(
                 (printf "I COULD NOT PARSE %L\n" repr)
                 (lsprintf "error(%L)" repr))))))))
 
-  (setq listToPython
-    (lambda (thing)
+  (setq listToPython                                                  ; Serializes SKILL list to Python list string. 
+                                                                      ; Note that empty list is represented as `nil` in skill.
+                                                                      ; Examples:
+    (lambda (thing)                                                   ;   - Single list: '(1 2)   -> "[1,2]"
+                                                                      ;   - Empty list:  nil      -> "[]" (direct) / "None" (top-level)
+                                                                      ;   - Nested list: '((1 2)) -> "[[1,2]]", list(nil) -> "[None]"
       (strcat "[" (buildString (mapcar skillToPython thing) ",") "]")))
 
   (setq vectorToPython

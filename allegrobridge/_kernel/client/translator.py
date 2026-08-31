@@ -6,11 +6,14 @@ from __future__ import annotations
 from ast import AST, Call, Constant, Dict, List, Name, UAdd, UnaryOp, USub, parse
 from collections.abc import Callable, Iterable
 from json import dumps, loads
+from logging import getLogger
 from re import Match, findall, sub
 from typing import Any, NoReturn, cast
 from warnings import warn_explicit
 
 from .hints import Skill, SkillCode, Symbol
+
+_logger = getLogger("allegrobridge.cadence")
 
 
 class ParseError(Exception):
@@ -23,11 +26,16 @@ def _raise_error(message: str) -> NoReturn:
 
 def _show_warning(message: str, result: Any) -> Any:
     for i, line in enumerate(message.splitlines(keepends=False)):
-        message = line
-        if line.startswith("*WARNING*"):
-            message = message[9:]
-        warn_explicit(message, UserWarning, "Skill response", i)
-
+        # redirected logs from skill server
+        clean = line.strip()
+        if not clean or clean == "*WARNING*":
+            continue
+        if clean.startswith("*WARNING*"):
+            clean = clean[9:].lstrip()
+            _logger.warning(clean)
+        else:
+            _logger.info(clean)
+        warn_explicit(clean, UserWarning, "Skill response", i)
     return result
 
 

@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+from logging import NullHandler, getLogger
+
 from ._kernel import (
     UNBOUND,
     Expr,
@@ -22,11 +24,14 @@ from ._kernel import (
     generate_static_completion,
     keys,
 )
+from ._logging import setup_logging
 from .allegro import Allegro, OpenMode
 from .client.base import SkillModule
 from .client.session import Session
 from .client.workspace import Workspace
 from .version import __version__
+
+getLogger("allegrobridge").addHandler(NullHandler())
 
 __all__ = [
     'UNBOUND',
@@ -51,4 +56,5 @@ __all__ = [
     'current_workspace',
     'generate_static_completion',
     'keys',
+    'setup_logging',
 ]

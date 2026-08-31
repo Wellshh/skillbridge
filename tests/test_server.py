@@ -5,6 +5,8 @@ from __future__ import annotations
 
 import io
 import socket as socket_mod
+import subprocess
+import sys
 import threading
 from collections.abc import Iterator
 from contextlib import nullcontext
@@ -475,6 +477,51 @@ def test_main_startup(
     python_server.cli(cli_args)
     assert served == [True]
     assert out.getvalue() == expected_output
+
+
+def test_main_startup_configures_file_logging(monkeypatch: MonkeyPatch) -> None:
+    calls: list[dict[str, object]] = []
+
+    def fake_setup_logging(*args: object, **kwargs: object) -> None:
+        calls.append({'args': args, 'kwargs': kwargs})
+
+    monkeypatch.setattr(python_server, "setup_logging", fake_setup_logging)
+    dummy_server = SimpleNamespace(serve_forever=lambda: None)
+    dummy_pipe = SimpleNamespace(wait_peer_closed=lambda: False)
+    monkeypatch.setattr(python_server, "Pipe", lambda *_a, **_kw: nullcontext(dummy_pipe))
+    monkeypatch.setattr(
+        python_server, "create_server", lambda *_a, **_kw: nullcontext(dummy_server)
+    )
+    monkeypatch.setattr(python_server.stdout, "write", lambda _s: None)
+    monkeypatch.setattr(python_server.stdout, "flush", lambda: None)
+
+    python_server.cli(["my_server", "WARNING"])
+
+    assert len(calls) == 1
+    assert calls[0]['kwargs'] == {
+        "level": "WARNING",
+        "console": False,
+        "file": python_server.LOG_FILE,
+    }
+
+
+def test_import_does_not_configure_root_logger() -> None:
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-c",
+            (
+                "import logging; import allegrobridge._kernel.server.python_server; "
+                "root = logging.getLogger(); "
+                "assert not any(isinstance(h, logging.FileHandler) for h in root.handlers)"
+            ),
+        ],
+        capture_output=True,
+        text=True,
+        timeout=30,
+        check=False,
+    )
+    assert result.returncode == 0, result.stderr
 
 
 def test_cli_handles_keyboard_interrupt(monkeypatch: MonkeyPatch) -> None:

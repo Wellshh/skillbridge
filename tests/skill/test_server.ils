@@ -508,6 +508,27 @@
       (qtest::assertEqual 5 (length (car actual)))
       (qtest::assertTrue (cadr actual))
       (qtest::assertTrue (caddr actual)))
+    (qtest::TestCase test_on_data_captures_printf_into_warning_frame
+      (setq actual (__pyTestWithFakeIpc handles nil (lambda (a)
+        let((b c p old sentinel same restored writes)
+          pyStartServer() b=car(funcall(nth(2 a))) p=nth(0 b) c=nth(3 b)
+          old=symeval('poport) sentinel=outstring()
+          unwindProtect(
+            progn(
+              set('poport sentinel)
+              funcall(c p "progn(printf(\"hello\") 42)\n")
+              same=eq(symeval('poport) sentinel)
+              writes=mapcar('cadr funcall(nth(4 a))))
+            progn(
+              set('poport old)
+              restored=eq(symeval('poport) old)
+              close(sentinel)))
+          list((car writes) same restored)))))
+      (qtest::assertTrue (index (car actual) "warning("))
+      (qtest::assertTrue (index (car actual) "hello"))
+      (qtest::assertTrue (index (car actual) "42"))
+      (qtest::assertTrue (cadr actual))
+      (qtest::assertTrue (caddr actual)))
     (qtest::TestCase test_on_data_treats_inner_errset_as_success
       (setq actual (__pyTestWithFakeIpc handles nil (lambda (a)
         let((b c p s old same restored writes)

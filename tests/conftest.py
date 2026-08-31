@@ -5,7 +5,9 @@
 
 from __future__ import annotations
 
+import logging
 import sys
+from collections.abc import Iterator
 from warnings import warn
 
 import pytest
@@ -28,3 +30,18 @@ def ws() -> Workspace:
         pytest.skip()
 
     return workspace
+
+
+@pytest.fixture(autouse=True)
+def restore_logging_state() -> Iterator[None]:
+    logger = logging.getLogger('allegrobridge')
+    saved_handlers = list(logger.handlers)
+    saved_level = logger.level
+    saved_propagate = logger.propagate
+    yield
+    for handler in logger.handlers:
+        if isinstance(handler, logging.FileHandler):
+            handler.close()
+    logger.handlers[:] = saved_handlers
+    logger.level = saved_level
+    logger.propagate = saved_propagate

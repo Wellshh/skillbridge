@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 from __future__ import annotations
 
+import logging
 from collections.abc import Callable
 from string import ascii_letters, ascii_lowercase, ascii_uppercase
 from typing import Any
@@ -352,6 +353,18 @@ def test_skill_path_supports_integer_indexes():
 def test_warning_prefix_is_removed(decode_simple):
     with warns(UserWarning, match='prefixed'):
         assert decode_simple("warning('*WARNING*prefixed', 1)") == 1
+
+
+def test_show_warning_routes_lines_to_logger_and_keeps_userwarning(decode_simple, caplog, recwarn):
+    caplog.set_level(logging.INFO)
+    result = decode_simple(r'warning("info line\n*WARNING* warn line", 1)')
+    assert result == 1
+    assert [str(w.message) for w in recwarn.list] == ["info line", "warn line"]
+    assert [(r.levelname, r.getMessage()) for r in caplog.records] == [
+        ("INFO", "info line"),
+        ("WARNING", "warn line"),
+    ]
+    assert all(r.name == "allegrobridge.cadence" for r in caplog.records)
 
 
 @mark.parametrize(

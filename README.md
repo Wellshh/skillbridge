@@ -83,9 +83,9 @@ with Allegro.launch("designs/demo.brd") as allegro:
 ##### Reading the board and moving a component
 
 ```python
-board = pcb.board()                                    # frozen pydantic model
+board = pcb.board()  # frozen pydantic model
 r101 = pcb.components["R101"]
-pcb.components.move("R101", x=120.0, y=45.0, rotation=90.0)   # atomic transaction
+pcb.components.move("R101", x=120.0, y=45.0, rotation=90.0)  # atomic transaction
 ```
 
 ##### Raw workspace: call any SKILL function

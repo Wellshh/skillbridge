@@ -8,7 +8,7 @@ import os
 from argparse import ArgumentParser
 from contextlib import suppress
 from io import BufferedIOBase
-from logging import basicConfig, getLogger
+from logging import getLogger
 from os import getenv
 from pathlib import Path
 from socketserver import (
@@ -34,13 +34,11 @@ from allegrobridge._kernel.exception import (
 from allegrobridge._kernel.protocol.response import SkillResp
 from allegrobridge._kernel.protocol.socket import DEFAULT_MAX_PAYLOAD_SIZE, Socket
 from allegrobridge._kernel.server._pipe import Pipe
+from allegrobridge._logging import setup_logging
 
 LOG_DIRECTORY = Path(getenv('ALLEGROBRIDGE_LOG_DIRECTORY', '.'))
 LOG_FILE = LOG_DIRECTORY / 'allegrobridge_server.log'
-LOG_FORMAT = '%(asctime)s %(levelname)s %(message)s'
-LOG_DATE_FORMAT = '%d.%m.%Y %H:%M:%S'
-basicConfig(filename=LOG_FILE, format=LOG_FORMAT, datefmt=LOG_DATE_FORMAT)
-logger = getLogger("python-server")
+logger = getLogger("allegrobridge.server")
 
 # payload size should at least be capable of reporting back error
 MIN_MAX_PAYLOAD_SIZE = 28
@@ -227,7 +225,7 @@ def main(
     force_tcp: bool,
     max_payload_size: int = DEFAULT_MAX_PAYLOAD_SIZE,
 ) -> None:
-    logger.setLevel(log_level)
+    setup_logging(level=log_level, console=False, file=LOG_FILE)
     with (
         Pipe(
             cast("BufferedIOBase", stdin.buffer),
