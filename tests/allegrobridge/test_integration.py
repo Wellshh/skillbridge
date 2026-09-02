@@ -27,23 +27,23 @@ from allegrobridge._kernel import (
     SkillCode,
 )
 from allegrobridge.client.api import (
+    AbBoard,
+    AbComponent,
+    AbComponentRef,
+    AbDrc,
+    AbLayer,
+    AbNet,
+    AbNetRef,
+    AbPadstack,
+    AbPin,
+    AbPinRef,
+    AbRoute,
+    AbShape,
+    AbSymbol,
+    AbVia,
     BBox,
-    BoardInfo,
     CmdResult,
-    ComponentInfo,
-    ComponentRef,
-    DrcInfo,
-    LayerInfo,
-    NetInfo,
-    NetRef,
-    PadstackInfo,
-    PinInfo,
-    PinRef,
     Point,
-    RouteInfo,
-    ShapeInfo,
-    SymbolInfo,
-    ViaInfo,
 )
 from allegrobridge.client.base._record import _ID
 from allegrobridge.exceptions import (
@@ -461,7 +461,7 @@ class TestBoardApi:
         board = session.board()
         component_count, symbol_count, net_count = _board_counts(ws)
 
-        assert isinstance(board, BoardInfo)
+        assert isinstance(board, AbBoard)
         assert board.path.endswith('.brd')
         assert board.units
         assert board.component_count == component_count
@@ -525,7 +525,7 @@ class TestLayersApi:
         layers = session.layers(etch_only=etch_only)
         snapshot = _layer_snapshot(ws, etch_only)
 
-        assert all(isinstance(layer, LayerInfo) for layer in layers)
+        assert all(isinstance(layer, AbLayer) for layer in layers)
         assert [
             (layer.name, layer.class_name, layer.subclass, layer.number) for layer in layers
         ] == [tuple(item) for item in snapshot]
@@ -595,7 +595,7 @@ class TestComponentsApi:
         components = session.components()
         snapshot = _component_snapshot(ws)
 
-        assert all(isinstance(component, ComponentInfo) for component in components)
+        assert all(isinstance(component, AbComponent) for component in components)
         assert [component.refdes for component in components] == [item[0] for item in snapshot]
         assert all(
             component.location
@@ -971,7 +971,7 @@ class TestNetsApi:
         nets = session.nets()
         snapshot = _net_snapshot(ws)
 
-        assert all(isinstance(net, NetInfo) for net in nets)
+        assert all(isinstance(net, AbNet) for net in nets)
         assert [net.name for net in nets] == [item[0] for item in snapshot]
         assert [
             (net.branch_count, net.unconnected_count, net.unplaced_pin_count) for net in nets
@@ -1080,7 +1080,7 @@ class TestPinsApi:
     ) -> None:
         pins = session.pins()
 
-        assert all(isinstance(pin, PinInfo) for pin in pins)
+        assert all(isinstance(pin, AbPin) for pin in pins)
         assert all(
             pin.location == (None if pin.x is None or pin.y is None else Point(pin.x, pin.y))
             for pin in pins
@@ -1194,7 +1194,7 @@ class TestPadstacksApi:
     ) -> None:
         padstacks = session.padstacks()
 
-        assert all(isinstance(padstack, PadstackInfo) for padstack in padstacks)
+        assert all(isinstance(padstack, AbPadstack) for padstack in padstacks)
         assert [
             (
                 padstack.name,
@@ -1276,7 +1276,7 @@ class TestSymbolsApi:
     ) -> None:
         symbols = session.symbols()
 
-        assert all(isinstance(symbol, SymbolInfo) for symbol in symbols)
+        assert all(isinstance(symbol, AbSymbol) for symbol in symbols)
         assert all(symbol.location == Point(symbol.x, symbol.y) for symbol in symbols)
         assert [
             (symbol.name, symbol.type, symbol.refdes, symbol.x, symbol.y, symbol.rotation)
@@ -1365,7 +1365,7 @@ class TestViasApi:
             pytest.skip('via write test requires the Windows board copy')
 
     @staticmethod
-    def _values(via: ViaInfo) -> tuple[object, ...]:
+    def _values(via: AbVia) -> tuple[object, ...]:
         return (
             via.padstack,
             via.net,
@@ -1382,7 +1382,7 @@ class TestViasApi:
         snapshot = _via_snapshot(ws)
 
         assert vias
-        assert all(isinstance(via, ViaInfo) for via in vias)
+        assert all(isinstance(via, AbVia) for via in vias)
         assert all(via.location == Point(via.x, via.y) for via in vias)
         assert [self._values(via) for via in vias] == [tuple(item[:8]) for item in snapshot]
         assert all(via._id == _session_id(session) for via in vias)
@@ -1590,7 +1590,7 @@ class TestRoutesApi:
             pytest.skip('route write test requires the Windows board copy')
 
     @staticmethod
-    def _values(route: RouteInfo) -> tuple[object, ...]:
+    def _values(route: AbRoute) -> tuple[object, ...]:
         return (
             route.net,
             route.layer,
@@ -1602,12 +1602,12 @@ class TestRoutesApi:
         )
 
     @staticmethod
-    def _source(session: Session) -> tuple[RouteInfo, str]:
+    def _source(session: Session) -> tuple[AbRoute, str]:
         route = next(route for route in session.routes() if route.net is not None)
         return route, cast('str', route.net)
 
     @staticmethod
-    def _new_points(route: RouteInfo, direction: float = 1.0) -> list[Point]:
+    def _new_points(route: AbRoute, direction: float = 1.0) -> list[Point]:
         distance = max(route.width * 4.0, 0.1)
         return [
             Point(route.end.x, route.end.y),
@@ -1623,7 +1623,7 @@ class TestRoutesApi:
         snapshot = _route_snapshot(ws)
 
         assert routes
-        assert all(isinstance(route, RouteInfo) for route in routes)
+        assert all(isinstance(route, AbRoute) for route in routes)
         assert all(isinstance(route.start, Point) for route in routes)
         assert [self._values(route) for route in routes] == [tuple(item) for item in snapshot]
         assert all(route._id == _session_id(session) for route in routes)
@@ -1662,7 +1662,7 @@ class TestRoutesApi:
         )
 
         assert created
-        assert all(isinstance(route, RouteInfo) for route in created)
+        assert all(isinstance(route, AbRoute) for route in created)
         current = {self._values(route) for route in session.routes()}
         assert all(self._values(route) in current for route in created)
 
@@ -1832,7 +1832,7 @@ class TestRoutesConnectApi:
         created = session.routes.connect(net, start, end, source.layer, source.width)
 
         assert created
-        assert all(isinstance(route, RouteInfo) and route.net == net for route in created)
+        assert all(isinstance(route, AbRoute) and route.net == net for route in created)
         assert all(route._id == _session_id(session) for route in created)
         assert session.generation == generation + 1
         current = {
@@ -1865,7 +1865,7 @@ class TestRoutesConnectApi:
 
 class TestShapesApi:
     @staticmethod
-    def _values(shape: ShapeInfo) -> tuple[object, ...]:
+    def _values(shape: AbShape) -> tuple[object, ...]:
         return (
             shape.net,
             shape.layer,
@@ -1881,7 +1881,7 @@ class TestShapesApi:
         snapshot = _shape_snapshot(ws)
 
         assert shapes
-        assert all(isinstance(shape, ShapeInfo) for shape in shapes)
+        assert all(isinstance(shape, AbShape) for shape in shapes)
         assert all(isinstance(shape.bbox, BBox) for shape in shapes)
         assert [self._values(shape) for shape in shapes] == [tuple(item) for item in snapshot]
         assert all(shape._id == _session_id(session) for shape in shapes)
@@ -1991,7 +1991,7 @@ class TestDrcApi:
             pytest.skip('DRC write test requires the Windows board copy')
 
     @staticmethod
-    def _movement_pair(session: Session) -> tuple[ComponentInfo, ComponentInfo]:
+    def _movement_pair(session: Session) -> tuple[AbComponent, AbComponent]:
         components = sorted(
             session.components(include_unplaced=False),
             key=lambda component: component.refdes,
@@ -2011,11 +2011,11 @@ class TestDrcApi:
         return source, target
 
     @staticmethod
-    def _snapshot(drcs: list[DrcInfo]) -> list[str]:
+    def _snapshot(drcs: list[AbDrc]) -> list[str]:
         return sorted(map(repr, drcs))
 
     @staticmethod
-    def _restore(session: Session, component: ComponentInfo) -> None:
+    def _restore(session: Session, component: AbComponent) -> None:
         assert component.x is not None
         assert component.y is not None
         session.components.move(
@@ -2038,15 +2038,15 @@ class TestDrcApi:
         )
 
         assert len(drcs) == expected_count
-        assert all(isinstance(drc, DrcInfo) for drc in drcs)
+        assert all(isinstance(drc, AbDrc) for drc in drcs)
         assert all(drc._id == _session_id(session) for drc in drcs)
         assert 'dbid:' not in repr(drcs)
         assert session.drc.snapshot() == drcs
         if allegro.mode == 'cli':
             references = [reference for drc in drcs for reference in drc.objects]
-            assert any(isinstance(reference, ComponentRef) for reference in references)
-            assert any(isinstance(reference, NetRef) for reference in references)
-            assert any(isinstance(reference, PinRef) for reference in references)
+            assert any(isinstance(reference, AbComponentRef) for reference in references)
+            assert any(isinstance(reference, AbNetRef) for reference in references)
+            assert any(isinstance(reference, AbPinRef) for reference in references)
 
     def test_update_preview_returns_projection_and_rolls_back(
         self,
@@ -2063,13 +2063,13 @@ class TestDrcApi:
         # and bBox of the same DRC signature; all 20 preview rollbacks restored the exact
         # pre-preview projection, and every subsequent RPC ping succeeded. Consequently,
         # this test verifies the actual transaction contract: preview returns detached
-        # DrcInfo values, then leaves the design exactly as it was immediately beforehand.
+        # AbDrc values, then leaves the design exactly as it was immediately beforehand.
         session.drc.update()
         before_preview = session.drc()
 
         preview = session.drc.update.preview()
 
-        assert all(isinstance(drc, DrcInfo) for drc in preview)
+        assert all(isinstance(drc, AbDrc) for drc in preview)
         assert all(drc._id == _session_id(session) for drc in preview)
         assert 'dbid:' not in repr(preview)
         assert self._snapshot(session.drc()) == self._snapshot(before_preview)
@@ -2081,7 +2081,7 @@ class TestDrcApi:
     ) -> None:
         self._require_writable(allegro)
         pin = next(pin for pin in session.pins() if pin.net)
-        targets: list[ComponentInfo | NetInfo | PinInfo] = [
+        targets: list[AbComponent | AbNet | AbPin] = [
             session.components[pin.refdes],
             session.nets[cast('str', pin.net)],
             pin,
@@ -2091,7 +2091,7 @@ class TestDrcApi:
         try:
             for target in targets:
                 checked = session.drc.check(target)
-                assert all(isinstance(drc, DrcInfo) for drc in checked)
+                assert all(isinstance(drc, AbDrc) for drc in checked)
                 assert all(drc._id == _ID(ref(session), generation) for drc in checked)
                 assert 'dbid:' not in repr(checked)
         finally:

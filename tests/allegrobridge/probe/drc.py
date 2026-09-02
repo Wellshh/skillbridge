@@ -253,7 +253,7 @@ class DrcProbe:
                             'reference': stable_ref,
                         }
                         stable_refs.append(observation)
-                        if stable_ref['reference_type'] == 'PinRef':
+                        if stable_ref['reference_type'] == 'AbPinRef':
                             pin_refs.append(observation)
                     if node['net_ref']:
                         net_paths.append({

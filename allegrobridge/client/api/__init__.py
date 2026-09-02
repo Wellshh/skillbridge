@@ -19,25 +19,51 @@ API Layering & Loading Principles:
 
 from __future__ import annotations
 
-from allegrobridge.client.api.board import BoardApi, BoardInfo
-from allegrobridge.client.api.components import ComponentInfo, ComponentsApi
-from allegrobridge.client.api.drc import (
-    ComponentRef,
-    DrcApi,
-    DrcInfo,
-    DrcObjectRef,
-    NetRef,
-    PinRef,
-)
+from allegrobridge.client.api.board import BoardApi
+from allegrobridge.client.api.components import ComponentsApi
+from allegrobridge.client.api.drc import DrcApi
 from allegrobridge.client.api.geometry import ArcTo, BBox, LineTo, Point
-from allegrobridge.client.api.layers import LayerInfo, LayersApi
-from allegrobridge.client.api.nets import NetInfo, NetsApi
-from allegrobridge.client.api.padstacks import PadstackInfo, PadstacksApi
-from allegrobridge.client.api.pins import PinInfo, PinsApi
-from allegrobridge.client.api.routes import RouteInfo, RoutesApi
-from allegrobridge.client.api.shapes import ShapeInfo, ShapesApi
-from allegrobridge.client.api.symbols import SymbolInfo, SymbolsApi
-from allegrobridge.client.api.vias import ViaInfo, ViasApi
+from allegrobridge.client.api.layers import LayersApi
+from allegrobridge.client.api.nets import NetsApi
+from allegrobridge.client.api.padstacks import PadstacksApi
+from allegrobridge.client.api.pins import PinsApi
+from allegrobridge.client.api.record import (
+    AbBoard,
+    AbComponent,
+    AbComponentRef,
+    AbDrc,
+    AbDrcObjectRef,
+    AbLayer,
+    AbNet,
+    AbNetRef,
+    AbPadstack,
+    AbPin,
+    AbPinRef,
+    AbRoute,
+    AbShape,
+    AbSymbol,
+    AbVia,
+    Board,
+    Component,
+    ComponentRef,
+    Drc,
+    DrcObjectRef,
+    Layer,
+    Net,
+    NetRef,
+    Padstack,
+    PcbSymbol,
+    Pin,
+    PinRef,
+    Route,
+    Shape,
+    Symbol,
+    Via,
+)
+from allegrobridge.client.api.routes import RoutesApi
+from allegrobridge.client.api.shapes import ShapesApi
+from allegrobridge.client.api.symbols import SymbolsApi
+from allegrobridge.client.api.vias import ViasApi
 from allegrobridge.client.base import (
     Batch,
     Cmd,
@@ -53,44 +79,60 @@ from allegrobridge.client.base import (
 )
 
 __all__ = [
+    'AbBoard',
+    'AbComponent',
+    'AbComponentRef',
+    'AbDrc',
+    'AbDrcObjectRef',
+    'AbLayer',
+    'AbNet',
+    'AbNetRef',
+    'AbPadstack',
+    'AbPin',
+    'AbPinRef',
+    'AbRoute',
+    'AbShape',
+    'AbSymbol',
+    'AbVia',
     'ArcTo',
     'BBox',
     'Batch',
+    'Board',
     'BoardApi',
-    'BoardInfo',
     'Cmd',
     'CmdResult',
     'Collection',
-    'ComponentInfo',
+    'Component',
     'ComponentRef',
     'ComponentsApi',
+    'Drc',
     'DrcApi',
-    'DrcInfo',
     'DrcObjectRef',
     'KeyedCollection',
-    'LayerInfo',
+    'Layer',
     'LayersApi',
     'LineTo',
-    'NetInfo',
+    'Net',
     'NetRef',
     'NetsApi',
-    'PadstackInfo',
+    'Padstack',
     'PadstacksApi',
-    'PinInfo',
+    'PcbSymbol',
+    'Pin',
     'PinRef',
     'PinsApi',
     'Point',
-    'RouteInfo',
+    'Route',
     'RoutesApi',
     'RpcArgs',
     'RpcDef',
     'SessionApi',
-    'ShapeInfo',
+    'Shape',
     'ShapesApi',
     'SkillModule',
-    'SymbolInfo',
+    'Symbol',
     'SymbolsApi',
-    'ViaInfo',
+    'Via',
     'ViasApi',
     'read',
     'write',

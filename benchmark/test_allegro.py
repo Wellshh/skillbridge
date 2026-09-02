@@ -5,14 +5,14 @@ from pytest_benchmark.fixture import BenchmarkFixture
 
 from allegrobridge import Allegro
 from allegrobridge._kernel.client.translator import DefaultTranslator
-from allegrobridge.client.api import BoardInfo, ComponentInfo, NetInfo
+from allegrobridge.client.api import AbBoard, AbComponent, AbNet
 
 _PLUS_RESULT = 3
 _ONE_MIB = 1_048_576
 _PAYLOAD_SIZES = (64, 4096, _ONE_MIB)
 _ROUNDS = 30
 _WARMUP_ROUNDS = 5
-AllegroContext = tuple[Allegro, BoardInfo]
+AllegroContext = tuple[Allegro, AbBoard]
 
 
 def _payload_info(benchmark: BenchmarkFixture, direction: str, payload: str) -> None:
@@ -156,16 +156,16 @@ def test_domain_read(
     )
 
     if domain == 'board':
-        assert isinstance(result, BoardInfo)
+        assert isinstance(result, AbBoard)
         result_count = 1
     elif domain == 'components':
         assert isinstance(result, list)
-        assert all(isinstance(item, ComponentInfo) for item in result)
+        assert all(isinstance(item, AbComponent) for item in result)
         assert len(result) == board_info.component_count
         result_count = len(result)
     else:
         assert isinstance(result, list)
-        assert all(isinstance(item, NetInfo) for item in result)
+        assert all(isinstance(item, AbNet) for item in result)
         assert len(result) == board_info.net_count
         result_count = len(result)
     benchmark.extra_info.update(domain=domain, result_count=result_count)

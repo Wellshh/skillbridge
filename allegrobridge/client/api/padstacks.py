@@ -4,38 +4,29 @@ from __future__ import annotations
 
 from pydantic import TypeAdapter
 
-from allegrobridge.client.base import KeyedCollection, SessionRecord
+from allegrobridge.client.api.record import Padstack
+from allegrobridge.client.base import KeyedCollection
 from allegrobridge.client.base._rpc import RpcArgs, _core_api, read
 
 _PROCEDURE = '__abProjectPadstacks'
-_OptionalString = str | None
 
-
-class PadstackInfo(SessionRecord):
-    name: str
-    type: str
-    usage: str
-    start_layer: _OptionalString
-    end_layer: _OptionalString
-
-
-_PadstackList = list[PadstackInfo]
+_PadstackList = list[Padstack]
 _PADSTACKS = TypeAdapter(_PadstackList)
 
 
 @_core_api
-class PadstacksApi(KeyedCollection[str, PadstackInfo]):
+class PadstacksApi(KeyedCollection[str, Padstack]):
     _key_type = str
 
     @read(_PROCEDURE, _PADSTACKS)
     def _project(self, name: str | None) -> RpcArgs:
         return (name,)
 
-    def __call__(self) -> list[PadstackInfo]:
+    def __call__(self) -> list[Padstack]:
         return self.snapshot()
 
-    def _snapshot(self) -> list[PadstackInfo]:
+    def _snapshot(self) -> list[Padstack]:
         return self._project(None)
 
-    def _query_key(self, key: str) -> list[PadstackInfo]:
+    def _query_key(self, key: str) -> list[Padstack]:
         return self._project(key)

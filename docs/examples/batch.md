@@ -5,9 +5,9 @@ result handle you read after the `with` block:
 
 ```python
 with pcb.batch("align caps") as batch:
-    c1 = batch.call(pcb.components.move.command, "C101", x=120.0, y=45.0)
-    c2 = batch.call(pcb.components.move.command, "C102", x=130.0, y=45.0)
-    c3 = batch.call(pcb.components.move.command, "C103", x=140.0, y=45.0)
+    c1 = batch.call(pcb.components.move, "C101", x=120.0, y=45.0)
+    c2 = batch.call(pcb.components.move, "C102", x=130.0, y=45.0)
+    c3 = batch.call(pcb.components.move, "C103", x=140.0, y=45.0)
 
 for result in (c1, c2, c3):
     print(result.value.refdes, result.value.x)
@@ -17,9 +17,9 @@ for result in (c1, c2, c3):
 
 ## Rules
 
-- `batch.call(operation.command, ...)` builds and adds the deferred command.
+- `batch.call(operation, ...)` builds and adds the deferred command from a `@write` operation.
   `batch.add(operation.command(...))` remains available for prebuilt commands.
-  Calling `move(...)` inside the `with` body would execute immediately, once
+  Calling `move(...)` directly outside `batch.call(...)` would execute immediately, once
   per call, defeating the batch.
 - `result.value` is only valid after the block exits. Reading it earlier
   raises `RuntimeError('batch result is pending')`.
@@ -33,7 +33,7 @@ for result in (c1, c2, c3):
 
 ```python
 with pcb.batch("align caps", dry_run=True) as batch:
-    c1 = batch.call(pcb.components.move.command, "C101", x=120.0, y=45.0)
+    c1 = batch.call(pcb.components.move, "C101", x=120.0, y=45.0)
 
 print(c1.value.rotation)  # reported, but nothing was committed
 ```

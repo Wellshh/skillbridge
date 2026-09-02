@@ -4,42 +4,31 @@ from __future__ import annotations
 
 from pydantic import TypeAdapter
 
-from allegrobridge.client.base import KeyedCollection, SessionRecord
+from allegrobridge.client.api.record import Layer
+from allegrobridge.client.base import KeyedCollection
 from allegrobridge.client.base._rpc import RpcArgs, _core_api, read
 
 _PROCEDURE = '__abProjectLayers'
 
-
-class LayerInfo(SessionRecord):
-    name: str
-    class_name: str
-    subclass: str
-    number: int
-
-    @property
-    def is_etch(self) -> bool:
-        return self.class_name == 'ETCH'
-
-
-_LayerList = list[LayerInfo]
+_LayerList = list[Layer]
 _LAYERS = TypeAdapter(_LayerList)
 
 
 @_core_api
-class LayersApi(KeyedCollection[str, LayerInfo]):
+class LayersApi(KeyedCollection[str, Layer]):
     _key_type = str
 
     @read(_PROCEDURE, _LAYERS)
     def _project(self, name: str | None, etch_only: bool) -> RpcArgs:
         return name, etch_only
 
-    def __call__(self, *, etch_only: bool = False) -> list[LayerInfo]:
+    def __call__(self, *, etch_only: bool = False) -> list[Layer]:
         return self._project(None, etch_only)
 
-    def _snapshot(self) -> list[LayerInfo]:
+    def _snapshot(self) -> list[Layer]:
         etch_only = False
         return self._project(None, etch_only)
 
-    def _query_key(self, key: str) -> list[LayerInfo]:
+    def _query_key(self, key: str) -> list[Layer]:
         etch_only = False
         return self._project(key, etch_only)

@@ -73,6 +73,8 @@ class Workspace(_WorkspaceTypingMixin, GWorkspace):  # type: ignore[misc]
     @classmethod
     @override
     def _create_workspace(cls, channel: Channel, workspace_id: WorkspaceId) -> GWorkspace:
+        # here we secretly detect if the server started upon is allegro or not
+        # dispatch to Global Workspace if not
         is_allegro = channel.send("isCallable('axlDBGetDesign)") == "True"
         if not is_allegro:
             return GWorkspace(channel, workspace_id)
@@ -172,11 +174,6 @@ class Txn:
         return self._workspace['__abRunDryTransaction'](cmd)
 
     def batch(self, cmds: Iterable[SkillCode]) -> list[SavepointResult]:
-        """Execute commands with savepoints, committing successes and rolling back failures.
-
-        Returns:
-            List of savepoint execution results.
-        """
         commands: list[Skill] = list(cmds)
         if not commands:
             return []

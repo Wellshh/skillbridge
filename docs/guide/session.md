@@ -14,7 +14,7 @@ Eleven domains, one attribute each:
 
 | Attribute | Reads | Writes |
 | --- | --- | --- |
-| `pcb.board` | `board()` → `BoardInfo` | — |
+| `pcb.board` | `board()` → `AbBoard` | — |
 | `pcb.components` | `components()`, `components["R101"]` | `move(...)` |
 | `pcb.layers` | `layers(etch_only=False)`, `layers["TOP"]` | — |
 | `pcb.nets` | `nets()`, `nets["GND"]` | — |
@@ -31,8 +31,8 @@ Eleven domains, one attribute each:
 Calling a domain returns a list; subscripting returns one item:
 
 ```python
-pcb.components()  # list[ComponentInfo], placed and unplaced
-pcb.components["R101"]  # ComponentInfo
+pcb.components()  # list[AbComponent], placed and unplaced
+pcb.components["R101"]  # AbComponent
 ```
 
 *Skill equivalent:* projecting `axlDBGetDesign()->components` and friends into
@@ -59,7 +59,7 @@ Every read validates its payload into a frozen pydantic model
 
 ```python
 >>> pcb.components["R101"]
-ComponentInfo(refdes='R101', device_type='...', package='...', ...)
+AbComponent(refdes='R101', device_type='...', package='...', ...)
 ```
 
 Each record is stamped with the session it came from and the

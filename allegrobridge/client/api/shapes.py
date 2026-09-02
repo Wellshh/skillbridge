@@ -2,30 +2,19 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 from __future__ import annotations
 
-from typing import Literal
-
 from pydantic import TypeAdapter
 
-from allegrobridge.client.api.geometry import BBox
-from allegrobridge.client.base import Collection, SessionRecord, SkillModule
+from allegrobridge.client.api.record import Shape
+from allegrobridge.client.base import Collection, SkillModule
 from allegrobridge.client.base._rpc import RpcArgs, read
 
 _PROJECT_PROCEDURE = '__abProjectShapes'
-_OptionalString = str | None
 
-
-class ShapeInfo(SessionRecord):
-    net: _OptionalString
-    layer: str
-    dynamic: Literal['dynamic', 'static']
-    bbox: BBox
-
-
-_ShapeList = list[ShapeInfo]
+_ShapeList = list[Shape]
 _SHAPES = TypeAdapter(_ShapeList)
 
 
-class ShapesApi(Collection[ShapeInfo]):
+class ShapesApi(Collection[Shape]):
     module = SkillModule('allegrobridge.server', 'extensions/shapes.il')
 
     @read(_PROJECT_PROCEDURE, _SHAPES)
@@ -45,8 +34,8 @@ class ShapesApi(Collection[ShapeInfo]):
         net: str | None = None,
         layer: str | None = None,
         dynamic: bool | None = None,
-    ) -> list[ShapeInfo]:
+    ) -> list[Shape]:
         return self._project(net=net, layer=layer, dynamic=dynamic)
 
-    def _snapshot(self) -> list[ShapeInfo]:
+    def _snapshot(self) -> list[Shape]:
         return self._project(net=None, layer=None, dynamic=None)

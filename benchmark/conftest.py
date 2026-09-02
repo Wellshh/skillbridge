@@ -11,7 +11,7 @@ import pytest
 
 from allegrobridge import Allegro
 from allegrobridge._kernel.client.hints import Symbol
-from allegrobridge.client.api import BoardInfo
+from allegrobridge.client.api import AbBoard
 from allegrobridge.util import ASSETS_DIR
 
 _BENCHMARK_CONTEXT: dict[str, object] = {}
@@ -20,7 +20,7 @@ _BENCHMARK_CONTEXT: dict[str, object] = {}
 @pytest.fixture(scope='module')
 def allegro_context(
     tmp_path_factory: pytest.TempPathFactory,
-) -> Iterator[tuple[Allegro, BoardInfo]]:
+) -> Iterator[tuple[Allegro, AbBoard]]:
     if sys.platform != 'win32':
         pytest.skip('canonical Allegro benchmarks require Windows CLI mode')
 

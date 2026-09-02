@@ -24,7 +24,7 @@ from typing_extensions import ParamSpec, Self
 
 from allegrobridge._kernel.client.hints import Skill, SkillCode
 from allegrobridge.client.base._future import Cmd, CmdResult, _validate
-from allegrobridge.client.base._record import _ID
+from allegrobridge.client.base._record import _ID, SessionRecord
 from allegrobridge.exceptions import AllegroProtocolError
 
 if TYPE_CHECKING:  # pragma: no cover
@@ -37,6 +37,31 @@ T = TypeVar('T')
 ApiT = TypeVar('ApiT', bound='SessionApi')
 
 
+def _check(session: Session, value: object) -> None:
+    match value:
+        case SessionRecord():
+            value._check_id(session)
+        case list() | tuple() | set() | frozenset():
+            for item in value:
+                _check(session, item)
+        case dict():
+            for v in value.values():
+                _check(session, v)
+        case _:
+            pass
+
+
+def _check_args(
+    session: Session,
+    args: tuple[object, ...],
+    kwargs: dict[str, object],
+) -> None:
+    for arg in args:
+        _check(session, arg)
+    for kwarg in kwargs.values():
+        _check(session, kwarg)
+
+
 @dataclass(frozen=True, slots=True)
 class RpcDef:
     kind: Literal['read', 'direct', 'write']
@@ -46,6 +71,10 @@ class RpcDef:
 @dataclass(frozen=True)
 class SessionApi:
     _session: Session
+
+    def check_id(self, target: object) -> None:
+        """Validate session provenance for a record or a collection of records."""
+        _check(self._session, target)
 
 
 _CORE_APIS: list[type[SessionApi]] = []
@@ -78,6 +107,159 @@ def _api_procedures(api: type[SessionApi]) -> tuple[str, ...]:
 
 def _core_procedures() -> tuple[str, ...]:
     return tuple(dict.fromkeys(proc for api in _CORE_APIS for proc in _api_procedures(api)))
+
+
+# ---------------------------- Read & Direct RPC Decorators ----------------------------
+
+
+def _rpc(
+    kind: Literal['read', 'direct'],
+    proc: str,
+    adapter: TypeAdapter[T],
+) -> Callable[
+    [Callable[Concatenate[ApiT, P], RpcArgs]],
+    Callable[Concatenate[ApiT, P], T],
+]:
+    spec = RpcDef(kind, proc)
+
+    def decorate(
+        build_args: Callable[Concatenate[ApiT, P], RpcArgs],
+    ) -> Callable[Concatenate[ApiT, P], T]:
+        @wraps(build_args)
+        def call(self: ApiT, *args: P.args, **kwargs: P.kwargs) -> T:
+            _check_args(self._session, args, kwargs)
+            rpc_args = build_args(self, *args, **kwargs)
+            payload = self._session.workspace[proc](*rpc_args)
+            return _validate(
+                payload,
+                adapter,
+                self._session,
+                proc,
+            )
+
+        call.spec = spec  # type: ignore[attr-defined]
+        return call
+
+    return decorate
+
+
+def read(
+    proc: str,
+    adapter: TypeAdapter[T],
+) -> Callable[
+    [Callable[Concatenate[ApiT, P], RpcArgs]],
+    Callable[Concatenate[ApiT, P], T],
+]:
+    """Decorate a read-only API method to query SKILL and validate the returned payload."""
+    return _rpc('read', proc, adapter)
+
+
+def direct(
+    proc: str,
+    adapter: TypeAdapter[T],
+) -> Callable[
+    [Callable[Concatenate[ApiT, P], RpcArgs]],
+    Callable[Concatenate[ApiT, P], T],
+]:
+    """Decorate an immediate RPC operation without transaction affordances."""
+    return _rpc('direct', proc, adapter)
+
+
+# ----------------- Descriptor pattern for transactional write operations ---------------
+
+
+class _BoundWrite(Generic[ApiT, P, T]):
+    def __init__(self, operation: _Write[ApiT, P, T], instance: ApiT) -> None:
+        self._operation = operation
+        self._instance = instance
+        update_wrapper(self, operation.declaration)
+        self.spec = operation.spec
+        declared = signature(operation.declaration)
+        self.__signature__ = declared.replace(parameters=list(declared.parameters.values())[1:])
+
+    def __call__(self, *args: P.args, **kwargs: P.kwargs) -> T:
+        return self.command(*args, **kwargs)._execute()
+
+    def preview(self, *args: P.args, **kwargs: P.kwargs) -> T:
+        return self.command(*args, **kwargs)._execute(preview=True)
+
+    def command(self, *args: P.args, **kwargs: P.kwargs) -> Cmd[T]:
+        return self._operation.command(self._instance, *args, **kwargs)
+
+
+class _Write(Generic[ApiT, P, T]):
+    def __init__(
+        self,
+        proc: str,
+        adapter: TypeAdapter[T],
+        build_args: Callable[Concatenate[ApiT, P], RpcArgs],
+    ) -> None:
+        self.spec = RpcDef('write', proc)
+        self._adapter = adapter
+        self._build_args = build_args
+
+    @property
+    def declaration(self) -> Callable[Concatenate[ApiT, P], RpcArgs]:
+        return self._build_args
+
+    def command(
+        self,
+        instance: ApiT,
+        *args: P.args,
+        **kwargs: P.kwargs,
+    ) -> Cmd[T]:
+        _check_args(instance._session, args, kwargs)
+        rpc_args = self._build_args(instance, *args, **kwargs)
+        expr = instance._session.workspace[self.spec.proc].expr(*rpc_args).render()
+        return Cmd(
+            instance._session,
+            expr,
+            self.spec.proc,
+            self._adapter,
+        )
+
+    @overload
+    def __get__(
+        self,
+        instance: None,
+        owner: type[ApiT],
+    ) -> _Write[ApiT, P, T]: ...
+
+    @overload
+    def __get__(
+        self,
+        instance: ApiT,
+        owner: type[ApiT] | None,
+    ) -> _BoundWrite[ApiT, P, T]: ...
+
+    def __get__(
+        self,
+        instance: ApiT | None,
+        owner: type[ApiT] | None,
+    ) -> object:
+        if instance is None:
+            return self
+        return _BoundWrite(self, instance)
+
+
+def write(
+    proc: str,
+    adapter: TypeAdapter[T],
+) -> Callable[
+    [Callable[Concatenate[ApiT, P], RpcArgs]],
+    _Write[ApiT, P, T],
+]:
+    """Decorate a state-modifying API method to support execution, dry-run, and batching."""
+
+    def decorate(
+        build_args: Callable[Concatenate[ApiT, P], RpcArgs],
+    ) -> _Write[ApiT, P, T]:
+        return _Write(proc, adapter, build_args)
+
+    return decorate
+
+
+# ------------------------------ Batch Transaction Execution ---------------------------
 
 
 class Batch:
@@ -130,26 +312,18 @@ class Batch:
         self._results.append(result)
         return result
 
-    @overload
-    def call(
-        self,
-        operation: Callable[P, Cmd[T]],
-        *args: P.args,
-        **kwargs: P.kwargs,
-    ) -> CmdResult[T]: ...
-
-    @overload
     def call(
         self,
         operation: _BoundWrite[ApiT, P, T],
         *args: P.args,
         **kwargs: P.kwargs,
-    ) -> CmdResult[T]: ...
-
-    def call(self, operation: Any, *args: Any, **kwargs: Any) -> Any:
-        if isinstance(operation, _BoundWrite):
-            return self.add(operation.command(*args, **kwargs))
-        return self.add(operation(*args, **kwargs))
+    ) -> CmdResult[T]:
+        if not isinstance(operation, _BoundWrite):
+            raise TypeError(
+                f'Batch.call requires a @write operation, got {operation!r}. '
+                'Use batch.add(cmd) if passing a pre-built Command.'
+            )
+        return self.add(operation.command(*args, **kwargs))
 
     def _execute(self) -> None:
         if not self._cmds:
@@ -176,150 +350,3 @@ class Batch:
 
     def _check_id(self) -> None:
         self._id.check(self._session, 'Batch')
-
-
-def read(
-    proc: str,
-    adapter: TypeAdapter[T],
-) -> Callable[
-    [Callable[Concatenate[ApiT, P], RpcArgs]],
-    Callable[Concatenate[ApiT, P], T],
-]:
-    """Decorate a read-only API method to query SKILL and validate the returned payload."""
-    return _rpc('read', proc, adapter)
-
-
-def _rpc(
-    kind: Literal['read', 'direct'],
-    proc: str,
-    adapter: TypeAdapter[T],
-) -> Callable[
-    [Callable[Concatenate[ApiT, P], RpcArgs]],
-    Callable[Concatenate[ApiT, P], T],
-]:
-    spec = RpcDef(kind, proc)
-
-    def decorate(
-        build_args: Callable[Concatenate[ApiT, P], RpcArgs],
-    ) -> Callable[Concatenate[ApiT, P], T]:
-        @wraps(build_args)
-        def call(self: ApiT, *args: P.args, **kwargs: P.kwargs) -> T:
-            rpc_args = build_args(self, *args, **kwargs)
-            payload = self._session.workspace[proc](*rpc_args)
-            return _validate(
-                payload,
-                adapter,
-                self._session,
-                proc,
-            )
-
-        call.spec = spec  # type: ignore[attr-defined]
-        return call
-
-    return decorate
-
-
-def direct(
-    proc: str,
-    adapter: TypeAdapter[T],
-) -> Callable[
-    [Callable[Concatenate[ApiT, P], RpcArgs]],
-    Callable[Concatenate[ApiT, P], T],
-]:
-    """Decorate an immediate RPC operation without transaction affordances."""
-    return _rpc('direct', proc, adapter)
-
-
-#  ------------------ Descriptor pattern for transactional write operations ---------------------
-# - `_Write`: Unbound class descriptor holding static RPC metadata and argument builder.
-# - `_BoundWrite`: Instance-bound callable providing direct call, `.preview()`, and `.command()`.
-
-
-class _BoundWrite(Generic[ApiT, P, T]):
-    def __init__(self, operation: _Write[ApiT, P, T], instance: ApiT) -> None:
-        self._operation = operation
-        self._instance = instance
-        update_wrapper(self, operation.declaration)
-        self.spec = operation.spec
-        declared = signature(operation.declaration)
-        self.__signature__ = declared.replace(parameters=list(declared.parameters.values())[1:])
-
-    def __call__(self, *args: P.args, **kwargs: P.kwargs) -> T:
-        return self.command(*args, **kwargs)._execute()
-
-    def preview(self, *args: P.args, **kwargs: P.kwargs) -> T:
-        return self.command(*args, **kwargs)._execute(preview=True)
-
-    def command(self, *args: P.args, **kwargs: P.kwargs) -> Cmd[T]:
-        return self._operation.command(self._instance, *args, **kwargs)
-
-
-class _Write(Generic[ApiT, P, T]):
-    def __init__(
-        self,
-        proc: str,
-        adapter: TypeAdapter[T],
-        build_args: Callable[Concatenate[ApiT, P], RpcArgs],
-    ) -> None:
-        self.spec = RpcDef('write', proc)
-        self._adapter = adapter
-        self._build_args = build_args
-
-    @property
-    def declaration(self) -> Callable[Concatenate[ApiT, P], RpcArgs]:
-        return self._build_args
-
-    def command(
-        self,
-        instance: ApiT,
-        *args: P.args,
-        **kwargs: P.kwargs,
-    ) -> Cmd[T]:
-        rpc_args = self._build_args(instance, *args, **kwargs)
-        expr = instance._session.workspace[self.spec.proc].expr(*rpc_args).render()
-        return Cmd(
-            instance._session,
-            expr,
-            self.spec.proc,
-            self._adapter,
-        )
-
-    @overload
-    def __get__(
-        self,
-        instance: None,
-        owner: type[ApiT],
-    ) -> _Write[ApiT, P, T]: ...
-
-    @overload
-    def __get__(
-        self,
-        instance: ApiT,
-        owner: type[ApiT] | None,
-    ) -> _BoundWrite[ApiT, P, T]: ...
-
-    def __get__(
-        self,
-        instance: ApiT | None,
-        owner: type[ApiT] | None,
-    ) -> object:
-        if instance is None:
-            return self
-        return _BoundWrite(self, instance)
-
-
-def write(
-    proc: str,
-    adapter: TypeAdapter[T],
-) -> Callable[
-    [Callable[Concatenate[ApiT, P], RpcArgs]],
-    _Write[ApiT, P, T],
-]:
-    """Decorate a state-modifying API method to support execution, dry-run, and batching."""
-
-    def decorate(
-        build_args: Callable[Concatenate[ApiT, P], RpcArgs],
-    ) -> _Write[ApiT, P, T]:
-        return _Write(proc, adapter, build_args)
-
-    return decorate

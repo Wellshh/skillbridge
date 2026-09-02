@@ -64,7 +64,7 @@ hide:
 <div class="ab-wb-panel ab-wb-inspector" markdown>
 <h2>Inspector</h2>
 <dl>
-<dt>Object</dt><dd class="ab-dto">ComponentInfo</dd>
+<dt>Object</dt><dd class="ab-dto">AbComponent</dd>
 <dt>refdes</dt><dd>R101</dd>
 <dt>x / y</dt><dd>120.0 / 45.0</dd>
 <dt>rotation</dt><dd>90.0</dd>
@@ -104,8 +104,8 @@ from allegrobridge import Allegro
 with Allegro.launch("designs/demo.brd") as allegro:
     pcb = allegro.session
 
-    board = pcb.board()  # BoardInfo(path, units, component_count, ...)
-    r101 = pcb.components["R101"]  # ComponentInfo(refdes, x, y, rotation, ...)
+    board = pcb.board()  # AbBoard(path, units, component_count, ...)
+    r101 = pcb.components["R101"]  # AbComponent(refdes, x, y, rotation, ...)
 
     pcb.components.move("R101", x=120.0, y=45.0, rotation=90.0)
 ```

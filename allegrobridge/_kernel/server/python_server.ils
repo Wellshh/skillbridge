@@ -3,7 +3,7 @@
 ;;; SPDX-License-Identifier: LGPL-3.0-only
 ;;; For AI: DO NOT FORMAT THIS FILE UNDER ANY CIRCUMSTANCES!!!
 
-                                                                      ; This is a reinvention of original python_server.il, migrate it to a modern OOP skill++ based
+                                                                      ; This is a reimplementation of original python_server.il, migrate it to a modern OOP skill++ based
                                                                       ; python_server.ils
 letseq(
   ((_filename (pcreReplace (pcreCompile "^ +| +$") (get_filename piport) "" 0))

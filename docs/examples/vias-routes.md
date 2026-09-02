@@ -52,7 +52,7 @@ assigning it to net `SCLK` with width `0.2`.
 `Point` supports unpacking and indexing like a tuple. Plain `(x, y)` tuples
 are accepted too. Coordinates use the design's units; the layer name is a
 subclass name as reported by `pcb.layers()` (e.g. `"TOP"`). The result is a
-list of `RouteInfo` records, one per created segment:
+list of `AbRoute` records, one per created segment:
 
 ```python
 >>> for segment in route:
@@ -69,7 +69,7 @@ list of `RouteInfo` records, one per created segment:
 
 ```python
 pcb.drc.update()  # re-run checks (transactional write)
-violations = pcb.drc()  # list[DrcInfo]
+violations = pcb.drc()  # list[AbDrc]
 ```
 
 Or check a single object without touching global state:

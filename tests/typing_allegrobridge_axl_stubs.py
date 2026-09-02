@@ -11,20 +11,20 @@ from allegrobridge._kernel.client.functions import LiteralRemoteFunction
 from allegrobridge._kernel.client.hints import Skill, Symbol
 from allegrobridge._kernel.client.objects import RemoteObject
 from allegrobridge.client.api import (
+    AbComponent,
+    AbDrc,
+    AbLayer,
+    AbNet,
+    AbPadstack,
+    AbPin,
+    AbRoute,
+    AbShape,
+    AbSymbol,
+    AbVia,
     BBox,
     CmdResult,
-    ComponentInfo,
-    DrcInfo,
-    LayerInfo,
-    NetInfo,
-    PadstackInfo,
-    PinInfo,
     Point,
-    RouteInfo,
     SessionApi,
-    ShapeInfo,
-    SymbolInfo,
-    ViaInfo,
 )
 
 
@@ -58,48 +58,50 @@ def check_axl_stub_contract(
     assert_type(ws, Workspace)
     assert_type(session.workspace, Workspace)
     assert_type(session.bind(BoundApi), BoundApi)
-    assert_type(session.nets.snapshot(), list[NetInfo])
-    assert_type(session.nets['GND'], NetInfo)
-    assert_type(session.nets.get('GND'), NetInfo | None)
-    assert_type(session.components.snapshot(), list[ComponentInfo])
-    assert_type(session.components.get('R1'), ComponentInfo | None)
+    assert_type(session.nets.snapshot(), list[AbNet])
+    assert_type(session.nets['GND'], AbNet)
+    assert_type(session.nets.get('GND'), AbNet | None)
+    assert_type(session.components.snapshot(), list[AbComponent])
+    assert_type(session.components.get('R1'), AbComponent | None)
     assert_type(
         session.components.move_by(session.components.snapshot(), dx=1.0, dy=2.0),
-        list[ComponentInfo],
+        list[AbComponent],
     )
-    assert_type(session.layers.snapshot(), list[LayerInfo])
-    assert_type(session.layers.get('ETCH/TOP'), LayerInfo | None)
-    assert_type(session.padstacks.snapshot(), list[PadstackInfo])
-    assert_type(session.padstacks.get('VIA12'), PadstackInfo | None)
-    assert_type(session.pins.snapshot(), list[PinInfo])
-    assert_type(session.pins.get(('U1', '1')), PinInfo | None)
-    assert_type(session.symbols.snapshot(), list[SymbolInfo])
-    assert_type(session.vias.snapshot(), list[ViaInfo])
-    assert_type(session.routes.snapshot(), list[RouteInfo])
-    assert_type(session.shapes.snapshot(), list[ShapeInfo])
-    assert_type(session.drc.snapshot(), list[DrcInfo])
+    assert_type(session.layers.snapshot(), list[AbLayer])
+    assert_type(session.layers.get('ETCH/TOP'), AbLayer | None)
+    assert_type(session.padstacks.snapshot(), list[AbPadstack])
+    assert_type(session.padstacks.get('VIA12'), AbPadstack | None)
+    assert_type(session.pins.snapshot(), list[AbPin])
+    assert_type(session.pins.get(('U1', '1')), AbPin | None)
+    assert_type(session.symbols.snapshot(), list[AbSymbol])
+    assert_type(session.vias.snapshot(), list[AbVia])
+    assert_type(session.routes.snapshot(), list[AbRoute])
+    assert_type(session.shapes.snapshot(), list[AbShape])
+    assert_type(session.drc.snapshot(), list[AbDrc])
     assert_type(Workspace.open(), GWorkspace)
 
     with session.batch() as batch:
         assert_type(
-            batch.call(
-                session.components.move.command,
-                'R1',
-                x=1.0,
-                y=2.0,
+            batch.add(
+                session.components.move.command(
+                    'R1',
+                    x=1.0,
+                    y=2.0,
+                )
             ),
-            CmdResult[ComponentInfo],
+            CmdResult[AbComponent],
         )
         assert_type(
-            batch.call(
-                session.components.move_by.command,
-                session.components.snapshot(),
-                dx=1.0,
-                dy=2.0,
+            batch.add(
+                session.components.move_by.command(
+                    session.components.snapshot(),
+                    dx=1.0,
+                    dy=2.0,
+                )
             ),
-            CmdResult[list[ComponentInfo]],
+            CmdResult[list[AbComponent]],
         )
-        batch.call(session.components.move.command, 'R1', x='invalid', y=2.0)  # type: ignore[arg-type]
+        batch.call(session.components.move, 'R1', x='invalid', y=2.0)  # type: ignore[arg-type]
         assert_type(
             batch.call(
                 session.components.move,
@@ -107,7 +109,7 @@ def check_axl_stub_contract(
                 x=1.0,
                 y=2.0,
             ),
-            CmdResult[ComponentInfo],
+            CmdResult[AbComponent],
         )
 
     assert_type(ws.axl.db_get_design(), RemoteObject | None)

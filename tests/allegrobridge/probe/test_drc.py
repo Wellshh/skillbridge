@@ -228,8 +228,8 @@ def test_violations_aggregate_stable_and_unresolved_references() -> None:
     signature = ['type', 'name', 'source', 'layer']
     pin = {
         'id': 'object_0',
-        'stable_ref': {'reference_type': 'PinRef', 'refdes': 'U1', 'number': '1'},
-        'net_ref': {'reference_type': 'NetRef', 'name': 'GND'},
+        'stable_ref': {'reference_type': 'AbPinRef', 'refdes': 'U1', 'number': '1'},
+        'net_ref': {'reference_type': 'AbNetRef', 'name': 'GND'},
         'parents': [
             {
                 'id': 'parent_0',
@@ -240,7 +240,7 @@ def test_violations_aggregate_stable_and_unresolved_references() -> None:
     }
     component = {
         'id': 'object_1',
-        'stable_ref': {'reference_type': 'ComponentRef', 'refdes': 'U1'},
+        'stable_ref': {'reference_type': 'AbComponentRef', 'refdes': 'U1'},
         'net_ref': None,
         'parents': None,
     }

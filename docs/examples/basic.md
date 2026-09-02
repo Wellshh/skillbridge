@@ -16,7 +16,7 @@ with Allegro.open(mode="manual", workspace_id="7777") as allegro:
 
 ```python
 >>> pcb.board()
-BoardInfo(path='.../demo.brd', units='mil', component_count=214, ...)
+AbBoard(path='.../demo.brd', units='mil', component_count=214, ...)
 ```
 
 **Listing and finding components**
@@ -43,16 +43,16 @@ Unplaced components are included by default; pass
 >>> gnd.unconnected_count
 3
 >>> pcb.pins(net="GND")
-[PinInfo(refdes='R101', number='1', net='GND', ...), ...]
+[AbPin(refdes='R101', number='1', net='GND', ...), ...]
 >>> pcb.pins["R101", "1"]
-PinInfo(refdes='R101', number='1', ...)
+AbPin(refdes='R101', number='1', ...)
 ```
 
 **Layers**
 
 ```python
 >>> pcb.layers(etch_only=True)
-[LayerInfo(name='TOP', ...), LayerInfo(name='GND', ...), ...]
+[AbLayer(name='TOP', ...), AbLayer(name='GND', ...), ...]
 >>> pcb.layers["TOP"].is_etch
 True
 ```

@@ -2,34 +2,20 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 from __future__ import annotations
 
-from typing import Literal
-
 from pydantic import TypeAdapter
 
-from allegrobridge.client.api.geometry import _OptionalLocated
+from allegrobridge.client.api.record import Component, Net, Pin
 from allegrobridge.client.base import KeyedCollection
 from allegrobridge.client.base._rpc import RpcArgs, _core_api, read
 
 _PROCEDURE = '__abProjectPins'
-_OptionalString = str | None
 
-
-class PinInfo(_OptionalLocated):
-    refdes: str
-    number: str  # pin number
-    net: _OptionalString
-    padstack: _OptionalString
-    placement: Literal['placed', 'unplaced']
-    start_layer: _OptionalString
-    end_layer: _OptionalString
-
-
-_PinList = list[PinInfo]
+_PinList = list[Pin]
 _PINS = TypeAdapter(_PinList)
 
 
 @_core_api
-class PinsApi(KeyedCollection[tuple[str, str], PinInfo]):
+class PinsApi(KeyedCollection[tuple[str, str], Pin]):
     def _is_key(self, key: object) -> bool:
         match key:
             case (str(), str()) if isinstance(key, tuple):
@@ -49,14 +35,16 @@ class PinsApi(KeyedCollection[tuple[str, str], PinInfo]):
     def __call__(
         self,
         *,
-        component: str | None = None,
-        net: str | None = None,
-    ) -> list[PinInfo]:
-        return self._project(component, None, net)
+        component: str | Component | None = None,
+        net: str | Net | None = None,
+    ) -> list[Pin]:
+        refdes = component.refdes if isinstance(component, Component) else component
+        net_name = net.name if isinstance(net, Net) else net
+        return self._project(refdes, None, net_name)
 
-    def _snapshot(self) -> list[PinInfo]:
+    def _snapshot(self) -> list[Pin]:
         return self._project(None, None, None)
 
-    def _query_key(self, key: tuple[str, str]) -> list[PinInfo]:
+    def _query_key(self, key: tuple[str, str]) -> list[Pin]:
         component, number = key
         return self._project(component, number, None)

@@ -5,9 +5,13 @@ from __future__ import annotations
 from collections import Counter
 from collections.abc import Sequence
 from math import isclose
-from typing import Annotated, cast
+from threading import Lock
+from typing import TYPE_CHECKING, cast
 
-from pydantic import Field, FiniteFloat, TypeAdapter
+from pydantic import TypeAdapter
+
+if TYPE_CHECKING:
+    from allegrobridge.client.session.session import Session
 
 from allegrobridge._kernel.client.hints import SkillCode
 from allegrobridge.client.api.geometry import (
@@ -17,7 +21,8 @@ from allegrobridge.client.api.geometry import (
     Point,
     finite,
 )
-from allegrobridge.client.base import Collection, SessionRecord, SkillModule
+from allegrobridge.client.api.record import Route
+from allegrobridge.client.base import Collection, SkillModule
 from allegrobridge.client.base._rpc import RpcArgs, direct, read, write
 
 # NOTE: DELETE this dangling projection
@@ -28,30 +33,12 @@ _POINT_SIZE = 2
 _POINT_TOLERANCE = 1e-6
 _ASCII_CONTROL_LIMIT = 32
 _ASCII_DELETE = 127
-_OptionalString = str | None
-_Width = Annotated[float, Field(gt=0, allow_inf_nan=False)]
 
-
-class RouteInfo(SessionRecord):
-    net: _OptionalString
-    layer: str
-    obj_type: str
-    start: Point
-    end: Point
-    width: _Width
-    length: FiniteFloat
-
-    # optional Arc attributes
-    radius: FiniteFloat | None
-    is_clockwise: bool | None
-    center: Point | None
-
-
-_RouteList = list[RouteInfo]
+_RouteList = list[Route]
 _ROUTES = TypeAdapter(_RouteList)
 
 
-def _route_key(route: RouteInfo) -> tuple[object, ...]:
+def _route_key(route: Route) -> tuple[object, ...]:
     return (
         route.net,
         route.layer,
@@ -66,9 +53,9 @@ def _route_key(route: RouteInfo) -> tuple[object, ...]:
     )
 
 
-def _added_routes(before: list[RouteInfo], after: list[RouteInfo]) -> list[RouteInfo]:
+def _added_routes(before: list[Route], after: list[Route]) -> list[Route]:
     remaining = Counter(_route_key(route) for route in before)
-    added: list[RouteInfo] = []
+    added: list[Route] = []
     for route in after:
         key = _route_key(route)
         if remaining[key]:
@@ -86,7 +73,7 @@ def _same_point(first: Point, second: Point) -> bool:
     )
 
 
-def _is_single_change_chain(routes: list[RouteInfo], start: Point, end: Point) -> bool:
+def _is_single_change_chain(routes: list[Route], start: Point, end: Point) -> bool:
     reached = [start]
     pending = routes.copy()
     while pending:
@@ -119,8 +106,13 @@ def _validated_name(value: str, field: str) -> str:
     return value
 
 
-class RoutesApi(Collection[RouteInfo]):
+class RoutesApi(Collection[Route]):
     module = SkillModule('allegrobridge.server', 'extensions/routes.il')
+    _connect_lock: Lock
+
+    def __init__(self, session: Session) -> None:
+        super().__init__(session)
+        object.__setattr__(self, '_connect_lock', Lock())
 
     @read(_PROJECT_PROCEDURE, _ROUTES)
     def _project(
@@ -136,10 +128,10 @@ class RoutesApi(Collection[RouteInfo]):
         *,
         net: str | None = None,
         layer: str | None = None,
-    ) -> list[RouteInfo]:
+    ) -> list[Route]:
         return self._project(net=net, layer=layer)
 
-    def _snapshot(self) -> list[RouteInfo]:
+    def _snapshot(self) -> list[Route]:
         return self._project(net=None, layer=None)
 
     @direct(_CONNECT_PROCEDURE, _ROUTES)
@@ -160,8 +152,8 @@ class RoutesApi(Collection[RouteInfo]):
         end: Point | tuple[float, float],
         layer: str,
         width: float,
-    ) -> list[RouteInfo]:
-        if self._session._allegro.mode != 'cli':  # ruff: ignore[private-member-access]
+    ) -> list[Route]:
+        if self._session.mode != 'cli':
             raise RuntimeError("routes.connect() requires Allegro.open(mode='cli')")
         net = _validated_name(net, 'net')
         layer = _validated_name(layer, 'layer')
@@ -171,10 +163,13 @@ class RoutesApi(Collection[RouteInfo]):
         if width <= 0:
             raise ValueError('route width must be positive')
 
-        with self._session._connect_lock:  # ruff: ignore[private-member-access]
+        with self._connect_lock:
             try:
                 before = self._connect(net, start, end, layer, width)
             finally:
+                # whether success or not, the dbid in allegro database might be invalidated
+                # we manually refresh the session id here, leaving all queried
+                # local varibles dangling
                 self._session.refresh()
             self._session.workspace.transaction(SkillCode('t'))
             after = self._project(net=net, layer=None)

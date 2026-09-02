@@ -8,55 +8,55 @@ construct these yourself — reach them through
 
 ::: allegrobridge.client.api.board.BoardApi
 
-::: allegrobridge.client.api.board.BoardInfo
+::: allegrobridge.client.api.board.AbBoard
 
 ## Components
 
 ::: allegrobridge.client.api.components.ComponentsApi
 
-::: allegrobridge.client.api.components.ComponentInfo
+::: allegrobridge.client.api.components.AbComponent
 
 ## Layers
 
 ::: allegrobridge.client.api.layers.LayersApi
 
-::: allegrobridge.client.api.layers.LayerInfo
+::: allegrobridge.client.api.layers.AbLayer
 
 ## Nets
 
 ::: allegrobridge.client.api.nets.NetsApi
 
-::: allegrobridge.client.api.nets.NetInfo
+::: allegrobridge.client.api.nets.AbNet
 
 ## Padstacks
 
 ::: allegrobridge.client.api.padstacks.PadstacksApi
 
-::: allegrobridge.client.api.padstacks.PadstackInfo
+::: allegrobridge.client.api.padstacks.AbPadstack
 
 ## Pins
 
 ::: allegrobridge.client.api.pins.PinsApi
 
-::: allegrobridge.client.api.pins.PinInfo
+::: allegrobridge.client.api.pins.AbPin
 
 ## Symbols
 
 ::: allegrobridge.client.api.symbols.SymbolsApi
 
-::: allegrobridge.client.api.symbols.SymbolInfo
+::: allegrobridge.client.api.symbols.AbSymbol
 
 ## Vias
 
 ::: allegrobridge.client.api.vias.ViasApi
 
-::: allegrobridge.client.api.vias.ViaInfo
+::: allegrobridge.client.api.vias.AbVia
 
 ## Routes
 
 ::: allegrobridge.client.api.routes.RoutesApi
 
-::: allegrobridge.client.api.routes.RouteInfo
+::: allegrobridge.client.api.routes.AbRoute
 
 ::: allegrobridge.client.api.geometry.Point
 
@@ -64,7 +64,7 @@ construct these yourself — reach them through
 
 ::: allegrobridge.client.api.shapes.ShapesApi
 
-::: allegrobridge.client.api.shapes.ShapeInfo
+::: allegrobridge.client.api.shapes.AbShape
 
 ::: allegrobridge.client.api.geometry.BBox
 
@@ -72,10 +72,10 @@ construct these yourself — reach them through
 
 ::: allegrobridge.client.api.drc.DrcApi
 
-::: allegrobridge.client.api.drc.DrcInfo
+::: allegrobridge.client.api.drc.AbDrc
 
-::: allegrobridge.client.api.drc.ComponentRef
+::: allegrobridge.client.api.drc.AbComponentRef
 
-::: allegrobridge.client.api.drc.NetRef
+::: allegrobridge.client.api.drc.AbNetRef
 
-::: allegrobridge.client.api.drc.PinRef
+::: allegrobridge.client.api.drc.AbPinRef

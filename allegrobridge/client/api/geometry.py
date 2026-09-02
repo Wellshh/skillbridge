@@ -8,7 +8,6 @@ from pydantic import FiniteFloat, TypeAdapter
 
 from allegrobridge._kernel.client.hints import SkillCode
 from allegrobridge._kernel.client.translator import python_value_to_skill
-from allegrobridge.client.base import SessionRecord
 
 
 class Point(NamedTuple):
@@ -64,28 +63,6 @@ class BBox(NamedTuple):
     def __repr_skill__(self) -> SkillCode:
         bbox = _BBOX.validate_python(self, strict=True)
         return python_value_to_skill((tuple(bbox.ll), tuple(bbox.ur)))
-
-
-class _Located(SessionRecord):
-    x: FiniteFloat
-    y: FiniteFloat
-    rotation: FiniteFloat
-
-    @property
-    def location(self) -> Point:
-        return Point(self.x, self.y)
-
-
-class _OptionalLocated(SessionRecord):
-    x: FiniteFloat | None
-    y: FiniteFloat | None
-    rotation: FiniteFloat | None
-
-    @property
-    def location(self) -> Point | None:
-        if self.x is None or self.y is None:
-            return None
-        return Point(self.x, self.y)
 
 
 _POINT = TypeAdapter(Point)

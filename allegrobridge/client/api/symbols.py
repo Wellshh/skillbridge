@@ -4,40 +4,34 @@ from __future__ import annotations
 
 from pydantic import TypeAdapter
 
-from allegrobridge.client.api.geometry import _Located
+from allegrobridge.client.api.record import Symbol
 from allegrobridge.client.base import Collection
 from allegrobridge.client.base._rpc import RpcArgs, _core_api, read
 
 _PROCEDURE = '__abProjectSymbols'
-_OptionalString = str | None
 
-
-class SymbolInfo(_Located):
-    name: str
-    type: str
-    refdes: _OptionalString
-
-
-_SymbolList = list[SymbolInfo]
+_SymbolList = list[Symbol]
 _SYMBOLS = TypeAdapter(_SymbolList)
 
 
 @_core_api
-class SymbolsApi(Collection[SymbolInfo]):
+class SymbolsApi(Collection[Symbol]):
     @read(_PROCEDURE, _SYMBOLS)
     def _project(
         self,
         *,
-        type: str | None = None,  # ruff: ignore[builtin-argument-shadowing]
+        kind: str | None = None,
     ) -> RpcArgs:
-        return (type,)
+        return (kind,)
 
     def __call__(
         self,
         *,
+        kind: str | None = None,
         type: str | None = None,  # ruff: ignore[builtin-argument-shadowing]
-    ) -> list[SymbolInfo]:
-        return self._project(type=type)
+    ) -> list[Symbol]:
+        chosen = kind if kind is not None else type
+        return self._project(kind=chosen)
 
-    def _snapshot(self) -> list[SymbolInfo]:
-        return self._project(type=None)
+    def _snapshot(self) -> list[Symbol]:
+        return self._project(kind=None)

@@ -2,38 +2,31 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 from __future__ import annotations
 
-from pydantic import NonNegativeInt, TypeAdapter
+from pydantic import TypeAdapter
 
-from allegrobridge.client.base import KeyedCollection, SessionRecord
+from allegrobridge.client.api.record import Net
+from allegrobridge.client.base import KeyedCollection
 from allegrobridge.client.base._rpc import RpcArgs, _core_api, read
 
 _PROCEDURE = '__abProjectNets'
 
-
-class NetInfo(SessionRecord):
-    name: str
-    branch_count: NonNegativeInt
-    unconnected_count: NonNegativeInt
-    unplaced_pin_count: NonNegativeInt
-
-
-_NetList = list[NetInfo]
+_NetList = list[Net]
 _NETS = TypeAdapter(_NetList)
 
 
 @_core_api
-class NetsApi(KeyedCollection[str, NetInfo]):
+class NetsApi(KeyedCollection[str, Net]):
     _key_type = str
 
     @read(_PROCEDURE, _NETS)
     def _project(self, name: str | None) -> RpcArgs:
         return (name,)
 
-    def __call__(self) -> list[NetInfo]:
+    def __call__(self) -> list[Net]:
         return self.snapshot()
 
-    def _snapshot(self) -> list[NetInfo]:
+    def _snapshot(self) -> list[Net]:
         return self._project(None)
 
-    def _query_key(self, key: str) -> list[NetInfo]:
+    def _query_key(self, key: str) -> list[Net]:
         return self._project(key)

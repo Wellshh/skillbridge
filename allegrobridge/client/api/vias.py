@@ -2,37 +2,25 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 from __future__ import annotations
 
-from typing import Literal
-
 from pydantic import TypeAdapter
 
 from allegrobridge.client.api.geometry import (
     Point,
-    _Located,
     finite,
 )
+from allegrobridge.client.api.record import Via
 from allegrobridge.client.base import Collection, SkillModule
 from allegrobridge.client.base._rpc import RpcArgs, read, write
 
 _PROJECT_PROCEDURE = '__abProjectVias'
 _CREATE_PROCEDURE = '__abCreateVia'
-_OptionalString = str | None
 
-
-class ViaInfo(_Located):
-    padstack: str
-    net: _OptionalString
-    mirroring: Literal['mirrored', 'unmirrored']
-    start_layer: str
-    end_layer: str
-
-
-_ViaList = list[ViaInfo]
+_ViaList = list[Via]
 _VIAS = TypeAdapter(_ViaList)
-_VIA = TypeAdapter(ViaInfo)
+_VIA = TypeAdapter(Via)
 
 
-class ViasApi(Collection[ViaInfo]):
+class ViasApi(Collection[Via]):
     module = SkillModule('allegrobridge.server', 'extensions/vias.il')
 
     @read(_PROJECT_PROCEDURE, _VIAS)
@@ -51,10 +39,10 @@ class ViasApi(Collection[ViaInfo]):
         net: str | None = None,
         layer: str | None = None,
         padstack: str | None = None,
-    ) -> list[ViaInfo]:
+    ) -> list[Via]:
         return self._project(net=net, layer=layer, padstack=padstack)
 
-    def _snapshot(self) -> list[ViaInfo]:
+    def _snapshot(self) -> list[Via]:
         return self._project(net=None, layer=None, padstack=None)
 
     @write(_CREATE_PROCEDURE, _VIA)

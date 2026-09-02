@@ -63,7 +63,10 @@ class Session:
         self._bindings: dict[type[SessionApi], SessionApi] = {}
         self._binding_errors: dict[type[SessionApi], ExtensionError] = {}
         self._binding_lock = Lock()
-        self._connect_lock = Lock()
+
+    @property
+    def mode(self) -> Literal['cli', 'manual']:
+        return self._allegro.mode
 
     @property
     def workspace(self) -> Workspace:
@@ -101,7 +104,7 @@ class Session:
             >>> class ProbeApi(SessionApi):
             ...     module = SkillModule('my_package.fixtures', 'server/extensions/probe.il')
             ...
-            ...     @read('__abp_probe_project', TypeAdapter(list[ComponentInfo]))
+            ...     @read('__abp_probe_project', TypeAdapter(list[AbComponent]))
             ...     def __call__(self) -> RpcArgs:
             ...         return ()
             >>> probe = session.bind(ProbeApi)

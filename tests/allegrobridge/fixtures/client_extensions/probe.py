@@ -5,7 +5,7 @@ from __future__ import annotations
 from pydantic import TypeAdapter
 
 from allegrobridge.client.api import (
-    ComponentInfo,
+    AbComponent,
     RpcArgs,
     SessionApi,
     SkillModule,
@@ -13,8 +13,8 @@ from allegrobridge.client.api import (
     write,
 )
 
-_COMPONENTS = TypeAdapter(list[ComponentInfo])
-_COMPONENT = TypeAdapter(ComponentInfo)
+_COMPONENTS = TypeAdapter(list[AbComponent])
+_COMPONENT = TypeAdapter(AbComponent)
 
 
 class ProbeApi(SessionApi):

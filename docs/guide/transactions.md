@@ -31,7 +31,7 @@ preview = pcb.components.move.preview("R101", x=120.0, y=45.0)
 cmd = pcb.components.move.command("C101", x=120.0, y=45.0)
 ```
 
-All three return the validated result record (here a fresh `ComponentInfo`);
+All three return the validated result record (here a fresh `AbComponent`);
 the direct form additionally raises if the transaction fails.
 
 ## Batching
@@ -41,15 +41,15 @@ per command:
 
 ```python
 with pcb.batch("align caps") as batch:
-    c1 = batch.call(pcb.components.move.command, "C101", x=120.0, y=45.0)
-    c2 = batch.call(pcb.components.move.command, "C102", x=130.0, y=45.0)
+    c1 = batch.call(pcb.components.move, "C101", x=120.0, y=45.0)
+    c2 = batch.call(pcb.components.move, "C102", x=130.0, y=45.0)
 
 print(c1.value.rotation)
 ```
 
-- `batch.call(operation.command, ...)` constructs and adds a command while
+- `batch.call(operation, ...)` builds and adds a command while
   preserving the operation's argument types. `batch.add(command)` remains the
-  lower-level entry point. Both return a `CmdResult` that resolves when the
+  lower-level entry point for prebuilt `Cmd` handles. Both return a `CmdResult` that resolves when the
   `with` block exits. Reading `.value` before that raises `RuntimeError`; if
   the batch failed, `.value` re-raises the error.
 - An exception inside the `with` body aborts the batch; nothing is executed.

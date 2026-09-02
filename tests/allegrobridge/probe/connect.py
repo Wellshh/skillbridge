@@ -12,13 +12,12 @@ from typing import cast
 
 from pydantic import TypeAdapter
 
-from allegrobridge import Workspace
+from allegrobridge import Route, Workspace
 from allegrobridge._kernel.client.hints import Skill, SkillCode
-from allegrobridge.client.api.routes import RouteInfo
 from tests.allegrobridge.probe.drc import _sanitize
 
 _INTERACTION_THRESHOLD = 1.0
-_ROUTES = TypeAdapter(list[RouteInfo])
+_ROUTES = TypeAdapter(list[Route])
 
 
 def _route_fingerprint(snapshot: dict[str, object]) -> tuple[str, ...]:

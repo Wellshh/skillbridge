@@ -9,6 +9,7 @@ from collections.abc import Sequence
 from dataclasses import FrozenInstanceError
 from inspect import signature
 from pathlib import Path
+from threading import Lock
 from typing import Annotated, Any, TypeVar
 from unittest.mock import MagicMock, Mock
 from weakref import ref
@@ -16,6 +17,7 @@ from weakref import ref
 import pytest
 from pydantic import Field, TypeAdapter, ValidationError
 
+import allegrobridge
 import allegrobridge._kernel.server
 import allegrobridge.client.api as api_module
 import allegrobridge.server
@@ -28,40 +30,51 @@ from allegrobridge.allegro import (
     _resolve_executable,
 )
 from allegrobridge.client.api import (
+    AbBoard,
+    AbComponent,
+    AbComponentRef,
+    AbDrc,
+    AbLayer,
+    AbNet,
+    AbNetRef,
+    AbPadstack,
+    AbPin,
+    AbPinRef,
+    AbRoute,
+    AbShape,
+    AbSymbol,
+    AbVia,
     ArcTo,
     Batch,
     BBox,
+    Board,
     BoardApi,
-    BoardInfo,
     Cmd,
     CmdResult,
-    ComponentInfo,
-    ComponentRef,
+    Component,
     ComponentsApi,
+    Drc,
     DrcApi,
-    DrcInfo,
-    LayerInfo,
+    Layer,
     LayersApi,
     LineTo,
-    NetInfo,
-    NetRef,
+    Net,
     NetsApi,
-    PadstackInfo,
+    Padstack,
     PadstacksApi,
-    PinInfo,
-    PinRef,
+    PcbSymbol,
+    Pin,
     PinsApi,
     Point,
-    RouteInfo,
+    Route,
     RoutesApi,
     RpcArgs,
     RpcDef,
     SessionApi,
-    ShapeInfo,
+    Shape,
     ShapesApi,
-    SymbolInfo,
     SymbolsApi,
-    ViaInfo,
+    Via,
     ViasApi,
     read,
 )
@@ -71,6 +84,8 @@ from allegrobridge.client.base._rpc import (
     _api_procedures,
     _core_api,
     _core_procedures,
+    direct,
+    write,
 )
 from allegrobridge.client.session import Session
 from allegrobridge.client.translator import Translator
@@ -422,6 +437,14 @@ class TestSessionBindings:
     def test_session_has_no_dynamic_extension_namespace(self) -> None:
         assert not hasattr(_session(), 'ext')
 
+    def test_session_exposes_mode_and_no_connect_lock(self) -> None:
+        cli_session = _session(mode='cli')
+        manual_session = _session(mode='manual')
+
+        assert cli_session.mode == 'cli'
+        assert manual_session.mode == 'manual'
+        assert not hasattr(cli_session, '_connect_lock')
+
     def test_core_api_slot_is_local_and_cached(self) -> None:
         workspace = MagicMock()
         session = _session(workspace)
@@ -551,7 +574,7 @@ class TestCollectionApi:
     @pytest.mark.parametrize(
         ('api_type', 'snapshot_kwargs'),
         [
-            (SymbolsApi, {'type': None}),
+            (SymbolsApi, {'kind': None}),
             (ViasApi, {'net': None, 'layer': None, 'padstack': None}),
             (RoutesApi, {'net': None, 'layer': None}),
             (ShapesApi, {'net': None, 'layer': None, 'dynamic': None}),
@@ -629,7 +652,7 @@ class TestGeometry:
         )
 
     def test_records_expose_local_locations(self) -> None:
-        symbol = SymbolInfo(
+        symbol = AbSymbol(
             name='RES_0402',
             type='PACKAGE',
             refdes='R1',
@@ -637,7 +660,7 @@ class TestGeometry:
             y=2.0,
             rotation=90.0,
         )
-        placed = ComponentInfo(
+        placed = AbComponent(
             refdes='R1',
             device_type='RESISTOR',
             package='RES_0402',
@@ -658,7 +681,7 @@ class TestGeometry:
     @pytest.mark.parametrize('value', [float('nan'), float('inf'), float('-inf')])
     def test_records_reject_non_finite_locations(self, value: float) -> None:
         with pytest.raises(ValidationError):
-            SymbolInfo(
+            AbSymbol(
                 name='RES_0402',
                 type='PACKAGE',
                 refdes='R1',
@@ -667,7 +690,7 @@ class TestGeometry:
                 rotation=90.0,
             )
         with pytest.raises(ValidationError):
-            ComponentInfo(
+            AbComponent(
                 refdes='R1',
                 device_type='RESISTOR',
                 package='RES_0402',
@@ -690,44 +713,60 @@ class TestGeometry:
 class TestReadApi:
     def test_client_api_exports_only_public_declarations(self) -> None:
         assert set(api_module.__all__) == {
+            'AbBoard',
+            'AbComponent',
+            'AbComponentRef',
+            'AbDrc',
+            'AbDrcObjectRef',
+            'AbLayer',
+            'AbNet',
+            'AbNetRef',
+            'AbPadstack',
+            'AbPin',
+            'AbPinRef',
+            'AbRoute',
+            'AbShape',
+            'AbSymbol',
+            'AbVia',
             'ArcTo',
-            'Batch',
             'BBox',
+            'Batch',
+            'Board',
             'BoardApi',
-            'BoardInfo',
             'Cmd',
             'CmdResult',
             'Collection',
+            'Component',
             'ComponentRef',
-            'ComponentInfo',
             'ComponentsApi',
+            'Drc',
             'DrcApi',
-            'DrcInfo',
             'DrcObjectRef',
             'KeyedCollection',
-            'LayerInfo',
+            'Layer',
             'LayersApi',
             'LineTo',
-            'NetInfo',
+            'Net',
             'NetRef',
             'NetsApi',
-            'PadstackInfo',
+            'Padstack',
             'PadstacksApi',
-            'PinInfo',
+            'PcbSymbol',
+            'Pin',
             'PinRef',
             'PinsApi',
             'Point',
-            'RouteInfo',
+            'Route',
             'RoutesApi',
             'RpcArgs',
             'RpcDef',
             'SessionApi',
-            'ShapeInfo',
+            'Shape',
             'ShapesApi',
             'SkillModule',
-            'SymbolInfo',
+            'Symbol',
             'SymbolsApi',
-            'ViaInfo',
+            'Via',
             'ViasApi',
             'read',
             'write',
@@ -737,6 +776,24 @@ class TestReadApi:
         assert not hasattr(api_module, '_Record')
         assert not hasattr(api_module, 'BaseRecord')
         assert not hasattr(api_module, 'SessionRecord')
+
+    def test_top_level_exports_match_public_domain_models(self) -> None:
+        assert allegrobridge.Component is Component
+        assert allegrobridge.Net is Net
+        assert allegrobridge.Pin is Pin
+        assert allegrobridge.Route is Route
+        assert allegrobridge.Via is Via
+        assert allegrobridge.Shape is Shape
+        assert allegrobridge.Board is Board
+        assert allegrobridge.Layer is Layer
+        assert allegrobridge.Padstack is Padstack
+        assert allegrobridge.Drc is Drc
+        assert allegrobridge.PcbSymbol is PcbSymbol
+        assert allegrobridge.Point is Point
+        assert allegrobridge.BBox is BBox
+        assert allegrobridge.Batch is Batch
+        assert allegrobridge.Cmd is Cmd
+        assert allegrobridge.CmdResult is CmdResult
 
     def test_core_procedures_are_collected_from_api_declarations(self) -> None:
         procedures = (
@@ -795,7 +852,7 @@ class TestReadApi:
         assert ComponentsApi.move_by.spec == RpcDef('write', '__abMoveComponentsBy')
         assert not hasattr(ProbeApi.items.spec, 'nil_as_empty_list')  # type: ignore[attr-defined]
         with pytest.raises(FrozenInstanceError):
-            ProbeApi.items.spec.kind = 'write'  # type: ignore[attr-defined,misc]
+            ProbeApi.items.spec.kind = 'write'  # type: ignore[attr-defined]
 
     def test_declaration_preserves_signature_and_sends_once(self) -> None:
         workspace = MagicMock()
@@ -872,23 +929,23 @@ class TestReadApi:
         net = session.nets()[0]
 
         _assert_id(net, session)
-        assert NetInfo.model_construct(name='GND')._id is None
+        assert AbNet.model_construct(name='GND')._id is None
         assert '_id' not in net.model_dump()
 
     @pytest.mark.parametrize(
         'record_type',
         [
-            BoardInfo,
-            ComponentInfo,
-            DrcInfo,
-            LayerInfo,
-            NetInfo,
-            PadstackInfo,
-            PinInfo,
-            RouteInfo,
-            ShapeInfo,
-            SymbolInfo,
-            ViaInfo,
+            AbBoard,
+            AbComponent,
+            AbDrc,
+            AbLayer,
+            AbNet,
+            AbPadstack,
+            AbPin,
+            AbRoute,
+            AbShape,
+            AbSymbol,
+            AbVia,
         ],
     )
     def test_database_records_use_private_id(self, record_type: type[BaseRecord]) -> None:
@@ -910,7 +967,7 @@ class TestReadApi:
         layers = session.layers(etch_only=True)
 
         assert [layer.model_dump() for layer in layers] == [
-            LayerInfo(
+            AbLayer(
                 name='ETCH/TOP',
                 class_name='ETCH',
                 subclass='TOP',
@@ -925,7 +982,7 @@ class TestReadApi:
         assert session.layers['ETCH/TOP'].name == 'ETCH/TOP'
         etch_only = False
         workspace.__getitem__.return_value.assert_called_with('ETCH/TOP', etch_only)
-        assert not LayerInfo(
+        assert not AbLayer(
             name='BOARD GEOMETRY/OUTLINE',
             class_name='BOARD GEOMETRY',
             subclass='OUTLINE',
@@ -961,7 +1018,7 @@ class TestReadApi:
         pins = session.pins(component='U1', net='GND')
 
         assert [pin.model_dump() for pin in pins] == [
-            PinInfo(
+            AbPin(
                 refdes='U1',
                 number='1',
                 net='GND',
@@ -1005,7 +1062,7 @@ class TestReadApi:
         padstacks = session.padstacks()
 
         assert [padstack.model_dump() for padstack in padstacks] == [
-            PadstackInfo(
+            AbPadstack(
                 name='VIA12',
                 type='through',
                 usage='through_via',
@@ -1045,7 +1102,7 @@ class TestReadApi:
         symbols = session.symbols(type='PACKAGE')
 
         assert [symbol.model_dump() for symbol in symbols] == [
-            SymbolInfo(
+            AbSymbol(
                 name='RES_0402',
                 type='PACKAGE',
                 refdes='R1',
@@ -1057,6 +1114,7 @@ class TestReadApi:
         _assert_id(symbols[0], session)
         assert session.symbols is session.symbols
         workspace.__getitem__.return_value.assert_called_once_with('PACKAGE')
+        assert session.symbols(kind='PACKAGE') == symbols
 
     def test_vias_load_extension_once_and_delegate_filters(self) -> None:
         workspace = MagicMock()
@@ -1082,7 +1140,7 @@ class TestReadApi:
         )
         assert session.vias is session.vias
         assert [via.model_dump() for via in vias] == [
-            ViaInfo(
+            AbVia(
                 padstack='VIA12',
                 net='GND',
                 x=1.0,
@@ -1167,7 +1225,7 @@ class TestReadApi:
         )
         assert session.routes is session.routes
         assert [route.model_dump() for route in routes] == [
-            RouteInfo(
+            AbRoute(
                 net='GND',
                 layer='ETCH/TOP',
                 obj_type='line',
@@ -1204,7 +1262,7 @@ class TestReadApi:
         routes = session.routes(net='CLK', layer='ETCH/TOP')
 
         assert [route.model_dump() for route in routes] == [
-            RouteInfo(
+            AbRoute(
                 net='CLK',
                 layer='ETCH/TOP',
                 obj_type='arc',
@@ -1278,8 +1336,8 @@ class TestReadApi:
         )
 
         assert [route.model_dump() for route in created] == [
-            RouteInfo.model_validate(first).model_dump(),
-            RouteInfo.model_validate(second).model_dump(),
+            AbRoute.model_validate(first).model_dump(),
+            AbRoute.model_validate(second).model_dump(),
         ]
         assert all(
             route.layer == 'ETCH/GND' and math.isclose(route.width, 25.0) for route in created
@@ -1317,7 +1375,7 @@ class TestReadApi:
         )
 
         assert len(created) == 1
-        assert created[0].model_dump() == RouteInfo.model_validate(duplicate).model_dump()
+        assert created[0].model_dump() == AbRoute.model_validate(duplicate).model_dump()
 
     def test_route_connect_rejects_no_change_and_disconnected_change(self) -> None:
         source = _route_payload((0.0, 0.0), (1.0, 0.0), net='VCC')
@@ -1437,6 +1495,12 @@ class TestReadApi:
             )
 
         assert session.generation == generation + 1
+
+    def test_routes_api_connect_lock_initialized_on_creation(self) -> None:
+        session = _session()
+        routes = RoutesApi(session)
+        assert hasattr(routes, '_connect_lock')
+        assert isinstance(routes._connect_lock, type(Lock()))
 
     @pytest.mark.parametrize(
         ('path', 'width', 'message'),
@@ -1572,7 +1636,7 @@ class TestReadApi:
         )
         assert session.shapes is session.shapes
         assert [shape.model_dump() for shape in shapes] == [
-            ShapeInfo(
+            AbShape(
                 net='GND',
                 layer='ETCH/TOP',
                 dynamic='dynamic',
@@ -1621,7 +1685,7 @@ class TestReadApi:
         )
         assert session.drc is session.drc
         assert [drc.model_dump() for drc in drcs] == [
-            DrcInfo(
+            AbDrc(
                 name='Ts Allowed',
                 category='PHYSICAL CONSTRAINTS',
                 source='VOLTAGE',
@@ -1634,9 +1698,9 @@ class TestReadApi:
                     ur=Point(x=2.0, y=3.0),
                 ),
                 objects=[
-                    PinRef(kind='pin', refdes='U3', number='14'),
-                    ComponentRef(kind='component', refdes='U3'),
-                    NetRef(kind='net', name='VCC'),
+                    AbPinRef(kind='pin', refdes='U3', number='14'),
+                    AbComponentRef(kind='component', refdes='U3'),
+                    AbNetRef(kind='net', name='VCC'),
                 ],
             ).model_dump()
         ]
@@ -1651,24 +1715,24 @@ class TestDrcApi:
         session = _session(workspace)
         drc = session.drc
         workspace.reset_mock()
-        targets: list[tuple[ComponentInfo | NetInfo | PinInfo, tuple[str, str, str | None]]] = [
+        targets: list[tuple[AbComponent | AbNet | AbPin, tuple[str, str, str | None]]] = [
             (
                 _bind_id(
-                    ComponentInfo.model_construct(refdes='R1'),
+                    AbComponent.model_construct(refdes='R1'),
                     session,
                 ),
                 ('component', 'R1', None),
             ),
             (
                 _bind_id(
-                    NetInfo.model_construct(name='GND'),
+                    AbNet.model_construct(name='GND'),
                     session,
                 ),
                 ('net', 'GND', None),
             ),
             (
                 _bind_id(
-                    PinInfo.model_construct(refdes='R1', number='1'),
+                    AbPin.model_construct(refdes='R1', number='1'),
                     session,
                 ),
                 ('pin', 'R1', '1'),
@@ -1688,13 +1752,13 @@ class TestDrcApi:
     @pytest.mark.parametrize(
         ('target', 'message'),
         [
-            (NetInfo.model_construct(name='GND'), 'not bound'),
+            (AbNet.model_construct(name='GND'), 'not bound'),
             (None, 'another Session'),
         ],
     )
     def test_rejects_invalid_record_provenance_before_rpc(
         self,
-        target: NetInfo | None,
+        target: AbNet | None,
         message: str,
     ) -> None:
         workspace = MagicMock()
@@ -1702,7 +1766,7 @@ class TestDrcApi:
         drc = session.drc
         if target is None:
             owner = _session()
-            target = _bind_id(NetInfo.model_construct(name='GND'), owner)
+            target = _bind_id(AbNet.model_construct(name='GND'), owner)
         workspace.reset_mock()
 
         with pytest.raises(RecordIDError, match=message):
@@ -1714,7 +1778,7 @@ class TestDrcApi:
         workspace = MagicMock()
         session = _session(workspace)
         drc = session.drc
-        target = _bind_id(NetInfo.model_construct(name='GND'), _session())
+        target = _bind_id(AbNet.model_construct(name='GND'), _session())
         workspace.reset_mock()
 
         with pytest.raises(RecordIDError, match='no longer available'):
@@ -1726,7 +1790,7 @@ class TestDrcApi:
         workspace = MagicMock()
         session = _session(workspace)
         drc = session.drc
-        target = _bind_id(NetInfo.model_construct(name='GND'), session)
+        target = _bind_id(AbNet.model_construct(name='GND'), session)
         session.refresh()
         workspace.reset_mock()
 
@@ -1766,11 +1830,11 @@ class TestDrcApi:
         session = _session(workspace)
         drc = session.drc
 
-        with pytest.raises(TypeError, match='ComponentInfo, NetInfo, or PinInfo'):
+        with pytest.raises(TypeError, match='Component, Net, or Pin'):
             drc.check(object())  # type: ignore[arg-type]
 
         workspace.__getitem__.return_value.return_value = [{'name': 'incomplete'}]
-        target = _bind_id(NetInfo.model_construct(name='GND'), session)
+        target = _bind_id(AbNet.model_construct(name='GND'), session)
         with pytest.raises(AllegroProtocolError, match='__abCheckDrcs'):
             drc.check(target)
 
@@ -1801,7 +1865,7 @@ class TestWriteApi:
 
         assert ComponentsApi.move.spec.proc == '__abMoveComponent'
         assert list(signature(session.components.move).parameters) == [
-            'refdes',
+            'component',
             'x',
             'y',
             'rotation',
@@ -1857,9 +1921,9 @@ class TestWriteApi:
         workspace.transaction.return_value = payloads
         session = _session(workspace)
         components = [
-            _bind_id(ComponentInfo.model_validate(self._component_payload(1.0)), session),
+            _bind_id(AbComponent.model_validate(self._component_payload(1.0)), session),
             _bind_id(
-                ComponentInfo.model_validate(self._component_payload(2.0) | {'refdes': 'R2'}),
+                AbComponent.model_validate(self._component_payload(2.0) | {'refdes': 'R2'}),
                 session,
             ),
         ]
@@ -1894,7 +1958,7 @@ class TestWriteApi:
         workspace = MagicMock()
         session = _session(workspace)
         component = _bind_id(
-            ComponentInfo.model_validate(self._component_payload(1.0)),
+            AbComponent.model_validate(self._component_payload(1.0)),
             session,
         )
 
@@ -1911,7 +1975,7 @@ class TestWriteApi:
         workspace = MagicMock()
         session = _session(workspace)
         component = _bind_id(
-            ComponentInfo.model_validate(self._component_payload(1.0)),
+            AbComponent.model_validate(self._component_payload(1.0)),
             session,
         )
 
@@ -1924,9 +1988,9 @@ class TestWriteApi:
         workspace = MagicMock()
         session = _session(workspace)
         other = _session()
-        unbound = ComponentInfo.model_validate(self._component_payload(1.0))
-        foreign = _bind_id(ComponentInfo.model_validate(self._component_payload(1.0)), other)
-        stale = _bind_id(ComponentInfo.model_validate(self._component_payload(1.0)), session)
+        unbound = AbComponent.model_validate(self._component_payload(1.0))
+        foreign = _bind_id(AbComponent.model_validate(self._component_payload(1.0)), other)
+        stale = _bind_id(AbComponent.model_validate(self._component_payload(1.0)), session)
         session.refresh()
 
         for component, message in [
@@ -1939,6 +2003,45 @@ class TestWriteApi:
 
         workspace.__getitem__.assert_not_called()
 
+    def test_components_move_and_move_by_accept_component_instances(self) -> None:
+        workspace = MagicMock()
+        remote = workspace.__getitem__.return_value
+        remote.expr.side_effect = [
+            Expr.raw_skill('__abMoveComponent("R1" 1.0 2.0 nil)'),
+            Expr.raw_skill('__abMoveComponentsBy((list "R1" "R2") 1.0 2.0)'),
+        ]
+        workspace.transaction.side_effect = [
+            self._component_payload(1.0),
+            [self._component_payload(2.0), self._component_payload(3.0) | {'refdes': 'R2'}],
+        ]
+        session = _session(workspace)
+        comp1 = _bind_id(Component.model_validate(self._component_payload(1.0)), session)
+        comp2 = _bind_id(
+            Component.model_validate(self._component_payload(2.0) | {'refdes': 'R2'}),
+            session,
+        )
+
+        moved = session.components.move(comp1, x=1.0, y=2.0)
+        assert moved.refdes == 'R1'
+
+        moved_batch = session.components.move_by([comp1, comp2], dx=1.0, dy=2.0)
+        assert len(moved_batch) == 2
+
+    def test_components_move_rejects_invalid_component_target(self) -> None:
+        session = _session()
+        with pytest.raises(TypeError, match='expected component refdes or Component'):
+            session.components.move(12345, x=1.0, y=2.0)  # type: ignore[arg-type]
+
+    def test_pins_accept_component_and_net_instances(self) -> None:
+        workspace = MagicMock()
+        session = _session(workspace)
+        comp = _bind_id(Component.model_validate(self._component_payload(1.0)), session)
+        net = _bind_id(Net.model_construct(name='GND'), session)
+
+        workspace.__getitem__.return_value.return_value = []
+        session.pins(component=comp, net=net)
+        workspace.__getitem__.return_value.assert_called_once_with('R1', None, 'GND')
+
     def test_command_derives_id_from_session(self) -> None:
         session = _session()
 
@@ -1946,7 +2049,7 @@ class TestWriteApi:
             session,
             SkillCode('move1()'),
             '__abMoveComponent',
-            TypeAdapter(ComponentInfo),
+            TypeAdapter(AbComponent),
         )
 
         assert command._id == _ID(ref(session), session.generation)
@@ -2133,6 +2236,42 @@ class TestBatch:
         assert result.value.refdes == 'R1'
         workspace.transaction.assert_called_once()
 
+    def test_batch_call_rejects_non_write_callable_without_rpc(self) -> None:
+        workspace = MagicMock()
+        session = _session(workspace)
+
+        with session.batch() as batch:
+            with pytest.raises(TypeError, match=r'Batch\.call requires a @write operation'):
+                batch.call(session.nets.snapshot)  # type: ignore[arg-type]
+
+            target = MagicMock()
+            with pytest.raises(TypeError, match=r'Batch\.call requires a @write operation'):
+                batch.call(session.drc.check, target)  # type: ignore[arg-type]
+
+            with pytest.raises(TypeError, match=r'Batch\.call requires a @write operation'):
+                batch.call(lambda: None)  # type: ignore[arg-type]
+
+            with pytest.raises(TypeError, match=r'Batch\.call requires a @write operation'):
+                batch.call(session.components.move.command, 'R1', x=1.0, y=2.0)  # type: ignore[arg-type]
+
+        workspace.transaction.assert_not_called()
+        workspace.transaction.preview.assert_not_called()
+        workspace.__getitem__.assert_not_called()
+
+    def test_batch_add_accepts_prebuilt_command(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.expr.return_value = Expr.raw_skill('move1()')
+        workspace.transaction.return_value = [self._payload('R1', 1.0)]
+        session = _session(workspace)
+
+        with session.batch() as batch:
+            cmd = session.components.move.command('R1', x=1.0, y=2.0)
+            res = batch.add(cmd)
+            assert isinstance(res, CmdResult)
+
+        assert res.value.refdes == 'R1'
+        workspace.transaction.assert_called_once()
+
     def test_dry_run_uses_preview_and_empty_batch_sends_nothing(self) -> None:
         workspace = MagicMock()
         workspace.__getitem__.return_value.expr.return_value = Expr.raw_skill('move1()')
@@ -2189,7 +2328,7 @@ class TestBatch:
         workspace = MagicMock()
         workspace.__getitem__.return_value.expr.return_value = Expr.raw_skill('move1()')
         session = _session(workspace)
-        results: list[CmdResult[ComponentInfo]] = []
+        results: list[CmdResult[AbComponent]] = []
 
         def execute() -> None:
             with session.batch() as batch:
@@ -2216,7 +2355,7 @@ class TestBatch:
             return [self._payload('R1', 1.0)]
 
         workspace.transaction.side_effect = change_during_transaction
-        results: list[CmdResult[ComponentInfo]] = []
+        results: list[CmdResult[AbComponent]] = []
 
         def execute() -> None:
             with session.batch() as batch:
@@ -2303,6 +2442,82 @@ class TestBatch:
             batch.add(Mock(spec=Cmd))
         with pytest.raises(RuntimeError, match='already used'), batch:
             pass
+
+
+class TestBaseProvenanceValidation:
+    class DummyApi(SessionApi):
+        @read('__testRead', TypeAdapter(dict[str, object]))
+        def custom_read(self, record: AbComponent) -> RpcArgs:
+            return (record.refdes,)
+
+        @direct('__testDirect', TypeAdapter(dict[str, object]))
+        def custom_direct(self, records: list[AbComponent]) -> RpcArgs:
+            return ([r.refdes for r in records],)
+
+        @write('__testWrite', TypeAdapter(dict[str, object]))
+        def custom_write(self, *, target: AbComponent) -> RpcArgs:
+            return (target.refdes,)
+
+        def manual_check(self, item: object) -> None:
+            self.check_id(item)
+
+    @staticmethod
+    def _payload() -> dict[str, object]:
+        return {
+            'refdes': 'R1',
+            'device_type': 'RESISTOR',
+            'package': 'RES_0402',
+            'component_class': 'DISCRETE',
+            'placement': 'placed',
+            'x': 1.0,
+            'y': 2.0,
+            'rotation': 0.0,
+        }
+
+    def test_automatic_provenance_validation_on_read_write_direct(self) -> None:
+        workspace = MagicMock()
+        session = _session(workspace)
+        api = self.DummyApi(session)
+        other = _session()
+
+        unbound = AbComponent.model_validate(self._payload())
+        foreign = _bind_id(AbComponent.model_validate(self._payload()), other)
+        stale = _bind_id(AbComponent.model_validate(self._payload()), session)
+        session.refresh()
+        valid = _bind_id(AbComponent.model_validate(self._payload()), session)
+
+        for invalid_record, match in [
+            (unbound, 'not bound'),
+            (foreign, 'another Session'),
+            (stale, 'stale'),
+        ]:
+            with pytest.raises(RecordIDError, match=match):
+                api.custom_read(invalid_record)
+
+            with pytest.raises(RecordIDError, match=match):
+                api.custom_direct([invalid_record])
+
+            with pytest.raises(RecordIDError, match=match):
+                api.custom_write(target=invalid_record)
+
+            with pytest.raises(RecordIDError, match=match):
+                api.custom_write.command(target=invalid_record)
+
+            with pytest.raises(RecordIDError, match=match):
+                api.manual_check(invalid_record)
+
+            with pytest.raises(RecordIDError, match=match):
+                api.manual_check({'nested': invalid_record})
+
+        workspace.__getitem__.assert_not_called()
+
+        workspace.__getitem__.return_value.return_value = self._payload()
+        res = api.custom_read(valid)
+        assert res['refdes'] == 'R1'
+        api.manual_check(valid)
+        api.manual_check([valid])
+        api.manual_check({'k': valid})
+        api.manual_check('non-record-is-noop')
 
 
 def test_allegro_errors_share_skillbridge_root() -> None:

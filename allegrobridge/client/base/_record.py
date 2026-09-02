@@ -18,16 +18,15 @@ class BaseRecord(BaseModel):
     model_config = ConfigDict(strict=True, extra='forbid', frozen=True)
 
 
+# _ID is necessary since `dbid` in allegro is not persistent, e.g. `axlShell('add connect')`
+# may lead to dbid refreshing
 @dataclass(frozen=True, slots=True)
 class _ID:
-    """An implicit id binded to each record fetched from allegro database,
-    associated with session and object query turns."""
-
-    token: ReferenceType[Session]
+    _ref_session: ReferenceType[Session]
     generation: int
 
     def check(self, session: Session, name: str) -> None:
-        owner = self.token()
+        owner = self._ref_session()
         if owner is None:
             raise RecordIDError(f'{name} Session is no longer available')
         if owner is not session:
