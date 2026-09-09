@@ -433,6 +433,53 @@ def test_allegro_translator_exposes_local_function_catalog() -> None:
     assert channel.outputs.pop() == DefaultTranslator.encode_globals('missing')
 
 
+def test_default_translator_decode_globals_unwraps_warning() -> None:
+    bare = '"axlGeoDistance axlZoomWorld axlAddSelectAll"'
+    wrapped = (
+        r'warning("Loading skillDev.cxt \n*WARNING* ", '
+        r'"axlGeoDistance axlZoomWorld axlAddSelectAll")'
+    )
+    expected = ['geo_distance', 'zoom_world', 'add_select_all']
+    assert DefaultTranslator.decode_globals(bare, 'axl') == expected
+    assert DefaultTranslator.decode_globals(wrapped, 'axl') == expected
+
+
+def test_allegro_translator_decode_globals_unwraps_warning_with_catalog() -> None:
+    translator = ATranslator()
+    channel = DummyChannel()
+    collection = FunctionCollection(channel, 'db', translator)
+
+    channel.inputs.append(
+        r'warning("Loading skillDev.cxt \n*WARNING* ", '
+        r'"axlDBGetDesign axlDBCreateNet axlGeoDistance")'
+    )
+    assert collection.dir() == ['get_design', 'create_net']
+    assert channel.outputs.pop() == DefaultTranslator.encode_globals('axl')
+
+
+def test_allegro_translator_decode_globals_unwraps_warning_without_catalog() -> None:
+    translator = ATranslator()
+    channel = DummyChannel()
+    collection = FunctionCollection(channel, 'missing', translator)
+
+    channel.inputs.append(r'warning("*WARNING* Loaded something", "missingFunction")')
+    assert collection.dir() == ['function']
+    assert channel.outputs.pop() == DefaultTranslator.encode_globals('missing')
+
+
+def test_decode_globals_routes_warning_to_logger_and_userwarning(caplog, recwarn) -> None:
+    caplog.set_level(logging.INFO)
+    translator = ATranslator()
+    code = r'warning("info line\n*WARNING* warn line", "axlDBGetDesign axlDBCreateNet")'
+    assert translator.decode_globals(code, 'db') == ['get_design', 'create_net']
+    assert [str(w.message) for w in recwarn.list] == ["info line", "warn line"]
+    assert [(r.levelname, r.getMessage()) for r in caplog.records] == [
+        ("INFO", "info line"),
+        ("WARNING", "warn line"),
+    ]
+    assert all(r.name == "allegrobridge.cadence" for r in caplog.records)
+
+
 def test_allegro_translator_has_working_decode() -> None:
     a = ATranslator()
     assert a.decode('3') == 3

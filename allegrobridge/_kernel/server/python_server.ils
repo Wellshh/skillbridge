@@ -377,7 +377,10 @@ letseq(
       (setq effectivePython
         (if (equal python "") then _state->python else python))
       (setq command
-        (lsprintf "%s %s %s" effectivePython script (buildString args)))
+        (lsprintf "\"%s\" -m allegrobridge._kernel._run_script \"%s\""
+                  effectivePython script))
+      (when args
+        (setq command (lsprintf "%s %s" command (buildString args))))
       (setq dataHandler
         (lambda (id data)
           (when (and active (equal id process))

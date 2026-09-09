@@ -212,9 +212,26 @@ class Translator:
         return SkillCode(f'{snake_to_camel(variable)} = {encoded_value} nil')
 
     @staticmethod
+    def decode_raw_string(code: str) -> str:
+        """Decode a server payload into the plain string it carries.
+
+        The SKILL server wraps results in ``warning(message, result)`` when it
+        captured diagnostic output during evaluation (see python_server.ils),
+        so globals responses must go through the safe expression evaluator
+        instead of parsing the wire format directly.
+        """
+        value = _skill_value_to_python(code)
+        if not isinstance(value, str):
+            raise ParseError(f'Globals response is not a string: {type(value).__name__}')
+        return value
+
+    @staticmethod
     def decode_globals(code: str, prefix: str) -> list[str]:
         stem = f'{camel_to_snake(prefix)}_'
-        return [camel_to_snake(function).removeprefix(stem) for function in loads(code).split()]
+        return [
+            camel_to_snake(function).removeprefix(stem)
+            for function in Translator.decode_raw_string(code).split()
+        ]
 
     @staticmethod
     def encode_help(symbol: str) -> SkillCode:

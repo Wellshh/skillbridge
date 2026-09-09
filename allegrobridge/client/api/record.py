@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Annotated, Literal
 
-from pydantic import Field, FiniteFloat, NonNegativeInt
+from pydantic import Field, FiniteFloat, NonNegativeInt, field_validator
 
 from allegrobridge.client.api.geometry import BBox, Point
 from allegrobridge.client.base import BaseRecord, SessionRecord
@@ -80,6 +80,13 @@ class Drc(SessionRecord):
     location: Point
     bbox: BBox
     objects: list[DrcObjectRef]
+
+    @field_validator('objects', mode='before')
+    @classmethod
+    def _normalize_empty_objects(cls, value: object) -> object:
+        # Allegro encodes an empty SKILL list as nil, while the public model uses []
+        # so callers can rely on the list contract without weakening other validation.
+        return [] if value is None else value
 
 
 class Layer(SessionRecord):

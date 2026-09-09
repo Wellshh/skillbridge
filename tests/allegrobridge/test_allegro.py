@@ -1707,6 +1707,31 @@ class TestReadApi:
         _assert_id(drcs[0], session)
         workspace.__getitem__.return_value.assert_called_once_with()
 
+    def test_drc_normalizes_nil_objects_to_empty_list(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.return_value = [
+            {
+                'name': 'Unconnected Pin',
+                'category': 'CONNECTIVITY',
+                'source': 'DESIGN_RULE',
+                'expected': 'CONNECTED',
+                'actual': 'UNCONNECTED',
+                'layer': 'DRC ERROR CLASS/ALL',
+                'location': {'x': 1.0, 'y': 2.0},
+                'bbox': {
+                    'll': {'x': 0.0, 'y': 1.0},
+                    'ur': {'x': 2.0, 'y': 3.0},
+                },
+                'objects': None,
+            }
+        ]
+        session = _session(workspace)
+
+        drcs = session.drc()
+
+        assert drcs[0].objects == []
+        _assert_id(drcs[0], session)
+
 
 class TestDrcApi:
     def test_maps_stable_targets_and_executes_directly(self) -> None:

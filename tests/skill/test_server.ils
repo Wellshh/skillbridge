@@ -698,8 +698,8 @@
     (qtest::TestCase test_run_script_inherits_server_python_and_restores_pythonpath
       (setq actual (__pyTestWithFakeIpc handles nil (lambda (a)
         let((old b) old=getShellEnvVar("PYTHONPATH") pyStartServer(?python "server-python-exe") pyRunScript("x") b=cadr(funcall(nth(2 a)))
-          list(not(null(index(nth(1 b) "server-python-exe x"))) equal(getShellEnvVar("PYTHONPATH") old))))))
-      (qtest::assertEqual '(t t) actual))
+          list(nth(1 b) equal(getShellEnvVar("PYTHONPATH") old))))))
+      (qtest::assertEqual '("\"server-python-exe\" -m allegrobridge._kernel._run_script \"x\"" t) actual))
     (qtest::TestCase test_run_script_restores_preexisting_pythonpath
       (setq actual (__pyTestWithFakeIpc handles nil (lambda (a) setShellEnvVar("PYTHONPATH" "preexisting-pythonpath") pyRunScript("x") getShellEnvVar("PYTHONPATH"))))
       (qtest::assertEqual "preexisting-pythonpath" actual))

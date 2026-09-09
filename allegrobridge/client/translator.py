@@ -2,8 +2,6 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 from __future__ import annotations
 
-from json import loads
-
 from typing_extensions import override
 
 from allegrobridge._kernel.client.hints import SkillCode
@@ -39,4 +37,5 @@ class Translator(GDefaultTranslator):
         if not names:
             return GDefaultTranslator.decode_globals(code, prefix)
         aliases = {_SNAKE_TO_AXL[f'{prefix}_{name}']: name for name in names}
-        return [aliases[function] for function in loads(code).split() if function in aliases]
+        functions = GDefaultTranslator.decode_raw_string(code).split()
+        return [aliases[function] for function in functions if function in aliases]
