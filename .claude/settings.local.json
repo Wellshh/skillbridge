@@ -398,7 +398,9 @@
       "Bash(.venv/bin/python -m pytest -c /tmp/pyproject_clean.toml --rootdir . --cov-config=/tmp/cleanproj/pyproject.toml -q -p no:cacheprovider)",
       "Bash(awk '/^name = \"allegrobridge\"/,/^'''^'''$/' uv.lock)",
       "Bash(.venv/bin/python -m pytest -c /tmp/pyproject_clean.toml --rootdir . tests/test_logging.py tests/test_server.py::test_main_startup_configures_file_logging tests/test_server.py::test_import_does_not_configure_root_logger 'tests/test_translator.py::test_show_warning_routes_lines_to_logger_and_keeps_userwarning' -v --no-cov -p no:cacheprovider)",
-      "Bash(echo \"pop exit=$?\")"
+      "Bash(echo \"pop exit=$?\")",
+      "Bash(awk 'length > 100 {print FILENAME\": \"NR\": \"length}')",
+      "Bash(perl -pi -e ' *)"
     ],
     "additionalDirectories": [
       "/tmp"

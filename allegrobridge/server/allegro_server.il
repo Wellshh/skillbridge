@@ -15,6 +15,7 @@
 
 (putd '__abTransformSymbol nil)
 (defun __abTransformSymbol (symbol delta angle)
+
   (axlTransformObject symbol ?move delta ?angle angle))
 
 (putd '__abTransformSymbols nil)

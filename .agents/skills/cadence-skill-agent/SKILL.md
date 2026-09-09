@@ -3,91 +3,48 @@ name: cadence-skill-agent
 description: Use when generating, reviewing, debugging, or modifying Cadence Allegro SKILL .il scripts, EDA automation, routing or via operations, dbid handling, axl API usage, or PCB automation code.
 ---
 
-你是 Cadence Allegro SKILL 脚本代理。目标是生成简洁、生命周期清晰、在目标 Windows Allegro 上验证过的 `.il` / `.ils` 代码。
+# Cadence Allegro SKILL
 
-## 强制工作流
+以目标 Allegro 版本的 API 正文、相关已验证事实和实际调用链为依据。保留现有作用域风格，明确资源所有权，并区分静态证据与 Windows Allegro 实测。
 
-1. **读取项目经验**：先读 `.claude/agent-memory/cadence-skill-agent/MEMORY.md`（claude），再用 `rg '"api": "<任务 API>"' .agents/skills/cadence-skill-agent/skill-references/verified_facts.json` 查任务涉及 API 的已验证约束，命中即用、未命中再走索引检索。Windows、路径、IPC、环境变量或 `.ils` 任务不得跳过这一步。memory 与 verified_facts 是已验证经验，不是 API 签名来源。
-2. **先找可复用代码**：用 `rg` 依次搜索当前仓库中已测试的 `.il` / `.ils`、`.agents/skills/cadence-skill-agent/skill-references/examples/` 官方或 golden example。复用其最小结构、调用顺序和清理方式；示例不能代替正式 API 文档。
-3. **逐个核对外部 API**：对每个 `axl*`、IPC、通用 SKILL 或 SKILL++ API，先精确查索引，再读完整正文条目。记录函数名、签名、返回值、约束、平台注意和文档位置。索引与正文不一致或无法确认时，不得猜测。
-4. **先测试后代码**：在最近的 qtest/qcover suite 或 Python Allegro integration test 中先表达可观测行为，再写最小实现。只测试 protocol 或纯文本无法证明 Allegro API 在 Windows 上可用。
-5. **生成最小脚本**：优先一个公开入口、一个资源所有者和一条清理路径。不增加没有当前需求的 wrapper、factory、全局状态、注册命令或防御检查。
-6. **有限验证循环**：按“静态检查 → load → smoke/qtest → 修复”执行，最多 3 轮。静态检查先跑离线 `python3 .agents/skills/cadence-skill-agent/scripts/skill_lint.py <file.il>`（纯 lexical、不启动 Allegro；比 17.2 reader 更严，拦未闭合括号/字符串），有错直接修；`sklint` 仍在 Windows 门（步骤2）作权威。每轮只根据当前失败的确切证据修复；同一失败指纹连续出现两次就停止并报告，不自旋。
+## API 与平台证据
 
-## API 检索路由
+- 查任务相关的已验证约束：`rg '"api": "<任务 API>"' .agents/skills/cadence-skill-agent/skill-references/verified_facts.json`。路径、IPC、环境变量、属性/table 赋值、write-protected symbol 和 `.ils` 行为尤其需要核对相关平台事实。
+- 按事实条目的证据位置读取必要上下文；`.claude/agent-memory/cadence-skill-agent/MEMORY.md` 可作补充检索入口，不是所有运行环境的必读前置步骤。经验与示例不是 API 签名来源。
+- Allegro `axl*` API：搜索 `.agents/skills/cadence-skill-agent/skill-references/api_index.part*.md`，再读索引指向的正文。
+- 通用 SKILL、IPC、开发工具和 SKILL++ API：搜索 `.agents/skills/cadence-skill-agent/skill-references/sklang_api_index.part*.md`，再读 `sklangref/`、`skipcref/`、`skdevref/` 或 `skoopref/` 对应正文。
+- 语言语义与性能范式：搜索 `.agents/skills/cadence-skill-agent/skill-references/sklang_topic_index.md`，再读 `sklanguser/` 命中段落。
+- 复用代码时查当前仓库已测试的脚本和 `.agents/skills/cadence-skill-agent/skill-references/examples/`。
+- 核对任务依赖的签名、返回值、失败语义及平台限制。读完整 API 条目（包括共享声明和约束），不要仅凭索引摘要或单页 PDF。索引与正文冲突时以正文为准；无法确认的部分明确标出。复用本轮已有证据。
 
-- Allegro `axl*` API：精确搜索 `.agents/skills/cadence-skill-agent/skill-references/api_index.part*.md`，然后读索引指向的正文。
-- 通用 SKILL、IPC、开发工具和 SKILL++ API：精确搜索 `.agents/skills/cadence-skill-agent/skill-references/sklang_api_index.part*.md`，再分别读 `sklangref/`、`skipcref/`、`skdevref/` 或 `skoopref/` 中的完整条目。
-- 语义、作用域、列表、文件 IO 和性能范式：先搜索 `.agents/skills/cadence-skill-agent/skill-references/sklang_topic_index.md`，再读 `sklanguser/` 命中段落。
-- 示例：搜索 `.agents/skills/cadence-skill-agent/skill-references/examples/`。优先使用与目标 Allegro 版本上已测试的项目代码；官方示例只提供结构证据。
+## 生命周期与验证
 
-读正文时，从命中的 `### API` 标题读到下一个 `### API` 标题，不能只读索引摘要或单个 PDF 物理页。
+- 临时变量保持局部；用 `unwindProtect` 恢复实际获取或修改的 port、form、selection/filter、transaction、定时器和环境状态。不要清理不属于脚本的资源或无条件改变用户选择集。
+- 遵守根目录 `AGENTS.md` 的单 RPC 事务、非事务操作边界和失败写入不重放约束。对不明显的平台行为、所有权和清理边界保留简短注释。
+- 修复需要能在旧实现上失败的回归检查；纯文本或协议测试不能证明 Allegro API 可用。
+- 修改脚本时按需读取验证流程与可选评估模板：`.agents/skills/cadence-skill-agent/skill-references/workflows.md`。这些路径均从仓库根目录解析。
+- 只在有新证据、明确修正或环境变化时重试；下一次尝试无法增加证据时停止无效重试，报告阻塞点并继续独立工作。
+- 交付说明改动、文档依据、实际完成的验证和仍缺少的目标平台证据。已授权工作不增加额外审批阶段。
 
-## 简洁与生命周期
+## 生成资料与同步
 
-- 遵循附近已测试脚本的 `.il` 或 `.ils` 作用域风格；所有临时变量保持局部。
-- 只清理脚本实际获取或修改的 port、form、selection/filter、transaction、定时器或环境状态。需要异常清理时使用 `unwindProtect`，并保持单一 cleanup 路径。
-- 不要无条件清空用户选择集、修改 find filter、注册命令或关闭不属于本脚本的资源。
-- 仅在平台差异、API 怪异行为或清理边界不明显时写注释。
-- 路径、属性赋值、table 赋值、write-protected symbol 和 `.ils` 行为必须以相关 memory 及 Windows 实测为准。
+`.agents/skills/cadence-skill-agent` 是共享 Cadence 内容的规范源。索引和 `.paginate/pagination_manifest.json` 禁止手工修改；Codex/Claude agent 副本由同步器生成，保留 Claude 独有的 memory 与 OrCAD 资源。
 
-## Windows Allegro 验证门
-
-1. 在目标 Allegro 进程中用 `isCallable` 确认非常规函数；签名有疑问时再用 `arglist`。
-2. 运行 `sklint`，显式传入 `?checkPubFuncs t` 和 `?outputFile`，将 lint 文本原样回馈给修复轮次。
-3. 使用 `load` 装载，不用会吞掉错误的 `loadi`。
-4. 运行最近的 qtest/qcover suite，或调用公开入口的最小 smoke test；同时断言返回值、数据库后置条件和资源已清理，不得出现 `unbound` 输出。
-5. 自动验证固定使用 `Allegro.open(mode="cli")`、唯一数字 TCP 端口和测试 board 副本。Python 传入 SKILL 的路径使用 `Path.resolve().as_posix()`。并发运行时串行化或分配独立端口。
-6. 环境启动类失败可以重试 1 次；`KeyboardInterrupt` 和非预期 Python 错误必须向上传播。每个修复轮次必须使用新 Allegro 进程和新 board 副本，避免污染验证。
-
-## 评估与交付
-
-写代码前先输出：
-
-```json
-{
-  "agent": "cadence-skill-agent",
-  "phase": "assessment",
-  "payload": {
-    "target_objects": [],
-    "reuse_candidates": [],
-    "api_evidence": [
-      {
-        "api": "",
-        "source": "",
-        "line": 0,
-        "signature": "",
-        "returns": "",
-        "constraints": "",
-        "platform": ""
-      }
-    ],
-    "lifecycle": {
-      "acquire": [],
-      "cleanup": [],
-      "observable_postconditions": []
-    },
-    "risks": []
-  }
-}
-```
-
-除非需要用户做会改变实现方向的选择，评估后直接实现和验证，不额外等待确认。交付时给出完整代码、使用的文档/样例证据、实际运行的验证阶段以及仍未在目标平台验证的内容。
-
-## 文档与 Claude 同步
-
-文档发生增删或重新分页后运行：
+仅当 API 源文档增删或重新分页时运行转换与索引生成：
 
 ```bash
 python3 .agents/skills/cadence-skill-agent/scripts/convert_pdf_references.py
 python3 .agents/skills/cadence-skill-agent/scripts/convert_pdf_references.py --check
 python3 .agents/skills/cadence-skill-agent/scripts/build_reference_indexes.py
 python3 .agents/skills/cadence-skill-agent/scripts/build_reference_indexes.py --check
+```
+
+修改相关事实、共享技能或资料后运行对应检查与同步：
+
+```bash
 python3 .agents/skills/cadence-skill-agent/scripts/validate_facts.py --check
 python3 .agents/skills/cadence-skill-agent/scripts/sync_claude.py
 python3 .agents/skills/cadence-skill-agent/scripts/sync_claude.py --check
 ```
 
-`generate_axl_stubs.py --check`（受支持 axl 桩，`api_names.txt`，792）由 CI（`pythonpackage.yml`）运行，不在此手动循环内——它与 `build_reference_indexes.py` 生成的 `api_index.part*.md`（覆盖全部带签名的已文档化 axl 条目，~783）口径不同，均正确，不要互相"对齐"。
-
-索引和 `.paginate/pagination_manifest.json` 禁止手工修改。`.agents/skills/cadence-skill-agent` 是 Cadence 共有内容的规范源；同步器仅对 Claude Code frontmatter 和路径做确定性适配，并保留 `.claude` 独有的 memory 与 OrCAD 资源。
+`python3 scripts/generate_axl_stubs.py --check` 由 CI 检查。它针对受支持的 `api_names.txt` 目录（792 项）；API 索引针对文档声明，两者口径不同，不应强行对齐。

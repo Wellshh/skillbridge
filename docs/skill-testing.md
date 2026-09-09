@@ -68,7 +68,7 @@ project test file, prints the summary table, and fails if any test failed or
 coverage is below 100%.
 
 - From the Allegro SKILL console: `load("<repo>/tests/skill/run.ils")`.
-- From pytest on Windows: `pytest tests/allegrobridge/test_integration.py -k
+- From pytest on Windows: `pytest tests/allegrobridge/test_integration.py --allegro -k
   TestSkill` — this copies the suite into a temp dir, launches Allegro, runs
   the suite, and checks the report from Python.
 
@@ -92,3 +92,41 @@ New test files are **not** auto-discovered: add a `load` line for your
   supported.
 - Helper functions at the top of a test file are fine; cases in one file run
   before the next file is loaded.
+
+## Validation practices and isolation
+
+Use the nearest tests' structure and fixtures. Assert observable behavior and
+protocol contracts; a bug regression must fail on the previous implementation.
+Prefer real deterministic dependencies such as `socket.socketpair()` and use
+test doubles for failure injection with the documented API return semantics.
+Keep shared resource lifecycle in fixtures and ordinary actions in helpers.
+
+Synchronize concurrency tests with events, barriers, or other primitives;
+bound blocking operations and clean up resources even after assertion failures.
+Do not change production APIs solely for tests or add artificial branches to
+reach a coverage percentage. Python coverage settings live in `pyproject.toml`;
+the SKILL branch threshold lives in `tests/skill/run.ils`. Neither implies that
+every file needs separate unit and integration suites at 100% coverage.
+
+Run focused Python checks first, then the affected suite, for example:
+
+```console
+python -m pytest -q tests/test_pipe.py tests/test_protocol.py
+python -m pytest
+```
+
+CI also runs `ruff format --check`, `ruff check`, `mypy allegrobridge`,
+`pyright --warnings allegrobridge`, and generated-stub/typing checks. See
+`.github/workflows/pythonpackage.yml` for the complete commands and versions.
+
+Destructive Allegro checks use `Allegro.open(mode="cli")`, a disposable board
+copy, a process owned by the test, and an independent numeric TCP port. Never
+open the repository's board fixture directly for writes or modify a manual
+user session. Keep each transaction inside one RPC; a transaction mark cannot
+provide fixture rollback across separate calls. Discard contaminated state
+before another validation attempt, and close owned processes and connections
+on every exit path.
+
+Python/static success is not an Allegro runtime result. Follow the Cadence
+skill's validation workflow for `sklint`, loading, and database postconditions;
+use `benchmark/README.md` for comparable Windows performance runs.
