@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from collections import Counter
 from collections.abc import Sequence
-from math import isclose
 from threading import Lock
 from typing import TYPE_CHECKING, cast
 
@@ -21,7 +20,7 @@ from allegrobridge.client.api.geometry import (
     Point,
     finite,
 )
-from allegrobridge.client.api.record import Route
+from allegrobridge.client.api.record import Route, RouteConnectResult
 from allegrobridge.client.base import Collection, SkillModule
 from allegrobridge.client.base._rpc import RpcArgs, direct, read, write
 
@@ -29,7 +28,6 @@ _PROJECT_PROCEDURE = '__abProjectRoutes'
 _CREATE_PATH_PROCEDURE = '__abCreatePath'
 _CONNECT_PROCEDURE = '__abConnectRoutes'
 _POINT_SIZE = 2
-_POINT_TOLERANCE = 1e-6
 _ASCII_CONTROL_LIMIT = 32
 _ASCII_DELETE = 127
 
@@ -53,6 +51,11 @@ def _route_key(route: Route) -> tuple[object, ...]:
 
 
 def _added_routes(before: list[Route], after: list[Route]) -> list[Route]:
+    """Multiset difference: rows of ``after`` beyond their multiplicity in ``before``.
+
+    Called with swapped arguments it yields the removed rows, preserving duplicate
+    segments in both directions.
+    """
     remaining = Counter(_route_key(route) for route in before)
     added: list[Route] = []
     for route in after:
@@ -64,44 +67,43 @@ def _added_routes(before: list[Route], after: list[Route]) -> list[Route]:
     return added
 
 
-def _same_point(first: Point, second: Point) -> bool:
-    return isclose(first.x, second.x, abs_tol=_POINT_TOLERANCE) and isclose(
-        first.y,
-        second.y,
-        abs_tol=_POINT_TOLERANCE,
+def _rejects_name_char(char: str, *, allow_space: bool) -> bool:
+    return (
+        char in ';\'"'
+        or ord(char) < _ASCII_CONTROL_LIMIT
+        or ord(char) == _ASCII_DELETE
+        or (char.isspace() and not (allow_space and char == ' '))
     )
 
 
-def _is_single_change_chain(routes: list[Route], start: Point, end: Point) -> bool:
-    reached = [start]
-    pending = routes.copy()
-    while pending:
-        for index, route in enumerate(pending):
-            if any(
-                _same_point(route.start, point) or _same_point(route.end, point)
-                for point in reached
-            ):
-                reached.extend((route.start, route.end))
-                pending.pop(index)
-                break
-        else:
-            return False
-    return any(_same_point(point, end) for point in reached)
+def _validated_net_name(value: str) -> str:
+    # The CLI receives the net through SKILL %L quoting, so inner ASCII spaces
+    # survive verbatim (probe-verified). Edge whitespace stays rejected: quoted or
+    # not, it is indistinguishable from token padding.
+    if (
+        not isinstance(value, str)
+        or not value.strip()
+        or value != value.strip()
+        or any(_rejects_name_char(char, allow_space=True) for char in value)
+    ):
+        raise ValueError(
+            'net must be a non-empty name without command syntax, '
+            'control characters, or edge whitespace'
+        )
+    return value
 
 
-def _validated_name(value: str, field: str) -> str:
+def _validated_layer_name(value: str) -> str:
+    # The layer token reaches the CLI unquoted (%s); quoted layer names are
+    # unprobed, so any whitespace remains rejected.
     if (
         not isinstance(value, str)
         or not value
-        or any(
-            char.isspace()
-            or char in ';\'"'
-            or ord(char) < _ASCII_CONTROL_LIMIT
-            or ord(char) == _ASCII_DELETE
-            for char in value
-        )
+        or any(_rejects_name_char(char, allow_space=False) for char in value)
     ):
-        raise ValueError(f'{field} must be a non-empty name without command syntax')
+        raise ValueError(
+            'layer must be a non-empty name without whitespace or command syntax'
+        )
     return value
 
 
@@ -151,11 +153,24 @@ class RoutesApi(Collection[Route]):
         end: Point | tuple[float, float],
         layer: str,
         width: float,
-    ) -> list[Route]:
+    ) -> RouteConnectResult:
+        """Execute a structured ``add connect`` command and report the delta on ``net``.
+
+        Immediate CLI-only operation: no preview or batch semantics, and *not*
+        idempotent - repeated calls on the same coordinates may re-route existing
+        copper or silently change nothing. ``layer`` and ``width`` are hints; the
+        authoritative values are whatever the returned :class:`Route` rows carry.
+
+        The result reports projection differences on the target net only (cross-net
+        collateral is excluded) and promises nothing about Allegro DBID identity.
+        ``added`` and ``removed`` both being empty is a legal outcome; a non-empty
+        ``added`` does not prove the two requested coordinates became electrically
+        connected.
+        """
         if self._session.mode != 'cli':
             raise RuntimeError("routes.connect() requires Allegro.open(mode='cli')")
-        net = _validated_name(net, 'net')
-        layer = _validated_name(layer, 'layer')
+        net = _validated_net_name(net)
+        layer = _validated_layer_name(layer)
         start = Point.of(start)
         end = Point.of(end)
         width = finite(width)
@@ -172,12 +187,12 @@ class RoutesApi(Collection[Route]):
                 self._session.refresh()
             self._session.workspace.transaction(SkillCode('t'))
             after = self._project(net=net, layer=None)
-            added = _added_routes(before, after)
-            if not added:
-                raise RuntimeError('ROUTE_CONNECT_NO_CHANGE')
-            if not _is_single_change_chain(added, start, end):
-                raise RuntimeError('ROUTE_CONNECT_AMBIGUOUS')
-            return added
+            # removed rows come from the pre-refresh snapshot, so they keep the
+            # previous generation id and are stale by construction
+            return RouteConnectResult(
+                added=_added_routes(before, after),
+                removed=_added_routes(after, before),
+            )
 
     @write(_CREATE_PATH_PROCEDURE, _ROUTES)
     def create(

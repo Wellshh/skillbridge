@@ -79,6 +79,12 @@ class DrcFigure(BaseRecord):
     bbox: BBox | None = None
     net: NetRef | None = None
     reference: DrcObjectRef | None = None
+    start: Point | None = None
+    end: Point | None = None
+    width: _Width | None = None
+    radius: FiniteFloat | None = None
+    is_clockwise: bool | None = None
+    center: Point | None = None
 
 
 class Drc(SessionRecord):
@@ -157,6 +163,20 @@ class Route(SessionRecord):
     center: Point | None
 
 
+class RouteConnectResult(BaseRecord):
+    """Projection delta observed on the target net after ``routes.connect()``.
+
+    ``added`` rows belong to the refreshed Session generation; ``removed`` rows are
+    a historical snapshot that is immediately stale. Both deltas are multisets
+    (duplicate segments preserved) and report projection differences only - they
+    carry no promise about Allegro DBID creation/deletion identity, and both being
+    empty is a legal outcome.
+    """
+
+    added: list[Route]
+    removed: list[Route]
+
+
 class Shape(SessionRecord):
     net: _OptionalString
     layer: str
@@ -196,6 +216,7 @@ AbNet = Net
 AbPadstack = Padstack
 AbPin = Pin
 AbRoute = Route
+AbRouteConnectResult = RouteConnectResult
 AbShape = Shape
 AbSymbol = PcbSymbol
 AbVia = Via
@@ -214,6 +235,7 @@ __all__ = [
     'AbPin',
     'AbPinRef',
     'AbRoute',
+    'AbRouteConnectResult',
     'AbShape',
     'AbSymbol',
     'AbVia',
@@ -231,6 +253,7 @@ __all__ = [
     'Pin',
     'PinRef',
     'Route',
+    'RouteConnectResult',
     'Shape',
     'Symbol',
     'Via',

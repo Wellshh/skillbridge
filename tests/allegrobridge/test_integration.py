@@ -2084,17 +2084,19 @@ class TestDrcApi:
         assert 'dbid:' not in repr(preview)
         assert self._snapshot(session.drc()) == self._snapshot(before_preview)
 
-    def test_check_component_net_and_pin_immediately(
+    def test_check_component_net_pin_and_route_immediately(
         self,
         allegro: Allegro,
         session: Session,
     ) -> None:
         self._require_writable(allegro)
         pin = next(pin for pin in session.pins() if pin.net)
-        targets: list[AbComponent | AbNet | AbPin] = [
+        route = next(route for route in session.routes() if route.net)
+        targets: list[AbComponent | AbNet | AbPin | AbRoute] = [
             session.components[pin.refdes],
             session.nets[cast('str', pin.net)],
             pin,
+            route,
         ]
         generation = session.generation
 

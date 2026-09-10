@@ -117,11 +117,17 @@ violations = pcb.drc()  # list[AbDrc]
 Each DRC record keeps `objects` as stable business references (components,
 nets, and pins). `figures` is the ordered snapshot of Allegro's one or two
 violation figures; each `DrcFigure` may include a net/reference plus optional
-layer, location, and bounding box. Figure geometry is diagnostic snapshot data,
-not a persistent route-segment identity.
+layer, location, and bounding box. Line and arc figures also expose optional
+`start`, `end`, `width`, `radius`, `is_clockwise`, and `center` geometry. Figure
+geometry is diagnostic snapshot data, not a persistent route-segment identity.
 
 Or check a single object without touching global state:
 
 ```python
 pcb.drc.check(pcb.nets["SCLK"])
 ```
+
+`check()` also accepts a current `Route` returned by `pcb.routes()`. The route
+is resolved back to exactly one Allegro line or arc using its net and geometry;
+no match raises `DRC_TARGET_NOT_FOUND`, while duplicate matching copper raises
+`DRC_TARGET_AMBIGUOUS`. A route without a net cannot be checked this way.

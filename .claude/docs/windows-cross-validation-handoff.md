@@ -13,6 +13,8 @@
 - 阶段 A 批次 2 已归档到 `.artifacts/iscalable-matrix-17.2-S048-full.json`：1417 个索引行、1411 个大小写不敏感唯一条目、1408 个可探测符号；1396 个可调用、12 个不可调用，所有可调用条目均有 `arglist` 返回。
 - 已新增 24 条 S048 `verified_facts`（总计 31 条，其中 26 条 verified），并将明确 `isCallable=true` 的平台扩展接入 validator/LSP；validator 官方样例 unknown-api 从 35 降至 7，剩余均对应真实不可调用条目。
 - LSP 真实 stdio 闭环通过：已验证扩展无诊断、编造 API 报 `unknown-api`、`didChange` 刷新、`didClose` 清空、hover 和 completion 返回真实语料结果。
+- 阶段 B 三个种子脚本已逐个通过真实 Allegrobridge session：每个使用新 Allegro 进程、唯一端口和 disposable board，均 `load=True`；`report-net-name` 的 `'net` 类型参数和事务 wrapper 的 `funcall(thunk)` 调用已根据 S048 真机错误修正，commit 返回 `t`、rollback 返回 `nil`。
+- 本机 Claude CLI 的真实生成会话尚未计入阶段 B：默认模型路由到不可用的 `deepseek-v4-flash-260731`，显式 `sonnet` 也被改写为不可用的 `qwen3.8-flash-next`；未将该失败伪装为 agent 评测结果。
 - 离线门禁：Claude 副本 255 tests、`.agents` 副本 244 tests 通过；检索/生成/事实/签名/OrCAD 门禁通过。PDF 转换 `--check` 仍受当前机器缺少 `pdftotext` 限制，未将其结果冒充通过。
 
 尚未完成的交付项：阶段 B 的 3 个独立真实 agent 会话及扩展到 10 个样本、阶段 C 的真实编辑器接入/大文件延迟测量，以及完整语料与真实 `arglist` 参数数量的逐条人工裁决。当前结果已足以作为下一轮迭代基线。

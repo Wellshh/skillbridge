@@ -190,10 +190,63 @@
           (putd '__abRouteShell originalShell))
         (qtest::assertEqual (__abProjectRoutes net nil) result)
         (qtest::assertEqual
-          (lsprintf "add connect -net %s -layer %s -width %L; pick %L %L; pick %L %L; done"
+          (lsprintf "add connect -net %L -layer %s -width %.17g; pick %.17g %.17g; pick %.17g %.17g; done"
                     net layer width (car start) (cadr start) (car end) (cadr end))
           command)
         (qtest::assertNil (get (car result) 'dbid))))
+
+    ;;; Precision contract regression: %L float rendering keeps only ~7 significant
+    ;;; digits (12345678.9 -> "1.234568e+007"), so a revert to %L picks fails the
+    ;;; template equality below. Covers tiny, large, and non-integer coordinates.
+    (qtest::TestCase test_connect_routes_command_preserves_float_precision
+      (letseq ((routes (__abProjectRoutes nil nil))
+               sample
+               net
+               layer
+               (start (list 0.0000001 12345678.9))
+               (end (list 0.1 2.5))
+               (width 0.0001)
+               (originalShell (getd '__abRouteShell))
+               command)
+        (foreach route routes
+          (when (and (null sample) (get route 'net))
+            (setq sample route)))
+        (setq net (get sample 'net))
+        (setq layer (get sample 'layer))
+        (unwindProtect
+          (progn
+            (putd '__abRouteShell (lambda (value) (setq command value)))
+            (__abConnectRoutes net start end layer width))
+          (putd '__abRouteShell originalShell))
+        (qtest::assertEqual
+          (lsprintf "add connect -net %L -layer %s -width %.17g; pick %.17g %.17g; pick %.17g %.17g; done"
+                    net layer width (car start) (cadr start) (car end) (cadr end))
+          command)
+        ;;; the lossy ~7-digit %L rendering must not appear anywhere in the picks
+        (qtest::assertNil (index command "1.234568e"))))
+
+    ;;; Net names may carry inner spaces; %L quoting must hand the CLI one token.
+    (qtest::TestCase test_connect_routes_command_quotes_net_with_inner_space
+      (letseq ((routes (__abProjectRoutes nil nil))
+               sample
+               layer
+               (net "MY NET")
+               (originalShell (getd '__abRouteShell))
+               (originalNetExists (getd '__abRouteNetExists))
+               command)
+        (foreach route routes
+          (when (and (null sample) (get route 'layer))
+            (setq sample route)))
+        (setq layer (get sample 'layer))
+        (unwindProtect
+          (progn
+            (putd '__abRouteShell (lambda (value) (setq command value)))
+            (putd '__abRouteNetExists (lambda (_design _net) t))
+            (__abConnectRoutes net '(1.0 2.0) '(3.0 4.0) layer 0.2))
+          (progn
+            (putd '__abRouteShell originalShell)
+            (putd '__abRouteNetExists originalNetExists)))
+        (qtest::assertTrue (index command "-net \"MY NET\""))))
 
     (qtest::TestCase test_connect_routes_rejects_missing_net_and_layer
       (letseq ((routes (__abProjectRoutes nil nil))

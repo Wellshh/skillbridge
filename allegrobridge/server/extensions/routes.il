@@ -85,8 +85,12 @@
     (unless (__abRouteLayerGet layer)
       (error (sprintf nil "ROUTE_CONNECT_LAYER_NOT_FOUND: %s" layer)))
     (setq before (__abProjectRoutes net nil))
+    ;;; Precision contract: %L quotes/escapes the net token verbatim (inner spaces
+    ;;; allowed); %.17g preserves the full IEEE-754 round-trip for width and picks
+    ;;; (default %L float rendering keeps only ~7 significant digits). Allegro then
+    ;;; rounds the committed geometry by the design's own units/accuracy.
     (setq command
-          (lsprintf "add connect -net %s -layer %s -width %L; pick %L %L; pick %L %L; done"
+          (lsprintf "add connect -net %L -layer %s -width %.17g; pick %.17g %.17g; pick %.17g %.17g; done"
                     net layer width (car start) (cadr start) (car end) (cadr end)))
     (__abRouteShell command)
     before))

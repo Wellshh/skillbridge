@@ -48,6 +48,7 @@ from .client.api import (
     PinRef,
     Point,
     Route,
+    RouteConnectResult,
     Shape,
     Via,
 )
@@ -93,6 +94,7 @@ __all__ = [
     'RemoteTable',
     'RemoteVector',
     'Route',
+    'RouteConnectResult',
     'Session',
     'Shape',
     'SkillCode',

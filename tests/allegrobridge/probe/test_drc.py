@@ -283,6 +283,30 @@ def test_pair_overlap_preserves_probe_payload() -> None:
     )
 
 
+def test_target_hierarchy_preserves_probe_payload() -> None:
+    payload = {
+        'status': 'completed',
+        'candidate': {'name': 'Line to Line Spacing'},
+        'figures': [
+            {
+                'index': 0,
+                'targets': [
+                    {
+                        'obj_type': 'line',
+                        'query_status': 'ok',
+                        'candidate_match': True,
+                    }
+                ],
+            }
+        ],
+    }
+    workspace = FakeWorkspace({'__abpDrcTargetHierarchy': payload})
+    probe = DrcProbe(cast('Workspace', workspace))
+
+    assert probe.target_hierarchy() == payload
+    assert workspace.calls[-1] == ('__abpDrcTargetHierarchy', ())
+
+
 def _raw_phase(marker: str) -> dict[str, object]:
     return {
         'drc_enable': True,
@@ -581,6 +605,47 @@ def test_database_coupling_requires_two_placed_components() -> None:
         probe.database_coupling()
 
 
+def _create_route_pair_violation(drc_allegro: Allegro) -> tuple[str, str]:
+    session = drc_allegro.session
+    routes = [route for route in session.routes() if route.net is not None]
+    pair = next(
+        (
+            (first, second)
+            for first in routes
+            for second in routes
+            if first.net != second.net and first.layer == second.layer
+        ),
+        None,
+    )
+    assert pair is not None, 'shape1.brd requires two routed nets on one layer'
+    first, second = pair
+    xs = [coordinate for route in routes for coordinate in (route.start.x, route.end.x)]
+    ys = [coordinate for route in routes for coordinate in (route.start.y, route.end.y)]
+    center_x = (min(xs) + max(xs)) / 2.0
+    center_y = (min(ys) + max(ys)) / 2.0
+    span = max((max(xs) - min(xs)) / 10.0, 100.0)
+    width = max(first.width, second.width, 10.0)
+    separation = width / 4.0
+    session.routes.create(
+        cast('str', first.net),
+        [first.end, (center_x - span, center_y), (center_x + span, center_y)],
+        first.layer,
+        width,
+    )
+    session.routes.create(
+        cast('str', second.net),
+        [
+            second.end,
+            (center_x - span, center_y + separation),
+            (center_x + span, center_y + separation),
+        ],
+        second.layer,
+        width,
+    )
+    session.drc.update()
+    return cast('str', first.net), cast('str', second.net)
+
+
 @pytest.mark.allegro
 class TestDrcProbe:
     def test_reports_current_marker_schema(self, drc_probe: DrcProbe) -> None:
@@ -619,61 +684,53 @@ class TestDrcProbe:
             'repeated_first',
         ]
 
+    def test_line_path_branch_targets_and_line_geometry(
+        self,
+        drc_probe: DrcProbe,
+        drc_allegro: Allegro,
+    ) -> None:
+        _create_route_pair_violation(drc_allegro)
+
+        report = drc_probe.target_hierarchy()
+        drc_probe.emit('drc-target-hierarchy.json', report)
+        assert report['status'] == 'completed'
+        figures = cast('list[dict[str, object]]', report['figures'])
+        assert len(figures) == 2
+        for figure in figures:
+            geometry = cast('dict[str, object]', figure['geometry'])
+            assert geometry['obj_type'] == 'line'
+            assert geometry['start_end'] is not None
+            assert geometry['width'] is not None
+            targets = cast('list[dict[str, object]]', figure['targets'])
+            assert targets[0]['obj_type'] == 'line'
+            assert targets[0]['query_status'] == 'ok'
+            assert targets[0]['candidate_match'] is True
+        observed_types = {
+            target['obj_type']
+            for figure in figures
+            for target in cast('list[dict[str, object]]', figure['targets'])
+        }
+        assert 'path' in observed_types
+        assert 'branch' in observed_types
+
     def test_creates_and_reports_route_pair_violation(
         self,
         drc_probe: DrcProbe,
         drc_allegro: Allegro,
     ) -> None:
-        session = drc_allegro.session
-        routes = [route for route in session.routes() if route.net is not None]
-        pair = next(
-            (
-                (first, second)
-                for first in routes
-                for second in routes
-                if first.net != second.net and first.layer == second.layer
-            ),
-            None,
-        )
-        assert pair is not None, 'shape1.brd requires two routed nets on one layer'
-        first, second = pair
-        xs = [coordinate for route in routes for coordinate in (route.start.x, route.end.x)]
-        ys = [coordinate for route in routes for coordinate in (route.start.y, route.end.y)]
-        center_x = (min(xs) + max(xs)) / 2.0
-        center_y = (min(ys) + max(ys)) / 2.0
-        span = max((max(xs) - min(xs)) / 10.0, 100.0)
-        width = max(first.width, second.width, 10.0)
-        separation = width / 4.0
-
-        session.routes.create(
-            cast('str', first.net),
-            [first.end, (center_x - span, center_y), (center_x + span, center_y)],
-            first.layer,
-            width,
-        )
-        session.routes.create(
-            cast('str', second.net),
-            [
-                second.end,
-                (center_x - span, center_y + separation),
-                (center_x + span, center_y + separation),
-            ],
-            second.layer,
-            width,
-        )
-        session.drc.update()
+        first_net, second_net = _create_route_pair_violation(drc_allegro)
 
         report = drc_probe.pair_overlap(
-            net_a=cast('str', first.net),
-            net_b=cast('str', second.net),
+            net_a=first_net,
+            net_b=second_net,
         )
         drc_probe.emit('drc-route-pair-overlap.json', report)
         assert report['status'] == 'completed'
         candidate = cast('dict[str, object]', report['candidate'])
         figures = cast('list[dict[str, object]]', candidate['figures'])
         assert {cast('dict[str, object]', figure['net_ref'])['name'] for figure in figures} == {
-            first.net,
-            second.net,
+            first_net,
+            second_net,
         }
 
     def test_updates_drc_and_restores_control(

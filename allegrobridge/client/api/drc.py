@@ -9,6 +9,7 @@ from allegrobridge.client.api.record import (
     Drc,
     Net,
     Pin,
+    Route,
 )
 from allegrobridge.client.base import Collection, SkillModule
 from allegrobridge.client.base._rpc import RpcArgs, direct, read, write
@@ -41,7 +42,7 @@ class DrcApi(Collection[Drc]):
     # axlDRCItem mutates marker state that database rollback does not reliably restore.
     # Keep check as one direct RPC: no preview, command, or Batch affordances.
     @direct(_CHECK_PROCEDURE, _DRCS)
-    def check(self, target: Component | Net | Pin) -> RpcArgs:
+    def check(self, target: Component | Net | Pin | Route) -> RpcArgs:
         match target:
             case Component():
                 return 'component', target.refdes, None
@@ -49,5 +50,21 @@ class DrcApi(Collection[Drc]):
                 return 'net', target.name, None
             case Pin():
                 return 'pin', target.refdes, target.number
+            case Route():
+                if target.net is None:
+                    raise ValueError('drc.check() requires a route assigned to a net')
+                return (
+                    'route',
+                    target.net,
+                    None,
+                    target.layer,
+                    target.obj_type,
+                    target.start,
+                    target.end,
+                    target.width,
+                    target.radius,
+                    target.is_clockwise,
+                    target.center,
+                )
             case _:
-                raise TypeError('target must be Component, Net, or Pin')
+                raise TypeError('target must be Component, Net, Pin, or Route')

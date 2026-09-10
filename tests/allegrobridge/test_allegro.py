@@ -67,6 +67,7 @@ from allegrobridge.client.api import (
     PinsApi,
     Point,
     Route,
+    RouteConnectResult,
     RoutesApi,
     RpcArgs,
     RpcDef,
@@ -1329,7 +1330,7 @@ class TestReadApi:
         session = _session(workspace)
         generation = session.generation
 
-        created = session.routes.connect(
+        result = session.routes.connect(
             'VCC',
             (1.0, 0.0),
             Point(3.0, 0.0),
@@ -1337,15 +1338,18 @@ class TestReadApi:
             0.2,
         )
 
-        assert [route.model_dump() for route in created] == [
+        assert isinstance(result, RouteConnectResult)
+        assert result.removed == []
+        assert [route.model_dump() for route in result.added] == [
             AbRoute.model_validate(first).model_dump(),
             AbRoute.model_validate(second).model_dump(),
         ]
         assert all(
-            route.layer == 'ETCH/GND' and math.isclose(route.width, 25.0) for route in created
+            route.layer == 'ETCH/GND' and math.isclose(route.width, 25.0)
+            for route in result.added
         )
         assert session.generation == generation + 1
-        assert all(route._id == _ID(ref(session), session.generation) for route in created)
+        assert all(route._id == _ID(ref(session), session.generation) for route in result.added)
         connect_rpc.assert_called_once_with(
             'VCC',
             Point(1.0, 0.0),
@@ -1773,10 +1777,16 @@ class TestReadApi:
                     {
                         'obj_type': 'line',
                         'layer': 'ETCH/BOTTOM',
-                        'location': {'x': 7.0, 'y': 8.0},
+                        'location': None,
                         'bbox': None,
                         'net': {'kind': 'net', 'name': 'GND'},
                         'reference': None,
+                        'start': {'x': 7.0, 'y': 8.0},
+                        'end': {'x': 9.0, 'y': 10.0},
+                        'width': 0.2,
+                        'radius': None,
+                        'is_clockwise': None,
+                        'center': None,
                     },
                 ],
             }
@@ -1796,10 +1806,17 @@ class TestReadApi:
         assert first.reference.number == '1'
         assert second.layer == 'ETCH/BOTTOM'
         assert second.obj_type == 'line'
-        assert second.location == Point(7.0, 8.0)
+        assert second.location is None
         assert second.bbox is None
         assert second.net == first.net
         assert second.reference is None
+        assert second.start == Point(7.0, 8.0)
+        assert second.end == Point(9.0, 10.0)
+        assert second.width is not None
+        assert math.isclose(second.width, 0.2)
+        assert second.radius is None
+        assert second.is_clockwise is None
+        assert second.center is None
 
 
 class TestDrcApi:
@@ -1809,7 +1826,7 @@ class TestDrcApi:
         session = _session(workspace)
         drc = session.drc
         workspace.reset_mock()
-        targets: list[tuple[AbComponent | AbNet | AbPin, tuple[str, str, str | None]]] = [
+        targets: list[tuple[AbComponent | AbNet | AbPin | AbRoute, tuple[object, ...]]] = [
             (
                 _bind_id(
                     AbComponent.model_construct(refdes='R1'),
@@ -1831,6 +1848,22 @@ class TestDrcApi:
                 ),
                 ('pin', 'R1', '1'),
             ),
+            (
+                _bind_id(AbRoute.model_validate(_route_payload((1.0, 2.0), (3.0, 4.0))), session),
+                (
+                    'route',
+                    'GND',
+                    None,
+                    'ETCH/TOP',
+                    'line',
+                    Point(1.0, 2.0),
+                    Point(3.0, 4.0),
+                    0.2,
+                    None,
+                    None,
+                    None,
+                ),
+            ),
         ]
 
         for target, expected_args in targets:
@@ -1842,6 +1875,19 @@ class TestDrcApi:
         assert DrcApi.check.spec.proc == '__abCheckDrcs'  # type: ignore[attr-defined]
         assert not hasattr(drc.check, 'preview')
         assert not hasattr(drc.check, 'command')
+
+    def test_rejects_route_without_net_before_rpc(self) -> None:
+        workspace = MagicMock()
+        session = _session(workspace)
+        payload = _route_payload((1.0, 2.0), (3.0, 4.0))
+        payload['net'] = None
+        route = _bind_id(AbRoute.model_validate(payload), session)
+        workspace.reset_mock()
+
+        with pytest.raises(ValueError, match='assigned to a net'):
+            session.drc.check(route)
+
+        workspace.__getitem__.assert_not_called()
 
     @pytest.mark.parametrize(
         ('target', 'message'),
@@ -1924,7 +1970,7 @@ class TestDrcApi:
         session = _session(workspace)
         drc = session.drc
 
-        with pytest.raises(TypeError, match='Component, Net, or Pin'):
+        with pytest.raises(TypeError, match='Component, Net, Pin, or Route'):
             drc.check(object())  # type: ignore[arg-type]
 
         workspace.__getitem__.return_value.return_value = [{'name': 'incomplete'}]

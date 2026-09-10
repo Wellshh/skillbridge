@@ -1,0 +1,44 @@
+{
+  "environment": {
+    "allegro": "17.2-2016 S048",
+    "executable": "D:/Cadence/Cadence_SPB_17.2-2016/tools/bin/allegro.exe",
+    "launcher": "allegrobridge.Allegro.open(mode=cli)",
+    "board_policy": "one disposable copy and one fresh Allegro process per task",
+    "sklint": "unavailable on this machine; not claimed as passed"
+  },
+  "tasks": [
+    {
+      "id": "report-net-name",
+      "file": ".claude/eval-samples/report-net-name.il",
+      "static": {"skill_lint_errors": 0, "skill_lint_warnings": 0},
+      "load": true,
+      "callable": ["reportNetName", "axlDBFindByName", "axlDbidName"],
+      "smoke": "reportNetName on a missing net returned nil",
+      "status": "passed",
+      "fixes": ["axlDBFindByName type argument changed from string \"net\" to symbol 'net"]
+    },
+    {
+      "id": "rename-net",
+      "file": ".claude/eval-samples/rename-net.il",
+      "static": {"skill_lint_errors": 0, "skill_lint_warnings": 0},
+      "load": true,
+      "callable": ["renameNet", "axlRenameNet", "axlUIWPrint"],
+      "smoke": "missing-net path returned nil with expected Allegro warning",
+      "status": "passed"
+    },
+    {
+      "id": "with-undo-mark",
+      "file": ".claude/eval-samples/with-undo-mark.il",
+      "static": {"skill_lint_errors": 0, "skill_lint_warnings": 0},
+      "load": true,
+      "callable": ["withUndoMark", "axlDBTransactionStart", "axlDBTransactionCommit", "axlDBTransactionRollback", "funcall"],
+      "smoke": {"commit": true, "rollback": null},
+      "status": "passed",
+      "fixes": ["callback invocation changed from thunk() to funcall(thunk)"]
+    }
+  ],
+  "agent_generation": {
+    "status": "blocked",
+    "reason": "Claude CLI model routing selected unavailable deepseek-v4-flash-260731 and qwen3.8-flash-next models"
+  }
+}

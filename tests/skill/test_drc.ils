@@ -33,7 +33,9 @@
                ;; Route figures may have no xy (as observed on shape1); retain
                ;; one populated xy fixture to cover the optional branch.
                (line (list nil 'objType "line" 'layer "ETCH/TOP"
-                           'bBox '((1.0 2.0) (3.0 4.0)) 'net net))
+                           'bBox '((1.0 2.0) (3.0 4.0))
+                           'startEnd '((1.0 2.0) (3.0 4.0))
+                           'width 0.2 'net net))
                (lineWithXY (list nil 'objType "line" 'layer "ETCH/BOTTOM"
                                   'xy '(7.0 8.0) 'net net))
                (marker (list nil 'name "Line spacing" 'type "PHYSICAL"
@@ -51,6 +53,12 @@
         (qtest::assertEqual "line" (get first 'obj_type))
         (qtest::assertEqual "ETCH/TOP" (get first 'layer))
         (qtest::assertEqual 1.0 (get (get (get first 'bbox) 'll) 'x))
+        (qtest::assertEqual 1.0 (get (get first 'start) 'x))
+        (qtest::assertEqual 4.0 (get (get first 'end) 'y))
+        (qtest::assertEqual 0.2 (get first 'width))
+        (qtest::assertNil (get first 'radius))
+        (qtest::assertNil (get first 'is_clockwise))
+        (qtest::assertNil (get first 'center))
         (qtest::assertEqual "GND" (get (get first 'net) 'name))
         (qtest::assertNil (get first 'reference))
         (qtest::assertEqual "line" (get second 'obj_type))
@@ -59,10 +67,22 @@
         (qtest::assertNil (get second 'bbox))
         (qtest::assertNil (get second 'reference))
         ;; An anonymous figure exercises all missing optional fields.
-        (let ((anonymous (__abDrcFigure (list nil 'objType "polygon"))))
+        ;; Some non-route Allegro figures expose a startEnd property with a
+        ;; different schema.  It must not be decoded as route endpoints.
+        (let ((anonymous
+                (__abDrcFigure
+                  (list nil 'objType "polygon"
+                        'startEnd '("ETCH/TOP" "ETCH/BOTTOM")
+                        'width 1.0 'radius 2.0 'isClockwise t))))
           (qtest::assertNil (get anonymous 'layer))
           (qtest::assertNil (get anonymous 'location))
           (qtest::assertNil (get anonymous 'bbox))
+          (qtest::assertNil (get anonymous 'start))
+          (qtest::assertNil (get anonymous 'end))
+          (qtest::assertNil (get anonymous 'width))
+          (qtest::assertNil (get anonymous 'radius))
+          (qtest::assertNil (get anonymous 'is_clockwise))
+          (qtest::assertNil (get anonymous 'center))
           (qtest::assertNil (get anonymous 'net))
           (qtest::assertNil (get anonymous 'reference)))))
 
@@ -92,6 +112,104 @@
         (qtest::assertEqual "U1" (get (__abDrcStableRef component) 'refdes))
         (qtest::assertEqual "U1" (get (__abDrcStableRef pin) 'refdes))
         (qtest::assertNil (__abDrcStableRef (list nil 'objType "polygon")))))
+
+    (qtest::TestCase test_drc_route_segment_matching_covers_line_and_arc
+      (letseq ((line (list nil 'objType "line" 'layer "ETCH/TOP"
+                           'startEnd '((1.0 2.0) (3.0 4.0)) 'width 0.2))
+               (arc (list nil 'objType "arc" 'layer "ETCH/TOP"
+                          'startEnd '((1.0 2.0) (3.0 4.0)) 'width 0.2
+                          'radius 5.0 'isClockwise t 'xy '(2.0 3.0)))
+               (arcFigure (__abDrcFigure arc)))
+        (qtest::assertEqual 5.0 (get arcFigure 'radius))
+        (qtest::assertTrue (get arcFigure 'is_clockwise))
+        (qtest::assertEqual 2.0 (get (get arcFigure 'center) 'x))
+        (qtest::assertTrue
+          (__abDrcRouteSegmentMatches
+            line "ETCH/TOP" "line" '(1.0 2.0) '(3.0 4.0)
+            0.2 nil nil nil))
+        (qtest::assertTrue
+          (__abDrcRouteSegmentMatches
+            line "ETCH/TOP" "line" '(3.0 4.0) '(1.0 2.0)
+            0.2 nil nil nil))
+        (qtest::assertNil
+          (__abDrcRouteSegmentMatches
+            line "ETCH/TOP" "line" '(1.0 2.0) '(3.0 4.0)
+            0.3 nil nil nil))
+        (qtest::assertTrue
+          (__abDrcRouteSegmentMatches
+            arc "ETCH/TOP" "arc" '(1.0 2.0) '(3.0 4.0)
+            0.2 5.0 t '(2.0 3.0)))
+        (qtest::assertNil
+          (__abDrcRouteSegmentMatches
+            arc "ETCH/TOP" "arc" '(1.0 2.0) '(3.0 4.0)
+            0.2 4.0 t '(2.0 3.0)))))
+
+    (qtest::TestCase test_drc_route_resolves_unique_segment_and_checks_it
+      (letseq ((segment (list nil 'objType "line" 'layer "ETCH/TOP"
+                              'startEnd '((1.0 2.0) (3.0 4.0)) 'width 0.2))
+               (ignoredPath (list nil 'objType "path" 'isEtch nil
+                                  'segments (list segment)))
+               (path (list nil 'objType "path" 'isEtch t
+                           'segments (list segment)))
+               (branch (list nil 'children (list ignoredPath path)))
+               (otherNet (list nil 'name "VCC" 'branches nil))
+               (net (list nil 'name "GND" 'branches (list branch)))
+               (design (list nil 'nets (list otherNet net)))
+               (originalDesign (getd '__abFreshDesign))
+               (originalCheck (getd '__abDrcCheckItem))
+               checked result)
+        (unwindProtect
+          (progn
+            (putd '__abFreshDesign (lambda () design))
+            (putd '__abDrcCheckItem
+                  (lambda (target)
+                    (setq checked target)
+                    nil))
+            (qtest::assertEqual
+              segment
+              (__abFindDrcItem
+                "route" "GND" nil "ETCH/TOP" "line"
+                '(1.0 2.0) '(3.0 4.0) 0.2 nil nil nil))
+            (setq result
+                  (__abCheckDrcs
+                    "route" "GND" nil "ETCH/TOP" "line"
+                    '(1.0 2.0) '(3.0 4.0) 0.2 nil nil nil)))
+          (progn
+            (putd '__abFreshDesign originalDesign)
+            (putd '__abDrcCheckItem originalCheck)))
+        (qtest::assertEqual segment checked)
+        (qtest::assertNil result)))
+
+    (qtest::TestCase test_drc_route_rejects_missing_and_ambiguous_geometry
+      (letseq ((segment (list nil 'objType "line" 'layer "ETCH/TOP"
+                              'startEnd '((1.0 2.0) (3.0 4.0)) 'width 0.2))
+               (path (list nil 'objType "path" 'isEtch t
+                           'segments (list segment segment)))
+               (branch (list nil 'children (list path)))
+               (net (list nil 'name "GND" 'branches (list branch)))
+               (design (list nil 'nets (list net)))
+               (originalDesign (getd '__abFreshDesign))
+               missing ambiguous missingText ambiguousText)
+        (unwindProtect
+          (progn
+            (putd '__abFreshDesign (lambda () design))
+            (setq missing
+                  (errset
+                    (__abCheckDrcs
+                      "route" "GND" nil "ETCH/TOP" "line"
+                      '(10.0 20.0) '(30.0 40.0) 0.2 nil nil nil)))
+            (setq missingText (sprintf nil "%L" errset.errset))
+            (setq ambiguous
+                  (errset
+                    (__abCheckDrcs
+                      "route" "GND" nil "ETCH/TOP" "line"
+                      '(1.0 2.0) '(3.0 4.0) 0.2 nil nil nil)))
+            (setq ambiguousText (sprintf nil "%L" errset.errset)))
+          (putd '__abFreshDesign originalDesign))
+        (qtest::assertTrue
+          (and (null missing) (index missingText "DRC_TARGET_NOT_FOUND")))
+        (qtest::assertTrue
+          (and (null ambiguous) (index ambiguousText "DRC_TARGET_AMBIGUOUS")))))
 
     (qtest::TestCase test_drc_projection_lists_current_design_markers
       (let ((design (__abFreshDesign))

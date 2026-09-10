@@ -5,7 +5,7 @@
 procedure( withUndoMark(thunk)
     let((mark result)
         mark = axlDBTransactionStart()
-        result = thunk()
+        result = funcall(thunk)
         if( result
             then axlDBTransactionCommit(mark)
             else axlDBTransactionRollback(mark)

@@ -310,6 +310,102 @@
                   (__abpDrcEqualOverlap firstMarkers secondMarkers)
                 'ending_drc_count (axlDRCGetCount))))))
 
+(putd '__abpDrcContainsViolationFingerprint nil)
+(defun __abpDrcContainsViolationFingerprint (markers fingerprint)
+  (let (found)
+    (foreach marker markers
+      (let ((candidate (__abpDrcViolationFingerprint marker)))
+        (when (or (equal candidate fingerprint)
+                  (equal (reverse candidate) fingerprint))
+          (setq found t))))
+    found))
+
+(putd '__abpDrcTargetObservation nil)
+(defun __abpDrcTargetObservation (target candidateFingerprint depth)
+  (let (queryResult markers queryError)
+    (setq queryResult (errset (axlDRCItem t target)))
+    (if queryResult
+        (progn
+          (setq markers (car queryResult))
+          (list nil
+                'depth depth
+                'obj_type target->objType
+                'query_status "ok"
+                'marker_count (length markers)
+                'candidate_match
+                  (__abpDrcContainsViolationFingerprint
+                    markers candidateFingerprint)))
+        (progn
+          (setq queryError (sprintf nil "%L" errset.errset))
+          (list nil
+                'depth depth
+                'obj_type target->objType
+                'query_status "error"
+                'error queryError)))))
+
+(putd '__abpDrcFigureGeometry nil)
+(defun __abpDrcFigureGeometry (object)
+  (list nil
+        'obj_type object->objType
+        'layer (when (member 'layer object->?) object->layer)
+        'start_end (when (member 'startEnd object->?) object->startEnd)
+        'width (when (member 'width object->?) object->width)
+        'radius (when (member 'radius object->?) object->radius)
+        'is_clockwise
+          (when (member 'isClockwise object->?) object->isClockwise)
+        'center (when (member 'xy object->?) object->xy)
+        'bbox (when (member 'bBox object->?) object->bBox)
+        'net (__abpDrcNetReference object)))
+
+(putd '__abpDrcFigureTargetHierarchy nil)
+(defun __abpDrcFigureTargetHierarchy (object candidateFingerprint index)
+  (let ((target object) (depth 0) targets parent)
+    (while (and target (lessp depth 6)
+                (not (equal target->objType "design")))
+      (setq targets
+            (cons
+              (__abpDrcTargetObservation target candidateFingerprint depth)
+              targets))
+      (setq parent (when (member 'parent target->?) target->parent))
+      (setq target parent)
+      (setq depth (plus depth 1)))
+    (list nil
+          'index index
+          'geometry (__abpDrcFigureGeometry object)
+          'targets (reverse targets))))
+
+(putd '__abpDrcTargetHierarchy nil)
+(defun __abpDrcTargetHierarchy ()
+  (letseq ((design (axlDBRefreshId (axlDBGetDesign)))
+           candidate figures markerFingerprint violationFingerprint)
+    (foreach marker design->drcs
+      (when (and (null candidate)
+                 (equal (length marker->violations) 2)
+                 (equal (car marker->violations)->objType "line")
+                 (equal (cadr marker->violations)->objType "line"))
+        (setq candidate marker)))
+    (if (null candidate)
+        (list nil
+              'allegro_version (axlVersion 'fullVersion)
+              'status "no_line_pair_marker")
+        (progn
+          (setq markerFingerprint (__abpDrcMarkerFingerprint candidate))
+          (setq violationFingerprint (__abpDrcViolationFingerprint candidate))
+          (setq figures
+                (list
+                  (__abpDrcFigureTargetHierarchy
+                    (car candidate->violations) violationFingerprint 0)
+                  (__abpDrcFigureTargetHierarchy
+                    (cadr candidate->violations) violationFingerprint 1)))
+          (list nil
+                'allegro_version (axlVersion 'fullVersion)
+                'status "completed"
+                'candidate
+                  (list nil
+                        'fingerprint markerFingerprint
+                        'violation_fingerprint violationFingerprint)
+                'figures figures)))))
+
 (putd '__abpDrcUpdate nil)
 (defun __abpDrcUpdate ()
   (letseq ((originalEnable (axlDBControl 'drcEnable))

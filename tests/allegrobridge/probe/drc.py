@@ -278,6 +278,9 @@ class DrcProbe:
     ) -> dict[str, object]:
         return self._call('__abpDrcPairOverlap', query_order, net_a, net_b)
 
+    def target_hierarchy(self) -> dict[str, object]:
+        return self._call('__abpDrcTargetHierarchy')
+
     def update(self) -> dict[str, object]:
         report = self._call('__abpDrcUpdate')
         for phase_name in ('before', 'disabled', 'after_update', 'after_restore'):
