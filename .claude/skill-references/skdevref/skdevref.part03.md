@@ -111,7 +111,7 @@ August 2014                                 72                            Produc
 
 ### count
 
-`count( [ { s_function ... | t } ] ) => g_result/t`
+`count( [ ( s_function ... / t ) ] ) => g_result/t`
 
 ```text
                        Cadence SKILL Development Reference

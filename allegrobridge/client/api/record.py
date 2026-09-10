@@ -70,6 +70,17 @@ class PinRef(BaseRecord):
 DrcObjectRef = ComponentRef | NetRef | PinRef
 
 
+class DrcFigure(BaseRecord):
+    """One Allegro marker violation figure, captured without stable identity."""
+
+    obj_type: str
+    layer: str | None = None
+    location: Point | None = None
+    bbox: BBox | None = None
+    net: NetRef | None = None
+    reference: DrcObjectRef | None = None
+
+
 class Drc(SessionRecord):
     name: str
     category: str
@@ -80,12 +91,18 @@ class Drc(SessionRecord):
     location: Point
     bbox: BBox
     objects: list[DrcObjectRef]
+    figures: list[DrcFigure] = Field(default_factory=list)
 
     @field_validator('objects', mode='before')
     @classmethod
     def _normalize_empty_objects(cls, value: object) -> object:
         # Allegro encodes an empty SKILL list as nil, while the public model uses []
         # so callers can rely on the list contract without weakening other validation.
+        return [] if value is None else value
+
+    @field_validator('figures', mode='before')
+    @classmethod
+    def _normalize_empty_figures(cls, value: object) -> object:
         return [] if value is None else value
 
 
@@ -172,6 +189,7 @@ AbComponentRef = ComponentRef
 AbNetRef = NetRef
 AbPinRef = PinRef
 AbDrcObjectRef = DrcObjectRef
+AbDrcFigure = DrcFigure
 AbDrc = Drc
 AbLayer = Layer
 AbNet = Net
@@ -187,6 +205,7 @@ __all__ = [
     'AbComponent',
     'AbComponentRef',
     'AbDrc',
+    'AbDrcFigure',
     'AbDrcObjectRef',
     'AbLayer',
     'AbNet',
@@ -202,6 +221,7 @@ __all__ = [
     'Component',
     'ComponentRef',
     'Drc',
+    'DrcFigure',
     'DrcObjectRef',
     'Layer',
     'Net',

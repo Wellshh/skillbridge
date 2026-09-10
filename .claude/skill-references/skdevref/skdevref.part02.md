@@ -595,7 +595,7 @@ August 2014                                 44              Product Version 6.1.
 
 ### callUserAutoInitProc
 
-`callUserAutoInitProc( t_contextName ) => t | init_function_result`
+`callUserAutoInitProc( t_contextName ) => t / init_function_result`
 
 ```text
                        Cadence SKILL Development Reference
@@ -1476,7 +1476,7 @@ August 2014                                     65                              
 
 ### breakpt
 
-`breakpt( [ u_function [ break_condition ] ] ) where break_condition can be either (break_tag g_condition ) or ( (break_tag g_condition)... ) => g_result`
+`breakpt( [ u_function [ break_condition ] ] ) => g_result`
 
 ```text
                        Cadence SKILL Development Reference
@@ -1608,7 +1608,7 @@ August 2014                            68                         Product Versio
 
 ### breakptMethod
 
-`breakptMethod( [ S_name ] [ l_specializer[ @before | @after | @around ] ] [break_condition]) where break_condition can be either (break_tag g_condition ) or ( (break_tag g_condition)... ) => t / nil`
+`breakptMethod( [ S_name ] [ l_specializer[ @before / @after / @around ] ] [break_condition]) => t / nil`
 
 ```text
                        Cadence SKILL Development Reference

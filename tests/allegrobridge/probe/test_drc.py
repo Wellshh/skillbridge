@@ -268,6 +268,21 @@ def test_violations_aggregate_stable_and_unresolved_references() -> None:
     assert summary['kinds_without_stable_business_key'] == ['shape']
 
 
+def test_pair_overlap_preserves_probe_payload() -> None:
+    payload = {
+        'status': 'completed',
+        'candidate': {'figures': [{'obj_type': 'path'}, {'obj_type': 'path'}]},
+        'queries': [{'label': 'first', 'markers': []}],
+    }
+    probe = DrcProbe(cast('Workspace', FakeWorkspace({'__abpDrcPairOverlap': payload})))
+
+    assert probe.pair_overlap() == payload
+    assert probe.workspace.calls[-1] == (
+        '__abpDrcPairOverlap',
+        ('first_second', None, None),
+    )
+
+
 def _raw_phase(marker: str) -> dict[str, object]:
     return {
         'drc_enable': True,
@@ -583,6 +598,83 @@ class TestDrcProbe:
         assert isinstance(report['reported_count'], int)
         assert isinstance(report['markers'], list)
         assert isinstance(report['reference_summary'], dict)
+
+    @pytest.mark.parametrize('query_order', ['first_second', 'second_first'])
+    def test_reports_pair_marker_query_overlap(
+        self,
+        drc_probe: DrcProbe,
+        query_order: str,
+    ) -> None:
+        report = drc_probe.pair_overlap(query_order)
+        drc_probe.emit(f'drc-pair-overlap-{query_order}.json', report)
+        assert report['status'] == 'completed'
+        assert report['query_order'] == query_order
+        candidate = cast('dict[str, object]', report['candidate'])
+        queries = cast('list[dict[str, object]]', report['queries'])
+        assert len(cast('list[object]', candidate['figures'])) == 2
+        assert [query['label'] for query in queries] == [
+            'first',
+            'second',
+            'pair',
+            'repeated_first',
+        ]
+
+    def test_creates_and_reports_route_pair_violation(
+        self,
+        drc_probe: DrcProbe,
+        drc_allegro: Allegro,
+    ) -> None:
+        session = drc_allegro.session
+        routes = [route for route in session.routes() if route.net is not None]
+        pair = next(
+            (
+                (first, second)
+                for first in routes
+                for second in routes
+                if first.net != second.net and first.layer == second.layer
+            ),
+            None,
+        )
+        assert pair is not None, 'shape1.brd requires two routed nets on one layer'
+        first, second = pair
+        xs = [coordinate for route in routes for coordinate in (route.start.x, route.end.x)]
+        ys = [coordinate for route in routes for coordinate in (route.start.y, route.end.y)]
+        center_x = (min(xs) + max(xs)) / 2.0
+        center_y = (min(ys) + max(ys)) / 2.0
+        span = max((max(xs) - min(xs)) / 10.0, 100.0)
+        width = max(first.width, second.width, 10.0)
+        separation = width / 4.0
+
+        session.routes.create(
+            cast('str', first.net),
+            [first.end, (center_x - span, center_y), (center_x + span, center_y)],
+            first.layer,
+            width,
+        )
+        session.routes.create(
+            cast('str', second.net),
+            [
+                second.end,
+                (center_x - span, center_y + separation),
+                (center_x + span, center_y + separation),
+            ],
+            second.layer,
+            width,
+        )
+        session.drc.update()
+
+        report = drc_probe.pair_overlap(
+            net_a=cast('str', first.net),
+            net_b=cast('str', second.net),
+        )
+        drc_probe.emit('drc-route-pair-overlap.json', report)
+        assert report['status'] == 'completed'
+        candidate = cast('dict[str, object]', report['candidate'])
+        figures = cast('list[dict[str, object]]', candidate['figures'])
+        assert {cast('dict[str, object]', figure['net_ref'])['name'] for figure in figures} == {
+            first.net,
+            second.net,
+        }
 
     def test_updates_drc_and_restores_control(
         self,

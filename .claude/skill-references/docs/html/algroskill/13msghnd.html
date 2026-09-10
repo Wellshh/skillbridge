@@ -1,0 +1,1005 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN" "http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+<html xmlns="http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Allegro SKILL Reference -- 13</title>
+<META NAME="Approver" CONTENT="Technical Publications">
+<META NAME="Author" CONTENT="Technical Publications">
+<META NAME="CreateDate" CONTENT="2017-11-25">
+<META NAME="CreateTime" CONTENT="1511600112">
+<META NAME="DataType" CONTENT="Manuals">
+<META NAME="Description" CONTENT="Describes the Allegro eXtension Language (AXL) and how to use each AXL function.">
+<META NAME="DocTitle" CONTENT="Allegro SKILL Reference">
+<META NAME="DocType" CONTENT="SKILL Reference">
+<META NAME="EdmsRelease" CONTENT="FM-Wiki-2.0_HF2">
+<META NAME="FileTitle" CONTENT="13">
+<META NAME="FileType" CONTENT="Chapter">
+<META NAME="Group" CONTENT="Allegro User Guide">
+<META NAME="Keyword" CONTENT="algroskill">
+<META NAME="Language" CONTENT="English">
+<META NAME="ModifiedDate" CONTENT="2017-11-25">
+<META NAME="ModifiedTime" CONTENT="1511600112">
+<META NAME="NextFile" CONTENT="14dsnctl.html">
+<META NAME="Order" CONTENT="11">
+<META NAME="PageCount" CONTENT="18">
+<META NAME="Platform" CONTENT="ALL">
+<META NAME="PrevFile" CONTENT="12draw.html">
+<META NAME="Product" CONTENT="Allegro PCB Editor, Cadence SiP Digital">
+<META NAME="ProductFamily" CONTENT="Silicon-Package-Board Co-Design, IC Packaging">
+<META NAME="ProductVersion" CONTENT="17.2-2016">
+<META NAME="RightsManagement" CONTENT="Copyright 19912017 Cadence Design Systems Inc.">
+<META NAME="Title" CONTENT="Allegro SKILL Reference -- 13">
+<META NAME="TopicTags" CONTENT="FALSE">
+<META NAME="Version" CONTENT="17.2-2016">
+  </head>
+  <body style="margin-left: 5%;">
+    <a name="pagetop"></a>
+    <a name="firstpage"></a>
+    <!-- Begin Buttons -->
+    <table width="650" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td height="36" width="650" colspan="10">
+          <img src="images/header_doc.gif" width="650" height="34">
+        </td>
+      </tr>
+      <tr>
+        <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+        <td>
+          <a href="12draw.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+        </td>
+        <td>
+          <a href="14dsnctl.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+        </td>
+        <td height="20">
+          <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+          </a>
+        </td>
+        <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+        </td>
+        <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+        </td>
+        <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+        </td>
+        <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+        </td>
+      </tr>
+    </table>
+    <!-- End Buttons -->
+    <p>
+    <hr>
+    <p>
+      <h3>
+        <center>
+          <font >
+            <div>Allegro User Guide: SKILL Reference</div>
+            <font >
+              <div>Product Version 17.2&#45;2016 April 2016</div>
+            </font>
+          </font>
+        </center>
+      </h3>
+      <br>
+    </p>
+    <div>
+      <h1>13<a name="673509">&nbsp;</a></h1>
+      <h1><a name="673512">Message Handler Functions</a></h1>
+      <h2><a name="673530">Overview</a></h2>
+      <p><a name="673531">This chapter describes the AXL&#45;SKILL message handler system and functions. The message handler system allows you to write AXL&#45;SKILL code that does not have to deal explicitly with errors after each call to a lower level routine, but rather checks at only one or two points. This contrasts with application programs that do not have a buffering and exception&#45;handling message facility, where you must test for and respond to errors and exceptions at each point of possible occurrence in your code. Using the functions described in this chapter, you can do the following:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="673532">Establish a </a><font color="#000000"><em>context</em></font> for your application messages. </td>
+          </tr>
+        </table>
+      </div>
+      <blockquote><a name="673482">A context is a logical section of your application during which you want to buffer and test for the potential errors and warnings you provided for in the lower levels of your application code.</a></blockquote>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="673533">Write messages to the user with one of five levels of </a><font color="#000000"><em>severity</em></font>:</td>
+          </tr>
+        </table>
+      </div>
+      <p align="left"><a name="706672">&nbsp;</a></p>
+      <table summary="" border="1" cellpadding="5" cellspacing="0" width="478">
+        <tr>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="3" bordercolor="#000000" valign="middle" width="88">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="673487">Severity Level</a></strong></font>
+            </p>
+          </td>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="3" bordercolor="#000000" valign="middle" width="83">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="673484">Type</a></strong></font>
+            </p>
+          </td>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="3" bordercolor="#000000" valign="middle" width="306">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="673485">Type Description and Response by AXL Message Handler</a></strong></font>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="673490">0</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="673486">Text</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="673488">Data created by the application, such as a log or report. Writes to journal and the user interface without being buffered.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="673493">1</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="673489">Info</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="673491">Such as "10% done," "20% done"... Writes to user interface only, </a>not to context message buffer nor to the journal.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="673496">2</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="673492">Warning</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="673494">Such as "Connect line is 5 mils wider than allowed." Writes to context message buffer and journal with a "W" warning tag.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="673499">3</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="673495">Error</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="673497">Such as "Cannot find symbol DIP24_200 in library." Beeps and writes to context message buffer and journal with an "E" error tag.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="673502">4</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="673498">Fatal</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="673500">Such as "Disk read error. Cannot continue." Double beeps and writes to context message buffer and journal with an "F" fatal tag.</a></p>
+          </td>
+        </tr>
+      </table>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="673534">Test and change the severity&nbsp;level of the messages created and buffered in a context.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="673535">Check for specific messages in the message buffer, and respond appropriately to anticipated conditions detected by lower&#45;level functions.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="673536">Close a context.</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="673537">The following illustration shows how </a><font size="2" face="'Courier New'" color="#000000">axlMsg</font><font color="#000000"><em> </em></font>functions move messages to and from a context message buffer and the SKILL user interface.</p>
+      <p align="left"><a name="149326"><img src="images/13msghnd.17.1.1.png" width="647" height="355" alt=""><br></a></p>
+      <h4><a name="674168">Message Handler Example</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="673539">context = axlMsgContextStart(&#34;My own context.&#34;)<br>axlMsgPut(list(&#34;My warning&#34; 2)) <br>axlMsgPut(list(&#34;My error&#34; 3)) <br>printf(&#34;Message severity %d&#34;,axlMsgContextTest(context))<br>axlMsgPut(list(&#34;My fatal error %s&#34; 4) &#34;BAD ERROR&#34;)<br>if( axlMsgContextInBuf(context &#34;My error&#34;)<br>&nbsp;&nbsp;&nbsp;&nbsp;printf(&#34;%s\n&#34; &#34;my error is there&#34;))<br>printf(&#34;Message severity %d&#34;,axlMsgContextTest(context))<br>axlMsgContextPrint(context)<br>axlMsgContextFinish(context)<br> </a>⇒ t</font>
+      </blockquote>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	1.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="707018">Starts a context with </a><font size="2" face="'Courier New'" color="#000000">axlMsgContextStart</font></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	2.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="707019">Puts a warning, an error, and a fatal error message using </a><font size="2" face="'Courier New'" color="#000000">axlMsgPut</font></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	3.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="707020">Checks for the error message with </a><font size="2" face="'Courier New'" color="#000000">axlMsgContextInBuf</font></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	4.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="707021">Tests for the context severity level with </a><font size="2" face="'Courier New'" color="#000000">axlMsgContextTest</font></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	5.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="707022">Prints the context buffer with </a><font size="2" face="'Courier New'" color="#000000">axlMsgContextPrint</font></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	6.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="707023">Ends with </a><font size="2" face="'Courier New'" color="#000000">axlMsgContextFinish</font></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="707016">When you load the SKILL program shown above, the SKILL command line outputs the following:</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="673541">W&#45; My warning<br>E&#45; My error<br>F&#45; My fatal error BAD ERROR<br>Message severity 3<br>my error is there<br>Message severity 4<br>t</a></font>
+      </blockquote>
+      <p><a name="673542"><font color="#000000"><strong>General usage of the axlMsg System</strong></font></a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="673543">Messages first go to the context buffer</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="673544"><font size="2" face="'Courier New'" color="#000000">axlMsgContextPrint</font></a> prints them to the SKILL command line</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="673545">The contents of the output buffer from any </a><font size="2" face="'Courier New'" color="#000000">print</font> and <font size="2" face="'Courier New'" color="#000000">printf</font> data write to the command line when control returns to the command line. That is why the messages "<font size="2" face="'Courier New'" color="#000000">Message severity 3</font>," "<font size="2" face="'Courier New'" color="#000000">my error is there</font>" and "<font size="2" face="'Courier New'" color="#000000">Message severity 4</font>" follow the buffered messages ("<font size="2" face="'Courier New'" color="#000000">W&#45; My warning</font>" ...)</td>
+          </tr>
+        </table>
+      </div>
+      <h2><a name="687747">Message Handler Functions</a></h2>
+      <p><a name="687934">This section lists message handler functions.</a></p>
+      <h3><a name="673546">axlMsgPut</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="673547">axlMsgPut(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>g_message_format<dd></em></font>[<font size="2" face="'Courier New'" color="#000000"><em>g_arg1</em></font> ...]<dd>)<dd><font face="symbol" color="#000000">⇒</font> t</font>
+      </dl>
+      <h4><a name="674192">Description</a></h4>
+      <p><a name="674186">Puts a message in the journal file. Use this function to "print" messages. It buffers any</a> errors or warnings, but processes other message classes immediately.</p>
+      <h4><a name="674225">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="713709"><font size="2" face="'Courier New'" color="#000000"><em>g_message_format</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="713711">Context message (</a><font size="2" face="'Courier New'" color="#000000">printf</font> like) format string. See <a href="#673530" title="13"><font color="Blue"><u>"Overview"</u></font></a><a href="#673530" title="13"></a> for a description of messages and valid arguments.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="713713"><font size="2" face="'Courier New'" color="#000000"><em>g_arg1</em></font></a> ...</p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="713715">Values for substitution arguments for the format string.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="674242">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="324">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="713729"><font size="2" face="'Courier New'" color="#000000">t</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="132">
+            <p><a name="713731">Always returns </a><font size="2" face="'Courier New'" color="#000000">t</font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="674263">Example</a></h4>
+      <p><a name="673556">See the </a><a href="#674168" title="13"><font color="Blue"><u>"Message Handler Example"</u></font></a><a href="#674168" title="13"></a>.</p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="673557">axlMsgPut(list(&#34;Cannot find via %s&#34; 3) &#34;VIA10&#34;)<br> </a>⇒ t</font>
+      </blockquote>
+      <h3><a name="673559">axlMsgContextPrint</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="673560">axlMsgContextPrint(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>r_context<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t</font>
+      </dl>
+      <h4><a name="674396">Description</a></h4>
+      <p><a name="673563">Prints the buffered messages and removes them from the message buffer.</a></p>
+      <h4><a name="674425">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="713739"><font size="2" face="'Courier New'" color="#000000"><em>r_context</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="713741">Context handle from </a><font size="2" face="'Courier New'" color="#000000">axlMsgContextStart</font>. Prints messages only for this context (or any children). An argument of <font size="2" face="'Courier New'" color="#000000">nil</font> causes <font size="2" face="'Courier New'" color="#000000">axlMsgContextPrint</font> to look through all contexts.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="674458">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="324">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="713749"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="132">
+            <p><a name="713751">Always returns </a><font size="2" face="'Courier New'" color="#000000">t</font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="674495">Example</a></h4>
+      <p><a name="673568">See the </a><a href="#674168" title="13"><font color="Blue"><u>"Message Handler Example"</u></font></a><a href="#674168" title="13"></a> in the beginning of this chapter.</p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="673570">axlMsgContextPrint(context)<br> </a>⇒ t</font>
+      </blockquote>
+      <p><a name="673571">Prints the buffered messages in that context to SKILL command line:</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="673572">W&#45; My warning</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="707172">E&#45; My error</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="707173">F&#45; My fatal error BAD ERROR</a></font>
+      </blockquote>
+      <h3><a name="673573">axlMsgContextGetString</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="673574">axlMsgContextGetString(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>r_context<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>lt_messages</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="674600">Description</a></h4>
+      <p><a name="673577">Gets the messages in the message buffer and removes them from the buffer. Call </a><font size="2" face="'Courier New'" color="#000000">axlMsgContextGetString</font> subsequently to communicate those messages to the user (for example, in a log file).</p>
+      <h4><a name="674629">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="713759"><font size="2" face="'Courier New'" color="#000000"><em>r_context</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="713761">Context handle from </a><font size="2" face="'Courier New'" color="#000000">axlMsgContextStart</font>. Gets messages only for this context (or any children). An argument of <font size="2" face="'Courier New'" color="#000000">nil</font> causes <font size="2" face="'Courier New'" color="#000000">axlMsgContextGetString</font> to look through all contexts.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="674662">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="713769"><font size="2" face="'Courier New'" color="#000000"><em>lt_messages</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="713771">List of the text strings of the buffered messages.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="713773"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="713775">No buffered messages found.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="674699">Example</a></h4>
+      <p><a name="673582">See the </a><a href="#674168" title="13"><font color="Blue"><u>"Message Handler Example"</u></font></a><a href="#674168" title="13"></a>.</p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="673583">axlMsgContextGetString(context)<br></a>⇒ (&#34;My warning&#34; &#34;My error&#34; &#34;My fatal error BAD ERROR&#34;)</font>
+      </p>
+      <h3><a name="673584">axlMsgContextGet</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="673585">axlMsgContextGet(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>r_context<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>lt_format_strings</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="674796">Description</a></h4>
+      <p><a name="673588">Gets the format strings of the buffered messages. (</a>Not the messages themselves. Compare the example here and the one shown for <font size="2" face="'Courier New'" color="#000000">axlMsgContextGetString</font>.) Does not remove the messages from the message buffer, rather it simply provides the caller an alternative to making a number of <font size="2" face="'Courier New'" color="#000000">axlMsgContextInBuf</font> calls.</p>
+      <h4><a name="674825">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="713783"><font size="2" face="'Courier New'" color="#000000"><em>r_context</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="713785">Context handle from </a><font size="2" face="'Courier New'" color="#000000">axlMsgContextStart</font>. Gets messages only for this context (or any children). An argument of <font size="2" face="'Courier New'" color="#000000">nil</font> causes <font size="2" face="'Courier New'" color="#000000">axlMsgContextGet</font> to look through all contexts.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="674858">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="713793"><font size="2" face="'Courier New'" color="#000000"><em>lt_format_strings</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="713795">List of format strings of the buffered messages.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="713797"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="713799">No buffered messages found.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="674895">Example</a></h4>
+      <p><a name="673593">See the </a><a href="#674168" title="13"><font color="Blue"><u>"Message Handler Example"</u></font></a><a href="#674168" title="13"></a>.</p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="673594">mylist = axlMsgContextGet(context)<br></a>⇒ (&#34;My warning&#34; &#34;My error&#34; &#34;My fatal error %s&#34;)</font>
+      </blockquote>
+      <h3><a name="673595">axlMsgContextTest</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="673596">axlMsgContextTest(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>r_context<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>x_class</em></font></font>
+      </dl>
+      <h4><a name="675016">Description</a></h4>
+      <p><a name="673599">Returns the most severe message class of the messages in the context message buffer. See </a><a href="#673606" title="13"><font color="Blue"><u>axlMsgContextInBuf</u></font></a><a href="#673606" title="13"></a> to check for a particular message class.</p>
+      <h4><a name="675045">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="713807"><font size="2" face="'Courier New'" color="#000000"><em>r_context</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="713809"> Context handle from </a><font size="2" face="'Courier New'" color="#000000">axlMsgContextStart</font>. Looks only for messages for this context. If <font size="2" face="'Courier New'" color="#000000"><em>r_context</em></font> is <font size="2" face="'Courier New'" color="#000000">nil</font>, <font size="2" face="'Courier New'" color="#000000">axlMsgContextTest</font> looks through all contexts.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="675078">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="713833"><font size="2" face="'Courier New'" color="#000000"><em>x_class</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="713835">The most severe message class of the messages in the message buffer of the given context.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="675115">Example</a></h4>
+      <p><a name="673604">See the </a><a href="#674168" title="13"><font color="Blue"><u>Message Handler Example</u></font></a><a href="#674168" title="13"></a>.</p>
+      <blockquote>
+<blockquote>        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="673605">printf(&#34;Message severity %d\n&#34; axlMsgContextTest(context))<br></a>⇒ Message severity 4</font></blockquote>
+      </blockquote>
+      <h3><a name="673606">axlMsgContextInBuf</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="673607">axlMsgContextInBuf(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>r_context<dd>t_format_string<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t</font>
+      </dl>
+      <h4><a name="675212">Description</a></h4>
+      <p><a name="673610">Checks whether message </a><font size="2" face="'Courier New'" color="#000000"><em>t_format_string</em></font> is in the message buffer of context <font size="2" face="'Courier New'" color="#000000"><em>r_context</em></font>. Gives the application the ability to control code flow based on a particular message reported by a called function. The check is based on the original format string, not the fully substituted message.</p>
+      <h4><a name="675241">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="713843"><font size="2" face="'Courier New'" color="#000000"><em>r_context</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="713845">Context handle from </a><font size="2" face="'Courier New'" color="#000000">axlMsgContextStart</font>. Looks only for messages in this context (or any children). If <font size="2" face="'Courier New'" color="#000000"><em>r_context</em></font> is <font size="2" face="'Courier New'" color="#000000">nil</font>, <font size="2" face="'Courier New'" color="#000000">axlMsgContextInBuf</font> looks through all contexts.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="713847"><font size="2" face="'Courier New'" color="#000000"><em>t_format_string</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="713849">Format string of the message.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="675274">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="713857"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="713859">Specified message is in the buffer.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="713861"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="713863">Specified message is not in the buffer.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="675311">Example</a></h4>
+      <p><a name="673616">See the </a><a href="#674168" title="13"><font color="Blue"><u>"Message Handler Example"</u></font></a><a href="#674168" title="13"></a>.</p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="673617">if( axlMsgContextInBuf(context &#34;My error&#34;)<br>&nbsp;&nbsp;&nbsp;&nbsp;printf(%s\n&#34; &#34;My error is there&#34;))</a></font>
+      </blockquote>
+      <h3><a name="673618">axlMsgContextRemove</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="673619">axlMsgContextRemove(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>r_context<dd>t_format_string<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t</font>
+      </dl>
+      <h4><a name="675480">Description</a></h4>
+      <p><a name="673622">Removes a message (or messages) from the buffered messages. Lets you remove messages (usually</a> warnings) from the buffer that you decide, later in a procedure, that you do not want the user to see.</p>
+      <h4><a name="675509">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="644">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="713871"><font size="2" face="'Courier New'" color="#000000"><em>r_context</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="452">
+            <p><a name="713873">Context handle from </a><font size="2" face="'Courier New'" color="#000000">axlMsgContextStart</font>. Removes messages for only this context (or any children). If <font size="2" face="'Courier New'" color="#000000"><em>r_context</em></font> is <font size="2" face="'Courier New'" color="#000000">nil</font>, <font size="2" face="'Courier New'" color="#000000">axlMsgContextRemove</font> looks through all contexts.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="713875"><font size="2" face="'Courier New'" color="#000000"><em>t_format_string</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="713877">Format string of the message. The match for the message in the buffer ignores the substitution parameters used to generate the full text of the message.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="675542">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="324">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="713885"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="132">
+            <p><a name="713887">Always returns </a><font size="2" face="'Courier New'" color="#000000">t</font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="675579">Example</a></h4>
+      <p><a name="673628">See the </a><a href="#674168" title="13"><font color="Blue"><u>"Message Handler Example"</u></font></a><a href="#674168" title="13"></a>.</p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="673629">axlMsgContextRemove(context, &#34;My fatal error %s&#34;)<br></a>⇒ t</font>
+      </blockquote>
+      <h3><a name="673630">axlMsgContextStart</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="673631">axlMsgContextStart(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>g_format_string<dd></em></font>[<font size="2" face="'Courier New'" color="#000000"><em>g_arg1</em></font> ...]<dd>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>r_context</em></font></font>
+      </dl>
+      <h4><a name="675796">Description</a></h4>
+      <p><a name="673634">Indicates the start of a message context. Prints any buffered messages for the context.</a></p>
+      <h4><a name="675825">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="713895"><font size="2" face="'Courier New'" color="#000000"><em>g_format_string</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="713897">Context message (</a><font size="2" face="'Courier New'" color="#000000">printf</font> like) message format string.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="713899"><font size="2" face="'Courier New'" color="#000000"><em>g_arg1</em></font></a> ...</p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="713901">Values for the substitution arguments for the format string. Use </a><font size="2" face="'Courier New'" color="#000000">axlMsgClear</font> (and<font color="#000000"><em> </em></font><font size="2" face="'Courier New'" color="#000000">Test</font><font color="#000000"><em>&#47;</em></font><font size="2" face="'Courier New'" color="#000000">Set</font><font color="#000000"><em>)</em></font> functions to control code flow if the function returns insufficient values.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="675858">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="713909"><font size="2" face="'Courier New'" color="#000000"><em>r_context</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="713911">Context handle to use in subsequent </a><font size="2" face="'Courier New'" color="#000000">axlMsgContext</font> calls. </p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="675895">Example</a></h4>
+      <p><a name="673640">See the </a><a href="#674168" title="13"><font color="Blue"><u>"Message Handler Example"</u></font></a><a href="#674168" title="13"></a>.</p>
+      <blockquote>
+<blockquote>        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="673641">context = axlMsgContextStart(&#34;Messages for %s&#34; &#34;add line&#34;)<br>Messages for add line<br>5</a></font></blockquote>
+      </blockquote>
+      <h3><a name="673642">axlMsgContextFinish</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="673643">axlMsgContextFinish(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>r_context<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t</font>
+      </dl>
+      <h4><a name="686460">Description</a></h4>
+      <p><a name="673646">Indicates the finish of a message context. Prints any buffered messages in the context and clears the context buffer.</a></p>
+      <h4><a name="686526">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="713919"><font size="2" face="'Courier New'" color="#000000"><em>r_context</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="713921">Context handle from </a><font size="2" face="'Courier New'" color="#000000">axlMsgContextStart</font><font color="#000000"><em>.</em></font></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="686679">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="324">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="713929"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="132">
+            <p><a name="713931">Always returns </a><font size="2" face="'Courier New'" color="#000000">t</font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="686863">Example</a></h4>
+      <p><a name="686783">See the </a><a href="#674168" title="13"><font color="Blue"><u>"Message Handler Example"</u></font></a><a href="#674168" title="13"></a>.</p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="673652">context = axlMsgContextStart()<br>... do some things ...<br>axlMsgContextFinish(context)</a></font>
+      </blockquote>
+      <h3><a name="673653">axlMsgContextClear</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="673654">axlMsgContextClear(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>r_context<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t</font>
+      </dl>
+      <h4><a name="676064">Description</a></h4>
+      <p><a name="673657">Clears the buffered messages for a context. </a></p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="707046">You should not normally use this function. Use functions that print (</a><font size="2" face="'Courier New'" color="#000000">axlMsgContextPrint</font>) or retrieve (<font size="2" face="'Courier New'" color="#000000">axlMsgContextGetString</font>) messages and then clear them, or use a context finish (<font size="2" face="'Courier New'" color="#000000">axlMsgContextFinish</font>) that forces the messages to be printed.</p>
+      <h4><a name="676077">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="713939"><font size="2" face="'Courier New'" color="#000000"><em>r_context</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="713941">Context handle from </a><font size="2" face="'Courier New'" color="#000000">axlMsgContextStart</font>. If <font size="2" face="'Courier New'" color="#000000"><em>r_context</em></font> is <font size="2" face="'Courier New'" color="#000000">nil</font>, clears all messages in all contexts.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="676094">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="324">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="713949"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="132">
+            <p><a name="713951">Always returns </a><font size="2" face="'Courier New'" color="#000000">t</font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="676115">Example</a></h4>
+      <p><a name="673662">See the </a><a href="#674168" title="13"><font color="Blue"><u>"Message Handler Example"</u></font></a><a href="#674168" title="13"></a>.</p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="673663">context = axlMsgContextStart()<br>... do some things ...<br>axlMsgContextClear(context)</a></font>
+      </blockquote>
+      <h3><a name="673664">axlMsgCancelPrint</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="673665">axlMsgCancelPrint()<dd></a><font face="symbol" color="#000000">⇒</font> t</font>
+      </dl>
+      <h4><a name="676196">Description</a></h4>
+      <p><a name="673668">Prints a message informing the user that he requested </a><font color="#000000"><em>cancel</em></font>. Since the severity of this message is <font color="#000000"><em>Error</em></font> (3), AXL writes it to the context buffer as it does other warning, error, and fatal messages. Call this function only from a routine that requests user input.</p>
+      <h4><a name="706766">Arguments</a></h4>
+      <p><a name="706767">None</a></p>
+      <h4><a name="706768">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="324">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="713959"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="132">
+            <p><a name="713961">Always returns </a><font size="2" face="'Courier New'" color="#000000">t</font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="676295">Example</a></h4>
+      <p><a name="677718">See the </a><a href="#674168" title="13"><font color="Blue"><u>"Message Handler Example"</u></font></a><a href="#674168" title="13"></a>.</p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="673673">axlMsgCancelPrint()</a></font>
+      </blockquote>
+      <p><a name="673674">Sets severity level to 2 (warning) and puts the following into the message buffer (if </a><font size="2" face="'Courier New'" color="#000000">axlMsgSys</font> messages are in English):</p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="673675">User CANCEL received</a></font>
+      </blockquote>
+      <h3><a name="673676">axlMsgCancelSeen</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="673677">axlMsgCancelSeen()<dd></a><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="676344">Description</a></h4>
+      <p><a name="673680">Checks to see if the </a><font size="2" face="'Courier New'" color="#000000">axlMsgCancelPrint</font> message was printed. Does not poll the input stream for a <font color="#000000"><em>CANCEL</em></font> key. Checks the buffer of current messages for the occurrence of the <font size="2" face="'Courier New'" color="#000000">axlSsgSys.cancelRequest</font> message.</p>
+      <h4><a name="676373">Arguments	 </a></h4>
+      <p><a name="687250">None</a></p>
+      <h4><a name="676406">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="713969"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="713971">Requested </a><font color="#000000"><em>cancel</em></font> has been seen.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="713973"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="713975">No requested </a><font color="#000000"><em>cancel</em></font> has been seen.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="676443">Example</a></h4>
+      <p><a name="673685">See the </a><a href="#674168" title="13"><font color="Blue"><u>"Message Handler Example"</u></font></a><a href="#674168" title="13"></a>.</p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="677012">if( axlMsgCancelSeen()<br>&nbsp;&nbsp;&nbsp;&nbsp;; clear input and return<br>&nbsp;&nbsp;&nbsp;&nbsp;...</a></font>
+      </blockquote>
+      <h3><a name="677014">axlMsgClear</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="673689">axlMsgClear()<dd></a><font face="symbol" color="#000000">⇒</font> t</font>
+      </dl>
+      <h4><a name="676679">Description</a></h4>
+      <p><a name="673692">Clears the current error severity level. You can reset the severity by first saving it using </a><font size="2" face="'Courier New'" color="#000000">axlMsgTest</font>, then setting it using <font size="2" face="'Courier New'" color="#000000">axlMsgSet</font>. </p>
+      <h4><a name="676714">Arguments</a></h4>
+      <p><a name="687390">None</a></p>
+      <h4><a name="676751">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="324">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="713983"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="132">
+            <p><a name="713985">Always returns </a><font size="2" face="'Courier New'" color="#000000">t</font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="676824">Example</a></h4>
+      <p><a name="676654">See the </a><a href="#674168" title="13"><font color="Blue"><u>"Message Handler Example"</u></font></a><a href="#674168" title="13"></a>.</p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="676656">axlMsgClear()</a></font>
+      </blockquote>
+      <h3><a name="676586">axlMsgSet</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="673701">axlMsgSet(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>x_class<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t</font>
+      </dl>
+      <h4><a name="677317">Description</a></h4>
+      <p><a name="673704">Sets the current error severity level. Use only to reset the severity cleared using </a><font size="2" face="'Courier New'" color="#000000">axlMsgClear</font>.</p>
+      <h4><a name="677346">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="324">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="713993"><font size="2" face="'Courier New'" color="#000000"><em>x_class</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="132">
+            <p><a name="713995">Severity level.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="677379">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="324">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="714002"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="132">
+            <p><a name="714004">Always returns </a><font size="2" face="'Courier New'" color="#000000">t</font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="677416">Example</a></h4>
+      <p><a name="673709">See the </a><a href="#674168" title="13"><font color="Blue"><u>"Message Handler Example"</u></font></a><a href="#674168" title="13"></a>.</p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="673711">level = axlMsgTest()<br>; Do something<br>...<br>axlMsgSet(level)</a></font>
+      </blockquote>
+      <h3><a name="673712">axlMsgTest</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="673713">axlMsgTest()<dd></a><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>x_class</em></font></font>
+      </dl>
+      <h4><a name="677513">Description</a></h4>
+      <p><a name="673716">Determines the current error severity level. Returns a single number giving the severity level of the most severe message that has been printed since the last </a><font size="2" face="'Courier New'" color="#000000">axlMsgClear</font> or <font size="2" face="'Courier New'" color="#000000">axlMsgContextClear</font>&#47;<font size="2" face="'Courier New'" color="#000000">Print</font>&#47;<font size="2" face="'Courier New'" color="#000000">GetMsg</font> call.</p>
+      <h4><a name="677542">Arguments</a></h4>
+      <p><a name="673717">None.</a></p>
+      <h4><a name="677575">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="714012"><font size="2" face="'Courier New'" color="#000000"><em>x_class</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="714014">Highest severity level of all the messages currently in the message buffer.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="677612">Example</a></h4>
+      <p><a name="673720">See the </a><a href="#674168" title="13"><font color="Blue"><u>"Message Handler Example"</u></font></a><a href="#674168" title="13"></a>.</p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="673721">level = axlMsgTest()<br></a>⇒ 4</font>
+      </blockquote>
+      <p><a name="707384">&nbsp;</a></p>
+      <p><a name="709776">&nbsp;</a></p>
+      <p><a name="712484">&nbsp;</a></p>
+    </div>
+    <br>
+    <a href="#pagetop">Return to top of page</a>
+    <hr>
+    <hr align="left">
+    <div style="text-align: left;">
+      <!-- Begin Buttons -->      <table width="650" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                    </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+          <td>
+            <a href="12draw.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+          </td>
+          <td>
+            <a href="14dsnctl.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+          </td>
+          <td>
+            <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+            </a>
+          </td>
+          <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+          </td>
+          <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+          </td>
+          <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+          </td>
+          <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+          </td>
+        </tr>
+      </table>
+      <!-- End Buttons -->
+    </div>
+    <br>
+    <font size="-1" >
+For support, see <a href="http://support.cadence.com" target="_blank">Cadence Online Support</a> service.</font>
+    <br>
+    <br>
+    <font size="-1" >
+      <i>Copyright &#169; 2017, <a href="http://www.cadence.com">Cadence Design Systems, Inc.</a></i>
+    </font>
+    <br>
+    <font size="-1" >
+All rights reserved.</font>
+    <br>
+    <br>
+  </body>
+</html>

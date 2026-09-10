@@ -753,7 +753,7 @@ November 2014                                  18                            Pro
 
 ### classp
 
-`classp( g_object su_class ) => t | nil`
+`classp( g_object su_class ) => t / nil`
 
 ```text
                      Cadence SKILL++ Object System Reference
@@ -898,7 +898,7 @@ November 2014                              21                           Product 
 
 ### findClass
 
-`findClass( s_className ) => u_classObject | nil`
+`findClass( s_className ) => u_classObject / nil`
 
 ```text
                       Cadence SKILL++ Object System Reference
@@ -949,7 +949,7 @@ November 2014                                22                             Prod
 
 ### initializeInstance
 
-`initializeInstance( g_instance [ u_?initArg1      value1 ] [ u_?initArg2      value2 ] ... ) => t`
+`initializeInstance( g_instance [ ?initArg1 value1 ] [ ?initArg2 value2 ] ... ) => t`
 
 ```text
                    Cadence SKILL++ Object System Reference
@@ -1011,7 +1011,7 @@ November 2014                                23                          Product
 
 ### isClass
 
-`isClass( g_object ) => t | nil`
+`isClass( g_object ) => t / nil`
 
 ```text
                      Cadence SKILL++ Object System Reference
@@ -1060,7 +1060,7 @@ November 2014                                   24                  Product Vers
 
 ### makeInstance
 
-`makeInstance( us_class [ u_?initArg1       value1 ] [ u_?initArg2       value2 ] ... ) => g_instance`
+`makeInstance( us_class [ ?initArg1 value1 ] [ ?initArg2 value2 ] ... ) => g_instance`
 
 ```text
                     Cadence SKILL++ Object System Reference
@@ -1239,7 +1239,7 @@ November 2014                     28                      Product Version 6.1.6
 
 ### sharedInitialize
 
-`sharedInitialize( g_object g_slotList @rest l_initargs ) => g_object | error`
+`sharedInitialize( g_object g_slotList @rest l_initargs ) => g_object / error`
 
 ```text
                      Cadence SKILL++ Object System Reference

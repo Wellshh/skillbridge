@@ -8,9 +8,11 @@ List Functions
 
 ### append
 
-```
-append( l_list1 l_list2 ) => l_result append( o_table g_assoc ) => o_table     append( o_table1 o_table2 ) => o_newTable
-```
+
+`append( l_list1 l_list2 ) => l_result`
+`append( o_table g_assoc ) => o_table`
+`append( o_table1 o_table2 ) => o_newTable`
+
 
 #### Description
 
@@ -24,26 +26,20 @@ The`append` function can also be used with association tables as shown in the se
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_list1` | List of elements to be added to a list.
-|  |
-| --- | ---
-| `l_list2` | List of elements to be added.
-|  |
-| --- | ---
-| `o_table` | Association table to be updated.
-|  |
-| --- | ---
-| `g_assoc` | Key/value pairs to be added to the association table.
+| Name | Description |
+|---|---|
+| `l_list1` | List of elements to be added to a list. |
+| `l_list2` | List of elements to be added. |
+| `o_table` | Association table to be updated. |
+| `g_assoc` | Key/value pairs to be added to the association table. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | Returns a list containing elements of`l_list1` followed by elements of `l_list2`.
-|  |
-| --- | ---
-| `o_table` | Returns the original association table including the new entries.
+| Name | Description |
+|---|---|
+| `l_result` | Returns a list containing elements of`l_list1` followed by elements of `l_list2`. |
+| `o_table` | Returns the original association table including the new entries. |
+
 #### Example
 
 `/* List Example */append( '(1 2) '(3 4) ) => (1 2 3 4)`
@@ -74,17 +70,17 @@ Returns a list just like`l_list` with `g_arg` added as the last element of the l
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_list` | List to which`g_arg` is added.
-|  |
-| --- | ---
-| `g_arg` | Argument to be added to the end of`l_list`.
+| Name | Description |
+|---|---|
+| `l_list` | List to which`g_arg` is added. |
+| `g_arg` | Argument to be added to the end of`l_list`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | Returns a copy of`l_list` with `g_arg` attached to the end.
+| Name | Description |
+|---|---|
+| `l_result` | Returns a copy of`l_list` with `g_arg` attached to the end. |
+
 #### Example
 
 `append1('(1 2 3) 4) => (1 2 3 4)`
@@ -97,7 +93,7 @@ Like`append`, `append1` duplicates the top-level list cells of `l_list`.
 
 ### caar, caaar, caadr, cadr, caddr, cdar, cddr, ...
 
-`ca|d[ a|d ][ a|d ][ a|d ]r( l_list ) => g_result`
+`caar( l_list ) => g_result`
 
 #### Description
 
@@ -107,14 +103,16 @@ The`cadr(``l_list``)` expression, for example, applies `cdr` to get the tail of 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_list` | List of elements.
+| Name | Description |
+|---|---|
+| `l_list` | List of elements. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Returns the value of the specified operation.
+| Name | Description |
+|---|---|
+| `g_result` | Returns the value of the specified operation. |
+
 #### Example
 
 `caaar('(((1 2 3)(4 5 6))(7 8 9))) => 1`
@@ -149,14 +147,16 @@ The functions`car` and `cdr` are typically used to take a list of objects apart,
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_list` | A list of elements.
+| Name | Description |
+|---|---|
+| `l_list` | A list of elements. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Returns the first element in a list. Note that`car(nil)` returns `nil`.
+| Name | Description |
+|---|---|
+| `g_result` | Returns the first element in a list. Note that`car(nil)` returns `nil`. |
+
 #### Example
 
 `car( '(a b c) )      => a`
@@ -181,14 +181,16 @@ The expression`cdr(nil)` returns `nil`. `cdr` was a machine language instruction
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_list` | List of elements.
+| Name | Description |
+|---|---|
+| `l_list` | List of elements. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | Returns the end of a list, or the list minus the first element.
+| Name | Description |
+|---|---|
+| `l_result` | Returns the end of a list, or the list minus the first element. |
+
 #### Example
 
 `cdr( '(a b c) )  => (b c)`
@@ -213,17 +215,17 @@ Thus the`car` of `l_result` is `g_element` and the `cdr` of `l_result` is `l_lis
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_element` | Element to be added to the beginning of`l_list`.
-|  |
-| --- | ---
-| `l_list` | List that can be`nil`.
+| Name | Description |
+|---|---|
+| `g_element` | Element to be added to the beginning of`l_list`. |
+| `l_list` | List that can be`nil`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | List whose first element is`g_element` and whose `cdr` is `l_list`.
+| Name | Description |
+|---|---|
+| `l_result` | List whose first element is`g_element` and whose `cdr` is `l_list`. |
+
 #### Example
 
 `cons(1 nil)                  => (1)cons( 'a '(b c))             => (a b c)`
@@ -252,17 +254,17 @@ The last argument,`l_list`, must be a list. `l_list` can be `nil`, in which case
 
 #### Arguments
 
-|  |
-| --- | ---
-| [ `g_arg1` ... ] | Elements to be added to the beginning of`l_list`.
-|  |
-| --- | ---
-| `l_list` | The last argument that must be a list (which can be`nil`).
+| Name | Description |
+|---|---|
+| [ `g_arg1` ... ] | Elements to be added to the beginning of`l_list`. |
+| `l_list` | The last argument that must be a list (which can be`nil`). |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | List whose first element is the first argument and whose cdr isrest of the elements of the newly created list (including `l_list`).
+| Name | Description |
+|---|---|
+| `l_result` | List whose first element is the first argument and whose cdr isrest of the elements of the newly created list (including `l_list`). |
+
 #### Example
 
 The first element of the newly created list is the first argument while cdr is rest of the elements(including `l_list`):
@@ -303,14 +305,16 @@ Because list structures in SKILL are typically shared, it is usually only necess
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_arg` | List of elements.
+| Name | Description |
+|---|---|
+| `l_arg` | List of elements. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | Returns a copy of`l_arg`.
+| Name | Description |
+|---|---|
+| `l_result` | Returns a copy of`l_arg`. |
+
 #### Example
 
 ```
@@ -325,7 +329,7 @@ z = '(1 (2 3) 4) => (1 (2 3) 4)x = copy(z)      => (1 (2 3) 4)equal(z x)�
 
 ### dtpr
 
-`dtpr( g_value ) => t | nil`
+`dtpr( g_value ) => t / nil`
 
 #### Description
 
@@ -335,17 +339,17 @@ Checks if an object is a non-empty list.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_value` | An object.
+| Name | Description |
+|---|---|
+| `g_value` | An object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | Object is a non-empty list.
-|  |
-| --- | ---
-| `nil` | Otherwise. Note that`dtpr(nil)` returns `nil`.
+| Name | Description |
+|---|---|
+| `t` | Object is a non-empty list. |
+| `nil` | Otherwise. Note that`dtpr(nil)` returns `nil`. |
+
 #### Example
 
 `dtpr( 1 ) => nildtpr( list(1)) => t`
@@ -364,14 +368,16 @@ Returns the last list cell in a list.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_arg` | List of elements.
+| Name | Description |
+|---|---|
+| `l_arg` | List of elements. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | Last list cell (not the last element) in`l_arg`.
+| Name | Description |
+|---|---|
+| `l_result` | Last list cell (not the last element) in`l_arg`. |
+
 #### Example
 
 ```
@@ -394,17 +400,17 @@ See the example below.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_tconc` | A`tconc` structure that must initially be created using the `tconc` function.
-|  |
-| --- | ---
-| `l_list` | List to be spliced onto the end of the`tconc` structure.
+| Name | Description |
+|---|---|
+| `l_tconc` | A`tconc` structure that must initially be created using the `tconc` function. |
+| `l_list` | List to be spliced onto the end of the`tconc` structure. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | Returns`l_tconc`, which must be a `tconc` structure, with the list `l_list` spliced in at the end.
+| Name | Description |
+|---|---|
+| `l_result` | Returns`l_tconc`, which must be a `tconc` structure, with the list `l_list` spliced in at the end. |
+
 #### Example
 
 ```
@@ -417,7 +423,7 @@ x = tconc(nil 1)      ; x is initialized ((1) 1)lconc(x '(2 3 4))    �
 
 ### length
 
-`length( lao_arg ) => x_result | 0`
+`length( lao_arg ) => x_result / 0`
 
 #### Description
 
@@ -425,15 +431,15 @@ Determines the length of a list, array, or association table.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `lao_arg` | SKILL list, array, or association table.
+| Name | Description |
+|---|---|
+| `lao_arg` | SKILL list, array, or association table. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | Length of the`lao_arg` object. (The length is either the number of elements in the list or array or the number of key/value pairs in the association table).
-1. `lao_arg` is `nil` or an empty array or table.
+| Name | Description |
+|---|---|
+| `x_result` | Length of the`lao_arg` object. (The length is either the number of elements in the list or array or the number of key/value pairs in the association table). 1. `lao_arg` is `nil` or an empty array or table. |
 
 #### Example
 
@@ -459,20 +465,18 @@ Returns the index number of the given element in`l_list`.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_list` | A list of elements.
-|  |
-| --- | ---
-| `g_element` | The element to be searched in`l_list`.
+| Name | Description |
+|---|---|
+| `l_list` | A list of elements. |
+| `g_element` | The element to be searched in`l_list`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | The index number of`g_element` in `l_list`.
-|  |
-| --- | ---
-| `nil` | Returns`nil`, if the given element is not found in `l_list`.
+| Name | Description |
+|---|---|
+| `x_result` | The index number of`g_element` in `l_list`. |
+| `nil` | Returns`nil`, if the given element is not found in `l_list`. |
+
 #### Example
 
 `lindex('(1 2 3 4) 2)`
@@ -481,7 +485,7 @@ Returns the index number of the given element in`l_list`.
 
 ### list
 
-`list( [ g_arg1 g_arg2 ... ] ) => l_result | nil`
+`list( [ g_arg1 g_arg2 ... ] ) => l_result / nil`
 
 #### Description
 
@@ -489,20 +493,18 @@ Creates a list with the given elements.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_arg1` | Element to be added to a list.
-|  |
-| --- | ---
-| `g_arg2` | Additional elements to be added to a list
+| Name | Description |
+|---|---|
+| `g_arg1` | Element to be added to a list. |
+| `g_arg2` | Additional elements to be added to a list |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | List whose elements are`g_arg1`, `g_arg2`, and so on.
-|  |
-| --- | ---
-| `nil` | No arguments are given.
+| Name | Description |
+|---|---|
+| `l_result` | List whose elements are`g_arg1`, `g_arg2`, and so on. |
+| `nil` | No arguments are given. |
+
 #### Example
 
 `list(1 2 3)     => (1 2 3)list('a 'b 'c)  => (a b c)`
@@ -513,7 +515,7 @@ Creates a list with the given elements.
 
 ### listp
 
-`listp( g_value ) => t | nil`
+`listp( g_value ) => t / nil`
 
 #### Description
 
@@ -523,17 +525,17 @@ The suffix`p` is usually added to the name of a function to indicate that it is 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_value` | A data object.
+| Name | Description |
+|---|---|
+| `g_value` | A data object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`g_value` is a list, a data type whose internal name is also `list`. Note that `listp(nil)` returns `t`.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | If`g_value` is a list, a data type whose internal name is also `list`. Note that `listp(nil)` returns `t`. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `listp('(1 2 3))  => tlistp( nil )     => tlistp( 1 )       => nil`
@@ -556,20 +558,18 @@ Use the`nconc` function principally to reduce the amount of memory consumed. A c
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_arg1` | List of elements.
-|  |
-| --- | ---
-| `l_arg2` | List elements concatenated to`l_arg1`.
-|  |
-| --- | ---
-| `l_arg3` | Additional lists.
+| Name | Description |
+|---|---|
+| `l_arg1` | List of elements. |
+| `l_arg2` | List elements concatenated to`l_arg1`. |
+| `l_arg3` | Additional lists. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | The modified value of`l_arg1`.
+| Name | Description |
+|---|---|
+| `l_result` | The modified value of`l_arg1`. |
+
 #### Example
 
 ```
@@ -592,14 +592,16 @@ Builds a list containing an element. Equivalent to`cons(` `g_element``nil )`.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_element` | Element to be added to the beginning of an empty list.
+| Name | Description |
+|---|---|
+| `g_element` | Element to be added to the beginning of an empty list. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | A list with`g_element` as its single element.
+| Name | Description |
+|---|---|
+| `l_result` | A list with`g_element` as its single element. |
+
 #### Example
 
 `ncons( 'a )    => (a)z = '(1 2 3)   => (1 2 3)ncons( z )     => ((1 2 3))`
@@ -610,7 +612,7 @@ Builds a list containing an element. Equivalent to`cons(` `g_element``nil )`.
 
 ### nth
 
-`nth( x_index0 l_list ) => g_result | nil`
+`nth( x_index0 l_list ) => g_result / nil`
 
 #### Description
 
@@ -620,20 +622,18 @@ Thus`nth(0``l_list``)` is the same as `car(``l_list``)`. The value `nil` is retu
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_index0` | Index of the list element you want returned.
-|  |
-| --- | ---
-| `l_list` | List of elements.
+| Name | Description |
+|---|---|
+| `x_index0` | Index of the list element you want returned. |
+| `l_list` | List of elements. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Indexed element of`l_list`, assuming a zero-based index
-|  |
-| --- | ---
-| `nil` | If`x_index0` is negative or is greater than or equal to the length of the list.
+| Name | Description |
+|---|---|
+| `g_result` | Indexed element of`l_list`, assuming a zero-based index |
+| `nil` | If`x_index0` is negative or is greater than or equal to the length of the list. |
+
 #### Example
 
 ```
@@ -654,17 +654,17 @@ Applies`cdr` to a list a given number of times.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_count` | Number of times to apply`cdr` to `l_list`.
-|  |
-| --- | ---
-| `l_list` | List of elements.
+| Name | Description |
+|---|---|
+| `x_count` | Number of times to apply`cdr` to `l_list`. |
+| `l_list` | List of elements. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | Result of applying`cdr` to `l_list`, `x_count` number of times.
+| Name | Description |
+|---|---|
+| `l_result` | Result of applying`cdr` to `l_list`, `x_count` number of times. |
+
 #### Example
 
 ```
@@ -679,7 +679,7 @@ If`x_count` is less than 0, then `cons(nil``l_list``)` is returned.
 
 ### nthelem
 
-`nthelem( x_index1 l_list ) => g_result | nil`
+`nthelem( x_index1 l_list ) => g_result / nil`
 
 #### Description
 
@@ -689,20 +689,18 @@ Thus`nthelem(1``l_list``)` is the same as `car(``l_list``)`.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_index1` | Index of the element of`l_list` you want returned.
-|  |
-| --- | ---
-| `l_list` | List of elements.
+| Name | Description |
+|---|---|
+| `x_index1` | Index of the element of`l_list` you want returned. |
+| `l_list` | List of elements. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | The`x_index1` element of `l_list`.
-|  |
-| --- | ---
-| `nil` | If`x_index1` is less than or equal to 0 or is greater than the length of the list.
+| Name | Description |
+|---|---|
+| `g_result` | The`x_index1` element of `l_list`. |
+| `nil` | If`x_index1` is less than or equal to 0 or is greater than the length of the list. |
+
 #### Example
 
 `nthelem( 1 '(a b c) )  => az = '(1 2 3)nthelem(2 z)           => 2`
@@ -713,7 +711,7 @@ Thus`nthelem(1``l_list``)` is the same as `car(``l_list``)`.
 
 ### pairp
 
-`pairp( g_obj ) => t | nil`
+`pairp( g_obj ) => t / nil`
 
 #### Description
 
@@ -723,17 +721,17 @@ This function is equivalent to`dtpr`.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_obj` | Any SKILL object.
+| Name | Description |
+|---|---|
+| `g_obj` | Any SKILL object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | `g_obj` is a `cons` object.
-|  |
-| --- | ---
-| `nil` | `g_obj` is not a `cons` object.
+| Name | Description |
+|---|---|
+| `t` | `g_obj` is a `cons` object. |
+| `nil` | `g_obj` is not a `cons` object. |
+
 #### Example
 
 `(pairp nil)        => nil(pairp 123)        => nil(pairp '(1 2))     => t`
@@ -752,17 +750,17 @@ Returns a list whose first element is`n_num1` and whose tail is `n_num2`. Prefix
 
 #### Arguments
 
-|  |
-| --- | ---
-| `n_num1` | First element of the list.
-|  |
-| --- | ---
-| `n_num2` | Tail of the list.
+| Name | Description |
+|---|---|
+| `n_num1` | First element of the list. |
+| `n_num2` | Tail of the list. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | Result of the operation.
+| Name | Description |
+|---|---|
+| `l_result` | Result of the operation. |
+
 #### Example
 
 `L = range(1 2) => (1 2)car(L) => 1cdr(L) => (2)`
@@ -785,17 +783,17 @@ Removes all top-level elements`equal` to a SKILL object from a list. This is a d
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_x` | Any SKILL object to be removed from the list.
-|  |
-| --- | ---
-| `l_arg` | List from which to remove`g_x`.
+| Name | Description |
+|---|---|
+| `g_x` | Any SKILL object to be removed from the list. |
+| `l_arg` | List from which to remove`g_x`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | Returns`l_arg` modified so that all top-level elements equal to `g_x` are removed.
+| Name | Description |
+|---|---|
+| `l_result` | Returns`l_arg` modified so that all top-level elements equal to `g_x` are removed. |
+
 #### Example 1
 
 `y = '("a" "b" "x" "d" "f")  => ("a" "b" "x" "d" "f")`
@@ -844,17 +842,17 @@ Removes all top-level elements that are identical to a SKILL object using`eq` fr
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_x` | Any SKILL object to be removed from the list.
-|  |
-| --- | ---
-| `l_arg` | List from which to remove`g_x`.
+| Name | Description |
+|---|---|
+| `g_x` | Any SKILL object to be removed from the list. |
+| `l_arg` | List from which to remove`g_x`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | Returns`l_arg` modified so that all top-level elements `eq` to `g_x` are removed.
+| Name | Description |
+|---|---|
+| `l_result` | Returns`l_arg` modified so that all top-level elements `eq` to `g_x` are removed. |
+
 #### Example
 
 ```
@@ -867,7 +865,7 @@ y = '(a b x d f x g)    => (a b x d f x g)remdq('x y)           �
 
 ### remove
 
-`remove( g_x l_arg ) => l_resultremove( g_key o_table ) => g_value`
+`remove( g_x l_arg ) => l_result`
 
 #### Description
 
@@ -875,26 +873,20 @@ Returns a copy of a list with all top-level elements`equal` to a SKILL object re
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_x` | Any SKILL object to be removed from the list.
-|  |
-| --- | ---
-| `l_arg` | List from which to remove`g_x`.
-|  |
-| --- | ---
-| `g_key` | Key or first element of the key/value pair.
-|  |
-| --- | ---
-| `o_table` | Association table containing the key/value pairs to be processed.
+| Name | Description |
+|---|---|
+| `g_x` | Any SKILL object to be removed from the list. |
+| `l_arg` | List from which to remove`g_x`. |
+| `g_key` | Key or first element of the key/value pair. |
+| `o_table` | Association table containing the key/value pairs to be processed. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | Copy of`l_arg` with all top-level elements equal to `g_x` removed.
-|  |
-| --- | ---
-| `g_value` | Value associated with the key that is removed.
+| Name | Description |
+|---|---|
+| `l_result` | Copy of`l_arg` with all top-level elements equal to `g_x` removed. |
+| `g_value` | Value associated with the key that is removed. |
+
 #### Example
 
 `remove( "x" '("a" "b" "x" "d" "f")) => ("a" "b" "d" "f")`
@@ -923,17 +915,17 @@ Returns a copy of a list with all top-level elements that are identical to a SKI
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_x` | Any SKILL object to be removed from the list.
-|  |
-| --- | ---
-| `l_arg` | List from which to remove`g_x`.
+| Name | Description |
+|---|---|
+| `g_x` | Any SKILL object to be removed from the list. |
+| `l_arg` | List from which to remove`g_x`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | A copy of`l_arg` with all top-level elements `eq` to `g_x` removed.
+| Name | Description |
+|---|---|
+| `l_result` | A copy of`l_arg` with all top-level elements `eq` to `g_x` removed. |
+
 #### Example
 
 `remq('x '(a b x d f x g)) => (a b d f g)`
@@ -954,14 +946,16 @@ Because this function copies the list, it uses a lot of memory for large lists.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_arg` | A list.
+| Name | Description |
+|---|---|
+| `l_arg` | A list. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | A new list with the elements at the top level in reverse order.
+| Name | Description |
+|---|---|
+| `l_result` | A new list with the elements at the top level in reverse order. |
+
 #### Example
 
 ```
@@ -980,17 +974,17 @@ Replaces the first element of a list with an object. This function does not crea
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_arg1` | A list.
-|  |
-| --- | ---
-| `g_arg2` | Any SKILL object.
+| Name | Description |
+|---|---|
+| `l_arg1` | A list. |
+| `g_arg2` | Any SKILL object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | Modified`l_arg1` with the `car` of `l_arg1` replaced by `g_arg2`.
+| Name | Description |
+|---|---|
+| `l_result` | Modified`l_arg1` with the `car` of `l_arg1` replaced by `g_arg2`. |
+
 #### Example
 
 `x = '(a b c)rplaca( x 'd )    => (d b c)x                 => (d b c)`
@@ -1013,17 +1007,17 @@ Replaces the tail of a list with the elements of a second list. This function do
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_arg1` | List that is modified.
-|  |
-| --- | ---
-| `l_arg2` | List that replaces the`cdr` of `l_arg1`.
+| Name | Description |
+|---|---|
+| `l_arg1` | List that is modified. |
+| `l_arg2` | List that replaces the`cdr` of `l_arg1`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | Modified`l_arg1` with the `cdr` of the list `l_arg1` replaced with `l_arg2`.
+| Name | Description |
+|---|---|
+| `l_result` | Modified`l_arg1` with the `cdr` of the list `l_arg1` replaced with `l_arg2`. |
+
 #### Example
 
 `x = '(a b c)rplacd( x '(d e f))  => (a d e f)x                    => (a d e f)`
@@ -1046,17 +1040,17 @@ Replaces the first element of a list with an object. Same as`rplaca`.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_arg1` | A list.
-|  |
-| --- | ---
-| `g_arg2` | A SKILL object.
+| Name | Description |
+|---|---|
+| `l_arg1` | A list. |
+| `g_arg2` | A SKILL object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | Modified`l_arg1` with the `car` of `l_arg1` replaced by `g_arg2`.
+| Name | Description |
+|---|---|
+| `l_result` | Modified`l_arg1` with the `car` of `l_arg1` replaced by `g_arg2`. |
+
 #### Example
 
 ```
@@ -1081,17 +1075,17 @@ Replaces the tail of a list with the elements of a second list. Same as`rplacd`.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_arg1` | List that is modified.
-|  |
-| --- | ---
-| `l_arg2` | List that replaces the`cdr` of `l_arg1`.
+| Name | Description |
+|---|---|
+| `l_arg1` | List that is modified. |
+| `l_arg2` | List that replaces the`cdr` of `l_arg1`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | Modified`l_arg1` with the `cdr` of the list `l_arg1` replaced with `l_arg2`.
+| Name | Description |
+|---|---|
+| `l_result` | Modified`l_arg1` with the `cdr` of the list `l_arg1` replaced with `l_arg2`. |
+
 #### Example
 
 ```
@@ -1106,7 +1100,7 @@ The`cdr` of `x` is replaced by the second argument.
 
 ### tailp
 
-`tailp( l_arg1 l_arg2 ) => l_arg1 | nil`
+`tailp( l_arg1 l_arg2 ) => l_arg1 / nil`
 
 #### Description
 
@@ -1116,20 +1110,18 @@ Because`eq` is being used for comparison `l_arg1` must actually point to a tail 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_arg1` | A list.
-|  |
-| --- | ---
-| `l_arg2` | Another list, which can contain`l_arg1` as its tail.
+| Name | Description |
+|---|---|
+| `l_arg1` | A list. |
+| `l_arg2` | Another list, which can contain`l_arg1` as its tail. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_arg` | If a list cell`eq` to `l_arg1` is found by `cdr`'ing down `l_arg2` zero or more times.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `l_arg` | If a list cell`eq` to `l_arg1` is found by `cdr`'ing down `l_arg2` zero or more times. |
+| `nil` | Otherwise. |
+
 #### Example
 
 ```
@@ -1158,9 +1150,10 @@ A`tconc` structure is a special type of list that allows efficient addition of o
 | `g_x` | Element to add to the end of the list.
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | Returns`l_ptr`, which must be a `tconc` structure or `nil`, with `g_x` added to the end.
+| Name | Description |
+|---|---|
+| `l_result` | Returns`l_ptr`, which must be a `tconc` structure or `nil`, with `g_x` added to the end. |
+
 #### Example
 
 ```
@@ -1183,17 +1176,17 @@ Adds an element to the beginning of a list. Equivalent to `cons` but the order o
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_list` | A list, which can be`nil`.
-|  |
-| --- | ---
-| `g_element` | Element to be added to the beginning of`l_list`.
+| Name | Description |
+|---|---|
+| `l_list` | A list, which can be`nil`. |
+| `g_element` | Element to be added to the beginning of`l_list`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | Returns a list.
+| Name | Description |
+|---|---|
+| `l_result` | Returns a list. |
+
 #### Example
 
 `xcons( '(b c) 'a ) => ( a b c )`
@@ -1214,14 +1207,16 @@ Returns the first element of a list. `D`oes not modify the argument list.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_list` | A list of elements.
+| Name | Description |
+|---|---|
+| `l_list` | A list of elements. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Returns the first element in a list.
+| Name | Description |
+|---|---|
+| `g_result` | Returns the first element in a list. |
+
 #### Example
 
 `xValue = 300 yValue = 400 aCoordinate = xValue:yValue => ( 300 400 )`
@@ -1241,14 +1236,16 @@ Returns the tail of the list, that is, the list without its first element.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_list` | A list of elements.
+| Name | Description |
+|---|---|
+| `l_list` | A list of elements. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Returns the end of a list, or the list minus the first element.
+| Name | Description |
+|---|---|
+| `g_result` | Returns the end of a list, or the list minus the first element. |
+
 #### Example
 
 `xValue = 300 yValue = 400 aCoordinate = xValue:yValue => ( 300 400 )`

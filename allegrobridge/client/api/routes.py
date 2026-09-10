@@ -25,7 +25,6 @@ from allegrobridge.client.api.record import Route
 from allegrobridge.client.base import Collection, SkillModule
 from allegrobridge.client.base._rpc import RpcArgs, direct, read, write
 
-# NOTE: DELETE this dangling projection
 _PROJECT_PROCEDURE = '__abProjectRoutes'
 _CREATE_PATH_PROCEDURE = '__abCreatePath'
 _CONNECT_PROCEDURE = '__abConnectRoutes'
@@ -169,7 +168,7 @@ class RoutesApi(Collection[Route]):
             finally:
                 # whether success or not, the dbid in allegro database might be invalidated
                 # we manually refresh the session id here, leaving all queried
-                # local varibles dangling
+                # local variables dangling
                 self._session.refresh()
             self._session.workspace.transaction(SkillCode('t'))
             after = self._project(net=net, layer=None)

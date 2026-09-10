@@ -1,0 +1,814 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN" "http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+<html xmlns="http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Allegro SKILL Reference -- 18</title>
+<META NAME="Approver" CONTENT="Technical Publications">
+<META NAME="Author" CONTENT="Technical Publications">
+<META NAME="CreateDate" CONTENT="2017-11-25">
+<META NAME="CreateTime" CONTENT="1511600113">
+<META NAME="DataType" CONTENT="Manuals">
+<META NAME="Description" CONTENT="Describes the Allegro eXtension Language (AXL) and how to use each AXL function.">
+<META NAME="DocTitle" CONTENT="Allegro SKILL Reference">
+<META NAME="DocType" CONTENT="SKILL Reference">
+<META NAME="EdmsRelease" CONTENT="FM-Wiki-2.0_HF2">
+<META NAME="FileTitle" CONTENT="18">
+<META NAME="FileType" CONTENT="Chapter">
+<META NAME="Group" CONTENT="Allegro User Guide">
+<META NAME="Keyword" CONTENT="algroskill">
+<META NAME="Language" CONTENT="English">
+<META NAME="ModifiedDate" CONTENT="2017-11-25">
+<META NAME="ModifiedTime" CONTENT="1511600113">
+<META NAME="NextFile" CONTENT="18consmgt.html">
+<META NAME="Order" CONTENT="11">
+<META NAME="PageCount" CONTENT="10">
+<META NAME="Platform" CONTENT="ALL">
+<META NAME="PrevFile" CONTENT="16dbatt.html">
+<META NAME="Product" CONTENT="Allegro PCB Editor, Cadence SiP Digital">
+<META NAME="ProductFamily" CONTENT="Silicon-Package-Board Co-Design, IC Packaging">
+<META NAME="ProductVersion" CONTENT="17.2-2016">
+<META NAME="RightsManagement" CONTENT="Copyright 19912017 Cadence Design Systems Inc.">
+<META NAME="Title" CONTENT="Allegro SKILL Reference -- 18">
+<META NAME="TopicTags" CONTENT="FALSE">
+<META NAME="Version" CONTENT="17.2-2016">
+  </head>
+  <body style="margin-left: 5%;">
+    <a name="pagetop"></a>
+    <a name="firstpage"></a>
+    <!-- Begin Buttons -->
+    <table width="650" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td height="36" width="650" colspan="10">
+          <img src="images/header_doc.gif" width="650" height="34">
+        </td>
+      </tr>
+      <tr>
+        <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+        <td>
+          <a href="16dbatt.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+        </td>
+        <td>
+          <a href="18consmgt.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+        </td>
+        <td height="20">
+          <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+          </a>
+        </td>
+        <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+        </td>
+        <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+        </td>
+        <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+        </td>
+        <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+        </td>
+      </tr>
+    </table>
+    <!-- End Buttons -->
+    <p>
+    <hr>
+    <p>
+      <h3>
+        <center>
+          <font >
+            <div>Allegro User Guide: SKILL Reference</div>
+            <font >
+              <div>Product Version 17.2&#45;2016 April 2016</div>
+            </font>
+          </font>
+        </center>
+      </h3>
+      <br>
+    </p>
+    <div>
+      <h1>18<a name="1001295">&nbsp;</a></h1>
+      <h1><a name="1037521">Database Transaction Functions</a></h1>
+      <p><a name="1065738">This chapter describes the AXL&#45;SKILL Database Transaction functions.</a></p>
+      <h3><a name="1065349">axlDBCloak</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1074955">axlDBCloak(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>g_func<dd></em></font>[<font size="2" face="'Courier New'" color="#000000"><em>g_mode</em></font>]&#47;[l<font size="2" face="'Courier New'" color="#000000"><em>g_mode</em></font>]<dd>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>g_return</em></font></font>
+      </dl>
+      <h4><a name="1075143">Description</a></h4>
+      <p><a name="1076597">Improves performance and program memory use while modifying many items in the database. You use </a><font size="2" face="'Courier New'" color="#000000">axlDBCloak</font> to update many etch or package symbols in batch mode. Works like SKILL's <font size="2" face="'Courier New'" color="#000000">eval</font> function. You pass it a function and its arguments using the following format:</p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076532"><font size="2" face="'Courier New'" color="#000000">axlDBCloak</font></a> (<font size="2" face="'Courier New'" color="#000000"><em>&#39;MyFunc</em></font>( <font size="2" face="'Courier New'" color="#000000"><em>myargs</em></font>) )</font>
+      </blockquote>
+      <p><a name="1076295">You can use </a><font size="2" face="'Courier New'" color="#000000">axlDBCloak</font> to do the following:</p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1076296">Batch any net based DRC updates.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1076297">Batch connectivity update.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1076298">Optionally, batch dynamic shape updates if </a><font size="2" face="'Courier New'" color="#000000"><em>g_mode</em></font> is <font size="2" face="'Courier New'" color="#000000">&#39;shape</font>.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1078336">Optionally, ignores the FIXED property.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1076299">Incorporate an errset around your function so any SKILL errors thrown are caught by </a><font size="2" face="'Courier New'" color="#000000">axlDBCloak</font>.</td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="1078363">This function must be used if you need to update many etch or package symbols in a batch fashion. </a></p>
+      <p><a name="1076301">Do not use </a><font size="2" face="'Courier New'" color="#000000">axlDBCloak</font> in these circumstances:</p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1076303">If you are adding or deleting non&#45;connectivity database items (for example, loading many lines to a manufacturing layer)</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1076304">If you need to interact with the user. Since connectivity is not updated, do not use the </a><font size="2" face="'Courier New'" color="#000000">axlEnter</font><font size="2" face="'Courier New'" color="#000000"><em>XXX</em></font> functions. Instead, get the information from the user first, then do the cloak update.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1076305">If you are reading the database, using cloak does not help and may actually slow performance.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1076306">If making a single change, using Cloak slows performance.</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1076307">Using Cloak sets any database ids to </a><font size="2" face="'Courier New'" color="#000000">nil</font>.</p>
+      <p><a name="1078429">gmode options (if multiple required pass a list of options</a></p>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1081214"><font size="2" face="'Courier New'" color="#000000">&#39;shape</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1081216">Improves performance if changes being made effect any dynamic shapes on the design. Generally you should set this if effecting ETCH layers with your changes.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081218"><font size="2" face="'Courier New'" color="#000000">&#39;ignoreFixed</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081220">Have the system ignore the FIXED property (see axlDBIgnoreFixed)</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="1079889"><font color="#000000"><strong>CAUTIONS:</strong></font></a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1079890">A frequent programming error is to leave of the tick (&#39;) mark that allows axlDBCloak to evaluate the function. </a></td>
+          </tr>
+        </table>
+      </div>
+      <blockquote><a name="1079901">CORRECT MODEL:</a></blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1079911">axlDBCloak( &#39;MyFunc(myArgs) &#39;(shape ignoreFixed))</a></font>
+      </blockquote>
+      <blockquote><a name="1079686">INCORRECT MODEL:</a></blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1079925">axlDBCloak( MyFunc(myArgs) &#39;(shape ignoreFixed))</a></font>
+      </blockquote>
+      <blockquote><a name="1079937">Both work but in the incorrect case now performance benefit offered by the cloaking function will by applied to MyFunc.</a></blockquote>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1079868">Database transactions and cloaking (axlDBTransactionStart):</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="69">
+              <div>&nbsp;</div>
+            </td>
+            <td width="31.872000000000003">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bss_bullet_sub_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1079782">Do NOT start and transaction inside a cloak and then terminate it outside the cloak. Terminate means calling either axlDBTransactionRollback, axlDBTransactionCommit axlDBTransactionOops.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="69">
+              <div>&nbsp;</div>
+            </td>
+            <td width="31.872000000000003">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bss_bullet_sub_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1079969">If you start a transaction inside a cloak then complete it before returning.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="69">
+              <div>&nbsp;</div>
+            </td>
+            <td width="31.872000000000003">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bss_bullet_sub_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1079572">If you start a transaction outside the cloak then its completion must outside the cloak.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <font size="3"><img src="images/tip.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <font size="3"><a name="1076313">For effective debugging, first call your function directly from the top level function, then wrap in the cloak call.</a></font>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="1075145">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="644">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1081228"><font size="2" face="'Courier New'" color="#000000"><em>g_func</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="452">
+            <p><a name="1081230">Function with any of its arguments.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081232"><font size="2" face="'Courier New'" color="#000000"><em>s_mode</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081234">option</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081236"><font size="2" face="'Courier New'" color="#000000">ls_mode</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081238">list of options</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075151">Value Returned</a></h4>
+      <p><a name="1076318">Returns what </a><font size="2" face="'Courier New'" color="#000000"><em>g_func</em></font> returns.</p>
+      <h4><a name="1076319">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076321">procedure( DeleteSymbols()</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076322">let( (listOfSymbols)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076323">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076339">&nbsp;&nbsp;&nbsp;&nbsp;listOfSymbols = axlDBGetDesign()&#45;&#62;symbols</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076324">&nbsp;&nbsp;&nbsp;&nbsp;when( listOfSymbols</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076325">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;axlDBCloak( &#39;DeleteDoit(listOfSymbols) &#39;shape ))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076326">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;axlShell(&#34;cputime stop&#34;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076327">&nbsp;&nbsp;&nbsp;&nbsp;))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076328">procedure( DeleteDoit(listOfDatabaseObjects )</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076329">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076338">&nbsp;&nbsp;&nbsp;&nbsp;foreach(c_item listOfDatabaseObjects</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076330">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf(&#34;REFDES %s\n&#34;, c_item&#45;&#62;refdes)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076331">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;axlDeleteObject(c_item)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076332">&nbsp;&nbsp;&nbsp;&nbsp;)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076333">&nbsp;&nbsp;&nbsp;&nbsp;nil</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076334">)</a></font>
+      </p>
+      <p><a name="1076539">Deletes all placed symbols in the database.</a></p>
+      <h4><a name="1080060">See Also</a></h4>
+      <p><a href="#1076430" title="18" name="1080052"><font color="#0000ff"><u>axlDBTransactionStart</u></font></a></p>
+      <h3><a name="1076340">axlDBTransactionCommit</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076343">axlDBTransactionCommit(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>x_mark<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000">t</font>&#47;nil</font>
+      </dl>
+      <h4><a name="1076345">Description</a></h4>
+      <p><a name="1076341">Commits a database transaction from the last transaction mark.</a></p>
+      <h4><a name="1076356">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1081246"><font size="2" face="'Courier New'" color="#000000"><em>x_mark</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1081248">Database transaction mark returned from </a><font size="2" face="'Courier New'" color="#000000">axlDBTransactionStart</font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076362">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="644">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1081255"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="451">
+            <p><a name="1081257">Database transaction committed.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081259"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081261">Database transaction not committed.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076366">Example</a></h4>
+      <p><a name="1076367">See </a><font size="2" face="'Courier New'" color="#000000">axlDBTransactionStart()</font> for an example.</p>
+      <h3><a name="1076368">axlDBTransactionMark</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076375">axlDBTransactionMark(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>x_mark<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="1076377">Description</a></h4>
+      <p><a name="1079455">Writes a mark in the database that you can use with </a><a href="#1076373" title="18"><font color="#0000ff"><u>axlDBTransactionOops</u></font></a> to rollback database changes to this mark.</p>
+      <p><a name="1079456">When a transaction mark is committed or rolled back, all </a><font size="2" face="'Courier New'" color="#000000">axlDBTransactionMarks</font> associated with that mark are discarded.</p>
+      <h4><a name="1076379">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1081269"><font size="2" face="'Courier New'" color="#000000"><em>x_mark</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1081271">Database transaction mark returned from </a><font size="2" face="'Courier New'" color="#000000">axlDBTransactionStart</font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076381">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1081278"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1081280">Mark written in the database.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081282"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081284">No mark written in the database.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076384">Example</a></h4>
+      <p><a name="1076385">See </a><font size="2" face="'Courier New'" color="#000000">axlDBTransactionStart()</font> for an example.</p>
+      <h3><a name="1076373">axlDBTransactionOops</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076403">axlDBTransactionOops(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>x_mark<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="1076405">Description</a></h4>
+      <p><a name="1076406">Undoes a transaction back to the last mark, or to start if there are no marks. Supports the Allegro </a><font color="#000000"><em>oops</em></font> model for database transactions.</p>
+      <p><a name="1076422">When a transaction mark is committed or rolled back all, then that mark is no longer valid for </a><font color="#000000"><em>oopsing</em></font>.</p>
+      <h4><a name="1076407">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1081293"><font size="2" face="'Courier New'" color="#000000"><em>x_mark</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1081295">Database transaction mark returned from </a><font size="2" face="'Courier New'" color="#000000">axlDBTransactionStart</font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076409">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1081306"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1081308">Transaction undo completed.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081310"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081312">Transaction is already back to the starting mark and there is nothing left to </a><font color="#000000"><em>oops</em></font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076412">Example</a></h4>
+      <p><a name="1076413">See </a><font size="2" face="'Courier New'" color="#000000">axlDBTransactionStart</font> for an example.</p>
+      <h3><a name="1076401">axlDBTransactionRollback</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076432">axlDBTransactionRollback(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>x_mark<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="1076434">Description</a></h4>
+      <p><a name="1076435">Undo function for a database transaction.</a></p>
+      <h4><a name="1076436">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="129">
+            <p><a name="1081106"><font size="2" face="'Courier New'" color="#000000"><em>x_mark</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="518">
+            <p><a name="1081108">Database transaction mark returned from </a><font size="2" face="'Courier New'" color="#000000">axlDBTransactionStart</font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076438">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="119">
+            <p><a name="1081117"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="526">
+            <p><a name="1081119">Transaction undo completed.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081121"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081123">Transaction undo not completed.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076441">Example</a></h4>
+      <p><a name="1076442">See </a><font size="2" face="'Courier New'" color="#000000">axlDBTransactionStart</font> for an example.</p>
+      <h3><a name="1076430">axlDBTransactionStart</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076457">axlDBTransactionStart(<dd>[g_undoMark])<dd></a><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>x_mark</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="1076459">Description</a></h4>
+      <p><a name="1076460">Marks the start of a transaction to the database. Returns a mark to the caller which is passed back to commit, mark, oops or rollback for nested transactions. Only the outermost caller of this function (the first caller) has control to commit or rollback the entire transaction.</a></p>
+      <p><a name="1076478">You use this function with other </a><font size="2" face="'Courier New'" color="#000000">axlDBTransaction</font> functions.</p>
+      <p><a name="1076479">Allegro cancels any transactions left active when your SKILL code terminates. You cannot start a transaction and keep it active across Allegro commands as an attempt to support </a><font color="#000000"><em>undo</em></font>.</p>
+      <p><a name="1076480">Saving or opening a database cancels transactions.</a></p>
+      <h4><a name="1076461">Arguments</a></h4>
+      <p><a name="1076483">&nbsp;</a></p>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="149">
+            <p><a name="1080959"><font size="2" face="'Courier New'" color="#000000"><em>g_undoMark</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="497">
+            <p><a name="1080979">This should be set to &#39;undoMark that are for commands that want multiple undo events. For example, place multiple individual symbols, you may want each placement to be an indivdual undo event.</a></p>
+            <p><a name="1080982">By default, with a undo interactive all operations within the command results in a single undo even. See in axlCmdRegister on how write a Skill command that supports Allegro undo. </a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076486">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="150">
+            <p><a name="1081134"><font size="2" face="'Courier New'" color="#000000"><em>x_mark</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="495">
+            <p><a name="1081136">Integer mark indicating transaction start.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081138"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081140">Failed to mark transaction start.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076466">Example 1</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076493">mark = axlDBTransactionStart()</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076494">...#1 do stuff ...</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076495">axlDBTransactionMark(mark)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076496">...#2 do stuff ...</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076497">axlDBTransactionMark(mark)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076498">...#3 do stuff ...</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076499">&nbsp;</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076505">;; do an oops of the last two changes</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076500">axlDBTransactionOops( mark ) ; oops out #3</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076516">axlDBTransactionOops( mark ) ; oops out #2</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076517">axlDBTransactionOops( topList); commit only #1</a></font>
+      </blockquote>
+      <p><a name="1076552">Emulates the Allegro </a><font color="#000000"><em>oops</em></font> model.</p>
+      <h4><a name="1076560">Example 2</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076519">i = axlDBTransactionStart()</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076520">&nbsp;&nbsp;&nbsp;&nbsp;... do stuff ...</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076521">j = axlDBTransactionStart()</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076522">&nbsp;&nbsp;&nbsp;&nbsp;... stuff ...</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076523">&nbsp;&nbsp;&nbsp;&nbsp;axlDBTransactionCommit(j) ;; this is not really commited</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076524">&nbsp;</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076525">j = axlDBTransactionStart()</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076526">&nbsp;&nbsp;&nbsp;&nbsp;... do more stuff ...</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076527">axlDBTransactionRollback(j) ;; oops out &#34;do more stuff&#34;</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076528">&nbsp;</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076529">axlDBTransactionCommit(i) ;; commit changes to database</a></font>
+      </blockquote>
+      <p><a name="1076567">Multiple Start marks.</a></p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1076530">Database transaction functions do NOT mark select sets. The application handles select set management.</a></p>
+      <p><a name="1076715">&nbsp;</a></p>
+      <p><a name="1077795">&nbsp;</a></p>
+      <p><a name="1079095">&nbsp;</a></p>
+      <p><a name="1080297">&nbsp;</a></p>
+    </div>
+    <br>
+    <a href="#pagetop">Return to top of page</a>
+    <hr>
+    <hr align="left">
+    <div style="text-align: left;">
+      <!-- Begin Buttons -->      <table width="650" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                    </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+          <td>
+            <a href="16dbatt.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+          </td>
+          <td>
+            <a href="18consmgt.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+          </td>
+          <td>
+            <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+            </a>
+          </td>
+          <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+          </td>
+          <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+          </td>
+          <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+          </td>
+          <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+          </td>
+        </tr>
+      </table>
+      <!-- End Buttons -->
+    </div>
+    <br>
+    <font size="-1" >
+For support, see <a href="http://support.cadence.com" target="_blank">Cadence Online Support</a> service.</font>
+    <br>
+    <br>
+    <font size="-1" >
+      <i>Copyright &#169; 2017, <a href="http://www.cadence.com">Cadence Design Systems, Inc.</a></i>
+    </font>
+    <br>
+    <font size="-1" >
+All rights reserved.</font>
+    <br>
+    <br>
+  </body>
+</html>

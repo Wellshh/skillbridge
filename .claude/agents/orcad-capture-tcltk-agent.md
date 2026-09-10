@@ -43,7 +43,7 @@ memory: project
 
 在调用任何 OrCAD Capture API 前，**禁止凭空猜测**。严格按照以下顺序行动：
 
-1. **API 索引定位**：使用 `Grep` 搜索 `.claude/skill-references/orcadcapture/api_index.part*.md`，快速定位目标命令所在的文件。
+1. **API 索引定位**：使用 `Grep` 搜索 `.claude/skill-references/orcadcapture/api_index.part*.md`（15 个分片，4569 行，由 `python3 .claude/scripts/build_orcad_index.py` 从 `.paginate/api_index_raw.json` 生成），快速定位目标命令所在的文件。方法名在类之间大量重名（如 `Next` 有百余个条目），务必用 **Class 列**消歧。
 2. **确认参数签名**：读取对应的 `.claude/skill-references/orcadcapture/database_commands/ClassName.md` 或 `capture_commands/capture_cmds.md` 文件，确切掌握其参数列表 (Signature)、类型和返回值。
 3. **只有在终端输出中确认了 API 文档细节后，才允许写代码**。
 

@@ -14,7 +14,7 @@ String Functions
 
 ### blankstrp
 
-`blankstrp( t_string ) => t | nil`
+`blankstrp( t_string ) => t / nil`
 
 #### Description
 
@@ -22,17 +22,17 @@ Checks if the given string is empty or has blank space characters only and retur
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_string` | A string.
+| Name | Description |
+|---|---|
+| `t_string` | A string. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`t_string` is blank or is an empty string.
-|  |
-| --- | ---
-| `nil` | If there are non-space characters.
+| Name | Description |
+|---|---|
+| `t` | If`t_string` is blank or is an empty string. |
+| `nil` | If there are non-space characters. |
+
 #### Example
 
 `blankstrp( "")t`
@@ -52,17 +52,17 @@ Concatenates a list of strings with specified separation characters.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_strings` | List of strings. A null string is permitted.
-|  |
-| --- | ---
-| `S_glueCharacters` | Separation characters you use within the strings. A null string ispermitted. If this argument is omitted, the default single space is used.
+| Name | Description |
+|---|---|
+| `l_strings` | List of strings. A null string is permitted. |
+| `S_glueCharacters` | Separation characters you use within the strings. A null string ispermitted. If this argument is omitted, the default single space is used. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_string` | Strings concatenated with`t_glueCharacters`. Signals an error if `l_strings` is not a list of strings.
+| Name | Description |
+|---|---|
+| `t_string` | Strings concatenated with`t_glueCharacters`. Signals an error if `l_strings` is not a list of strings. |
+
 #### Example
 
 ```
@@ -75,7 +75,7 @@ buildString( '("test" "il") ".")      => "test.il"buildString( '("usr" "mn
 
 ### getchar
 
-`getchar( S_arg x_index ) => s_char | nil`
+`getchar( S_arg x_index ) => s_char / nil`
 
 #### Description
 
@@ -83,20 +83,18 @@ Returns an indexed character of a string or the print name if the string is a sy
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_arg` | Character string or symbol.
-|  |
-| --- | ---
-| `x_index` | Number corresponding to an indexed point in`S_arg`.
+| Name | Description |
+|---|---|
+| `S_arg` | Character string or symbol. |
+| `x_index` | Number corresponding to an indexed point in`S_arg`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `s_char` | Single character symbol corresponding to the character in`S_arg` indexed by `x_index`.
-|  |
-| --- | ---
-| `nil` | If`x_index` is less than 1 or greater than the length of the string.
+| Name | Description |
+|---|---|
+| `s_char` | Single character symbol corresponding to the character in`S_arg` indexed by `x_index`. |
+| `nil` | If`x_index` is less than 1 or greater than the length of the string. |
+
 #### Example
 
 `getchar("abc" 2)  => bgetchar("abc" 4)  => nil`
@@ -107,7 +105,7 @@ Returns an indexed character of a string or the print name if the string is a sy
 
 ### index
 
-`index( t_string1 S_string2 ) => t_result | nil`
+`index( t_string1 S_string2 ) => t_result / nil`
 
 #### Description
 
@@ -115,20 +113,18 @@ Returns a string consisting of the remainder of`string1` beginning with the firs
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_string1` | String to search for the first occurrence of`S_string2`.
-|  |
-| --- | ---
-| `S_string2` | String to search for in`t_string1`.
+| Name | Description |
+|---|---|
+| `t_string1` | String to search for the first occurrence of`S_string2`. |
+| `S_string2` | String to search for in`t_string1`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_result` | If`S_string2` is found in `t_string1`, returns a string equal to the remainder of `t_string1` that begins with the first character of `S_string2`.
-|  |
-| --- | ---
-| `nil` | If`S_string2` is not found.
+| Name | Description |
+|---|---|
+| `t_result` | If`S_string2` is found in `t_string1`, returns a string equal to the remainder of `t_string1` that begins with the first character of `S_string2`. |
+| `nil` | If`S_string2` is not found. |
+
 #### Example
 
 index( "abc" 'b )            => "bc"
@@ -148,14 +144,16 @@ If the parameter is a symbol, the name of the symbol is used.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_string` | Input string or symbol.
+| Name | Description |
+|---|---|
+| `S_string` | Input string or symbol. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_result` | Copy of`S_string` in lowercase letters.
+| Name | Description |
+|---|---|
+| `t_result` | Copy of`S_string` in lowercase letters. |
+
 #### Example
 
 `lowerCase("Hello World!") => "hello world!"`
@@ -166,7 +164,7 @@ If the parameter is a symbol, the name of the symbol is used.
 
 ### lsprintf
 
-`lsprintf( t_formatString[ g_arg1 ... ] ) => t_string`
+`lsprintf( t_formatString [ g_arg1 ... ] ) => t_string`
 
 #### Description
 
@@ -176,17 +174,17 @@ Refer to the "[Common Output Format Specifications](../sklangref/inputoutput.htm
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_formatString` | Specifies the format string
-|  |
-| --- | ---
-| `g_arg1` | Specifies the arguments following the format string that areprinted corresponding to their format specifications.
+| Name | Description |
+|---|---|
+| `t_formatString` | Specifies the format string |
+| `g_arg1` | Specifies the arguments following the format string that areprinted corresponding to their format specifications. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_string` | Returns the formatted string
+| Name | Description |
+|---|---|
+| `t_string` | Returns the formatted string |
+
 #### Example
 
 ```
@@ -197,7 +195,7 @@ let( (format( "%d %d %s %L\n")    printf_style_args( (list 42 41 "hello" (li
 
 ### nindex
 
-`nindex( t_string1 S_string2 ) => x_result | nil`
+`nindex( t_string1 S_string2 ) => x_result / nil`
 
 #### Description
 
@@ -205,20 +203,18 @@ Finds the symbol or string,`S_string2`, in `t_string1` and returns the character
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_string1` | String you want to search for`S_string2`.
-|  |
-| --- | ---
-| `S_string2` | String you want to find occurrences of in`t_string1`.
+| Name | Description |
+|---|---|
+| `t_string1` | String you want to search for`S_string2`. |
+| `S_string2` | String you want to find occurrences of in`t_string1`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | Index corresponding to the point at which`S_string2` matches part of `t_string1`. The index starts from one.
-|  |
-| --- | ---
-| `nil` | No character match.
+| Name | Description |
+|---|---|
+| `x_result` | Index corresponding to the point at which`S_string2` matches part of `t_string1`. The index starts from one. |
+| `nil` | No character match. |
+
 #### Example
 
 ```
@@ -239,14 +235,16 @@ Checks whether the specified value is an outstring port.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_port` | The value to be checked.
+| Name | Description |
+|---|---|
+| `g_port` | The value to be checked. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If the given value is an outstring port.
+| Name | Description |
+|---|---|
+| `t` | If the given value is an outstring port. |
+
 | nil | If the given value is not an outstring port.
 #### Example
 
@@ -274,17 +272,17 @@ No special significance is given to punctuation characters, so the "words" retur
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_string` | String to be parsed.
-|  |
-| --- | ---
-| `S_breakCharacters` | List of individual break characters.
+| Name | Description |
+|---|---|
+| `S_string` | String to be parsed. |
+| `S_breakCharacters` | List of individual break characters. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_strings` | List of strings parsed from`S_string`.
+| Name | Description |
+|---|---|
+| `l_strings` | List of strings parsed from`S_string`. |
+
 #### Example
 
 `parseString( "Now is the time" )   => ("Now" "is" "the" "time")`
@@ -313,7 +311,7 @@ The single space between`c` and `d` contributes " " in the return result.
 
 ### pcreCompile
 
-`pcreCompile( t_pattern [ x_options ] ) => o_comPatObj | nil`
+`pcreCompile( t_pattern [ x_options ] ) => o_comPatObj / nil`
 
 #### Description
 
@@ -323,11 +321,9 @@ Compiles a regular expression string pattern (`t_pattern`) into an internal repr
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_pattern` | String containing regular expression string to be compiled.
-`x_options` (Optional) Independent option bits that affect the compilation. You can specify zero or more of these options symbolically using the [`pcreGenCompileOptBits`](#pcreGenCompileOptBits "String Functions") SKILL function.
-Valid values:
+| Name | Description |
+|---|---|
+| `t_pattern` | String containing regular expression string to be compiled. `x_options` (Optional) Independent option bits that affect the compilation. You can specify zero or more of these options symbolically using the [`pcreGenCompileOptBits`](#pcreGenCompileOptBits "String Functions") SKILL function. Valid values: |
 
 |  |  |
 | --- | --- | ---
@@ -351,12 +347,11 @@ Valid values:
 |  |  | Equivalent to setting?firstline t using the pcreGenCompileOptBits SKILL function.
 #### Value Returned
 
-|  |
-| --- | ---
-| `o_comPatObj` | Data object containing the compiled pattern.
-|  |
-| --- | ---
-| `nil` | Pattern compilation failed. An error message indicating thecause of the failure appears.
+| Name | Description |
+|---|---|
+| `o_comPatObj` | Data object containing the compiled pattern. |
+| `nil` | Pattern compilation failed. An error message indicating thecause of the failure appears. |
+
 #### Example
 
 ```
@@ -389,7 +384,7 @@ comPat6 = pcreCompile( "[a-z" ) => *Error* pcreCompile: compilation failed at of
 
 ### pcreExecute
 
-`pcreExecute( o_comPatObj S_subject [ x_options ] ) => t | nil`
+`pcreExecute( o_comPatObj S_subject [ x_options ] ) => t / nil`
 
 #### Description
 
@@ -397,15 +392,12 @@ Matches the subject string or symbol (`S_subject`) against a previously compiled
 
 #### Arguments
 
-|  |
-| --- | ---
-| `o_comPatObj` | Data object containing the compiled pattern returned from aprevious [`pcreCompile`](../sklangref/stringfunc.html#pcreCompile) call.
-|  |
-| --- | ---
-| `S_subject` | Subject string or symbol to be matched. If it is a symbol, its printname is used.
-|  |
-| --- | ---
-| `x_options` | (Optional) Independent option bits that affect pattern matching.You can specify zero or more of these options symbolically using the [`pcreGenExecOptBits`](#pcreGenExecOptBits "String Functions") SKILL function. Valid values:
+| Name | Description |
+|---|---|
+| `o_comPatObj` | Data object containing the compiled pattern returned from aprevious [`pcreCompile`](../sklangref/stringfunc.html#pcreCompile) call. |
+| `S_subject` | Subject string or symbol to be matched. If it is a symbol, its printname is used. |
+| `x_options` | (Optional) Independent option bits that affect pattern matching.You can specify zero or more of these options symbolically using the [`pcreGenExecOptBits`](#pcreGenExecOptBits "String Functions") SKILL function. Valid values: |
+
 |  |  |
 | --- | --- | ---
 |  | `PCRE_ANCHORED` | Equivalent to setting[`?anchored t`](#g_setAnchoredp pcreGenExecOptBits "String Functions") using the [`pcreGenExecOptBits`](#pcreGenExecOptBits "String Functions") SKILL function.
@@ -415,12 +407,11 @@ Matches the subject string or symbol (`S_subject`) against a previously compiled
 |  | `PCRE_PARTIAL` | Equivalent to setting[`?partial t`](#g_setPartialp "String Functions") using the [`pcreGenExecOptBits`](#pcreGenExecOptBits "String Functions") SKILL function.
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | A match is found.
-|  |
-| --- | ---
-| `nil` | No match. You can see the error message associated with this matching failure by calling [`pcrePrintLastMatchErr`](#pcrePrintLastMatchErr "String Functions").
+| Name | Description |
+|---|---|
+| `t` | A match is found. |
+| `nil` | No match. You can see the error message associated with this matching failure by calling [`pcrePrintLastMatchErr`](#pcrePrintLastMatchErr "String Functions"). |
+
 #### Example
 
 ```
@@ -449,9 +440,7 @@ comPat5 = pcreCompile( "^\\d?\\d(jan|feb|mar|apr|may|jun)\\d\\d$/" ) => pcreobj@
 
 ### pcreGenCompileOptBits
 
-```
-pcreGenCompileOptBits( [ ?caseLess  g_setCaseLessp ][ ?multiLine g_setMultiLinep ][ ?dotAll    g_setDotAllp ][ ?extended  g_setExtendedp ][ ?anchored  g_setAnchoredp ][ ?dollar_endonly g_setDollarEndonlyp ][ ?ungreedy  g_setUngreedyp ][ ?no_auto_capture g_setNoAutoCapturep ][ ?firstline g_setFirstlinep ]) => x_resultOptBits
-```
+`pcreGenCompileOptBits( [ ?caseLess g_setCaseLessp ] [ ?multiLine g_setMultiLinep ] [ ?dotAll g_setDotAllp ] [ ?extended g_setExtendedp ] [ ?anchored g_setAnchoredp ] [ ?dollar_endonly g_setDollarEndonlyp ] [ ?ungreedy g_setUngreedyp ] [ ?no_auto_capture g_setNoAutoCapturep ] [ ?firstline g_setFirstlinep ] ) => x_resultOptBits`
 
 #### Description
 
@@ -459,38 +448,24 @@ Generates bitwise inclusive OR--`bor()`--of zero or more independent option bits
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_setCaseLessp` | When not`nil`, letters in the pattern match both upper and lower case letters. Setting this bit is equivalent to using Perl's `/i` option. You can change this setting within a pattern using `(?i)`.
-|  |
-| --- | ---
-| `g_setMultiLinep` | When not`nil`, each newline in the subject string defines a line of characters for which the start-of-line metacharacter (`^`) matches at the start of the line and the end-of-line metacharacter (`$`) matches at the end of the line.  By default, PCRE treats the subject string as a single line of characters, even if it contains newlines, such that the start-of-line metacharacter (`^`) matches only at the start of the string and the end-of-line metacharacter (`$`) matches only at the end of the string, or before a terminating newline (unless [`PCRE_DOLLAR_ENDONLY`](../sklangref/stringfunc.html#PCRE_DOLLAR_ENDONLY) is set).
-|  |
-| --- | ---
-| `g_setDotAllp` | When not`nil`, a dot metacharater in the pattern matches all characters, including newlines. Without it, newlines are excluded.  Setting this bit is equivalent to using Perl's `/s` option. You can change this setting within a pattern using `(?s)`. A negative class such as `[^a]` always matches a newline character, independent of whether this bit is set or not.
-|  |
-| --- | ---
-| `g_setExtendedp` | When not`nil`, PCRE ignores whitespace data characters in the pattern except when they are escaped or inside a character class.  Whitespace does not include the VT character (code 11).  PCRE also ignores characters between an unescaped `#` outside a character class and the next newline character, inclusive.  Setting this bit is equivalent to using Perl's `/x` option. You can change this setting within a pattern using `(?x)`.  You can use this setting to include comments (data characters only) inside complicated patterns.  You may not use whitespace characters in special character sequences in a pattern, such as `(?(` which introduces a conditional subpattern.
-|  |
-| --- | ---
-| `g_setAnchoredp` | When not`nil`, PCRE constrains the match to the first matching point in the subject string. You can achieve this same effect using appropriate constructs in the pattern itself.
-|  |
-| --- | ---
-| `g_setDollarEndonlyp` | When not`nil`, a dollar metacharacter in the pattern matches at the end of the subject string only. Without this option, a dollar metacharacter also matches immediately before the final character if it is a newline (but not before any other newlines). PCRE ignores this setting if you specify [`PCRE_MULTILINE`](../sklangref/stringfunc.html#PCRE_MULTILINE).
-|  |
-| --- | ---
-| `g_setUngreedyp` | When not`nil`, PCRE inverts the greed of quantifiers so that they are not greedy by default. You can force a quantifier to become greedy by putting `?` after it. You can change this setting within a pattern using `(?U)`.
-|  |
-| --- | ---
-| `g_setNoAutoCapturep` | When not`nil`, If you set this bit, you are disabling the use of numbered capturing parentheses in a pattern. Any opening parenthesis that is not followed by `?` behaves as if it were followed by `?:` but you can still use named parentheses for capturing (and they acquire numbers in the usual way).
-|  |
-| --- | ---
-| `g_setFirstlinep` | When not`nil`, PCRE requires an unanchored pattern to match before or at the first newline character in the subject string; the matched text may continue over the newline.
+| Name | Description |
+|---|---|
+| `g_setCaseLessp` | When not`nil`, letters in the pattern match both upper and lower case letters. Setting this bit is equivalent to using Perl's `/i` option. You can change this setting within a pattern using `(?i)`. |
+| `g_setMultiLinep` | When not`nil`, each newline in the subject string defines a line of characters for which the start-of-line metacharacter (`^`) matches at the start of the line and the end-of-line metacharacter (`$`) matches at the end of the line.  By default, PCRE treats the subject string as a single line of characters, even if it contains newlines, such that the start-of-line metacharacter (`^`) matches only at the start of the string and the end-of-line metacharacter (`$`) matches only at the end of the string, or before a terminating newline (unless [`PCRE_DOLLAR_ENDONLY`](../sklangref/stringfunc.html#PCRE_DOLLAR_ENDONLY) is set). |
+| `g_setDotAllp` | When not`nil`, a dot metacharater in the pattern matches all characters, including newlines. Without it, newlines are excluded.  Setting this bit is equivalent to using Perl's `/s` option. You can change this setting within a pattern using `(?s)`. A negative class such as `[^a]` always matches a newline character, independent of whether this bit is set or not. |
+| `g_setExtendedp` | When not`nil`, PCRE ignores whitespace data characters in the pattern except when they are escaped or inside a character class.  Whitespace does not include the VT character (code 11).  PCRE also ignores characters between an unescaped `#` outside a character class and the next newline character, inclusive.  Setting this bit is equivalent to using Perl's `/x` option. You can change this setting within a pattern using `(?x)`.  You can use this setting to include comments (data characters only) inside complicated patterns.  You may not use whitespace characters in special character sequences in a pattern, such as `(?(` which introduces a conditional subpattern. |
+| `g_setAnchoredp` | When not`nil`, PCRE constrains the match to the first matching point in the subject string. You can achieve this same effect using appropriate constructs in the pattern itself. |
+| `g_setDollarEndonlyp` | When not`nil`, a dollar metacharacter in the pattern matches at the end of the subject string only. Without this option, a dollar metacharacter also matches immediately before the final character if it is a newline (but not before any other newlines). PCRE ignores this setting if you specify [`PCRE_MULTILINE`](../sklangref/stringfunc.html#PCRE_MULTILINE). |
+| `g_setUngreedyp` | When not`nil`, PCRE inverts the greed of quantifiers so that they are not greedy by default. You can force a quantifier to become greedy by putting `?` after it. You can change this setting within a pattern using `(?U)`. |
+| `g_setNoAutoCapturep` | When not`nil`, If you set this bit, you are disabling the use of numbered capturing parentheses in a pattern. Any opening parenthesis that is not followed by `?` behaves as if it were followed by `?:` but you can still use named parentheses for capturing (and they acquire numbers in the usual way). |
+| `g_setFirstlinep` | When not`nil`, PCRE requires an unanchored pattern to match before or at the first newline character in the subject string; the matched text may continue over the newline. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_resultOptBits` | Bitwise inclusive OR--`bor()`--of zero or more independent option bits that affect pattern compilation.
+| Name | Description |
+|---|---|
+| `x_resultOptBits` | Bitwise inclusive OR--`bor()`--of zero or more independent option bits that affect pattern compilation. |
+
 #### Example
 
 ```
@@ -507,9 +482,7 @@ pcreMatchAssocList("^[a-z][0-9]*$"'((abc "ascii") ("123" "number") ("yy\na123"  
 
 ### pcreGenExecOptBits
 
-```
-pcreGenExecOptBits( [ ?anchored g_setAnchoredp ][ ?notbol   g_setNotbolp ][ ?noteol   g_setNoteolp ][ ?notempty g_setNotemptyp ][ ?partial  g_setPartialp ])=> x_resultOptBits
-```
+`pcreGenExecOptBits( [ ?anchored g_setAnchoredp ] [ ?notbol g_setNotbolp ] [ ?noteol g_setNoteolp ] [ ?notempty g_setNotemptyp ] [ ?partial g_setPartialp ] ) => x_resultOptBits`
 
 #### Description
 
@@ -517,38 +490,20 @@ Generates bitwise inclusive OR--`bor()`--of zero or more independent option bits
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_setAnchoredp` | When not`nil`, PCRE constrains the match to the first matching point in the [`pcreExecute`](#pcreExecute "String Functions") function.  If you compiled a pattern using the [`PCRE_ANCHORED`](../sklangref/stringfunc.html#PCRE_ANCHORED) option, or if the pattern was anchored by virtue of its contents, then it must also be anchored at matching time.
-|  |
-| --- | ---
-| `g_setNotbolp` | When not`nil`, the first character of the subject string is not the beginning of a line such that the circumflex metacharacter `^` does not match before it. If you enable this option without setting the [`PCRE_MULTILINE`](../sklangref/stringfunc.html#PCRE_MULTILINE) option (at compile time), the circumflex metacharacter never results in a match.  This option affects the behavior of `^` only; it does not affect the behavior of `\A`.
-|  |
-| --- | ---
-| `g_setNoteolp` | When not`nil`, the end of the subject string is not the end of a line such that the dollar sign metacharacter `$` does not match it nor does it match a newline character immediately before it (except if you have set the [`PCRE_MULTILINE`](../sklangref/stringfunc.html#PCRE_MULTILINE) option). If you enable this option without setting the [`PCRE_MULTILINE`](../sklangref/stringfunc.html#PCRE_MULTILINE) option (at compile time), the dollar sign metacharacter never results in a match.  This option affects the behavior of `$` only; it does not affect the behavior of `\Z` or `\z`.
-|  |
-| --- | ---
-| `g_setNotemptyp` | When not`nil`, an empty string is not a valid match. PCRE attempts to match any alternatives in the pattern. If all the alternatives match the empty string, the entire match fails. For example, if you do not set this option, when PCRE applies the following sequence to a string that does not begin with `a` or `b`, it matches the empty string at the start of the subject:
-|  |
-| --- | ---
-|  | `a?b?`
-|  |
-| --- | ---
-|  | If you set this option, an empty string is not a valid match; PCREsearches further into the string for occurrences of `a` or `b`.
-|  |
-| --- | ---
-| `g_setPartialp` | When not`nil`, the function returns `PCRE_ERROR_PARTIAL` instead of `PCRE_ERROR_NOMATCH` in the case of a partial match. A partial match occurs when PCRE encounters the end of a subject string before it can match the complete pattern. You may not use this option with all patterns. The following restrictions apply:
-|  |
-| --- | ---
-|  | You may not specify quantified atom matches to search forrepeated single characters or repeated single metasequences where the maximum quantity is greater than one. However, you may specify quantifiers with any values after parentheses. For example:
-|  |
-| --- | ---
-|  | Use`(a){2,4}` instead of `a{2,4}`. Use `(\d)+` instead of `\d+`.
+| Name | Description |
+|---|---|
+| `g_setAnchoredp` | When not`nil`, PCRE constrains the match to the first matching point in the [`pcreExecute`](#pcreExecute "String Functions") function.  If you compiled a pattern using the [`PCRE_ANCHORED`](../sklangref/stringfunc.html#PCRE_ANCHORED) option, or if the pattern was anchored by virtue of its contents, then it must also be anchored at matching time. |
+| `g_setNotbolp` | When not`nil`, the first character of the subject string is not the beginning of a line such that the circumflex metacharacter `^` does not match before it. If you enable this option without setting the [`PCRE_MULTILINE`](../sklangref/stringfunc.html#PCRE_MULTILINE) option (at compile time), the circumflex metacharacter never results in a match.  This option affects the behavior of `^` only; it does not affect the behavior of `\A`. |
+| `g_setNoteolp` | When not`nil`, the end of the subject string is not the end of a line such that the dollar sign metacharacter `$` does not match it nor does it match a newline character immediately before it (except if you have set the [`PCRE_MULTILINE`](../sklangref/stringfunc.html#PCRE_MULTILINE) option). If you enable this option without setting the [`PCRE_MULTILINE`](../sklangref/stringfunc.html#PCRE_MULTILINE) option (at compile time), the dollar sign metacharacter never results in a match.  This option affects the behavior of `$` only; it does not affect the behavior of `\Z` or `\z`. |
+| `g_setNotemptyp` | When not`nil`, an empty string is not a valid match. PCRE attempts to match any alternatives in the pattern. If all the alternatives match the empty string, the entire match fails. For example, if you do not set this option, when PCRE applies the following sequence to a string that does not begin with `a` or `b`, it matches the empty string at the start of the subject: |
+| `g_setPartialp` | When not`nil`, the function returns `PCRE_ERROR_PARTIAL` instead of `PCRE_ERROR_NOMATCH` in the case of a partial match. A partial match occurs when PCRE encounters the end of a subject string before it can match the complete pattern. You may not use this option with all patterns. The following restrictions apply: |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_resultOptBits` | Bitwise inclusive OR--`bor()`--of zero or more independent option bits that affect pattern matching.
+| Name | Description |
+|---|---|
+| `x_resultOptBits` | Bitwise inclusive OR--`bor()`--of zero or more independent option bits that affect pattern matching. |
+
 #### Example
 
 ```
@@ -565,7 +520,7 @@ pcreMatchAssocList("^[a-z][0-9]*$"'((abc "ascii") ("123" "number") ("yy\na123"  
 
 ### pcreListCompileOptBits
 
-`pcreListCompileOptBits()=> t`
+`pcreListCompileOptBits() => t`
 
 #### Description
 
@@ -577,16 +532,17 @@ None.
 
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | Returns`t`.
+| Name | Description |
+|---|---|
+| `t` | Returns`t`. |
+
 #### Reference
 
 `pcreGenCompileOptBits`
 
 ### pcreListExecOptBits
 
-`pcreListExecOptBits()=> t`
+`pcreListExecOptBits() => t`
 
 #### Description
 
@@ -598,18 +554,17 @@ None.
 
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | Returns`t`.
+| Name | Description |
+|---|---|
+| `t` | Returns`t`. |
+
 #### Reference
 
 `pcreGenExecOptBits`
 
 ### pcreMatchAssocList
 
-```
-pcreMatchAssocList( g_pattern l_subjects [ x_compOptBits ] [ x_execOptBits ]) => l_results | nil | error message(s)
-```
+`pcreMatchAssocList( g_pattern l_subjects [ x_compOptBits ] [ x_execOptBits ] ) => l_results / nil / error message(s)`
 
 #### Description
 
@@ -623,29 +578,21 @@ You can set and unset the[`PCRE_CASELESS`](../sklangref/stringfunc.html#PCRE_CAS
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_pattern` | String containing regular expression string to be compiled or a`pcreObject`.
-|  |
-| --- | ---
-| `l_subjects` | Association list whose keys are strings or symbols.
-|  |
-| --- | ---
-| `x_compOptBits` | (Optional) Independent option bits that affect the compilation.Valid values for this argument are the same as those for the `x_options` argument to the [`pcreCompile`](../sklangref/stringfunc.html#pcreCompile) SKILL function.
-|  |
-| --- | ---
-| `x_execOptBits` | (Optional) Independent option bits that affect pattern matching.Valid values for this argument are the same as those for the `x_options` argument to the [`pcreExecute`](../sklangref/stringfunc.html#pcreCompile) SKILL function.
+| Name | Description |
+|---|---|
+| `g_pattern` | String containing regular expression string to be compiled or a`pcreObject`. |
+| `l_subjects` | Association list whose keys are strings or symbols. |
+| `x_compOptBits` | (Optional) Independent option bits that affect the compilation.Valid values for this argument are the same as those for the `x_options` argument to the [`pcreCompile`](../sklangref/stringfunc.html#pcreCompile) SKILL function. |
+| `x_execOptBits` | (Optional) Independent option bits that affect pattern matching.Valid values for this argument are the same as those for the `x_options` argument to the [`pcreExecute`](../sklangref/stringfunc.html#pcreCompile) SKILL function. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_results` | Association list of elements from the subject association listwhose keys match the pattern.
-|  |
-| --- | ---
-| `nil` | No keys in the subject association list match the pattern.
-|  |
-| --- | ---
-| error message(s) | Zero or more error messages that appear if the function fails forany reason, if the subject association list is not valid, or if the pattern compilation fails (indicating the cause of the failure).
+| Name | Description |
+|---|---|
+| `l_results` | Association list of elements from the subject association listwhose keys match the pattern. |
+| `nil` | No keys in the subject association list match the pattern. |
+| `error message(s)` | Zero or more error messages that appear if the function fails forany reason, if the subject association list is not valid, or if the pattern compilation fails (indicating the cause of the failure). |
+
 #### Example
 
 ```
@@ -666,9 +613,7 @@ pcreMatchAssocList( "box[0-9]*" '(square circle "cell9" "123") ) => *Error* pcre
 
 ### pcreMatchList
 
-```
-pcreMatchList( g_pattern l_subjects [ x_compOptBits ] [ x_execOptBits ]) => l_results | nil | error message(s)
-```
+`pcreMatchList( g_pattern l_subjects [ x_compOptBits ] [ x_execOptBits ] ) => l_results / nil / error message(s)`
 
 #### Description
 
@@ -682,29 +627,21 @@ You can set and unset the[`PCRE_CASELESS`](../sklangref/stringfunc.html#PCRE_CAS
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_pattern` | String containing regular expression string to be compiled or a`pcreObject`.
-|  |
-| --- | ---
-| `l_subjects` | List of subject strings or symbols to be matched against theregular expression string. If it is a symbol, its print name is used.
-|  |
-| --- | ---
-| `x_compOptBits` | (Optional) Independent option bits that affect the compilation.Valid values for this argument are the same as those for the `x_options` argument to the [`pcreCompile`](../sklangref/stringfunc.html#pcreCompile) SKILL function.
-|  |
-| --- | ---
-| `x_execOptBits` | (Optional) Independent option bits that affect pattern matching.Valid values for this argument are the same as those for the `x_options` argument to the [`pcreExecute`](../sklangref/stringfunc.html#pcreCompile) SKILL function.
+| Name | Description |
+|---|---|
+| `g_pattern` | String containing regular expression string to be compiled or a`pcreObject`. |
+| `l_subjects` | List of subject strings or symbols to be matched against theregular expression string. If it is a symbol, its print name is used. |
+| `x_compOptBits` | (Optional) Independent option bits that affect the compilation.Valid values for this argument are the same as those for the `x_options` argument to the [`pcreCompile`](../sklangref/stringfunc.html#pcreCompile) SKILL function. |
+| `x_execOptBits` | (Optional) Independent option bits that affect pattern matching.Valid values for this argument are the same as those for the `x_options` argument to the [`pcreExecute`](../sklangref/stringfunc.html#pcreCompile) SKILL function. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_results` | List of strings, symbols, or PCRE objects from the subject list thatmatch the pattern.
-|  |
-| --- | ---
-| `nil` | No matches or match failure.
-|  |
-| --- | ---
-| error message(s) | Zero or more error messages that appear if the function fails forany reason, if the subject list is not valid, or if the pattern compilation fails (indicating the cause of the failure).
+| Name | Description |
+|---|---|
+| `l_results` | List of strings, symbols, or PCRE objects from the subject list thatmatch the pattern. |
+| `nil` | No matches or match failure. |
+| `error message(s)` | Zero or more error messages that appear if the function fails forany reason, if the subject list is not valid, or if the pattern compilation fails (indicating the cause of the failure). |
+
 #### Example
 
 ```
@@ -733,7 +670,7 @@ pcreMatchList( "^[a-z][0-9]*$" '((abc "ascii") (a123 "alphanum")) ) => *Error* p
 
 ### pcreMatchp
 
-`pcreMatchp( g_pattern S_subject [ x_compOptBits ] [ x_execOptBits ] ) => t | nil`
+`pcreMatchp( g_pattern S_subject [ x_compOptBits ] [ x_execOptBits ] ) => t / nil`
 
 #### Description
 
@@ -747,26 +684,20 @@ You can set and unset the[`PCRE_CASELESS`](../sklangref/stringfunc.html#PCRE_CAS
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_pattern` | String containing regular expression string to be compiled or a`pcreObject`.
-|  |
-| --- | ---
-| `S_subject` | Subject string or symbol to be matched. If it is a symbol, its printname is used.
-|  |
-| --- | ---
-| `x_compOptBits` | (Optional) Independent option bits that affect the compilation.Valid values for this argument are the same as those for the `x_options` argument to the [`pcreCompile`](../sklangref/stringfunc.html#pcreCompile) SKILL function.
-|  |
-| --- | ---
-| `x_execOptBits` | (Optional) Independent option bits that affect pattern matching.Valid values for this argument are the same as those for the `x_options` argument to the [`pcreExecute`](../sklangref/stringfunc.html#pcreCompile) SKILL function.
+| Name | Description |
+|---|---|
+| `g_pattern` | String containing regular expression string to be compiled or a`pcreObject`. |
+| `S_subject` | Subject string or symbol to be matched. If it is a symbol, its printname is used. |
+| `x_compOptBits` | (Optional) Independent option bits that affect the compilation.Valid values for this argument are the same as those for the `x_options` argument to the [`pcreCompile`](../sklangref/stringfunc.html#pcreCompile) SKILL function. |
+| `x_execOptBits` | (Optional) Independent option bits that affect pattern matching.Valid values for this argument are the same as those for the `x_options` argument to the [`pcreExecute`](../sklangref/stringfunc.html#pcreCompile) SKILL function. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | A match is found. A message appears if you have any errors in the regular expression pattern.
-|  |
-| --- | ---
-| `nil` | No match. An error message indicating the cause of the matching failure appears.
+| Name | Description |
+|---|---|
+| `t` | A match is found. A message appears if you have any errors in the regular expression pattern. |
+| `nil` | No match. An error message indicating the cause of the matching failure appears. |
+
 #### Example
 
 `pcreMatchp( "[0-9]*[.][0-9][0-9]*" "100.001" ) => t`
@@ -791,7 +722,7 @@ pcreMatchp( "^[0-9]+" "abc\n123\nefg" pcreGenCompileOptBits(?multiLine t) pcreGe
 
 ### pcreObjectp
 
-`pcreObjectp( g_arg ) => t | nil`
+`pcreObjectp( g_arg ) => t / nil`
 
 #### Description
 
@@ -799,17 +730,17 @@ Checks to see whether the given argument is a`pcreObject` or not.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_arg` | A value to be checked.
+| Name | Description |
+|---|---|
+| `g_arg` | A value to be checked. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | `g_arg` is a pcreObject.
-|  |
-| --- | ---
-| `nil` | `g_arg` is not a pcreObject.
+| Name | Description |
+|---|---|
+| `t` | `g_arg` is a pcreObject. |
+| `nil` | `g_arg` is not a pcreObject. |
+
 #### Example
 
 `a = pcreCompile("abc[0-9]+")`
@@ -830,7 +761,7 @@ Checks to see whether the given argument is a`pcreObject` or not.
 
 ### pcrePrintLastMatchErr
 
-`pcrePrintLastMatchErr( o_patMatchObj ) => t | nil`
+`pcrePrintLastMatchErr( o_patMatchObj ) => t / nil`
 
 #### Description
 
@@ -838,17 +769,17 @@ Prints the error message associated with the last failed matching operation (tha
 
 #### Argument
 
-|  |
-| --- | ---
-| `o_patMatchObj` | Data object containing information from a previously failedpattern comilation/matching operation.
+| Name | Description |
+|---|---|
+| `o_patMatchObj` | Data object containing information from a previously failedpattern comilation/matching operation. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | Prints the error message associated with the last failed matchingoperation and returns `t`.
-|  |
-| --- | ---
-| `nil` | No previously failed matching operation.
+| Name | Description |
+|---|---|
+| `t` | Prints the error message associated with the last failed matchingoperation and returns `t`. |
+| `nil` | No previously failed matching operation. |
+
 #### Example
 
 ```
@@ -865,9 +796,7 @@ pcreExecute( comPat "123" pcreGenCompileOptBits(?caseLess t) ) => nilpcrePrintLa
 
 ### pcreReplace
 
-```
-pcreReplace( o_comPatObj t_source t_replacement x_index [ x_options ] ) => t_result | t_source
-```
+`pcreReplace( o_comPatObj t_source t_replacement x_index [ x_options ] ) => t_result / t_source`
 
 #### Description
 
@@ -875,29 +804,21 @@ Replaces one or all occurrences of a previously-compiled regular expression in t
 
 #### Arguments
 
-|  |
-| --- | ---
-| `o_comPatObj` | Data object containing the compiled pattern returned from aprevious [`pcreCompile`](../sklangref/stringfunc.html#pcreCompile) call.
-|  |
-| --- | ---
-| `t_source` | Source string to be matched and replaced.
-|  |
-| --- | ---
-| `t_replacement` | Replacement string. You can use pattern tags in this string (see [`pcreSubstitute`](#pcreSubstitute "String Functions")).
-|  |
-| --- | ---
-| `x_index` | Integer index indicating which of the matching substrings toreplace. If the index is less than or equal to zero, the function applies the replacement string to all matching substrings.
-|  |
-| --- | ---
-| `x_options` | (Optional) Independent option bits that affect pattern matching.Valid values for this argument are the same as those for the `x_options` argument to the [`pcreExecute`](../sklangref/stringfunc.html#pcreCompile) SKILL function.
+| Name | Description |
+|---|---|
+| `o_comPatObj` | Data object containing the compiled pattern returned from aprevious [`pcreCompile`](../sklangref/stringfunc.html#pcreCompile) call. |
+| `t_source` | Source string to be matched and replaced. |
+| `t_replacement` | Replacement string. You can use pattern tags in this string (see [`pcreSubstitute`](#pcreSubstitute "String Functions")). |
+| `x_index` | Integer index indicating which of the matching substrings toreplace. If the index is less than or equal to zero, the function applies the replacement string to all matching substrings. |
+| `x_options` | (Optional) Independent option bits that affect pattern matching.Valid values for this argument are the same as those for the `x_options` argument to the [`pcreExecute`](../sklangref/stringfunc.html#pcreCompile) SKILL function. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_result` | Copy of the source string with the specified replacement(determined by the integer index).
-|  |
-| --- | ---
-| `t_source` | Original source string if no match was found.
+| Name | Description |
+|---|---|
+| `t_result` | Copy of the source string with the specified replacement(determined by the integer index). |
+| `t_source` | Original source string if no match was found. |
+
 #### Example
 
 ```
@@ -914,7 +835,7 @@ comPat2 = pcreCompile( "xyz" ) => pcreobj@0x27d264 pcreReplace( comPat2 "xyzzyxy
 
 ### pcreSubstitute
 
-`pcreSubstitute( [o_pcreObject]t_string ) => t_result | nil`
+`pcreSubstitute( [o_pcreObject] t_string ) => t_result / nil`
 
 #### Description
 
@@ -928,20 +849,18 @@ If`o_pcreObject` is provided, pattern tag can also have the next form `\{x_num}`
 
 #### Argument
 
-|  |
-| --- | ---
-| `o_pcreObject` | An object that was used in`pcreExecute`.
-|  |
-| --- | ---
-| `t_string` | Argument string to which the function applies the substitution.
+| Name | Description |
+|---|---|
+| `o_pcreObject` | An object that was used in`pcreExecute`. |
+| `t_string` | Argument string to which the function applies the substitution. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_result` | Copy of the argument with the specified substitutions.
-|  |
-| --- | ---
-| `nil` | The last string matching operation failed (none of the patterntags are meaningful).
+| Name | Description |
+|---|---|
+| `t_result` | Copy of the argument with the specified substitutions. |
+| `nil` | The last string matching operation failed (none of the patterntags are meaningful). |
+
 #### Example
 
 ```
@@ -1026,7 +945,7 @@ comPat = pcreCompile( "([a-z]+)\\.\\1" ) => pcreobj@0x27d048pcreExecute( comPat 
 
 ### readstring
 
-`readstring( t_string ) => g_result | nil`
+`readstring( t_string ) => g_result / nil`
 
 #### Description
 
@@ -1034,17 +953,17 @@ Returns the first expression in a string. Subsequent expressions in the string a
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_string` | String to read.
+| Name | Description |
+|---|---|
+| `t_string` | String to read. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | The object read in.
-|  |
-| --- | ---
-| `nil` | When the port is at the end of the string.
+| Name | Description |
+|---|---|
+| `g_result` | The object read in. |
+| `nil` | When the port is at the end of the string. |
+
 #### Example
 
 `readstring("fun( 1 2 3 ) fun( 4 5 )") => ( fun 1 2 3 )`
@@ -1075,7 +994,7 @@ The third example illustrates that`readstring` applied to the print representati
 
 ### rexCompile
 
-`rexCompile( t_pattern ) => t | nil`
+`rexCompile( t_pattern ) => t / nil`
 
 #### Description
 
@@ -1087,17 +1006,17 @@ This allows you to compile the pattern expression once using `rexCompile` and th
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_pattern` | Regular expression string pattern.
+| Name | Description |
+|---|---|
+| `t_pattern` | Regular expression string pattern. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | The given argument is a legal regular expression string.
-|  |
-| --- | ---
-| `nil` | Signals an error if the given pattern is ill-formed or not a legalexpression.
+| Name | Description |
+|---|---|
+| `t` | The given argument is a legal regular expression string. |
+| `nil` | Signals an error if the given pattern is ill-formed or not a legalexpression. |
+
 #### Example
 
 ```
@@ -1148,7 +1067,7 @@ For example, to match a file name with dotted extension .`il`, the pattern "^[a-
 
 ### rexExecute
 
-`rexExecute( S_target ) => t | nil`
+`rexExecute( S_target ) => t / nil`
 
 #### Description
 
@@ -1160,17 +1079,17 @@ This function is used in conjunction with`rexCompile` for matching multiple targ
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_target` | String or symbol to be matched. If a symbol is given, its printname is used.
+| Name | Description |
+|---|---|
+| `S_target` | String or symbol to be matched. If a symbol is given, its printname is used. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | A match is found.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | A match is found. |
+| `nil` | Otherwise. |
+
 #### Example
 
 ```
@@ -1189,7 +1108,7 @@ rexCompile("\\([a-z]+\\)\\.\\1")        => trexExecute("abc.bc")    
 
 ### rexMagic
 
-`rexMagic( [ g_state ] ) => t | nil`
+`rexMagic( [ g_state ] ) => t / nil`
 
 #### Description
 
@@ -1199,17 +1118,17 @@ By default the meta-characters (^, $, \*, +, \, [, ], etc.) in a regular express
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_state` | `nil` turns off the magic of the meta-characters. Anything else turns on the magic interpretation.
+| Name | Description |
+|---|---|
+| `g_state` | `nil` turns off the magic of the meta-characters. Anything else turns on the magic interpretation. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | The current setting.
-|  |
-| --- | ---
-| `nil` | The given argument.
+| Name | Description |
+|---|---|
+| `t` | The current setting. |
+| `nil` | The given argument. |
+
 #### Example
 
 ```
@@ -1222,7 +1141,7 @@ rexCompile( "^[0-9]+" )           => trexExecute( "123abc" )    �
 
 ### rexMatchAssocList
 
-`rexMatchAssocList( t_pattern l_targets ) => l_results | nil`
+`rexMatchAssocList( t_pattern l_targets ) => l_results / nil`
 
 #### Description
 
@@ -1232,20 +1151,18 @@ Returns a new association list created out of those elements of the given associ
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_pattern` | Regular expression pattern.
-|  |
-| --- | ---
-| `l_targets` | Association list whose keys are strings and/or symbols.
+| Name | Description |
+|---|---|
+| `t_pattern` | Regular expression pattern. |
+| `l_targets` | Association list whose keys are strings and/or symbols. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_results` | New association list of elements that are in`l_targets` and whose keys match `t_pattern`.
-|  |
-| --- | ---
-| `nil` | If no match is found. Signals an error if the given pattern is ill-formed.
+| Name | Description |
+|---|---|
+| `l_results` | New association list of elements that are in`l_targets` and whose keys match `t_pattern`. |
+| `nil` | If no match is found. Signals an error if the given pattern is ill-formed. |
+
 #### Example
 
 ```
@@ -1258,7 +1175,7 @@ rexMatchAssocList("^[a-z][0-9]*$"    '((abc "ascii") ("123" "number") (a123 
 
 ### rexMatchList
 
-`rexMatchList( t_pattern l_targets ) => l_results | nil`
+`rexMatchList( t_pattern l_targets ) => l_results / nil`
 
 #### Description
 
@@ -1266,20 +1183,18 @@ Creates a new list of those strings or symbols in the given list that matcha reg
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_pattern` | Regular expression pattern.
-|  |
-| --- | ---
-| `l_targets` | List of strings and/or symbols to be matched against the pattern.
+| Name | Description |
+|---|---|
+| `t_pattern` | Regular expression pattern. |
+| `l_targets` | List of strings and/or symbols to be matched against the pattern. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_results` | List of strings (or symbols) that are on`l_targets` and found to match `t_pattern`.
-|  |
-| --- | ---
-| `nil` | If no match is found. Signals an error if the given pattern is ill-formed.
+| Name | Description |
+|---|---|
+| `l_results` | List of strings (or symbols) that are on`l_targets` and found to match `t_pattern`. |
+| `nil` | If no match is found. Signals an error if the given pattern is ill-formed. |
+
 #### Example
 
 `rexMatchList("^[a-z][0-9]*" '(a01 x02 "003" aa01 "abc"))=> (a01 x02 aa01 "abc")`
@@ -1296,7 +1211,7 @@ rexMatchList("^[a-z][0-9][0-9]*"     '(a001 b002 "003" aa01 "abc"))=> (a001 
 
 ### rexMatchp
 
-`rexMatchp( t_pattern S_target ) => t | nil`
+`rexMatchp( t_pattern S_target ) => t / nil`
 
 #### Description
 
@@ -1306,17 +1221,17 @@ This function matches`S_target` against the regular expression `t_pattern` and r
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_pattern` | Regular expression pattern.
-|  |
-| --- | ---
-| `S_target` | String or symbol to be matched against the pattern.
+| Name | Description |
+|---|---|
+| `t_pattern` | Regular expression pattern. |
+| `S_target` | String or symbol to be matched against the pattern. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | A match is found. Signals an error if the given pattern is ill-formed.
+| Name | Description |
+|---|---|
+| `t` | A match is found. Signals an error if the given pattern is ill-formed. |
+
 #### Example
 
 ```

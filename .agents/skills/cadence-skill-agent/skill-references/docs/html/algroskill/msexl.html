@@ -1,0 +1,2057 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN" "http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+<html xmlns="http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Allegro SKILL Reference -- 27</title>
+<META NAME="Approver" CONTENT="Technical Publications">
+<META NAME="Author" CONTENT="Technical Publications">
+<META NAME="CreateDate" CONTENT="2017-11-25">
+<META NAME="CreateTime" CONTENT="1511600113">
+<META NAME="DataType" CONTENT="Manuals">
+<META NAME="Description" CONTENT="Describes the Allegro eXtension Language (AXL) and how to use each AXL function.">
+<META NAME="DocTitle" CONTENT="Allegro SKILL Reference">
+<META NAME="DocType" CONTENT="SKILL Reference">
+<META NAME="EdmsRelease" CONTENT="FM-Wiki-2.0_HF2">
+<META NAME="FileTitle" CONTENT="27">
+<META NAME="FileType" CONTENT="Chapter">
+<META NAME="Group" CONTENT="Allegro User Guide">
+<META NAME="Keyword" CONTENT="algroskill">
+<META NAME="Language" CONTENT="English">
+<META NAME="ModifiedDate" CONTENT="2017-11-25">
+<META NAME="ModifiedTime" CONTENT="1511600113">
+<META NAME="NextFile" CONTENT="27plugin.html">
+<META NAME="Order" CONTENT="11">
+<META NAME="PageCount" CONTENT="38">
+<META NAME="Platform" CONTENT="ALL">
+<META NAME="PrevFile" CONTENT="25dbmisc.html">
+<META NAME="Product" CONTENT="Allegro PCB Editor, Cadence SiP Digital">
+<META NAME="ProductFamily" CONTENT="Silicon-Package-Board Co-Design, IC Packaging">
+<META NAME="ProductVersion" CONTENT="17.2-2016">
+<META NAME="RightsManagement" CONTENT="Copyright 19912017 Cadence Design Systems Inc.">
+<META NAME="Title" CONTENT="Allegro SKILL Reference -- 27">
+<META NAME="TopicTags" CONTENT="FALSE">
+<META NAME="Version" CONTENT="17.2-2016">
+  </head>
+  <body style="margin-left: 5%;">
+    <a name="pagetop"></a>
+    <a name="firstpage"></a>
+    <!-- Begin Buttons -->
+    <table width="650" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td height="36" width="650" colspan="10">
+          <img src="images/header_doc.gif" width="650" height="34">
+        </td>
+      </tr>
+      <tr>
+        <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+        <td>
+          <a href="25dbmisc.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+        </td>
+        <td>
+          <a href="27plugin.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+        </td>
+        <td height="20">
+          <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+          </a>
+        </td>
+        <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+        </td>
+        <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+        </td>
+        <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+        </td>
+        <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+        </td>
+      </tr>
+    </table>
+    <!-- End Buttons -->
+    <p>
+    <hr>
+    <p>
+      <h3>
+        <center>
+          <font >
+            <div>Allegro User Guide: SKILL Reference</div>
+            <font >
+              <div>Product Version 17.2&#45;2016 April 2016</div>
+            </font>
+          </font>
+        </center>
+      </h3>
+      <br>
+    </p>
+    <div>
+      <h1>27<a name="1065082">&nbsp;</a></h1>
+      <h1><a name="1065083">Microsoft Excel Integration Functions</a></h1>
+      <h3><a name="1065095">axlSpreadsheetClose</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066437">axlSpreadsheetClose() <dd>==&#62; t</a></font>
+      </dl>
+      <h4><a name="1066492">Description</a></h4>
+      <p><a name="1066440">Releases the spreadsheet document in memory. All information is freed. This function should be called whenever you have completed working with the active spreadsheet document.</a></p>
+      <p><a name="1066444">Once the spreadsheet information is released, you cannot access any data about it. This includes retrieving style information, cell contents, lists of worksheets, etc. Any such information that you need to reference after the spreadsheet is freed should be retrieved prior to this call.</a></p>
+      <p><a name="1066449">If there is no active spreadsheet, this function does nothing.</a></p>
+      <h4><a name="1066509">Arguments</a></h4>
+      <p><a name="1066451">Nothing</a></p>
+      <h4><a name="1066526">Values Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="649">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082289"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="457">
+            <p><a name="1082291">Spreadsheet information successfully freed.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1079054">Example</a></h4>
+      <p><a name="1079055">The following example creates a simple spreadsheet, adds information to the first cell (&#34;Hello&#34;), writes the spreadsheet, and closes it.</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1079057">axlSpreadsheetInit()<dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1079059">axlSpreadsheetSetWorksheet(&#34;First&#34;)<dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1079061">axlSpreadsheetDefineCell(1 1 &#34;Default&#34; &#34;String&#34; &#34;Hello&#34;)<dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1079063">axlSpreadsheetWrite(&#34;example.xml&#34;)<dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1079065">axlSpreadsheetClose()<dd>==&#62; t</a></font>
+      </dl>
+      <h4><a name="1079046">See Also</a></h4>
+      <p><a href="#1068036" title="27" name="1066455"><font color="#0000ff"><u>axlSpreadsheetInit</u></font></a>, <a href="#1069134" title="27"><font color="#0000ff"><u>axlSpreadsheetRead</u></font></a>, <a href="#1068304" title="27"><font color="#0000ff"><u>axlSpreadsheetWrite</u></font></a></p>
+      <h3><a name="1065096">axlSpreadsheetDefineCell</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066652">axlSpreadsheetDefineCell(<dd>x_row<dd>x_col<dd>t_style<dd>t_type<dd>t_value)<dd>==&#62; t &#47; nil</a></font>
+      </dl>
+      <h4><a name="1066709">Description</a></h4>
+      <p><a name="1066655">Completely defines a single cell in the active worksheet. This function is more efficient than calling </a><a href="#1068101" title="27"><font color="#0000ff"><u>axlSpreadsheetSetCell</u></font></a> with multiple <a href="#1075986" title="27"><font color="#0000ff"><u>axlSpreadsheetSetCellProp</u></font></a> calls afterwards.</p>
+      <h4><a name="1066659">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082299">x_</a><font size="2" face="'Courier New'" color="#000000"><em>row</em></font></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1082301">Row index (1&#45;based) for the desired cell.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082303">x_</a><font size="2" face="'Courier New'" color="#000000"><em>col</em></font></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082305">Column index (1&#45;based) for the desired cell.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082307">t_</a><font size="2" face="'Courier New'" color="#000000"><em>style</em></font></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082309">Style name to apply to this cell &#47; nil for default.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082311">t_</a><font size="2" face="'Courier New'" color="#000000"><em>type</em></font></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082313">Type definition for this cell &#47; nil for default (string).</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082315"><font size="2" face="'Courier New'" color="#000000"><em>t_value</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082317">Value for cell &#47; nil for empty.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1066664">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082325"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1082327">Cell successfully defined.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082329"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082331">Cell not defined. See console for reason.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078969">Example</a></h4>
+      <p><a name="1078970">The following example sets the contents of cell 1, 1 in the active worksheet to be the string &#34;Hello&#34; using the default style.</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078972">axlSpreadsheetDefineCell(1 1 &#34;Default&#34; &#34;String&#34; &#34;Hello&#34;)<dd>==&#62; t</a></font>
+      </dl>
+      <h4><a name="1078961">See Also</a></h4>
+      <p><a href="#1067927" title="27" name="1066668"><font color="#0000ff"><u>axlSpreadsheetGetCell</u></font></a>, <a href="#1068101" title="27"><font color="#0000ff"><u>axlSpreadsheetSetCell</u></font></a>, <a href="#1075986" title="27"><font color="#0000ff"><u>axlSpreadsheetSetCellProp</u></font></a></p>
+      <h3><a name="1065097">axlSpreadsheetDoc</a></h3>
+      <h4><a name="1066901">Description</a></h4>
+      <p><a name="1066902">The axlSpreadsheet family of functions allow you to read and write Microsoft&#39;s open XML&#45;based spreadsheet format from within skill. You can create a spreadsheet from data within your active Allegro tool, or you can read a spreadsheet and extract information from it to update your database. </a></p>
+      <p><a name="1066908">Documentation for individual functions is separately available. This entry provides an overview, as well as a small example of how to use the API routines together.</a></p>
+      <h4><a name="1066912">Example</a></h4>
+      <p><a name="1066913">The following is a simple example which creates a small, two&#45;worksheet spreadsheet with a few formatting style definitions and cells which use those styles to format their contents when the spreadsheet is viewed with a tool such as Microsoft&#39;s Excel.</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1067142"> </a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1067143">     procedure( spreadsheetExample() ; Initialize an empty spreadsheet.</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1067144">         ; Note that you do not need to provide a name until you</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1067091">         ; wish to write the spreadsheet to disk.</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1067092">         axlSpreadsheetInit()</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1067093"> </a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066924">         ; Define inital, default style.</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066925">         ; Styles may be defined at any point during the spreadsheet&#39;s</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066926">         ; construction, but must be defined before they are referenced</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066927">         ; by any row, column, or cell.</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066928">         axlSpreadsheetSetStyle(&#34;Default&#34;  nil)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066929">         axlSpreadsheetSetStyleProp(&#34;Alignment&#34; &#34;Vertical&#34;   &#34;Top&#34;)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066930">         axlSpreadsheetSetStyleProp(&#34;Alignment&#34; &#34;Horizontal&#34; &#34;Left&#34;)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066931">         axlSpreadsheetSetStyleProp(&#34;Alignment&#34; &#34;WrapText&#34;   &#34;1&#34;)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066932"> </a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066933">         ; Define a second style, derived from the Default style, which</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066934">         ; will include a thin border outline and specifies a red </a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066935">         ; background fill.</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066936">         axlSpreadsheetSetStyle(&#34;Red&#34; &#34;Red Cell&#34;)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1074911">         axlSpreadsheetSetStyleParent(&#34;Default&#34;)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1074912">         axlSpreadsheetSetStyleBorder(&#34;Left&#34;   nil &#34;Continuous&#34; &#34;2&#34;)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1074913">         axlSpreadsheetSetStyleBorder(&#34;Right&#34;  nil &#34;Continuous&#34; &#34;2&#34;)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066940">         axlSpreadsheetSetStyleBorder(&#34;Top&#34;    nil &#34;Continuous&#34; &#34;2&#34;)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066941">         axlSpreadsheetSetStyleBorder(&#34;Bottom&#34; nil &#34;Continuous&#34; &#34;2&#34;)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066942">         axlSpreadsheetSetStyleProp(&#34;Fill&#34; &#34;Color&#34;   axlSpreadsheetGetRGBColorString(255 0 0))</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066943">         axlSpreadsheetSetStyleProp(&#34;Fill&#34; &#34;Pattern&#34; &#34;Solid&#34;)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066944"> </a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066945">         ; Define the first worksheet in the spreadsheet.</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066946">         axlSpreadsheetSetWorksheet(&#34;First&#34;)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066947">         ; With a wider first column</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066948">         axlSpreadsheetSetColumnProp(1 &#34;Width&#34; &#34;500&#34;)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066949">         axlSpreadsheetDefineCell(1 1 &#34;Default&#34; &#34;String&#34; &#34;Default formatted cell&#34;)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066950">         axlSpreadsheetDefineCell(1 2 &#34;Red&#34; &#34;String&#34; &#34;Red background cell&#34;)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066951"> </a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066952">         ; Write the compiled spreadsheet to XML file on disk.</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066953">         axlSpreadsheetWrite(&#34;spreadsheet.xml&#34;)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066954"> </a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066955">         ; Close and release the compiled spreadsheet&#39;s data.</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066956">         axlSpreadsheetClose()</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066957">     )</a></font>
+      </dl>
+      <h3><a name="1067927">axlSpreadsheetGetCell</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1067929">axlSpreadsheetGetCell(<dd>x_row<dd>x_col<dd>)==&#62; g_cellData&#47; nil</a></font>
+      </dl>
+      <h4><a name="1067931">Description</a></h4>
+      <p><a name="1067932">Retrieves the data from the specified cell.</a></p>
+      <h4><a name="1067933">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082339"><font size="2" face="'Courier New'" color="#000000">x_row</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1082341">Row index (1&#45;based) of cell to look up.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082343"><font size="2" face="'Courier New'" color="#000000">x_col</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082345">Column index (1&#45;based) of cell to look up.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1067936">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082353">g_cellData</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1082355">Structure defining the contents cell</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082357"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082359"> Cell contents are currently empty or undefined.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078542">Example</a></h4>
+      <p><a name="1078543">The following example reads a spreadsheet into memory, then gets the contents of one cell from the first worksheet.</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078545">axlSpreadsheetRead(&#34;example.xml&#34;)<dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078547">axlSpreadsheetSetWorksheet(&#34;First&#34;)<dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078549">g_cell = axlSpreadsheetGetCell(1 1)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078846">g_cell&#45;&#62;??<dd>==&#62; (column 4<dd>row    1<dd>data   &#34;a&#34; <dd>type   &#34;String&#34;<dd>style  &#34;Default&#34;<dd>)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078839">axlSpreadsheetClose()<dd>==&#62; t</a></font>
+      </dl>
+      <h4><a name="1078534">See Also</a></h4>
+      <p><a href="#1068101" title="27" name="1067941"><font color="#0000ff"><u>axlSpreadsheetSetCell</u></font></a>, <a href="#1075986" title="27"><font color="#0000ff"><u>axlSpreadsheetSetCellProp</u></font></a>, <a href="#1065096" title="27"><font color="#0000ff"><u>axlSpreadsheetDefineCell</u></font></a></p>
+      <h3><a name="1067947">axlSpreadsheetGetRGBColorString</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1067949">axlSpreadsheetGetRGBColorString(<dd>x_red<dd>x_green<dd>x_blue) <dd>==&#62; t_rgb &#47; nil</a></font>
+      </dl>
+      <h4><a name="1067951">Description</a></h4>
+      <p><a name="1067952">Given red, green, and blue color values, return an RGB string for use in spreadsheet style definitions in format required for Microsoft open spreadsheet format.</a></p>
+      <h4><a name="1067955">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082367"><font size="2" face="'Courier New'" color="#000000">x_red</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="1082369">Integer red value (0&#45;255)</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082371"><font size="2" face="'Courier New'" color="#000000">x_green</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082373">Integer green value (0&#45;255)</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082375"><font size="2" face="'Courier New'" color="#000000">x_blue</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082377">Integer blue value (0&#45;255)</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1067959">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082385">t_rgb</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1082387">String denoting the color value for the RGB value passed in.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082389">nil</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082391">Illegal values passed (outside legal range).</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078385">Example</a></h4>
+      <p><a name="1078386">The following example get the RGB string value associated with pure red.</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078387">axlSpreadsheetGetRGBColorString(255 0 0)<dd>==&#62; &#34;#ff0000&#34;</a></font>
+      </dl>
+      <h4><a name="1078379">See Also</a></h4>
+      <p><a href="#1067947" title="27" name="1078374"><font color="#0000ff"><u>axlSpreadsheetGetRGBColorString</u></font></a></p>
+      <h3><a name="1067966">axlSpreadsheetGetRGBForNamedColor</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1067968">axlSpreadsheetGetRGBForNamedColor(<dd>t_name<dd>) <dd>==&#62; t_rgb &#47; nil</a></font>
+      </dl>
+      <h4><a name="1067970">Description</a></h4>
+      <p><a name="1067971">Spreadsheets have a small set of known, pre&#45;defined color values. To retrieve the RGB value for a specific named color, pass that color name to this function.</a></p>
+      <h4><a name="1067974">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082399"><font size="2" face="'Courier New'" color="#000000">t_name</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="1082401">Name of color to retrieve RGB value for.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1067976">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082418"><font size="2" face="'Courier New'" color="#000000">t_rgb</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1082420">String denoting RGB value for the color value passed in.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082422"><font size="2" face="'Courier New'" color="#000000">nil</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082424">Color name was not found in list of standard colors.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078185">Example</a></h4>
+      <p><a name="1078186">The following example get the RGB string value associated with the predefined color name &#34;cyan&#34;.</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078188">axlSpreadsheetGetRGBForNamedColor(&#34;cyan&#34;)<dd>==&#62; &#34;#00FFFF&#34;</a></font>
+      </dl>
+      <h4><a name="1078175">See Also</a></h4>
+      <p><a href="#1067947" title="27" name="1078179"><font color="#0000ff"><u>axlSpreadsheetGetRGBColorString</u></font></a></p>
+      <h3><a name="1067985">axlSpreadsheetGetStyles</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077908">axlSpreadsheetGetStyles()<dd>==&#62; l_styles &#47; nil</a></font>
+      </dl>
+      <h4><a name="1067989">Description</a></h4>
+      <p><a name="1067990">Retrieves a list of all the styles defined for the active spreadsheet. If no worksheets currently exist, </a><font size="2" face="'Courier New'" color="#000000">nil</font> is returned.</p>
+      <h4><a name="1067992">Arguments</a></h4>
+      <p><a name="1067993">none</a></p>
+      <h4><a name="1067994">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082432"><font size="2" face="'Courier New'" color="#000000">l_styles</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1082434">List of style names and IDs as pairs (ID, name)).</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082436"><font size="2" face="'Courier New'" color="#000000">nil</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082438">No worksheets current defined &#47; no spreadsheet active.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1077952">EXAMPLES</a></h4>
+      <p><a name="1077953">The following example reads a spreadsheet into memory, then gets the list of defined styles for that spreadsheet.</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077955">axlSpreadsheetRead(&#34;example.xml&#34;)<dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078036">axlSpreadsheetGetStyles()<dd>==&#62; ((&#34;Default&#34; &#34;DEFAULT&#34;) (&#34;Title&#34; &#34;TITLE&#34;) (&#34;Data&#34; &#34;DATA&#34;))</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078038">axlSpreadsheetClose()<dd>==&#62; t</a></font>
+      </dl>
+      <h4><a name="1077974">See Also</a></h4>
+      <p><a href="#1068285" title="27" name="1067998"><font color="#0000ff"><u>axlSpreadsheetSetWorksheet</u></font></a></p>
+      <h3><a name="1068002">axlSpreadsheetGetWorksheets</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1068004">axlSpreadsheetGetWorksheets(<dd>)<dd>==&#62; l_worksheets &#47; nil</a></font>
+      </dl>
+      <h4><a name="1068006">Description</a></h4>
+      <p><a name="1068007">Retrieves a list of all the worksheets defined in the active spreadsheet. If no worksheets currently exists, </a><font size="2" face="'Courier New'" color="#000000">nil</font> is returned.</p>
+      <h4><a name="1068009">Arguments</a></h4>
+      <p><a name="1068010">none</a></p>
+      <h4><a name="1068011">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="649">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082446"><font size="2" face="'Courier New'" color="#000000"><em>l_worksheets</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="457">
+            <p><a name="1082448">List of worksheet names (as ordered in the spreadsheet).</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082450"><font size="2" face="'Courier New'" color="#000000">nil</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082452">No worksheets current defined &#47; no spreadsheet active.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1077788">Example</a></h4>
+      <p><a name="1077789">The following example reads a spreadsheet into memory, then gets the list of defined worksheets in the file.</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077791">axlSpreadsheetRead(&#34;example.xml&#34;)<dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077793">axlSpreadsheetGetWorksheets()<dd>==&#62; (&#34;First&#34; &#34;Second&#34;)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077795">axlSpreadsheetClose()<dd>==&#62; t</a></font>
+      </dl>
+      <h4><a name="1077780">See Also</a></h4>
+      <p><a href="#1068285" title="27" name="1068015"><font color="#0000ff"><u>axlSpreadsheetSetWorksheet</u></font></a></p>
+      <h3><a name="1068019">axlSpreadsheetGetWorksheetSize</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1068021">axlSpreadsheetGetWorksheetSize()<dd>==&#62; l_rowsColumns&#47;nil</a></font>
+      </dl>
+      <h4><a name="1068023">Description</a></h4>
+      <p><a name="1068024">Return the &#34;size&#34; of the current worksheet, in terms of the highest row and column which have data.</a></p>
+      <h4><a name="1068026">Arguments</a></h4>
+      <p><a name="1068027">none</a></p>
+      <h4><a name="1068028">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082460"><font size="2" face="'Courier New'" color="#000000">l_rowsColumns</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1082462">(maxRow, maxColumn).</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082464"><font size="2" face="'Courier New'" color="#000000">nil</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082466">No worksheets current defined &#47; no spreadsheet active.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1077592">Example</a></h4>
+      <p><a name="1077593">The following example reads a spreadsheet into memory, then gets the size of the workbook named &#34;First&#34; before closing the file.</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077595">axlSpreadsheetRead(&#34;example.xml&#34;)<dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077597">axlSpreadsheetSetWorksheet(&#34;First&#34;)<dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077599">axlSpreadsheetGetWorksheetSize()<dd>==&#62; (5 5)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077601">axlSpreadsheetClose()<dd>==&#62; t</a></font>
+      </dl>
+      <h4><a name="1077584">See Also</a></h4>
+      <p><a href="#1068285" title="27" name="1068032"><font color="#0000ff"><u>axlSpreadsheetSetWorksheet</u></font></a></p>
+      <h3><a name="1068036">axlSpreadsheetInit</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1068038">axlSpreadsheetInit(<dd>) <dd>==&#62; t &#47; nil</a></font>
+      </dl>
+      <h4><a name="1068040">Description</a></h4>
+      <p><a name="1068041">Initializes an empty spreadsheet document to begin filling it with worksheets, styles, and cell data. A new spreadsheet, when first initialized, does not include any of this information. It is completely empty.</a></p>
+      <p><a name="1068045">If there is a spreadsheet already active in memory, it will be closed. Only one spreadsheet may be active at a time.</a></p>
+      <h4><a name="1068047">Arguments</a></h4>
+      <p><a name="1068048">none</a></p>
+      <h4><a name="1068049">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082490"><font size="2" face="'Courier New'" color="#000000">t</font></a>  </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1082492">Spreadsheet successfully initialized. </a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082494"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082496">Unable to initialize empty spreadsheet. Reason printed to console.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1077354">Example</a></h4>
+      <p><a name="1077355">The following example creates a simple spreadsheet, adds information to the first cell (&#34;Hello&#34;), writes the spreadsheet, and closes it.</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077357">axlSpreadsheetInit() <dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077359">axlSpreadsheetSetWorksheet(&#34;First&#34;) <dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077361">axlSpreadsheetDefineCell(1 1 &#34;Default&#34; &#34;String&#34; &#34;Hello&#34;) <dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077363">axlSpreadsheetWrite(&#34;example.xml&#34;) <dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077365">axlSpreadsheetClose() <dd>==&#62; t</a></font>
+      </dl>
+      <h4><a name="1077346">See Also</a></h4>
+      <p><a href="#1065095" title="27" name="1068053"><font color="#0000ff"><u>axlSpreadsheetClose</u></font></a>, <a href="#1069134" title="27"><font color="#0000ff"><u>axlSpreadsheetRead</u></font></a>, <a href="#1068304" title="27"><font color="#0000ff"><u>axlSpreadsheetWrite</u></font></a></p>
+      <h3><a name="1069134">axlSpreadsheetRead</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1069135">axlSpreadsheetRead(<dd>t_fileName<dd>)<dd>==&#62; t &#47; nil</a></font>
+      </dl>
+      <h4><a name="1069131">Description</a></h4>
+      <p><a name="1068064">Read a spreadsheet file on disk into memory for data access and manipulation. File is expected to be in Microsoft XML open spreadsheet format. For text&#45;delimited files, use </a><a href="#1068081" title="27"><font color="#0000ff"><u>axlSpreadsheetReadDelimited</u></font></a>.</p>
+      <h4><a name="1068068">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082508"><font size="2" face="'Courier New'" color="#000000">t_fileName</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1082510">Name of spreadsheet file on disk to be read.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1068070">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082518"><font size="2" face="'Courier New'" color="#000000">t</font></a>  </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1082520">Spreadsheet successfully read; ready for querying.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082522"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082524">Unable to read spreadsheet file. </a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1068073">Example</a></h4>
+      <p><a name="1077042">The following example reads a spreadsheet into memory, after which it can be queried for cells&#39; contents, and finally closed.</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077044">axlSpreadsheetRead(&#34;example.xml&#34;)<dd>==&#62; t</a></font>
+      </dl>
+      <p><a name="1077189">...</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077047">axlSpreadsheetGetCell(1 1)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077155">...</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077156">axlSpreadsheetClose()<dd>==&#62; t</a></font>
+      </dl>
+      <p><a name="1077157">&nbsp;</a></p>
+      <h4><a name="1077026">See Also</a></h4>
+      <p><a href="#1065095" title="27" name="1068074"><font color="#0000ff"><u>axlSpreadsheetClose</u></font></a>, <a href="#1068036" title="27"><font color="#0000ff"><u>axlSpreadsheetInit</u></font></a>, <a href="#1068304" title="27"><font color="#0000ff"><u>axlSpreadsheetWrite</u></font></a>, <a href="#1068081" title="27"><font color="#0000ff"><u>axlSpreadsheetReadDelimited</u></font></a></p>
+      <h3><a name="1068081">axlSpreadsheetReadDelimited</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1068083">axlSpreadsheetReadDelimited(t_fileName, t_delimiter) <dd>==&#62; t &#47; nil</a></font>
+      </dl>
+      <h4><a name="1068085">Description</a></h4>
+      <p><a name="1068086">Read a text file on disk into memory for data access and manipulation as a spreadsheet. File is expected to be a delimited text file, with cell delimiters as specified in the </a><font size="2" face="'Courier New'" color="#000000">t_delimiter</font> argument. For XML spreadsheets, use <a href="#1069134" title="27"><font color="#0000ff"><u>axlSpreadsheetRead</u></font></a>.</p>
+      <h4><a name="1068090">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082532"><font size="2" face="'Courier New'" color="#000000">t_fileName</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1082534">Name of text file on disk to be read.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082536"><font size="2" face="'Courier New'" color="#000000">t_delimited</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082538">Delimiter character used to separate &#34;cells&#34; in text file.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1068093">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082550"><font size="2" face="'Courier New'" color="#000000">t</font></a>  </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1082552">File successfully read; ready for querying.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082554"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082556">Unable to read spreadsheet file. </a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1077204">Example</a></h4>
+      <p><a name="1077205">The following example reads a csv file into memory, after which it can be queried for cells&#39; contents, and finally closed.</a></p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077207">axlSpreadsheetRead(&#34;example.txt&#34;, &#34;,&#34;)<br>&nbsp;&nbsp;&nbsp;&nbsp;==&#62; t</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077209">...</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077210">axlSpreadsheetGetCell(1 1)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077211">...</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077212">axlSpreadsheetClose()</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077330">&nbsp;&nbsp;&nbsp;&nbsp;==&#62; t</a></font>
+      </p>
+      <h4><a name="1077196">See Also</a></h4>
+      <p><a href="#1069134" title="27" name="1068097"><font color="#0000ff"><u>axlSpreadsheetRead</u></font></a></p>
+      <h3><a name="1068101">axlSpreadsheetSetCell</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1069398">axlSpreadsheetSetCell(<dd>x_row<dd>x_col<dd>)<dd>==&#62; t &#47; nil</a></font>
+      </dl>
+      <h4><a name="1068105">Description</a></h4>
+      <p><a name="1068106">Make the active row&#47;column of the current worksheet active.</a></p>
+      <h4><a name="1068107">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082564"><font size="2" face="'Courier New'" color="#000000">x_row</font></a>  </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1082566">Row index (1&#45;based) of cell to activate.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082568"><font size="2" face="'Courier New'" color="#000000">x_col</font></a>  </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082570">Column index (1&#45;based) of cell to activate.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1068110">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082578"><font size="2" face="'Courier New'" color="#000000">t </font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1082580">Cell successfully activated.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082582"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082584">Cell not activated. See console for reason.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076368">Example</a></h4>
+      <p><a name="1076369">The following example sets the active cell to be cell 1,1 in the active worksheet.</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076273">axlSpreadsheetSetCell(1 1)<dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076275"> **&#47;</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076276"> &#47;*INDENT ON*&#47;</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076277">list axlSpreadsheetSetCell(list l_row, list l_col)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076278"> {<dd>long status = SUCCESS;<dd>if(sgp_doc &amp;&amp; sgp_worksheet)<dd>{<dd>&nbsp;&nbsp;&nbsp;&nbsp;int row = 0;<dd>&nbsp;&nbsp;&nbsp;&nbsp;int col = 0;<dd>&nbsp;&nbsp;&nbsp;&nbsp;row = ilGetInt(l_row);<dd>&nbsp;&nbsp;&nbsp;&nbsp;col = ilGetInt(l_col);</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076288">         if(row &#62; 0 &amp;&amp; col &#62; 0)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076289">         {<dd>&nbsp;&nbsp;&nbsp;&nbsp;excelCell* p_cell = excelCellFind(sgp_worksheet, row, col);<dd>&nbsp;&nbsp;&nbsp;&nbsp;if(!p_cell)<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_cell = excelCellDefine(sgp_worksheet, row, col, &#34;Default&#34;, &#34;String&#34;, &#34;&#34;);<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(p_cell)<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sgp_cell = p_cell;<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status = ICPEXCELMSG_SKILL_NOT_DEFINED_1;<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;icp_messagePrint(ICP_MESSAGE_CONSOLE, status, &#34;cell&#34;);<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<dd>&nbsp;&nbsp;&nbsp;&nbsp;}<dd>&nbsp;&nbsp;&nbsp;&nbsp;else<dd>&nbsp;&nbsp;&nbsp;&nbsp;{<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status =ICPEXCELMSG_SKILL_BAD_CELLPOS_2;<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;icp_messagePrint(ICP_MESSAGE_CONSOLE, status, row, col);<dd>&nbsp;&nbsp;&nbsp;&nbsp;}<dd>}<dd>else<dd>{<dd>&nbsp;&nbsp;&nbsp;&nbsp;status = ICPEXCELMSG_SKILL_NOT_ACTIVE_1;<dd>&nbsp;&nbsp;&nbsp;&nbsp;icp_messagePrint(ICP_MESSAGE_CONSOLE, status, &#34;worksheet&#34;);<dd>}<dd>return(SUCCESS == status ? ilcT : ilcNil);<dd>}</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076319">&#47;*INDENT OFF*&#47;</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076320">&#47;*&#45;</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1068113">#ifdef DOC_C</a></font>
+      </dl>
+      <h4><a name="1076262">See Also</a></h4>
+      <p><a href="#1067927" title="27" name="1068114"><font color="#0000ff"><u>axlSpreadsheetGetCell</u></font></a>, <a href="#1075986" title="27"><font color="#0000ff"><u>axlSpreadsheetSetCellProp</u></font></a>, <a href="#1065096" title="27"><font color="#0000ff"><u>axlSpreadsheetDefineCell</u></font></a></p>
+      <h3><a name="1075986">axlSpreadsheetSetCellProp</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075987">axlSpreadsheetSetCellProp(<dd>t_propName<dd>t_propVal<dd>)<dd>==&#62; t &#47; nil</a></font>
+      </dl>
+      <h4><a name="1068124">Description</a></h4>
+      <p><a name="1068125">Sets a property on the active cell in the spreadsheet. </a></p>
+      <h4><a name="1068126">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082611"><font size="2" face="'Courier New'" color="#000000">t_propName</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1082613">Property to set. Allowable values are: STYLE, TYPE, FORMULA, or VALUE</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082615"><font size="2" face="'Courier New'" color="#000000">t_propVal</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082617">Value to set this property to.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1068130">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="649">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082625"><font size="2" face="'Courier New'" color="#000000">t</font></a>  </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="457">
+            <p><a name="1082627">Cell property successfully set.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082629"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082631">Property not set (no active cell or invalid property). See console for further details.</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="1076018">Values supported for:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1076039">STYLE - String value giving theID of style already defined in active spreadsheet.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1076020">TYPE - Number, DateTime, Boolean, String, or Error.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1076022">FORMULA - Any string representing a properly&#45;formatted spreadsheet formula for evaluation. </a></td>
+          </tr>
+        </table>
+      </div>
+      <p>
+<blockquote><blockquote>        <font color="#000000"><font color="#000000"><strong>Note: </strong></font></font></blockquote></blockquote>
+<blockquote><blockquote>        <font color="#000000"><a name="1076081">Formulas are NOT VERIFIED by this interface for correctness.</a></font></blockquote></blockquote>
+      </p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1076123">VALUE - Any string providing contents of the cell.</a></td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="1076131">Example</a></h4>
+      <p><a name="1076132">Following example sets the contents of the active cell to the string &#34;New Value&#34;.</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076134">axlSpreadsheetSetCell(1 1)<dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076136">axlSpreadsheetSetCellProp(&#34;VALUE&#34; &#34;New Value&#34;)<dd>==&#62; t</a></font>
+      </dl>
+      <h4><a name="1076125">See Also</a></h4>
+      <p><a href="#1068101" title="27" name="1068135"><font color="#0000ff"><u>axlSpreadsheetSetCell</u></font></a>, <a href="#1067927" title="27"><font color="#0000ff"><u>axlSpreadsheetGetCell</u></font></a>, <a href="#1065096" title="27"><font color="#0000ff"><u>axlSpreadsheetDefineCell</u></font></a></p>
+      <h3><a name="1068141">axlSpreadsheetSetColumnProp</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1068143">axlSpreadsheetSetColumnProp(<dd>x_column<dd>t_propName<dd>t_propVal<dd>)<dd>==&#62; t &#47; nil</a></font>
+      </dl>
+      <h4><a name="1068145">Description</a></h4>
+      <p><a name="1068146">Sets a property for the given column of the active worksheet. </a></p>
+      <h4><a name="1068147">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082644"><font size="2" face="'Courier New'" color="#000000">x_column</font></a>  </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1082646">Column index to set property for.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082648"><font size="2" face="'Courier New'" color="#000000">t_propName</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082650">Property to set. Allowable values are: </a><font size="2" face="'Courier New'" color="#000000">AUTO_WIDTH</font>, <font size="2" face="'Courier New'" color="#000000">WIDTH</font>, and <font size="2" face="'Courier New'" color="#000000">STYLE</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082652"><font size="2" face="'Courier New'" color="#000000">t_propVal</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082654">Value to set this property to.</a></p>
+          </td>
+        </tr>
+      </table>
+      <blockquote>
+<blockquote>        <font color="#000000"><a name="1075835">Values supported for:</a></font></blockquote>
+      </blockquote>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="69">
+              <div>&nbsp;</div>
+            </td>
+            <td width="31.872000000000003">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bss_bullet_sub_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075856">AUTO_WIDTH - Boolean value (0 or 1).</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="69">
+              <div>&nbsp;</div>
+            </td>
+            <td width="31.872000000000003">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bss_bullet_sub_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075881">WIDTH - Positive integer value in font points.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="69">
+              <div>&nbsp;</div>
+            </td>
+            <td width="31.872000000000003">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bss_bullet_sub_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075845">STYLE - Style ID name currently defined in active document.</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="1081680">These statements, along with any others, are NOT evaluated by the skill API. They will be evaluated by the spreadsheet tool which opens the document. That tool may treat either the AUTO_WIDTH or the WIDTH tag as having priority of evaluation at its discretion, for instance. The SKILL API will NOT evaluate the AUTO_WIDTH or other instructions.</a></p>
+      <h4><a name="1068152">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082694"><font size="2" face="'Courier New'" color="#000000">t </font></a>  </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1082696">Property set on column.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082698"><font size="2" face="'Courier New'" color="#000000">nil</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082700">Property not set. Reason printed to console.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075913">Example</a></h4>
+      <p><a name="1081349">The following example sets the AUTO_WIDTH attributed on column 1 of the active worksheet.</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1081350">axlSpreadsheetSetRowProp(1 &#34;AUTO_WIDTH&#34; &#34;1&#34;)</a></font>
+      </dl>
+      <h4><a name="1081351">See Also</a></h4>
+      <p><a href="#1068177" title="27" name="1075954"><font color="#0000ff"><u>axlSpreadsheetSetRowProp</u></font></a></p>
+      <h3><a name="1068160">axlSpreadsheetSetDocProp</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1068162">axlSpreadsheetSetDocProp(<dd>t_propName<dd>t_propVal<dd>)<dd>==&#62; t &#47; nil</a></font>
+      </dl>
+      <h4><a name="1068164">Description</a></h4>
+      <p><a name="1075777">Sets a property on the document (spreadsheet) itself.</a></p>
+      <h4><a name="1075781">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082710"><font size="2" face="'Courier New'" color="#000000">t_propName</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1082712">Property to set. Allowable values are: AUTHOR, LAST_AUTHOR, DATE, COMPANY, or VERSION.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082714"><font size="2" face="'Courier New'" color="#000000">t_propVal</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082716">Value to set this property to.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1068170">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082728"><font size="2" face="'Courier New'" color="#000000">t </font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1082730">Document property successfully set.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082732"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082734">Property not set (no active spreadsheet or invalid property). See console for further details.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075762">Example</a></h4>
+      <p><a name="1075763">The following example sets the the Author&#39;s name for this spreadsheet to be &#34;John Doe&#34;.</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075565">axlSpreadsheetInit()<dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075567">axlSpreadsheetSetDocProp(&#34;AUTHOR&#34; &#34;John&#34;)<dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075569">axlSpreadsheetSetDocProp(&#34;AUTHOR&#34; &#34;Doe&#34;) <dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075571">axlSpreadsheetWrite(&#34;example.xml&#34;)<dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075573">axlSpreadsheetClose()<dd>==&#62; t</a></font>
+      </dl>
+      <h3><a name="1068177">axlSpreadsheetSetRowProp</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1068179">axlSpreadsheetSetRowProp(<dd>x_row<dd>t_propName<dd>t_propVal<dd>)<dd>==&#62; t &#47; nil</a></font>
+      </dl>
+      <h4><a name="1068181">Description</a></h4>
+      <p><a name="1068182">Sets a property for the given row of the active worksheet. </a></p>
+      <h4><a name="1068183">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082746"><font size="2" face="'Courier New'" color="#000000">x_row</font></a>     </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1082748">Row index to set property for.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082750"><font size="2" face="'Courier New'" color="#000000">t_propName</font></a></p>
+          </td>
+          <td rowspan="5" cellpadding="4" border="0" valign="top">
+            <p><a name="1082752">Property to set. Allowable properties are, AUTO_HEIGHT, HEIGHT, and STYLE.</a></p>
+            <p><a name="1082794">Values supported for these properties are:</a></p>
+            <p><a name="1082796">AUTO_HEIGHT -- Boolean value (0 or 1)</a></p>
+            <p><a name="1082798">HEIGHT -- Positive integer value in font points</a></p>
+            <p><a name="1082800">STYLE -- Style ID name currently defined in active document</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082758">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082766">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082774">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082782">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082786"><font size="2" face="'Courier New'" color="#000000">t_propVal</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082788">Value to set this property to.</a></p>
+            <p><a name="1082822">AUTO_HEIGHT -- Boolean value (0 or 1)</a></p>
+            <p><a name="1082823">HEIGHT -- Positive integer value in font points</a></p>
+            <p><a name="1082824">STYLE -- Style ID name currently defined in active document</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="1081421">These statements, along with any others, are NOT evaluated by the skill API. They will be evaluated by the spreadsheet tool which opens the document. That tool may treat either the AUTO_HEIGHT or the HEIGHT tag as having priority of evaluation at its discretion, for instance. The skill API will NOT evaluate the AUTO_HEIGHT or other instructions.</a></p>
+      <h4><a name="1068188">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="649">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082844"><font size="2" face="'Courier New'" color="#000000">t </font></a>  </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="457">
+            <p><a name="1082846">Property set on row.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082848"><font size="2" face="'Courier New'" color="#000000">nil</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082850">Property not set. Reason printed to console.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1081364">Example</a></h4>
+      <p><a name="1075498">The following example set the auto fit attributed on row 1 of the active worksheet.</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075500">axlSpreadsheetSetRowProp(1 &#34;AUTO_HEIGHT&#34; &#34;1&#34;)</a></font>
+      </dl>
+      <h4><a name="1075483">See Also</a></h4>
+      <p><a href="#1068141" title="27" name="1068192"><font color="#0000ff"><u>axlSpreadsheetSetColumnProp</u></font></a></p>
+      <h3><a name="1068196">axlSpreadsheetSetStyle</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1068198">axlSpreadsheetSetStyle(<dd>t_id<dd>t_name<dd>)==&#62; t &#47; nil</a></font>
+      </dl>
+      <h4><a name="1068200">Description</a></h4>
+      <p><a name="1068201">Defines or activates the specified style in the active spreadsheet. Styles may be referenced in any worksheet of the spreadsheet. You do not need to redefine the style for each new worksheet you create.</a></p>
+      <h4><a name="1068204">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082858"><font size="2" face="'Courier New'" color="#000000">t_id</font></a>  </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="1082860">The spreadsheet ID for this style. </a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082862"><font size="2" face="'Courier New'" color="#000000">t_name</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082864">The user &#34;name&#34; for this style &#47; nil. This is the name that is displayed for this style in the Excel style editor and selection pull&#45;down.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1068209">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082876"><font size="2" face="'Courier New'" color="#000000">t</font></a>  </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1082878">Style successfully activated &#47; defined.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082880"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082882">Style not activated. Reason written to console.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1068212">Example</a></h4>
+      <p><a name="1074809">The following example activates the Default style in the active spreadsheet and sets its vertical alignment style to Top&#45;justified.</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1074811">axlSpreadsheetSetStyle(&#34;Default&#34;  nil)<dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1074813">axlSpreadsheetSetStyleProp(&#34;Alignment&#34; &#34;Vertical&#34; &#34;Top&#34;)<dd>==&#62; t</a></font>
+      </dl>
+      <h4><a name="1074794">See Also</a></h4>
+      <p><a href="#1068101" title="27" name="1070204"><font color="#0000ff"><u>axlSpreadsheetSetCell</u></font></a>, <a href="#1068285" title="27"><font color="#0000ff"><u>axlSpreadsheetSetWorksheet</u></font></a></p>
+      <h3><a name="1070205">axlSpreadsheetSetStyleBorder</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1068220">axlSpreadsheetSetStyleBorder(<dd>t_position<dd>t_color<dd>t_lineStyle<dd>t_weight<dd>)==&#62; t &#47; nil</a></font>
+      </dl>
+      <h4><a name="1068222">Description</a></h4>
+      <p><a name="1068223">Sets the cell border properties for a active style definition.</a></p>
+      <h4><a name="1068224">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082890"><font size="2" face="'Courier New'" color="#000000">t_position</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1082892">Position must be one of the accepted Microsoft positions (Left, Right, Top, Bottom, etc).</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082894"><font size="2" face="'Courier New'" color="#000000">t_color</font></a>    </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082896">Microsoft color name or RGB value (e.g. &#34;BLACK&#34; or #FF00AA).</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082898"><font size="2" face="'Courier New'" color="#000000">t_lineStyle</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082900">Line style to use (normally &#34;Continuous&#34; for a solid line).</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082902"><font size="2" face="'Courier New'" color="#000000">t_weight</font></a>   </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082904">The thickness of the line, in font points. Must be a positive integer.</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="1075032">Following table lists the values supported for different arguments.</a></p>
+<ul>      <table summary="" cellpadding="16" cellspacing="0" bgcolor="#FFFFFF" width="593">
+        <tr>
+          <td cellpadding="16" valign="middle" width="144">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1075107">Argument </a></strong></font>
+            </p>
+          </td>
+          <td cellpadding="16" valign="middle" width="448">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1075109">Supported Values</a></strong></font>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="16" valign="top">
+            <p><a name="1075013">POSITION </a></p>
+          </td>
+          <td cellpadding="16" valign="top">
+            <p><a name="1075015">Left, Top, Right, Bottom, DiagonalLeft, or DiagonalRight</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="16" valign="top">
+            <p><a name="1075017">COLOR</a></p>
+          </td>
+          <td cellpadding="16" valign="top">
+            <p><a name="1075019">RGB Value in format &#34;#RRGGBB&#34; or color name from pre&#45;defined names table</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="16" valign="top">
+            <p><a name="1075021">LINE_STYLE</a></p>
+          </td>
+          <td cellpadding="16" valign="top">
+            <p><a name="1075023">None, Continuous, Dash, Dot, DashDot, DashDotDot, SlashDashDot, or Double</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="16" valign="top">
+            <p><a name="1075025">WEIGHT</a></p>
+          </td>
+          <td cellpadding="16" valign="top">
+            <p><a name="1075027">Positive integer value in font points</a></p>
+          </td>
+        </tr>
+      </table></ul>
+      <h4><a name="1075033">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="649">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082917"><font size="2" face="'Courier New'" color="#000000">t</font></a>  </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="457">
+            <p><a name="1082919">Border style successfully set.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082921"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082923">Border style not set (no active style or invalid parameters). See console for further details.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1068234">Example</a></h4>
+      <p><a name="1075146">The following example defines a new style, &#34;Second&#34;, which inherits its settings from the &#34;Default&#34; style, but with a thin border defined.</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075148">axlSpreadsheetSetStyle(&#34;Second&#34; &#34;Second Style&#34;)<dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075150">axlSpreadsheetSetStyleParent(&#34;Default&#34;)<dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075152">axlSpreadsheetSetStyleBorder(&#34;Left&#34;   nil &#34;Continuous&#34; &#34;2&#34;)<dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075154">axlSpreadsheetSetStyleBorder(&#34;Right&#34;  nil &#34;Continuous&#34; &#34;2&#34;)<dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075156">axlSpreadsheetSetStyleBorder(&#34;Top&#34;    nil &#34;Continuous&#34; &#34;2&#34;)<dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075158">axlSpreadsheetSetStyleBorder(&#34;Bottom&#34; nil &#34;Continuous&#34; &#34;2&#34;)<dd>==&#62; t</a></font>
+      </dl>
+      <h4><a name="1075131">See Also</a></h4>
+      <p><a href="#1068196" title="27" name="1070390"><font color="#0000ff"><u>axlSpreadsheetSetStyle</u></font></a>, <a href="#1068263" title="27"><font color="#0000ff"><u>axlSpreadsheetSetStyleProp</u></font></a>, <a href="#1070391" title="27"><font color="#0000ff"><u>axlSpreadsheetSetStyleParent</u></font></a>, <a href="#1067947" title="27"><font color="#0000ff"><u>axlSpreadsheetGetRGBColorString</u></font></a></p>
+      <h3><a name="1070391">axlSpreadsheetSetStyleParent</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1070429">axlSpreadsheetSetStyleParent(<dd>t_parent)<dd>==&#62; t &#47; nil</a></font>
+      </dl>
+      <h4><a name="1070430">Description</a></h4>
+      <p><a name="1070431">Sets the active style&#39;s parent. Style will inherit default properties from its parent style, therefore only changes need to be specified in the child style. Parent must already be defined for spreadsheet.</a></p>
+      <h4><a name="1068249">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082931"><font size="2" face="'Courier New'" color="#000000">t_parent</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="1082933">Style ID of parent to link to. Note that the parent must already be defined before it can be referenced by children.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1068252">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082940"><font size="2" face="'Courier New'" color="#000000">t</font></a>  </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1082942">Style parent successfully set.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082944"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082946">Parent not set (no active style or parent style doesn&#39;t exist). See console for further details.</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1074561">PARENT value must be a style ID defined in the active spreadsheet document.</a></p>
+      <h4><a name="1068256">Example</a></h4>
+      <p><a name="1074733">The following example defines a new style, &#34;Second&#34;, which inherits its settings from the &#34;Default&#34; style, but with text centered in the cell.</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1074734">axlSpreadsheetSetStyle(&#34;Second&#34; &#34;Second Style&#34;)<dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1074735">axlSpreadsheetSetStyleParent(&#34;Default&#34;)<dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1074736">axlSpreadsheetSetStyleProp(&#34;Alignment&#34; &#34;Horizontal&#34; &#34;Center&#34;)<dd>==&#62; t</a></font>
+      </dl>
+      <h4><a name="1074737">See Also</a></h4>
+      <p><a href="#1068196" title="27" name="1074747"><font color="#0000ff"><u>axlSpreadsheetSetStyle</u></font></a>, <a href="#1070205" title="27"><font color="#0000ff"><u>axlSpreadsheetSetStyleBorder</u></font></a>, <a href="#1068263" title="27"><font color="#0000ff"><u>axlSpreadsheetSetStyleProp</u></font></a></p>
+      <h3><a name="1068263">axlSpreadsheetSetStyleProp</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1073242">axlSpreadsheetSetStyleProp(<dd>t_type<dd>t_propName<dd>t_propVal<dd>) ==&#62; t &#47; nil</a></font>
+      </dl>
+      <h4><a name="1068267">Description</a></h4>
+      <p><a name="1068268">Sets a specific style property in the active style definition.</a></p>
+      <h4><a name="1068269">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="649">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082954"><font size="2" face="'Courier New'" color="#000000">t_type</font></a>    </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="457">
+            <p><a name="1082956">Type of property being set. Must be one of: ALIGNMENT, FONT, FILL, NUMBER_FORMAT, PROTECTION.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082958"><font size="2" face="'Courier New'" color="#000000">t_propName</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082960">Name of the property being set (varies by type).</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082962"><font size="2" face="'Courier New'" color="#000000">t_propVal</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082964">Value to set the property to. </a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1068274">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082972"><font size="2" face="'Courier New'" color="#000000">t</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1082974">Style attribute successfully set.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082976"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082978">Attribute not set (no active style or invalid parameters). See console for further details.</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="1073319">ALIGNMENT properties and values supported are listed in the following table.</a></p>
+      <p align="left"><a name="1073333">&nbsp;</a></p>
+      <table summary="" border="0" cellpadding="4" cellspacing="0" bordercolor="#D3D3D3" width="645">
+        <tr>
+          <td cellpadding="4" border="0" bordercolor="#D3D3D3" valign="middle" width="192">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1073340"><font color="#000000"><strong>Property</strong></font></a></strong></font>
+            </p>
+          </td>
+          <td cellpadding="4" border="0" bordercolor="#D3D3D3" valign="middle" width="452">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1073342">Values Supported...</a></strong></font>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1073344">Horizontal</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1073421">Automatic, Left, Center, Right, Fill, Justify, CenterAcrossSelection, JustifyDistributed, or Distributed.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1073348">Indent</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1073458">Positive integer value in characters widths to indent.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1073352"><font color="#000000">ReadingOrder</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1073354">RightToLeft, LeftToRight, or Context</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1073356"><font color="#000000">Rotate</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1073358">Rotation angle in degrees</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1073360"><font color="#000000">ShrinkToFit</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1073533">Boolean value (0 or 1).</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1073364"><font color="#000000">Vertical</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1073366">Automatic, Top, Bottom, Center, Justify, JustifyDistributed, or Distributed</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1073368"><font color="#000000">VerticalText</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1073584">Boolean value (0 or 1).</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1073372"><font color="#000000">WrapText</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1073598">Boolean value (0 or 1).</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="1074025">&nbsp;</a></p>
+      <table summary="" border="1" cellpadding="5" cellspacing="0" width="648">
+        <caption>
+          <p align="left">
+            <strong><font color="#000000"><strong>Table 27&#45;1&nbsp; </strong></font></strong>
+            <strong><a name="1073974">FONT properties and values supported </a></strong>
+          </p>
+        </caption>
+        <tr>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="182">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1073978">Property</a></strong></font>
+            </p>
+          </td>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="466">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1073980">Values Supported...</a></strong></font>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1073982">Bold</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1073984">Boolean value (0 or 1).</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1073986">CharSet</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1073988">Integer value</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1073990">Color</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1073992">RGB Value in format &#34;#RRGGBB&#34; or color name from pre&#45;defined names table</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1073994">Family</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1073996">Automatic, Decorative, Modern, Roman, Swiss, or Script.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1073998">Italic</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1074000">Boolean value (0 or 1).</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1074002">Outline</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1074004">Boolean value (0 or 1).</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1074006">Shadow</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1074008">Boolean value (0 or 1).</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1074010">Size</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1074012">Positive integer value in font size points..</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1074014">StrikeThrough</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1074016">Boolean value (0 or 1).</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1074018">Underline</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1074020">None, Single, Double, SingleAccounting, or DoubleAccounting.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1074022">VerticalAlign</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1074024">None, Subscript, or SuperScript</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="1074026">&nbsp;</a></p>
+      <table summary="" border="1" cellpadding="5" cellspacing="0" width="648">
+        <caption>
+          <p align="left">
+            <strong><font color="#000000"><strong>Table 27&#45;2&nbsp; </strong></font></strong>
+            <strong><a name="1074035">FILL properties and values supported </a></strong>
+          </p>
+        </caption>
+        <tr>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="182">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1074039">Property</a></strong></font>
+            </p>
+          </td>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="466">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1074041">Values Supported...</a></strong></font>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1074051">Color</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1074053">RGB Value in format &#34;#RRGGBB&#34; or color name from pre&#45;defined names table</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1074055">Pattern</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1074109">None, Solid, Gray75, Gray50, Gray25, Gray125, Gray0625, HorzStripe, VertStripe, ReverseDiagStripe, DiagStripe, DiagCross, ThickDiagCross, ThinHorzStripe, ThinVertStripe, ThinReverseDiagStripe, ThinDiagStripe, ThinHorzCross, or ThinDiagCross.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1074059">PatternColor</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1074206">RGB Value in format &#34;#RRGGBB&#34; or color name from pre&#45;defined names table</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="1074219">&nbsp;</a></p>
+      <table summary="" border="1" cellpadding="5" cellspacing="0" width="648">
+        <caption>
+          <p align="left">
+            <strong><font color="#000000"><strong>Table 27&#45;3&nbsp; </strong></font></strong>
+            <strong><a name="1074229">NUMBER_FORMAT properties and values supported </a></strong>
+          </p>
+        </caption>
+        <tr>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="182">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1074233">Property</a></strong></font>
+            </p>
+          </td>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="466">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1074235">Values Supported...</a></strong></font>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1074237">Format</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1074239">String defining format of number in cell</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="1074312">&nbsp;</a></p>
+      <table summary="" border="1" cellpadding="5" cellspacing="0" width="648">
+        <caption>
+          <p align="left">
+            <strong><font color="#000000"><strong>Table 27&#45;4&nbsp; </strong></font></strong>
+            <strong><a name="1074322">PROTECTION properties and values supported </a></strong>
+          </p>
+        </caption>
+        <tr>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="182">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1074326">Property</a></strong></font>
+            </p>
+          </td>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="466">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1074328">Values Supported...</a></strong></font>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1074330">Protected</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1074374">Boolean value (0 or 1).</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1074388">HideFormula</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1074390">Boolean value (0 or 1).</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1074027">Examples</a></h4>
+      <p><a name="1074424">The following example defines a new style, &#34;Second&#34;, which inherits its settings from the &#34;Default&#34; style, but with text centered in the cell.</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1074427">axlSpreadsheetSetStyle(&#34;Second&#34; &#34;Second Style&#34;)<dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1074429">axlSpreadsheetSetStyleParent(&#34;Default&#34;)<dd>==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1074431">axlSpreadsheetSetStyleProp(&#34;Alignment&#34; &#34;Horizontal&#34; &#34;Center&#34;)<dd>==&#62; t</a></font>
+      </dl>
+      <h4><a name="1074408">See Also</a></h4>
+      <p><a href="#1068196" title="27" name="1068279"><font color="#0000ff"><u>axlSpreadsheetSetStyle</u></font></a>, <a href="#1070205" title="27"><font color="#0000ff"><u>axlSpreadsheetSetStyleBorder</u></font></a>, <a href="#1070391" title="27"><font color="#0000ff"><u>axlSpreadsheetSetStyleParent</u></font></a>, <a href="#1067947" title="27"><font color="#0000ff"><u>axlSpreadsheetGetRGBColorString</u></font></a></p>
+      <h3><a name="1068285">axlSpreadsheetSetWorksheet</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1068287">axlSpreadsheetSetWorksheet(<dd>t_name)<dd>==&#62; t &#47; nil</a></font>
+      </dl>
+      <h4><a name="1068289">Description</a></h4>
+      <p><a name="1068290">Makes the specified worksheet the active one for future cell references. If the worksheet does not exist, it is created as the new last worksheet in the document.</a></p>
+      <h4><a name="1068293">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082991"><font size="2" face="'Courier New'" color="#000000">t_name</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1082993">The name of the worksheet to activate.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1068295">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1083005"><font size="2" face="'Courier New'" color="#000000">t</font></a>  </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1083007">Worksheet successfully activated &#47; defined.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1083009"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1083011">Worksheet not activated. Reason written to console.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1068298">Examples</a></h4>
+      <p><a name="1073137">The following example activates the worksheet named &#34;First&#34; in the active spreadsheet, then sets the first column to have a width of 500.</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1073139">axlSpreadsheetSetWorksheet(&#34;First&#34;)<br>&nbsp;&nbsp;&nbsp;&nbsp;==&#62; t</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1073141">axlSpreadsheetSetColumnProp(1 &#34;Width&#34; &#34;500&#34;)<br>&nbsp;&nbsp;&nbsp;&nbsp;==&#62; t</a></font>
+      </blockquote>
+      <h4><a name="1073121">See Also</a></h4>
+      <p><a href="#1068101" title="27" name="1068299"><font color="#0000ff"><u>axlSpreadsheetSetCell</u></font></a>, <a href="#1068196" title="27"><font color="#0000ff"><u>axlSpreadsheetSetStyle</u></font></a></p>
+      <h3><a name="1068304">axlSpreadsheetWrite</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1068306">axlSpreadsheetWrite(<dd>t_fileName<dd>)==&#62; t &#47; nil</a></font>
+      </dl>
+      <h4><a name="1068308">Description</a></h4>
+      <p><a name="1068309">Write the spreadsheet in memory to file on disk. File will be written compliant with Microsoft&#39;s open spreadsheet XML format.</a></p>
+      <h4><a name="1068311">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="644">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1083019"><font size="2" face="'Courier New'" color="#000000">t_fileName</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="452">
+            <p><a name="1083021">Name of file to be written to, including path if not to be written to current working directory.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1068314">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="541">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1083029"><font size="2" face="'Courier New'" color="#000000">t </font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="349">
+            <p><a name="1083031">File successfully written.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1068316">Examples</a></h4>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1073046">The following example creates a simple spreadsheet, adds information to the first cell (&#34;Hello&#34;), writes the spreadsheet, and closes it.</a></td>
+          </tr>
+        </table>
+      </div>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1073048">         axlSpreadsheetInit()</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1073049">             ==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1073050">         axlSpreadsheetSetWorksheet(&#34;First&#34;)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1073051">             ==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1073052">         axlSpreadsheetDefineCell(1 1 &#34;Default&#34; &#34;String&#34; &#34;Hello&#34;)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1073053">             ==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1073054">         axlSpreadsheetWrite(&#34;example.xml&#34;)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1073055">             ==&#62; t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1073056">         axlSpreadsheetClose()</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1073057">             ==&#62; t</a></font>
+      </dl>
+      <h4><a name="1073030">See Also</a></h4>
+      <p><a href="#1065095" title="27" name="1068317"><font color="#0000ff"><u>axlSpreadsheetClose</u></font></a>, <a href="#1068036" title="27"><font color="#0000ff"><u>axlSpreadsheetInit</u></font></a>, <a href="#1069134" title="27"><font color="#0000ff"><u>axlSpreadsheetRead</u></font></a></p>
+      <p><a name="1072478">&nbsp;</a></p>
+      <p><a name="1080237">&nbsp;</a></p>
+    </div>
+    <br>
+    <a href="#pagetop">Return to top of page</a>
+    <hr>
+    <hr align="left">
+    <div style="text-align: left;">
+      <!-- Begin Buttons -->      <table width="650" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                    </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+          <td>
+            <a href="25dbmisc.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+          </td>
+          <td>
+            <a href="27plugin.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+          </td>
+          <td>
+            <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+            </a>
+          </td>
+          <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+          </td>
+          <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+          </td>
+          <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+          </td>
+          <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+          </td>
+        </tr>
+      </table>
+      <!-- End Buttons -->
+    </div>
+    <br>
+    <font size="-1" >
+For support, see <a href="http://support.cadence.com" target="_blank">Cadence Online Support</a> service.</font>
+    <br>
+    <br>
+    <font size="-1" >
+      <i>Copyright &#169; 2017, <a href="http://www.cadence.com">Cadence Design Systems, Inc.</a></i>
+    </font>
+    <br>
+    <font size="-1" >
+All rights reserved.</font>
+    <br>
+    <br>
+  </body>
+</html>

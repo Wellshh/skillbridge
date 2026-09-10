@@ -22,14 +22,16 @@ Returns the absolute path of the Cadence installation directoryas a string. `cds
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_name` | The optional argument`t_name` is appended to the end of the cds root path with a directory separator if necessary.
+| Name | Description |
+|---|---|
+| `t_name` | The optional argument`t_name` is appended to the end of the cds root path with a directory separator if necessary. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_string` | Returns the installation path as a string.
+| Name | Description |
+|---|---|
+| `t_string` | Returns the installation path as a string. |
+
 #### Example
 
 `cdsGetInstPath() => "/cds/99.02/latest.il"`
@@ -52,14 +54,16 @@ Returns the absolute path of the Cadence installation`tools` directory as a stri
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_subDirPath` | The optional argument`t_subDirPath` is appended to the end of the Cadence installation `tools` directory path with a directory separator if necessary.
+| Name | Description |
+|---|---|
+| `t_subDirPath` | The optional argument`t_subDirPath` is appended to the end of the Cadence installation `tools` directory path with a directory separator if necessary. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_cdsToolsPath` | Returns the absolute path of the Cadence installation`tools` directory as a string.
+| Name | Description |
+|---|---|
+| `t_cdsToolsPath` | Returns the absolute path of the Cadence installation`tools` directory as a string. |
+
 #### Example
 
 `cdsGetToolsPath() => "/cds/06.01/latest.il/tools"`
@@ -74,7 +78,7 @@ Returns the absolute path of the Cadence installation`tools` directory as a stri
 
 ### cdsPlat
 
-`cdsPlat()=> t_plat`
+`cdsPlat() => t_plat`
 
 #### Description
 
@@ -82,17 +86,16 @@ Returns the platform for the Cadence software that is currently running; one of 
 
 #### Arguments
 
-|  |
-| --- | ---
-| None. |
+| Name | Description |
+|---|---|
+| `None.` |  |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_plat` | The platform upon which the Cadence software is running. Oneof the following strings:
-|  |
-| --- | ---
-|  | `"sun4v"``"sol86"``"hppa"``"ibmrs"``"wint"``"lnx86"``"lni64"`
+| Name | Description |
+|---|---|
+| `t_plat` | The platform upon which the Cadence software is running. Oneof the following strings: |
+
 #### Example
 
 `system("uname")`
@@ -119,14 +122,16 @@ Different error messages are printed if the operation fails because the director
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_name` | Name of the working directory you want to use. Can be specifiedwith either a relative or absolute path. If you supply a relative path, the shell environment is used to search for the directory, not the SKILL path.
+| Name | Description |
+|---|---|
+| `S_name` | Name of the working directory you want to use. Can be specifiedwith either a relative or absolute path. If you supply a relative path, the shell environment is used to search for the directory, not the SKILL path. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | Returns `t` if the function executes successfully. Prints an error message if the directory you tried to change to does not exist. Prints a permission denied message if you do not have search permission.
+| Name | Description |
+|---|---|
+| `t` | Returns `t` if the function executes successfully. Prints an error message if the directory you tried to change to does not exist. Prints a permission denied message if you do not have search permission. |
+
 #### Example
 
 Assume there is a directory`/usr5/design/cpu` with proper permission and there is no `test` directory under `/usr5/design/cpu`.
@@ -147,9 +152,10 @@ Returns the total amount of CPU time (user plus system) used in units of 60ths o
 
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | CPU time in 60ths of a second.
+| Name | Description |
+|---|---|
+| `x_result` | CPU time in 60ths of a second. |
+
 #### Example
 
 cputime()             => 8
@@ -158,7 +164,7 @@ floatp( cputime() )   => nil
 
 ### createDir
 
-`createDir( S_name ) => t | nil`
+`createDir( S_name ) => t / nil`
 
 #### Description
 
@@ -168,20 +174,17 @@ The directory name can be specified with either an absolute or relative path; th
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_name` | Name of the directory you are creating.
+| Name | Description |
+|---|---|
+| `S_name` | Name of the directory you are creating. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If the directory is created.
-|  |
-| --- | ---
-| `nil` | If the directory is not created because it already exists.
-|  |
-| --- | ---
-|  | If the directory cannot be created because you do not havepermission to update the parent directory, or a parent directory does not exist, an error is signaled.
+| Name | Description |
+|---|---|
+| `t` | If the directory is created. |
+| `nil` | If the directory is not created because it already exists. |
+
 #### Example
 
 ```
@@ -206,27 +209,24 @@ The permissions associated with new directories are subject to the file creation
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_pathName` | Specifies a (hierarchical) SKILL path consisting of all thedirectories that need to be created
+| Name | Description |
+|---|---|
+| `t_pathName` | Specifies a (hierarchical) SKILL path consisting of all thedirectories that need to be created |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | Returns`t` if all the directories specified in the given SKILL path are created
-|  |
-| --- | ---
-| `nil` | Returns`nil` if a directory with the same name already exists or an incorrect SKILL path is specified
-|  |
-| --- | ---
-|  | If the directory cannot be created because you do not havepermission to update the parent directory, or a parent directory does not exist, an error is signaled.
+| Name | Description |
+|---|---|
+| `t` | Returns`t` if all the directories specified in the given SKILL path are created |
+| `nil` | Returns`nil` if a directory with the same name already exists or an incorrect SKILL path is specified |
+
 #### Example
 
 createDirHier("./dir1/dir2"); creates the directories /dir1/dir2/ as specified inthe given SKILL path
 
 ### csh
 
-`csh( [ t_command ] ) => t | nil`
+`csh( [ t_command ] ) => t / nil`
 
 #### Description
 
@@ -236,17 +236,17 @@ Identical to the`sh` function, but invokes the C-shell (`csh`) rather than the B
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_command` | Command string to execute.
+| Name | Description |
+|---|---|
+| `t_command` | Command string to execute. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If the exit status of executing the given shell command is 0.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | If the exit status of executing the given shell command is 0. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `csh( "mkdir ~/tmp" ) => t`
@@ -259,7 +259,7 @@ Creates a sub-directory called*tmp* in your home directory.
 
 ### deleteDir
 
-`deleteDir( S_name ) => t | nil`
+`deleteDir( S_name ) => t / nil`
 
 #### Description
 
@@ -269,20 +269,17 @@ The directory name can be specified with either an absolute or relative path; th
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_name` | Name of directory to delete.
+| Name | Description |
+|---|---|
+| `S_name` | Name of directory to delete. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If the directory has been successfully deleted.
-|  |
-| --- | ---
-| `nil` | If the directory does not exist.
-|  |
-| --- | ---
-|  | Signals an error if you do not have permission to delete adirectory or the directory you want to delete is not empty.
+| Name | Description |
+|---|---|
+| `t` | If the directory has been successfully deleted. |
+| `nil` | If the directory does not exist. |
+
 #### Example
 
 ```
@@ -301,7 +298,7 @@ Assuming there are some files in`~`, signals an error that the directory is not 
 
 ### deleteFile
 
-`deleteFile( S_name ) => t | nil`
+`deleteFile( S_name ) => t / nil`
 
 #### Description
 
@@ -311,20 +308,17 @@ The file name can be specified with either an absolute or relative path; the SKI
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_name` | Name of file you want to delete.
+| Name | Description |
+|---|---|
+| `S_name` | Name of file you want to delete. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | File is successfully deleted.
-|  |
-| --- | ---
-| `nil` | File does not exist.
-|  |
-| --- | ---
-|  | Signals an error if you do not have permission to delete a file.
+| Name | Description |
+|---|---|
+| `t` | File is successfully deleted. |
+| `nil` | File does not exist. |
+
 #### Example
 
 `deleteFile("~/test/out.1") => t`
@@ -369,14 +363,16 @@ For compatibility with earlier versions of SKILL, you can still define the funct
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_status` | Process exit status; defaults to 0.
+| Name | Description |
+|---|---|
+| `x_status` | Process exit status; defaults to 0. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `nil` | The exit request is aborted. Otherwise there is no return valuebecause the process exits.
+| Name | Description |
+|---|---|
+| `nil` | The exit request is aborted. Otherwise there is no return valuebecause the process exits. |
+
 #### Example
 
 ```
@@ -401,14 +397,16 @@ Returns a string representation of the current time.
 
 #### Arguments
 
-|  |
-| --- | ---
-| None. |
+| Name | Description |
+|---|---|
+| `None.` |  |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_timeString` | Current time in the form of a string. The format of the string is`month day hour:minute:second year`.
+| Name | Description |
+|---|---|
+| `t_timeString` | Current time in the form of a string. The format of the string is`month day hour:minute:second year`. |
+
 #### Example
 
 `getCurrentTime( )=> "Jan 26 18:15:18 1994"`
@@ -425,14 +423,16 @@ Returns the absolute path of the Cadence DFII installation directory where the D
 
 #### Arguments
 
-|  |
-| --- | ---
-| None. |
+| Name | Description |
+|---|---|
+| `None.` |  |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_string` | Returns the installation path as a list of a single string.
+| Name | Description |
+|---|---|
+| `l_string` | Returns the installation path as a list of a single string. |
+
 #### Example
 
 `getInstallPath() => ("/usr5/cds/5.0")`
@@ -453,14 +453,16 @@ a string.
 
 #### Arguments
 
-|  |
-| --- | ---
-| None. |
+| Name | Description |
+|---|---|
+| `None.` |  |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_loginName` | Returns the user's login name as a string.
+| Name | Description |
+|---|---|
+| `t_loginName` | Returns the user's login name as a string. |
+
 #### Example
 
 `getLogin=> "fred"`
@@ -481,9 +483,10 @@ None.
 
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_strings` | The current values of the first level and second level prompt textstrings. The result is a list where the first element is the first level prompt and the second element is the second level prompt specified by `setPrompts`.
+| Name | Description |
+|---|---|
+| `l_strings` | The current values of the first level and second level prompt textstrings. The result is a list where the first element is the first level prompt and the second element is the second level prompt specified by `setPrompts`. |
+
 #### Example
 
 `skill> getPrompts()("> " "<%d> ")`
@@ -496,7 +499,7 @@ Default prompts for the SKILL interpreter and CIW, respectively.
 
 ### getShellEnvVar
 
-`getShellEnvVar( t_UnixShellVariableName ) => t_value | nil`
+`getShellEnvVar( t_UnixShellVariableName ) => t_value / nil`
 
 #### Description
 
@@ -504,17 +507,17 @@ Returns the value of a UNIX environment variable, if it has been set.
 
 #### Arguments
 
-|  |
-| --- | ---
-| t\_UnixShellVariableName  Name of the UNIX shell environment variable. |
+| Name | Description |
+|---|---|
+| `t\_UnixShellVariableName  Name of the UNIX shell environment variable.` |  |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| t\_value | Value of named UNIX environment variable.
-|  |
-| --- | ---
-| nil | No environment variable with the given name has been set.
+| Name | Description |
+|---|---|
+| `t\_value` | Value of named UNIX environment variable. |
+| `nil` | No environment variable with the given name has been set. |
+
 #### Example
 
 `getShellEnvVar("SHELL") => "/bin/csh"`
@@ -523,7 +526,7 @@ Returns the current value of theSHELL environment variable.
 
 ### getSkillPath
 
-`getSkillPath( ) => l_strings | nil`
+`getSkillPath( ) => l_strings / nil`
 
 #### Description
 
@@ -533,17 +536,17 @@ The SKILL path is used in resolving relative paths for some SKILL functions. See
 
 #### Arguments
 
-|  |
-| --- | ---
-| None. |
+| Name | Description |
+|---|---|
+| `None.` |  |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_strings` | Directory paths from the currentSKILL path setting. The result is a list where each element is a path component as specified by `setSkillPath`.
-|  |
-| --- | ---
-| `nil` | The last call to`setSkillPath` gave `nil` as its argument.
+| Name | Description |
+|---|---|
+| `l_strings` | Directory paths from the currentSKILL path setting. The result is a list where each element is a path component as specified by `setSkillPath`. |
+| `nil` | The last call to`setSkillPath` gave `nil` as its argument. |
+
 #### Example
 
 ```
@@ -566,14 +569,16 @@ Returns the system temp directory as a string.
 
 #### Arguments
 
-|  |
-| --- | ---
-| None. |
+| Name | Description |
+|---|---|
+| `None.` |  |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_TempDir` | The name of your current temp directory.
+| Name | Description |
+|---|---|
+| `t_TempDir` | The name of your current temp directory. |
+
 #### Example
 
 getTempDir() => "/tmp"
@@ -590,14 +595,16 @@ The result is put into a`~/prefixed` form if possible by testing for commonality
 
 #### Arguments
 
-|  |
-| --- | ---
-| None. |
+| Name | Description |
+|---|---|
+| `None.` |  |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_currentDir` | The name of your current working directory.
+| Name | Description |
+|---|---|
+| `t_currentDir` | The name of your current working directory. |
+
 #### Example
 
 `getWorkingDir() => "~/project/cpu/layout"`
@@ -606,7 +613,7 @@ The result is put into a`~/prefixed` form if possible by testing for commonality
 
 ### isDir
 
-`isDir( S_name [ tl_path ] ) => t | nil`
+`isDir( S_name [ tl_path ] ) => t / nil`
 
 #### Description
 
@@ -616,20 +623,18 @@ When`S_name` is a relative path, the current SKILL path is used if it's non-`nil
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_name` | Path you want to check.
-|  |
-| --- | ---
-| `tl_path` | List of paths that overrides the SKILL path.
+| Name | Description |
+|---|---|
+| `S_name` | Path you want to check. |
+| `tl_path` | List of paths that overrides the SKILL path. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | The name exists and it is the name of a directory.
-|  |
-| --- | ---
-| `nil` | The name exists and is not the name of a directory or`S_name` does not exist at all.
+| Name | Description |
+|---|---|
+| `t` | The name exists and it is the name of a directory. |
+| `nil` | The name exists and is not the name of a directory or`S_name` does not exist at all. |
+
 #### Example
 
 `isDir("DACLib")  => tisDir("triadc")  => nil`
@@ -656,14 +661,16 @@ Possibly adds a slash (/) separator if needed. The typical use of this function 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_name` | File or directory name to append to the installation path. If asymbol is given, its print name is used.
+| Name | Description |
+|---|---|
+| `S_name` | File or directory name to append to the installation path. If asymbol is given, its print name is used. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_string` | String formed by prepending the installation path to theargument path.
+| Name | Description |
+|---|---|
+| `t_string` | String formed by prepending the installation path to theargument path. |
+
 #### Example
 
 `getInstallPath() => ("/usr5/cds/4.2")`
@@ -688,7 +695,7 @@ setSkillPath( list("." prependInstallPath("bin")                
 
 ### setShellEnvVar
 
-`setShellEnvVar( t_varName_or_nameValuePair [t_varValue] ) => t | nil`
+`setShellEnvVar( t_varName_or_nameValuePair [t_varValue] ) => t / nil`
 
 #### Description
 
@@ -696,20 +703,18 @@ Sets or updates the value of the UNIX environment variable.
 
 #### Arguments
 
-|  |
-| --- | ---
-| t\_varName\_or\_nameValuePair Environment variable name or assignment expression | (`<name>=<value>`)
-|  |
-| --- | ---
-| t\_varValue | Value of the environment variable
+| Name | Description |
+|---|---|
+| `t\_varName\_or\_nameValuePair Environment variable name or assignment expression` | (`<name>=<value>`) |
+| `t\_varValue` | Value of the environment variable |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If the shell environment variable was set.
-|  |
-| --- | ---
-| `nil` | If the shell environment variable was not set.
+| Name | Description |
+|---|---|
+| `t` | If the shell environment variable was set. |
+| `nil` | If the shell environment variable was not set. |
+
 #### Example 1
 
 `setShellEnvVar("PWD=/tmp")    => t`
@@ -756,7 +761,7 @@ Returns nil, as the argument has a space before the equal to sign.
 
 ### setSkillPath
 
-`setSkillPath( {tl_paths | nil }) => l_strings | nil`
+`setSkillPath( ( tl_paths / nil ) ) => l_strings / nil`
 
 #### Description
 
@@ -774,20 +779,18 @@ The use of the SKILL path in other file-related functions can be effectively dis
 
 #### Arguments
 
-|  |
-| --- | ---
-| `tl_paths` | Directory paths specified either in a single string or list of strings.
-|  |
-| --- | ---
-| `nil` | Turns off the use of the SKILL path.
+| Name | Description |
+|---|---|
+| `tl_paths` | Directory paths specified either in a single string or list of strings. |
+| `nil` | Turns off the use of the SKILL path. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_strings` | List of directory paths that appear in the`tl_paths` argument but do not actually exist.
-|  |
-| --- | ---
-| `nil` | If all directory paths exist.
+| Name | Description |
+|---|---|
+| `l_strings` | List of directory paths that appear in the`tl_paths` argument but do not actually exist. |
+| `nil` | If all directory paths exist. |
+
 #### Example
 
 ```
@@ -804,7 +807,7 @@ The same task can be done with the following call that puts all paths in one str
 
 ### sh, shell
 
-`sh( [ t_command ] ) => t | nil shell( [ t_command ] ) => t | nil`
+`sh( [ t_command ] ) => t / nil`
 
 #### Description
 
@@ -814,17 +817,17 @@ If the`sh` function is called with no arguments, an interactive UNIX shell is in
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_command` | Command string.
+| Name | Description |
+|---|---|
+| `t_command` | Command string. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If the exit status of executing the given shell command is 0.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | If the exit status of executing the given shell command is 0. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `shell( rm /tmp/junk)`
@@ -845,14 +848,16 @@ Spawns a separate UNIX process to execute a command.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_command` | Command to execute.
+| Name | Description |
+|---|---|
+| `t_command` | Command to execute. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | The return code caused by executing the given UNIX command.
+| Name | Description |
+|---|---|
+| `x_result` | The return code caused by executing the given UNIX command. |
+
 #### Example
 
 `system( "date" ) Wed Dec 14 15:14:53 PST 19940system( "daa" )sh: daa: not found1`
@@ -863,7 +868,7 @@ Spawns a separate UNIX process to execute a command.
 
 ### unsetShellEnvVar
 
-`unsetShellEnvVar( t_envVarName ) => t | nil`
+`unsetShellEnvVar( t_envVarName ) => t / nil`
 
 #### Description
 
@@ -871,17 +876,17 @@ Removes an environment variable from the environment of the calling process. If 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_envVarName` | A string representing the environment variable name.
+| Name | Description |
+|---|---|
+| `t_envVarName` | A string representing the environment variable name. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | The environment variable is successfully removed.
-|  |
-| --- | ---
-| `nil` | The environment variable does not exist or there is an errorcondition.
+| Name | Description |
+|---|---|
+| `t` | The environment variable is successfully removed. |
+| `nil` | The environment variable does not exist or there is an errorcondition. |
+
 #### Example
 
 `setShellEnvVar("test=testValue")`
@@ -902,7 +907,7 @@ Removes an environment variable from the environment of the calling process. If 
 
 ### vi, vii, vil
 
-`vi( [ S_fileName ] ) => t | nil`
+`vi( [ S_fileName ] ) => t / nil`
 
 #### Description
 
@@ -910,17 +915,17 @@ Edits a file using the`vi` editor. This is an `nlambda` function. Edits the name
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_fileName` | File to edit. If no argument is given, defaults to the previouslyedited file, or `temp.il`, if there is no previous file.
+| Name | Description |
+|---|---|
+| `S_fileName` | File to edit. If no argument is given, defaults to the previouslyedited file, or `temp.il`, if there is no previous file. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If the operation was successfully completed.
-|  |
-| --- | ---
-| `nil` | If the file does not exit or there is an error condition.
+| Name | Description |
+|---|---|
+| `t` | If the operation was successfully completed. |
+| `nil` | If the file does not exit or there is an error condition. |
+
 #### Example
 
 `vil( "test.il" )`

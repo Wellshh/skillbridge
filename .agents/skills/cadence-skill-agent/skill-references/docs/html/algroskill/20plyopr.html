@@ -1,0 +1,2076 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN" "http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+<html xmlns="http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Allegro SKILL Reference -- 21</title>
+<META NAME="Approver" CONTENT="Technical Publications">
+<META NAME="Author" CONTENT="Technical Publications">
+<META NAME="CreateDate" CONTENT="2017-11-25">
+<META NAME="CreateTime" CONTENT="1511600113">
+<META NAME="DataType" CONTENT="Manuals">
+<META NAME="Description" CONTENT="Describes the Allegro eXtension Language (AXL) and how to use each AXL function.">
+<META NAME="DocTitle" CONTENT="Allegro SKILL Reference">
+<META NAME="DocType" CONTENT="SKILL Reference">
+<META NAME="EdmsRelease" CONTENT="FM-Wiki-2.0_HF2">
+<META NAME="FileTitle" CONTENT="21">
+<META NAME="FileType" CONTENT="Chapter">
+<META NAME="Group" CONTENT="Allegro User Guide">
+<META NAME="Keyword" CONTENT="algroskill">
+<META NAME="Language" CONTENT="English">
+<META NAME="ModifiedDate" CONTENT="2017-11-25">
+<META NAME="ModifiedTime" CONTENT="1511600113">
+<META NAME="NextFile" CONTENT="21filacc.html">
+<META NAME="Order" CONTENT="11">
+<META NAME="PageCount" CONTENT="28">
+<META NAME="Platform" CONTENT="ALL">
+<META NAME="PrevFile" CONTENT="19cmdctl.html">
+<META NAME="Product" CONTENT="Allegro PCB Editor, Cadence SiP Digital">
+<META NAME="ProductFamily" CONTENT="Silicon-Package-Board Co-Design, IC Packaging">
+<META NAME="ProductVersion" CONTENT="17.2-2016">
+<META NAME="RightsManagement" CONTENT="Copyright 19912017 Cadence Design Systems Inc.">
+<META NAME="Title" CONTENT="Allegro SKILL Reference -- 21">
+<META NAME="TopicTags" CONTENT="FALSE">
+<META NAME="Version" CONTENT="17.2-2016">
+  </head>
+  <body style="margin-left: 5%;">
+    <a name="pagetop"></a>
+    <a name="firstpage"></a>
+    <!-- Begin Buttons -->
+    <table width="650" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td height="36" width="650" colspan="10">
+          <img src="images/header_doc.gif" width="650" height="34">
+        </td>
+      </tr>
+      <tr>
+        <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+        <td>
+          <a href="19cmdctl.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+        </td>
+        <td>
+          <a href="21filacc.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+        </td>
+        <td height="20">
+          <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+          </a>
+        </td>
+        <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+        </td>
+        <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+        </td>
+        <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+        </td>
+        <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+        </td>
+      </tr>
+    </table>
+    <!-- End Buttons -->
+    <p>
+    <hr>
+    <p>
+      <h3>
+        <center>
+          <font >
+            <div>Allegro User Guide: SKILL Reference</div>
+            <font >
+              <div>Product Version 17.2&#45;2016 April 2016</div>
+            </font>
+          </font>
+        </center>
+      </h3>
+      <br>
+    </p>
+    <div>
+      <h1>21<a name="1001295">&nbsp;</a></h1>
+      <h1><a name="1037521">Polygon Operation Functions</a></h1>
+      <p><a name="1065738">This chapter describes the AXL&#47;SKILL Polygon Operation functions and includes the following sections:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075906">About Polygon Operations</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075907">AXL&#45;SKILL Polygon Operation Attributes</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075908">AXL&#45;SKILL Polygon Operation Functions</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075909">Use Models</a></td>
+          </tr>
+        </table>
+      </div>
+      <h2><a name="1075910">About Polygon Operations</a></h2>
+      <p><a name="1075911">A </a><font color="#000000"><em>poly</em></font> is a set of points linked so that the start and end point are the same. A poly is always non&#45;intersecting and may contain <font color="#000000"><em>holes</em></font>. A hole is a non&#45;intersecting closed loop enclosed within a poly.</p>
+      <p>
+        <strong><font color="#000000"><strong>Figure 21&#45;1&nbsp; </strong></font></strong>
+        <strong><a name="1075912">Poly with Holes</a></strong>
+      </p>
+      <p>
+<blockquote><blockquote>        <font color="#000000"><a name="1076701"><img src="images/20plyopr.25.1.01.png" width="453" height="167" alt=""><br></a></font></blockquote></blockquote>
+      </p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1065349">These polys refer to the </a><font size="2" face="'Courier New'" color="#000000"><em>o_polygon</em></font> object in AXL&#45;SKILL. Polys are different from the AXL Skill Database <font color="#000000"><em>polygon</em></font> object which represents an Allegro PCB Editor unfilled shape.</p>
+      <p><a name="1075938">These functions, which perform geometric operations on polys, are called logical operations and do the following:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075939">Create route keepouts based on the board outline, offset by a pre&#45;determined distance.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075940">Create split planes from route&#45;keepin and Anti&#45;etch.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075941">Automatically generate a package keepout surrounding a package and its pins, contoured around the package.</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="1075942">Logical operations in AXL&#45;SKILL enable SKILL programmers to do the following:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075943">Create logical operation objects (</a><font size="2" face="'Courier New'" color="#000000"><em>lo_polygon</em></font>) from these Allegro PCB Editor database objects:</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075944">pins</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075945">lines</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075946">clines</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075947">vias</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075948">shapes</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075949">rectangles</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075950">frectangles (filled rectangles)</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075951">voids</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075952">Create </a><font size="2" face="'Courier New'" color="#000000"><em>o_polygon</em></font> from holes in a poly (<font size="2" face="'Courier New'" color="#000000"><em>o_polygon</em></font>)</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075953">Create an Allegro PCB Editor database shape from an </a><font size="2" face="'Courier New'" color="#000000"><em>o_polygon</em></font></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075954">Perform geometric operations on </a><font size="2" face="'Courier New'" color="#000000"><em>lo_polygons</em></font>, resulting in the creation of other <font size="2" face="'Courier New'" color="#000000"><em>lo_polygons</em></font>.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075955">Logical AND &#45; The intersection of two polys.</a></td>
+          </tr>
+        </table>
+      </div>
+      <p align="left"><a name="1075956"><font color="#000000"><img src="images/20plyopr.25.1.02.png" width="451" height="120" alt=""><br></font></a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075964">Logical OR &#45; The union of two polys.</a></td>
+          </tr>
+        </table>
+      </div>
+      <p align="left"><a name="1075969"><font color="#000000"><img src="images/20plyopr.25.1.03.png" width="451" height="117" alt=""><br></font></a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075974">Logical ANDNOT &#45; Subtracting one poly from another.</a></td>
+          </tr>
+        </table>
+      </div>
+      <p align="left"><a name="1075977"><font color="#000000"><img src="images/20plyopr.25.1.04.png" width="451" height="135" alt=""><br></font></a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075985">Logical EXPAND (CONTRACT is expand in the opposite direction.)</a></td>
+          </tr>
+        </table>
+      </div>
+      <p align="left"><a name="1075988"><font color="#000000"><img src="images/20plyopr.25.1.05.png" width="451" height="135" alt=""><br></font></a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075972">Perform query operations on a </a><font size="2" face="'Courier New'" color="#000000"><em>o_polygon</em></font>, including the following:</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075995">The area of the poly</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075996">The bounding box around the poly</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075997">The holes and vertices of a poly</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075998">If the </a><font size="2" face="'Courier New'" color="#000000"><em>o_polygon</em></font> is a hole</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075999">Access path data and holes from an </a><font size="2" face="'Courier New'" color="#000000"><em>o_polygon</em></font></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1076000">Locate a point respective to the poly</a></td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="1076001">Error Handling</a></h4>
+      <p><a name="1076002">Return values for each function are specified along with the description of the function, in case of error.</a></p>
+      <h2><a name="1076003">AXL&#45;SKILL Polygon Operation Attributes</a></h2>
+      <p><a name="1076004">The following are the attributes of the </a><font size="2" face="'Courier New'" color="#000000"><em>o_polygon</em></font> type:</p>
+      <p><a name="1076005">&nbsp;</a></p>
+      <table summary="" border="1" cellpadding="5" cellspacing="0" width="600">
+        <tr>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="182">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1076008">Attribute Name</a></strong></font>
+            </p>
+          </td>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="182">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1076010">Type</a></strong></font>
+            </p>
+          </td>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="235">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1076012">Description</a></strong></font>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1076014"><font size="2" face="'Courier New'" color="#000000"><em>area</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1076016">float</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1076018">Area of the poly in the same units as the drawing.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076020"><font size="2" face="'Courier New'" color="#000000"><em>bBox</em></font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076022">bBox</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076024">Poly's bounding box.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076026"><font size="2" face="'Courier New'" color="#000000"><em>vertices</em></font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076028">list</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076030">Path&#45;like data of the outer boundary of the poly available as a list of lists where each of the sublists will contain a point representing a vertex of the poly and a floating point number representing radius of the edge from the previous vertex to the present vertex.</a></p>
+            <p><a name="1076074">No arcs spanning across quadrants or greater than 90 degrees.</a></p>
+            <p><a name="1076075">Radius of 0.0 indicates a straight line edge between the two vertices.</a></p>
+            <p><a name="1076076">Positive radius value indicates that the arc lines to the left of the center and negative radius imply that the arc lies to the right of the center of the arc.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076032"><font size="2" face="'Courier New'" color="#000000"><em>holes</em></font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076034">list</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1076036"><font size="2" face="'Courier New'" color="#000000"><em>lo_polygon</em></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1076038"><font size="2" face="'Courier New'" color="#000000"><em>isHole</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1076040">boolean</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1076042"><font size="2" face="'Courier New'" color="#000000">t</font></a> = hole, <font size="2" face="'Courier New'" color="#000000">nil</font> = poly</p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="1076092">The following figures illustrate the attributes described.</a></p>
+      <p align="left"><a name="1076093"><img src="images/20plyopr.25.1.06.png" width="675" height="200" alt=""><br></a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1076097">Attributes</a></td>
+          </tr>
+        </table>
+      </div>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076878">vertices&nbsp;&nbsp;&nbsp;&nbsp;(((9775.0 775.0)&nbsp;&nbsp;&nbsp;&nbsp;0.0)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076879">&nbsp;&nbsp;&nbsp;&nbsp; ((9100.0 1075.0)&nbsp;&nbsp;&nbsp;&nbsp;0.0)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076880">&nbsp;&nbsp;&nbsp;&nbsp; ((8350.0 950.0)&nbsp;&nbsp;&nbsp;&nbsp;0.0))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076881">holes&nbsp;&nbsp;&nbsp;&nbsp;(poly:20199696 poly:20199896</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076882">&nbsp;&nbsp;&nbsp;&nbsp; poly:22204476)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076883">isHole nil</a></font>
+      </p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1076110">All the 3 polys representing holes of the above poly have their isHole attribute set to </a><font size="2" face="'Courier New'" color="#000000">t</font>.</p>
+      <p align="left"><a name="1076111"><img src="images/20plyopr.25.1.07.png" width="675" height="144" alt=""><br></a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1076118">Attributes</a></td>
+          </tr>
+        </table>
+      </div>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076119">vertices&nbsp;&nbsp;&nbsp;&nbsp;(((5975.0 976.0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.0)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076884">&nbsp;&nbsp;&nbsp;&nbsp; ((5787.0 788.0)&nbsp;&nbsp;&nbsp;&nbsp; 188.0)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076885">&nbsp;&nbsp;&nbsp;&nbsp; ((7225.0 599.0)&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;0.0)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076886">&nbsp;&nbsp;&nbsp;&nbsp; ((7413.0 787.0)&nbsp;&nbsp;&nbsp;&nbsp;&#45;188.0)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076887">&nbsp;&nbsp;&nbsp;&nbsp; ((7225.0 975.0&nbsp;&nbsp;&nbsp;&nbsp;&#45;188.0))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076888">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076889">holes nil</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1085419">isHole nil</a></font>
+      </p>
+      <h2><a name="1085420">AXL&#45;SKILL Polygon Operation Functions</a></h2>
+      <p><a name="1085421">This section lists the polygon operation functions.</a></p>
+      <h3><a name="1076123">axlPolyFromDB</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1085202">axlPolyFromDB(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>o_dbid&#47;r_path<dd></em></font>?endCapType&nbsp;&nbsp;&nbsp;&nbsp;<font size="2" face="'Courier New'" color="#000000"><em>s_endCapType<dd></em></font>?layer&nbsp;&nbsp;&nbsp;&nbsp;<font size="2" face="'Courier New'" color="#000000"><em>t_layer<dd></em></font>?padType &nbsp;&nbsp;&nbsp;&nbsp;<font size="2" face="'Courier New'" color="#000000"><em>s_padType<dd>?holes      t&#47;nil<dd></em></font>?line2poly  t&#47;nil)<dd>?xhatch t&#47;nil)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>lo_polygon</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="1075143">Description</a></h4>
+      <p><a name="1078239">Creates a list of </a><font size="2" face="'Courier New'" color="#000000"><em>o_polygon</em></font> objects from the <font size="2" face="'Courier New'" color="#000000"><em>dbid </em></font>or an <font size="2" face="'Courier New'" color="#000000"><em>r_path</em></font>. Use the <font size="2" face="'Courier New'" color="#000000"><em>lo_polygon</em></font> list to get the poly attributes or to perform logical operations on these polys. In the case of r_path option, we expect a path that reflects a closed shape with no intersections. It is important that the first and last point be the same. The width option of <font size="2" face="'Courier New'" color="#000000"><em>r_path</em></font> is ignored as well as the &#39;?&#39; arguments to <font size="2" face="'Courier New'" color="#000000">axlPolyFromDB.</font></p>
+      <p><a name="1082579"><font color="#000000"><strong><em>Polygon Attributes</em></strong></font></a></p>
+      <p align="left"><a name="1082617">&nbsp;</a></p>
+      <table summary="" border="0" cellpadding="4" cellspacing="0" bordercolor="#D3D3D3" width="640">
+        <tr>
+          <td cellpadding="4" valign="top" width="129">
+            <p><a name="1082624">area</a></p>
+          </td>
+          <td cellpadding="4" valign="top" width="510">
+            <p><a name="1082626">(float) Area of polygon in design units. If a hole this is negative. If a polygon is not a hole then the area is the sum of the base poly area minus any of its holes.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1082628">bBox</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1082630">(bBox)  bounding box of polygon</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1082632">holes</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1082634">(list of o_polys&#47;nil) list of any holes in poly</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1082769">isHole</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1082771">(t&#47;nil) is this a hole (void) or a shape</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1082765">objType</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1082767">(t_string)  &#34;polygon&#34;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1082761">vertices</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1082763">(list of coords). This always describes a closed shape.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1082757">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1082759">Format for each coord is: </a></p>
+            <p><a name="1082894"><font size="2" face="'Courier New'" color="#000000">(xy f_radius)</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1082753">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <blockquote><a name="1082755">Where</a></blockquote>
+            <blockquote><a name="1082918"><font size="2" face="'Courier New'" color="#000000">xy</font></a> &#45; vertice point in design units</blockquote>
+            <blockquote><a name="1082958"><font size="2" face="'Courier New'" color="#000000">f_radius</font></a> &#45; 0 if previous point and this point forms a segment else points form a arc with radius. The sign of the radius indicates for positive the arc is to the left of the y&#45;axis and a negative indicates arc is the right.</blockquote>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1083141">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1083154">If arcs are present a polygon typically may contain more segments then the underlying shape dbid. This is due to the polygon arcs cannot cross a quadrant so are broken along quadrant boundaries.</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="1082492">NOTES</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1082493">A polygon is NOT a dbid.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1082494">Comparing two polys using Skill functions:</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="69">
+              <div>&nbsp;</div>
+            </td>
+            <td width="31.872000000000003">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bss_bullet_sub_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1082495">equal function: geometrically compares that two polys are the same thus slightly slower then the eq function.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="69">
+              <div>&nbsp;</div>
+            </td>
+            <td width="31.872000000000003">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bss_bullet_sub_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1082497">eq function compares that the poly ids are the same.</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="1082498">This is different from the dbid comparison where both the </a><font size="2" face="'Courier New'" color="#000000">equal</font> and <font size="2" face="'Courier New'" color="#000000">eq</font> return the same results.</p>
+      <p><a name="1082500">What this means from a programming standpoint, is that if you have two identical shapes in Allegro PCB Editor, the &#39;</a><font size="2" face="'Courier New'" color="#000000">equal</font>&#39; comparison on the shape dbids returns that they are NOT equal but converting these shapes to polys via <font size="2" face="'Courier New'" color="#000000">axlPolyFromDB</font> and doing a &#39;equal&#39; of the resulting polygons will return &#39;<font size="2" face="'Courier New'" color="#000000">t</font>&#39; while the &#39;eq&#39; comparison will return &#39;nil&#39;.</p>
+      <h4><a name="1075145">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1086515"><font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1086517">axl </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font> for one of the following: path (line and cline), shape, rect, frect, pin, via, void, arc and line from which to construct the poly. <font color="#000000"><strong>Note</strong></font>: Arc and line are segments reported by <font size="2" face="'Courier New'" color="#000000">show element.</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086519"><font size="2" face="'Courier New'" color="#000000"><em>r_path</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086521">Path construct from the </a><font size="2" face="'Courier New'" color="#000000">axlPath</font> API family. This is not an Allegro PCB Editor database object and is a much more efficient method for creating an Allegro PCB Editor shape, than converting it to a Poly. Note <font size="2" face="'Courier New'" color="#000000">axlDBCreateOpenShape</font> also supports an <font size="2" face="'Courier New'" color="#000000"><em>r_path</em></font>. For more details, see <font color="#000000"><strong><em>Description</em></strong></font>.ZSee <font size="2" face="'Courier New'" color="#000000">line2poly</font>. <font size="2" face="'Courier New'" color="#000000">r_path</font> must describe a closed non&#45;intersecting shape unless the line2poly is <font size="2" face="'Courier New'" color="#000000">t</font> (see below).</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086523"><font size="2" face="'Courier New'" color="#000000"><em>s_endCapType</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086525">Keyword string specifying the end cap type to use for the polygon, one of </a><font size="2" face="'Courier New'" color="#000000">&#39;SQUARE</font>, <font size="2" face="'Courier New'" color="#000000">&#39;OCTAGON</font>, or <font size="2" face="'Courier New'" color="#000000">&#39;ROUND</font>. Used in case of line or cline only, otherwise ignored. Default is <font size="2" face="'Courier New'" color="#000000">&#39;SQUARE</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086527"><font size="2" face="'Courier New'" color="#000000"><em>t_layer</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086529">Keyword string specifying the layer of the pad to retrieve, for example, </a><font size="2" face="'Courier New'" color="#000000">&#34;ETCH&#47;TOP&#34;</font>. Used in the case of pin or via only, otherwise ignored. Default is <font size="2" face="'Courier New'" color="#000000">&#34;ETCH&#47;TOP&#34;</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086531"><font size="2" face="'Courier New'" color="#000000"><em>s_padType</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086533">Keyword string specifying the type of the pad to be retrieved, one of </a><font size="2" face="'Courier New'" color="#000000">&#39;REGULAR</font>, <font size="2" face="'Courier New'" color="#000000">&#39;ANTI</font>, or <font size="2" face="'Courier New'" color="#000000">&#39;THERMAL</font>. Used for pins, vias, or if <font size="2" face="'Courier New'" color="#000000">r_path</font> is based with the <font size="2" face="'Courier New'" color="#000000">line2poly</font> option, otherwise ignored. Default is <font size="2" face="'Courier New'" color="#000000">&#39;REGULAR</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086535"><font size="2" face="'Courier New'" color="#000000">holes</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086537">Default value is </a><font size="2" face="'Courier New'" color="#000000">t</font>. By default, for shapes with voids returns any voids as holes. If the value is set to <font size="2" face="'Courier New'" color="#000000">nil</font>, does not return the holes.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086539"><font size="2" face="'Courier New'" color="#000000">line2poly</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086541">Applicable only if first argument is an </a><font size="2" face="'Courier New'" color="#000000">r_path</font>. By default, an <font size="2" face="'Courier New'" color="#000000">r_path</font> describes a closed path. When this option is <font size="2" face="'Courier New'" color="#000000">t</font>, the <font size="2" face="'Courier New'" color="#000000">r_path</font> itself is converted to a poly in a manner similar to line dbids. It is strongly recommended that the <font size="2" face="'Courier New'" color="#000000">r_path</font> has width otherwise the artwork undefined line width is used.Typically one poly is returned for each segment in the <font size="2" face="'Courier New'" color="#000000">r_path</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086543"><font size="2" face="'Courier New'" color="#000000">xhatch</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086545">If t and the dbid is a cross&#45;hatch shape returns a poly of the cross&#45;hatching. By default, cross&#45;hatch shapes are treated as solid shapes with respect to poly generation. For complex shapes (&#62;500 edges; this includes both outline and voids) generateing a poly of the cross&#45;hatching can take a considerable amount of time and memory.If this option is </a><font size="2" face="'Courier New'" color="#000000">t</font>, the holes option for cross&#45;hatch shapes is assumed to be <font size="2" face="'Courier New'" color="#000000">t</font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1083601">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1086610"><font size="2" face="'Courier New'" color="#000000"><em>lo_polygon</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1086612">Object representing the resulting geometry.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086614"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086616">Cannot get polys.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1083720">See Also</a></h4>
+      <p><a name="1083721">Other APIs that support or generate polygons:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a href="#1077319" title="21" name="1083722"><font color="#0000ff"><u>axlPolyOperation</u></font></a> - performs various logical operations on 2 lists of polygon </td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a href="#1076223" title="21" name="1083723"><font color="#0000ff"><u>axlPolyExpand</u></font></a> - expands or contracts polygon</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a href="#1076291" title="21" name="1083724"><font color="#0000ff"><u>axlIsPolyType</u></font></a> - is object a polygon object</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a href="#1076347" title="21" name="1083725"><font color="#0000ff"><u>axlPolyErrorGet</u></font></a> - return last error from axlPolyOperation</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a href="#1076123" title="21" name="1083726"><font color="#0000ff"><u>axlPolyFromDB</u></font></a> - convert an allegro dbid to a polygon</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a href="#1077325" title="21" name="1083727"><font color="#0000ff"><u>axlPolyMemUse</u></font></a> - debug function to return memory use of polygon sub&#45;system</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a href="#1077718" title="21" name="1083728"><font color="#0000ff"><u>axlPolyOffset</u></font></a> - move a polygon</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a href="#1076322" title="21" name="1083729"><font color="#0000ff"><u>axlPolyFromHole</u></font></a> - converts a hole polygon to a positive polygon</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a href="03dbcre8.html#367593" title="15" name="1083730"><font color="#0000ff"><u>axlDBCreateShape</u></font></a> - create a shape</td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="1078288">See documentation for individual use.</a></p>
+      <h4><a name="1078372">Examples</a></h4>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1078378">Create a poly from a via </a></td>
+          </tr>
+        </table>
+      </div>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078374">polyList = axlPolyFromDB(via_dbid, ?layer &#34;ETCH&#47;BOTTOM&#34; ?padType &#39;ANTI)</a></font>
+      </blockquote>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1078399">Create a rectangle poly (one corner at 0,0 with a width 1000 and height of 500) using </a><font size="2" face="'Courier New'" color="#000000"><em>r_path</em></font> method</td>
+          </tr>
+        </table>
+      </div>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078402">; note first and last points are the same</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078403">myPath = axlPathStart( list(0:0 1000:0 1000:500 0:500 0:0) 0)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078404">pathPoly = axlPolyFromDB(myPath )</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078405">poly = car(pathPoly)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078406">poly&#45;&#62;??</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1083712">&nbsp;</a></font>
+      </blockquote>
+      <h3><a name="1077325">axlPolyMemUse</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077327">axlPolyMemUse (<dd>) &#45;&#62; lx_polyCounts</a></font>
+      </dl>
+      <h4><a name="1077329">Description</a></h4>
+      <p><a name="1077330">This returns a list of integers reflecting the internal memory use of the </a><font size="2" face="'Courier New'" color="#000000">axlPoly</font> interfaces. <br>If you assign Poly objects to global handles (instead of assigning to locals, e.g <font size="2" face="'Courier New'" color="#000000">let</font> or <font size="2" face="'Courier New'" color="#000000">prog</font> statements) then you need to insure all of global data is <font size="2" face="'Courier New'" color="#000000">nil</font>&#45;ed at the end of your program. The example below shows how to check that you have written your program correctly.</p>
+      <p><a name="1077337">Description of 5 integers. Integers 2 through 5 are for Cadence use.</a></p>
+      <p><a name="1077338">1 &#45; Most important and shows number of Skill Polys still in use.</a></p>
+      <p><a name="1077339">2 &#45; Number of Allegro Polys in use. This is always &#62;= to Skill Polys. The additional polys are voids (holes) in the Skill polys.</a></p>
+      <p><a name="1077342">3 &#45; Number of edges in all Allegro polys.</a></p>
+      <p><a name="1077343">4 &#45; Number of Allegro Floating Point Polys (should be 0).</a></p>
+      <p><a name="1077344">5 &#45; Number of edges in all Allegro Floating Point Polys (should be 0).</a></p>
+      <h4><a name="1077345">Arguments</a></h4>
+      <p><a name="1077346">None</a></p>
+      <h4><a name="1077347">Value Returned</a></h4>
+      <p><a name="1077348"><font size="2" face="'Courier New'" color="#000000"><em>lx_polyCounts</em></font></a>	A list of 5 integers reflecting Poly memory usage.</p>
+      <h4><a name="1077349">See Also</a></h4>
+      <p><a href="#1077319" title="21" name="1077350"><font color="#0000ff"><u>axlPolyOperation</u></font></a></p>
+      <h4><a name="1077351">Example</a></h4>
+      <p><a name="1077352">Verify at end of your program you have no hanging Poly memory in use.</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077354">gc() ; requires Skill development licenses</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077355">axlPolyMemUse()</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075884">;; should return all 0&#39;s</a></font>
+      </dl>
+      <h3><a name="1077718">axlPolyOffset</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1080755">axlPolyOffset (<dd>o_polygon&#47;lo_polygon<dd>l_xy<dd>[g_copy]<dd>)<dd>=&#62; o_polygon</a></font>
+      </dl>
+      <h4><a name="1077726">Description</a></h4>
+      <p><a name="1077727">This offsets the entire poly by the provided xy coordinate. Optionally if </a><font size="2" face="'Courier New'" color="#000000">g_copy</font> is <font size="2" face="'Courier New'" color="#000000">t </font>it will copy the poly, default is to offset the provided poly.</p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1077731">The offseted polygon must be entirely within the extents of the drawing.</a></p>
+      <h4><a name="1077732">Arguments</a></h4>
+      <p><a name="1077733"><font size="2" face="'Courier New'" color="#000000"><em>o_polygon</em></font></a>	<font size="2" face="'Courier New'" color="#000000">o_polygon</font> on which the operation is to be done.</p>
+      <p><a name="1077734"><font size="2" face="'Courier New'" color="#000000"><em>lo_polygon</em></font></a>	Optionally pass a list of polys.</p>
+      <p><a name="1077735"><font size="2" face="'Courier New'" color="#000000"><em>l_xy</em></font></a>	Coordinates in user units for offset.</p>
+      <p><a name="1077736"><font size="2" face="'Courier New'" color="#000000"><em>g_copy</em></font></a>	Optional, if <font size="2" face="'Courier New'" color="#000000">t</font> does the offset on a copy.</p>
+      <h4><a name="1077737">Value Returned</a></h4>
+      <p><a name="1077738"><font size="2" face="'Courier New'" color="#000000"><em>lo_polygon&#47;</em></font></a></p>
+      <p><a name="1077739"><font size="2" face="'Courier New'" color="#000000"><em>o_polygon</em></font></a>	In place offset (<font size="2" face="'Courier New'" color="#000000">g_copy nil</font>) or offseted copy of polygon<br>	(<font size="2" face="'Courier New'" color="#000000">g_copy</font> is <font size="2" face="'Courier New'" color="#000000">t</font>). If passed a list of polys returns a list otherwise<br>	return a poly.</p>
+      <h4><a name="1077742">See Also</a></h4>
+      <p><a href="#1076123" title="21" name="1077743"><font color="#0000ff"><u>axlPolyFromDB</u></font></a></p>
+      <h4><a name="1077744">Example</a></h4>
+      <p><a name="1078049">See the following.</a></p>
+      <p><a name="1077715"><font size="2" face="'Courier New'" color="#000000">&#60;cdsroot&#62;&#47;share&#47;pcb&#47;examples&#47;skill&#47;axlcore&#47;ashpoly.il</font></a></p>
+      <h3><a name="1077319">axlPolyOperation</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076190">axlPolyOperation<dd></a><font size="2" face="'Courier New'" color="#000000"><em>o_polygon1</em></font> &#47; <font size="2" face="'Courier New'" color="#000000"><em>lo_polygon1<dd>o_polygon2</em></font> &#47; <font size="2" face="'Courier New'" color="#000000"><em>lo_polygon2<dd>s_operation<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>lo_polygon</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="1076197">Description</a></h4>
+      <p><a name="1076206">Performs the logical operation specified on the two sets of polygons. Does not allow hole polygons as input. When holes are passed as input, the following warning is displayed:</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1083985">Invalid polygon id argument &#45;&#60;argument&#62;</a></font>
+      </blockquote>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <strong><em><img src="images/caution.gif" alt="ParagraphBullet" border="0"></em></strong>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <strong><em><a name="1085159">-- This function is provided &#34;as&#45;is&#34;. Result, in certain cases, may fail or deliver incorrect results. No commitment can be made to address issues uncovered when using this API.<br><br>-- Underlying polygon operation function fails and returns </a><font face="'Courier New'" color="#000000"><strong>nil</strong></font> in rare dense geometrical situations.<br><br>-- This API may consume a large amount of memory and take a considerable of amount of time to return a result. This is normally only noticeable when the number of polygons provided exceed 10000. The number polygons can be calculated by taking the length of the polygons provided to args 1 and 2 PLUS adding all of the polys holes (poly&#45;&#62;holes) in the polygons. <br><br>-- Algorithm has lines take have a width 1 or 0 database units. This means if you have a design with 2 units of accuracy, 1 database unit is .01.</em></strong>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="1081230">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1086628"><font size="2" face="'Courier New'" color="#000000"><em>o_polygon1</em></font></a> &#47; <font size="2" face="'Courier New'" color="#000000"><em>lo_polygon1</em></font></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1086630"><font size="2" face="'Courier New'" color="#000000"><em>o_polygon</em></font></a> or list of <font size="2" face="'Courier New'" color="#000000"><em>o_polygons</em></font> on which the operation is to be done.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086632"><font size="2" face="'Courier New'" color="#000000"><em>o_polygon2</em></font></a> &#47; <font size="2" face="'Courier New'" color="#000000"><em>lo_polygon2</em></font></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086634"><font size="2" face="'Courier New'" color="#000000"><em>o_polygon</em></font></a> or the list of <font size="2" face="'Courier New'" color="#000000"><em>o_polygons</em></font> on which the operation is to be done.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086636"><font size="2" face="'Courier New'" color="#000000"><em>s_operation</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086638">String specifying the type of logical operation, one of </a><font size="2" face="'Courier New'" color="#000000">'AND</font>, <font size="2" face="'Courier New'" color="#000000">`OR</font>, or <font size="2" face="'Courier New'" color="#000000">`ANDNOT</font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076213">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1086655"><font size="2" face="'Courier New'" color="#000000"><em>lo_polygon</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1086657">List of </a><font size="2" face="'Courier New'" color="#000000"><em>o_polygons</em></font> which represent the resulting geometry from performing the operation on the arguments.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086659"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086661">Error due to incorrect arguments.</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="1076918">For example:</a></p>
+      <p><a name="1076216">(</a><font size="2" face="'Courier New'" color="#000000"><em>o_polygon_out1</em></font> <font size="2" face="'Courier New'" color="#000000"><em>o_polygon_out2</em></font> ...) is returned if the result after performing the operation is a list of polygons.</p>
+      <p><a name="1076217"><font size="2" face="'Courier New'" color="#000000">nil</font></a> is returned if the result after performing the operation is a <font size="2" face="'Courier New'" color="#000000">nil</font> polygon. For example, consider performing the <font size="2" face="'Courier New'" color="#000000">AND</font> operation on two non&#45;overlapping sets of polys.</p>
+      <p><a name="1076218"><font size="2" face="'Courier New'" color="#000000">nil</font></a> is returned if the operation fails. You can obtain a descriptive error message by calling <a href="#1076347" title="21"><font color="#0000ff"><u>axlPolyErrorGet</u></font></a>.</p>
+      <h4><a name="1076219">Example</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076220">poly1_list = (axlPolyFromDB cline dbid)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076221">poly2_list = (axlPolyFromDB shape_dbid)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076222">res_list = (axlPolyOperation poly1_list poly2_list &#39;OR)</a></font>
+      </blockquote>
+      <h3><a name="1076223">axlPolyExpand</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076228">axlPolyExpand(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>o_polygon1</em></font> &#47; <font size="2" face="'Courier New'" color="#000000"><em>lo_polygon1<dd>f_expandValue<dd>s_expandType<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>lo_polygon</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="1076235">Description</a></h4>
+      <p><a name="1076244">This function yields a list of polys after expanding them by a specified distance. Use of a negative number causes contraction. Distance is specified in user units. This function does not allow hole polys as input. When holes are passed as input, the following warning is displayed:</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076245">Invalid polygon id argument &#45;&#60;argument&#62;</a></font>
+      </blockquote>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <strong><em><img src="images/caution.gif" alt="ParagraphBullet" border="0"></em></strong>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <strong><em><a name="1081091">Underlying logical operation function fails and returns </a><font face="'Courier New'" color="#000000"><strong>nil</strong></font> in rare dense geometrical situations. &#39;ALL_ARC mode may have round&#45;off issues when shape has very small arc segments.</em></strong>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="1081246">Trimming options are (</a><font size="2" face="'Courier New'" color="#000000">s_expandType</font>):</p>
+      <p align="left"><a name="1081503">&nbsp;</a></p>
+      <table summary="" border="0" cellpadding="4" cellspacing="0" bordercolor="#D3D3D3" width="647">
+        <tr>
+          <td cellpadding="4" border="0" bordercolor="#D3D3D3" valign="top" width="197">
+            <p><a name="1081488">&#39;NONE </a></p>
+          </td>
+          <td cellpadding="4" border="0" bordercolor="#D3D3D3" valign="top" width="449">
+            <p><a name="1081490">no corner modifications</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1081492">&#39;ACU_ARC</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1081494">Trim inside acute (less then 90 degrees) line&#47;line corners with arcs and always chamfer spikes. No obtuse or right angle trimming is done.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1081496">&#39;ACU_BLUNT</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1081498">Trim acute inside corners and spikes with line segments.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1081500">&#39;ALL_ARC </a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1081502">Trim inside and outside line&#47;line, line&#47;arc and arc&#47;arc corners with respect to these angle rules:</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1081660">All acute angles are trimmed.</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1081661">Most obtuse angles (more then 135 degrees) are trimmed.  </a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1081662">90 degree corners are trimmed.</a></td>
+                </tr>
+              </table>
+            </div>
+            <p><a name="1081652">Finally always chamfer spikes.</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1081259">Poly expansion with 0 and no trim is returns the input poly NOT a list </a><font size="2" face="'Courier New'" color="#000000">axlPolyExpand(poly 0.0 &#39;NONE) &#45;&#62; o_polygon</font>.</p>
+      <h4><a name="1076255">Arguments</a></h4>
+      <p><a name="1077289"><font size="2" face="'Courier New'" color="#000000"><em>o_polygon1&nbsp;</em></font></a> &#47;<font size="2" face="'Courier New'" color="#000000"><em>lo_polygon1</em></font></p>
+      <p><a name="1077293"><font size="2" face="'Courier New'" color="#000000"><em>o_polygon</em></font></a> &nbsp;&nbsp;&#47; &nbsp;list of <font size="2" face="'Courier New'" color="#000000"><em>o_polygons</em></font> on which the operation is to be done.</p>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="650">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1086748"><font size="2" face="'Courier New'" color="#000000"><em>f_expandValue</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="458">
+            <p><a name="1086750">Amount of expansion in user units.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086752"><font size="2" face="'Courier New'" color="#000000"><em>s_expandType</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086754">Symbol specifying the exterior corners of the geometry during expansion, (see above)</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1077274">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1086762"><font size="2" face="'Courier New'" color="#000000"><em>lo_polygon</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1086764">List of </a><font size="2" face="'Courier New'" color="#000000"><em>o_polygons</em></font> which represent the resulting geometry after performing the expansion on the polys passed as arguments.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086766"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086768">Failed to expand polys due to incorrect arguments.</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="1076261">To be more specific:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1076262">(</a><font size="2" face="'Courier New'" color="#000000"><em>o_polygon_out1</em></font> <font size="2" face="'Courier New'" color="#000000"><em>o_polygon_out2</em></font> ...) is returned if the result after performing the operation is a list of polys.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1076263"><font size="2" face="'Courier New'" color="#000000">nil</font></a> is returned if the result after performing the operation is a <font size="2" face="'Courier New'" color="#000000">nil</font> poly, for example, consider contracting a 20x30 rectangle by 40 units.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1076264"><font size="2" face="'Courier New'" color="#000000">nil</font></a> is returned if the operation fails. You can get a descriptive error message by calling <font size="2" face="'Courier New'" color="#000000">axlPolyErrorGet()</font>.</td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="1076265">Example</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076266">poly_list = (axlPolyFromDB shape_dbid)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076267">&nbsp;&nbsp;&nbsp;&nbsp;exp_poly = (axlPolyExpand poly_list 10.0 &#39;ALL_ARC)</a></font>
+      </blockquote>
+      <p><a name="1076268">The following sequence of diagrams illustrates the behavior of each of the options.</a></p>
+      <p>
+        <strong><font color="#000000"><strong>Figure 21&#45;2&nbsp; </strong></font></strong>
+        <strong><a name="1076269">Original Poly</a></strong>
+      </p>
+      <p align="left"><a name="1076717"><font color="#000000"><img src="images/20plyopr.25.1.08.png" width="573" height="384" alt=""><br></font></a></p>
+      <p><a name="1076270"><font color="#000000"><strong>ALL_ARC</strong></font></a></p>
+      <p><a name="1076271">During expansion of the poly boundary, an arc is inserted for the edges in the offset shape that satisfy the following criteria:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1076272">Edges form an </a><font color="#000000"><em>outside</em></font> (or convex) point of the poly boundary.<br>The reverse is true for the voids.</td>
+          </tr>
+        </table>
+      </div>
+      <p>
+        <strong><font color="#000000"><strong>Figure 21&#45;3&nbsp; </strong></font></strong>
+        <strong><a name="1076870">Expanded Using ALL_ARC</a></strong>
+      </p>
+      <p align="left"><a name="1076276"><font color="#000000"><img src="images/20plyopr.25.1.09.png" width="576" height="448" alt=""><br></font></a></p>
+      <p><a name="1076869">&nbsp;</a></p>
+      <p><a name="1076277"><font color="#000000"><strong>ACU_ARC</strong></font></a></p>
+      <p><a name="1076278">During expansion of the poly boundary, an arc is inserted for the edges in the offset shape that satisfy the following criteria:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1076279">Edges form an </a><font color="#000000"><em>outside</em></font> (or convex) point of the poly boundary.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1076280">Edges form an angle sharper than 90 degree.<br>The reverse is true for the voids.</a></td>
+          </tr>
+        </table>
+      </div>
+      <p>
+        <strong><font color="#000000"><strong>Figure 21&#45;4&nbsp; </strong></font></strong>
+        <strong><a name="1076871">Expanded Using ACU_ARC</a></strong>
+      </p>
+      <p align="left"><a name="1076281"><font color="#000000"><img src="images/20plyopr.25.1.10.png" width="575" height="448" alt=""><br></font></a></p>
+      <p><a name="1076282"><font color="#000000"><strong>ACU_BLUNT</strong></font></a></p>
+      <p><a name="1076283">During expansion of the poly boundary, a blunt edge is inserted for the edges in the offset shape that satisfy the following criteria:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1076284">Edges form an </a><font color="#000000"><em>outside</em></font> (or convex) point of the poly boundary.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1076285">Edges form an angle sharper than 90 degree.<br>The reverse is true for the voids.</a></td>
+          </tr>
+        </table>
+      </div>
+      <p>
+        <strong><font color="#000000"><strong>Figure 21&#45;5&nbsp; </strong></font></strong>
+        <strong><a name="1076872">Expanded Using ACU_BLUNT</a></strong>
+      </p>
+      <p align="left"><a name="1076286"><font color="#000000"><img src="images/20plyopr.25.1.11.png" width="575" height="448" alt=""><br></font></a></p>
+      <h3><a name="1076291">axlIsPolyType</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076292">axlIsPolyType (<dd></a><font size="2" face="'Courier New'" color="#000000"><em>g_polygon<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="1076297">Description</a></h4>
+      <p><a name="1076313">Tests if argument </a><font size="2" face="'Courier New'" color="#000000"><em>g_polygon</em></font> is a polygon user type.</p>
+      <h4><a name="1076314">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1086780"><font size="2" face="'Courier New'" color="#000000"><em>g_polygon</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1086782">Object to test, any skill variable</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076316">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1086794"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1086796"><font size="2" face="'Courier New'" color="#000000"><em>g_polygon</em></font></a> is a polygon user type.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086798"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086800"><font size="2" face="'Courier New'" color="#000000"><em>g_polygon</em></font></a> is not a polygon user type.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1082403">See Also</a></h4>
+      <p><a href="#1076123" title="21" name="1082413"><font color="#0000ff"><u>axlPolyFromDB</u></font></a></p>
+      <h4><a name="1076318">Example</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076319">poly = axlPolyFromDB(cline_dbid)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076320">axlIsPolyType(poly) returns t.</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076321">axlIsPolyType(cline_dbid) returns nil.</a></font>
+      </blockquote>
+      <h3><a name="1076322">axlPolyFromHole</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1080847">axlPolyFromHole (<dd></a><font size="2" face="'Courier New'" color="#000000"><em>o_polygon<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>lo_polygon</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="1076329">Description</a></h4>
+      <p><a name="1076338">Creates a new poly from the vertices of the hole, and sets the </a><font size="2" face="'Courier New'" color="#000000"><em>isHole</em></font> attribute of the resulting poly to <font size="2" face="'Courier New'" color="#000000">nil</font>. Function returns <font size="2" face="'Courier New'" color="#000000">nil</font> in case of error.</p>
+      <h4><a name="1076339">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1086808"><font size="2" face="'Courier New'" color="#000000"><em>o_polygon</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1086810"><font size="2" face="'Courier New'" color="#000000"><em>o_polygon</em></font></a> on which the operation is to be done. Must have <font size="2" face="'Courier New'" color="#000000"><em>isHole</em></font> attribute set to <font size="2" face="'Courier New'" color="#000000">t</font> (that is, the argument must be a hole).</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076341">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1086818"><font size="2" face="'Courier New'" color="#000000"><em>lo_polygon</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1086820">List of </a><font size="2" face="'Courier New'" color="#000000"><em>o_polygons</em></font> which represent the resulting geometry after creating poly from the hole argument.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086822"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086824">Error due to incorrect argument.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076343">Example</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076344">poly = axlPolyFromDB(shape_dbid)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076345">hole = car(poly&#45;&#62;holes)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076346">polyList = axlPolyFromHole(hole)</a></font>
+      </blockquote>
+      <h3><a name="1076347">axlPolyErrorGet</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076352">axlPolyErrorGet (<dd>)<dd></a><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>t_error</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="1076354">Description</a></h4>
+      <p><a name="1076363">Retrieves the error from the logop core. See the following list of error strings returned by the logical operation core:</a></p>
+      <p align="left"><a name="1076364">&nbsp;</a></p>
+      <table summary="" border="1" cellpadding="5" cellspacing="0" width="650">
+        <tr>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="182">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1076371">Error type</a></strong></font>
+            </p>
+          </td>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="467">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1076373">String returned</a></strong></font>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1076375">problem with arcs</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1076377">"</a><font size="2" face="'Courier New'" color="#000000">Bad arc data in polygon operations.</font>"</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1076379">bad data</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1076381">"</a><font size="2" face="'Courier New'" color="#000000">Data problem inside polygon operations.</font>"</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1076383">internal error in logical op data handling</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1076385">"</a><font size="2" face="'Courier New'" color="#000000">Polygon operation failed because of internal error.</font>"</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1076387">numerical problem in logical op</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1076389">"</a><font size="2" face="'Courier New'" color="#000000">Computational problem while doing polygon operations.</font>"</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1076391">memory problem</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1076393">"</a><font size="2" face="'Courier New'" color="#000000">Out of memory.</font>"</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1076395">no error</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1076397"><font size="2" face="'Courier New'" color="#000000">NIL</font></a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076422">Arguments</a></h4>
+      <p><a name="1076423">None.</a></p>
+      <h4><a name="1076427">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1086836"><font size="2" face="'Courier New'" color="#000000"><em>t_error</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1086838">Error from the logical operation core.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086840"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1086842">No logical operation error.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076433">Example</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076434">l_poly1 = axlPolyFromDB(shape_dbid)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076435">l_poly2 = axlPolyFromDB(cline_dbid ?endCapType &#39;SQUARE)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076436">l_polyresult = axlPolyOperation(l_poly1 l_poly2 &#39;ANDNOT)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076437">if (null l_polyresult) axlMsgPut(list axlPolyErrorGet())</a></font>
+      </blockquote>
+      <h2><a name="1076438">Use Models</a></h2>
+      <h4><a name="1076439">Example 1</a></h4>
+      <p><a name="1076440">The existing Split Plane functionality can use the AXL version of the logical operation.</a></p>
+      <p><a name="1076441">The objective is to split the route&#45;keepin shape on the basis of the anti&#45;etch information and add the resulting split&#45;shapes to the database.</a></p>
+      <p><a name="1076442"><font color="#000000"><strong>Split Plane Usage</strong></font></a></p>
+      <p align="left"><a name="1076446"><img src="images/20plyopr.25.1.12.png" width="675" height="225" alt=""><br></a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076447">; retrieve the route keepin rectangle</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076448">startShape = (myGetRouteKeepin)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076449">; retrieve the shapes and lines on the anti&#45;etch subclass</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076450">antiEtchGeom = (myGetAntiEtchGeom (axlGetActiveLayer))</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076451">&nbsp;</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076452">; create the polygon for the route&#45;keepin rectangle</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076453">startPoly = (axlPolyFromDB startShape)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076454">; create the polygon for all the anti&#45;etch elements</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076455">antiEtchPoly = nil</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076456">(foreach antiElem antiEtchGeom</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076457">&nbsp;&nbsp;&nbsp;&nbsp;antiElmPoly = (axlPolyFromDB antiElem ?endCapType &#39;ALL_ARC)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076458">&nbsp;&nbsp;&nbsp;&nbsp;antiEtchPoly = (append antiElmPoly antiEtchPoly)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076459">)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076460">; do the LogicalOp operation</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076461">splitPolyList = (axlPolyOperation startPoly antiEtchPoly &#39;ANDNOT)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076462">&nbsp;</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076463">;check for any error in logop</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076464">(if splitPolyList then </a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076465">&nbsp;&nbsp;&nbsp;&nbsp;(; add the resultant polygons as a set of filled shapes on the </a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076466">&nbsp;&nbsp;&nbsp;&nbsp;; active class&#47;subclass with no net name.</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076467">&nbsp;&nbsp;&nbsp;&nbsp;(foreach resPoly splitPolyList</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076468">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(axlDBCreateShape resPoly t)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076469">&nbsp;&nbsp;&nbsp;&nbsp;))</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076470">else</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076471">&nbsp;&nbsp;&nbsp;&nbsp;(axlMsgPut(list axlPolyErrorGet()))</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076472">)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076473">&nbsp;</a></font>
+      </blockquote>
+      <h4><a name="1076474"><font color="#000000"><strong>Example 2</strong></font></a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076481">; retrieve the polygon corresponding to clock gen</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076482">clockPoly = (axlPolyFromDB rect_id)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076483">; get polygon associated with the ground shape</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076484">gndPoly = (axlPolyFromDB shp_dbid)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076485">; get the intersection of the two polygons</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076486">shieldedPoly = (axlPolyOperation clockPoly gndPoly &#39;AND)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076487">&nbsp;</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076488">; check for any error in logop</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076489">(if shieldedPoly then</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076490">&nbsp;&nbsp;&nbsp;&nbsp;(; get the area of the intersection polygon</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076491">&nbsp;&nbsp;&nbsp;&nbsp;shieldedArea = shieldedPoly&#45;&#62;area</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076492">&nbsp;&nbsp;&nbsp;&nbsp;; get the area associated with clock gen</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076493">&nbsp;&nbsp;&nbsp;&nbsp;clockArea = clockPoly&#45;&#62;area</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076494">&nbsp;</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076495">&nbsp;&nbsp;&nbsp;&nbsp;;get the ratio of the two areas</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076496">&nbsp;&nbsp;&nbsp;&nbsp;ratioArea = shieldedArea &#47; clockArea)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076497">else</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076498">&nbsp;&nbsp;&nbsp;&nbsp;(axlMsgPut(list axlPolyErrorGet()))</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076499">)</a></font>
+      </blockquote>
+      <p><a name="1077135">Gets the shielded area of a clock generator by a ground shape using the rule stating that the ratio of the shielded area to the actual area should be less than a particular threshold.</a></p>
+      <p><a name="1078837">&nbsp;</a></p>
+    </div>
+    <br>
+    <a href="#pagetop">Return to top of page</a>
+    <hr>
+    <hr align="left">
+    <div style="text-align: left;">
+      <!-- Begin Buttons -->      <table width="650" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                    </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+          <td>
+            <a href="19cmdctl.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+          </td>
+          <td>
+            <a href="21filacc.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+          </td>
+          <td>
+            <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+            </a>
+          </td>
+          <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+          </td>
+          <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+          </td>
+          <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+          </td>
+          <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+          </td>
+        </tr>
+      </table>
+      <!-- End Buttons -->
+    </div>
+    <br>
+    <font size="-1" >
+For support, see <a href="http://support.cadence.com" target="_blank">Cadence Online Support</a> service.</font>
+    <br>
+    <br>
+    <font size="-1" >
+      <i>Copyright &#169; 2017, <a href="http://www.cadence.com">Cadence Design Systems, Inc.</a></i>
+    </font>
+    <br>
+    <font size="-1" >
+All rights reserved.</font>
+    <br>
+    <br>
+  </body>
+</html>

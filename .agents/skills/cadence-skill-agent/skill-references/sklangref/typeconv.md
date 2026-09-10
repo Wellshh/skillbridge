@@ -16,14 +16,16 @@ Returns the ASCII code of the first character of the given symbol. In SKILL, a s
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_char` | A symbol.
+| Name | Description |
+|---|---|
+| `s_char` | A symbol. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_ascii` | The ASCII code of the (first) character of the given symbol.
+| Name | Description |
+|---|---|
+| `x_ascii` | The ASCII code of the (first) character of the given symbol. |
+
 #### Example
 
 `charToInt('B)=> 66`
@@ -44,14 +46,16 @@ Returns the single-character symbol whose ASCII code is the given integer value.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_ascii` | ASCII code.
+| Name | Description |
+|---|---|
+| `x_ascii` | ASCII code. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `s_char` | Symbol of single-character whose ASCII code is`x_ascii`.
+| Name | Description |
+|---|---|
+| `s_char` | Symbol of single-character whose ASCII code is`x_ascii`. |
+
 #### Example
 
 `intToChar( 66)=> B`
@@ -72,14 +76,16 @@ A vector is represented by an array.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_list` | A list whose elements will be stored in consecutive entries in thevector.
+| Name | Description |
+|---|---|
+| `l_list` | A list whose elements will be stored in consecutive entries in thevector. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `a_vectorArray` | Vector filled with the elements from the given list.
+| Name | Description |
+|---|---|
+| `a_vectorArray` | Vector filled with the elements from the given list. |
+
 #### Example
 
 ```
@@ -98,17 +104,17 @@ This function is equivalent to`remainder`.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_integer1` | Dividend.
-|  |
-| --- | ---
-| `x_integer2` | Divisor.
+| Name | Description |
+|---|---|
+| `x_integer1` | Dividend. |
+| `x_integer2` | Divisor. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | Integer remainder of the division. The sign is determined by thedividend.
+| Name | Description |
+|---|---|
+| `x_result` | Integer remainder of the division. The sign is determined by thedividend. |
+
 #### Example
 
 `mod(4 3) => 1`
@@ -119,7 +125,7 @@ This function is equivalent to`remainder`.
 
 ### modf
 
-`modf( f_flonum1f_flonum2 ) => f_result`
+`modf( f_flonum1 f_flonum2 ) => f_result`
 
 #### Description
 
@@ -127,15 +133,17 @@ Returns the floating-point remainder of the division of`f_flonum1` by `f_flonum2
 
 #### Arguments
 
-|  |
-| --- | ---
-| `f_flonum1` | A floating-point number (Dividend).
+| Name | Description |
+|---|---|
+| `f_flonum1` | A floating-point number (Dividend). |
+
 | `f_flonum2` | A floating-point number (Divisor).
 #### Value Returned
 
-|  |
-| --- | ---
-| `f_result` | Floating-point remainder of the division. The sign is determined by the dividend.
+| Name | Description |
+|---|---|
+| `f_result` | Floating-point remainder of the division. The sign is determined by the dividend. |
+
 #### Example
 
 `;; Sign is determined by the dividendmodf(-10.1 10.0) => -0.1`
@@ -154,21 +162,19 @@ Parses the given string argument and wraps the result with a parameterless`lambd
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_string` | String representing some SKILL code.
-|  |
-| --- | ---
-| `s_langMode` | Must be a symbol. Valid values:
-|  |
-| --- | ---
-| `'ils` | Treats the string as SKILL++ code.
+| Name | Description |
+|---|---|
+| `t_string` | String representing some SKILL code. |
+| `s_langMode` | Must be a symbol. Valid values: |
+| 'ils | Treats the string as SKILL++ code. |
+
 | `'il` | Treats the string as SKILL code.
 #### Value Returned
 
-|  |
-| --- | ---
-| `u_function` | Parameterless function equivalent to evaluating the string`(lambda( )``t_string``)`.
+| Name | Description |
+|---|---|
+| `u_function` | Parameterless function equivalent to evaluating the string`(lambda( )``t_string``)`. |
+
 #### Example
 
 `f = stringToFunction("1+2") => funobj:0x220038apply(f nil) => 3`
@@ -187,14 +193,16 @@ Converts a string to a symbol of the same name.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_string` | String to convert to a symbol.
+| Name | Description |
+|---|---|
+| `t_string` | String to convert to a symbol. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `s_symbolName` | Symbol for the given string.
+| Name | Description |
+|---|---|
+| `s_symbolName` | Symbol for the given string. |
+
 #### Example
 
 `y = stringToSymbol( "test")=> testsprintf(nil "%L" y)=> "test"`
@@ -215,14 +223,16 @@ All time conversion functions assume local time, not GMT time.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_time` | String indicating a time and date in this format: "`Dec 28``16:57:06 1996`". Same as format returned by `timeToString` or `getCurrentTime`.
+| Name | Description |
+|---|---|
+| `t_time` | String indicating a time and date in this format: "`Dec 28``16:57:06 1996`". Same as format returned by `timeToString` or `getCurrentTime`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_time` | Integer time value.
+| Name | Description |
+|---|---|
+| `x_time` | Integer time value. |
+
 #### Example
 
 `fileTimeModified( "~/.cshrc" )=> 793561559`
@@ -245,14 +255,16 @@ Converts a symbol to a string of the same name. Same as`get_pname`.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_symbolName` | Symbol to convert.
+| Name | Description |
+|---|---|
+| `s_symbolName` | Symbol to convert. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_string` | String with the same name as the input symbol.
+| Name | Description |
+|---|---|
+| `t_string` | String with the same name as the input symbol. |
+
 #### Example
 
 `y = symbolToString( 'test2)=> "test2"sprintf(nil "%L" y)=> "\"test2\""`
@@ -269,14 +281,16 @@ Converts the contents of an association table to an association list. Use this f
 
 #### Arguments
 
-|  |
-| --- | ---
-| `o_table` | Association table to be converted.
+| Name | Description |
+|---|---|
+| `o_table` | Association table to be converted. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_assoc_list` | Association list containing key/value pairs from the associationtable.
+| Name | Description |
+|---|---|
+| `l_assoc_list` | Association list containing key/value pairs from the associationtable. |
+
 #### Example
 
 myTable = makeTable( "table" 0)    => table:table
@@ -294,17 +308,17 @@ Takes an integer UNIX time value, returns a formatted string that the value deno
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_time` | Integer time value.
+| Name | Description |
+|---|---|
+| `x_time` | Integer time value. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_time` | Formatted string the value denotes.
-|  |
-| --- | ---
-| `nil` | Returns`nil` if a negative argument is passed.
+| Name | Description |
+|---|---|
+| `t_time` | Formatted string the value denotes. |
+| `nil` | Returns`nil` if a negative argument is passed. |
+
 #### Example
 
 ```
@@ -341,14 +355,16 @@ All time conversion functions assume local time, not GMT time.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_time` | Integer time value.
+| Name | Description |
+|---|---|
+| `x_time` | Integer time value. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `r_tm` | A defstruct similar to POSIX's`tm` struct.
+| Name | Description |
+|---|---|
+| `r_tm` | A defstruct similar to POSIX's`tm` struct. |
+
 #### Example
 
 `fileTimeModified( "~/.cshrc" )=> 793561559`
@@ -391,14 +407,16 @@ All time conversion functions assume local time, not GMT time.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `r_tm` | A defstruct similar to POSIX's tm struct.
+| Name | Description |
+|---|---|
+| `r_tm` | A defstruct similar to POSIX's tm struct. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_time` | Integer time value.
+| Name | Description |
+|---|---|
+| `x_time` | Integer time value. |
+
 #### Example
 
 `fileTimeModified( "~/.cshrc" )=> 793561559`
@@ -421,7 +439,7 @@ All time conversion functions assume local time, not GMT time.
 
 ### vectorToList
 
-`vectorToList( a_vectorArray )=> l_list`
+`vectorToList( a_vectorArray ) => l_list`
 
 #### Description
 
@@ -429,14 +447,16 @@ Returns a list containing the elements of an array.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `a_vectorArray` | Vector to be converted.
+| Name | Description |
+|---|---|
+| `a_vectorArray` | Vector to be converted. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_list` | List constructed from the given vector.
+| Name | Description |
+|---|---|
+| `l_list` | List constructed from the given vector. |
+
 #### Example
 
 ```

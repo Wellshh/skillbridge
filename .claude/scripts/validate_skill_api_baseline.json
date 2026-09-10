@@ -1,0 +1,12 @@
+{
+  "by_check": {
+    "arity": 110,
+    "unknown-api": 7,
+    "unknown-keyword": 1
+  },
+  "example_files": 137,
+  "files_with_errors": 1,
+  "files_with_findings": 21,
+  "total_errors": 7,
+  "total_warnings": 111
+}

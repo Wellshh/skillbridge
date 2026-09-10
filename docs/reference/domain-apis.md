@@ -56,7 +56,7 @@ construct these yourself — reach them through
 
 ::: allegrobridge.client.api.routes.RoutesApi
 
-::: allegrobridge.client.api.routes.AbRoute
+::: allegrobridge.client.api.record.Route
 
 ::: allegrobridge.client.api.geometry.Point
 

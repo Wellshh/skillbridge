@@ -1,0 +1,856 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN" "http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+<html xmlns="http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Allegro SKILL Reference -- 29</title>
+<META NAME="Approver" CONTENT="Technical Publications">
+<META NAME="Author" CONTENT="Technical Publications">
+<META NAME="CreateDate" CONTENT="2017-11-25">
+<META NAME="CreateTime" CONTENT="1511600113">
+<META NAME="DataType" CONTENT="Manuals">
+<META NAME="Description" CONTENT="Describes the Allegro eXtension Language (AXL) and how to use each AXL function.">
+<META NAME="DocTitle" CONTENT="Allegro SKILL Reference">
+<META NAME="DocType" CONTENT="SKILL Reference">
+<META NAME="EdmsRelease" CONTENT="FM-Wiki-2.0_HF2">
+<META NAME="FileTitle" CONTENT="29">
+<META NAME="FileType" CONTENT="Chapter">
+<META NAME="Group" CONTENT="Allegro User Guide">
+<META NAME="Keyword" CONTENT="algroskill">
+<META NAME="Language" CONTENT="English">
+<META NAME="ModifiedDate" CONTENT="2017-11-25">
+<META NAME="ModifiedTime" CONTENT="1511600113">
+<META NAME="NextFile" CONTENT="26logacc.html">
+<META NAME="Order" CONTENT="11">
+<META NAME="PageCount" CONTENT="14">
+<META NAME="Platform" CONTENT="ALL">
+<META NAME="PrevFile" CONTENT="27plugin.html">
+<META NAME="Product" CONTENT="Allegro PCB Editor, Cadence SiP Digital">
+<META NAME="ProductFamily" CONTENT="Silicon-Package-Board Co-Design, IC Packaging">
+<META NAME="ProductVersion" CONTENT="17.2-2016">
+<META NAME="RightsManagement" CONTENT="Copyright 19912017 Cadence Design Systems Inc.">
+<META NAME="Title" CONTENT="Allegro SKILL Reference -- 29">
+<META NAME="TopicTags" CONTENT="FALSE">
+<META NAME="Version" CONTENT="17.2-2016">
+  </head>
+  <body style="margin-left: 5%;">
+    <a name="pagetop"></a>
+    <a name="firstpage"></a>
+    <!-- Begin Buttons -->
+    <table width="650" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td height="36" width="650" colspan="10">
+          <img src="images/header_doc.gif" width="650" height="34">
+        </td>
+      </tr>
+      <tr>
+        <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+        <td>
+          <a href="27plugin.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+        </td>
+        <td>
+          <a href="26logacc.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+        </td>
+        <td height="20">
+          <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+          </a>
+        </td>
+        <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+        </td>
+        <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+        </td>
+        <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+        </td>
+        <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+        </td>
+      </tr>
+    </table>
+    <!-- End Buttons -->
+    <p>
+    <hr>
+    <p>
+      <h3>
+        <center>
+          <font >
+            <div>Allegro User Guide: SKILL Reference</div>
+            <font >
+              <div>Product Version 17.2&#45;2016 April 2016</div>
+            </font>
+          </font>
+        </center>
+      </h3>
+      <br>
+    </p>
+    <div>
+      <h1>29<a name="1065053">&nbsp;</a></h1>
+      <h1><a name="1064814">Skill Language Extensions</a></h1>
+      <h3><a name="1066448">axldo</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066456">axldo(<dd>g_initList<dd>g_terminateList<dd>[g_body]<dd>) &#45;&#62; g_result</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066461">&nbsp;</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066587">axldoStar(<dd>g_initList<dd>g_terminateList<dd>[g_body]<dd>) &#45;&#62; g_result</a></font>
+      </dl>
+      <p><a name="1066467"><font color="#000000"><strong>Description</strong></font></a></p>
+      <p><a name="1066468">A do function, modeled after the CL (Common Lisp) do.</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066470">Public:</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066471">         (defmacro do ((var [init [step]]) ...) (end&#45;test result result ...) @body)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066472">         (defmacro doStar ((var [init [step]]) ...) (end&#45;test result result ...)</a></font>
+      </dl>
+      <p><a name="1066474">The do macro provdes a generalized iteration facility, with an arbitrary number of </a><font color="#000000"><em>index variables</em></font>.  These variables are bound within the iteration and stepped in specified ways.  They may be used both to generate successive values of interest or to accumulate results.  When an end condition is met (as specified by end&#45;test), the iteration terminates, the result sexps are successive evaluated, and the value of the last result sexp is returned.</p>
+      <p><a name="1066482">The first item in the form is a list of 0 or more index&#45;variable specifiers.  Each index&#45;variable specifier is a list of the name of the variable, </a><font size="2" face="'Courier New'" color="#000000">var</font>; an initial value, <font size="2" face="'Courier New'" color="#000000">init</font>; and a stepping form, <font size="2" face="'Courier New'" color="#000000">step</font>.</p>
+      <p><a name="1066749">If </a><font size="2" face="'Courier New'" color="#000000">init</font> is omitted, it defaults to nil.  If <font size="2" face="'Courier New'" color="#000000">step</font> is omitted, the <font size="2" face="'Courier New'" color="#000000">var</font> is not changed by the do construct between repetitions (though code within the do is free to alter the value of the variable by using <font size="2" face="'Courier New'" color="#000000">setq</font>).</p>
+      <blockquote><a name="1066490">An index&#45;variable specified can also be just the name of a variable.  In this case, the variable has an initial value of nil and is not changed betgween repetitions.  This would be used much as a locally scoped variable in a let statement would be.</a></blockquote>
+      <blockquote><a name="1066877">Before the first iteration, all the init forms are evaluated, and each var is bound to the value of its respective init. Because this is a binding, and not an assignment, when the loop termintes the old values of the variables is restored. All of the init forms are evaluated before any var is bound; hence all the init forms may refer to the old bindins of all the variables (that is, to the values visible BEFORE beginning execution of the do).  </a></blockquote>
+      <blockquote><font color="#000000"><strong>Note: </strong></font><a name="1066954">All init bindings are done in parallel for </a><font size="2" face="'Courier New'" color="#000000">axldo</font>, and serially for <font size="2" face="'Courier New'" color="#000000">axldoStar</font>.</blockquote>
+      <p><a name="1067014">The second element of the loop is a list of an end&#45;testing predicate form end&#45;test, and zero or more result forms.  This resembles a conditional clause.  At the beginning of each iteration, after processing the variables, the end&#45;test is evaluated.  If the result is nil, execution proceeds with  the body of the form.  If the result is non&#45;nil, the result forms are evaluated in order as an implicit prog, and then the do returns the value of the last evaluated result.</a></p>
+      <p><a name="1066511">At the beginning of each iteration, the index variables are updated as follows.  </a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/arrwrite.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1067206">All the step forms are evaluated, from left to right, and the resulting values are assigned to the respective index variables.  Any variable that has no step value is not assigned.</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="1066515"><font color="#000000"><strong>Arguments</strong></font></a></p>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="149">
+            <p><a name="1081649"><font size="2" face="'Courier New'" color="#000000">g_initList</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="499">
+            <p><a name="1081651">0 or more index variable specifiers</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081653"><font size="2" face="'Courier New'" color="#000000">g_termiateList</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081655">end test predicate</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081657"><font size="2" face="'Courier New'" color="#000000">g_body</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081659">body of procedure</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1067160">Value Returned</a></h4>
+      <p><a name="1066520">Value resulting from evaluating last result sexp.</a></p>
+      <h4><a name="1066538">See Also</a></h4>
+      <p><a href="#1067563" title="29" name="1066539"><font color="#0000ff"><u>letStar</u></font></a></p>
+      <h3><a name="1065090">copyDeep</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1067236">copyDeep(</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1067237">                l_object</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1067238">        ) &#45;&#62; l_newObject</a></font>
+      </dl>
+      <h4><a name="1067239">Description</a></h4>
+      <p><a name="1067240">This function recursively copy a list. </a></p>
+      <p><a name="1067369">The copy function makes a new list containing copies of all top level elements in the source list. But each new element contains references to the same sublist elements as the source list. Thus, if sublist items are modified in the source list they are also modified in the copy, and vice&#45;versa. The copyDeep function makes a complete copy of the list, top to bottom. So changes in one list do not affect the other. This allocates more memory, of course.</a></p>
+      <h4><a name="1067247">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="90">
+            <p><a name="1081667"><font size="2" face="'Courier New'" color="#000000">l_object</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="557">
+            <p><a name="1081669"> The list to be copied</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1067249">Value Returned</a></h4>
+      <p><a name="1067250">A new list identical to the orginal but sharing no memory.</a></p>
+      <h3><a name="1065091">isBoxp</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1067425">isBoxp(</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1067426">                 g_bBox              </a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1067427">         )</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1067428">         ==&#62; t&#47;nil</a></font>
+      </dl>
+      <h4><a name="1067430">Description</a></h4>
+      <p><a name="1067431">Checks argument to see if it is a valid bounding box. A valid bounding box should be of the form of </a><font size="2" face="'Courier New'" color="#000000">((a b) (c d))</font> where <font size="2" face="'Courier New'" color="#000000">a</font>, <font size="2" face="'Courier New'" color="#000000">b</font>, <font size="2" face="'Courier New'" color="#000000">c</font>, and <font size="2" face="'Courier New'" color="#000000">d</font> are all numbers and <font size="2" face="'Courier New'" color="#000000">a!= c</font> and <font size="2" face="'Courier New'" color="#000000">b!= d</font>, to ensure that the bounding box encloses some area.</p>
+      <h4><a name="1067436">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="101">
+            <p><a name="1081681"><font size="2" face="'Courier New'" color="#000000">g_bBox</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="545">
+            <p><a name="1081683">input argument to be tested. </a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1067439">Value Returned</a></h4>
+      <p><a name="1067440"><font size="2" face="'Courier New'" color="#000000">t</font></a>: If g_bBox is a valid bounding box.</p>
+      <p><a name="1067441"><font size="2" face="'Courier New'" color="#000000">nil</font></a>: If g_bBox is not a valid bounding box.</p>
+      <h3><a name="1067560">lastelem</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1067573">lastelem(</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1067574">&nbsp;&nbsp;&nbsp;&nbsp;l_list</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1067575">        ) &#45;&#62; g_elem</a></font>
+      </dl>
+      <h4><a name="1067576">Description</a></h4>
+      <p><a name="1067577">The </a><font size="2" face="'Courier New'" color="#000000">last()</font> function returns the last LIST object in a list, but <font size="2" face="'Courier New'" color="#000000">lastelem()</font> takes the car of that to get the last ATOM.</p>
+      <h4><a name="1067579">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="665">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="105">
+            <p><a name="1081691"><font size="2" face="'Courier New'" color="#000000">l_list</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="559">
+            <p><a name="1081693">a list</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1067581">Value Returned</a></h4>
+      <p><a name="1067706">The last atom element of a list.</a></p>
+      <h4><a name="1067707">Example</a></h4>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1067708">        l = list(1 2 3)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1067585">        last(l) &#45;&#62; (3)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1067586">        lastelem(l) &#45;&#62; 3</a></font>
+      </dl>
+      <h3><a name="1067563">letStar</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1067741">letStar(</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1067742">&nbsp;&nbsp;&nbsp;&nbsp;l_bindings</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1067743">&nbsp;&nbsp;&nbsp;&nbsp;[@body]</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1067744">        ) &#45;&#62; g_lastValue</a></font>
+      </dl>
+      <h4><a name="1067745">Description</a></h4>
+      <p><a name="1067746">This is a let* implementation of CL (Common Lisp).This is a mprocedure function.</a></p>
+      <h4><a name="1067749">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="143">
+            <p><a name="1082027"><font size="2" face="'Courier New'" color="#000000">l_bindings</font></a></p>
+          </td>
+          <td colspan="2" cellpadding="4" border="0" valign="top" width="502">
+            <p><a name="1082029">list of l_varbind</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="120">
+            <p><a name="1082035">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="120">
+            <p><a name="1082035"><font size="2" face="'Courier New'" color="#000000">l_varbind</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="382">
+            <p><a name="1082037"> is (&#60;name&#62; &#60;value&#62;)</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1082881"><font size="2" face="'Courier New'" color="#000000">name: </font></a>interned as lexically&#45;scoped symbol</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1082929"><font size="2" face="'Courier New'" color="#000000">value: </font></a>evaluated to arrive at value</td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082841">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082104">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082045">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082845">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082047">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082049">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082051"><font size="2" face="'Courier New'" color="#000000">@body</font></a></p>
+          </td>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1082053">one or more expressions to be evaluated.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1067755">Value Returned</a></h4>
+      <p><a name="1067756">last value of </a><font size="2" face="'Courier New'" color="#000000">@body</font></p>
+      <h4><a name="1067757">See Also</a></h4>
+      <p><a href="#1066448" title="29" name="1067758"><font color="#0000ff"><u>axldo</u></font></a></p>
+      <h3><a name="1065094">listnindex</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1068094">listnindex(<dd>l_theList<dd>g_item<dd>) &#45;&#62; x_found&#47;nil</a></font>
+      </dl>
+      <h4><a name="1068098">Description</a></h4>
+      <p><a name="1068099">Finds the position of an item in a list. Works just like </a><font size="2" face="'Courier New'" color="#000000">nindex</font>, but finds the position of an element in a list instead of a character in a string. An integer denoting the sequence number of the first matching  element is determined.</p>
+      <h4><a name="1068102">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="116">
+            <p><a name="1082185"><font size="2" face="'Courier New'" color="#000000">l_theList</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="530">
+            <p><a name="1082187">A list containing the element to be found</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082189"><font size="2" face="'Courier New'" color="#000000">g_item</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082191">The element to be found</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1068105">Value Returned</a></h4>
+      <p><a name="1068274">The position in the list where the element was first found, or </a><font size="2" face="'Courier New'" color="#000000">nil</font> if it is not found.</p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1079751">x_found is 0 based so you use other Skill functions like nth</a></p>
+      <h4><a name="1068275">Example</a></h4>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1068276">listnindex( &#39;(&#34;three&#34; &#34;dog&#34; &#39;night) &#34;dog&#34;) &#45;&#62; 1</a></font>
+      </dl>
+      <h3><a name="1065095">movedown</a></h3>
+      <p><a name="1068306">movedown &#45; move an element one item farther from the head of a list</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1068308">movedown(</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1068309">&nbsp;&nbsp;&nbsp;&nbsp;g_elem</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1068310">          l_list</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1068311">        ) &#45;&#45;&#62; l_newlist</a></font>
+      </dl>
+      <h4><a name="1068312">Description</a></h4>
+      <p><a name="1068313">Find all occurences of element within list </a><font size="2" face="'Courier New'" color="#000000">l</font> and move them one item closer to the list tail. No action for other items and the last element of the list.</p>
+      <p><a name="1068317">This destructively modifies the list.</a></p>
+      <h4><a name="1068318">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="103">
+            <p><a name="1082203"><font size="2" face="'Courier New'" color="#000000">g_elem</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="541">
+            <p><a name="1082205">The element to be moved, matched using (equal)</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082207"><font size="2" face="'Courier New'" color="#000000">l_list</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082209">The list containing the element to be moved.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1068322"> Value Returned</a></h4>
+      <p><a name="1068323">The modified list.</a></p>
+      <h3><a name="1065096">moveup</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1068475">moveup(</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1068476">          g_elem</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1068477">          l_list</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1068478">        ) &#45;&#45;&#62; l_newlist</a></font>
+      </dl>
+      <h4><a name="1068502">Description</a></h4>
+      <p><a name="1068480">Moves an element one item closer to the head of a list. Finds all occurences of the element within list </a><font size="2" face="'Courier New'" color="#000000">l</font> and moves them one item closer to the list head. No action for other items and the car.</p>
+      <p><a name="1068483">This destructively modifies the list.</a></p>
+      <h4><a name="1068522">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="644">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="81">
+            <p><a name="1082221"><font size="2" face="'Courier New'" color="#000000">g_elem</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="563">
+            <p><a name="1082223">The element to be moved, matched using (equal)</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082225"><font size="2" face="'Courier New'" color="#000000">l_list</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082227">The list containing the element to be moved.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1068542">Value Returned</a></h4>
+      <p><a name="1068488">The modified list.</a></p>
+      <p><a name="1068489">&nbsp;</a></p>
+      <p><a name="1068459">&nbsp;</a></p>
+      <h3><a name="1066150">parseFile</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066182">parseFile (</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066183">&nbsp;&nbsp;&nbsp;&nbsp;t_fileName</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066184">&nbsp;&nbsp;&nbsp;&nbsp;s_handler</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066185">&nbsp;&nbsp;&nbsp;&nbsp;[t_breakChars]</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066186">         )</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1066187">         ==&#62; g_result</a></font>
+      </dl>
+      <h4><a name="1066189">Description</a></h4>
+      <p><a name="1066190">Parse all lines of a file. Opens input file and reads it line by line.  Each line is parsed using </a><font size="2" face="'Courier New'" color="#000000">parseQuotedString</font>.  The result of parseQuotedString is passed to the application defined handler <font size="2" face="'Courier New'" color="#000000">s_handler</font>.  The handler defines the return value.</p>
+      <h4><a name="1068743">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="124">
+            <p><a name="1082249"><font size="2" face="'Courier New'" color="#000000">t_fileName</font></a></p>
+          </td>
+          <td colspan="2" cellpadding="4" border="0" valign="top" width="522">
+            <p><a name="1082351">Name of file to be read.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="124">
+            <p><a name="1082269"><font size="2" face="'Courier New'" color="#000000">s_handler</font></a></p>
+          </td>
+          <td colspan="2" cellpadding="4" border="0" valign="top" width="522">
+            <p><a name="1068895">Application callback function to process parsed arguments</a></p>
+            <dl>
+              <font size="2" face="'Courier New'" color="#000000"><a name="1068896">s_handler (</a></font>
+            </dl>
+            <dl>
+              <font size="2" face="'Courier New'" color="#000000"><a name="1068897">l_curLineInfo</a></font>
+            </dl>
+            <dl>
+              <font size="2" face="'Courier New'" color="#000000"><a name="1066201">l_lineArgs</a></font>
+            </dl>
+            <dl>
+              <font size="2" face="'Courier New'" color="#000000"><a name="1066202">g_result</a></font>
+            </dl>
+            <dl>
+              <font size="2" face="'Courier New'" color="#000000"><a name="1066203">)</a></font>
+            </dl>
+            <dl>
+              <font size="2" face="'Courier New'" color="#000000"><a name="1066204">==&#62; g_result</a></font>
+            </dl>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="124">
+            <p><a name="1082265">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="150">
+            <p><a name="1069229"><font size="2" face="'Courier New'" color="#000000">l_curLineInfo</font></a></p>
+            <p><a name="1082355">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="372">
+            <p><a name="1069231">List of info which describes the current line being processed.</a></p>
+            <p><a name="1082417">Defined as:</a></p>
+            <p><a name="1082432"><font size="2" face="'Courier New'" color="#000000">(t_fileName g_lineNo t_curString)</font></a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1082449"><font size="2" face="'Courier New'" color="#000000">t_fileName: </font></a>Name of file being read</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1082487"><font size="2" face="'Courier New'" color="#000000">g_lineNo: </font></a>Current line number</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1082522"><font size="2" face="'Courier New'" color="#000000">t_curString: </font></a>Unparsed file line</td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082261">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082357"><font size="2" face="'Courier New'" color="#000000">l_lineArgs</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1069658">List of strings that result from parsing the line.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082584">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1069541"><font size="2" face="'Courier New'" color="#000000">g_result</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1069770">The application callback result.  This is continually passed to s_handler so that a reult can be built up from the processing of all file lines.  This will be nil the first time and will be whatever s_handler last returned for subsequent calls.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082626"><font size="2" face="'Courier New'" color="#000000">t_breakChars</font></a></p>
+          </td>
+          <td colspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="1082628">Optional string containing characters that are used as break characters. The default is </a><font size="2" face="'Courier New'" color="#000000">&#34;&#39;\&#34; &#34;</font> (quote chars and space char).</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1068674">Value Returned</a></h4>
+      <p><a name="1066230"><font size="2" face="'Courier New'" color="#000000">g_result</font></a>        The application callback result from the last call to <font size="2" face="'Courier New'" color="#000000">s_handler</font>.</p>
+      <h3><a name="1066152">parseQuotedString</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1065706">parseQuotedString(</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1065707">                 t_string</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1065708">                 [t_breakCharacters]</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1065709">       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1065710">     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ==&#62; l_strings</a></font>
+      </dl>
+      <h4><a name="1065715">Description</a></h4>
+      <p><a name="1065779">Breaks a string into a list of words. Multiple words enclosed within quotation marks are treated as single words.</a></p>
+      <h4><a name="1065772">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="382">
+            <p><a name="1082967"><font size="2" face="'Courier New'" color="#000000">t_string</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="263">
+            <p><a name="1082969"> String to be parsed.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082971"><font size="2" face="'Courier New'" color="#000000">t_breakCharacters</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082973"> Optional string containing characters to be used as break characters. The default is </a><font size="2" face="'Courier New'" color="#000000">&#34;&#39;\&#34; &#34;</font> (quote chars and space char).</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1065721">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1082985"><font size="2" face="'Courier New'" color="#000000">l_strings</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1082987"> A list of strings parsed from the </a><font size="2" face="'Courier New'" color="#000000">t_string</font> argument.</p>
+          </td>
+        </tr>
+      </table>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1065725">A word break is not created at the start of a quote unless the quote character is a break character.</a></p>
+      <h4><a name="1065873">Examples</a></h4>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1065727"><font size="2" face="'Courier New'" color="#000000">parseQuotedString( &#34;111 222&#39;333 444&#39;&#34; &#34; &#34;)</font></a> &nbsp;&nbsp;&nbsp;=&#62; (&#34;111&#34; &#34;222333 444&#34;)</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1065730"><font size="2" face="'Courier New'" color="#000000">parseQuotedString( &#34;111 222&#39;333 444&#39;&#34; &#34;&#39; &#34;)</font></a> =&#62; (&#34;111&#34; &#34;222&#34; &#34;333 444&#34;)</td>
+          </tr>
+        </table>
+      </div>
+      <h3><a name="1065539">pprintln</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1065549">pprint(</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1065550">            g_item</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1065551">            [p_port]</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1065552">        ) &#45;&#62; t&#47;nil</a></font>
+      </dl>
+      <h4><a name="1065553">Description</a></h4>
+      <p><a name="1065554">Prints a newline charanter at the end of the line.</a></p>
+      <h4><a name="1065555">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="95">
+            <p><a name="1082995"><font size="2" face="'Courier New'" color="#000000">g_item</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="551">
+            <p><a name="1082997">The item to be printed.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1082999"><font size="2" face="'Courier New'" color="#000000">p_port</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1083001"> The optional parameter that specifies the port to write to. Default value is stdout.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1065669">Value Returned</a></h4>
+      <p><a name="1065670">Returns item pretty printed plus a newline character.</a></p>
+      <h3><a name="1065541">propNames</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1065195">propNames(</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1065196">           g_propList</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1065197">        ) &#45;&#62; lS_names&#47;nil</a></font>
+      </dl>
+      <h4><a name="1065198">Description</a></h4>
+      <p><a name="1065257">Use this command to get the names of properties in a disembodied property list. Walk each property in disembodied property list, building a list of the names of each property.</a></p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1065202">Order of returned property names is unspecified.</a></p>
+      <h4><a name="1065203">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="656">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="115">
+            <p><a name="1083009"><font size="2" face="'Courier New'" color="#000000">g_propList</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="540">
+            <p><a name="1083011">A disembodied property list.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1065205">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="113">
+            <p><a name="1083019"><font size="2" face="'Courier New'" color="#000000">lS_names</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="533">
+            <p><a name="1083021">A list of symbols corresponding to the names of each property found in the list.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1065208">Example</a></h4>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1065209">        n = ncons(nil)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1065210">        n&#45;&#62;one = 1</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1065211">        n&#45;&#62;two = 2</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1065212">        propNames(n) &#45;&#62; (one two)</a></font>
+      </dl>
+      <p><a name="1065164">&nbsp;</a></p>
+      <p><a name="1071082">&nbsp;</a></p>
+      <p><a name="1074107">&nbsp;</a></p>
+      <p><a name="1079068">&nbsp;</a></p>
+      <p><a name="1080635">&nbsp;</a></p>
+    </div>
+    <br>
+    <a href="#pagetop">Return to top of page</a>
+    <hr>
+    <hr align="left">
+    <div style="text-align: left;">
+      <!-- Begin Buttons -->      <table width="650" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                    </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+          <td>
+            <a href="27plugin.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+          </td>
+          <td>
+            <a href="26logacc.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+          </td>
+          <td>
+            <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+            </a>
+          </td>
+          <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+          </td>
+          <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+          </td>
+          <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+          </td>
+          <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+          </td>
+        </tr>
+      </table>
+      <!-- End Buttons -->
+    </div>
+    <br>
+    <font size="-1" >
+For support, see <a href="http://support.cadence.com" target="_blank">Cadence Online Support</a> service.</font>
+    <br>
+    <br>
+    <font size="-1" >
+      <i>Copyright &#169; 2017, <a href="http://www.cadence.com">Cadence Design Systems, Inc.</a></i>
+    </font>
+    <br>
+    <font size="-1" >
+All rights reserved.</font>
+    <br>
+    <br>
+  </body>
+</html>

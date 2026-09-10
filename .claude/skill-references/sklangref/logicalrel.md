@@ -8,7 +8,7 @@ Logical and Relational Functions
 
 ### alphalessp
 
-`alphalessp( S_arg1 S_arg2 ) => t | nil`
+`alphalessp( S_arg1 S_arg2 ) => t / nil`
 
 #### Description
 
@@ -18,20 +18,18 @@ This function returns`t` if the first argument is alphabetically less than the s
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_arg1` | First name you want to compare.
-|  |
-| --- | ---
-| `S_arg2` | Name to compare against.
+| Name | Description |
+|---|---|
+| `S_arg1` | First name you want to compare. |
+| `S_arg2` | Name to compare against. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`S_arg1` is alphabetically less than the name of `S_arg2`.
-|  |
-| --- | ---
-| `nil` | In all other cases.
+| Name | Description |
+|---|---|
+| `t` | If`S_arg1` is alphabetically less than the name of `S_arg2`. |
+| `nil` | In all other cases. |
+
 #### Example
 
 ```
@@ -44,7 +42,7 @@ alphalessp( "name" "name1" )   => talphalessp( "third" "fourth" ) => nilalph
 
 ### and
 
-`and( g_arg1 g_arg2 [ g_arg3... ] ) => nil | g_val`
+`and( g_arg1 g_arg2 [ g_arg3... ] ) => nil / g_val`
 
 #### Description
 
@@ -52,23 +50,19 @@ Evaluates from left to right its arguments to see if the result is`nil`. As soon
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_arg1` | Any SKILL object.
-|  |
-| --- | ---
-| `g_arg2` | Any SKILL object.
-|  |
-| --- | ---
-| `g_arg3` | Any SKILL object.
+| Name | Description |
+|---|---|
+| `g_arg1` | Any SKILL object. |
+| `g_arg2` | Any SKILL object. |
+| `g_arg3` | Any SKILL object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `nil` | If an argument evaluates to`nil`.
-|  |
-| --- | ---
-| `g_val` | Value of the last argument if all the preceding argumentsevaluate to non-`nil`.
+| Name | Description |
+|---|---|
+| `nil` | If an argument evaluates to`nil`. |
+| `g_val` | Value of the last argument if all the preceding argumentsevaluate to non-`nil`. |
+
 #### Example
 
 `and(nil t)  => nil and(t nil)  => nil and(18 12)  => 12`
@@ -87,17 +81,17 @@ Compares two string arguments, representing a clock-calendar time.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_time1` | First string in the`month day hour:minute:second``year` format.
-|  |
-| --- | ---
-| `t_time2` | Second string in the`month day hour:minute:second``year` format.
+| Name | Description |
+|---|---|
+| `t_time1` | First string in the`month day hour:minute:second``year` format. |
+| `t_time2` | Second string in the`month day hour:minute:second``year` format. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_difference` | An integer representing a time that is later than (positive), equalto (zero), or earlier than (negative) the second argument. The units are seconds.
+| Name | Description |
+|---|---|
+| `x_difference` | An integer representing a time that is later than (positive), equalto (zero), or earlier than (negative) the second argument. The units are seconds. |
+
 #### Example
 
 `compareTime( "Apr 8 4:21:39 1991" "Apr 16 3:24:36 1991")=> -687777.`
@@ -114,7 +108,7 @@ Compares two string arguments, representing a clock-calendar time.
 
 ### eq
 
-`eq( g_arg1 g_arg2 ) => t | nil`
+`eq( g_arg1 g_arg2 ) => t / nil`
 
 #### Description
 
@@ -125,20 +119,18 @@ For testing equality of numbers, strings, and lists in general, the `equal` func
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_arg1` | Any SKILL object.`g_arg1` is compared with `g_arg2` to see if they point to the same object.
-|  |
-| --- | ---
-| `g_arg2` | Any SKILL object.
+| Name | Description |
+|---|---|
+| `g_arg1` | Any SKILL object.`g_arg1` is compared with `g_arg2` to see if they point to the same object. |
+| `g_arg2` | Any SKILL object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | Both arguments are the same object.
-|  |
-| --- | ---
-| `nil` | The two objects are not identical.
+| Name | Description |
+|---|---|
+| `t` | Both arguments are the same object. |
+| `nil` | The two objects are not identical. |
+
 #### Example
 
 `x = 'dog eq( x 'dog )        => teq( x 'cat )        => nil`
@@ -151,7 +143,7 @@ For testing equality of numbers, strings, and lists in general, the `equal` func
 
 ### equal
 
-`equal( g_arg1 g_arg2 ) => t | nil`
+`equal( g_arg1 g_arg2 ) => t / nil`
 
 #### Description
 
@@ -167,20 +159,18 @@ Checks if two arguments are equal or if they are logically equivalent, for examp
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_arg1` | Any SKILL object.`g_arg1` and `g_arg2` are tested to see if they are logically equivalent.
-|  |
-| --- | ---
-| `g_arg2` | Any SKILLobject.
+| Name | Description |
+|---|---|
+| `g_arg1` | Any SKILL object.`g_arg1` and `g_arg2` are tested to see if they are logically equivalent. |
+| `g_arg2` | Any SKILLobject. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`g_arg1` and `g_arg2` are equal.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | If`g_arg1` and `g_arg2` are equal. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `x = 'cat equal( x 'cat )    => t`
@@ -197,7 +187,7 @@ Checks if two arguments are equal or if they are logically equivalent, for examp
 
 ### eqv
 
-`eqv( g_general1 g_general2 ) => t | nil`
+`eqv( g_general1 g_general2 ) => t / nil`
 
 #### Description
 
@@ -205,20 +195,18 @@ Tests for the equality between two strings or two numbers of the same type (for 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_general1` | The first SKILL object.
-|  |
-| --- | ---
-| `g_general2` | The second SKILL object.
+| Name | Description |
+|---|---|
+| `g_general1` | The first SKILL object. |
+| `g_general2` | The second SKILL object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | `g_general1` and `g_general2` represent the same string or the same number.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | `g_general1` and `g_general2` represent the same string or the same number. |
+| `nil` | Otherwise. |
+
 #### Example
 
 ```
@@ -237,7 +225,7 @@ Tests for the equality between two strings or two numbers of the same type (for 
 
 ### geqp
 
-`geqp( n_num1 n_num2 ) => t | nil`
+`geqp( n_num1 n_num2 ) => t / nil`
 
 #### Description
 
@@ -245,20 +233,18 @@ This predicate function checks if the first argument is greater than or equal to
 
 #### Arguments
 
-|  |
-| --- | ---
-| `n_num1` | Number to be checked.
-|  |
-| --- | ---
-| `n_num2` | Number against which`n_num1` is checked.
+| Name | Description |
+|---|---|
+| `n_num1` | Number to be checked. |
+| `n_num2` | Number against which`n_num1` is checked. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | `n_num1` is greater than or equal to `n_num2`.
-|  |
-| --- | ---
-| `nil` | `n_num1` is less than `n_num2`.
+| Name | Description |
+|---|---|
+| `t` | `n_num1` is greater than or equal to `n_num2`. |
+| `nil` | `n_num1` is less than `n_num2`. |
+
 #### Example
 
 `geqp(2 2)   => tgeqp(-2 2)  => nilgeqp(3 2.2) => t`
@@ -269,7 +255,7 @@ This predicate function checks if the first argument is greater than or equal to
 
 ### greaterp
 
-`greaterp( n_num1 n_num2 ) => t | nil`
+`greaterp( n_num1 n_num2 ) => t / nil`
 
 #### Description
 
@@ -277,20 +263,18 @@ This predicate function checks if the first argument is greater than the second 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `n_num1` | Number to be checked.
-|  |
-| --- | ---
-| `n_num2` | Number against which`n_num1` is checked.
+| Name | Description |
+|---|---|
+| `n_num1` | Number to be checked. |
+| `n_num2` | Number against which`n_num1` is checked. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | `n_num1` is greater than `n_num2`.
-|  |
-| --- | ---
-| `nil` | `n_num1` is less than or equal to `n_num2`.
+| Name | Description |
+|---|---|
+| `t` | `n_num1` is greater than `n_num2`. |
+| `nil` | `n_num1` is less than or equal to `n_num2`. |
+
 #### Example
 
 `greaterp(2 2)   => nilgreaterp(-2 2)  => nilgreaterp(3 2.2) => t`
@@ -301,7 +285,7 @@ This predicate function checks if the first argument is greater than the second 
 
 ### leqp
 
-`leqp( n_num1 n_num2 ) => t | nil`
+`leqp( n_num1 n_num2 ) => t / nil`
 
 #### Description
 
@@ -309,20 +293,18 @@ This predicate function checks if the first argument is less than or equal to th
 
 #### Arguments
 
-|  |
-| --- | ---
-| `n_num1` | Number to be checked.
-|  |
-| --- | ---
-| `n_num2` | Number against which`n_num1` is checked.
+| Name | Description |
+|---|---|
+| `n_num1` | Number to be checked. |
+| `n_num2` | Number against which`n_num1` is checked. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | `n_num1` is less than or equal to `n_num2`.
-|  |
-| --- | ---
-| `nil` | `n_num1` is greater than `n_num2`.
+| Name | Description |
+|---|---|
+| `t` | `n_num1` is less than or equal to `n_num2`. |
+| `nil` | `n_num1` is greater than `n_num2`. |
+
 #### Example
 
 `leqp(2 2)   => tleqp(-2 2)  => tleqp(3 2.2) => nil`
@@ -333,7 +315,7 @@ This predicate function checks if the first argument is less than or equal to th
 
 ### lessp
 
-`lessp( n_num1 n_num2 ) => t | nil`
+`lessp( n_num1 n_num2 ) => t / nil`
 
 #### Description
 
@@ -341,20 +323,18 @@ This predicate function checks if the first argument is less than the second arg
 
 #### Arguments
 
-|  |
-| --- | ---
-| `n_num1` | Number to be checked.
-|  |
-| --- | ---
-| `n_num2` | Number against which`n_num1` is checked.
+| Name | Description |
+|---|---|
+| `n_num1` | Number to be checked. |
+| `n_num2` | Number against which`n_num1` is checked. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | `n_num1` is less than `n_num2`.
-|  |
-| --- | ---
-| `nil` | `n_num1` is greater than or equal to `n_num2`.
+| Name | Description |
+|---|---|
+| `t` | `n_num1` is less than `n_num2`. |
+| `nil` | `n_num1` is greater than or equal to `n_num2`. |
+
 #### Example
 
 `lessp(2 2)   => nillessp(-2 2)  => tlessp(3 2.2) => nil`
@@ -365,7 +345,7 @@ This predicate function checks if the first argument is less than the second arg
 
 ### member, memq, memv
 
-`member( g_obj l_list ) => l_sublist | nil`
+`member( g_obj l_list ) => l_sublist / nil`
 
 #### Description
 
@@ -377,20 +357,18 @@ Returns the largest sublist of`l_list` whose first element is `g_obj`. For compa
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_obj` | Element to be searched for in`l_list`.
-|  |
-| --- | ---
-| `l_list` | List to search.
+| Name | Description |
+|---|---|
+| `g_obj` | Element to be searched for in`l_list`. |
+| `l_list` | List to search. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_sublist` | The part of `l_list` beginning with the first match of `g_obj`.
-|  |
-| --- | ---
-| `nil` | If`g_obj` is not in the top level of `l_list`.
+| Name | Description |
+|---|---|
+| `l_sublist` | The part of `l_list` beginning with the first match of `g_obj`. |
+| `nil` | If`g_obj` is not in the top level of `l_list`. |
+
 #### Example
 
 ```
@@ -403,7 +381,7 @@ x = "c"                          => "c"member( x '("a"
 
 ### neq
 
-`neq( g_arg1 g_arg2 ) => t | nil`
+`neq( g_arg1 g_arg2 ) => t / nil`
 
 #### Description
 
@@ -411,20 +389,18 @@ Checks if two arguments arenot identical using the *eq* function and returns *t*
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_arg1` | Any SKILL object.
-|  |
-| --- | ---
-| `g_arg2` | Any SKILL object.
+| Name | Description |
+|---|---|
+| `g_arg1` | Any SKILL object. |
+| `g_arg2` | Any SKILL object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`g_arg1` and `g_arg2` are not `eq`.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | If`g_arg1` and `g_arg2` are not `eq`. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `a = 'dog            => dogneq( a 'dog )       => nilneq( a 'cat )       => t`
@@ -437,7 +413,7 @@ Checks if two arguments arenot identical using the *eq* function and returns *t*
 
 ### nequal
 
-`nequal( g_arg1 g_arg2 ) => t | nil`
+`nequal( g_arg1 g_arg2 ) => t / nil`
 
 #### Description
 
@@ -447,20 +423,18 @@ Checks if two arguments are *not* logically equivalent using the `equal` functio
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_arg1` | Any SKILL object.
-|  |
-| --- | ---
-| `g_arg2` | Any SKILL object.
+| Name | Description |
+|---|---|
+| `g_arg1` | Any SKILL object. |
+| `g_arg2` | Any SKILL object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`g_arg1` and `g_arg2` are not `equal`.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | If`g_arg1` and `g_arg2` are not `equal`. |
+| `nil` | Otherwise. |
+
 #### Example
 
 ```
@@ -473,7 +447,7 @@ z = '(1 2 3)         => (1 2 3)nequal(z z)          => nilneq
 
 ### null
 
-`null( g_value ) => t | nil`
+`null( g_value ) => t / nil`
 
 #### Description
 
@@ -483,24 +457,24 @@ Checks if an object is equal to`nil`.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_value` | A data object.
+| Name | Description |
+|---|---|
+| `g_value` | A data object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`g_value` is equal to `nil`.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | If`g_value` is equal to `nil`. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `null( 3 )        => nilnull('())        => tnull( nil)       => t`
 
 ### numberp
 
-`numberp( g_value ) => t | nil`
+`numberp( g_value ) => t / nil`
 
 #### Description
 
@@ -510,24 +484,24 @@ The suffix`p` is usually added to the name of a function to indicate that it is 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_value` | A data object.
+| Name | Description |
+|---|---|
+| `g_value` | A data object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | The data object is a number.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | The data object is a number. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `numberp( 3 )         => tnumberp('isASymbol)  => nilnumberp( 3.5)        => t`
 
 ### or
 
-`or( g_arg1 g_arg2 [ g_arg3... ] ) => nil | g_val`
+`or( g_arg1 g_arg2 [ g_arg3... ] ) => nil / g_val`
 
 #### Description
 
@@ -535,23 +509,19 @@ Evaluates from left to right its arguments to see if the result is non-`nil`. As
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_arg1` | First argument to be evaluated.
-|  |
-| --- | ---
-| `g_arg2` | Second argument to be evaluated.
-|  |
-| --- | ---
-| `g_arg3` | Optional additional arguments to be evaluated.
+| Name | Description |
+|---|---|
+| `g_arg1` | First argument to be evaluated. |
+| `g_arg2` | Second argument to be evaluated. |
+| `g_arg3` | Optional additional arguments to be evaluated. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `nil` | All arguments evaluate to`nil`.
-|  |
-| --- | ---
-| `g_val` | Value of the argument that evaluates to non-`nil`, or the value of the last argument if all the preceding arguments evaluate to `nil`.
+| Name | Description |
+|---|---|
+| `nil` | All arguments evaluate to`nil`. |
+| `g_val` | Value of the argument that evaluates to non-`nil`, or the value of the last argument if all the preceding arguments evaluate to `nil`. |
+
 #### Example
 
 `or(t nil) => tor(nil t) => tor(18 12) => 18`
@@ -568,17 +538,17 @@ Sign-extends the rightmost`x_bits` bits of `x_number`. That is, sign-extends the
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_number` | An integer.
-|  |
-| --- | ---
-| `x_bits` | Number of bits.
+| Name | Description |
+|---|---|
+| `x_number` | An integer. |
+| `x_bits` | Number of bits. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | `x_number` with the rightmost `x_bits` sign-extended.
+| Name | Description |
+|---|---|
+| `x_result` | `x_number` with the rightmost `x_bits` sign-extended. |
+
 #### Example
 
 `sxtd( 7 4 )  => 7sxtd( 8 4 )  => -8sxtd( 5 2 )  => 5`

@@ -1,11 +1,15 @@
 import importlib.util
+import sys
 import unittest
 from pathlib import Path
 
-SCRIPT_PATH = Path(__file__).parents[1] / "scripts" / "convert_pdf_references.py"
+SCRIPTS_DIR = Path(__file__).parents[1] / "scripts"
+SCRIPT_PATH = SCRIPTS_DIR / "convert_pdf_references.py"
 
 
 def load_converter():
+    if str(SCRIPTS_DIR) not in sys.path:
+        sys.path.insert(0, str(SCRIPTS_DIR))
     spec = importlib.util.spec_from_file_location("convert_pdf_references", SCRIPT_PATH)
     if spec is None or spec.loader is None:
         raise RuntimeError(f"cannot load {SCRIPT_PATH}")
@@ -14,60 +18,120 @@ def load_converter():
     return module
 
 
-class PdfReferenceConverterTests(unittest.TestCase):
-    def test_extracts_multiline_formal_declaration(self):
-        page = (
-            "ipcBeginProcess\n"
-            "ipcBeginProcess(\n"
-            "  t_command\n"
-            "  [ t_hostName ]\n"
-            ")\n"
-            "=> o_childId\n\n"
-            "Description\n"
-        )
+class NormalizeSignatureTests(unittest.TestCase):
+    def setUp(self):
+        self.conv = load_converter()
 
-        declarations = load_converter().extract_api_declarations(page)
-
-        self.assertEqual([entry.names for entry in declarations], [("ipcBeginProcess",)])
+    def test_choice_syntax_braces_and_pipes_normalized(self):
         self.assertEqual(
-            declarations[0].signature,
-            "ipcBeginProcess( t_command [ t_hostName ] ) => o_childId",
+            self.conv._normalize_pdf_signature("func( { s_a | t_b | t } ) => g"),
+            "func( ( s_a / t_b / t ) ) => g",
         )
 
-    def test_does_not_treat_example_call_as_a_declaration(self):
-        page = "Example\nresult = ipcBeginProcess(\"hostname\")\n=> ipc:3\n"
-
-        declarations = load_converter().extract_api_declarations(page)
-
-        self.assertEqual(declarations, [])
-
-    def test_splits_only_between_physical_pages(self):
-        converter = load_converter()
-        page = "x" * (converter.PART_CHAR_LIMIT // 2 + 100)
-
-        parts = converter.render_document("skipcref", [page, page, page])
-
-        self.assertEqual(len(parts), 3)
-        self.assertIn("## PDF page 1", parts[0])
-        self.assertIn("## PDF page 2", parts[1])
-        self.assertIn("## PDF page 3", parts[2])
-
-    def test_keeps_multi_page_api_entry_in_one_part(self):
-        converter = load_converter()
-        first_api = "firstApi\nfirstApi(\n)\n=> t\n"
-        continuation = "argument details\n" + "x" * converter.PART_CHAR_LIMIT
-        second_api = "secondApi\nsecondApi(\n)\n=> t\n"
-
-        parts = converter.render_document(
-            "skipcref",
-            [first_api, continuation, second_api],
+    def test_glued_keyword_prefix_stripped(self):
+        self.assertEqual(
+            self.conv._normalize_pdf_signature("init( [ u_?key1 value1 ] ) => t"),
+            "init( [ ?key1 value1 ] ) => t",
         )
 
-        self.assertEqual(len(parts), 2)
-        self.assertIn("### firstApi", parts[0])
-        self.assertIn("## PDF page 2", parts[0])
-        self.assertNotIn("### secondApi", parts[0])
-        self.assertIn("### secondApi", parts[1])
+    def test_whitespace_collapsed(self):
+        self.assertEqual(
+            self.conv._normalize_pdf_signature("func(  t_a   t_b  ) => t"),
+            "func( t_a t_b ) => t",
+        )
+
+
+class RepairSignatureTests(unittest.TestCase):
+    def setUp(self):
+        self.conv = load_converter()
+
+    def test_missing_closing_paren_added(self):
+        self.assertEqual(
+            self.conv._repair_pdf_signature("func( t_a => t"),
+            "func( t_a ) => t",
+        )
+
+    def test_missing_closing_bracket_and_paren_added(self):
+        self.assertEqual(
+            self.conv._repair_pdf_signature("func( [t_a => t"),
+            "func( [t_a ] ) => t",
+        )
+
+    def test_already_balanced_unchanged(self):
+        self.assertEqual(
+            self.conv._repair_pdf_signature("func( t_a ) => t"),
+            "func( t_a ) => t",
+        )
+
+
+class StopLineTests(unittest.TestCase):
+    def setUp(self):
+        self.conv = load_converter()
+
+    def test_exact_section_header_stops(self):
+        self.assertTrue(self.conv._is_signature_stop_line("Description"))
+        self.assertTrue(self.conv._is_signature_stop_line("Arguments:"))
+
+    def test_where_clause_stops(self):
+        self.assertTrue(
+            self.conv._is_signature_stop_line("where break_condition can be either")
+        )
+
+    def test_parameter_line_does_not_stop(self):
+        self.assertFalse(self.conv._is_signature_stop_line("[ S_name ]"))
+        self.assertFalse(self.conv._is_signature_stop_line("=> t / nil"))
+
+
+class ExtractDeclarationsTests(unittest.TestCase):
+    def setUp(self):
+        self.conv = load_converter()
+
+    def test_where_clause_skipped_return_preserved(self):
+        page = (
+            "breakptMethod\n"
+            "breakptMethod(\n"
+            "     [ S_name ]\n"
+            "     [break_condition])\n"
+            "     where break_condition can be either\n"
+            "     (break_tag\n"
+            "     g_condition\n"
+            "     )\n"
+            "     => t / nil\n"
+        )
+        decls = self.conv.extract_api_declarations(page)
+        self.assertEqual(len(decls), 1)
+        self.assertEqual(decls[0].names, ("breakptMethod",))
+        self.assertIn("=>", decls[0].signature)
+        self.assertNotIn("where", decls[0].signature)
+        self.assertNotIn("break_tag", decls[0].signature)
+
+    def test_choice_syntax_in_signature(self):
+        page = (
+            "needNCells\n"
+            "needNCells(\n"
+            "     {s_cellType | S_userType}\n"
+            "     x_cellCount\n"
+            "     )\n"
+            "     => t | nil\n"
+        )
+        decls = self.conv.extract_api_declarations(page)
+        self.assertEqual(len(decls), 1)
+        # braces normalized to parens, pipes to slashes
+        self.assertNotIn("{", decls[0].signature)
+        self.assertNotIn("|", decls[0].signature)
+
+    def test_missing_closing_paren_repaired(self):
+        page = (
+            "skTabulate\n"
+            "skTabulate(\n"
+            "     ?fileNames g_names\n"
+            "     [?reportFile t_reportFile]\n"
+            "     => t\n"
+        )
+        decls = self.conv.extract_api_declarations(page)
+        self.assertEqual(len(decls), 1)
+        # _repair_pdf_signature adds the missing closing paren
+        self.assertEqual(decls[0].signature.count("("), decls[0].signature.count(")"))
 
 
 if __name__ == "__main__":

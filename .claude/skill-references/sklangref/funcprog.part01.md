@@ -26,14 +26,16 @@ Using`addDefstructClass` to create a class for a `defstruct` allows you to defin
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_name` | The name of the`defstruct`.
+| Name | Description |
+|---|---|
+| `s_name` | The name of the`defstruct`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `u_classObject` | The class object.
+| Name | Description |
+|---|---|
+| `u_classObject` | The class object. |
+
 #### Example
 
 `defstruct( card rank suit ) => t`
@@ -48,7 +50,7 @@ x = _card( ?rank 8 ?suit "spades" )=> array[4]:3897312type( x )        �
 
 ### alias
 
-`alias( s_aliasName s_functionName )=> s_aliasName`
+`alias( s_aliasName s_functionName ) => s_aliasName`
 
 #### Description
 
@@ -60,17 +62,17 @@ Defines the`s_aliasName` symbol as an alias for the `s_functionName` function, w
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_aliasName` | Symbol name of the alias.
-|  |
-| --- | ---
-| `s_functionName` | Name of the function you are creating an alias for.
+| Name | Description |
+|---|---|
+| `s_aliasName` | Symbol name of the alias. |
+| `s_functionName` | Name of the function you are creating an alias for. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `s_aliasName` | Name of the alias.
+| Name | Description |
+|---|---|
+| `s_aliasName` | Name of the alias. |
+
 #### Example
 
 `alias path getSkillPath => path`
@@ -83,7 +85,7 @@ Aliases`e` to the `edit` function.
 
 ### apply
 
-`apply( slu_func [g_arg ...]l_args)=> g_result`
+`apply( slu_func [g_arg ...] l_args ) => g_result`
 
 #### Description
 
@@ -99,20 +101,18 @@ The argument list`l_args` is bound to the formal arguments of `slu_func` accordi
 
 #### Arguments
 
-|  |
-| --- | ---
-| `slu_func` | Name of the function.
-|  |
-| --- | ---
-| `g_arg` | Optional arguments that are prepended to`l_args` to create a combined list of arguments.
-|  |
-| --- | ---
-| `l_args` | Argument list to apply to the function.
+| Name | Description |
+|---|---|
+| `slu_func` | Name of the function. |
+| `g_arg` | Optional arguments that are prepended to`l_args` to create a combined list of arguments. |
+| `l_args` | Argument list to apply to the function. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Returns the result of applying the function to the givenarguments.
+| Name | Description |
+|---|---|
+| `g_result` | Returns the result of applying the function to the givenarguments. |
+
 #### Example
 
 `apply('plus (list 1 2) )          ; Apply plus to its arguments.=> 3`
@@ -135,7 +135,7 @@ procedure( sumTail(l) apply( 'plus cdr(l))) => sumTail             
 
 ### argc
 
-`argc() => n | 0 | -1 | -2`
+`argc( ) => n / 0 / -1 / -2`
 
 #### Description
 
@@ -143,17 +143,12 @@ Returns the number of arguments passed to a SKILL script. Used to enhance the SK
 
 #### Value Returned
 
-|  |
-| --- | ---
-| `n` | `n`arguments were passed (`n` is an integer).
-1. No arguments were passed, but`argv(0)` has a value.
+| Name | Description |
+|---|---|
+| `n` | `n`arguments were passed (`n` is an integer). 1. No arguments were passed, but`argv(0)` has a value. |
+| -1 | Argument list is`nil` (no arguments passed, and `argv(0)`is `nil`). This can occur when using SKILL interactively. |
+| -2 | Error caused by a problem with the argument list property. |
 
-|  |
-| --- | ---
-| `-1` | Argument list is`nil` (no arguments passed, and `argv(0)`is `nil`). This can occur when using SKILL interactively.
-|  |
-| --- | ---
-| `-2` | Error caused by a problem with the argument list property.
 #### Example
 
 Assume that arguments passed to a SKILL script file are`(`"`my.il`""`1st`""`2nd`""`3rd`"`):`
@@ -188,19 +183,17 @@ Returns the arguments passed to a SKILL script. Used to enhance the SKILL script
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_int` | Optional argument; it must be a positive integer.
+| Name | Description |
+|---|---|
+| `x_int` | Optional argument; it must be a positive integer. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | The return value depends on the arguments passed.
-.
+| Name | Description |
+|---|---|
+| `g_result` | The return value depends on the arguments passed. . |
+| `Argument` | Returned |
 
-|  |
-| --- | ---
-| Argument | Returned
 | `argv( )` | List of all arguments (list of strings or`nil`).
 | `argv(0)` | Name of the calling script.
 | `argv(``n``)` | `n`th argument as a string or `nil` if there is no `n`th argument.
@@ -228,9 +221,7 @@ An example using a SKILL executable:
 
 ### begin
 
-```
-SKILL modebegin( g_exp1 [ g_exp2 ... g_expN ] ) => g_resultSKILL++ modebegin(     def1     [ def2 ...         defN ] ) => g_result
-```
+`begin( g_exp1 [ g_exp2 ... g_expN ] ) => g_result`
 
 #### Description
 
@@ -246,14 +237,16 @@ This form is treated as though the set of definitions is given directly in the e
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_exp1`, `g_exp2`, `g_expN`Arbitrary expressions. |
+| Name | Description |
+|---|---|
+| `g_exp1`, `g_exp2`, `g_expN`Arbitrary expressions. |  |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Value of the last expression,`g_expN`.
+| Name | Description |
+|---|---|
+| `g_result` | Value of the last expression,`g_expN`. |
+
 #### Example 1
 
 The following example describes the begin function in the SKILL mode.
@@ -282,14 +275,16 @@ Removes all registered exit functions (takes no arguments).
 
 #### Arguments
 
-|  |
-| --- | ---
-| None. |
+| Name | Description |
+|---|---|
+| `None.` |  |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | Always returns `t`.
+| Name | Description |
+|---|---|
+| `t` | Always returns `t`. |
+
 #### Example
 
 clearExitProcs( )=> t
@@ -308,14 +303,16 @@ This (and`declareNLambda`) form has effect only on undefined function names, oth
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_name1` | One or more function names.
+| Name | Description |
+|---|---|
+| `s_name1` | One or more function names. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `s_nameN` | The last name in the arguments.
+| Name | Description |
+|---|---|
+| `s_nameN` | The last name in the arguments. |
+
 #### Example
 
 `declareLambda(fun1 fun2 fun3) => fun3`
@@ -334,14 +331,16 @@ Declares`s_name1 ... s_nameN` as nprocedures (`nlambdas`) to be defined later. T
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_name1` | One or more function names.
+| Name | Description |
+|---|---|
+| `s_name1` | One or more function names. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `s_nameN` | The last name in the arguments.
+| Name | Description |
+|---|---|
+| `s_nameN` | The last name in the arguments. |
+
 #### Example
 
 `declareNLambda(nfun1 nfun2 nfun3) => nfun3`
@@ -364,21 +363,23 @@ All the debugging commands have been declared as`SQNLambdas` already.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_functionName` | Function to be declared as a*solely-quoting* *nlambda*.
+| Name | Description |
+|---|---|
+| `s_functionName` | Function to be declared as a*solely-quoting* *nlambda*. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `nil` | Always. This function is for side-effects only.
+| Name | Description |
+|---|---|
+| `nil` | Always. This function is for side-effects only. |
+
 #### Example
 
 declareSQNLambda( step next stepout ) => nil
 
 ### defglobalfun
 
-`defglobalfun( s_funcName ( l_formalArglist ) g_expr1 ... )=> s_funcName`
+`defglobalfun( s_funcName ( l_formalArglist ) g_expr1 ... ) => s_funcName`
 
 #### Description
 
@@ -390,20 +391,18 @@ For`defglobalfun` there must be white space between `s_funcName` and the open pa
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_funcName` | Name of the function you are defining.
-|  |
-| --- | ---
-| `l_formalArglist` | Formal argument list.
-|  |
-| --- | ---
-| `g_expr1` | Expression or expressions to be evaluatedwhen `s_funcName` is called.
+| Name | Description |
+|---|---|
+| `s_funcName` | Name of the function you are defining. |
+| `l_formalArglist` | Formal argument list. |
+| `g_expr1` | Expression or expressions to be evaluatedwhen `s_funcName` is called. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `s_funcName` | The name of the function being defined.
+| Name | Description |
+|---|---|
+| `s_funcName` | The name of the function being defined. |
+
 #### Example
 
 Define two global functions,`test_set` and `test_get` using `defglobalfun` and that reference a lexical variable `secret_val:`
@@ -421,9 +420,8 @@ ILS-<2> test\_get()
 
 ### define
 
-```
-define( s_var g_expression ) => s_vardefine( ( s_var [ s_formalVar1 ... ] ) g_body ... ) => s_var
-```
+`define( s_var g_expression ) => s_var`
+`define( ( s_var [ s_formalVar1 ... ] ) g_body ... ) => s_var`
 
 #### Description
 
@@ -479,7 +477,7 @@ Definitions are allowed only at the top-level of a program and at the beginning 
 
 ### defmacro
 
-`defmacro( s_macroName ( l_formalArglist ) g_expr1 ... )=> s_macroName`
+`defmacro( s_macroName ( l_formalArglist ) g_expr1 ... ) => s_macroName`
 
 #### Description
 
@@ -489,20 +487,18 @@ The actual arguments will be matched against the formals before evaluating the b
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_macroName` | Name of the macro you are defining.
-|  |
-| --- | ---
-| `l_formalArglist` | Formal argument list.
-|  |
-| --- | ---
-| `g_expr1` | Expression or expressions to be evaluated.
+| Name | Description |
+|---|---|
+| `s_macroName` | Name of the macro you are defining. |
+| `l_formalArglist` | Formal argument list. |
+| `g_expr1` | Expression or expressions to be evaluated. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `s_macroName` | Returns the name of the macro being defined.
+| Name | Description |
+|---|---|
+| `s_macroName` | Returns the name of the macro being defined. |
+
 #### Example
 
 `` defmacro( whenNot (cond @rest body)    `(if ! ,cond then ,@body) )=> whenNot ``
@@ -519,7 +515,7 @@ expandMacro( '(whenNot x > y z = f(y) x*z) )=> if(!(x > y) then (z = (f y))(x * 
 
 ### defun
 
-`defun( s_funcName ( l_formalArglist ) g_expr1 ... )=> s_funcName`
+`defun( s_funcName ( l_formalArglist ) g_expr1 ... ) => s_funcName`
 
 #### Description
 
@@ -533,20 +529,18 @@ Expressions within a function can reference any variable on the formal argument 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_funcName` | Name of the function you are defining.
-|  |
-| --- | ---
-| `l_formalArglist` | Formal argument list.
-|  |
-| --- | ---
-| `g_expr1` | Expression or expressions to be evaluatedwhen `s_funcName` is called.
+| Name | Description |
+|---|---|
+| `s_funcName` | Name of the function you are defining. |
+| `l_formalArglist` | Formal argument list. |
+| `g_expr1` | Expression or expressions to be evaluatedwhen `s_funcName` is called. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `s_funcName` | The name of the function being defined.
+| Name | Description |
+|---|---|
+| `s_funcName` | The name of the function being defined. |
+
 #### ARGUMENT LIST PARAMETERS
 
 Several parameters provide flexibility in procedure argument lists. These parameters arereferred to as @ ("at" sign) options. The parameters are `@rest`, `@optional`, `@key`, and `@aux`. See [`procedure`](#procedure "Function and Program Structure") for a detailed description of these argument list parameters.
@@ -581,9 +575,7 @@ defun( factorial (x)    if( (x == 0) then 1    else x * factorial( x - 1
 
 ### defUserInitProc
 
-```
-defUserInitProc( t_contextName s_procName [ autoInit ])=> ( t_contextName s_procName )
-```
+`defUserInitProc( t_contextName s_procName [ autoInit ] ) => ( t_contextName s_procName )`
 
 #### Description
 
@@ -593,20 +585,18 @@ Lets you customize existing Cadence contexts. In the general case, most Cadence-
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_contextName` | Name of context file to load.
-|  |
-| --- | ---
-| `s_procName` | Function to be called when context file is loaded.
-|  |
-| --- | ---
-| `[autoInit]` |
+| Name | Description |
+|---|---|
+| `t_contextName` | Name of context file to load. |
+| `s_procName` | Function to be called when context file is loaded. |
+| [autoInit] |  |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `((``t_contextName s_procName``))`Always returns an association list when set up. Note that the function is not actually called at this point, but is called when the `t_contextName` context is loaded. |
+| Name | Description |
+|---|---|
+| `((``t_contextName s_procName``))`Always returns an association list when set up. Note that the function is not actually called at this point, but is called when the `t_contextName` context is loaded. |  |
+
 #### Example
 
 `defUserInitProc( "myContext" 'initMyContext)=> (("myContext" initMyContext))`
@@ -627,16 +617,18 @@ Enables you to bind variables in a lambda-list to the values of these variables.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_lambdaList` | A lambda list.
+| Name | Description |
+|---|---|
+| `l_lambdaList` | A lambda list. |
+
 | `l_expression` | An expression that is evaluated and its result is assigned orbound to the variables in the lambda list.
 | `g_body` | A sequence of one or more expressions.
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Result of evaluation.
+| Name | Description |
+|---|---|
+| `g_result` | Result of evaluation. |
+
 #### Example
 
 (destructuringBind (a b @optional (c 1)) '(1 2)
@@ -655,14 +647,16 @@ If this error is caught by an`errset`*,* `nil`is returned by that `errset`. Howe
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_value` | SKILL object that becomes the return value for`errset`.
+| Name | Description |
+|---|---|
+| `g_value` | SKILL object that becomes the return value for`errset`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| Never returns a value. |
+| Name | Description |
+|---|---|
+| `Never returns a value.` |  |
+
 #### Example
 
 ```
@@ -693,12 +687,11 @@ Prints the`S_message1` and `S_message2` error messages if they are given and the
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_message1` | Message string or symbol.
-|  |
-| --- | ---
-| `S_message2` | More message strings or symbols. Note that more than twoarguments should be given only if the first argument is a format string.
+| Name | Description |
+|---|---|
+| `S_message1` | Message string or symbol. |
+| `S_message2` | More message strings or symbols. Note that more than twoarguments should be given only if the first argument is a format string. |
+
 #### Value Returned
 
 Prints the`S_message1` and `S_message2` error messages if they are given and then calls `err`, causing an error. `error` never returns.
@@ -719,7 +712,7 @@ Prints out`*Error* test` and returns `nil`.
 
 ### errset
 
-`errset( g_expr [ g_errprint ] ) => l_result | nil`
+`errset( g_expr [ g_errprint ] ) => l_result / nil`
 
 #### Description
 
@@ -729,20 +722,18 @@ If an error occurs in the evaluation of the given expression, control always ret
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_expr` | Expression to be evaluated; while evaluating it, any errors causeimmediate return from the `errset`.
-|  |
-| --- | ---
-| `g_errprint` | Flag to control the printout of error messages. If`t` then prints the error message encountered in `errset`, defaults to `nil`.
+| Name | Description |
+|---|---|
+| `g_expr` | Expression to be evaluated; while evaluating it, any errors causeimmediate return from the `errset`. |
+| `g_errprint` | Flag to control the printout of error messages. If`t` then prints the error message encountered in `errset`, defaults to `nil`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | List with value from successful evaluation of`g_expr`.
-|  |
-| --- | ---
-| `nil` | An error occurred.
+| Name | Description |
+|---|---|
+| `l_result` | List with value from successful evaluation of`g_expr`. |
+| `nil` | An error occurred. |
+
 #### Example
 
 ```
@@ -759,7 +750,7 @@ Because`sqrt` requires a numerical argument.
 
 ### errsetstring
 
-`errsetstring( t_string [ g_errprint ] [ s_langMode ] ) => l_value | nil`
+`errsetstring( t_string [ g_errprint ] [ s_langMode ] ) => l_value / nil`
 
 #### Description
 
@@ -769,27 +760,21 @@ If an error has occurred,`nil` is returned, otherwise a list containing the valu
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_string` | String to be evaluated.
-|  |
-| --- | ---
-| `g_errprint` | Flag for controlling the printout of error messages. If`t`, then prints the error message encountered in `errset`. Defaults to `nil`.
-|  |
-| --- | ---
-| `s_langMode` | Must be a symbol. Valid values:
-|  |
-| --- | ---
-| `'ils` | Evaluates the given string in SKILL++ mode.
+| Name | Description |
+|---|---|
+| `t_string` | String to be evaluated. |
+| `g_errprint` | Flag for controlling the printout of error messages. If`t`, then prints the error message encountered in `errset`. Defaults to `nil`. |
+| `s_langMode` | Must be a symbol. Valid values: |
+| 'ils | Evaluates the given string in SKILL++ mode. |
+
 | `'il` | Evaluates the given string in SKILL mode. This is thedefault.
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_value` | List with the value from successful evaluation of`t_string`.
-|  |
-| --- | ---
-| `nil` | An error occurs.
+| Name | Description |
+|---|---|
+| `l_value` | List with the value from successful evaluation of`t_string`. |
+| `nil` | An error occurs. |
+
 #### Example
 
 `errsetstring("1+2")               => (3)errsetstring("1+'a")              => nil`
@@ -822,17 +807,17 @@ If`g_expression` is a definitional form (such as `(define ...)`), it is treated 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_expression` | Any SKILL expression.
-|  |
-| --- | ---
-| `e_environment` | If this argument is given, SKILL++ semantics is assumed. Theforms entered will be evaluated within the given (lexical) environment.
+| Name | Description |
+|---|---|
+| `g_expression` | Any SKILL expression. |
+| `e_environment` | If this argument is given, SKILL++ semantics is assumed. Theforms entered will be evaluated within the given (lexical) environment. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Result of evaluating`g_expression`.
+| Name | Description |
+|---|---|
+| `g_result` | Result of evaluating`g_expression`. |
+
 #### Example
 
 `eval( 'plus( 2 3 ) )    => 5`
@@ -853,7 +838,7 @@ Evaluates the symbol`x` and returns the value of symbol `x`.
 
 ### evalstring
 
-`evalstring( t_string [ s_langMode ] ) => g_value | nil`
+`evalstring( t_string [ s_langMode ] ) => g_value / nil`
 
 #### Description
 
@@ -863,24 +848,20 @@ The resulting value is returned. Notice that`evalstring` does not allow the oute
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_string` | String containing the SKILL expression to be evaluated.
-|  |
-| --- | ---
-| `s_langMode` | Must be a symbol. Valid values:
-|  |
-| --- | ---
-| `'ils` | Evaluates the given string in SKILL++ mode.
+| Name | Description |
+|---|---|
+| `t_string` | String containing the SKILL expression to be evaluated. |
+| `s_langMode` | Must be a symbol. Valid values: |
+| 'ils | Evaluates the given string in SKILL++ mode. |
+
 | `'il` | Evaluates the given string in SKILL mode. This isthe default.
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_value` | The value of the argument expression after evaluation.
-|  |
-| --- | ---
-| `nil` | No form is read.
+| Name | Description |
+|---|---|
+| `g_value` | The value of the argument expression after evaluation. |
+| `nil` | No form is read. |
+
 #### Example
 
 `evalstring("1+2") => 3`
@@ -905,14 +886,16 @@ Checks if the given form `g_form` is a macro call and returns the expanded form 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_form` | Form that can be a macro call.
+| Name | Description |
+|---|---|
+| `g_form` | Form that can be a macro call. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_expandedForm` | Expanded form or the original form if the given argument is not amacro call.
+| Name | Description |
+|---|---|
+| `g_expandedForm` | Expanded form or the original form if the given argument is not amacro call. |
+
 #### Example
 
 ```
@@ -929,7 +912,7 @@ expandMacro( '(testMsg "alpha1" y = f(x) g(y 100)) )=> printf("test %s -- %L\n" 
 
 ### fboundp
 
-`fboundp( s_functionName ) => t | nil`
+`fboundp( s_functionName ) => t / nil`
 
 #### Description
 
@@ -939,17 +922,17 @@ This function returns a non-`nil` (that is, true) value if the given name has a 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_functionName` | Name to check for function binding.
+| Name | Description |
+|---|---|
+| `s_functionName` | Name to check for function binding. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If there is a function binding for the given name.
-|  |
-| --- | ---
-| `nil` | If no function binding exists currently for the name.
+| Name | Description |
+|---|---|
+| `t` | If there is a function binding for the given name. |
+| `nil` | If no function binding exists currently for the name. |
+
 #### Example
 
 ```
@@ -970,15 +953,17 @@ The names of functions defined by`flet` retain their local definitions only with
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_bindings` | A list of variables or a list of the form`(s_variable``g_value)`.
+| Name | Description |
+|---|---|
+| `l_bindings` | A list of variables or a list of the form`(s_variable``g_value)`. |
+
 | `g_body` | A sequence of one or more expressions.
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Result of evaluation.
+| Name | Description |
+|---|---|
+| `g_result` | Result of evaluation. |
+
 #### Example
 
 `(flet ((foo (x) (list x)))(foo 1))`
@@ -1001,17 +986,17 @@ The arguments`arg ...`are bound to the formal arguments of `s1u_func` according 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `slu_func` | Name of the function.
-|  |
-| --- | ---
-| `arg` | Arguments to be passed to the function.
+| Name | Description |
+|---|---|
+| `slu_func` | Name of the function. |
+| `arg` | Arguments to be passed to the function. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | The result of applying the function to the given arguments.
+| Name | Description |
+|---|---|
+| `g_result` | The result of applying the function to the given arguments. |
+
 #### Example
 
 `funcall( 'plus 1 2 )            ; Apply plus to its arguments.=> 3`
@@ -1022,7 +1007,7 @@ procedure( sum3(x y z) funcall( 'plus x y z) => sum3              
 
 ### getd
 
-`getd( s_functionName ) => g_definition | nil`
+`getd( s_functionName ) => g_definition / nil`
 
 #### Description
 
@@ -1032,20 +1017,17 @@ Returns the function binding for a function name.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_functionName` | Name of the function.
+| Name | Description |
+|---|---|
+| `s_functionName` | Name of the function. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_definition` | If the function is defined in SKILL, returns the function object thatthe procedure function associates with a symbol.
-|  |
-| --- | ---
-|  | If the function is primitive, the binary definition is printed (seeexample below).
-|  |
-| --- | ---
-| `nil` | No function definition exists.
+| Name | Description |
+|---|---|
+| `g_definition` | If the function is defined in SKILL, returns the function object thatthe procedure function associates with a symbol. |
+| `nil` | No function definition exists. |
+
 #### Example
 
 `getd( 'alias ) => nlambda:alias`
@@ -1058,7 +1040,7 @@ The function is written in SKILL.
 
 ### getFnWriteProtect
 
-`getFnWriteProtect( s_name ) => t | nil`
+`getFnWriteProtect( s_name ) => t / nil`
 
 #### Description
 
@@ -1068,20 +1050,17 @@ The value is`t` if `s_name` is write-protected; `nil` otherwise.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_name` | Name of the function.
+| Name | Description |
+|---|---|
+| `s_name` | Name of the function. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | The function is write protected.
-|  |
-| --- | ---
-| `nil` | The function is not write protected.
-|  |
-| --- | ---
-|  | Signals an error if the function is not defined.
+| Name | Description |
+|---|---|
+| `t` | The function is write protected. |
+| `nil` | The function is not write protected. |
+
 #### Example
 
 getFnWriteProtect( 'strlen ) => t
@@ -1098,14 +1077,16 @@ Possible function types include`lambda`, `nlambda`, `macro`, `syntax`, or `primo
 
 #### Arguments
 
-|  |
-| --- | ---
-| `u_functionObject` | A function object.
+| Name | Description |
+|---|---|
+| `u_functionObject` | A function object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `s_functionObject_type`Possible return values include `lambda`, `nlambda`, `macro`, `syntax`, or `primop`. |
+| Name | Description |
+|---|---|
+| `s_functionObject_type`Possible return values include `lambda`, `nlambda`, `macro`, `syntax`, or `primop`. |  |
+
 #### Example
 
 ```
@@ -1118,7 +1099,7 @@ getFunType( getd( 'sin ))        => lambdagetFunType( lambda( (x y) x+y 
 
 ### getVarWriteProtect
 
-`getVarWriteProtect( s_name ) => t | nil`
+`getVarWriteProtect( s_name ) => t / nil`
 
 #### Description
 
@@ -1126,17 +1107,17 @@ getFunType( getd( 'sin ))        => lambdagetFunType( lambda( (x y) x+y 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_name` | Name of the variable to check.
+| Name | Description |
+|---|---|
+| `s_name` | Name of the variable to check. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | The variable is write-protected.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | The variable is write-protected. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `x = 5getVarWriteProtect( 'x ) => nil`
@@ -1149,7 +1130,7 @@ Returns`nil` if the variable `x` is not write protected.
 
 ### globalProc
 
-`globalProc( s_funcName( l_formalArglist ) g_expr1 ... )=> s_funcName`
+`globalProc( s_funcName( l_formalArglist ) g_expr1 ... ) => s_funcName`
 
 #### Description
 
@@ -1163,20 +1144,18 @@ Expressions within a function can reference any variable on the formal argument 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_funcName` | Name of the function you are defining.
-|  |
-| --- | ---
-| `l_formalArglist` | Formal argument list.
-|  |
-| --- | ---
-| `g_expr1` | Expression or expressions to be evaluated when `s_funcName` is called.
+| Name | Description |
+|---|---|
+| `s_funcName` | Name of the function you are defining. |
+| `l_formalArglist` | Formal argument list. |
+| `g_expr1` | Expression or expressions to be evaluated when `s_funcName` is called. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `s_funcName` | Name of the function being defined.
+| Name | Description |
+|---|---|
+| `s_funcName` | Name of the function being defined. |
+
 #### Example
 
 Define two global functions,`test_set` and `test_get` using and `globalProc`that reference a lexical variable `secret_val:`
@@ -1192,7 +1171,7 @@ ILS-<2> test\_get()
 
 ### isCallable
 
-`isCallable( s_function ) => t | nil`
+`isCallable( s_function ) => t / nil`
 
 #### Description
 
@@ -1200,17 +1179,17 @@ Checks if a function is defined or is autoloadable from a context.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_function` | Name of a function.
+| Name | Description |
+|---|---|
+| `s_function` | Name of a function. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | The specified function is defined or is autoloadable.
-|  |
-| --- | ---
-| `nil` | The specified function is not defined or is not autoloadable.
+| Name | Description |
+|---|---|
+| `t` | The specified function is defined or is autoloadable. |
+| `nil` | The specified function is not defined or is not autoloadable. |
+
 #### Example
 
 ```
@@ -1223,7 +1202,7 @@ isCallable( 'car) => t procedure( myFunction( x ) x+1)isCallable('myFunction) =>
 
 ### isMacro
 
-`isMacro( s_symbolName ) => t | nil`
+`isMacro( s_symbolName ) => t / nil`
 
 #### Description
 
@@ -1231,17 +1210,17 @@ Checks if the given symbol denotes a macro.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_symbolName` | Symbol to check.
+| Name | Description |
+|---|---|
+| `s_symbolName` | Symbol to check. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | The given symbol denotes a macro.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | The given symbol denotes a macro. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `(isMacro 'plus)     => nil(isMacro 'defmacro) => t`
@@ -1264,15 +1243,17 @@ Enables you to define local functions with LET semantics.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_bindings` | A list of variables or a list of the form`(s_variable``g_value)`.
+| Name | Description |
+|---|---|
+| `l_bindings` | A list of variables or a list of the form`(s_variable``g_value)`. |
+
 | `g_body` | A sequence of one or more expressions.
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Result of evaluation.
+| Name | Description |
+|---|---|
+| `g_result` | Result of evaluation. |
+
 #### Example
 
 `(labels ((sum (x)`
@@ -1299,26 +1280,24 @@ The keywords`lambda` and `nlambda` allow functions to be defined without having 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_formalArgument` | Formal argument for the function definition.
-|  |
-| --- | ---
-| `g_expr1` | SKILL expression to be evaluated when the function is called.
+| Name | Description |
+|---|---|
+| `s_formalArgument` | Formal argument for the function definition. |
+| `g_expr1` | SKILL expression to be evaluated when the function is called. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `U_result` | A function object.
+| Name | Description |
+|---|---|
+| `U_result` | A function object. |
+
 #### Example
 
 `(lambda( (x y) x + y ) 5 6)=> 11`
 
 ### let
 
-```
-SKILL modelet( l_bindings g_expr1 ... ) => g_result SKILL++ modelet( [ s_var ]    (        ( s_var1 s_initExp1 )        ( s_var2 s_initExp2 )    ...    )body)=> g_result
-```
+`let( l_bindings g_expr1 ... ) => g_result`
 
 #### Description
 
@@ -1342,29 +1321,21 @@ In SKILL++ mode, local`defines` can appear at the beginning of the body of a `le
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_bindings` | (SKILL mode) Local variable bindings, can either be bound to avalue or `nil` (the default).
-|  |
-| --- | ---
-| `g_expr1` | (SKILL mode) Any number of expressions.
-|  |
-| --- | ---
-| `s_var` | (SKILL++ mode) When the optional`s_var` is given, this becomes a `named let`. A `named let` is just like an ordinary `let` except that `s_var` is bound within the body to a function whose formal arguments are the bound variables and whose body is `body`.
-|  |
-| --- | ---
-| `s_var1` | (SKILL++ mode) Name of local variable. The variables are boundto fresh locations holding the result of evaluating the corresponding `initExp`.
-|  |
-| --- | ---
-| `s_initExp` | (SKILL++ mode) Expression evaluated for the initial value. The`initExps` are evaluated in the current environment (in some unspecified order).
-|  |
-| --- | ---
-| `body` | (SKILL++ mode)A sequence of one or more expressions. The expressions in (`body`) are evaluated sequentially in the extended environment. Each local variable binding has `body` as its scope.
+| Name | Description |
+|---|---|
+| `l_bindings` | (SKILL mode) Local variable bindings, can either be bound to avalue or `nil` (the default). |
+| `g_expr1` | (SKILL mode) Any number of expressions. |
+| `s_var` | (SKILL++ mode) When the optional`s_var` is given, this becomes a `named let`. A `named let` is just like an ordinary `let` except that `s_var` is bound within the body to a function whose formal arguments are the bound variables and whose body is `body`. |
+| `s_var1` | (SKILL++ mode) Name of local variable. The variables are boundto fresh locations holding the result of evaluating the corresponding `initExp`. |
+| `s_initExp` | (SKILL++ mode) Expression evaluated for the initial value. The`initExps` are evaluated in the current environment (in some unspecified order). |
+| `body` | (SKILL++ mode)A sequence of one or more expressions. The expressions in (`body`) are evaluated sequentially in the extended environment. Each local variable binding has `body` as its scope. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | The result of the last expression evaluated.
+| Name | Description |
+|---|---|
+| `g_result` | The result of the last expression evaluated. |
+
 #### Example 1
 
 The following example describes the use of the`let` function in the SKILL mode.
@@ -1399,9 +1370,7 @@ let( ( ( x 2 ) ( y 3 ) )    let( (( x 7 ) ( foo lambda( ( z ) x + y + z ) ) 
 
 ### letrec
 
-```
-letrec(    (        ( s_var1 s_initExp1 )        ( s_var2 s_initExp2 )    ...     )body) => g_result
-```
+`letrec( ( ( s_var1 s_initExp1 ) ( s_var2 s_initExp2 ) ... ) body ) => g_result`
 
 #### Description
 
@@ -1415,20 +1384,18 @@ For example, a`lambda` expression satisfies this restriction because its body ge
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_var` | Name of a local variable. The variables are bound to freshlocations holding undefined values. Each variable is assigned to the result of the corresponding `initExp`.
-|  |
-| --- | ---
-| `s_initExp1` | Expressions evaluated for the initial value. The`initExps` are evaluated in the resulting environment (in some unspecified order).
-|  |
-| --- | ---
-| `body` | A sequence of one or more expressions. The expressions inbody are evaluated sequentially in the extended environment.
+| Name | Description |
+|---|---|
+| `s_var` | Name of a local variable. The variables are bound to freshlocations holding undefined values. Each variable is assigned to the result of the corresponding `initExp`. |
+| `s_initExp1` | Expressions evaluated for the initial value. The`initExps` are evaluated in the resulting environment (in some unspecified order). |
+| `body` | A sequence of one or more expressions. The expressions inbody are evaluated sequentially in the extended environment. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Value of the last expression of`body`.
+| Name | Description |
+|---|---|
+| `g_result` | Value of the last expression of`body`. |
+
 #### Example
 
 ```
@@ -1439,9 +1406,7 @@ This example declares a single recursive local function. The local function`f`co
 
 ### letseq
 
-```
-letseq(    (        ( s_var1 initExp1 )        ( s_var2 initExp2 )         ...    )body)=> g_result
-```
+`letseq( ( ( s_var1 initExp1 ) ( s_var2 initExp2 ) ... ) body ) => g_result`
 
 #### Description
 
@@ -1453,20 +1418,18 @@ This form is equivalent to a corresponding sequence of nested let expressions. I
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_var` | Name of a local variable. Each variable is assigned to the resultof the corresponding `initExp`.
-|  |
-| --- | ---
-| `initExp` | Expressions evaluated for the initial value. The`initExps` are evaluated sequentially in the environments that result from previous bindings.
-|  |
-| --- | ---
-| `body` | A sequence of one or more expressions.
+| Name | Description |
+|---|---|
+| `s_var` | Name of a local variable. Each variable is assigned to the resultof the corresponding `initExp`. |
+| `initExp` | Expressions evaluated for the initial value. The`initExps` are evaluated sequentially in the environments that result from previous bindings. |
+| `body` | A sequence of one or more expressions. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Value of the last expression of`body`.
+| Name | Description |
+|---|---|
+| `g_result` | Value of the last expression of`body`. |
+
 #### Example
 
 `letseq( ( ( x 1 ) ( y x+1 ) )     y     ) ; letseq=> 2`
@@ -1477,7 +1440,7 @@ The code above is a more convenient equivalent to the code below in which you co
 
 ### mprocedure
 
-`mprocedure( s_macroName( s_formalArgument ) g_expr1 ... )=> s_funcName`
+`mprocedure( s_macroName( s_formalArgument ) g_expr1 ... ) => s_funcName`
 
 #### Description
 
@@ -1493,20 +1456,18 @@ Macros in SKILL are completely general in that a`macro` body can call any other 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_macroName` | Name of the macro function.
-|  |
-| --- | ---
-| `s_formalArgument` | Formal arguments for the macro definition.
-|  |
-| --- | ---
-| `g_expr1` | A SKILL expression.
+| Name | Description |
+|---|---|
+| `s_macroName` | Name of the macro function. |
+| `s_formalArgument` | Formal arguments for the macro definition. |
+| `g_expr1` | A SKILL expression. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `s_funcName` | Name of the macro defined.
+| Name | Description |
+|---|---|
+| `s_funcName` | Name of the macro defined. |
+
 #### Example
 
 ```
@@ -1537,17 +1498,17 @@ In general, it is preferable to use`lambda` instead of `nlambda` because `lambda
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_formalArgument` | Formal argument for the function definition.
-|  |
-| --- | ---
-| `g_expr1` | SKILL expressions to be evaluated when the function is called.
+| Name | Description |
+|---|---|
+| `s_formalArgument` | Formal argument for the function definition. |
+| `g_expr1` | SKILL expressions to be evaluated when the function is called. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `u_result` | A function object.
+| Name | Description |
+|---|---|
+| `u_result` | A function object. |
+
 #### Example
 
 `putd( 'foo nlambda( (x) println( x )))=> funobj:0x309128`
@@ -1562,7 +1523,7 @@ apply( nlambda((y) foreach(x y printf(x))) '("Hello" "World\n"))HelloWorld=> ("H
 
 ### nprocedure
 
-`nprocedure( s_funcName( s_formalArgument ) g_expr1 ... )=> s_funcName`
+`nprocedure( s_funcName( s_formalArgument ) g_expr1 ... ) => s_funcName`
 
 #### Description
 
@@ -1576,20 +1537,18 @@ In general, it is preferable to use`lambda` instead of `nlambda` because `lambda
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_funcName` | Name of newly defined function.
-|  |
-| --- | ---
-| `s_formalArgument` | Formal argument for the function definition.
-|  |
-| --- | ---
-| `g_expr1` | SKILL expressions to be evaluated when the function is called.
+| Name | Description |
+|---|---|
+| `s_funcName` | Name of newly defined function. |
+| `s_formalArgument` | Formal argument for the function definition. |
+| `g_expr1` | SKILL expressions to be evaluated when the function is called. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `s_funcName` | Returns the name of the function defined.
+| Name | Description |
+|---|---|
+| `s_funcName` | Returns the name of the function defined. |
+
 #### Example
 
 `procedure( printarg(x) println(x))=> printarg`
@@ -1614,7 +1573,7 @@ Calls an`nlambda` function. Prints a list of the unevaluated arguments. `println
 
 ### procedure
 
-`procedure( s_funcName( l_formalArglist ) g_expr1 ... )=> s_funcName`
+`procedure( s_funcName( l_formalArglist ) g_expr1 ... ) => s_funcName`
 
 #### Description
 
@@ -1628,20 +1587,18 @@ Expressions within a function can reference any variable on the formal argument 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_funcName` | Name of the function you are defining.
-|  |
-| --- | ---
-| `l_formalArglist` | Formal argument list.
-|  |
-| --- | ---
-| `g_expr1` | Expression or expressions to be evaluated when `s_funcName` is called.
+| Name | Description |
+|---|---|
+| `s_funcName` | Name of the function you are defining. |
+| `l_formalArglist` | Formal argument list. |
+| `g_expr1` | Expression or expressions to be evaluated when `s_funcName` is called. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `s_funcName` | Name of the function being defined.
+| Name | Description |
+|---|---|
+| `s_funcName` | Name of the function being defined. |
+
 #### ARGUMENT LIST PARAMETERS
 
 Several parameters provide flexibility in procedure argument lists. These parameters arereferred to as @ ("at") options. The parameters are `@rest`, `@optional`, `@key`, and `@aux`.

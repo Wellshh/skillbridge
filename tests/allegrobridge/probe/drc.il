@@ -167,6 +167,149 @@
           'reported_count (axlDRCGetCount)
           'markers (reverse markers))))
 
+(putd '__abpDrcMarkerFingerprint nil)
+(defun __abpDrcMarkerFingerprint (marker)
+  (list marker->type marker->name marker->source marker->layer
+        marker->actual marker->expected marker->xy marker->bBox))
+
+(putd '__abpDrcFigureObservation nil)
+(defun __abpDrcFigureObservation (object index)
+  (list nil
+        'index index
+        'dbid (sprintf nil "%L" object)
+        'obj_type object->objType
+        'schema (__abpDrcObjectSchema object)
+        'stable_ref (__abpDrcObjectReference object)
+        'net_ref (__abpDrcNetReference object)))
+
+(putd '__abpDrcFigureFingerprint nil)
+(defun __abpDrcFigureFingerprint (object)
+  (list object->objType
+        (when (member 'layer object->?) object->layer)
+        (when (member 'xy object->?) object->xy)
+        (when (member 'bBox object->?) object->bBox)
+        (__abpDrcNetReference object)))
+
+(putd '__abpDrcViolationFingerprint nil)
+(defun __abpDrcViolationFingerprint (marker)
+  (let (result)
+    (foreach object marker->violations
+      (setq result (cons (__abpDrcFigureFingerprint object) result)))
+    (reverse result)))
+
+(putd '__abpDrcReturnedMarkers nil)
+(defun __abpDrcReturnedMarkers (markers candidate)
+  (let (result seen (index 0) duplicateOf)
+    (foreach marker markers
+      (setq duplicateOf nil)
+      (foreach prior seen
+        (when (and (null duplicateOf) (equal marker (car prior)))
+          (setq duplicateOf (cadr prior))))
+      (setq result
+            (cons
+              (list nil
+                    'index index
+                    'dbid (sprintf nil "%L" marker)
+                    'same_dbid (equal marker candidate)
+                    'duplicate_of duplicateOf
+                    'fingerprint (__abpDrcMarkerFingerprint marker)
+                    'violation_fingerprint
+                      (__abpDrcViolationFingerprint marker))
+              result))
+      (setq seen (cons (list marker index) seen))
+      (setq index (plus index 1)))
+    (reverse result)))
+
+(putd '__abpDrcQueryObservation nil)
+(defun __abpDrcQueryObservation (label markers candidate)
+  (list nil
+        'label label
+        'marker_count (length markers)
+        'markers (__abpDrcReturnedMarkers markers candidate)))
+
+(putd '__abpDrcEqualOverlap nil)
+(defun __abpDrcEqualOverlap (left right)
+  (let (result)
+    (foreach leftMarker left
+      (foreach rightMarker right
+        (when (equal leftMarker rightMarker)
+          (setq result
+                (cons (__abpDrcMarkerFingerprint leftMarker) result)))))
+    (reverse result)))
+
+(putd '__abpDrcPairOverlap nil)
+(defun __abpDrcPairOverlap (queryOrder netA netB)
+  (letseq ((design (axlDBRefreshId (axlDBGetDesign)))
+           candidate first second figures
+           firstMarkers secondMarkers pairMarkers repeatedMarkers
+           firstQuery secondQuery queries firstRef secondRef firstName secondName
+           candidateDbid candidateFingerprint)
+    (foreach marker design->drcs
+      (when (and (null candidate) (equal (length marker->violations) 2))
+        (if (and netA netB)
+            (progn
+              (setq firstRef
+                    (__abpDrcNetReference (car marker->violations)))
+              (setq secondRef
+                    (__abpDrcNetReference (cadr marker->violations)))
+              (setq firstName (when firstRef firstRef->name))
+              (setq secondName (when secondRef secondRef->name))
+              (when (or
+                      (and (equal firstName netA) (equal secondName netB))
+                      (and (equal firstName netB) (equal secondName netA)))
+                (setq candidate marker)))
+            (setq candidate marker))))
+    (if (null candidate)
+        (list nil
+              'allegro_version (axlVersion 'fullVersion)
+              'status "no_pair_marker")
+        (progn
+          (setq first (car candidate->violations))
+          (setq second (cadr candidate->violations))
+          (setq candidateDbid (sprintf nil "%L" candidate))
+          (setq candidateFingerprint (__abpDrcMarkerFingerprint candidate))
+          (setq figures
+                (list (__abpDrcFigureObservation first 0)
+                      (__abpDrcFigureObservation second 1)))
+          (if (equal queryOrder "second_first")
+              (progn
+                (setq secondMarkers (axlDRCItem t second))
+                (setq secondQuery
+                      (__abpDrcQueryObservation "second" secondMarkers candidate))
+                (setq firstMarkers (axlDRCItem t first))
+                (setq firstQuery
+                      (__abpDrcQueryObservation "first" firstMarkers candidate)))
+              (progn
+                (setq firstMarkers (axlDRCItem t first))
+                (setq firstQuery
+                      (__abpDrcQueryObservation "first" firstMarkers candidate))
+                (setq secondMarkers (axlDRCItem t second))
+                (setq secondQuery
+                      (__abpDrcQueryObservation "second" secondMarkers candidate))))
+          (setq pairMarkers (axlDRCItem t (list first second)))
+          (setq repeatedMarkers (axlDRCItem t (list first first)))
+          (setq queries
+                (list
+                  firstQuery
+                  secondQuery
+                  (__abpDrcQueryObservation "pair" pairMarkers candidate)
+                  (__abpDrcQueryObservation
+                    "repeated_first" repeatedMarkers candidate)))
+          (list nil
+                'allegro_version (axlVersion 'fullVersion)
+                'status "completed"
+                'query_order queryOrder
+                'requested_nets (list netA netB)
+                'candidate
+                  (list nil
+                        'dbid candidateDbid
+                        'fingerprint candidateFingerprint
+                        'figures figures)
+                'queries queries
+                'first_second_same_dbids
+                  (__abpDrcEqualOverlap firstMarkers secondMarkers)
+                'ending_drc_count (axlDRCGetCount))))))
+
 (putd '__abpDrcUpdate nil)
 (defun __abpDrcUpdate ()
   (letseq ((originalEnable (axlDBControl 'drcEnable))

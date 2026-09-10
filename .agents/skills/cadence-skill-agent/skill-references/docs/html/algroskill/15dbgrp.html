@@ -1,0 +1,1531 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN" "http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+<html xmlns="http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Allegro SKILL Reference -- 16</title>
+<META NAME="Approver" CONTENT="Technical Publications">
+<META NAME="Author" CONTENT="Technical Publications">
+<META NAME="CreateDate" CONTENT="2017-11-25">
+<META NAME="CreateTime" CONTENT="1511600113">
+<META NAME="DataType" CONTENT="Manuals">
+<META NAME="Description" CONTENT="Describes the Allegro eXtension Language (AXL) and how to use each AXL function.">
+<META NAME="DocTitle" CONTENT="Allegro SKILL Reference">
+<META NAME="DocType" CONTENT="SKILL Reference">
+<META NAME="EdmsRelease" CONTENT="FM-Wiki-2.0_HF2">
+<META NAME="FileTitle" CONTENT="16">
+<META NAME="FileType" CONTENT="Chapter">
+<META NAME="Group" CONTENT="Allegro User Guide">
+<META NAME="Keyword" CONTENT="algroskill">
+<META NAME="Language" CONTENT="English">
+<META NAME="ModifiedDate" CONTENT="2017-11-25">
+<META NAME="ModifiedTime" CONTENT="1511600113">
+<META NAME="NextFile" CONTENT="16dbatt.html">
+<META NAME="Order" CONTENT="11">
+<META NAME="PageCount" CONTENT="26">
+<META NAME="Platform" CONTENT="ALL">
+<META NAME="PrevFile" CONTENT="03dbcre8.html">
+<META NAME="Product" CONTENT="Allegro PCB Editor, Cadence SiP Digital">
+<META NAME="ProductFamily" CONTENT="Silicon-Package-Board Co-Design, IC Packaging">
+<META NAME="ProductVersion" CONTENT="17.2-2016">
+<META NAME="RightsManagement" CONTENT="Copyright 19912017 Cadence Design Systems Inc.">
+<META NAME="Title" CONTENT="Allegro SKILL Reference -- 16">
+<META NAME="TopicTags" CONTENT="FALSE">
+<META NAME="Version" CONTENT="17.2-2016">
+  </head>
+  <body style="margin-left: 5%;">
+    <a name="pagetop"></a>
+    <a name="firstpage"></a>
+    <!-- Begin Buttons -->
+    <table width="650" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td height="36" width="650" colspan="10">
+          <img src="images/header_doc.gif" width="650" height="34">
+        </td>
+      </tr>
+      <tr>
+        <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+        <td>
+          <a href="03dbcre8.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+        </td>
+        <td>
+          <a href="16dbatt.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+        </td>
+        <td height="20">
+          <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+          </a>
+        </td>
+        <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+        </td>
+        <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+        </td>
+        <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+        </td>
+        <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+        </td>
+      </tr>
+    </table>
+    <!-- End Buttons -->
+    <p>
+    <hr>
+    <p>
+      <h3>
+        <center>
+          <font >
+            <div>Allegro User Guide: SKILL Reference</div>
+            <font >
+              <div>Product Version 17.2&#45;2016 April 2016</div>
+            </font>
+          </font>
+        </center>
+      </h3>
+      <br>
+    </p>
+    <div>
+      <h1>16<a name="1001295">&nbsp;</a></h1>
+      <h1><a name="1037521">Database Group Functions</a></h1>
+      <h2><a name="1065213">Overview</a></h2>
+      <p><a name="1065738">This chapter describes the AXL&#45;SKILL Database Group functions.</a></p>
+      <h3><a name="1065349">axlDBAddGroupObjects</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1074955">axlDBAddGroupObjects(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>o_group<dd>lo_members<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="1075143">Description</a></h4>
+      <p><a name="1075144">Adds the database objects specified in the new members list to a group. All restrictions and disclaimers specified in </a><a href="#1076292" title="16"><font color="#0000ff"><u>axlDBCreateGroup</u></font></a> also apply for this procedure.</p>
+      <h4><a name="1075145">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1089598"><font size="2" face="'Courier New'" color="#000000"><em>o_group</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1089600"><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font></a> of the group to receive new members.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089602"><font size="2" face="'Courier New'" color="#000000"><em>lo_members</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089604">List of </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font>'s specifying the new group members. Database objects already in the group are silently ignored (giving a return value of <font size="2" face="'Courier New'" color="#000000">t</font>.) A single <font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font> can be substituted for a list.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076289">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1089616"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1089618">Objects added to the group.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089620"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089622">Objects could not be added to the group because the resulting group does not meet the restrictions specified in </a><font size="2" face="'Courier New'" color="#000000">axlDBCreateGroup</font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1080196">See Also</a></h4>
+      <p><a href="#1076292" title="16" name="1080206"><font color="#0000ff"><u>axlDBCreateGroup</u></font></a></p>
+      <h3><a name="1076292">axlDBCreateGroup</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076299">axlDBCreateGroup(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_name<dd>t_type<dd>lo_groupMembers<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="1076301">Description</a></h4>
+      <p><a name="1076302">Creates a new group database object with members specified by </a><font size="2" face="'Courier New'" color="#000000"><em>lo_groupMembers</em></font>.</p>
+      <h4><a name="1076303">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="136">
+            <p><a name="1089286"><font size="2" face="'Courier New'" color="#000000"><em>t_name</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="508">
+            <p><a name="1089288">String providing the group name. If name is in use by an existing group, this function fails and returns </a><font size="2" face="'Courier New'" color="#000000">nil</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089290"><font size="2" face="'Courier New'" color="#000000"><em>t_type</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089292">String defining the group type. Legal values are: </a></p>
+            <p><a name="1089311">&#34;</a><font size="2" face="'Courier New'" color="#000000">generic</font>&#34;   &#45; Allegro user groups </p>
+            <p><a name="1089312">members: anything except other non&#45;generic group objects</a></p>
+            <p><a name="1089313">&#34;</a><font size="2" face="'Courier New'" color="#000000">bus</font>&#34; </p>
+            <p><a name="1089314">members: net and xnets</a></p>
+            <p><a name="1089315">&#34;</a><font size="2" face="'Courier New'" color="#000000">net_group</font>&#34;  </p>
+            <p><a name="1089316">members: xnet, net, diffpair, bus and net_group</a></p>
+            <p><a name="1089317">&#34;</a><font size="2" face="'Courier New'" color="#000000">nets_rko</font>&#34; &#45; a net keepout group</p>
+            <p><a name="1089318">members: xnet, net, diffpair bus, net_group shape and fill rects (via and route keepout)</a></p>
+            <p><a name="1089319">&#34;</a><font size="2" face="'Courier New'" color="#000000">die_stack</font>&#34; &#45; SIP and APD only</p>
+            <p><a name="1089320">members: compinst, syminst, rectangle, shape</a></p>
+            <p><a name="1089321">&#34;</a><font size="2" face="'Courier New'" color="#000000">ratbundle</font>&#34;</p>
+            <p><a name="1089362">members: pinpair, line and figure</a></p>
+            <p><a name="1089363">&#34;</a><font size="2" face="'Courier New'" color="#000000">wire_profile</font>&#34; &#45; SIP and APD only</p>
+            <p><a name="1089364">members: a wire (cline or wire subclass)</a></p>
+            <p><a name="1089365">&#34;</a><font size="2" face="'Courier New'" color="#000000">module</font>&#34; &#45; suggest to use <font size="2" face="'Courier New'" color="#000000">axlDBCreateModuleDef</font></p>
+            <p><a name="1089366">Accessible but not recommended.</a></p>
+            <p><a name="1089367">&#34;</a><font size="2" face="'Courier New'" color="#000000">db_drill_legend</font>&#34; &#45; drill legend tables</p>
+            <p><a name="1089368">&#34;</a><font size="2" face="'Courier New'" color="#000000">rf_nets</font>&#34; &#45; RF &#34;super&#34; nets</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089403"><font size="2" face="'Courier New'" color="#000000"><em>lo_members</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089421">List of AXL </a><font size="2" face="'Courier New'" color="#000000"><em>dbids</em></font> defining the group members. Duplicate <font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font> entries are silently ignored. An object is added to a group only once. A single <font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font> can be substituted for a list.<br><br>If certain restrictions on the group members are violated, this function fails and returns <font size="2" face="'Courier New'" color="#000000">nil</font>. </p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1089436">For each group type has only certain objects that are allowed. For example generic groups only permits: </a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="69">
+                    <div>&nbsp;</div>
+                  </td>
+                  <td width="31.872000000000003">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/bss_bullet_sub_sub.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1089437">group</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="69">
+                    <div>&nbsp;</div>
+                  </td>
+                  <td width="31.872000000000003">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/bss_bullet_sub_sub.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1089438">component</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="69">
+                    <div>&nbsp;</div>
+                  </td>
+                  <td width="31.872000000000003">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/bss_bullet_sub_sub.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1089439">symbol</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="69">
+                    <div>&nbsp;</div>
+                  </td>
+                  <td width="31.872000000000003">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/bss_bullet_sub_sub.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1089440">net</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="69">
+                    <div>&nbsp;</div>
+                  </td>
+                  <td width="31.872000000000003">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/bss_bullet_sub_sub.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1089441">path</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="69">
+                    <div>&nbsp;</div>
+                  </td>
+                  <td width="31.872000000000003">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/bss_bullet_sub_sub.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1089442">via</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="69">
+                    <div>&nbsp;</div>
+                  </td>
+                  <td width="31.872000000000003">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/bss_bullet_sub_sub.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1089443">shape</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="69">
+                    <div>&nbsp;</div>
+                  </td>
+                  <td width="31.872000000000003">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/bss_bullet_sub_sub.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1089444">polygon</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="69">
+                    <div>&nbsp;</div>
+                  </td>
+                  <td width="31.872000000000003">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/bss_bullet_sub_sub.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1089445">pin</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="69">
+                    <div>&nbsp;</div>
+                  </td>
+                  <td width="31.872000000000003">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/bss_bullet_sub_sub.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1089446">text</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1089458">A circular group relationship cannot be formed. </a></td>
+                </tr>
+              </table>
+            </div>
+            <p><a name="1089405">For example, group A cannot be added as a member of group B if group B is directly or indirectly a member of group A.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076306">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1089634"><font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1089636"><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font></a> of the newly formed group.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089638"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089640">If the group could not be created.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1080230">See Also</a></h4>
+      <p><a href="#1065349" title="16" name="1080231"><font color="#0000ff"><u>axlDBAddGroupObjects</u></font></a>, <a href="#1076355" title="16"><font color="#0000ff"><u>axlDBDisbandGroup</u></font></a>, <a href="#1079477" title="16"><font color="#0000ff"><u>axlDBRemoveGroupObjects</u></font></a></p>
+      <p><a name="1082860">&nbsp;</a></p>
+      <h4><a name="1076297">Example</a></h4>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1082847">Generic group</a></td>
+          </tr>
+        </table>
+      </div>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076351">groupMembers = axlGetSelSet()</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076352">group_dbid = axlDBCreateGroup(&#34;my_group&#34; &#34;generic&#34; groupMembers)</a></font>
+      </blockquote>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1082867">Net group</a></td>
+          </tr>
+        </table>
+      </div>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1082885">groupMembers = axlSelectByName(&#34;NET&#34; &#34;NET*&#34; t)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1082877">group_dbid = axlDBCreateGroup(&#34;NG1&#34; &#34;net_group&#34; groupMembers)</a></font>
+      </blockquote>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1076354">The order of the group members provided when you access the </a><font size="2" face="'Courier New'" color="#000000"><em>groupMembers</em></font> property may vary from the order provided in <font size="2" face="'Courier New'" color="#000000"><em>lo_groupMembers</em></font>.</p>
+      <h3><a name="1076355">axlDBDisbandGroup</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076362">axlDBDisbandGroup(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>o_group<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="1076364">Description</a></h4>
+      <p><a name="1076365">Disbands the database group you specify with the </a><font size="2" face="'Courier New'" color="#000000"><em>o_group</em></font> argument, thereby immediately removing the group. Members of the group are not deleted.</p>
+      <h4><a name="1076366">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1089656"><font size="2" face="'Courier New'" color="#000000"><em>o_group</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1089658"><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font></a> of the group to be deleted.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076369">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1089670"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1089672">Group disbanded.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089674"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089676">Group could not be disbanded due to an invalid argument, for example, the </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font> not being for a valid group.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1080282">See Also</a></h4>
+      <p><a href="#1076292" title="16" name="1080274"><font color="#0000ff"><u>axlDBCreateGroup</u></font></a></p>
+      <h3><a name="1079476">axlDBGetGroupFromItem</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1079490">axlDBGetGroupFromItem(<dd>o_dbid<dd>t_groupType<dd>[g_promoteToNet]<dd>) &#45;&#62; lo_groupDbid&#47;nil</a></font>
+      </dl>
+      <h4><a name="1079579">Description</a></h4>
+      <p><a name="1079587">Filter object&#39;s group membership by a group type. You can normally fetch the list of groups that an object is a member of by using the groups attribute of its dbid (etc. o_dbid&#45;&#62;groups). This function provides additional filtering where you can request if an belongs to a particular group type. Depending upon the group characteristics an object can either belong to single group of a type or can be a member multiple groups of a single type. For example, an object can belong to multiple generic groups can belong to only one differential pair group.</a></p>
+      <p><a name="1086418">The g_promoteToNet option for groups for which membership is limited to nets&#47;xnets. It promotes the object provided to its owning xnet, and is targeted for use with diffpair and bus groups, where membership is limited to the net&#39;s xnet. It provides an easy way for those groups if given the dbid of a net to promote the id to its xnet.</a></p>
+      <h4><a name="1079511">Arguments</a></h4>
+      <p align="left"><a name="1079756">&nbsp;</a></p>
+      <table summary="" border="0" cellpadding="4" cellspacing="0" bordercolor="#D3D3D3" width="650">
+        <tr>
+          <td cellpadding="4" valign="top" width="158">
+            <p><a name="1079763"><font size="2" face="'Courier New'" color="#000000">o_dbid</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top" width="491">
+            <p><a name="1079765">dbid to be examined</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1079767"><font size="2" face="'Courier New'" color="#000000">t_groupType</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1079769">group type name. This is the group type name NOT the name of the group. In dbid terms this is group&#45;&#62;type.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1079771"><font size="2" face="'Courier New'" color="#000000">g_mode</font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1079773">If this value is </a><font size="2" face="'Courier New'" color="#000000">t</font>, it promotes the object to its net&#47;xnet and performs test on that object.</p>
+            <p><a name="1086432">If the value is set to </a><font size="2" face="'Courier New'" color="#000000">&#39;all</font> then it traverses group hierarchy and returns both direct and indirect group membership of dbid.</p>
+            <p><a name="1086478">For example, if net is a member of a xnet which is a member of a diffpair, and you specify group type of &#34;DIFF_PAIR&#34;, this returns diffpair group for object.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1079945">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1089688"><font size="2" face="'Courier New'" color="#000000">lo_groupDbid</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1089690"> Group dbids or nil if not a member of requested group type</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="1079947"><font color="#000000"><strong><em>See Also</em></strong></font></a>: <a href="#1076292" title="16"><font color="#0000ff"><u>axlDBCreateGroup</u></font></a></p>
+      <h4>
+        <em></em>
+        <em><a name="1079521">Examples</a></em>
+      </h4>
+      <p><a name="1079674">In both case ashOne is a shareware utility that allows user to select one object (see </a><font size="2" face="'Courier New'" color="#000000"><em>&#60;CDSROOT&#62;</em></font><font size="2" face="'Courier New'" color="#000000">&#47;share&#47;pcb&#47;examples&#47;skill&#47;ash&#45;fxf&#47;ashone.il</font></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1080159">differential pair; set </a><font size="2" face="'Courier New'" color="#000000">g_promoteToNet</font> to <font size="2" face="'Courier New'" color="#000000">t</font> in case net is part of a xnet</td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="1079524">                </a><font size="2" face="'Courier New'" color="#000000"> p = ashOne()    ;</font> select a net that is a diffpair member</p>
+      <p><a name="1079525">                 </a><font size="2" face="'Courier New'" color="#000000">l = axlDBGetGroupFromItem(p &#34;DIFF_PAIR&#34; t)</font></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1079526">generic group</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="1079527">                 </a><font size="2" face="'Courier New'" color="#000000">p = ashOne()    ; </font>create a group and select an object that is part of group</p>
+      <p><a name="1079528">                </a><font size="2" face="'Courier New'" color="#000000"> l = axlDBGetGroupFromItem(p &#34;GENERIC&#34;)</font></p>
+      <h3><a name="1079482">axlDBGroupRename</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1083196">axlDBGroupRename(<dd>o_groupDbid<dd>t_newName<dd>)<dd>==&#62; t&#47;nil</a></font>
+      </dl>
+      <h4><a name="1083315">Description</a></h4>
+      <p><a name="1083202">Renames a group. Groups supported are GENERIC, BUS, DIFF_PAIR, NETCLASS, NET_GROUP and MATCH_GROUP. Do not attempt to rename group types not listed.</a></p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1083205">All restrictions and disclaimers specified in </a><a href="#1076292" title="16"><font color="#0000ff"><u>axlDBCreateGroup</u></font></a> also apply for this API.</p>
+      <h4><a name="1083376">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="649">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1089722"><font size="2" face="'Courier New'" color="#000000"><em>o_groupDbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="457">
+            <p><a name="1089724">The dbid of the group to be renamed</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089726"><font size="2" face="'Courier New'" color="#000000"><em>t_newName</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089728">New name of the group. Group name must be unique for the group type.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1083397">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1089740"><font size="2" face="'Courier New'" color="#000000"><em>t</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1089742">Successful in rename.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089744"><font size="2" face="'Courier New'" color="#000000"><em>nil</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089746">Failed in rename; dbid not a group, group can&#39;t be renamed, new name is not legal for group type or name already exists in that group type.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1083418">See Also</a></h4>
+      <p><a href="#1076292" title="16" name="1083217"><font color="#0000ff"><u>axlDBCreateGroup</u></font></a></p>
+      <h3><a name="1079477">axlDBRemoveGroupObjects</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076395">axlDBRemoveGroupObjects(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>o_group<dd>lo_members<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="1076397">Description</a></h4>
+      <p><a name="1076398">Removes the database objects from the specified group. Group members, though removed, are not deleted.</a></p>
+      <h4><a name="1076399">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1089758"><font size="2" face="'Courier New'" color="#000000"><em>o_group</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1089760">Group </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089762"><font size="2" face="'Courier New'" color="#000000"><em>lo_members</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089764">List of database objects to be removed from the group. A single </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font> can be substituted for a list.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076402">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1089775"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1089777">One or more objects removed from the group.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089779"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089781"><font size="2" face="'Courier New'" color="#000000"><em>lo_members</em></font></a> contained no <font size="2" face="'Courier New'" color="#000000"><em>dbids</em></font> of objects that could be removed from the group.</p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="1076417"><font color="#000000"><strong>Notes:</strong></font></a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1076465">If a group is left with no members, the group is tagged for deletion, but is not removed immediately.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1077517">You do not need to explicitly remove objects from a group before deleting the object with </a><font size="2" face="'Courier New'" color="#000000">axlDeleteObject</font>. Deleting an object removes it from all groups to which it belongs.</td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="1080317">See Also</a></h4>
+      <p><a href="#1076292" title="16" name="1080327"><font color="#0000ff"><u>axlDBCreateGroup</u></font></a></p>
+      <h3><a name="1077527">axlNetClassAdd </a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1082972">axlNetClassAdd(<dd>o_netclassdbid&#47;t_netclassName<dd>o_dbid&#47;lo_dbid<dd>)==&#62; t&#47;nil</a></font>
+      </dl>
+      <h4><a name="1082974">Description</a></h4>
+      <p><a name="1077534">Adds members to a netclass group. Eligible members are:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1077535">nets </a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1077536">xnets</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1077537">differential pairs</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1077538">busses</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="1077539">See netclass discussion in </a><a href="#1077736" title="16"><font color="#0000ff"><u>axlNetClassCreate</u></font></a>. This will mark DRC out of date. It is up to the application to update the DRC system.</p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <font size="3"><img src="images/tip.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <font size="3"><a name="1077543">Using dbids is faster then using names.</a></font>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="1077545">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1089542"><font size="2" face="'Courier New'" color="#000000"><em>o_netclassdbid</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1089544">dbid of a netclass group</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089546"><font size="2" face="'Courier New'" color="#000000"><em>t_netclassName</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089548">name of a netclass group</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089550"><font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089552">legal database dbid to add to netclass</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089554"><font size="2" face="'Courier New'" color="#000000"><em>lo_dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089556">list of legal database dbids to add to netclass </a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1077550">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="108">
+            <p><a name="1089565"><font size="2" face="'Courier New'" color="#000000"><em>t</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="538">
+            <p><a name="1089567">added elements</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089569"><font size="2" face="'Courier New'" color="#000000"><em>nil </em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089571">failed one or more element adds; object might already be a member of a netclass in that domain or not legal dbid to add to a netclass</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1077557">Examples</a></h4>
+      <p><a name="1077558">To netclass group created in axlNetClassCreate add two nets</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077559">             nc = car(axlSelectByName(&#34;NETCLASS&#34; &#34;5_MIL&#34;))</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077560">             nets = axlSelectByName(&#34;NET&#34; &#39;(&#34;NET8&#34; &#34;NET9&#34;))</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077561">             axlNetClassAdd(nc nets)</a></font>
+      </blockquote>
+      <h4><a name="1077724">See Also</a></h4>
+      <p><a href="#1077736" title="16" name="1077725"><font color="#0000ff"><u>axlNetClassCreate</u></font></a></p>
+      <h3><a name="1077736">axlNetClassCreate </a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077738">axlNetClassCreate(<dd>t_name<dd>g_domain&#47;lg_domain<dd>)==&#62; o_dbid</a></font>
+      </dl>
+      <h4><a name="1077742">Description</a></h4>
+      <p><a name="1077744">This creates a new netclass group. If a netclass exists with this name then </a><font size="2" face="'Courier New'" color="#000000">nil</font> is returned. Net Classes need to be populated via <font size="2" face="'Courier New'" color="#000000">axlNetClassAdd</font>. Empty net classes may be deleted on database save. A netclass must be part of one or more domains. These domains are shown below. The Same Net Constraint domain uses the netclass spacing domain. An object (bus, diffpair, xnet or net) may be a member of single netclass in a domain. For example, if net VCC exists in the POWER netclass in the physical domain then you cannot add it to another netclass in the physical domain. You can still add this net of a netclass in the spacing or electrical domain. You can obtain the current set of netclasses in the database via: <font size="2" face="'Courier New'" color="#000000">axlDBGetDesign()&#45;&#62;netclass</font>. axlNetClassGet reports if an object is a member of a netclass either directly or via the logic hierarchy.</p>
+      <p><a name="1081256">To assign a cset to a netclass assign the PHYSICAL_CONSTRAINT_SET, SPACING_CONSTRAINT_SET, SAME_NET_SPACING_CONSTRAINT_SET or ELECTRICAL_CONSTRAINT_SET property to the netclass where the value of the property is the cset name.</a></p>
+      <p><a name="1081239">Same Net constraints shares the same domain with the SPACING_CONSTRAINT_SET.</a></p>
+      <h4><a name="1077773">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1089798"><font size="2" face="'Courier New'" color="#000000"><em>t_name</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1089800">name of netclass group (changed to upper case)</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089802"><font size="2" face="'Courier New'" color="#000000"><em>g_domain</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089804">netclass domain can be &#39;spacing, &#39;physical, &#39;electrical or &#39;all</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089806"><font size="2" face="'Courier New'" color="#000000"><em>lg_domain</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089808">list of netclass domains</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1077778">Value Returns</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="649">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1089820"><font size="2" face="'Courier New'" color="#000000"><em>nil:</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="457">
+            <p><a name="1089822">error or netclass with that name exists</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089824"><font size="2" face="'Courier New'" color="#000000"><em>o_dbid:</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089826">dbid of group</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1077781">See Also</a></h4>
+      <p><a href="#1078088" title="16" name="1077782"><font color="#0000ff"><u>axlNetClassDelete</u></font></a>, <a href="#1077527" title="16"><font color="#0000ff"><u>axlNetClassAdd</u></font></a>, <a href="#1078460" title="16"><font color="#0000ff"><u>axlNetClassRemove</u></font></a>, <a href="#1078253" title="16"><font color="#0000ff"><u>axlNetClassGet</u></font></a>, <a href="03dbcre8.html#367701" title="15"><font color="#0000ff"><u>axlDBAddProp</u></font></a>, <a href="18consmgt.html#1106245" title="19"><font color="#0000ff"><u>axlCNSCreate</u></font></a></p>
+      <h4><a name="1077784">Examples</a></h4>
+      <p><a name="1077785">Create a netclass in physical domain called &#34;</a><font size="2" face="'Courier New'" color="#000000">5_MIL</font>&#34;</p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077786">nc = axlNetClassCreate(&#34;5_mil&#34; &#39;physical)</a></font>
+      </blockquote>
+      <h3><a name="1078088">axlNetClassDelete </a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078090">axlNetClassDelete(<dd>o_netclassdbid&#47;t_netclassName&#47;lg_netclassdbid<dd>) &#45;&#62; t&#47;nil</a></font>
+      </dl>
+      <h4><a name="1078093">Description</a></h4>
+      <p><a name="1078094">This deletes a net class group. It does not delete the objects belonging to the group. It is up to the application code to update DRC.</a></p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1078099">Using dbids is faster then using names.</a></p>
+      <h4><a name="1078100">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1089838"><font size="2" face="'Courier New'" color="#000000"><em>o_netclassdbid:</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1089840">dbid of a net class group</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089842"><font size="2" face="'Courier New'" color="#000000"><em>t_netclassName:</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089844">name of a net class group</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089846"><font size="2" face="'Courier New'" color="#000000"><em>lg_netclassdbid:</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089848">list of net class groups (dbids or names)</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078104">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="650">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1089865"><font size="2" face="'Courier New'" color="#000000"><em>t:</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="458">
+            <p><a name="1089867">net class group deleted</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089869"><font size="2" face="'Courier New'" color="#000000"><em>nil:</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089871">failed</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078107">See Also</a></h4>
+      <p><a name="1078108">         </a><a href="#1077736" title="16"><font color="#0000ff"><u>axlNetClassCreate</u></font></a></p>
+      <p><a name="1078109">Examples</a></p>
+      <p><a name="1078110">Delete net class group created in axlNetClassCreate</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078111">                 nc = car(axlSelectByName(&#34;NETCLASS&#34; &#34;5_MIL&#34;))</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078112">                 axlNetClassDelete(nc)</a></font>
+      </blockquote>
+      <p><a name="1078113">            or</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078114">                 axlNetClassDelete(&#34;5_MIL&#34;)</a></font>
+      </blockquote>
+      <h3><a name="1078253">axlNetClassGet </a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078255">axlNetClassGet(<dd>o_dbid<dd>s_domain<dd>g_hierarchal<dd>)==&#62; o_netclass</a></font>
+      </dl>
+      <h4><a name="1078260">Description</a></h4>
+      <p><a name="1078261">Given a dbid (net, xnet, diffpair or bus) and a domain (spacing, physical or electrical) return its netclass. If g_hierarchical is nil, returns object&#39;s netclass if a direct member. If g_hierarchal=t returns first netclass encountered in logical hierarchy. For example, if a net is a member of a bus and the bus is assigned to netclass, BUSCLASS, and you pass a net of the bus to this API:</a></p>
+      <blockquote><a name="1078269">will return nil if g_hierarchy=nil </a></blockquote>
+      <blockquote><a name="1078270">will return netclass dbid, BUSCLASS, if g_hierarchy=t</a></blockquote>
+      <h4><a name="1078271">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1089886"><font size="2" face="'Courier New'" color="#000000"><em>o_dbid:</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1089888">dbid may be net, xnet, diffpair or bus</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089890"><font size="2" face="'Courier New'" color="#000000"><em>s_domain:</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089892">netclass domain; spacing, physical or electrical</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089894"><font size="2" face="'Courier New'" color="#000000"><em>g_hierarchal</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089896">&nbsp;</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078275">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1089908"><font size="2" face="'Courier New'" color="#000000"><em>o_netclass</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1089910">dbid of netclass</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089912"><font size="2" face="'Courier New'" color="#000000"><em>nil</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089914">object not part of a netclass in the domain or an invalid object</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078279">See Also</a></h4>
+      <p><a href="#1077736" title="16" name="1078280"><font color="#0000ff"><u>axlNetClassCreate</u></font></a></p>
+      <h4><a name="1078281">Examples</a></h4>
+      <p><a name="1078282">Use example in </a><a href="#1077527" title="16"><font color="#0000ff"><u>axlNetClassAdd</u></font></a> </p>
+      <p><a name="1078283">From example in (should return netclass in both cases)</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078284">           net = car(axlSelectByName(&#34;NET&#34; &#34;NET8&#34;))</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078285">           axlNetClassGet(nets &#39;physical nil)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078286">           axlNetClassGet(nets &#39;physical t)</a></font>
+      </blockquote>
+      <h3><a name="1078460">axlNetClassRemove </a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078462">axlNetClassRemove(<dd>o_netclassdbid&#47;t_netclassName<dd>o_dbid&#47;lo_dbid<dd>)==&#62; t&#47;nil</a></font>
+      </dl>
+      <h4><a name="1078466">Description</a></h4>
+      <p><a name="1078467">Removes elements from an existing net class group. Element must currently be a direct member of the group. This will mark DRC out of date. It is up to the application to update the DRC system.</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <font size="3"><img src="images/tip.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <font size="3"><a name="1078472">Using dbids is faster then using names.</a></font>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="1078474">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1089922"><font size="2" face="'Courier New'" color="#000000"><em>o_netclassdbid:</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1089924">dbid of a netclass group</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089926"><font size="2" face="'Courier New'" color="#000000"><em>t_netclassName:</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089928">name of a netclass group</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089930"><font size="2" face="'Courier New'" color="#000000"><em>o_dbid:</em></font></a>   </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089932">legal database dbid to remove from group</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089934"><font size="2" face="'Courier New'" color="#000000"><em>lo_dbid:</em></font></a>  </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089936">list of legal database dbids to remove from group</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078479">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1089943"><font size="2" face="'Courier New'" color="#000000"><em>t </em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1089945">removed elements</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089947"><font size="2" face="'Courier New'" color="#000000"><em>nil </em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089949">failed to remove one or more elements. Object may not be a cset member (member must be a direct member).</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078486">Examples</a></h4>
+      <p><a name="1078487">Using the example from axlNetClassAdd remove one of the nets:</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078488">             axlNetClassRemove(nc car(nets))</a></font>
+      </blockquote>
+      <h4><a name="1078655">See Also</a></h4>
+      <p><a name="1078659">         </a><a href="#1077736" title="16"><font color="#0000ff"><u>axlNetClassCreate</u></font></a></p>
+      <h3><a name="1077519">axlRegionAdd </a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076670">axlRegionAdd(<dd>o_regiondbid&#47;t_regionName<dd>o_dbid&#47;lo_dbid<dd>)==&#62; t&#47;nil</a></font>
+      </dl>
+      <h4><a name="1076674">Description</a></h4>
+      <p><a name="1076675">Adds members to a region group. Eligible members are:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1076768">shapes</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1076787">rectangles</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="1076678">Only objects on the CONS_REGION class may be added to a region. See region discussion in axlRegionCreate. This will mark DRC out of date. It is up to the application to update the DRC system</a></p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1076684">Using dbids is faster then using names.</a></p>
+      <h4><a name="1076685">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1089957"><font size="2" face="'Courier New'" color="#000000"><em>o_regiondbid:</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1089959">dbid of a region group</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089961"><font size="2" face="'Courier New'" color="#000000"><em>t_regionName:</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089963">name of a region group</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089965"><font size="2" face="'Courier New'" color="#000000"><em>o_dbid:</em></font></a>   </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089967">legal database dbid to add to region</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089969"><font size="2" face="'Courier New'" color="#000000"><em>lo_dbid:</em></font></a>  </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089971">list of legal database dbids to add to region </a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076690">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="649">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1089979"><font size="2" face="'Courier New'" color="#000000"><em>t </em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="457">
+            <p><a name="1089981">added elements</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089983"><font size="2" face="'Courier New'" color="#000000"><em>nil</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1089985">failed one or more element adds; object might already be a member of a region or not legal dbid to add to a region</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076695">See Also</a></h4>
+      <p><a name="1076696">         </a><a href="#1077519" title="16"><font color="#0000ff"><u>axlRegionAdd</u></font></a></p>
+      <h4><a name="1076697">Examples</a></h4>
+      <p><a name="1076698">To region group created in axlRegionCreate add a shape</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076699">             nc = car(axlSelectByName(&#34;REGION&#34; &#34;BGA&#34;))</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076700">             lyr = &#34;CONSTRAINT REGION&#47;OUTER_LAYERS&#34;</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076701">             shape = axlDBCreateRectangle( list(100:100 200:200) nil lyr)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076702">             shape = car(shape)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076703">             axlRegionAdd(nc shape)</a></font>
+      </blockquote>
+      <h3><a name="1076939">axlRegionCreate </a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076941">axlRegionCreate(<dd>t_name<dd>)==&#62; o_dbid</a></font>
+      </dl>
+      <h4><a name="1076944">Description</a></h4>
+      <p><a name="1076945">Creates a new region group. If a region exists with this name then </a><font size="2" face="'Courier New'" color="#000000">nil</font> is returned. Regions may contain shapes on CONS_REGION class. Shapes are added to the region group via the <a href="#1077519" title="16"><font color="#0000ff"><u>axlRegionAdd</u></font></a>. Empty regions may be deleted on database save. You can obtain the current set of regions in the database via: <font size="2" face="'Courier New'" color="#000000">axlDBGetDesign()&#45;&#62;region</font>. None of the region APIs are enabled in the PCB L product.</p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1076957">For better performance, when modifying regions you may wish to wrap all the calls with the </a><a href="17dbtran.html#1065349" title="18"><font color="#0000ff"><u>axlDBCloak</u></font></a> command.</p>
+      <h4><a name="1076959">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1089994"><font size="2" face="'Courier New'" color="#000000"><em>t_name</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1089996">name of region group (changed to upper case)</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076961">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1090007"><font size="2" face="'Courier New'" color="#000000"><em>nil:</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1090009">error or region with that name exists</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1090011"><font size="2" face="'Courier New'" color="#000000"><em>o_dbid:</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1090013">dbid of group</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="1076968">If shapes are a member of a region then their dbid region attribute will refer to the region dbid</a></p>
+      <h4><a name="1076970">Examples</a></h4>
+      <p><a name="1076971">Create a region called &#34;BGA&#34;</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076972">nc = axlRegionCreate(&#34;BGA&#34;)</a></font>
+      </blockquote>
+      <h4><a name="1077169">See Also</a></h4>
+      <p><a name="1077176">         </a><a href="#1077191" title="16"><font color="#0000ff"><u>axlRegionDelete</u></font></a>, <a href="#1077519" title="16"><font color="#0000ff"><u>axlRegionAdd</u></font></a>, <a href="#1077342" title="16"><font color="#0000ff"><u>axlRegionRemove</u></font></a>, <a href="03dbcre8.html#367593" title="15"><font color="#0000ff"><u>axlDBCreateShape</u></font></a>,</p>
+      <p><a name="1077180">         </a><a href="03dbcre8.html#367609" title="15"><font color="#0000ff"><u>axlDBCreateRectangle</u></font></a> </p>
+      <h3><a name="1077191">axlRegionDelete </a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077193">axlRegionDelete(<dd>o_regiondbid&#47;t_regionName&#47;lg_regiondbid<dd>) &#45;&#62; t&#47;nil</a></font>
+      </dl>
+      <h4><a name="1077196">Description</a></h4>
+      <p><a name="1077197">This deletes a region group. It does not delete the objects belonging to the group.</a></p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1077199">Using dbids is faster then using names.</a></p>
+      <h4><a name="1077201">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1090021"><font size="2" face="'Courier New'" color="#000000"><em>o_regiondbid:</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1090023">dbid of a region group</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1090025"><font size="2" face="'Courier New'" color="#000000"><em>t_regionName:</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1090027">name of a region group</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1090029"><font size="2" face="'Courier New'" color="#000000"><em>lg_regiondbid:</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1090031">list of region groups (dbids or names)</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1077205">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1090039"><font size="2" face="'Courier New'" color="#000000"><em>t:</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1090041">net class group deleted</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1090043"><font size="2" face="'Courier New'" color="#000000"><em>nil:</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1090045">failed</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1077208">See Also</a></h4>
+      <p><a name="1077209">         </a><a href="#1076939" title="16"><font color="#0000ff"><u>axlRegionCreate</u></font></a></p>
+      <h4><a name="1077210">Examples</a></h4>
+      <p><a name="1077211">Delete region group created in axlRegionCreate</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077212">                 nc = car(axlSelectByName(&#34;REGION&#34; &#34;BGA&#34;))</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077213">                 axlRegionDelete(nc)</a></font>
+      </blockquote>
+      <p><a name="1077214">            or</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077215">                 axlRegionDelete(&#34;BGA&#34;)</a></font>
+      </blockquote>
+      <h3><a name="1077342">axlRegionRemove </a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077344">axlRegionRemove(<dd>o_regiondbid&#47;t_regionName<dd>o_dbid&#47;lo_dbid<dd>)==&#62; t&#47;nil</a></font>
+      </dl>
+      <h4><a name="1077348">Description</a></h4>
+      <p><a name="1077349">Removes shapes from an existing region group. Element must currently be a direct member of the group. This will mark DRC out of date. It is up to the application to update the DRC system.</a></p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1077354">Using dbids is faster then using names.</a></p>
+      <h4><a name="1077356">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1090053"><font size="2" face="'Courier New'" color="#000000"><em>o_regiondbid:</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1090055">dbid of a region group</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1090057"><font size="2" face="'Courier New'" color="#000000"><em>t_regionName:</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1090059">name of a region group</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1090061"><font size="2" face="'Courier New'" color="#000000"><em>o_dbid: </em></font></a>  </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1090063">legal database shapes to remove from group</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1090065"><font size="2" face="'Courier New'" color="#000000"><em>lo_dbid:</em></font></a>  </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1090067">list of legal database shapes to remove from group</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1077361">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1090075"><font size="2" face="'Courier New'" color="#000000"><em>t </em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1090077">removed elements</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1090079"><font size="2" face="'Courier New'" color="#000000"><em>nil</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1090081">failed to remove one or more elements. Object may not be a region member (member must be a direct member).</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1077366">See Also</a></h4>
+      <p><a name="1077367">        </a><a href="#1076939" title="16"><font color="#0000ff"><u>axlRegionCreate</u></font></a></p>
+      <p><a name="1077368">Examples</a></p>
+      <p><a name="1077369">Using the example from </a><a href="#1077519" title="16"><font color="#0000ff"><u>axlRegionAdd</u></font></a> remove the shape:</p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077370">             axlRegionRemove(region  shape)</a></font>
+      </blockquote>
+      <p><a name="1077189">&nbsp;</a></p>
+      <p><a name="1076666">&nbsp;</a></p>
+      <p><a name="1078700">&nbsp;</a></p>
+      <p><a name="1080883">&nbsp;</a></p>
+      <p><a name="1085173">&nbsp;</a></p>
+      <p><a name="1087189">&nbsp;</a></p>
+    </div>
+    <br>
+    <a href="#pagetop">Return to top of page</a>
+    <hr>
+    <hr align="left">
+    <div style="text-align: left;">
+      <!-- Begin Buttons -->      <table width="650" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                    </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+          <td>
+            <a href="03dbcre8.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+          </td>
+          <td>
+            <a href="16dbatt.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+          </td>
+          <td>
+            <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+            </a>
+          </td>
+          <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+          </td>
+          <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+          </td>
+          <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+          </td>
+          <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+          </td>
+        </tr>
+      </table>
+      <!-- End Buttons -->
+    </div>
+    <br>
+    <font size="-1" >
+For support, see <a href="http://support.cadence.com" target="_blank">Cadence Online Support</a> service.</font>
+    <br>
+    <br>
+    <font size="-1" >
+      <i>Copyright &#169; 2017, <a href="http://www.cadence.com">Cadence Design Systems, Inc.</a></i>
+    </font>
+    <br>
+    <font size="-1" >
+All rights reserved.</font>
+    <br>
+    <br>
+  </body>
+</html>

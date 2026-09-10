@@ -16,14 +16,16 @@ Returns the absolute value of a floating-point number or integer.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `n_number` | Floating-point number or integer.
+| Name | Description |
+|---|---|
+| `n_number` | Floating-point number or integer. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `n_result` | Absolute value of`n_number`.
+| Name | Description |
+|---|---|
+| `n_result` | Absolute value of`n_number`. |
+
 #### Example
 
 `abs( -209.625)=> 209.625`
@@ -44,14 +46,16 @@ Adds one to a floating-point number or integer.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `n_number` | Floating-point number or integer to increase by one.
+| Name | Description |
+|---|---|
+| `n_number` | Floating-point number or integer to increase by one. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `n_result` | `n_number` plus one.
+| Name | Description |
+|---|---|
+| `n_result` | `n_number` plus one. |
+
 #### Example
 
 `add1( 59 )=> 60`
@@ -62,7 +66,7 @@ Adds one to a floating-point number or integer.
 
 ### atof
 
-`atof( t_string ) => f_result | nil`
+`atof( t_string ) => f_result / nil`
 
 #### Description
 
@@ -72,17 +76,17 @@ The`atof` function calls the C library function `strtod` to convert a string int
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_string` | A string.
+| Name | Description |
+|---|---|
+| `t_string` | A string. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `f_result` | The floating-point value represented by`t_string`.
-|  |
-| --- | ---
-| `nil` | If`t_string` does not denote a floating-point number.
+| Name | Description |
+|---|---|
+| `f_result` | The floating-point value represented by`t_string`. |
+| `nil` | If`t_string` does not denote a floating-point number. |
+
 #### Example
 
 ```
@@ -95,7 +99,7 @@ atof("123")              => 123.0atof("abc")           
 
 ### atoi
 
-`atoi( t_string ) => x_result | nil`
+`atoi( t_string ) => x_result / nil`
 
 #### Description
 
@@ -105,17 +109,17 @@ The`atoi` function calls the C library function `strtol` to convert a string int
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_string` | A string.
+| Name | Description |
+|---|---|
+| `t_string` | A string. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | The integer value represented by`t_string`.
-|  |
-| --- | ---
-| `nil` | If`t_string` does not denote an integer.
+| Name | Description |
+|---|---|
+| `x_result` | The integer value represented by`t_string`. |
+| `nil` | If`t_string` does not denote an integer. |
+
 #### Example
 
 ```
@@ -136,14 +140,16 @@ Returns the smallest integer not smaller than the given argument.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `n_number` | Any number.
+| Name | Description |
+|---|---|
+| `n_number` | Any number. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_integer` | Smallest integer not smaller than`n_number`.
+| Name | Description |
+|---|---|
+| `x_integer` | Smallest integer not smaller than`n_number`. |
+
 #### Example
 
 `(ceiling -4.3)  => -4(ceiling 3.5)   => 4`
@@ -162,12 +168,11 @@ Associates a set of predefined math constants as properties of the given symbol.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_id` | Must be a symbol. The properties to be associated with thesymbol are listed as name/value pairs. The names are explained in the following table.
-|  |
-| --- | ---
-| **Name** | **Meaning**
+| Name | Description |
+|---|---|
+| `s_id` | Must be a symbol. The properties to be associated with thesymbol are listed as name/value pairs. The names are explained in the following table. |
+| **Name** | **Meaning** |
+
 | E | The base of natural logarithms. (*e*)
 | LOG2E | The base-2 logarithm of*e*
 | LOG10E | The base-10 logarithm of*e*
@@ -189,9 +194,10 @@ Associates a set of predefined math constants as properties of the given symbol.
 | SHRT\_MIN | The minimum value of a SKILL "short" integer.
 #### Value Returned
 
-|  |
-| --- | ---
-| `s_id` | Returns the symbol ID.
+| Name | Description |
+|---|---|
+| `s_id` | Returns the symbol ID. |
+
 #### Example
 
 `` defMathConstants(`m) => m ``
@@ -222,20 +228,18 @@ Returns the result of subtracting one or more operands from the first operand. P
 
 #### Arguments
 
-|  |
-| --- | ---
-| `n_op1` | Number from which the others are to be subtracted.
-|  |
-| --- | ---
-| `n_op2` | Number to subtract.
-|  |
-| --- | ---
-| `n_op3` | Optional additional numbers to subtract.
+| Name | Description |
+|---|---|
+| `n_op1` | Number from which the others are to be subtracted. |
+| `n_op2` | Number to subtract. |
+| `n_op3` | Optional additional numbers to subtract. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `n_result` | Result of the operation.
+| Name | Description |
+|---|---|
+| `n_result` | Result of the operation. |
+
 #### Example
 
 ```
@@ -248,7 +252,7 @@ difference(5 4 3 2 1) => -5difference(-12 13)    => -25difference(12.2 -13)
 
 ### evenp
 
-`evenp( g_general ) => t | nil`
+`evenp( g_general ) => t / nil`
 
 #### Description
 
@@ -256,17 +260,17 @@ Checks if a number is an even integer.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_general` | Number to check.
+| Name | Description |
+|---|---|
+| `g_general` | Number to check. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`g_general` is an even integer.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | If`g_general` is an even integer. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `evenp( 59 )=> nil`
@@ -289,14 +293,16 @@ Raises`e` to a given power.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `n_number` | Power to raise`e` to.
+| Name | Description |
+|---|---|
+| `n_number` | Power to raise`e` to. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `f_result` | Value of`e` raised to the `n_numberth` power.
+| Name | Description |
+|---|---|
+| `f_result` | Value of`e` raised to the `n_numberth` power. |
+
 #### Example
 
 `exp( 1 )  => 2.718282exp( 3.0) => 20.08554`
@@ -315,17 +321,17 @@ Returns the result of raising a base number to a power. Prefix form of the`**` e
 
 #### Arguments
 
-|  |
-| --- | ---
-| `n_base` | Number to be raised to a power.
-|  |
-| --- | ---
-| `n_power` | Power to which the number is raised.
+| Name | Description |
+|---|---|
+| `n_base` | Number to be raised to a power. |
+| `n_power` | Power to which the number is raised. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `n_result` | Result of the operation.
+| Name | Description |
+|---|---|
+| `n_result` | Result of the operation. |
+
 #### Example
 
 expt(2 3)   => 8
@@ -344,14 +350,16 @@ This function is equivalent to`floor`. See also ["Type Conversion Functions (fix
 
 #### Arguments
 
-|  |
-| --- | ---
-| `n_arg` | Any number.
+| Name | Description |
+|---|---|
+| `n_arg` | Any number. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | The largest integer not greater than`n_arg`. If an integer is given as an argument, it returns the argument.
+| Name | Description |
+|---|---|
+| `x_result` | The largest integer not greater than`n_arg`. If an integer is given as an argument, it returns the argument. |
+
 #### Example
 
 ```
@@ -364,7 +372,7 @@ fix(1.9)      => 1fix(-5.6)     => -6fix(100)      => 100fix(4.
 
 ### fixp
 
-`fixp( g_value ) => t | nil`
+`fixp( g_value ) => t / nil`
 
 #### Description
 
@@ -374,17 +382,17 @@ The suffix`p` is usually added to the name of a function to indicate that it is 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_value` | Any SKILL object.
+| Name | Description |
+|---|---|
+| `g_value` | Any SKILL object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`g_value` is an integer, a data type whose internal name is `fixnum`.
-|  |
-| --- | ---
-| `nil` | If`g_value` is not an integer.
+| Name | Description |
+|---|---|
+| `t` | If`g_value` is an integer, a data type whose internal name is `fixnum`. |
+| `nil` | If`g_value` is not an integer. |
+
 #### Example
 
 `fixp(3)     => tfixp(3.0)   => nil`
@@ -405,17 +413,17 @@ For more information, see "[Comparing Floating-Point Numbers](../sklanguser/chap
 
 #### Arguments
 
-|  |
-| --- | ---
-| `n_value` | Any number.
+| Name | Description |
+|---|---|
+| `n_value` | Any number. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | Returns the largest integer not larger than the given argument.
-|  |
-| --- | ---
-| `nil` | If`n_value` is not an integer.
+| Name | Description |
+|---|---|
+| `x_result` | Returns the largest integer not larger than the given argument. |
+| `nil` | If`n_value` is not an integer. |
+
 #### Example
 
 `fix2(4.1 * 100)`
@@ -436,14 +444,16 @@ Converts a number into its equivalent floating-point number.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `n_arg` | Integer to be converted to floating-point. If you give a floating-point number as an argument, it returns the argument unchanged.
+| Name | Description |
+|---|---|
+| `n_arg` | Integer to be converted to floating-point. If you give a floating-point number as an argument, it returns the argument unchanged. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `f_result` | A floating-point number.
+| Name | Description |
+|---|---|
+| `f_result` | A floating-point number. |
+
 #### Example
 
 `float(3)    => 3.0float(1.2)  => 1.2`
@@ -454,7 +464,7 @@ Converts a number into its equivalent floating-point number.
 
 ### floatp
 
-`floatp( g_value ) => t | nil`
+`floatp( g_value ) => t / nil`
 
 #### Description
 
@@ -464,17 +474,17 @@ The suffix`p` is usually added to the name of a function to indicate that it is 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_value` | Any SKILL object.
+| Name | Description |
+|---|---|
+| `g_value` | Any SKILL object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`g_value` is a floating-point number, a data type whose internal name is `flonum`.
-|  |
-| --- | ---
-| `nil` | If`g_value` is not a floating-point number.
+| Name | Description |
+|---|---|
+| `t` | If`g_value` is a floating-point number, a data type whose internal name is `flonum`. |
+| `nil` | If`g_value` is not a floating-point number. |
+
 #### Example
 
 `floatp(3)    => nilfloatp(3.0)  => t`
@@ -493,14 +503,16 @@ Returns the largest integer not larger than the given argument.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `n_number` | Any number.
+| Name | Description |
+|---|---|
+| `n_number` | Any number. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_integer` | Largest integer not larger than`n_number`.
+| Name | Description |
+|---|---|
+| `x_integer` | Largest integer not larger than`n_number`. |
+
 #### Example
 
 `(floor -4.3) => -5(floor 3.5)  => 3`
@@ -511,7 +523,7 @@ Returns the largest integer not larger than the given argument.
 
 ### int
 
-`int( g_value) => x_result`
+`int( g_value ) => x_result`
 
 #### Description
 
@@ -519,14 +531,16 @@ Rounds off the number value to the nearest integer. The`int` function works as a
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_value` | Specifies the number value you want to round off
+| Name | Description |
+|---|---|
+| `g_value` | Specifies the number value you want to round off |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | Returns the nearest integer
+| Name | Description |
+|---|---|
+| `x_result` | Returns the nearest integer |
+
 #### Example
 
 `int(2.7)`
@@ -539,7 +553,7 @@ Rounds off the number value to the nearest integer. The`int` function works as a
 
 ### isInfinity
 
-`isInfinity( f_flownum ) => t | nil`
+`isInfinity( f_flownum ) => t / nil`
 
 #### Description
 
@@ -547,17 +561,17 @@ Checks if the given flownum argument represents infinity (positive or negative).
 
 #### Arguments
 
-|  |
-| --- | ---
-| `f_flownum` | A floating-point number.
+| Name | Description |
+|---|---|
+| `f_flownum` | A floating-point number. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`f_flownum` is infinity (positive or negative).
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | If`f_flownum` is infinity (positive or negative). |
+| `nil` | Otherwise. |
+
 #### Example
 
 plus\_inf = 2.0 \* 1e999
@@ -566,7 +580,7 @@ isInfinity (987.65) => nil
 
 ### isNaN
 
-`isNaN( f_flownum ) => t | nil`
+`isNaN( f_flownum ) => t / nil`
 
 #### Description
 
@@ -574,17 +588,17 @@ Checks if the given flownum argument represents NaN (not-a-number),`nil` otherwi
 
 #### Arguments
 
-|  |
-| --- | ---
-| `f_flownum` | A floating-point number.
+| Name | Description |
+|---|---|
+| `f_flownum` | A floating-point number. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`f_flownum` is NaN.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | If`f_flownum` is NaN. |
+| `nil` | Otherwise. |
+
 #### Example
 
 nan = 0.0 \* 2.0 \* 1e999
@@ -601,17 +615,17 @@ Returns the integer result of shifting a value a specified number of bits to the
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_val` | Value to be shifted.
-|  |
-| --- | ---
-| `x_num` | Number of bits`x_val` is shifted.
+| Name | Description |
+|---|---|
+| `x_val` | Value to be shifted. |
+| `x_num` | Number of bits`x_val` is shifted. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | Result of the operation.
+| Name | Description |
+|---|---|
+| `x_result` | Result of the operation. |
+
 #### Example
 
 `leftshift(7 2)  => 28leftshift(10 1) => 20`
@@ -630,17 +644,16 @@ Returns the natural logarithm of a floating-point number or integer.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `n_number` | Floating-point number or integer.
+| Name | Description |
+|---|---|
+| `n_number` | Floating-point number or integer. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `f_result` | Natural logarithm of the value passed in.
-|  |
-| --- | ---
-|  | If the value of`n_number` is not a positive number, an error is signaled.
+| Name | Description |
+|---|---|
+| `f_result` | Natural logarithm of the value passed in. |
+
 #### Example
 
 `log( 3.0 ) => 1.098612`
@@ -659,17 +672,16 @@ Returns the base 10 logarithm of a floating-point number or integer.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `n_number` | Floating-point number or integer.
+| Name | Description |
+|---|---|
+| `n_number` | Floating-point number or integer. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `f_result` | Base 10 logarithm of the value passed in.
-|  |
-| --- | ---
-|  | If the value of`n_number` is not a positive number, an error is signaled.
+| Name | Description |
+|---|---|
+| `f_result` | Base 10 logarithm of the value passed in. |
+
 #### Example
 
 `log10( 10.0 ) => 1.0`
@@ -684,7 +696,7 @@ Returns the base 10 logarithm of a floating-point number or integer.
 
 ### max
 
-`max( n_num1 [ n_num2 ... ]) => n_result`
+`max( n_num1 [ n_num2 ... ] ) => n_result`
 
 #### Description
 
@@ -692,17 +704,17 @@ Returns the maximum of the values passed in. Requires a minimum of one argument.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `n_num1` | First value to check.
-|  |
-| --- | ---
-| `n_num2` | Additional values to check.
+| Name | Description |
+|---|---|
+| `n_num1` | First value to check. |
+| `n_num2` | Additional values to check. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `n_result` | Maximum of the values passed in.
+| Name | Description |
+|---|---|
+| `n_result` | Maximum of the values passed in. |
+
 #### Example
 
 `max(6)       => 6max(3 2 1)       => 3max(-3 -2 -1)    => -1`
@@ -713,7 +725,7 @@ Returns the maximum of the values passed in. Requires a minimum of one argument.
 
 ### min
 
-`min( n_num1 [ n_num2 ... ] )=> n_result`
+`min( n_num1 [ n_num2 ... ] ) => n_result`
 
 #### Description
 
@@ -721,17 +733,17 @@ Returns the minimum of the values passed in. Requires a minimum of one argument.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `n_num1` | First value to check.
-|  |
-| --- | ---
-| `n_num2` | Additional values to check.
+| Name | Description |
+|---|---|
+| `n_num1` | First value to check. |
+| `n_num2` | Additional values to check. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `n_result` | Minimum of the values passed in.
+| Name | Description |
+|---|---|
+| `n_result` | Minimum of the values passed in. |
+
 #### Example
 
 `min(3)        => 3min(1 2 3)        => 1min(-1 -2.0 -3)   => -3.0`
@@ -750,21 +762,23 @@ Returns the negative of a number. Prefix form of the`-` unary operator.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `n_op` | A number.
+| Name | Description |
+|---|---|
+| `n_op` | A number. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `n_result` | Negative of the number.
+| Name | Description |
+|---|---|
+| `n_result` | Negative of the number. |
+
 #### Example
 
 `minus( 10 )   => -10minus( -1.0 ) => 1.0minus( -0 )   => 0`
 
 ### minusp
 
-`minusp( g_general ) => t | nil`
+`minusp( g_general ) => t / nil`
 
 #### Description
 
@@ -772,17 +786,17 @@ Checks if a value is a negative number. Same as`negativep`.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_general` | Number to check.
+| Name | Description |
+|---|---|
+| `g_general` | Number to check. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`g_general` is a negative number.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | If`g_general` is a negative number. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `minusp( 3 )    => nilminusp( -3 )   => t`
@@ -793,7 +807,7 @@ Checks if a value is a negative number. Same as`negativep`.
 
 ### modulo
 
-`modulo( x_integer1 x_integer2 )=> x_integer`
+`modulo( x_integer1 x_integer2 ) => x_integer`
 
 #### Description
 
@@ -803,17 +817,17 @@ The`remainder (mod)` and `modulo` functions differ on negative arguments. The re
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_integer1` | Dividend.
-|  |
-| --- | ---
-| `x_integer2` | Divisor.
+| Name | Description |
+|---|---|
+| `x_integer1` | Dividend. |
+| `x_integer2` | Divisor. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_integer` | The remainder of the division. The sign is determined by thedivisor.
+| Name | Description |
+|---|---|
+| `x_integer` | The remainder of the division. The sign is determined by thedivisor. |
+
 #### Example
 
 `modulo( 13 4)         => 1remainder( 13 4)      => 1`
@@ -830,7 +844,7 @@ The`remainder (mod)` and `modulo` functions differ on negative arguments. The re
 
 ### negativep
 
-`negativep( n_num ) => t | nil`
+`negativep( n_num ) => t / nil`
 
 #### Description
 
@@ -838,17 +852,17 @@ Checks if a value is a negative number. Same as`minusp`.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `n_num` | Number to check.
+| Name | Description |
+|---|---|
+| `n_num` | Number to check. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | `n_num` is a negative number.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | `n_num` is a negative number. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `negativep( 3 )    => nilnegativep( -3 )   => t`
@@ -859,7 +873,7 @@ Checks if a value is a negative number. Same as`minusp`.
 
 ### oddp
 
-`oddp( g_value ) => t | nil`
+`oddp( g_value ) => t / nil`
 
 #### Description
 
@@ -869,17 +883,17 @@ Checks if an object is an odd integer.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_value` | A SKILL object that is an integer.
+| Name | Description |
+|---|---|
+| `g_value` | A SKILL object that is an integer. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`g_value` is an odd integer.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | If`g_value` is an odd integer. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `oddp( 7 )=> t`
@@ -892,7 +906,7 @@ Checks if an object is an odd integer.
 
 ### onep
 
-`onep( g_value ) => t | nil`
+`onep( g_value ) => t / nil`
 
 #### Description
 
@@ -902,17 +916,17 @@ Checks if the given object is equal to one.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_value` | A SKILL object that is either a floating-point number or aninteger.
+| Name | Description |
+|---|---|
+| `g_value` | A SKILL object that is either a floating-point number or aninteger. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`g_value` is equal to one.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | If`g_value` is equal to one. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `onep( 1 ) => t`
@@ -935,20 +949,18 @@ Returns the result of adding one or more operands to the first operand. Prefix f
 
 #### Arguments
 
-|  |
-| --- | ---
-| `n_op1` | First number to be added.
-|  |
-| --- | ---
-| `n_op2` | Second number to be added.
-|  |
-| --- | ---
-| `n_op3` | Optional additional numbers to be added.
+| Name | Description |
+|---|---|
+| `n_op1` | First number to be added. |
+| `n_op2` | Second number to be added. |
+| `n_op3` | Optional additional numbers to be added. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `n_result` | Sum of the numbers.
+| Name | Description |
+|---|---|
+| `n_result` | Sum of the numbers. |
+
 #### Example
 
 `plus(5 4 3 2 1) => 15plus(-12 -13)   => -25plus(12.2 13.3) => 25.5`
@@ -959,7 +971,7 @@ Returns the result of adding one or more operands to the first operand. Prefix f
 
 ### plusp
 
-`plusp( g_value ) => t | nil`
+`plusp( g_value ) => t / nil`
 
 #### Description
 
@@ -969,17 +981,17 @@ Checks if the given object is a positive number.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_value` | A SKILL object that is either a floating-point number or aninteger.
+| Name | Description |
+|---|---|
+| `g_value` | A SKILL object that is either a floating-point number or aninteger. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`g_value` is a positive number.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | If`g_value` is a positive number. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `plusp( -209.623472)=> nil`
@@ -1000,20 +1012,18 @@ Returns the result of dividing the first operand by one or more operands. Prefix
 
 #### Arguments
 
-|  |
-| --- | ---
-| `n_op1` | Dividend.
-|  |
-| --- | ---
-| `n_op2` | Divisor.
-|  |
-| --- | ---
-| `n_op3` | Optional additional divisors for multiple divisions.
+| Name | Description |
+|---|---|
+| `n_op1` | Dividend. |
+| `n_op2` | Divisor. |
+| `n_op3` | Optional additional divisors for multiple divisions. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `n_result` | Result of the operation.
+| Name | Description |
+|---|---|
+| `n_result` | Result of the operation. |
+
 #### Example
 
 `quotient(5 4 3 2 1) => 0quotient(-10 -2)    => 5quotient(10.8 -2.2) => -4.909091`
@@ -1034,14 +1044,16 @@ If you call`random` with no arguments, it returns an integer that has all of its
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_number` | An integer.
+| Name | Description |
+|---|---|
+| `x_number` | An integer. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | Random integer between zero and`x_number` minus one.
+| Name | Description |
+|---|---|
+| `x_result` | Random integer between zero and`x_number` minus one. |
+
 #### Example
 
 `random( 93 )=> 26`
@@ -1052,7 +1064,7 @@ If you call`random` with no arguments, it returns an integer that has all of its
 
 ### realp
 
-`realp( g_obj ) => t | nil`
+`realp( g_obj ) => t / nil`
 
 #### Description
 
@@ -1060,17 +1072,17 @@ Checks if a value is a real number. Same as`floatp`.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_obj` | Any SKILL object.
+| Name | Description |
+|---|---|
+| `g_obj` | Any SKILL object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | Argument is a real number.
-|  |
-| --- | ---
-| `nil` | Argument is not a real number.
+| Name | Description |
+|---|---|
+| `t` | Argument is a real number. |
+| `nil` | Argument is not a real number. |
+
 #### Example
 
 `realp( 2789987)=> nilrealp( 2789.987)=> t`
@@ -1091,17 +1103,17 @@ The`remainder` and `modulo` functions differ on negative arguments. The remainde
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_integer1` | Dividend.
-|  |
-| --- | ---
-| `x_integer2` | Divisor.
+| Name | Description |
+|---|---|
+| `x_integer1` | Dividend. |
+| `x_integer2` | Divisor. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_integer` | Remainder of dividing`x_integer1` by `x_integer2`. The sign is determined by the sign of `x_integer1`.
+| Name | Description |
+|---|---|
+| `x_integer` | Remainder of dividing`x_integer1` by `x_integer2`. The sign is determined by the sign of `x_integer1`. |
+
 #### Example
 
 `modulo( 13 4)            => 1remainder( 13 4)         => 1`
@@ -1126,17 +1138,17 @@ Returns the integer result of shifting a value a specified number of bits to the
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_val` | Value to be shifted.
-|  |
-| --- | ---
-| `x_num` | Number of bits`x_val` is shifted.
+| Name | Description |
+|---|---|
+| `x_val` | Value to be shifted. |
+| `x_num` | Number of bits`x_val` is shifted. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | Result of the operation.
+| Name | Description |
+|---|---|
+| `x_result` | Result of the operation. |
+
 #### Example
 
 `rightshift(7 2)  => 1rightshift(10 1) => 5`
@@ -1155,14 +1167,16 @@ Rounds a floating-point number to its closest integer value.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `n_arg` | Floating-point number.
+| Name | Description |
+|---|---|
+| `n_arg` | Floating-point number. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | Integer whose value is closest to`n_arg`.
+| Name | Description |
+|---|---|
+| `x_result` | Integer whose value is closest to`n_arg`. |
+
 #### Example
 
 `round(1.5)        => 2round(-1.49)      => -1round(1.49)       => 1`
@@ -1183,14 +1197,16 @@ For more information, see "[Type Conversion Functions (fix and float)](../sklang
 
 #### Arguments
 
-|  |
-| --- | ---
-| `n_arg` | A floating-point number.
+| Name | Description |
+|---|---|
+| `n_arg` | A floating-point number. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | Integer whose value is closest to`n_arg`.
+| Name | Description |
+|---|---|
+| `x_result` | Integer whose value is closest to`n_arg`. |
+
 #### Example
 
 `val=-0.2865`
@@ -1217,17 +1233,17 @@ Sorts the list`l_data` according to the `sort` function `u_comparefn`. `u_compar
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_data` | List of objects to be sorted.
-|  |
-| --- | ---
-| `u_comparefn` | Comparison function to determine which of any two elementsshould come first.
+| Name | Description |
+|---|---|
+| `l_data` | List of objects to be sorted. |
+| `u_comparefn` | Comparison function to determine which of any two elementsshould come first. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | `l_data` sorted by the comparison function `u_comparefn`.
+| Name | Description |
+|---|---|
+| `l_result` | `l_data` sorted by the comparison function `u_comparefn`. |
+
 #### Example
 
 ```
@@ -1252,17 +1268,17 @@ This function also sorts`l_data` based on the function `u_comparefn`.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_data` | List of objects to be sorted.
-|  |
-| --- | ---
-| `u_comparefn` | Comparison function to determine which of any two elementsshould come first.
+| Name | Description |
+|---|---|
+| `l_data` | List of objects to be sorted. |
+| `u_comparefn` | Comparison function to determine which of any two elementsshould come first. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | `l_data` sorted by the comparison function `u_comparefn`.
+| Name | Description |
+|---|---|
+| `l_result` | `l_data` sorted by the comparison function `u_comparefn`. |
+
 #### Example
 
 `sortcar( '((4 four) (3 three) (2 two)) 'lessp )=> ((2 two) (3 three) (4 four)`
@@ -1283,17 +1299,16 @@ Returns the square root of a floating-point number or integer.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `n_number` | Floating-point number or integer.
+| Name | Description |
+|---|---|
+| `n_number` | Floating-point number or integer. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `f_result` | Square root of the value passed in.
-|  |
-| --- | ---
-|  | If the value of`n_number` is not a positive number, an error is signaled.
+| Name | Description |
+|---|---|
+| `f_result` | Square root of the value passed in. |
+
 #### Example
 
 `sqrt( 49 )=> 7.0`
@@ -1311,14 +1326,16 @@ Sets the seed of the random number generator to a given number.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_number` | An integer.
+| Name | Description |
+|---|---|
+| `x_number` | An integer. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | Always.
+| Name | Description |
+|---|---|
+| `t` | Always. |
+
 #### Example
 
 `srandom( 89 )=> t`
@@ -1337,14 +1354,16 @@ Subtracts one from a floating-point number or integer.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `n_number` | Floating-point number or integer.
+| Name | Description |
+|---|---|
+| `n_number` | Floating-point number or integer. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `n_result` | `n_number` minus one.
+| Name | Description |
+|---|---|
+| `n_result` | `n_number` minus one. |
+
 #### Example
 
 `sub1( 59 )=> 58`
@@ -1363,20 +1382,18 @@ Returns the result of multiplying the first operand by one or more operands. Pre
 
 #### Arguments
 
-|  |
-| --- | ---
-| `n_op1` | First operand to be multiplied.
-|  |
-| --- | ---
-| `n_op2` | Second operand to be multiplied.
-|  |
-| --- | ---
-| `n_op3` | Optional additional operands to be multiplied.
+| Name | Description |
+|---|---|
+| `n_op1` | First operand to be multiplied. |
+| `n_op2` | Second operand to be multiplied. |
+| `n_op3` | Optional additional operands to be multiplied. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `n_result` | Result of the multiplication.
+| Name | Description |
+|---|---|
+| `n_result` | Result of the multiplication. |
+
 #### Example
 
 `times(5 4 3 2 1)  => 120times(-12 -13)    => 156times(12.2 -13.3) => -162.26`
@@ -1395,14 +1412,16 @@ Truncates a given number to an integer.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `n_number` | Any SKILL number.
+| Name | Description |
+|---|---|
+| `n_number` | Any SKILL number. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_integer` | `n_number` truncated to an integer.
+| Name | Description |
+|---|---|
+| `x_integer` | `n_number` truncated to an integer. |
+
 #### Example
 
 `truncate( 1234.567)=> 1234`
@@ -1425,20 +1444,18 @@ Returns the integer result of subtracting one or more operands from the first op
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_op1` | Operand from which one or more operands are subtracted.
-|  |
-| --- | ---
-| `x_op2` | Operand to be subtracted.
-|  |
-| --- | ---
-| `x_opt3` | Optional additional operands to be subtracted.
+| Name | Description |
+|---|---|
+| `x_op1` | Operand from which one or more operands are subtracted. |
+| `x_op2` | Operand to be subtracted. |
+| `x_opt3` | Optional additional operands to be subtracted. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | Result of the subtraction.
+| Name | Description |
+|---|---|
+| `x_result` | Result of the subtraction. |
+
 #### Example
 
 `xdifference(12 13)  => -1xdifference(-12 13) => -25`
@@ -1457,20 +1474,18 @@ Returns the integer result of adding one or more operands to the first operand.`
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_op1` | First operand to be added.
-|  |
-| --- | ---
-| `x_op2` | Second operand to be added.
-|  |
-| --- | ---
-| `x_opt3` | Optional additional operands to be added.
+| Name | Description |
+|---|---|
+| `x_op1` | First operand to be added. |
+| `x_op2` | Second operand to be added. |
+| `x_opt3` | Optional additional operands to be added. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | Result of the addition.
+| Name | Description |
+|---|---|
+| `x_result` | Result of the addition. |
+
 #### Example
 
 `xplus(12 13)   => 25xplus(-12 -13) => -25`
@@ -1489,20 +1504,18 @@ Returns the integer result of dividing the first operand by one or more operands
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_op1` | Dividend.
-|  |
-| --- | ---
-| `x_op2` | Divisor.
-|  |
-| --- | ---
-| `x_opt3` | Optional additional divisors.
+| Name | Description |
+|---|---|
+| `x_op1` | Dividend. |
+| `x_op2` | Divisor. |
+| `x_opt3` | Optional additional divisors. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | Result of the division.
+| Name | Description |
+|---|---|
+| `x_result` | Result of the division. |
+
 #### Example
 
 `xquotient(10 2)   => 5xquotient(-10 -2) => 5`
@@ -1521,27 +1534,25 @@ Returns the integer result of multiplying the first operand by one or more opera
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_op1` | First operand to be multiplied.
-|  |
-| --- | ---
-| `x_op2` | Second operand to be multiplied.
-|  |
-| --- | ---
-| `x_opt3` | Optional additional operands to be multiplied.
+| Name | Description |
+|---|---|
+| `x_op1` | First operand to be multiplied. |
+| `x_op2` | Second operand to be multiplied. |
+| `x_opt3` | Optional additional operands to be multiplied. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | Result of the multiplication.
+| Name | Description |
+|---|---|
+| `x_result` | Result of the multiplication. |
+
 #### Example
 
 `xtimes(12 13)   => 156xtimes(-12 -13) => 156`
 
 ### zerop
 
-`zerop( g_value ) => t | nil`
+`zerop( g_value ) => t / nil`
 
 #### Description
 
@@ -1551,17 +1562,17 @@ Checks if an object is equal to zero.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_value` | A SKILL object that is either a floating-point number or aninteger.
+| Name | Description |
+|---|---|
+| `g_value` | A SKILL object that is either a floating-point number or aninteger. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`g_value` is equal to zero.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | If`g_value` is equal to zero. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `zerop( 0 )=> t`
@@ -1584,17 +1595,17 @@ Zero-extends the rightmost`x_bits` bits of `x_number`. Executes faster than doin
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_number` | An integer.
-|  |
-| --- | ---
-| `x_bits` | Number of bits.
+| Name | Description |
+|---|---|
+| `x_number` | An integer. |
+| `x_bits` | Number of bits. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | `x_number` with the rightmost `x_bits` zero-extended.
+| Name | Description |
+|---|---|
+| `x_result` | `x_number` with the rightmost `x_bits` zero-extended. |
+
 #### Example
 
 zxtd( 8 3 )  => 0

@@ -24,14 +24,16 @@ When a file is closed, it frees the`FILE*` associated with `p_port`. Do not use 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `p_port` | Name of port to close.
+| Name | Description |
+|---|---|
+| `p_port` | Name of port to close. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | Returns`t` if the port is closed successfully.
+| Name | Description |
+|---|---|
+| `t` | Returns`t` if the port is closed successfully. |
+
 #### Example
 
 ```
@@ -44,7 +46,7 @@ p = outfile("~/test/myFile") => port:"~/test/myFile"close(p)         �
 
 ### compress
 
-`compress( t_sourceFile t_destFile ) => t | error message`
+`compress( t_sourceFile t_destFile ) => t / error message`
 
 #### Description
 
@@ -54,20 +56,18 @@ Compression renders the data less readable because indentation and comments are 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_sourceFile` | Name of the SKILL source file.
-|  |
-| --- | ---
-| `t_destFile` | Name of the destination file.
+| Name | Description |
+|---|---|
+| `t_sourceFile` | Name of the SKILL source file. |
+| `t_destFile` | Name of the destination file. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | Returns`t` when function executes successfully.
-|  |
-| --- | ---
-| `error message` | Signals an error if problems are encountered compressing thefile.
+| Name | Description |
+|---|---|
+| `t` | Returns`t` when function executes successfully. |
+| `error message` | Signals an error if problems are encountered compressing thefile. |
+
 #### Example
 
 `compress( "triad.il" "triad_cmp.il") => t`
@@ -78,7 +78,7 @@ Compression renders the data less readable because indentation and comments are 
 
 ### display
 
-`display( g_obj [ p_port ] ) => t | nil`
+`display( g_obj [ p_port ] ) => t / nil`
 
 #### Description
 
@@ -88,20 +88,18 @@ Strings that appear in the written representation are not enclosed in double quo
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_obj` | Any SKILL object.
-|  |
-| --- | ---
-| `p_port` | Optional output port.`poport` is the default.
+| Name | Description |
+|---|---|
+| `g_obj` | Any SKILL object. |
+| `p_port` | Optional output port.`poport` is the default. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | Usually ignored. Function is for side effects only.
-|  |
-| --- | ---
-| `nil` | Usually ignored. Function is for side effects only.
+| Name | Description |
+|---|---|
+| `t` | Usually ignored. Function is for side effects only. |
+| `nil` | Usually ignored. Function is for side effects only. |
+
 #### Example
 
 `(display "Hello!")=> t`
@@ -114,7 +112,7 @@ The side effect is to display`Hello!` to `poport`.
 
 ### drain
 
-`drain( [ p_outputPort ] ) => t | nil`
+`drain( [ p_outputPort ] ) => t / nil`
 
 #### Description
 
@@ -126,20 +124,17 @@ To protect your data, call`drain` after a logical set of writes to a file port. 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `p_outputPort` | Port to flush output from. If no argument is given this functiondoes nothing.
+| Name | Description |
+|---|---|
+| `p_outputPort` | Port to flush output from. If no argument is given this functiondoes nothing. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If all buffered data was successfully written out.
-|  |
-| --- | ---
-| `nil` | There was a problem writing out the data, and some or all of itwas not successfully written out.
-|  |
-| --- | ---
-|  | Signals an error if the port to be drained is an input port or hasbeen closed.
+| Name | Description |
+|---|---|
+| `t` | If all buffered data was successfully written out. |
+| `nil` | There was a problem writing out the data, and some or all of itwas not successfully written out. |
+
 #### Example
 
 `drain()          => tdrain(poport)    => t`
@@ -174,7 +169,7 @@ defun(handleWriteError (x)    printf("WARNING - %L write unsuccessful\n" x) n
 
 ### ed
 
-`ed( [ t_fileName ] ) => t | nil`
+`ed( [ t_fileName ] ) => t / nil`
 
 #### Description
 
@@ -182,24 +177,24 @@ Edits the named file.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_fileName` | File to edit. If no argument is given, defaults to the previouslyedited file, or `temp.il`, if there is no previous file.
+| Name | Description |
+|---|---|
+| `t_fileName` | File to edit. If no argument is given, defaults to the previouslyedited file, or `temp.il`, if there is no previous file. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | The operation was successfully completed.
-|  |
-| --- | ---
-| `nil` | The file does not exist or there is an error condition.
+| Name | Description |
+|---|---|
+| `t` | The operation was successfully completed. |
+| `nil` | The file does not exist or there is an error condition. |
+
 #### Reference
 
 `edi, edl, edit`
 
 ### edi
 
-`edi( [ t_fileName ] ) => t | nil`
+`edi( [ t_fileName ] ) => t / nil`
 
 #### Description
 
@@ -207,17 +202,17 @@ Edits the named file, then includes the file into SKILL.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_fileName` | File to edit. If no argument is given, defaults to the previouslyedited file, or `temp.il`, if there is no previous file.
+| Name | Description |
+|---|---|
+| `t_fileName` | File to edit. If no argument is given, defaults to the previouslyedited file, or `temp.il`, if there is no previous file. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | The operation was successfully completed.
-|  |
-| --- | ---
-| `nil` | The file does not exist or there is an error condition.
+| Name | Description |
+|---|---|
+| `t` | The operation was successfully completed. |
+| `nil` | The file does not exist or there is an error condition. |
+
 #### Example
 
 `edi( "~/myFile.il" )`
@@ -238,17 +233,17 @@ Edits a file, function, or variable.This function only works if you are in graph
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_object` | If you are editing a file, the object you are editing must be astring. If you are editing a function or variable, it must be an unquoted symbol.
-|  |
-| --- | ---
-| `g_loadFlag` | Determines whether to load the file after the editor window isexited.  Valid values: `t` or `nil`  Default: `nil`.
+| Name | Description |
+|---|---|
+| `S_object` | If you are editing a file, the object you are editing must be astring. If you are editing a function or variable, it must be an unquoted symbol. |
+| `g_loadFlag` | Determines whether to load the file after the editor window isexited.  Valid values: `t` or `nil`  Default: `nil`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_childId` | Integer identifying the process spawned for the editor.
+| Name | Description |
+|---|---|
+| `x_childId` | Integer identifying the process spawned for the editor. |
+
 #### Example
 
 `edit( "~/.cdsinit" )`
@@ -269,7 +264,7 @@ Edits the`myVar` variable and loads in the new value when the editor window is c
 
 ### edl
 
-`edl( [ t_fileName ] ) => t | nil`
+`edl( [ t_fileName ] ) => t / nil`
 
 #### Description
 
@@ -277,17 +272,17 @@ Edits the named file, then loads the file into SKILL.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_fileName` | File to edit. If no argument is given, defaults to the previouslyedited file, or `temp.il`, if there is no previous file.
+| Name | Description |
+|---|---|
+| `t_fileName` | File to edit. If no argument is given, defaults to the previouslyedited file, or `temp.il`, if there is no previous file. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | The operation was successfully completed.
-|  |
-| --- | ---
-| `nil` | The file does not exist or there is an error condition.
+| Name | Description |
+|---|---|
+| `t` | The operation was successfully completed. |
+| `nil` | The file does not exist or there is an error condition. |
+
 #### Example
 
 `edl( "/tmp/demo.il" )`
@@ -308,20 +303,18 @@ If a password is supplied, the same password must be given to the command used t
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_sourceFile` | Name of theSKILL file you are encrypting.
-|  |
-| --- | ---
-| `t_destFile` | Destination file you want the encrypted file to be placed in.
-|  |
-| --- | ---
-| `t_password` | Optional password; you are asked for it before you can reload theencrypted file.
+| Name | Description |
+|---|---|
+| `t_sourceFile` | Name of theSKILL file you are encrypting. |
+| `t_destFile` | Destination file you want the encrypted file to be placed in. |
+| `t_password` | Optional password; you are asked for it before you can reload theencrypted file. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | When the file has been encrypted and placed in`t_destFile`. Signals an error if you fail to name a destination file or give the name of a file already present.
+| Name | Description |
+|---|---|
+| `t` | When the file has been encrypted and placed in`t_destFile`. Signals an error if you fail to name a destination file or give the name of a file already present. |
+
 #### Example
 
 `encrypt( "triadb" "myPlace" "option") => t`
@@ -334,7 +327,7 @@ compress, load
 
 ### expandMacroDeep
 
-`expandMacroDeep(g_form)=> g_expandedForm`
+`expandMacroDeep( g_form ) => g_expandedForm`
 
 #### Description
 
@@ -342,21 +335,23 @@ This function recursively expands all macros specified in`g_form`.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_form` | Form that can be a macro call.
+| Name | Description |
+|---|---|
+| `g_form` | Form that can be a macro call. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_expandedForm` | Expanded form or the original form if the given argument is not amacro call.
+| Name | Description |
+|---|---|
+| `g_expandedForm` | Expanded form or the original form if the given argument is not amacro call. |
+
 #### Example
 
 `expandMacroDeep(myFunction(1 2))`
 
 ### fileLength
 
-`fileLength( S_name ) => x_size | 0`
+`fileLength( S_name ) => x_size / 0`
 
 #### Description
 
@@ -366,15 +361,15 @@ A directory is viewed just as a file in this case. Uses the current SKILL path i
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_name` | Name of the file you want the size of.
+| Name | Description |
+|---|---|
+| `S_name` | Name of the file you want the size of. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_size` | Number of bytes in the`S_name` file.
-1. The file exists but is empty.Signals an error if the named file does not exist.
+| Name | Description |
+|---|---|
+| `x_size` | Number of bytes in the`S_name` file. 1. The file exists but is empty.Signals an error if the named file does not exist. |
 
 #### Example
 
@@ -392,7 +387,7 @@ Assuming the named file exists and is 32157 bytes long.
 
 ### fileSeek
 
-`fileSeek( p_port x_offset x_whence ) => t | nil`
+`fileSeek( p_port x_offset x_whence ) => t / nil`
 
 #### Description
 
@@ -400,23 +395,19 @@ Sets the position for the next operation to be performed on the file opened on a
 
 #### Arguments
 
-|  |
-| --- | ---
-| `p_port` | Port associated with the file.
-|  |
-| --- | ---
-| `x_offset` | Number of bytes to move forward (or backward with negativeargument).
-|  |
-| --- | ---
-| `x_whence` | Valid Values: `0` Offset from the beginning of the file. `1` Offset from current position of file pointer. `2` Offset from the end of the file.
+| Name | Description |
+|---|---|
+| `p_port` | Port associated with the file. |
+| `x_offset` | Number of bytes to move forward (or backward with negativeargument). |
+| `x_whence` | Valid Values: `0` Offset from the beginning of the file. `1` Offset from current position of file pointer. `2` Offset from the end of the file. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | The operation was successfully completed.
-|  |
-| --- | ---
-| `nil` | The file does not exist or the position given is out of range for aninput file.
+| Name | Description |
+|---|---|
+| `t` | The operation was successfully completed. |
+| `nil` | The file does not exist or the position given is out of range for aninput file. |
+
 #### Example
 
 Let the file`test.data` contain the single line of text:
@@ -445,14 +436,16 @@ Returns the current offset in bytes for the file opened on a port.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `p_port` | Port associated with the file.
+| Name | Description |
+|---|---|
+| `p_port` | Port associated with the file. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_offset` | Current offset (from the beginning of the file) in bytes for the fileopened on `p_port`.
+| Name | Description |
+|---|---|
+| `x_offset` | Current offset (from the beginning of the file) in bytes for the fileopened on `p_port`. |
+
 #### Example
 
 Let the file`test.data` contain the single line of text:
@@ -469,7 +462,7 @@ p = infile("test.data")  => port:"test.data"fileTell(p)           �
 
 ### fileTimeModified
 
-`fileTimeModified( t_filename ) => x_time | nil`
+`fileTimeModified( t_filename ) => x_time / nil`
 
 #### Description
 
@@ -479,17 +472,17 @@ The return value is an internal, numeric, representation of the time the named f
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_filename` | Name of a file.
+| Name | Description |
+|---|---|
+| `t_filename` | Name of a file. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_time` | Last time`t_filename` was modified.
-|  |
-| --- | ---
-| `nil` | No file with the given name was found.
+| Name | Description |
+|---|---|
+| `x_time` | Last time`t_filename` was modified. |
+| `nil` | No file with the given name was found. |
+
 #### Example
 
 `fileTimeModified( "~/.cshrc" )=> 787435470`
@@ -537,20 +530,18 @@ The`t_formatString` argument is a conversion control string containing directive
 
 #### Arguments
 
-|  |
-| --- | ---
-| `p_port` | Output port to write to.
-|  |
-| --- | ---
-| `t_formatString` | Characters to be printed verbatim, intermixed with formatspecifications prefixed by the `%` sign.
-|  |
-| --- | ---
-| `g_arg1` | The arguments following the format string are printed accordingto their corresponding format specifications.
+| Name | Description |
+|---|---|
+| `p_port` | Output port to write to. |
+| `t_formatString` | Characters to be printed verbatim, intermixed with formatspecifications prefixed by the `%` sign. |
+| `g_arg1` | The arguments following the format string are printed accordingto their corresponding format specifications. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | Prints the formatted output and returns`t`.
+| Name | Description |
+|---|---|
+| `t` | Prints the formatted output and returns`t`. |
+
 #### Example 1
 
 `p = outfile("power.out")=> port:"power.out"`
@@ -613,9 +604,9 @@ This example shows the use of`%L`,`%A`, and `%N`print controls with `printf` whe
 
 ### fscanf, scanf, sscanf
 
-```
-fscanf( p_inputPort t_formatString [ s_var1 ... ] ) => x_items | nilscanf( t_formatString [ s_var1 ... ] ) => x_items | nilsscanf( t_sourceString t_formatString [ s_var1 ... ] ) => x_items | nil
-```
+`fscanf( p_inputPort t_formatString [ s_var1 ... ] ) => x_items / nil`
+`scanf( t_formatString [ s_var1 ... ] ) => x_items / nil`
+`sscanf( t_sourceString t_formatString [ s_var1 ... ] ) => x_items / nil`
 
 #### Description
 
@@ -637,26 +628,20 @@ The common input formats accepted by`fscanf` are summarized below.
 | %s | string | A string (delimited by spaces) in the input
 #### Arguments
 
-|  |
-| --- | ---
-| `p_inputPort` | Input port`fscanf` reads from. The input port cannot be the CIW for `fscanf`.
-|  |
-| --- | ---
-| `t_sourceString` | Input string for`sscanf`.
-|  |
-| --- | ---
-| `t_formatString` | Format string to match against in the reading.
-|  |
-| --- | ---
-| `s_var1` | Name of variable to store results of read.
+| Name | Description |
+|---|---|
+| `p_inputPort` | Input port`fscanf` reads from. The input port cannot be the CIW for `fscanf`. |
+| `t_sourceString` | Input string for`sscanf`. |
+| `t_formatString` | Format string to match against in the reading. |
+| `s_var1` | Name of variable to store results of read. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_items` | The number of input items it successfully read in. As a side-effect, the items read in are assigned to the corresponding variables specified in the call.
-|  |
-| --- | ---
-| nil | It encounters an end of file.
+| Name | Description |
+|---|---|
+| `x_items` | The number of input items it successfully read in. As a side-effect, the items read in are assigned to the corresponding variables specified in the call. |
+| `nil` | It encounters an end of file. |
+
 #### Example
 
 `fscanf( p "%d %f" i d )`
@@ -685,14 +670,16 @@ Returns the file name of a port.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `p_port` | A port object.
+| Name | Description |
+|---|---|
+| `p_port` | A port object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | The file name of the port.
+| Name | Description |
+|---|---|
+| `x_result` | The file name of the port. |
+
 #### Examples
 
 `aPort                 => port:"inFile"get_filename( aPort ) => "inFile"`
@@ -709,14 +696,16 @@ The input port arguments for both`gets` and `getc` are optional. If the port is 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `p_inputPort` | Input port; if not given, function defaults to`piport`.
+| Name | Description |
+|---|---|
+| `p_inputPort` | Input port; if not given, function defaults to`piport`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `s_char` | Single character from the input port in symbol form. If the character returned is a non-printable character, its octal value is stored as a symbol.
+| Name | Description |
+|---|---|
+| `s_char` | Single character from the input port in symbol form. If the character returned is a non-printable character, its octal value is stored as a symbol. |
+
 #### Example
 
 In the following assume the file`test1.data` has its first line read as:
@@ -743,17 +732,16 @@ Uses the current SKILL path for relative paths. Note that a path which is anchor
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_name` | Name of the directory in either string or symbol form.
+| Name | Description |
+|---|---|
+| `S_name` | Name of the directory in either string or symbol form. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_strings` | List of names of all files and directories in a given directory name(including `.` and `..`).
-|  |
-| --- | ---
-|  | Signals an error if the directory does not exist or is inaccessible.
+| Name | Description |
+|---|---|
+| `l_strings` | List of names of all files and directories in a given directory name(including `.` and `..`). |
+
 #### Example
 
 ```
@@ -774,17 +762,17 @@ Retrieves the content of the outstring port (while it is open).
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_port` | Specifies the outstring port from which the content needs to beretrieved
+| Name | Description |
+|---|---|
+| `s_port` | Specifies the outstring port from which the content needs to beretrieved |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_string` | Returns the string read from the outstring port
-|  |
-| --- | ---
-| `nil` | Returns`nil` if the string cannot be read from the outstring port
+| Name | Description |
+|---|---|
+| `t_string` | Returns the string read from the outstring port |
+| `nil` | Returns`nil` if the string cannot be read from the outstring port |
+
 #### Example
 
 `s = outstring()`
@@ -817,7 +805,7 @@ Retrieves the content of the outstring port (while it is open).
 
 ### gets
 
-`gets( s_variableName [ p_inputPort ] ) => t_string |nil`
+`gets( s_variableName [ p_inputPort ] ) => t_string /nil`
 
 #### Description
 
@@ -827,20 +815,18 @@ The string is also returned as the value of`gets`. The terminating newline chara
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_variableName` | Variable to store input string in.
-|  |
-| --- | ---
-| `p_inputPort` | Name of input port;`piport` is used if none is given.
+| Name | Description |
+|---|---|
+| `s_variableName` | Variable to store input string in. |
+| `p_inputPort` | Name of input port;`piport` is used if none is given. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_string` | Returns the input string when successful.
-|  |
-| --- | ---
-| `nil` | When EOF is reached. `s_variableName` stores the last value returned (that is, `nil`).
+| Name | Description |
+|---|---|
+| `t_string` | Returns the input string when successful. |
+| `nil` | When EOF is reached. `s_variableName` stores the last value returned (that is, `nil`). |
+
 #### Example
 
 Assume the`test1.data` file has the following first two lines:
@@ -857,7 +843,7 @@ p = infile("test1.data")     => port:"test1.data"gets(s p)        �
 
 ### include
 
-`include(t_file)=> t/error`
+`include( t_file) => t/error`
 
 #### Description
 
@@ -865,17 +851,17 @@ Loads the file with name`t_file` in SKILL regardless of any errors in the file.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_file` | Name of the file you want to load; it should be a string value.
+| Name | Description |
+|---|---|
+| `t_file` | Name of the file you want to load; it should be a string value. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | The file loads sucessfully.
-|  |
-| --- | ---
-| `error` | The file specified as`t_file` does not exist.
+| Name | Description |
+|---|---|
+| `t` | The file loads sucessfully. |
+| `error` | The file specified as`t_file` does not exist. |
+
 #### Example 1
 
 `include("./test.il")`
@@ -892,7 +878,7 @@ Loads the file with name`t_file` in SKILL regardless of any errors in the file.
 
 ### infile
 
-`infile( S_fileName ) => p_inport | nil`
+`infile( S_fileName ) => p_inport / nil`
 
 #### Description
 
@@ -904,17 +890,17 @@ The file name can be specified with either an absolute path or a relative path. 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_fileName` | Name of the file to be read; it can be either a string or a symbol.
+| Name | Description |
+|---|---|
+| `S_fileName` | Name of the file to be read; it can be either a string or a symbol. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `p_inport` | Port opened for reading the named file.
-|  |
-| --- | ---
-| `nil` | The file does not exist or cannot be opened for reading.
+| Name | Description |
+|---|---|
+| `p_inport` | Port opened for reading the named file. |
+| `nil` | The file does not exist or cannot be opened for reading. |
+
 #### Example
 
 `in = infile("~/test/input.il") => port:"~/test/input.il"`
@@ -933,7 +919,7 @@ If`myFile` does not exist according to the current setting of the SKILL path or 
 
 ### info
 
-`info( t_formatString [ g_args1... ]) => nil`
+`info( t_formatString [ g_args1... ] ) => nil`
 
 #### Description
 
@@ -941,17 +927,17 @@ Prints the formatted output to poport according to the specification.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `r_formatString` | Format specification string.
-|  |
-| --- | ---
-| `g_args` | Arguments following the format string.
+| Name | Description |
+|---|---|
+| `r_formatString` | Format specification string. |
+| `g_args` | Arguments following the format string. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `nil` | Prints the argument value to poport.
+| Name | Description |
+|---|---|
+| `nil` | Prints the argument value to poport. |
+
 #### Example1
 
 `info("Hello Skill") ; prints "Hello Skill"Hello Skillnil`
@@ -962,7 +948,7 @@ Prints the formatted output to poport according to the specification.
 
 ### inportp
 
-`inportp( g_obj ) => t | nil`
+`inportp( g_obj ) => t / nil`
 
 #### Description
 
@@ -972,17 +958,17 @@ Checks if an object is an input port.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_obj` | Any SKILL object.
+| Name | Description |
+|---|---|
+| `g_obj` | Any SKILL object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | The given object is an input port.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | The given object is an input port. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `(inportp piport)   => t(inportp poport)   => nil(inportp 123)      => nil`
@@ -1003,14 +989,16 @@ An input port that can be used to read the string is returned.*Always remember t
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_string` | Input string opened for reading.
+| Name | Description |
+|---|---|
+| `t_string` | Input string opened for reading. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `p_port` | Port for the input string.
+| Name | Description |
+|---|---|
+| `p_port` | Port for the input string. |
+
 #### Example
 
 ```
@@ -1023,7 +1011,7 @@ s = "Hello World!"       => "Hello World!"p = instring(s)        
 
 ### isExecutable
 
-`isExecutable( S_name [ tl_path ] ) => t | nil`
+`isExecutable( S_name [ tl_path ] ) => t / nil`
 
 #### Description
 
@@ -1033,20 +1021,18 @@ A directory is executable if it allows you to name that directory as part of you
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_name` | Name of the file or directory you want to check for execution/search permission.
-|  |
-| --- | ---
-| `tl_path` | List of paths that overrides the SKILL path.
+| Name | Description |
+|---|---|
+| `S_name` | Name of the file or directory you want to check for execution/search permission. |
+| `tl_path` | List of paths that overrides the SKILL path. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If you have permission to execute the file or search the directoryspecified by `S_name`.
-|  |
-| --- | ---
-| `nil` | The directory does not exist or you do not have the requiredpermissions.
+| Name | Description |
+|---|---|
+| `t` | If you have permission to execute the file or search the directoryspecified by `S_name`. |
+| `nil` | The directory does not exist or you do not have the requiredpermissions. |
+
 #### Example
 
 ```
@@ -1061,7 +1047,7 @@ Result if`attachFiles` does not exist or is non-executable.
 
 ### isFile
 
-`isFile( S_name [ tl_path ] ) => t | nil`
+`isFile( S_name [ tl_path ] ) => t / nil`
 
 #### Description
 
@@ -1071,20 +1057,18 @@ Identical to`isFileName`, except that directories are not viewed as (regular) fi
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_name` | Path you want to check.
-|  |
-| --- | ---
-| `tl_path` | List of paths that overrides the SKILL path.
+| Name | Description |
+|---|---|
+| `S_name` | Path you want to check. |
+| `tl_path` | List of paths that overrides the SKILL path. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | The`S_name` file exists.
-|  |
-| --- | ---
-| `nil` | The`S_name` file does not exist.
+| Name | Description |
+|---|---|
+| `t` | The`S_name` file exists. |
+| `nil` | The`S_name` file does not exist. |
+
 #### Example
 
 `isFile( "DACLib") => nil`
@@ -1099,7 +1083,7 @@ Assumes`DACLib` is a directory and `triadc` is a file in the current working dir
 
 ### isFileEncrypted
 
-`isFileEncrypted( S_name ) => t | nil`
+`isFileEncrypted( S_name ) => t / nil`
 
 #### Description
 
@@ -1109,17 +1093,17 @@ Similar to`isFile`, except that it returns `t` only if the file exists and is en
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_name` | File you want to check.
+| Name | Description |
+|---|---|
+| `S_name` | File you want to check. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | The`S_name` file exists and is encrypted.
-|  |
-| --- | ---
-| `nil` | The`S_name` file does not exist or is not encrypted.
+| Name | Description |
+|---|---|
+| `t` | The`S_name` file exists and is encrypted. |
+| `nil` | The`S_name` file does not exist or is not encrypted. |
+
 #### Example
 
 ```
@@ -1132,7 +1116,7 @@ isFileEncrypted( "~/testfns.il") => nil encrypt( "~/testfns.il" "~/testfns.ile")
 
 ### isFileName
 
-`isFileName( S_name [ tl_path ] ) => t | nil`
+`isFileName( S_name [ tl_path ] ) => t / nil`
 
 #### Description
 
@@ -1142,20 +1126,18 @@ The file name can be specified with either an absolute path or a relative path. 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_name` | Path you want to check.
-|  |
-| --- | ---
-| `tl_path` | List of paths to override the SKILL path.
+| Name | Description |
+|---|---|
+| `S_name` | Path you want to check. |
+| `tl_path` | List of paths to override the SKILL path. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | The`S_name` path exists.
-|  |
-| --- | ---
-| `nil` | The`S_name` path does not exist.
+| Name | Description |
+|---|---|
+| `t` | The`S_name` path exists. |
+| `nil` | The`S_name` path does not exist. |
+
 #### Example
 
 Suppose`DACLib` is a directory and `triadc` is a file in the current working directory and the SKILL path is `nil`.
@@ -1176,7 +1158,7 @@ Result if`triad1` does not exist in current working directory.
 
 ### isLargeFile
 
-`isLargeFile(S_name [ tl_path ] ) => t | nil`
+`isLargeFile( S_name [ tl_path ] ) => t / nil`
 
 #### Description
 
@@ -1188,20 +1170,18 @@ The SKILL path can be overriden by specifying`tl_path`.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_name` | Name of the file you want to check.
-|  |
-| --- | ---
-| `tl_path` | List of paths to override the SKILL path.
+| Name | Description |
+|---|---|
+| `S_name` | Name of the file you want to check. |
+| `tl_path` | List of paths to override the SKILL path. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| t | The`S_name` file has a size greater than 2GB.
-|  |
-| --- | ---
-| nil | The`S_name` file has a size less than or equal to 2GB.
+| Name | Description |
+|---|---|
+| `t` | The`S_name` file has a size greater than 2GB. |
+| `nil` | The`S_name` file has a size less than or equal to 2GB. |
+
 #### Example
 
 `fileLength( "largeFile" ) => 3072000000`
@@ -1214,7 +1194,7 @@ The SKILL path can be overriden by specifying`tl_path`.
 
 ### isLink
 
-`isLink( S_name [ tl_path ] ) => t | nil`
+`isLink( S_name [ tl_path ] ) => t / nil`
 
 #### Description
 
@@ -1224,20 +1204,18 @@ When`S_name` is a relative path, the current SKILL path is used if it's non-`nil
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_name` | Path you want to check.
-|  |
-| --- | ---
-| `tl_path` | List of paths that override the SKILL path.
+| Name | Description |
+|---|---|
+| `S_name` | Path you want to check. |
+| `tl_path` | List of paths that override the SKILL path. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | The name exists and it is a symbolic link.
-|  |
-| --- | ---
-| `nil` | The name exists and is not a symbolic name or if`S_name` does not exist at all.
+| Name | Description |
+|---|---|
+| `t` | The name exists and it is a symbolic link. |
+| `nil` | The name exists and is not a symbolic name or if`S_name` does not exist at all. |
+
 #### Example
 
 `isLink("/usr/bin")=> nil`
@@ -1250,7 +1228,7 @@ When`S_name` is a relative path, the current SKILL path is used if it's non-`nil
 
 ### isPortAtEOF
 
-`isPortAtEOF(p_port)=> t | nil`
+`isPortAtEOF( p_port ) => t / nil`
 
 #### Description
 
@@ -1258,17 +1236,17 @@ Takes an input port and returns`t` if end-of-file (EOF) has previously been dete
 
 #### Arguments
 
-|  |
-| --- | ---
-| `p_port` | Input port. This must be open, otherwise the function will returnan error.
+| Name | Description |
+|---|---|
+| `p_port` | Input port. This must be open, otherwise the function will returnan error. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | End-of-file (EOF) has previously been detected while reading theinput port `p_port`.
-|  |
-| --- | ---
-| `nil` | End-of-file (EOF) has not been reached yet.
+| Name | Description |
+|---|---|
+| `t` | End-of-file (EOF) has previously been detected while reading theinput port `p_port`. |
+| `nil` | End-of-file (EOF) has not been reached yet. |
+
 #### Example
 
 `port = infile("input_file")`
@@ -1283,7 +1261,7 @@ Takes an input port and returns`t` if end-of-file (EOF) has previously been dete
 
 ### isReadable
 
-`isReadable( S_name [ tl_path ] ) => t | nil`
+`isReadable( S_name [ tl_path ] ) => t / nil`
 
 #### Description
 
@@ -1291,20 +1269,18 @@ Checks if you have permission to read a file or list a directory.Uses the curren
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_name` | Name of a file or directory you want to know your accesspermissions on.
-|  |
-| --- | ---
-| `tl_path` | List of paths to override the SKILL path.
+| Name | Description |
+|---|---|
+| `S_name` | Name of a file or directory you want to know your accesspermissions on. |
+| `tl_path` | List of paths to override the SKILL path. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`S_name` exists and you have permission to read it (for files) or list the contents (for directories).
-|  |
-| --- | ---
-| `nil` | The file does not exist or does exist, but you do not have permission to read it.
+| Name | Description |
+|---|---|
+| `t` | If`S_name` exists and you have permission to read it (for files) or list the contents (for directories). |
+| `nil` | The file does not exist or does exist, but you do not have permission to read it. |
+
 #### Example
 
 `isReadable("./") => t`
@@ -1321,7 +1297,7 @@ Result if*"*`~/DACLib`*"* is not readable or does not exist.
 
 ### isWritable
 
-`isWritable( S_name [ tl_path ] ) => t | nil`
+`isWritable( S_name [ tl_path ] ) => t / nil`
 
 #### Description
 
@@ -1329,20 +1305,18 @@ Checks if you have permission to write to a file or update a directory.Uses the 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_name` | Name of a file or directory you want to find out your writepermission on.
-|  |
-| --- | ---
-| `tl_path` | List of paths to search that overrides the SKILL path.
+| Name | Description |
+|---|---|
+| `S_name` | Name of a file or directory you want to find out your writepermission on. |
+| `tl_path` | List of paths to search that overrides the SKILL path. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`S_name` exists and you have permission to write or update it.
-|  |
-| --- | ---
-| `nil` | The file does not exist or does exist, but you do not have permission to read it.
+| Name | Description |
+|---|---|
+| `t` | If`S_name` exists and you have permission to write or update it. |
+| `nil` | The file does not exist or does exist, but you do not have permission to read it. |
+
 #### Example
 
 `isWritable("/tmp")=> t isWritable("~/test/out.1") => nil`
@@ -1355,7 +1329,7 @@ Result if`out.1` does not exist or there is no write permission to it.
 
 ### lineread
 
-`lineread( [ p_inputPort ] ) => t | nil | l_results`
+`lineread( [ p_inputPort ] ) => t / nil / l_results`
 
 #### Description
 
@@ -1365,20 +1339,18 @@ Only one line of input is read in unless there are still open parentheses pendin
 
 #### Arguments
 
-|  |
-| --- | ---
-| `p_inputPort` | Input port. The default is piport.
+| Name | Description |
+|---|---|
+| `p_inputPort` | Input port. The default is piport. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If the next line read in is blank.
-|  |
-| --- | ---
-| `nil` | If the input port is at the end of file.
-|  |
-| --- | ---
-| `l_results` | Otherwise returns a list of the objects read in from the next(logical) input line
+| Name | Description |
+|---|---|
+| `t` | If the next line read in is blank. |
+| `nil` | If the input port is at the end of file. |
+| `l_results` | Otherwise returns a list of the objects read in from the next(logical) input line |
+
 #### Example
 
 ```
@@ -1395,7 +1367,7 @@ lineread(piport)f(a b c)               ; Another input line of th
 
 ### linereadstring
 
-`linereadstring( t_string ) => g_value | nil`
+`linereadstring( t_string ) => g_value / nil`
 
 #### Description
 
@@ -1403,17 +1375,17 @@ Executes`lineread` on a string and returns the first form read in. Anything afte
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_string` | Input string.
+| Name | Description |
+|---|---|
+| `t_string` | Input string. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_value` | The first form (line) read in from the argument string.
-|  |
-| --- | ---
-| `nil` | No form is read (that is, the argument string is all spaces).
+| Name | Description |
+|---|---|
+| `g_value` | The first form (line) read in from the argument string. |
+| `nil` | No form is read (that is, the argument string is all spaces). |
+
 #### Example
 
 ```
@@ -1442,21 +1414,21 @@ SKILL has an autoload feature that allows applications to load functions into SK
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_fileName` | File to be loaded. Uses the file name extension to determine thelanguage mode to use.  Valid values:
-|  |
-| --- | ---
-| `'ils` | Means the file contains SKILL++ code.
+| Name | Description |
+|---|---|
+| `t_fileName` | File to be loaded. Uses the file name extension to determine thelanguage mode to use.  Valid values: |
+| 'ils | Means the file contains SKILL++ code. |
+
 | `'il` | Means the file contains SKILL code.
 |  |
 | --- | ---
 | `t_password` | Password, if`t_fileName` is an encrypted file.
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | The file is successfully loaded.
+| Name | Description |
+|---|---|
+| `t` | The file is successfully loaded. |
+
 #### Example
 
 ```
@@ -1489,17 +1461,17 @@ Opens the named file, repeatedly calls`lineread` to read in the file, immediatel
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_fileName` | File to be loaded, with the proper extension to specify thelanguage mode.
-|  |
-| --- | ---
-| `t_password` | Password, if`t_fileName` is an encrypted file.
+| Name | Description |
+|---|---|
+| `t_fileName` | File to be loaded, with the proper extension to specify thelanguage mode. |
+| `t_password` | Password, if`t_fileName` is an encrypted file. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | Always returns`t`.
+| Name | Description |
+|---|---|
+| `t` | Always returns`t`. |
+
 #### Example
 
 `loadi( "testfns.il" )`
@@ -1516,9 +1488,7 @@ Loads the`test.il` file from the `tmp` directory.
 
 ### loadPort
 
-```
-loadPort( p_port [?langMode g_langMode][?password g_password][?ignoreErrors g_ignoreErrors])) => t
-```
+`loadPort( p_port [?langMode g_langMode] [?password g_password] [?ignoreErrors g_ignoreErrors] ) => t`
 
 #### Description
 
@@ -1526,18 +1496,12 @@ Loads a SKILL file from`p_port`.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `p_port` | An input (SKILL) port.
-|  |
-| --- | ---
-| `g_langMode` | Specifies the language mode to use regardless of the original fileextension.  Valid values:
-|  |
-| --- | ---
-|  |
-|  |
-| --- | ---
-| `'ils` | Loads the file in SKILL++ mode.
+| Name | Description |
+|---|---|
+| `p_port` | An input (SKILL) port. |
+| `g_langMode` | Specifies the language mode to use regardless of the original fileextension.  Valid values: |
+| 'ils | Loads the file in SKILL++ mode. |
+
 | `'il` | Loads the file in SKILL mode.
 |  |
 | --- | ---
@@ -1550,9 +1514,10 @@ Loads a SKILL file from`p_port`.
 | `g_ignoreErrors` | If specified, ignores errors during load.
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | Always returns`t`.
+| Name | Description |
+|---|---|
+| `t` | Always returns`t`. |
+
 #### Example
 
 `` loadPort( myPort ?langMode `ils ) ``
@@ -1569,24 +1534,19 @@ Opens a string for reading, then parses and executes expressions stored in the s
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_string` | Input string to be evaluated.
-|  |
-| --- | ---
-| `s_langMode` | Must be a symbol. Valid values:
-|  |
-| --- | ---
-| `'ils` | Means the file contains SKILL++ code.
+| Name | Description |
+|---|---|
+| `t_string` | Input string to be evaluated. |
+| `s_langMode` | Must be a symbol. Valid values: |
+| 'ils | Means the file contains SKILL++ code. |
+
 | `'il` | Means the file contains SKILL code.
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | When`t_string` has been successfully read in and evaluated.
-|  |
-| --- | ---
-|  | Signals an error if`t_string` is not a string, or contains ill-formed SKILL expressions.
+| Name | Description |
+|---|---|
+| `t` | When`t_string` has been successfully read in and evaluated. |
+
 #### Example
 
 ```
@@ -1609,17 +1569,17 @@ You can use the`close` function to close the output port.
 
 #### Arguments
 
-|  |
-| --- | ---
-| Takes no arguments |
+| Name | Description |
+|---|---|
+| `Takes no arguments` |  |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `p_openedPort` | The opened output port
-|  |
-| --- | ---
-| `nil` | Returns`nil` if the port cannot be opened
+| Name | Description |
+|---|---|
+| `p_openedPort` | The opened output port |
+| `nil` | Returns`nil` if the port cannot be opened |
+
 #### Example
 
 `s = outstring() ; string port opened for output`
@@ -1655,14 +1615,16 @@ The last component of the resultant path is guaranteed to be no more than 14 cha
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_nameTemplate` | Template file name as a string or a symbol.
+| Name | Description |
+|---|---|
+| `S_nameTemplate` | Template file name as a string or a symbol. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_name` | Path that can be used to create a file or directory.
+| Name | Description |
+|---|---|
+| `t_name` | Path that can be used to create a file or directory. |
+
 #### Example
 
 `d = makeTempFileName("/tmp/testXXXX")  => "/tmp/testa00324"`
@@ -1687,14 +1649,16 @@ Prints a newline (`\n`) character and then flushes the output port.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `p_outputPort` | Output port. Defaults to `poport`, the standard output port.
+| Name | Description |
+|---|---|
+| `p_outputPort` | Output port. Defaults to `poport`, the standard output port. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `nil` | Prints a newline and then returns`nil`.
+| Name | Description |
+|---|---|
+| `nil` | Prints a newline and then returns`nil`. |
+
 #### Example
 
 `print("Hello") newline() print("World!")"Hello""World!"=> nil`
@@ -1713,17 +1677,17 @@ Returns the number of files now open and the maximum number of files that a proc
 
 #### Arguments
 
-|  |
-| --- | ---
-| None. |
+| Name | Description |
+|---|---|
+| `None.` |  |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_current` | Number of files that are currently open.
-|  |
-| --- | ---
-| `x_maximum` | Maximum number of files that a process can open. This isusually platform-dependent.
+| Name | Description |
+|---|---|
+| `x_current` | Number of files that are currently open. |
+| `x_maximum` | Maximum number of files that a process can open. This isusually platform-dependent. |
+
 #### Example
 
 `numOpenFiles()            => (6 64)`
@@ -1740,7 +1704,7 @@ One more file is open now.
 
 ### openportp
 
-`openportp( g_obj ) => t | nil`
+`openportp( g_obj ) => t / nil`
 
 #### Description
 
@@ -1748,17 +1712,17 @@ Checks if the given argument is a port object and it is open (for input or outpu
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_obj` | Any SKILL object.
+| Name | Description |
+|---|---|
+| `g_obj` | Any SKILL object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`g_obj` is a port and it is open for input or output.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | If`g_obj` is a port and it is open for input or output. |
+| `nil` | Otherwise. |
+
 #### Example
 
 ```
@@ -1767,7 +1731,7 @@ Checks if the given argument is a port object and it is open (for input or outpu
 
 ### outfile
 
-`outfile( S_fileName [ t_mode ] [ g_openHiddenFile ]) => p_outport | nil`
+`outfile( S_fileName [ t_mode ] [ g_openHiddenFile ] ) => p_outport / nil`
 
 #### Description
 
@@ -1779,26 +1743,19 @@ If the optional`g_openHiddenFile` argument (which is intended to be used on Wind
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_fileName` | Name of the file to open or create.
-|  |
-| --- | ---
-| `t_mode` | If the mode string`t_mode` is specified, the file is opened in the mode requested. If `t_mode` is `a`, an existing file is opened in append mode. If it is `w`, a new file is created for writing (any existing file is overwritten). The default is `w`.
-|  |
-| --- | ---
-| `g_openHiddenFile` | If specified to non-nil, the named Windows hidden file is forcedto open. This argument must be used for Windows hidden files only.
+| Name | Description |
+|---|---|
+| `S_fileName` | Name of the file to open or create. |
+| `t_mode` | If the mode string`t_mode` is specified, the file is opened in the mode requested. If `t_mode` is `a`, an existing file is opened in append mode. If it is `w`, a new file is created for writing (any existing file is overwritten). The default is `w`. |
+| `g_openHiddenFile` | If specified to non-nil, the named Windows hidden file is forcedto open. This argument must be used for Windows hidden files only. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `p_outport` | An output port ready to write to the specified file.
-|  |
-| --- | ---
-| `nil` | If the named file cannot be opened for writing or the namedWindows hidden file does not exist (including the current SKILL path).
-|  |
-| --- | ---
-|  | An error is signaled if an illegal mode string is supplied.
+| Name | Description |
+|---|---|
+| `p_outport` | An output port ready to write to the specified file. |
+| `nil` | If the named file cannot be opened for writing or the namedWindows hidden file does not exist (including the current SKILL path). |
+
 #### Example
 
 ```
@@ -1815,7 +1772,7 @@ To force opening a Windows hidden file`t_mode` must also be specified.
 
 ### outportp
 
-`outportp( g_obj ) => t | nil`
+`outportp( g_obj ) => t / nil`
 
 #### Description
 
@@ -1825,17 +1782,17 @@ Checks if an object is an output port.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_obj` | Any SKILL object.
+| Name | Description |
+|---|---|
+| `g_obj` | Any SKILL object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | The given object is an output port.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | The given object is an output port. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `(outportp poport)    => t(outportp piport)    => nil(outportp 123)       => nil`
@@ -1846,7 +1803,7 @@ Checks if an object is an output port.
 
 ### portp
 
-`portp( g_value ) => t | nil`
+`portp( g_value ) => t / nil`
 
 #### Description
 
@@ -1856,17 +1813,17 @@ The suffix`p` is usually added to the name of a function to indicate that it is 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_value` | A data object.
+| Name | Description |
+|---|---|
+| `g_value` | A data object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`g_value` is an input or output port, whose type name is `port`.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | If`g_value` is an input or output port, whose type name is `port`. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `portp( piport )    => tportp( 3.0 )       => nil`
@@ -1889,17 +1846,17 @@ The`pprint` function is useful, for example, when printing out a long list where
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_value` | Any SKILL value to be printed.
-|  |
-| --- | ---
-| `p_outputPort` | Output port to print to. Default is`poport`.
+| Name | Description |
+|---|---|
+| `g_value` | Any SKILL value to be printed. |
+| `p_outputPort` | Output port to print to. Default is`poport`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `nil` | Prints the argument value (to the given port).
+| Name | Description |
+|---|---|
+| `nil` | Prints the argument value (to the given port). |
+
 #### Example
 
 ```
@@ -1922,17 +1879,17 @@ For example, strings are enclosed in double quotes. Same as `println`, except no
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_value` | Any SKILL object.
-|  |
-| --- | ---
-| `p_outputPort` | Output port to print to. Default is `poport`.
+| Name | Description |
+|---|---|
+| `g_value` | Any SKILL object. |
+| `p_outputPort` | Output port to print to. Default is `poport`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `nil` | Always returns`nil` after printing out the object supplied.
+| Name | Description |
+|---|---|
+| `nil` | Always returns`nil` after printing out the object supplied. |
+
 #### Example
 
 `print("hello")"hello"=> nil`
@@ -1955,17 +1912,17 @@ The optional arguments following the format string are printed according to thei
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_formatString` | Characters to be printed verbatim, intermixed with formatspecifications prefixed by the % sign.
-|  |
-| --- | ---
-| `g_arg1` | Arguments following the format string are printed according totheir corresponding format specifications.
+| Name | Description |
+|---|---|
+| `t_formatString` | Characters to be printed verbatim, intermixed with formatspecifications prefixed by the % sign. |
+| `g_arg1` | Arguments following the format string are printed according totheir corresponding format specifications. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | Prints the formatted output and returns`t`.
+| Name | Description |
+|---|---|
+| `t` | Prints the formatted output and returns`t`. |
+
 #### Example
 
 `x = 197.9687 => 197.9687printf("The test measures %10.2f.\n" x)`

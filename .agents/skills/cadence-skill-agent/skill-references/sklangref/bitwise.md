@@ -16,20 +16,18 @@ Returns the integer result of the Boolean AND operation on each parallel pair of
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_op1` | Operand to be evaluated.
-|  |
-| --- | ---
-| `x_op2` | Operand to be evaluated.
-|  |
-| --- | ---
-| `x_op3` | Optional additional operands to be evaluated.
+| Name | Description |
+|---|---|
+| `x_op1` | Operand to be evaluated. |
+| `x_op2` | Operand to be evaluated. |
+| `x_op3` | Optional additional operands to be evaluated. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | Result of the operation.
+| Name | Description |
+|---|---|
+| `x_result` | Result of the operation. |
+
 #### Example
 
 `band(12 13)     => 12band(1 2 3 4 5) => 0`
@@ -48,20 +46,18 @@ Returns the value of a specified set of bits of a specified integer. Prefix form
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_val` | Integer for which you want to extract the value of a specified setof bits.
-|  |
-| --- | ---
-| `x_msb` | Leftmost bit of the set of bits to be extracted.
-|  |
-| --- | ---
-| `x_lsb` | Rightmost bit of the set of bits to be extracted.
+| Name | Description |
+|---|---|
+| `x_val` | Integer for which you want to extract the value of a specified setof bits. |
+| `x_msb` | Leftmost bit of the set of bits to be extracted. |
+| `x_lsb` | Rightmost bit of the set of bits to be extracted. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | Value of the set of bits.
+| Name | Description |
+|---|---|
+| `x_result` | Value of the set of bits. |
+
 #### Example
 
 `x = 0b1011bitfield(x 2 0) => 3bitfield(x 3 0) => 11`
@@ -80,17 +76,17 @@ Returns the value of a specified bit of a specified integer. Prefix form of the`
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_val` | Integer for which you want to extract the value of a specified bit.
-|  |
-| --- | ---
-| `x_bitPosition` | Position of the bit whose value you want to extract.
+| Name | Description |
+|---|---|
+| `x_val` | Integer for which you want to extract the value of a specified bit. |
+| `x_bitPosition` | Position of the bit whose value you want to extract. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | Value of a single bit.
+| Name | Description |
+|---|---|
+| `x_result` | Value of a single bit. |
+
 #### Example
 
 `x = 0b1001bitfield1(x 0) => 1bitfield1(x 3) => 1`
@@ -109,20 +105,18 @@ Returns the integer result of the Boolean NAND operation on each parallel pair o
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_op1` | Operand to be evaluated.
-|  |
-| --- | ---
-| `x_op2` | Operand to be evaluated.
-|  |
-| --- | ---
-| `x_op3` | Optional additional operands to be evaluated.
+| Name | Description |
+|---|---|
+| `x_op1` | Operand to be evaluated. |
+| `x_op2` | Operand to be evaluated. |
+| `x_op3` | Optional additional operands to be evaluated. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | Result of the operation.
+| Name | Description |
+|---|---|
+| `x_result` | Result of the operation. |
+
 #### Example
 
 `bnand(12 13)     => -13bnand(1 2 3 4 5) => -1`
@@ -141,20 +135,18 @@ Returns the integer result of the Boolean NOR operation on each parallel pair of
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_op1` | Operand to be evaluated.
-|  |
-| --- | ---
-| `x_op2` | Operand to be evaluated.
-|  |
-| --- | ---
-| `x_op3` | Optional additional operands to be evaluated.
+| Name | Description |
+|---|---|
+| `x_op1` | Operand to be evaluated. |
+| `x_op2` | Operand to be evaluated. |
+| `x_op3` | Optional additional operands to be evaluated. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | Result of the operation.
+| Name | Description |
+|---|---|
+| `x_result` | Result of the operation. |
+
 #### Example
 
 `bnor(12 13)     => -14bnor(1 2 3 4 5) => -8`
@@ -173,14 +165,16 @@ Returns the integer result of the Boolean NOT operation on each parallel pair of
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_op` | Operand to be evaluated.
+| Name | Description |
+|---|---|
+| `x_op` | Operand to be evaluated. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | Result of the operation.
+| Name | Description |
+|---|---|
+| `x_result` | Result of the operation. |
+
 #### Example
 
 `bnot(12)  => -13bnot(-12) => 11`
@@ -199,20 +193,18 @@ Returns the integer result of the Boolean OR operation on each parallel pair of 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_op1` | Operand to be evaluated.
-|  |
-| --- | ---
-| `x_op2` | Operand to be evaluated.
-|  |
-| --- | ---
-| `x_op3` | Optional additional operands to be evaluated.
+| Name | Description |
+|---|---|
+| `x_op1` | Operand to be evaluated. |
+| `x_op2` | Operand to be evaluated. |
+| `x_op3` | Optional additional operands to be evaluated. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | Result of the operation.
+| Name | Description |
+|---|---|
+| `x_result` | Result of the operation. |
+
 #### Example
 
 `bor(12 13)     => 13bor(1 2 3 4 5) => 7`
@@ -231,20 +223,18 @@ Returns the integer result of the Boolean XNOR operation on each parallel pair o
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_op1` | Operand to be evaluated.
-|  |
-| --- | ---
-| `x_op2` | Operand to be evaluated.
-|  |
-| --- | ---
-| `x_op3` | Optional additional operands to be evaluated.
+| Name | Description |
+|---|---|
+| `x_op1` | Operand to be evaluated. |
+| `x_op2` | Operand to be evaluated. |
+| `x_op3` | Optional additional operands to be evaluated. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | Result of the operation.
+| Name | Description |
+|---|---|
+| `x_result` | Result of the operation. |
+
 #### Example
 
 `bxnor(12 13)     => -2bxnor(1 2 3 4 5) => -2`
@@ -263,20 +253,18 @@ Returns the integer result of the Boolean XOR operation on each parallel pair of
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_op1` | Operand to be evaluated.
-|  |
-| --- | ---
-| `x_op2` | Operand to be evaluated.
-|  |
-| --- | ---
-| `x_op3` | Optional additional operands to be evaluated.
+| Name | Description |
+|---|---|
+| `x_op1` | Operand to be evaluated. |
+| `x_op2` | Operand to be evaluated. |
+| `x_op3` | Optional additional operands to be evaluated. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | Result of the operation.
+| Name | Description |
+|---|---|
+| `x_result` | Result of the operation. |
+
 #### Example
 
 `bxor(12 13)     => 1bxor(1 2 3 4 5) => 1`
@@ -295,23 +283,19 @@ Sets a value into a set of bits in the bit field specified by the variable`s_var
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_var` | Variable representing the bit field whose value is to be changed.
-|  |
-| --- | ---
-| `x_val` | New value of the bit.
-|  |
-| --- | ---
-| `x_msb` | Leftmost bit of the set of bits whose value is to be changed.
-|  |
-| --- | ---
-| `x_lsb` | Rightmost bit of the set of bits whose value is to be changed.
+| Name | Description |
+|---|---|
+| `s_var` | Variable representing the bit field whose value is to be changed. |
+| `x_val` | New value of the bit. |
+| `x_msb` | Leftmost bit of the set of bits whose value is to be changed. |
+| `x_lsb` | Rightmost bit of the set of bits whose value is to be changed. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | New value of`s_var`.
+| Name | Description |
+|---|---|
+| `x_result` | New value of`s_var`. |
+
 #### Example
 
 `x = 0`
@@ -336,20 +320,18 @@ Sets a value into a single bit in the bit field specified by the variable`s_var`
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_var` | Variable representing the bit field whose value is to be changed.
-|  |
-| --- | ---
-| `x_val` | New value of the bit.
-|  |
-| --- | ---
-| `x_bitPosition` | Position of the bit whose value you are changing.
+| Name | Description |
+|---|---|
+| `s_var` | Variable representing the bit field whose value is to be changed. |
+| `x_val` | New value of the bit. |
+| `x_bitPosition` | Position of the bit whose value you are changing. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_result` | New value of`s_var`.
+| Name | Description |
+|---|---|
+| `x_result` | New value of`s_var`. |
+
 #### Example
 
 `x = 0b1001setqbitfield1(x 1 1) => 11x => 11`

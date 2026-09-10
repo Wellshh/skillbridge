@@ -1,0 +1,132 @@
+{
+  "artifact": "iscalable-matrix-17.2-S048.json",
+  "verified_on": {
+    "allegro": "17.2-2016 S048"
+  },
+  "probe": "single evalstring per isCallable/arglist expression",
+  "board_fixture": "allegrobridge/assets/shape1.brd copied to disposable board",
+  "generated_at_utc": "2026-09-10T04:31:27.986198+00:00",
+  "names": [
+    {
+      "name": "axlXSectionAssign",
+      "is_callable_expression": "(isCallable 'axlXSectionAssign)",
+      "callable": true,
+      "arglist": [
+        [
+          "g_general"
+        ],
+        [
+          "g_general"
+        ],
+        "gg"
+      ]
+    },
+    {
+      "name": "axlXSectionCreateStackup",
+      "is_callable_expression": "(isCallable 'axlXSectionCreateStackup)",
+      "callable": true,
+      "arglist": [
+        [
+          "g_general"
+        ],
+        [
+          "@optional"
+        ],
+        [
+          "g_general"
+        ],
+        "gg"
+      ]
+    },
+    {
+      "name": "axlXSectionRemove",
+      "is_callable_expression": "(isCallable 'axlXSectionRemove)",
+      "callable": true,
+      "arglist": [
+        [
+          "g_general"
+        ],
+        [
+          "g_general"
+        ],
+        "gg"
+      ]
+    },
+    {
+      "name": "axlXSectionRename",
+      "is_callable_expression": "(isCallable 'axlXSectionRename)",
+      "callable": true,
+      "arglist": [
+        [
+          "g_general"
+        ],
+        [
+          "t_string"
+        ],
+        "gt"
+      ]
+    },
+    {
+      "name": "axlSnapEnableAtRMB",
+      "is_callable_expression": "(isCallable 'axlSnapEnableAtRMB)",
+      "callable": true,
+      "arglist": null
+    },
+    {
+      "name": "axlSnapDisableAtRMB",
+      "is_callable_expression": "(isCallable 'axlSnapDisableAtRMB)",
+      "callable": true,
+      "arglist": null
+    },
+    {
+      "name": "axlSwapSymbols",
+      "is_callable_expression": "(isCallable 'axlSwapSymbols)",
+      "callable": true,
+      "arglist": [
+        [
+          "swapList"
+        ]
+      ]
+    },
+    {
+      "name": "axlDBCreate1SegLine",
+      "is_callable_expression": "(isCallable 'axlDBCreate1SegLine)",
+      "callable": false,
+      "arglist": [
+        "unknown"
+      ]
+    },
+    {
+      "name": "axlCMDBInit",
+      "is_callable_expression": "(isCallable 'axlCMDBInit)",
+      "callable": true,
+      "arglist": [
+        ""
+      ]
+    },
+    {
+      "name": "axlCMDBExit",
+      "is_callable_expression": "(isCallable 'axlCMDBExit)",
+      "callable": true,
+      "arglist": [
+        ""
+      ]
+    },
+    {
+      "name": "axlTestDriver",
+      "is_callable_expression": "(isCallable 'axlTestDriver)",
+      "callable": false,
+      "arglist": [
+        "unknown"
+      ]
+    },
+    {
+      "name": "axlPerformance",
+      "is_callable_expression": "(isCallable 'axlPerformance)",
+      "callable": false,
+      "arglist": [
+        "unknown"
+      ]
+    }
+  ]
+}

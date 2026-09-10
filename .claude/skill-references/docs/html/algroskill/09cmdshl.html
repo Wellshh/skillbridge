@@ -1,0 +1,1850 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN" "http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+<html xmlns="http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Allegro SKILL Reference -- 8</title>
+<META NAME="Approver" CONTENT="Technical Publications">
+<META NAME="Author" CONTENT="Technical Publications">
+<META NAME="CreateDate" CONTENT="2017-11-25">
+<META NAME="CreateTime" CONTENT="1511600112">
+<META NAME="DataType" CONTENT="Manuals">
+<META NAME="Description" CONTENT="Describes the Allegro eXtension Language (AXL) and how to use each AXL function.">
+<META NAME="DocTitle" CONTENT="Allegro SKILL Reference">
+<META NAME="DocType" CONTENT="SKILL Reference">
+<META NAME="EdmsRelease" CONTENT="FM-Wiki-2.0_HF2">
+<META NAME="FileTitle" CONTENT="8">
+<META NAME="FileType" CONTENT="Chapter">
+<META NAME="Group" CONTENT="Allegro User Guide">
+<META NAME="Keyword" CONTENT="algroskill">
+<META NAME="Language" CONTENT="English">
+<META NAME="ModifiedDate" CONTENT="2017-11-25">
+<META NAME="ModifiedTime" CONTENT="1511600112">
+<META NAME="NextFile" CONTENT="sipapd.html">
+<META NAME="Order" CONTENT="11">
+<META NAME="PageCount" CONTENT="28">
+<META NAME="Platform" CONTENT="ALL">
+<META NAME="PrevFile" CONTENT="08intprm.html">
+<META NAME="Product" CONTENT="Allegro PCB Editor, Cadence SiP Digital">
+<META NAME="ProductFamily" CONTENT="Silicon-Package-Board Co-Design, IC Packaging">
+<META NAME="ProductVersion" CONTENT="17.2-2016">
+<META NAME="RightsManagement" CONTENT="Copyright 19912017 Cadence Design Systems Inc.">
+<META NAME="Title" CONTENT="Allegro SKILL Reference -- 8">
+<META NAME="TopicTags" CONTENT="FALSE">
+<META NAME="Version" CONTENT="17.2-2016">
+  </head>
+  <body style="margin-left: 5%;">
+    <a name="pagetop"></a>
+    <a name="firstpage"></a>
+    <!-- Begin Buttons -->
+    <table width="650" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td height="36" width="650" colspan="10">
+          <img src="images/header_doc.gif" width="650" height="34">
+        </td>
+      </tr>
+      <tr>
+        <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+        <td>
+          <a href="08intprm.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+        </td>
+        <td>
+          <a href="sipapd.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+        </td>
+        <td height="20">
+          <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+          </a>
+        </td>
+        <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+        </td>
+        <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+        </td>
+        <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+        </td>
+        <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+        </td>
+      </tr>
+    </table>
+    <!-- End Buttons -->
+    <p>
+    <hr>
+    <p>
+      <h3>
+        <center>
+          <font >
+            <div>Allegro User Guide: SKILL Reference</div>
+            <font >
+              <div>Product Version 17.2&#45;2016 April 2016</div>
+            </font>
+          </font>
+        </center>
+      </h3>
+      <br>
+    </p>
+    <div>
+      <h1>8<a name="883009">&nbsp;</a></h1>
+      <h1><a name="883012">Allegro PCB Editor Command Shell Functions</a></h1>
+      <p><a name="883020">This chapter describes the AXL&#45;SKILL functions that access the Allegro PCB Editor environment and command shell.</a></p>
+      <h2><a name="883021">Command Shell Functions</a></h2>
+      <p><a name="883022">This section lists Allegro PCB Editor command shell functions.</a></p>
+      <h3><a name="894702">axlGetAlias</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="894703">axlGetAlias(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_alias</em></font>&#47;nil<dd>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>t_value</em></font>&#47;<font size="2" face="'Courier New'" color="#000000"><em>lt_names</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="894706">Description</a></h4>
+      <p><a name="894710">Requests the value of the specified Allegro PCB Editor alias, </a><font size="2" face="'Courier New'" color="#000000"><em>t_alias</em></font>. If given a <font size="2" face="'Courier New'" color="#000000">nil</font>, returns a list of aliases currently set. For compatibility purposes, <font size="2" face="'Courier New'" color="#000000">axlGetAlias</font> returns funckey settings.</p>
+      <h4><a name="894711">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="909960"><font size="2" face="'Courier New'" color="#000000"><em>t_alias</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="909962">Name of the Allegro PCB Editor environment alias.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="894716">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="909976"><font size="2" face="'Courier New'" color="#000000"><em>t_value</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="909978">String value of the Allegro PCB Editor environment alias.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="909980"><font size="2" face="'Courier New'" color="#000000"><em>lt_names</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="909982">List of alias names.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="909984"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="909986">Alias not set.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="894723">See Also</a></h4>
+      <p><a href="#895302" title="8" name="897789"><font color="#0000ff"><u>axlSetAlias</u></font></a><font size="2" face="'Courier New'" color="#000000">, </font><a href="#894759" title="8"><font color="#0000ff"><u>axlGetFuncKey</u></font></a></p>
+      <h4><a name="894724">Example 1</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="894725">alias = axlGetAlias(&#34;SF2&#34;)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="894726"><font face="symbol" color="#000000">⇒</font></a> &#34;grid&#34;</font>
+      </blockquote>
+      <p><a name="894727">Gets the value of the alias assigned to shifted function key F2.</a></p>
+      <h4><a name="894728">Example 2</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="894729">list_alias = axlGetAlias(nil)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="894730"><font face="symbol" color="#000000">⇒</font></a> (&#34;F2&#34; &#34;F3&#34; &#34;F4&#34; ...)</font>
+      </blockquote>
+      <p><a name="894747">Returns all set aliases.</a></p>
+      <h3><a name="894759">axlGetFuncKey </a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="894761">axlGetFuncKey(<dd>t_alias&#47;nil<dd>)<dd>==&#62; t_value&#47;nil</a></font>
+      </dl>
+      <h4><a name="894765">Description</a></h4>
+      <p><a name="894766">Requests the value of the specified funckey,</a><font size="2" face="'Courier New'" color="#000000"><em> t_alias</em></font>. If given <font size="2" face="'Courier New'" color="#000000"><em>nil</em></font>, returns a list of currently set funckeys.</p>
+      <h4><a name="894768">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="910002"><font size="2" face="'Courier New'" color="#000000"><em>t_alias</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="910004">Name of the environment funckey.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910006"><font size="2" face="'Courier New'" color="#000000"><em>nil </em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910008">Returns list of all current funckeys</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="894771">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="910023"><font size="2" face="'Courier New'" color="#000000"><em>t_value&#47;nil </em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="910025">String value of the environment funckey. Returns </a><font size="2" face="'Courier New'" color="#000000"><em>nil</em></font> if the funckey is not set.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910027"><font size="2" face="'Courier New'" color="#000000"><em>lt_names</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910029">If passed </a><font size="2" face="'Courier New'" color="#000000"><em>nil,</em></font> returns list of funckeys names.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="894775">See Also </a></h4>
+      <p><a href="#895632" title="8" name="897795"><font color="#0000ff"><u>axlSetFunckey</u></font></a><font size="2" face="'Courier New'" color="#000000">, </font><a href="#894702" title="8"><font color="#0000ff"><u>axlGetAlias</u></font></a></p>
+      <h4><a name="894777">EXAMPLEs</a></h4>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="894778">Gets the value of the funckey assigned to shifted function key m.</a></td>
+          </tr>
+        </table>
+      </div>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="894779">alias = axlGetFuncKey(&#34;m&#34;)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="894780">==&#62; &#34;grid&#34;</a></font>
+      </dl>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="895094">Return all set aliases.</a></td>
+          </tr>
+        </table>
+      </div>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="894782">list_alias = axlGetFuncKey(nil)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="894783">==&#62; (&#34;&#45;&#34; &#34;+&#34; &#34;m&#34;)</a></font>
+      </dl>
+      <h3><a name="883023">axlGetVariable</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="883024">axlGetVariable(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_variable</em></font> <dd>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>t_value</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="883365">Description</a></h4>
+      <p><a name="893555">Requests the value of the specified Allegro PCB Editor environment variable, </a><font size="2" face="'Courier New'" color="#000000"><em>t_variable</em></font>. Returns a list containing the string assigned to the variable or <font size="2" face="'Courier New'" color="#000000">nil</font> if the variable is currently not set in Allegro PCB Editor. Use <font size="2" face="'Courier New'" color="#000000">axlGetVariableList</font> where the variable stores a list of items (such as a PATH variable) to preserve any spaces in each item.</p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="893596">Variable names are case insensitive.</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <font size="3"><img src="images/important.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <font size="3"><a name="883028">Variable names and values can change from release to release.</a></font>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="883380">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="910037"><font size="2" face="'Courier New'" color="#000000"><em>t_variable</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="910039">String giving name of the Allegro PCB Editor environment variable.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910041"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910043">If nil, returns a list of all set variables in Allegro PCB Editor</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="903260">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="910053"><font size="2" face="'Courier New'" color="#000000"><em>t_value</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="910055">List containing string value of the Allegro PCB Editor environment variable.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910057"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910059">Variable not set.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910061"><font size="2" face="'Courier New'" color="#000000">lt_names</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910063">List of variable names (returned when </a><font size="2" face="'Courier New'" color="#000000">nil</font> is passed)</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="903231">See Also</a></h4>
+      <p><a href="#896847" title="8" name="903232"><font color="#0000ff"><u>axlUnsetVariable</u></font></a>, <a href="#883036" title="8"><font color="#0000ff"><u>axlSetVariable</u></font></a>, <a href="#893710" title="8"><font color="#0000ff"><u>axlGetVariableList</u></font></a>, <a href="#895229" title="8"><font color="#0000ff"><u>axlReadOnlyVariable</u></font></a> <a href="#903021" title="8"><font color="#0000ff"><u>axlSetVariableFile</u></font></a>, <a href="#903107" title="8"><font color="#0000ff"><u>axlUnsetVariableFile</u></font></a></p>
+      <h4><a name="903223">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="893646">menu = axlGetVariable(&#34;menuload&#34;)</a></font>
+      </p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="893647">==&#62; &#34;geometry&#34;</a></font>
+      </blockquote>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="903190">psmpath = axlGetVariable(&#34;psmpath&#34;)</a></font>
+      </p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="903191">==&#62; &#34;. symbols&#34;</a></font>
+      </blockquote>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="893282">Gets value of the current menu loaded. </a></td>
+          </tr>
+        </table>
+      </div>
+      <blockquote><a name="893283">Variable name is </a><font size="2" face="'Courier New'" color="#000000"><em>menuload</em></font>.</blockquote>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="893284">Gets the value of the library search path </a><font size="2" face="'Courier New'" color="#000000"><em>libpath</em></font>.</td>
+          </tr>
+        </table>
+      </div>
+      <h3><a name="893710">axlGetVariableList</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="893723">axlGetVariableList(<dd>t_variable&#47;nil<dd>)<dd>==&#62; t_value&#47;lt_value&#47;nil</a></font>
+      </dl>
+      <h4><a name="893727">Description</a></h4>
+      <p><a name="893728">Requests the value of the specified Allegro PCB Editor environment variable, </a><font size="2" face="'Courier New'" color="#000000"><em>t_variable</em></font>. Unlike <font size="2" face="'Courier New'" color="#000000">axlGetVariable</font> this returns a list of strings, if the variable is an array, such as one of Allegro PCB Editor`s path variables. If variable is a single item, the return is the same as <font size="2" face="'Courier New'" color="#000000">axlGetVariable</font>.</p>
+      <p><a name="893734">Since path variables can contain spaces, using the </a><font size="2" face="'Courier New'" color="#000000">axlGetVariable</font> interface and then using the Skill parseString command, to break them back to the component pieces will not give the correct result.</p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="893738">Variable names are case insensitive.</a></p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="893740">Variable names and values can change from release to release.</a></p>
+      <h4><a name="893741">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="910074"><font size="2" face="'Courier New'" color="#000000"><em>t_variable</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="910076">Name of the Allegro PCB Editor environment variable.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910078"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910080">If </a><font size="2" face="'Courier New'" color="#000000">nil,</font> returns a list of all set variables in Allegro PCB Editor.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="893744">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="910093"><font size="2" face="'Courier New'" color="#000000"><em>t_value</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="910095">String value of the Allegro PCB Editor environment variable. </a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910097"><font size="2" face="'Courier New'" color="#000000"><em>nil</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910099">Returns </a><font size="2" face="'Courier New'" color="#000000">nil</font> if the variable is not set.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910101"><font size="2" face="'Courier New'" color="#000000"><em>lt_names</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910103">list of variable names, returned when </a><font size="2" face="'Courier New'" color="#000000">nil is </font>passed as the argument</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="893748">See Also </a></h4>
+      <p><a href="#883023" title="8" name="897800"><font color="#0000ff"><u>axlGetVariable</u></font></a></p>
+      <h4><a name="894323">Example</a></h4>
+      <p><a name="893752">Gets the value of the Package Symbol search path:</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="893753">path = axlGetVariableList(&#34;psmpath&#34;)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="893754">==&#62; ( &#34;.&#34; &#34;symbols&#34; &#34;&#47;cds&#47;root&#47;share&#47;pcb&#47;allegrolib&#47;symbols&#34;)</a></font>
+      </blockquote>
+      <h3><a name="897865">axlJournal </a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="897867">axlTempFile(<dd>g_option<dd>)<dd>==&#62; t_tempFileName</a></font>
+      </dl>
+      <h4><a name="897871">Description</a></h4>
+      <p><a name="897872">This function manages the program&#39;s journal file. It has several modes of operation:</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="897874">g_option = &#39;close</a></font>
+      </blockquote>
+      <blockquote><a name="897875">closes current journal file; returns name of closed file</a></blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="897951">g_option = &#60;t_filename&#62;</a></font>
+      </blockquote>
+      <blockquote><a name="897877">close current journal file and opens no file, returns</a><font size="2" face="'Courier New'" color="#000000"> t </font>if successful, <font size="2" face="'Courier New'" color="#000000">nil</font> if can&#39;t open file. Side effect of failure is current journal file is closed.</blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="897880">g_option = &#39;name</a></font>
+      </blockquote>
+      <blockquote><a name="897881">returns fullpath name of current journal file, </a><font size="2" face="'Courier New'" color="#000000">nil</font> if no active journal file</blockquote>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <strong><em><img src="images/caution.gif" alt="ParagraphBullet" border="0"></em></strong>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <strong><em><a name="897884">Typically the journal file is buffered. Reading the file while it is open may be unpredictable.</a></em></strong>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <strong><em><img src="images/caution.gif" alt="ParagraphBullet" border="0"></em></strong>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <strong><em><a name="909650">On Windows, an open file for writing cannot be read. You must close it first.</a></em></strong>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="897886">Argument</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="644">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="909687"><font size="2" face="'Courier New'" color="#000000"><em>g_mode</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="451">
+            <p><a name="909689">see above</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="897888">Value Returned</a></h4>
+      <p><a name="897889">See above</a></p>
+      <h4><a name="897890">Example</a></h4>
+      <p><a name="897891">Name of file</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="897892">axlJournal(&#39;name)</a></font>
+      </blockquote>
+      <p><a name="897893">Open new file in tmp in current directory</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="897894">axlJournal(&#34;my_journal&#34;)</a></font>
+      </blockquote>
+      <p><a name="897860">&nbsp;</a></p>
+      <h3><a name="895146">axlProtectAlias</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="895147">axlProtectAlias(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_alias<dd></em></font>t&#47;nil<dd>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="895150">Description</a></h4>
+      <p><a name="895151">Controls the read&#45;only attribute of an alias.</a></p>
+      <h4><a name="895152">Notes</a></h4>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="895153">Do not unprotect F1 as this is fixed to </a><font color="#000000"><em>Help</em></font> by the operating system.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="895154">You must define the alias before you can protect it.</a></td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="895155">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="649">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="910115"><font size="2" face="'Courier New'" color="#000000"><em>t_alias</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="457">
+            <p><a name="910117">Name of the Allegro PCB Editor environment alias.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910119"><font size="2" face="'Courier New'" color="#000000">t&#47;nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910121"><font size="2" face="'Courier New'" color="#000000">t</font></a> protects the alias, and <font size="2" face="'Courier New'" color="#000000">nil</font> unprotects the alias.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="895161">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="910135"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="910137">Successfully protected or unprotected the alias. </a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910139"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910141">Alias is not set, or the function received invalid data.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="895164">Example</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="895165">axlProtectAlias( &#34;F2&#34; t)</a></font>
+      </blockquote>
+      <p><a name="893721">Protects the F2 function key.</a></p>
+      <h3><a name="895182">axlIsProtectAlias</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="895183">axlIsProtectAlias(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_alias<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="895186">Description</a></h4>
+      <p><a name="895187">Tests if the alias is read&#45;only (or writeable). This may also be used with funckeys.</a></p>
+      <h4><a name="895188">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="910153"><font size="2" face="'Courier New'" color="#000000"><em>t_alias</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="910155">Name of the Allegro PCB Editor environment alias.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="895193">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="910165"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="910167">Alias is protected. </a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910169"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910171">Alias is unprotected or not set.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="895177">See Also</a></h4>
+      <p><a href="#895182" title="8" name="897812"><font color="#0000ff"><u>axlIsProtectAlias</u></font></a></p>
+      <h3><a name="895229">axlReadOnlyVariable</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="895230">axlReadOnlyVariable(<dd>t_variable<dd>[g_Enable]<dd>)<dd>==&#62; t&#47;nil</a></font>
+      </dl>
+      <h4><a name="895235">Description</a></h4>
+      <p><a name="895239">This sets, unsets or queries the read&#45;only state of a Allegro PCB Editor environment variable. When you set a variable as read&#45;only, it cannot be changed. </a></p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="895240">Variable names are case insensitive.</a></p>
+      <h4><a name="895241">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="910179"><font size="2" face="'Courier New'" color="#000000"><em>t_variable</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="910181">The name of the Allegro PCB Editor environment variable.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910183"><font size="2" face="'Courier New'" color="#000000"><em>g_Enable</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910185"><font size="2" face="'Courier New'" color="#000000">t</font></a> to set read&#45;only; <font size="2" face="'Courier New'" color="#000000">nil</font> to make writable and do not provide if using to test variable read&#45;only state.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="895247">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="910195"><font size="2" face="'Courier New'" color="#000000">t&#47;nil</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="910197">In query mode (</a><font size="2" face="'Courier New'" color="#000000"><em>no g_Enable</em></font> option) returns <font size="2" face="'Courier New'" color="#000000">t</font> if variable is read&#45;only and <font size="2" face="'Courier New'" color="#000000">nil</font> if not. If changing the read&#45;only mode, returns <font size="2" face="'Courier New'" color="#000000">t</font> if successful and <font size="2" face="'Courier New'" color="#000000">nil</font> if variable is not currently set.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="895249">See Also</a></h4>
+      <p><a href="#883023" title="8" name="897818"><font color="#0000ff"><u>axlGetVariable</u></font></a><font size="2" face="'Courier New'" color="#000000">, </font><a href="#893710" title="8"><font color="#0000ff"><u>axlGetVariableList</u></font></a></p>
+      <h4><a name="895250">Examples</a></h4>
+      <p><a name="895251">The following example:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="895252">Sets </a><font size="2" face="'Courier New'" color="#000000">psmpath</font> to read&#45;only.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="895253">Queries the setting.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="895254">Resets </a><font size="2" face="'Courier New'" color="#000000">psmpath</font> to writable.</td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="895255">Query the setting:</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="895256">axlReadOnlyVariable(&#34;psmpath&#34; t)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="895257">axlReadOnlyVariable(&#34;psmpath&#34;)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="895258">==&#62; t</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="895259">axlReadOnlyVariable(&#34;psmpath&#34; nil)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="895260">axlReadOnlyVariable(&#34;psmpath&#34;)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="895261">==&#62; nil</a></font>
+      </blockquote>
+      <p><a name="895262">Query all read&#45;only variables:</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="895263">axlReadOnlyVariable(&#34;fxf&#34; t)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="895264">axlReadOnlyVariable(&#34;psmpath&#34; t)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="895265">axlReadOnlyVariable(nil)</a></font>
+      </blockquote>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="895224">==&#62; (&#34;psmpath&#34; &#34;fxf&#34;)</a></font>
+      </p>
+      <h3><a name="895302">axlSetAlias</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="895303">axlSetAlias(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_alias<dd>g_value<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="895306">Description</a></h4>
+      <p><a name="895310">You can set the Allegro PCB Editor environment alias with the name given by the string </a><font size="2" face="'Courier New'" color="#000000"><em>t_alias</em></font> to the value <font size="2" face="'Courier New'" color="#000000"><em>g_value</em></font> using the <font size="2" face="'Courier New'" color="#000000">axlSetAlias</font> function. <font size="2" face="'Courier New'" color="#000000"><em>g_value</em></font> can be a string, int, t, or nil. Returns the string assigned to the alias or <font size="2" face="'Courier New'" color="#000000">nil</font> if the alias cannot be set in Allegro PCB Editor.</p>
+      <p><a name="895314">You can use function keys F2&#45;F12, most Alpha&#45;numeric keys with the control modifier (although Control&#45;C V and X are reserved for copy, paste, and cut) and the Navigation Keys (Home, Up arrow, Esc, etc.) You can modify these items as shown:</a></p>
+      <p><a name="895346">&nbsp;</a></p>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="594">
+        <tr>
+          <td cellpadding="4" valign="middle" width="198">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="895317"><font color="#000000"><strong>Modifier</strong></font></a></strong></font>
+            </p>
+          </td>
+          <td cellpadding="4" valign="middle" width="198">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="895319">Indicator</a></strong></font>
+            </p>
+          </td>
+          <td cellpadding="4" valign="middle" width="198">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="895321">Example</a></strong></font>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="895323"><font color="#000000">Shift</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="895325">S</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="895327">SF2</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="895329"><font color="#000000">Control</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="895331">C (function keys)</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="895333">CF2</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="895335"><font color="#000000">Control</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="895337">~ (alpha&#45;numeric)</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="895339">&#45;N</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="895341"><font color="#000000">Meta</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="895343">A</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="895345">AF2</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="895347">Modifiers may be combined as shown in these examples:</a></p>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="516">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="200">
+            <p><a name="910206"><font color="#000000">CSF2</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="315">
+            <p><a name="910208">Control&#45;Shift F2</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910210"><font color="#000000">ASF2</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910212">Meta&#45;Shift F2</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910214"><font color="#000000">CAF2</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910216">Control&#45;Meta F2</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910218"><font color="#000000">CASF2</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910220">Control&#45;Meta&#45;Shift F2</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910222"><font color="#000000">~SZ</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910224">Control&#45;Shift Z</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910226"><font color="#000000">SUp</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910228">Shift&#45;Up Arrow</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910230"><font color="#000000">CUp</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910232">Control&#45;Up Arrow</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="895355">Both axlSetFunckey and axlSetAlias share the same data storage.</a></p>
+      <p><a name="895356"><font color="#000000"><strong>Notes:</strong></font></a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="895357">Alias settings only apply to the current session. They are not saved to the user's local env file.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="895361">Alias changes do not affect programs launched from Allegro PCB Editor, for example, import logic, refresh_symbol.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="895362">To set funckeys, see </a><font size="2" face="'Courier New'" color="#000000">axlSetFunckey, axlGetAlias, axlProtectAlias, axlIsProtectAlias, axlSetAlias axlGetAlias, axlProtectAlias</font>, and <font size="2" face="'Courier New'" color="#000000">axlIsProtectAlias.</font></td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="895363">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="910241"><font size="2" face="'Courier New'" color="#000000"><em>t_alias</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="910243">Name of the Allegro PCB Editor environment alias.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910245"><font size="2" face="'Courier New'" color="#000000"><em>g_value</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910247">Value to which the environment alias is to be set. Can be a string or </a><font size="2" face="'Courier New'" color="#000000">nil</font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="895369">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="910261"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="910263">Alias set.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910265"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910267">Invalid data or alias is marked read&#45;only.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="895372">Example 1</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="895373">axlSetAlias( &#34;F2&#34; &#34;save&#34;)</a></font>
+      </blockquote>
+      <p><a name="895374">Sets the F2 function key to the </a><font color="#000000"><em>save</em></font> command.</p>
+      <h4><a name="895375">Example 2</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="895376">axlSetAlias( &#34;~S&#34; nil)</a></font>
+      </blockquote>
+      <p><a name="895377">Unsets the </a><font size="2" face="'Courier New'" color="#000000">Ctrl&#45;S</font> alias.</p>
+      <h3><a name="895485">axlSetAlias</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="895486">axlSetAlias(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_alias<dd>g_value<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="895489">Description</a></h4>
+      <p><a name="895493">You can set the Allegro PCB Editor environment alias with the name given by the string </a><font size="2" face="'Courier New'" color="#000000"><em>t_alias</em></font> to the value <font size="2" face="'Courier New'" color="#000000"><em>g_value</em></font> using the <font size="2" face="'Courier New'" color="#000000">axlSetAlias</font> function. <font size="2" face="'Courier New'" color="#000000"><em>g_value</em></font> can be a string, int, t, or nil. Returns the string assigned to the alias or <font size="2" face="'Courier New'" color="#000000">nil</font> if the alias cannot be set in Allegro PCB Editor.</p>
+      <p><a name="895497">You can use function keys F2&#45;F12, most Alpha&#45;numeric keys with the control modifier (although Control&#45;C V and X are reserved for copy, paste, and cut) and the Navigation Keys (Home, Up arrow, Esc, etc.) You can modify these items as shown:</a></p>
+      <p><a name="895529">&nbsp;</a></p>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="594">
+        <tr>
+          <td cellpadding="4" valign="middle" width="198">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="895500">Modifier</a></strong></font>
+            </p>
+          </td>
+          <td cellpadding="4" valign="middle" width="198">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="895502">Indicator</a></strong></font>
+            </p>
+          </td>
+          <td cellpadding="4" valign="middle" width="198">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="895504">Example</a></strong></font>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="895506"><font color="#000000">Shift</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="895508">S</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="895510">SF2</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="895512"><font color="#000000">Control</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="895514">C (function keys)</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="895516">CF2</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="895518"><font color="#000000">Control</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="895520">~ (alpha&#45;numeric)</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="895522">&#45;N</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="895524"><font color="#000000">Meta</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="895526">A</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="895528">AF2</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="895530">Modifiers may be combined as shown in these examples:</a></p>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="606">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="199">
+            <p><a name="910275"><font color="#000000">CSF2</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="406">
+            <p><a name="910277">Control&#45;Shift F2</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910279"><font color="#000000">ASF2</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910281">Meta&#45;Shift F2</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910283"><font color="#000000">CAF2</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910285">Control&#45;Meta F2</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910287"><font color="#000000">CASF2</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910289">Control&#45;Meta&#45;Shift F2</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910291"><font color="#000000">~SZ</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910293">Control&#45;Shift Z</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910295"><font color="#000000">SUp</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910297">Shift&#45;Up Arrow</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910299"><font color="#000000">CUp</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910301">Control&#45;Up Arrow</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="895538">Both axlSetFunckey and axlSetAlias share the same data storage.</a></p>
+      <p><a name="895539"><font color="#000000"><strong>Notes:</strong></font></a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="895540">Alias settings only apply to the current session. They are not saved to the user's local env file.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="895544">Alias changes do not affect programs launched from Allegro PCB Editor, for example, import logic, refresh_symbol.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="895545">To set funckeys, see </a><font size="2" face="'Courier New'" color="#000000">axlSetFunckey, axlGetAlias, axlProtectAlias, axlIsProtectAlias, axlSetAlias axlGetAlias, axlProtectAlias</font>, and <font size="2" face="'Courier New'" color="#000000">axlIsProtectAlias.</font></td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="895546">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="910313"><font size="2" face="'Courier New'" color="#000000"><em>t_alias</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="910315">Name of the Allegro PCB Editor environment alias.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910317"><font size="2" face="'Courier New'" color="#000000"><em>g_value</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910319">Value to which the environment alias is to be set. Can be a string or </a><font size="2" face="'Courier New'" color="#000000">nil</font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="895552">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="910329"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="910331">Alias set.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910333"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910335">Invalid data or alias is marked read&#45;only.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="895555">Example 1</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="895556">axlSetAlias( &#34;F2&#34; &#34;save&#34;)</a></font>
+      </blockquote>
+      <p><a name="895557">Sets the F2 function key to the </a><font color="#000000"><em>save</em></font> command.</p>
+      <h4><a name="895558">Example 2</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="895559">axlSetAlias( &#34;~S&#34; nil)</a></font>
+      </blockquote>
+      <p><a name="895560">Unsets the </a><font size="2" face="'Courier New'" color="#000000">Ctrl&#45;S</font> alias.</p>
+      <h3><a name="895632">axlSetFunckey </a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="901927">axlSetFunckey(<dd>_alias<dd>g_value<dd>)<dd>==&#62; t&#47;nil</a></font>
+      </dl>
+      <h4><a name="895640">Description</a></h4>
+      <p><a name="896171">Works similar to </a><font size="2" face="'Courier New'" color="#000000">axlSetAlias</font> except allows alpha&#45;number keys to work like function keys (no Enter key required). See <font size="2" face="'Courier New'" color="#000000">axlSetAlias</font> for complete documentation.</p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="895645">Funckey settings only apply to current session. They are not saved to user&#39;s local </a><font size="2" face="'Courier New'" color="#000000">env</font> file.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="895647">Funckey changes do not affect programs launched from Allegro PCB Editor: for example, </a><font size="2" face="'Courier New'" color="#000000">import logic</font> or <font size="2" face="'Courier New'" color="#000000">refresh_symbol.</font></td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="896238">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="910343"><font size="2" face="'Courier New'" color="#000000"><em>t_alias</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="910345"> name of the Allegro environment alias.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910347"><font size="2" face="'Courier New'" color="#000000"><em>g_value</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910349"> Value to which the environment alias is to be set. Can be a string, or nil.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="896277">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="910356"><font size="2" face="'Courier New'" color="#000000"><em>t</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="910358">Returns</a><font size="2" face="'Courier New'" color="#000000"><em> t</em></font> if successful. </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910360"><font size="2" face="'Courier New'" color="#000000"><em>nil</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910362">Returns </a><font size="2" face="'Courier New'" color="#000000"><em>nil</em></font> if invalid data type of alias is marked read only.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="895657">See Also</a></h4>
+      <p><a href="#894759" title="8" name="897824"><font color="#0000ff"><u>axlGetFuncKey</u></font></a><font size="2" face="'Courier New'" color="#000000">, </font><a href="#895182" title="8"><font color="#0000ff"><u>axlIsProtectAlias</u></font></a><font size="2" face="'Courier New'" color="#000000">, </font><a href="#895182" title="8"><font color="#0000ff"><u>axlIsProtectAlias</u></font></a><font size="2" face="'Courier New'" color="#000000">, </font><a href="#895485" title="8"><font color="#0000ff"><u>axlSetAlias</u></font></a></p>
+      <h4><a name="895658">Examples</a></h4>
+      <p><a name="895659">Set the funckey alias to move</a></p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="895660">&nbsp;&nbsp;&nbsp;&nbsp;axlSetFunckey( &#34;m&#34; &#34;move&#34; t)</a></font>
+      </p>
+      <p><a name="895661">Unset the move</a></p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="895662">&nbsp;&nbsp;&nbsp;&nbsp;axlSetFunckey( &#34;m&#34; nil)</a></font>
+      </p>
+      <h3><a name="883036">axlSetVariable</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="883037">axlSetVariable(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_variable</em></font> <dd>[<font size="2" face="'Courier New'" color="#000000"><em>g_value</em></font>]<dd>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="883475">Description</a></h4>
+      <p><a name="883040">Sets the Allegro PCB Editor environment variable with name given by the string </a><font size="2" face="'Courier New'" color="#000000"><em>t_variable</em></font> to the value <font size="2" face="'Courier New'" color="#000000"><em>g_value</em></font>. <font size="2" face="'Courier New'" color="#000000"><em>g_value</em></font> can be a string, int, <font size="2" face="'Courier New'" color="#000000">t</font>, or <font size="2" face="'Courier New'" color="#000000">nil</font>. Returns the string assigned to the variable or <font size="2" face="'Courier New'" color="#000000">nil</font> if the variable cannot be set in Allegro PCB Editor.</p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="893662">511 is the maximum list long (</a><font size="2" face="'Courier New'" color="#000000"><em>lt_variable</em></font>).</p>
+      <blockquote><a name="903593"><font color="#000000"><strong>Notes:</strong></font></a></blockquote>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="883041">Variable names and values can change from release to release.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="903450">Variable settings only apply to current session. They are not saved to local env file for the user.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="903452">Variable changes do not effect programs launched from Allegro PCB Editor. For Example, import logic, refresh_symbol</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="903454">Many Allegro operations are done via batch operations such as items in File Import&#47;Export, artwork, axlRunBatchDBProgram, and so on. These operations do NOT see variables changed (like PSMPATH) by this call or by the Allegro set command.</a></td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="883488">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="909791"><font size="2" face="'Courier New'" color="#000000"><em>t_variable</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="909793">String giving the name of the Allegro PCB Editor environment variable.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="909795"><font size="2" face="'Courier New'" color="#000000"><em>g_value</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="909797">Value to which the environment variable is to be set. Can be a string, int,</a><font color="#000000"><em> </em></font><font size="2" face="'Courier New'" color="#000000">t</font>, or <font size="2" face="'Courier New'" color="#000000">nil</font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="883505">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="909774"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="909776">Environment variable set.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="909778"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="909780">Environment variable not set.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="903408">See Also</a></h4>
+      <p><a href="#883023" title="8" name="909731"><font color="#0000ff"><u>axlGetVariable</u></font></a>, <a href="#895229" title="8"><font color="#0000ff"><u>axlReadOnlyVariable</u></font></a>, <a href="#903021" title="8"><font color="#0000ff"><u>axlSetVariableFile</u></font></a>, <a href="#896847" title="8"><font color="#0000ff"><u>axlUnsetVariable</u></font></a>, <a href="#903107" title="8"><font color="#0000ff"><u>axlUnsetVariableFile</u></font></a></p>
+      <h4><a name="883526">Example</a></h4>
+      <p><a name="893695">Sets new library search path </a><font size="2" face="'Courier New'" color="#000000">libpath</font>.</p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="883048">(axlSetVariable &#34;libpath&#34; &#34;&#47;mytools&#47;library&#34;)<br></a>⇒ t</font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="883049">libraryPath = (axlGetVariable &#34;libpath&#34;)<br></a>⇒ &#34;&#47;mytools&#47;library&#34;</font>
+      </blockquote>
+      <p><a name="893691">Using list mode.</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="893671">axlSetVariable(&#34;psmpath&#34; &#39;(&#34;.&#34; &#34;symbols&#34;))</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="893672">                 ==&#62; t</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="893673">            axlGetVariableList(&#34;psmpath&#34;)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="903020">                 ==&#62; (&#34;.&#34; &#34;symbols&#34;)</a></font>
+      </blockquote>
+      <h3><a name="903021">axlSetVariableFile</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="903885">axlSetVariableFile(<dd>t_variable<dd>g_value<dd>)<dd>==&#62; t&#47;nil</a></font>
+      </dl>
+      <h4><a name="903921">Description</a></h4>
+      <p><a name="903891">Sets and saves to file Allegro environment variable. This operates the same as </a><a href="#883036" title="8"><font color="#0000ff"><u>axlSetVariable</u></font></a> except it also saves the setting to the user&#39;s local environment file.</p>
+      <p><a name="903894">Variable is added in the preference section of the env file.</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <strong><em><img src="images/caution.gif" alt="ParagraphBullet" border="0"></em></strong>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <strong><em><a name="903896">On Windows, updating the environment file on disk can cause performance issues if this interface is used heavily.</a></em></strong>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="904095">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="910370"><font size="2" face="'Courier New'" color="#000000"><em>t_variable</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="910372">Name of the Allegro environment variable.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910374"><font size="2" face="'Courier New'" color="#000000"><em>g_value</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="910376">Value to which the environment variable is to be set. Can be a </a><font size="2" face="'Courier New'" color="#000000">string</font>, <font size="2" face="'Courier New'" color="#000000">int</font>, <font size="2" face="'Courier New'" color="#000000">t</font>, or <font size="2" face="'Courier New'" color="#000000">nil</font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="904116">Values Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="910384"><font size="2" face="'Courier New'" color="#000000"><em>t&#47;nil</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="910386">Returns </a><font size="2" face="'Courier New'" color="#000000">t</font> if successful. Returns <font size="2" face="'Courier New'" color="#000000">nil</font> if invalid data type of variable is marked read&#45;only.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="904230">See Also</a></h4>
+      <p><a href="#883036" title="8" name="903906"><font color="#0000ff"><u>axlSetVariable</u></font></a>,  <a href="#903107" title="8"><font color="#0000ff"><u>axlUnsetVariableFile</u></font></a></p>
+      <h3><a name="903025">axlShell</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="883064">axlShell(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_command<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t</font>
+      </dl>
+      <h4><a name="883862">Description</a></h4>
+      <p><a name="883067">Issues the Allegro PCB Editor command string </a><font size="2" face="'Courier New'" color="#000000"><em>t_commands</em></font> to the connected editor. You can chain commands. This call is synchronous.</p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <font size="3"><img src="images/important.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <font size="3"><a name="883068">This function might not be portable across Allegro PCB Editor releases.</a></font>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="883891">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="910394"><font size="2" face="'Courier New'" color="#000000"><em>t_command</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="910396">Allegro PCB Editor shell command or commands.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="883924">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="910410"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="910412">Always returns </a><font size="2" face="'Courier New'" color="#000000">t</font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="894619">See Also</a></h4>
+      <p><a href="#896845" title="8" name="897830"><font color="#0000ff"><u>axlShellPost</u></font></a></p>
+      <h4><a name="883961">Example 1</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="883074">(axlShell &#34;status&#34;)<br></a>⇒ t</font>
+      </blockquote>
+      <p><a name="893321">Displays Allegro PCB Editor Status form from AXL&#45;SKILL.</a></p>
+      <p><a name="894639"><font color="#000000"><strong>Example 2</strong></font></a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="894679">axlShell(&#34;zoom points; pick 0 0; pick 100 100&#34;)</a></font>
+      </blockquote>
+      <p><a name="894642">Chained command example:</a></p>
+      <p><a name="896844">&nbsp;</a></p>
+      <h3><a name="896845">axlShellPost</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="896856">axlShellPost(<dd>t_command<dd>) ==&#62; t</a></font>
+      </dl>
+      <h4><a name="896859">Description</a></h4>
+      <p><a name="896860">This works similar to </a><font size="2" face="'Courier New'" color="#000000">axlShell</font> except it first requires a return from the Skill interpreter before executing the command(s). It should only be used in the special circumstance where you want to do some processing in Skill, execute an Allegro PCB Editor interactive command and have that command be left active for the user. If more the one command is embedded in post command then subsequent commands should be prefixed with an underscore to inhibit scripting. For example:</p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="896869">                 axlShellPost(&#34;zoom points; _pick 10 20&#34;)</a></font>
+      </blockquote>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <strong><em><img src="images/caution.gif" alt="ParagraphBullet" border="0"></em></strong>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <strong><em><a name="896871">Do not attempt to use this as a method to override an existing Allegro PCB Editor command with Skill code and then call the original command. An infinite loop will result.</a></em></strong>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <strong><em><img src="images/caution.gif" alt="ParagraphBullet" border="0"></em></strong>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <strong><em><a name="896875">This function may not be portable across Allegro PCB Editor releases.</a></em></strong>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="896876">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="910420"><font size="2" face="'Courier New'" color="#000000"><em>t_command</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="910422"> Allegro PCB Editor shell command or commands.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="896878"> Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="910429"><font size="2" face="'Courier New'" color="#000000"><em>t</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="910431"> Always returns </a><font size="2" face="'Courier New'" color="#000000"><em>t.</em></font></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="896880">See Also</a></h4>
+      <p><a href="#903025" title="8" name="897836"><font color="#0000ff"><u>axlShell</u></font></a></p>
+      <h4><a name="896882">EXAMPLES</a></h4>
+      <p><a name="896883">Over the </a><font size="2" face="'Courier New'" color="#000000">move</font> command to print hello and then let user move objects.</p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="896886">&nbsp;&nbsp;&nbsp;&nbsp;axlCmdRegister( &#34;mymove&#34; &#39;testSkill ?cmdType &#34;interactive&#34;)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="896888">&nbsp;&nbsp;&nbsp;&nbsp;procedure( testSkill()</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="896889">             printf(&#34;Hello mymove\n&#34;)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="896890">             axlShellPost(&#34;echo hello from post; _move&#34;)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="896891">             printf(&#34;Hello after&#45;mymove\n&#34;)</a></font>
+      </p>
+      <p><a name="896892">         )</a></p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="896894">&nbsp;&nbsp;&nbsp;&nbsp;Output &#45;&#45; showing deferred execute:</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="896895">            Hello mymove</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="896896">            Hello aftermove</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="896897">            hello from post</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="896898">            Select element(s) to move.</a></font>
+      </p>
+      <h3><a name="896847">axlUnsetVariable</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="902017">axlUnsetVariable(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_variable<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t</font>
+      </dl>
+      <h4><a name="895602">Description</a></h4>
+      <p><a name="895606">Unsets the Allegro PCB Editor environment variable with the name given by the string </a><font size="2" face="'Courier New'" color="#000000"><em>t_variable</em></font>. The value of the named variable becomes <font size="2" face="'Courier New'" color="#000000">nil</font>.</p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <font size="3"><img src="images/important.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <font size="3"><a name="895607">Variable names and values can change from release to release.</a></font>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="895608">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="909811"><font size="2" face="'Courier New'" color="#000000"><em>t_variable</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="909813"> String giving the name of the Allegro PCB Editor environment variable.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="895613">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="909827"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="909829"> Always returns </a><font size="2" face="'Courier New'" color="#000000">t</font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="909882">See Also</a></h4>
+      <p><a href="#883036" title="8" name="909886"><font color="#0000ff"><u>axlSetVariable</u></font></a></p>
+      <p><a name="895615">Example</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="895616">(axlUnsetVariable &#34;libpath&#34;)<br></a>⇒ &#34;&#47;mytools&#47;library&#34;</font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="895617">libraryPath = (axlGetVariable &#34;libpath&#34;)<br></a>⇒ nil</font>
+      </blockquote>
+      <p><a name="893398">Clears the library path </a><font size="2" face="'Courier New'" color="#000000">libpath</font> when its current value is <font size="2" face="'Courier New'" color="#000000">&#47;mytools&#47;library</font><font color="#000000"><em>.</em></font></p>
+      <p><a name="897441">&nbsp;</a></p>
+      <p><a name="903106">&nbsp;</a></p>
+      <h3><a name="903107">axlUnsetVariableFile</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="903676">axlUnsetVariableFile(<dd>t_variable <dd>)<dd>==&#62; t</a></font>
+      </dl>
+      <h4><a name="903628">Description</a></h4>
+      <p><a name="903629">Unsets the value of specified Allegro environment variable. Works the same as </a><a href="#896847" title="8"><font color="#0000ff"><u>axlUnsetVariable</u></font></a> plus it also updates the local environment file of the user with the change.</p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <strong><em><img src="images/caution.gif" alt="ParagraphBullet" border="0"></em></strong>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <strong><em><a name="903632">On Windows, updating the environment file on disk can cause performance issues if this interface is used heavily.</a></em></strong>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="903634">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="909917"><font size="2" face="'Courier New'" color="#000000"><em>t_variable</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="909919">String giving the name of the Allegro environment variable.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="903636">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="644">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="909930"><font size="2" face="'Courier New'" color="#000000"><em>t</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="451">
+            <p><a name="909932">Always returns t.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="903638">See Also</a></h4>
+      <p><a href="#903021" title="8" name="903639"><font color="#0000ff"><u>axlSetVariableFile</u></font></a>, <a href="#883036" title="8"><font color="#0000ff"><u>axlSetVariable</u></font></a></p>
+      <p><a name="903067">&nbsp;</a></p>
+      <p><a name="905507">&nbsp;</a></p>
+      <p><a name="906670">&nbsp;</a></p>
+      <p><a name="908317">&nbsp;</a></p>
+    </div>
+    <br>
+    <a href="#pagetop">Return to top of page</a>
+    <hr>
+    <hr align="left">
+    <div style="text-align: left;">
+      <!-- Begin Buttons -->      <table width="650" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                    </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+          <td>
+            <a href="08intprm.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+          </td>
+          <td>
+            <a href="sipapd.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+          </td>
+          <td>
+            <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+            </a>
+          </td>
+          <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+          </td>
+          <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+          </td>
+          <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+          </td>
+          <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+          </td>
+        </tr>
+      </table>
+      <!-- End Buttons -->
+    </div>
+    <br>
+    <font size="-1" >
+For support, see <a href="http://support.cadence.com" target="_blank">Cadence Online Support</a> service.</font>
+    <br>
+    <br>
+    <font size="-1" >
+      <i>Copyright &#169; 2017, <a href="http://www.cadence.com">Cadence Design Systems, Inc.</a></i>
+    </font>
+    <br>
+    <font size="-1" >
+All rights reserved.</font>
+    <br>
+    <br>
+  </body>
+</html>

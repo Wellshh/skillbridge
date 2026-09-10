@@ -717,6 +717,7 @@ class TestReadApi:
             'AbComponent',
             'AbComponentRef',
             'AbDrc',
+            'AbDrcFigure',
             'AbDrcObjectRef',
             'AbLayer',
             'AbNet',
@@ -741,6 +742,7 @@ class TestReadApi:
             'ComponentsApi',
             'Drc',
             'DrcApi',
+            'DrcFigure',
             'DrcObjectRef',
             'KeyedCollection',
             'Layer',
@@ -1723,6 +1725,7 @@ class TestReadApi:
                     'ur': {'x': 2.0, 'y': 3.0},
                 },
                 'objects': None,
+                'figures': None,
             }
         ]
         session = _session(workspace)
@@ -1730,7 +1733,73 @@ class TestReadApi:
         drcs = session.drc()
 
         assert drcs[0].objects == []
+        assert drcs[0].figures == []
         _assert_id(drcs[0], session)
+
+    def test_drc_decodes_ordered_violation_figures(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.return_value.return_value = [
+            {
+                'name': 'Line spacing',
+                'category': 'PHYSICAL',
+                'source': 'DEFAULT',
+                'expected': '10 MILS',
+                'actual': '5 MILS',
+                'layer': 'DRC ERROR CLASS/TOP',
+                'location': {'x': 1.0, 'y': 2.0},
+                'bbox': {
+                    'll': {'x': 0.0, 'y': 1.0},
+                    'ur': {'x': 2.0, 'y': 3.0},
+                },
+                'objects': [
+                    {'kind': 'net', 'name': 'GND'},
+                ],
+                'figures': [
+                    {
+                        'obj_type': 'pin',
+                        'layer': 'ETCH/TOP',
+                        'location': {'x': 1.0, 'y': 2.0},
+                        'bbox': {
+                            'll': {'x': 1.0, 'y': 2.0},
+                            'ur': {'x': 3.0, 'y': 4.0},
+                        },
+                        'net': {'kind': 'net', 'name': 'GND'},
+                        'reference': {
+                            'kind': 'pin',
+                            'refdes': 'U1',
+                            'number': '1',
+                        },
+                    },
+                    {
+                        'obj_type': 'line',
+                        'layer': 'ETCH/BOTTOM',
+                        'location': {'x': 7.0, 'y': 8.0},
+                        'bbox': None,
+                        'net': {'kind': 'net', 'name': 'GND'},
+                        'reference': None,
+                    },
+                ],
+            }
+        ]
+        drcs = _session(workspace).drc()
+
+        assert len(drcs[0].figures) == 2
+        first, second = drcs[0].figures
+        assert first.obj_type == 'pin'
+        assert first.layer == 'ETCH/TOP'
+        assert first.location == Point(1.0, 2.0)
+        assert first.bbox == BBox(Point(1.0, 2.0), Point(3.0, 4.0))
+        assert isinstance(first.net, AbNetRef)
+        assert first.net.name == 'GND'
+        assert isinstance(first.reference, AbPinRef)
+        assert first.reference.refdes == 'U1'
+        assert first.reference.number == '1'
+        assert second.layer == 'ETCH/BOTTOM'
+        assert second.obj_type == 'line'
+        assert second.location == Point(7.0, 8.0)
+        assert second.bbox is None
+        assert second.net == first.net
+        assert second.reference is None
 
 
 class TestDrcApi:

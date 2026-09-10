@@ -33,9 +33,11 @@ KEYWORD_ARGUMENT = re.compile(r'\?([A-Za-z_][A-Za-z0-9_]*)\s+([A-Za-z0-9_/\']+)'
 SECTION_HEADING = re.compile(r'^####\s+(?P<text>.*?):?\s*$')
 BOLD_HEADING = re.compile(r'^\*\*(?P<text>[^*]+)\*\*:?\s*$')
 JUNK_CELL = re.compile(r'^\s*:?-+:?\s*$')
+TABLE_HEADER_NAMES = frozenset({'argument', 'name', 'parameter', 'return', 'value'})
 BULLET = re.compile(r'^[*-]\s+(?P<body>.*)$')
 BACKTICK_TOKEN = re.compile(r'`([^`]+)`')
 EXAMPLE_CODE_LINE = re.compile(r'^`[^`]+`$')
+EXAMPLE_INLINE_CODE = re.compile(r'^`+(?P<body>.*)`+$')
 MARKDOWN_LINK = re.compile(r'\[([^\]]+)\]\([^)]*\)')
 SECTION_KINDS: dict[str, str | None] = {
     'description': 'description',
@@ -624,6 +626,14 @@ def _is_junk_row(cells: Sequence[str]) -> bool:
     return all(not cell or JUNK_CELL.match(cell) for cell in cells)
 
 
+def _is_table_header(cells: Sequence[str]) -> bool:
+    if len(cells) < 2:
+        return False
+    first = re.sub(r'[`*_]', '', cells[0]).strip().casefold()
+    second = re.sub(r'[`*_]', '', cells[1]).strip().casefold()
+    return first in TABLE_HEADER_NAMES and second in {'description', 'descriptions'}
+
+
 def _cell_name(cell: str) -> str:
     tokens = BACKTICK_TOKEN.findall(cell)
     if tokens:
@@ -652,7 +662,7 @@ def _parse_named_rows(lines: Sequence[str]) -> tuple[ArgumentDoc, ...]:
             continue
         if stripped.startswith('|'):
             cells = _row_cells(stripped)
-            if _is_junk_row(cells):
+            if _is_junk_row(cells) or _is_table_header(cells):
                 continue
             if len(cells) > 1 and cells[0]:
                 name = _cell_name(cells[0])
@@ -668,6 +678,12 @@ def _parse_named_rows(lines: Sequence[str]) -> tuple[ArgumentDoc, ...]:
         bullet = _bullet_doc(stripped)
         if bullet is not None and (bullet.name or bullet.description):
             docs.append(bullet)
+            continue
+        if docs:
+            continuation = _clean_prose(stripped.rstrip('|').rstrip())
+            if continuation:
+                previous = docs[-1]
+                docs[-1] = ArgumentDoc(previous.name, f'{previous.description} {continuation}')
     return tuple(docs)
 
 
@@ -731,11 +747,15 @@ def _parse_example_segments(lines: Sequence[str]) -> tuple[ExampleSegment, ...]:
         if not stripped:
             pending_blank = True
             continue
-        if EXAMPLE_CODE_LINE.match(stripped):
+        inline_code = EXAMPLE_INLINE_CODE.fullmatch(stripped)
+        if inline_code is not None:
             prose = _flush_segment(segments, 'prose', prose)
             if pending_blank and code:
                 code.append('')
-            code.append(stripped[1:-1])
+            # Some converted references retain doubled inline delimiters inside
+            # an otherwise code-marked example. They are formatting artifacts,
+            # not SKILL syntax, so remove them before exposing the example.
+            code.append(inline_code.group('body').replace('``', ''))
         else:
             code = _flush_segment(segments, 'code', code)
             prose.append(_clean_prose(stripped))

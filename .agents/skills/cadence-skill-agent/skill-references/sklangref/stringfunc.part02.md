@@ -14,20 +14,18 @@ Scans the source string`t_source` to find all substring(s) that match the last r
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_source` | Source string to be matched and replaced.
-|  |
-| --- | ---
-| `t_replacement` | Replacement string to be used. Pattern *tags* can be used in this string (see [rexSubstitute](#rexSubstitute "String Functions")).
-|  |
-| --- | ---
-| `x_index` | Specifies which of the matching substrings to replace. Do aglobal replace if it's <= 0.
+| Name | Description |
+|---|---|
+| `t_source` | Source string to be matched and replaced. |
+| `t_replacement` | Replacement string to be used. Pattern *tags* can be used in this string (see [rexSubstitute](#rexSubstitute "String Functions")). |
+| `x_index` | Specifies which of the matching substrings to replace. Do aglobal replace if it's <= 0. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_result` | Copy of the source string with specified replacement or theoriginal source string if no match was found.
+| Name | Description |
+|---|---|
+| `t_result` | Copy of the source string with specified replacement or theoriginal source string if no match was found. |
+
 #### Example
 
 ```
@@ -44,7 +42,7 @@ rexReplace( "abc-123-xyz-890-wuv" "(*)" 3)                   
 
 ### rexSubstitute
 
-`rexSubstitute( t_string ) => t_result | nil`
+`rexSubstitute( t_string ) => t_result / nil`
 
 #### Description
 
@@ -54,17 +52,17 @@ Copies the argument string and substitutes all pattern*tags* in it by their corr
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_string` | Argument string to be substituted.
+| Name | Description |
+|---|---|
+| `t_string` | Argument string to be substituted. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_result` | Copy of the argument with all the tags in it being substituted bythe corresponding strings.
-|  |
-| --- | ---
-| `nil` | The last string matching operation failed (and none of the patterntags are meaningful).
+| Name | Description |
+|---|---|
+| `t_result` | Copy of the argument with all the tags in it being substituted bythe corresponding strings. |
+| `nil` | The last string matching operation failed (and none of the patterntags are meaningful). |
+
 #### Example
 
 ```
@@ -77,7 +75,7 @@ rexCompile( "[a-z]+\\([0-9]+\\)" ) => trexExecute( "abc123" )         
 
 ### rindex
 
-`rindex( t_string1 S_string2 ) => t_result | nil`
+`rindex( t_string1 S_string2 ) => t_result / nil`
 
 #### Description
 
@@ -87,20 +85,18 @@ Compares two strings. Similar to`index` except that it looks for the last (that 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_string1` | String to search for the last occurrence of`S_string2`.
-|  |
-| --- | ---
-| `S_string2` | String or symbol to search for.
+| Name | Description |
+|---|---|
+| `t_string1` | String to search for the last occurrence of`S_string2`. |
+| `S_string2` | String or symbol to search for. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_result` | Remainder of`t_string1` starting with last match of `S_string2`.
-|  |
-| --- | ---
-| `nil` | There is no match.
+| Name | Description |
+|---|---|
+| `t_result` | Remainder of`t_string1` starting with last match of `S_string2`. |
+| `nil` | There is no match. |
+
 #### Example
 
 `rindex( "dandelion" "d") => "delion"`
@@ -111,7 +107,7 @@ Compares two strings. Similar to`index` except that it looks for the last (that 
 
 ### sprintf
 
-`sprintf( {s_Var | nil } t_formatString [ g_arg1 ... ] ) => t_string`
+`sprintf( ( s_Var / nil ) t_formatString [ g_arg1 ... ] ) => t_string`
 
 #### Description
 
@@ -123,23 +119,19 @@ Refer to the "[Common Output Format Specifications](../sklangref/inputoutput.htm
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_Var` | Variable name.
-|  |
-| --- | ---
-| `nil` | `nil` if no variable name.
-|  |
-| --- | ---
-| `t_formatString` | Format string.
-|  |
-| --- | ---
-| `g_arg1` | Arguments following the format string are printed according totheir corresponding format specifications.
+| Name | Description |
+|---|---|
+| `s_Var` | Variable name. |
+| `nil` | `nil` if no variable name. |
+| `t_formatString` | Format string. |
+| `g_arg1` | Arguments following the format string are printed according totheir corresponding format specifications. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_string` | Formatted output string.
+| Name | Description |
+|---|---|
+| `t_string` | Formatted output string. |
+
 #### Example
 
 ```
@@ -160,14 +152,16 @@ Takes input strings or symbols and concatenates them.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_string1 S_string2 ...` | One or more input strings or symbols.
+| Name | Description |
+|---|---|
+| `S_string1 S_string2 ...` | One or more input strings or symbols. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_result` | New string containing the contents of all input strings or symbols`S_string1, S_string2, ...,` concatenated together. The input arguments are left unchanged.
+| Name | Description |
+|---|---|
+| `t_result` | New string containing the contents of all input strings or symbols`S_string1, S_string2, ...,` concatenated together. The input arguments are left unchanged. |
+
 #### Example
 
 `strcat( 'ab "xyz" )        => "abxyz"strcat( "l" "ab" "ef" )    => "labef"`
@@ -178,7 +172,7 @@ Takes input strings or symbols and concatenates them.
 
 ### strcmp
 
-`strcmp( t_string1 t_string2 ) => 1 | 0 | -1`
+`strcmp( t_string1 t_string2 ) => 1 / 0 / -1`
 
 #### Description
 
@@ -188,12 +182,11 @@ Compares the two argument strings`t_string1` and `t_string2` and returns an inte
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_string1` | First string to be compared.
-|  |
-| --- | ---
-| `t_string2` | Second string to be compared.
+| Name | Description |
+|---|---|
+| `t_string1` | First string to be compared. |
+| `t_string2` | Second string to be compared. |
+
 #### Value Returned
 
 1. `t_string1` is alphabetically greater than `t_string2`.
@@ -215,7 +208,7 @@ strcmp( "abc" "abb" )    => 1strcmp( "abc" "abc")     => 0strcmp( "abc"
 
 ### stringp
 
-`stringp( g_value ) => t | nil`
+`stringp( g_value ) => t / nil`
 
 #### Description
 
@@ -225,17 +218,17 @@ The suffix`p` is usually added to the name of a function to indicate that it is 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_value` | A data object.
+| Name | Description |
+|---|---|
+| `g_value` | A data object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | `g_value` is a string.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | `g_value` is a string. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `stringp( 93)=> nil`
@@ -256,14 +249,16 @@ Returns the number of characters in a string.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_string` | String length you want to obtain.
+| Name | Description |
+|---|---|
+| `t_string` | String length you want to obtain. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `x_length` | Length of`t_string`.
+| Name | Description |
+|---|---|
+| `x_length` | Length of`t_string`. |
+
 #### Example
 
 `strlen( "abc" )    => 3strlen( "\007" )   => 1  ; Backslash notation used.`
@@ -284,20 +279,18 @@ Concatenates input strings.Similar to `strcat` except that at most `x_max` chara
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_string1` | First string included in the new string.
-|  |
-| --- | ---
-| `t_string2` | Second string whose characters are appended to`t_string1`.
-|  |
-| --- | ---
-| `x_max` | Maximum number of characters from`t_string2` that you want to append to the end of `t_string1`.
+| Name | Description |
+|---|---|
+| `t_string1` | First string included in the new string. |
+| `t_string2` | Second string whose characters are appended to`t_string1`. |
+| `x_max` | Maximum number of characters from`t_string2` that you want to append to the end of `t_string1`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_result` | The new string;`t_string1` and `t_string2` are left unchanged.
+| Name | Description |
+|---|---|
+| `t_result` | The new string;`t_string1` and `t_string2` are left unchanged. |
+
 #### Example
 
 ```
@@ -310,7 +303,7 @@ strncat( "abcd" "efghi" 2)        => "abcdef"strncat( "abcd" "efghijk" 5
 
 ### strncmp
 
-`strncmp( t_string1 t_string2 x_max ) => 1 | 0 | -1`
+`strncmp( t_string1 t_string2 x_max ) => 1 / 0 / -1`
 
 #### Description
 
@@ -320,15 +313,12 @@ Similar to`strcmp` except that only up to `x_max` characters are compared. To si
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_string1` | First string to be compared.
-|  |
-| --- | ---
-| `t_string2` | Second string to be compared.
-|  |
-| --- | ---
-| `x_max` | Maximum number of characters in both strings to be compared.
+| Name | Description |
+|---|---|
+| `t_string1` | First string to be compared. |
+| `t_string2` | Second string to be compared. |
+| `x_max` | Maximum number of characters in both strings to be compared. |
+
 #### Value Returned
 
 For the first specified number of characters:
@@ -352,7 +342,7 @@ strncmp( "abc" "ab" 3)  => 1strncmp( "abc" "de" 4)  => -1strncmp( "abc" "ab"
 
 ### strpbrk
 
-`strpbrk( t_str1t_str2) => t_subStr/nil`
+`strpbrk( t_str1 t_str2 ) => t_subStr/nil`
 
 #### Description
 
@@ -360,20 +350,18 @@ Returns a substring of the first occurence in`t_str1` of any character from the 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_str1` | Specifies the string that you need to scan
-|  |
-| --- | ---
-| `t_str2` | Specifies the pattern that you need to match
+| Name | Description |
+|---|---|
+| `t_str1` | Specifies the string that you need to scan |
+| `t_str2` | Specifies the pattern that you need to match |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_substr` | Returns a substring of the first occurence of any characterspecified in `t_str2`
-|  |
-| --- | ---
-| `nil` | Returns`nil` if no occurence of any character from `t_str2` is found in `t_str1`
+| Name | Description |
+|---|---|
+| `t_substr` | Returns a substring of the first occurence of any characterspecified in `t_str2` |
+| `nil` | Returns`nil` if no occurence of any character from `t_str2` is found in `t_str1` |
+
 #### Example
 
 `s="world"`
@@ -408,20 +396,18 @@ Substitutes one object for another object in a list.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_x` | Object substituted.
-|  |
-| --- | ---
-| `g_y` | Object substituted for.
-|  |
-| --- | ---
-| `l_arg` | A list.
+| Name | Description |
+|---|---|
+| `g_x` | Object substituted. |
+| `g_y` | Object substituted for. |
+| `l_arg` | A list. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | Result of substituting`g_x` for all `equal`occurrences of `g_y` at all levels in `l_arg`.
+| Name | Description |
+|---|---|
+| `l_result` | Result of substituting`g_x` for all `equal`occurrences of `g_y` at all levels in `l_arg`. |
+
 #### Example
 
 ```
@@ -434,7 +420,7 @@ subst( 'a 'b '(a b c) )              => (a a c)subst('x 'y '(a b y
 
 ### substring
 
-`substring( S_string x_index [ x_length ] ) => t_result | nil`
+`substring( S_string x_index [ x_length ] ) => t_result / nil`
 
 #### Description
 
@@ -452,23 +438,19 @@ Creates a new substring from`S_string` with a starting point determined by `x_in
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_string` | A string.
-|  |
-| --- | ---
-| `x_index` | Starting point for returning a new string. Cannot be zero.
-|  |
-| --- | ---
-| `x_length` | Length of string to be returned.
+| Name | Description |
+|---|---|
+| `S_string` | A string. |
+| `x_index` | Starting point for returning a new string. Cannot be zero. |
+| `x_length` | Length of string to be returned. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_result` | Substring of`S_string` starting at the character indexed by `x_index`, with a maximum of `x_length` characters.
-|  |
-| --- | ---
-| `nil` | If`x_index` is out of bounds.
+| Name | Description |
+|---|---|
+| `t_result` | Substring of`S_string` starting at the character indexed by `x_index`, with a maximum of `x_length` characters. |
+| `nil` | If`x_index` is out of bounds. |
+
 #### Example
 
 ```
@@ -491,14 +473,16 @@ If the parameter is a symbol, the name of the symbol is used.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_string` | Input string or symbol.
+| Name | Description |
+|---|---|
+| `S_string` | Input string or symbol. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_result` | Copy of`S_string` in uppercase letters.
+| Name | Description |
+|---|---|
+| `t_result` | Copy of`S_string` in uppercase letters. |
+
 #### Example
 
 `upperCase("Hello world!") => "HELLO WORLD!"`

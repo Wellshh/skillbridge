@@ -1,0 +1,1066 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN" "http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+<html xmlns="http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Allegro SKILL Reference -- Building Contexts in Allegro</title>
+<META NAME="Approver" CONTENT="Technical Publications">
+<META NAME="Author" CONTENT="Technical Publications">
+<META NAME="CreateDate" CONTENT="2016-03-15">
+<META NAME="CreateTime" CONTENT="1458044778">
+<META NAME="DataType" CONTENT="Manuals">
+<META NAME="Description" CONTENT="Describes the Allegro eXtension Language (AXL) and how to use each AXL function.">
+<META NAME="DocTitle" CONTENT="Allegro SKILL Reference">
+<META NAME="DocType" CONTENT="SKILL Reference">
+<META NAME="EdmsRelease" CONTENT="FM-Wiki-1.0_P003_S2">
+<META NAME="FileTitle" CONTENT="Building Contexts in Allegro">
+<META NAME="FileType" CONTENT="Chapter">
+<META NAME="Group" CONTENT="Allegro User Guide">
+<META NAME="Keyword" CONTENT="algroskill">
+<META NAME="Language" CONTENT="English">
+<META NAME="ModifiedDate" CONTENT="2016-03-15">
+<META NAME="ModifiedTime" CONTENT="1458044778">
+<META NAME="NextFile" CONTENT="">
+<META NAME="Order" CONTENT="11">
+<META NAME="PageCount" CONTENT="10">
+<META NAME="Platform" CONTENT="ALL">
+<META NAME="PrevFile" CONTENT="26logacc.html">
+<META NAME="Product" CONTENT="Allegro, Cadence SiP Digital">
+<META NAME="ProductFamily" CONTENT="PCB Design, IC Packaging">
+<META NAME="ProductVersion" CONTENT="17.2-2016">
+<META NAME="RightsManagement" CONTENT="Copyright 19912016 Cadence Design Systems Inc.">
+<META NAME="Title" CONTENT="Allegro SKILL Reference -- Building Contexts in Allegro">
+<META NAME="TopicTags" CONTENT="TRUE">
+<META NAME="Version" CONTENT="17.2-2016">
+  </head>
+  <body style="margin-left: 5%;">
+    <a name="pagetop"></a>
+    <a name="firstpage"></a>
+    <!-- Begin Buttons -->
+    <table width="650" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td height="36" width="650" colspan="10">
+          <img src="../support/header_doc.gif" width="650" height="34">
+        </td>
+      </tr>
+      <tr>
+        <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+                </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+        <td>
+          <a href="26logacc.html"><img src="../support/nav2_previous.gif" alt="Previous" border="0"></a>
+        </td>
+        <td height="20">
+          <img src="../support/nav2_next_b.gif" alt="Previous">
+        </td>
+        <td height="20">
+          <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+          </a>
+        </td>
+        <td height="20" width="59">
+          <img src="../support/nav_next_b.gif" alt="Next" border="0">
+        </td>
+        <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+        </td>
+        <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+        </td>
+        <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+        </td>
+        <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+        </td>
+      </tr>
+    </table>
+    <!-- End Buttons -->
+    <p>
+    <hr>
+    <p>
+      <h3>
+        <center>
+          <font >
+            <div>Allegro&#174; User Guide: SKILL Reference</div>
+            <font >
+              <div>Product Version 17.2&#45;2016 April 2016</div>
+            </font>
+          </font>
+        </center>
+      </h3>
+      <br>
+    </p>
+    <div>
+      <h1>A<a name="1032955">&nbsp;</a></h1>
+      <h1><a name="1035250">Building Contexts in Allegro</a></h1>
+      <!-- [TOPIC_START_OPEN]type=cmdref
+[TOPIC_START_ATTR]text=Introduction
+[TOPIC_START_ATTR]description=
+[TOPIC_START_ATTR]keyword=
+[TOPIC_START_CLOSE] -->
+      <h2><a name="1035477">Introduction</a></h2>
+      <p><a name="1036946">A context via can be created by either of two methods - standard and autoload. Both methods substantially improve performance of Skill code loading. Even more benefits can accrue if you combine several Skill files into one context. The autoload method is a super&#45;set of standard contexts and offers deferred context loading functionality. The autoload method is used by all Allegro provided contexts.</a></p>
+      <p><a name="1035484">The standard contexts are much easier to build, are more evident to the user, and typically require more memory. The autoload contexts are much harder to build, but the system only loads the contexts upon demand. For a more complete discussion of the differences, see the section on Contexts in the </a>Skill Language User Guide.</p>
+      <h3><a name="1035491">Requirements</a></h3>
+      <p><a name="1038565">You must have a Skill developers license and the cdsmps program. The cdsmps program is part of every standard Allegro release. When running cdsmps on Linux run with the </a><font size="2" face="'Courier New'" color="#000000">&#34;cdsmps &#45;64only&#34;</font> method. Only Windows run the cdsmps64 program.</p>
+      <p><a name="1038569">Since Allegro products are now 64bit binaries, you need to build 64bit contexts.</a></p>
+      <p><a name="1038571">You cannot use context files built in earlier releases that had 32bit binaries, such as 16.6, with Allegro releases starting with 17.x</a></p>
+      <h3><a name="1035499">Cautions</a></h3>
+      <p><a name="1035502">Most Skill code can be built into contexts. However, there are several potential problems that you should keep in mind when writing code. A complete discussion of these issues can be found in Chapter 10 of the </a>Skill Language User Guide.</p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1035507">Cadence recommends that you prefix your Skill functions with upper case prefixes. This minimizes the chance of naming collisions with Cadence Skill functions that use lower case prefixes.</a></p>
+      <p><a name="1035512">Additionally, autoload contexts have some additional cautions. Please adhere to the following guidelines:</a></p>
+      <h4><a name="1035515">Autoload Context Guidelines</a></h4>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1035516">Files put into an autoload context should only contain variables and procedures (functions).</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1036046">Do not load other skill files. Have </a><font size="2" face="'Courier New'" color="#000000">startup.il</font> load them.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1036052">Generally do not call </a><font size="2" face="'Courier New'" color="#000000">axlCmdRegister</font>, <font size="2" face="'Courier New'" color="#000000">axlReportRegister</font>, or <font size="2" face="'Courier New'" color="#000000">axlTriggerSet.</font></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1036069">Do not do anything outside of a procedure - it will not work.</a></td>
+          </tr>
+        </table>
+      </div>
+<!-- [TOPIC_END] -->
+      <!-- [TOPIC_START_OPEN]type=cmdref
+[TOPIC_START_ATTR]text=Building Standard Contexts
+[TOPIC_START_ATTR]description=
+[TOPIC_START_ATTR]keyword=
+[TOPIC_START_CLOSE] -->
+      <h2><a name="1036923">Building Standard Contexts</a></h2>
+      <h4><a name="1036096">To build a standard context</a></h4>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	1.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="1035527">Create a directory that has all the Skill files to be built into the context.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	2.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="1036113">Add the </a><font size="2" face="'Courier New'" color="#000000">startup.il</font> file (see <a href="#1035621" title="Building Contexts in Allegro"><font color="#0000ff"><u>File B1</u></font></a><a href="#1035621" title="Building Contexts in Allegro"> </a>).</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	3.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="1036121">Create a Skill function with the same name as your context that registers your commands with the Allegro shell. This step is required in allegro_designer if you wish to access your Skill code. Only one of these functions is permitted per context. The function name must be the same as the context name. This step is analogous to the</a><font size="2" face="'Courier New'" color="#000000">.ini</font> file in autoload contexts.</td>
+          </tr>
+        </table>
+      </div>
+      <blockquote><a name="1035537">Format:</a></blockquote>
+      <blockquote><font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035538">(defun &#60;ContextName&#62; ()</a></font></blockquote>
+      <blockquote><font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035539">(axlCmdRegister &#34;mycommand&#34; &#39;&#60;MYSkillCommand&#62; ?cmdType ....)</a></font></blockquote>
+      <blockquote><font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035540">.... other axlCmdRegister ..</a></font></blockquote>
+      <blockquote><font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1036235">)<br></a></font></blockquote>
+      <blockquote><a name="1036237">Example:</a></blockquote>
+      <blockquote><font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1036201">(defun MYTEST()</a></font></blockquote>
+      <blockquote><font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1036220">(axlCmdRegister &#34;mytest&#34; &#39;MYTest ?cmdType &#34;general&#34;)</a></font></blockquote>
+      <blockquote><font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035546">)</a></font></blockquote>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	4.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="1035548">Run the </a><font size="2" face="'Courier New'" color="#000000">buildcxt &#60;ContextName&#62;</font> script (see <a href="#1035633" title="Building Contexts in Allegro"><font color="#0000ff"><u>File S1</u></font></a><a href="#1035633" title="Building Contexts in Allegro"> </a>). This produces a single file named, <font size="2" face="'Courier New'" color="#000000">&#60;ContextName&#62;.cxt. </font>For example: <font size="2" face="'Courier New'" color="#000000">buildcxt MYTEST.</font></td>
+          </tr>
+        </table>
+      </div>
+      <blockquote><a name="1035554">	To load the context into allegro_designer, issue the Allegro command </a><font size="2" face="'Courier New'" color="#000000">loadcontext &#60;ContextName&#62;</font>. In programs where the Skill type&#45;in mode is available, the Skill functions <font size="2" face="'Courier New'" color="#000000">loadContext &#60;contextName.cxt&#62;</font> and <font size="2" face="'Courier New'" color="#000000">callInitProc &#60;ContextName&#62;</font> perform the same function.</blockquote>
+      <blockquote><a name="1035559">Example:</a></blockquote>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035560">&nbsp;&nbsp;&nbsp;&nbsp;Allegro &#62; loadcontext MYTEST<br></a></font>
+      </p>
+      <blockquote><a name="1035562">Skill version:</a></blockquote>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035563">&nbsp;&nbsp;&nbsp;&nbsp;skill &#62; (loadContext &#34;MYTEST.txt&#34;)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035564">&nbsp;&nbsp;&nbsp;&nbsp;skill &#62; (callInitProc &#34;MYTEST&#34;)</a></font>
+      </p>
+<!-- [TOPIC_END] -->
+      <!-- [TOPIC_START_OPEN]type=cmdref
+[TOPIC_START_ATTR]text=Building Autoload Contexts
+[TOPIC_START_ATTR]description=
+[TOPIC_START_ATTR]keyword=
+[TOPIC_START_CLOSE] -->
+      <h2><a name="1036929">Building Autoload Contexts</a></h2>
+      <h4><a name="1035571">To build a context by the autoload method</a></h4>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	1.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="1035572">Create directory hierarchies:</a></td>
+          </tr>
+        </table>
+      </div>
+      <blockquote><a name="1035573">	</a><font size="2" face="'Courier New'" color="#000000">.&#47;pvt&#47;etc&#47;context</font></blockquote>
+      <blockquote><a name="1035574"><font size="2" face="'Courier New'" color="#000000">	.&#47;etc&#47;context</font></a></blockquote>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	2.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="1035575">Under</a><font size="2" face="'Courier New'" color="#000000">.&#47;pvt&#47;etc&#47;context</font>, create a directory using your context name and populate it with your Skill files.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	3.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="1036369">Add a </a><font size="2" face="'Courier New'" color="#000000">startup.il</font> (see <a href="#1035621" title="Building Contexts in Allegro"><font color="#0000ff"><u>File B1</u></font></a><a href="#1035621" title="Building Contexts in Allegro"> </a>) to the mix and stir well.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	4.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="1036375">Insure that the </a><font size="2" face="'Courier New'" color="#000000">cxtFuncs.il</font> (see <a href="#1035672" title="Building Contexts in Allegro"><font color="#0000ff"><u>File A1</u></font></a><a href="#1035672" title="Building Contexts in Allegro"> </a>) is in the root directory.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	5.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="1036381">Run the </a><font size="2" face="'Courier New'" color="#000000">buildautocxt</font> (see <a href="#1035803" title="Building Contexts in Allegro"><font color="#0000ff"><u>File A2</u></font></a><a href="#1035803" title="Building Contexts in Allegro"> </a>) UNIX command with your context name	. For example: <font size="2" face="'Courier New'" color="#000000">buildautocxt &#60;myContext&#62;</font>.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	6.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="1035581">If the context build is successful, you will have 3 files in the</a><font size="2" face="'Courier New'" color="#000000">.&#47;etc&#47;context</font> directory with your context name (<font size="2" face="'Courier New'" color="#000000">.aux, .cxt, .toc</font>).</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	7.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="1036408">Add an optional fourth file with a </a><font size="2" face="'Courier New'" color="#000000">&#60;myContext&#62;.ini</font> that has your <font size="2" face="'Courier New'" color="#000000">axlCmdRegister</font>. If you do not wish to register your Skill commands as Allegro commands, you may skip this step. However, in allegro_designer this is the only method for accessing your Skill code.</td>
+          </tr>
+        </table>
+      </div>
+      <blockquote><a name="1035587">Example:</a></blockquote>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035588">&nbsp;&nbsp;&nbsp;&nbsp;(axlCmdRegister &#34;my_command&#34; &#39;MYSkillFunction ?cmdType &#34;interactive&#34;)</a></font>
+      </p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	8.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="1035589">Take the four context files and add them to the directory </a><font size="2" face="'Courier New'" color="#000000">&#60;cds_root&#62;&#47;share&#47;pcb&#47;etc&#47;context</font>.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	9.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="1036459">Edit the </a><font size="2" face="'Courier New'" color="#000000">pcd</font> file in this directory for the product requiring the context. <br>Names are:</td>
+          </tr>
+        </table>
+      </div>
+      <blockquote><a name="1036495"><font size="2" face="'Courier New'" color="#000000">allegro.pcd</font></a> 				All allegro_layout (CBD) based products.<br><font size="2" face="'Courier New'" color="#000000">designer.pcd</font>	allegro_designer<br><font size="2" face="'Courier New'" color="#000000">apd.pcd</font>	advanced_package_designer<br><font size="2" face="'Courier New'" color="#000000">floorplan.pcd</font> 	allegro_si</blockquote>
+      <blockquote><a name="1035598">You need to add a line at the end of the file in the following format:</a></blockquote>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035599">&nbsp;&nbsp;&nbsp;&nbsp;&#60;NAME&#62;&nbsp;&nbsp;&nbsp;&nbsp;&#60;VERSION&#62;&nbsp;&nbsp;&nbsp;&nbsp;&#60;CONTEXTS&#62;</a></font>
+      </p>
+      <blockquote><font color="#000000"><strong>Note: </strong></font><a name="1035600">Neither the NAME of VERSION is important. It is only used with the Skill function </a><font size="2" face="'Courier New'" color="#000000">printBlend</font>.</blockquote>
+      <blockquote><a name="1035603">Example:</a></blockquote>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1036606">&nbsp;&nbsp;&nbsp;&nbsp;MYCONTEXT 1.0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MyContext</a></font>
+      </p>
+      <p><a name="1036611">Two environment Bourne variables help in debugging problems in this area. They are:</a></p>
+      <p><a name="1036608"><font size="2" face="'Courier New'" color="#000000">CDS_DEBUG_CONTEXTS</font></a>	file <font size="2" face="'Courier New'" color="#000000">&#47;tmp&#47;context.log</font> &#45; context stats<br><font size="2" face="'Courier New'" color="#000000">CDS_DEBUG_CXTINIT</font> 	file <font size="2" face="'Courier New'" color="#000000">&#47;tmp&#47;initCxt.log</font> &#45; context init<br>				&#45; also stderr init context print</p>
+<!-- [TOPIC_END] -->
+      <!-- [TOPIC_START_OPEN]type=cmdref
+[TOPIC_START_ATTR]text=Files with This Package
+[TOPIC_START_ATTR]description=
+[TOPIC_START_ATTR]keyword=
+[TOPIC_START_CLOSE] -->
+      <h2><a name="1036935">Files with This Package</a></h2>
+      <h3><a name="1035621">File B1</a></h3>
+      <p><a name="1036691">Helper Skill code to load all Skill files in a directory.<br></a></p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035623">;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035624">;startup.il</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035625">foreach(file rexMatchList(&#34;.*\\.il$&#34; getDirFiles(&#34;.&#34;))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035626">    ; don&#39;t load myself &#45;&#45; bad idea</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035627">    when( nequal(file, &#34;startup.il&#34;)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035628">        load(file)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035629">    )</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035630">)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035631">;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</a></font>
+      </p>
+      <p><a name="1035632">&nbsp;</a></p>
+      <h3><a name="1035633">File S1</a></h3>
+      <p><a name="1036759"><font size="2" face="'Courier New'" color="#000000">buildcxt csh</font></a> script to for building standard contexts.<br></p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035636">#!&#47;bin&#47;csh &#45;f</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035637"># This builds a standard context see README.cxt for other set&#45;up requirements</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035638">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035639">if ($#argv != 1) then</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035640">   echo &#34;Usage: $0 &#60;context name&#62;&#34;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035641">   echo &#34;Assumes that a startup.il file exists in current directory&#34;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035642">   echo &#34; this file is used to specify the loading of other skill files&#34;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035643">   exit 1</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035644">endif</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035645">set theContext = $argv[1]</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035646">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035647">if (!(&#45;e startup.il)) then</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035648">   echo &#34;ERROR: Can&#39;t find standard.il file&#34;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035649">   exit 1</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035650">endif</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035651">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035652">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035653">cdsmps &#45;64only &#60;&#60; EOF</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035654">(setSkillPath &#34;.&#34;)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035655">(setContext &#34;$theContext&#34;)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035656">(load &#34;startup.il&#34;)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035657">(defInitProc &#34;$theContext&#34; &#39;${theContext})</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035658">(saveContext &#34;$theContext.cxt&#34;)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035659">(exit)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035660">EOF</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035661">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035663">echo &#34;&#34;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035664">echo &#34;&#34;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035665">echo &#34;&#34;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035666">echo &#34;Context will be found $theContext.cxt&#34;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035667">echo &#34;&#34;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035668">exit 0</a></font>
+      </p>
+      <h3><a name="1035672">File A1</a></h3>
+      <p><a name="1036687"><font size="2" face="'Courier New'" color="#000000">cxtFuncs.il</font></a> Skill helper program to build autoload contexts.<br></p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035675">;(</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035676">;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035677">; EXPORTED FUNCTIONS:</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035678">;   buildContext : used to build a context</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035679">;   getContext   : used to load a context</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035680">; </a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035681">;&nbsp;&nbsp;&nbsp;&nbsp;Mods &#45;&#45; fxf 8&#47;25&#47;95 to support local building of contextes</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035682">;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035683">; </a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035684">; Constants</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035685">;    ilcDftSourceFileDir : directory name where Skill source</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035686">;       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   files reside</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035687">;    ilcDftDeliveryDir   : directory name where delivered</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035688">;                          context files are saved. </a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035689">;&nbsp;&nbsp;&nbsp;&nbsp;(fxf) may be overridden before calling</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035690">;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035691">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035692">unless(boundp(&#39;ilcDftSourceFileDir) ilcDftSourceFileDir = &#34;pvt&#47;etc&#47;context&#34;)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035693">unless(boundp(&#39;ilcDftDeliveryDir) ilcDftDeliveryDir = &#34;etc&#47;context&#34;)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035694">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035695">(defun _parsePath (path)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035696">(let (lpath)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035697">        (cond (path</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035698">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lpath = parseString(path &#34;&#47;&#34;)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035699">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(while (!rindex(car(lpath) &#34;tools&#34;)) lpath = cdr(lpath))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035700">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;buildString(lpath &#34;&#47;&#34;)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035701">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035702">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(t nil))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035703">))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035704">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035705">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035706">_stacktrace = 10</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035707">setSkillPath(strcat(&#34;. ~ &#34; prependInstallPath(&#34;local&#34;)))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035708">(cond ((getd &#39;dbSetPath) (dbSetPath &#34;. ~&#34;)))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035709">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035710">;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035711">; loadCxt &#45;&#45;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035712">;&nbsp;&nbsp;&nbsp;&nbsp;Load a context and call its init function.</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035713">;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035714">(defun loadCxt (cxt cxtPath)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035715">  (let ((f (strcat (cdsGetInstPath cxtPath) &#34;&#47;&#34; cxt &#34;.cxt&#34;))) </a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035716">     (cond</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035717">&nbsp;&nbsp;&nbsp;&nbsp;((null (isFile f)) nil)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035718">        ((null (loadContext f))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035719">&nbsp;&nbsp;&nbsp;&nbsp;    (printf &#34;load of context %s failed\n&#34; cxt))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035720">&nbsp;&nbsp;&nbsp;&nbsp;((null (callInitProc cxt))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035721">&nbsp;&nbsp;&nbsp;&nbsp;    (printf &#34;init proc of context %s failed\n&#34; cxt))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035722">&nbsp;&nbsp;&nbsp;&nbsp;(t (printf &#34;Loading context %s\n&#34; cxt))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035723">     )</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035724">  )</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1036723">)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1036724">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035728">;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035729">; buildContext &#45;&#45;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035730">;&nbsp;&nbsp;&nbsp;&nbsp;Build a new context, even if one exists.</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035731">;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035732">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035733">(defun buildContext (cxt @rest targs)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035734">   (let (cxtPath srcPath fullCxtPath)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035735">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035736">&nbsp;&nbsp;&nbsp;&nbsp;cxtPath = ilcDftDeliveryDir</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035737">        (setq srcPath (strcat ilcDftSourceFileDir &#34;&#47;&#34; cxt))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035738">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035739">&nbsp;&nbsp;&nbsp;&nbsp;;; &#60;fxf&#62;: doesn&#39;t allow local contextes so use above 2 lines</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035740">        ;;(cond ((car targs) (setq cxtPath (car targs)))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035741">&nbsp;&nbsp;&nbsp;&nbsp;      ;;((setq cxtPath (_parsePath (_iliGetActualCxtPath cxt))) t)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035742">              ;;(t (setq cxtPath ilcDftDeliveryDir)))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035743">        ;;(cond ((cadr targs) (setq srcPath (cadr targs)))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035744">&nbsp;&nbsp;&nbsp;&nbsp;      ;;((setq srcPath (_parsePath (_iliGetActualSrcPath cxt))) t)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035745">              ;;(t (setq srcPath (strcat ilcDftSourceFileDir &#34;&#47;&#34; cxt))))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035746">        fullCxtPath = cdsGetInstPath(cxtPath)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035747">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035748">        (deleteFile (strcat fullCxtPath &#34;&#47;&#34; cxt &#34;.cxt&#34;))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035749">        (deleteFile (strcat fullCxtPath &#34;&#47;&#34; cxt &#34;.al&#34;))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035750">        (deleteFile (strcat fullCxtPath &#34;&#47;&#34; cxt &#34;.ini&#34;))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035751">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035752">        (updateContext cxt cxtPath srcPath)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035753">        (updateAutoloads cxt cxtPath srcPath)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035754">))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035755">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035756">;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035757">; updateContext &#45;&#45;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035758">;&nbsp;&nbsp;&nbsp;&nbsp;If there is source and it is newer than the context,</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035759">;&nbsp;&nbsp;&nbsp;&nbsp;then build a new context.  Otherwise if there is no source</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035760">;&nbsp;&nbsp;&nbsp;&nbsp;use the existing context.</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035761">;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035762">(defun updateContext (cxt cxtPath srcPath)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035763">     (cond ((isDir (cdsGetInstPath srcPath)) (makeCapContext cxt cxtPath srcPath))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035764">&nbsp;&nbsp;&nbsp;&nbsp;   ((loadCxt cxt cxtPath) t)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035765">&nbsp;&nbsp;&nbsp;&nbsp;   (t (printf &#34;Can&#39;t find context %s\n&#34; cxt )))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035766">)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035767">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035768">(defun updateAutoloads (cxt cxtPath srcPath)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035769">   (let ((afile (sprintf nil &#34;%s&#47;%s.al&#34; (cdsGetInstPath srcPath) cxt))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035770">&nbsp;&nbsp;&nbsp;&nbsp; (ifile (sprintf nil &#34;%s&#47;%s.ini&#34; (cdsGetInstPath srcPath) cxt)))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035771">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035772">     (cond ((isFile ifile) (system (sprintf nil &#34;cp %s %s&#34; ifile (cdsGetInstPath cxtPath))))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035773">           ((isFile afile) (system (sprintf nil &#34;cp %s %s&#34; afile (cdsGetInstPath cxtPath))))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035774">&nbsp;&nbsp;&nbsp;&nbsp;   (t t))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035775">))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035776">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035777">;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035778">; getContext &#45;&#45;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035779">;&nbsp;&nbsp;&nbsp;&nbsp;Load the context if it exists, otherwise build it.</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035780">;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035781">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035783">(defun getContext (cxt @rest targs)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035784">   (let (cxtPath srcPath) </a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035785">        (cond ((car targs) (setq cxtPath (car targs)))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035786">&nbsp;&nbsp;&nbsp;&nbsp;      ((setq cxtPath (_parsePath (_iliGetActualCxtPath cxt))) t)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035787">              (t (setq cxtPath ilcDftDeliveryDir)))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035788">        (cond ((cadr targs) (setq srcPath (cadr targs)))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035789">&nbsp;&nbsp;&nbsp;&nbsp;      ((setq srcPath (_parsePath (_iliGetActualSrcPath cxt))) t)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035790">              (t (setq srcPath (strcat ilcDftSourceFileDir &#34;&#47;&#34; cxt))))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035791">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035792">        (cond ((loadCxt cxt cxtPath) t)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035793">&nbsp;&nbsp;&nbsp;&nbsp;      ((isDir cxt (cdsGetInstPath srcPath))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035794">&nbsp;&nbsp;&nbsp;&nbsp;           (makeCapContext cxt cxtPath srcPath))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035795">         (t (printf &#34;Can&#39;t get context %s\n&#34; cxt) </a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035796">&nbsp;&nbsp;&nbsp;&nbsp;    ))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035797">))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035798">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035799">(sstatus trapDefs ilcDftDeliveryDir)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035800">(sstatus lazyComp nil)</a></font>
+      </p>
+      <h3><a name="1035803">File A2</a></h3>
+      <p><a name="1036702"><font size="2" face="'Courier New'" color="#000000">buildautocxt csh</font></a> script to build autoload contexts.<br></p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035806">#!&#47;bin&#47;csh &#45;f</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035807"># This builds a context see README.cxt for other set&#45;up requirements</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035808">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035809">if ($#argv != 1) then</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035810">   echo &#34;Usage: $0 &#60;context name&#62;&#34;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035811">   exit 1</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035812">endif</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035813">set theContext = $argv[1]</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035814">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035815">if (!(&#45;e pvt&#47;etc&#47;context&#47;$argv[1])) then</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035816">    echo &#34;pvt&#47;etc&#47;context&#47;$argv[1] does not exit&#34;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035817">    exit 1</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035818">endif</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035819">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035820">if (!(&#45;e etc&#47;context)) then</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035821">    mkdir &#45;p etc&#47;context</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035822">endif</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035823">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035824">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035825">cdsmps &#45;64only &#45;ilLoadIL cxtFuncs.il &#60;&#60; EOF</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035826">(getContext &#34;skillCore&#34;)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035827">(setSkillPath &#34;.&#34;)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035828">(cdsSetInstPath &#34;.&#34;)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035829">buildContext &#34;$theContext&#34;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035830">exit</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035831">EOF</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035832">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035833">echo &#34;&#34;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035834">echo &#34;&#34;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035835">echo &#34;&#34;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035836">echo &#34;Context files will be found at etc&#47;context&#47;$theContext.*&#34;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035837">echo &#34;&#34;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035838">exit 0</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1035457">&nbsp;</a></font>
+      </p>
+      <p><a name="1037028">&nbsp;</a></p>
+<!-- [TOPIC_END] -->
+      <p><a name="1038827">&nbsp;</a></p>
+    </div>
+    <br>
+    <a href="#pagetop">Return to top of page</a>
+    <hr>
+    <hr align="left">
+    <div style="text-align: left;">
+      <!-- Begin Buttons -->
+      <table width="650" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+                    </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+          <td>
+            <a href="26logacc.html"><img src="../support/nav2_previous.gif" alt="Previous" border="0"></a>
+          </td>
+          <td height="20">
+            <img src="../support/nav2_next_b.gif" alt="Previous">
+          </td>
+          <td>
+            <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+            </a>
+          </td>
+          <td height="20" width="59">
+            <img src="../support/nav_next_b.gif" alt="Next" border="0">
+          </td>
+          <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+          </td>
+          <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+          </td>
+          <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+          </td>
+          <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+          </td>
+        </tr>
+      </table>
+      <!-- End Buttons -->
+    </div>
+    <br>
+    <font size="-1" >
+For support, see <a href="http://support.cadence.com" target="_blank">Cadence Online Support</a> service.</font>
+    <br>
+    <br>
+    <font size="-1" >
+<font size="-1">Copyright &#169; 2016, <a href ="http://www.cadence.com">Cadence Design Systems, Inc.</a></font>
+    </font>
+    <br>
+    <font size="-1" >
+All rights reserved.</font>
+    <br>
+    <br>
+  </body>
+</html>

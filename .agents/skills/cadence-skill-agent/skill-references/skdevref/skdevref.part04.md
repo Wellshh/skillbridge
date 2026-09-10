@@ -630,7 +630,7 @@ August 2014                                  126                             Pro
 
 ### tracef
 
-`tracef( [ { s_function | t_fileName ... | t } ] ) => g_result`
+`tracef( [ ( s_function / t_fileName ... / t ) ] ) => g_result`
 
 ```text
                        Cadence SKILL Development Reference
@@ -884,7 +884,7 @@ August 2014                                    132                              
 
 ### tracep
 
-`tracep( [ { s_property...|t } ] ) => g_result`
+`tracep( [ ( s_property.../t ) ] ) => g_result`
 
 ```text
                        Cadence SKILL Development Reference
@@ -939,7 +939,7 @@ August 2014                                    133                              
 
 ### tracev
 
-`tracev( [ { s_variable ... | t } ] ) => g_result`
+`tracev( [ ( s_variable ... / t ) ] ) => g_result`
 
 ```text
                         Cadence SKILL Development Reference
@@ -995,7 +995,7 @@ August 2014                                     134                             
 
 ### unbreakpt
 
-`unbreakpt( [ { u_function... | t } ] ) => g_result`
+`unbreakpt( [ ( u_function... / t ) ] ) => g_result`
 
 ```text
                        Cadence SKILL Development Reference
@@ -1093,7 +1093,7 @@ August 2014                               136                        Product Ver
 
 ### unbreakptMethod
 
-`unbreakptMethod( [ s_name [ @before | @after ] ] [ l_specializer ] ) => t`
+`unbreakptMethod( [ s_name [ @before / @after ] ] [ l_specializer ] ) => t`
 
 ```text
                      Cadence SKILL Development Reference
@@ -1147,7 +1147,7 @@ August 2014                                137                              Prod
 
 ### uncount
 
-`uncount( [ { s_function ... | t } ] ) => g_result`
+`uncount( [ ( s_function ... / t ) ] ) => g_result`
 
 ```text
                        Cadence SKILL Development Reference
@@ -1278,7 +1278,7 @@ August 2014                                 140                             Prod
 
 ### untrace
 
-`untrace( [ { s_function | t_fileName ... | t } ] ) => g_result`
+`untrace( [ ( s_function / t_fileName ... / t ) ] ) => g_result`
 
 ```text
                        Cadence SKILL Development Reference
@@ -1337,7 +1337,7 @@ August 2014                                    141                              
 
 ### untracep
 
-`untracep( [ { S_property...|t } ] ) => g_result`
+`untracep( [ ( S_property.../t ) ] ) => g_result`
 
 ```text
                        Cadence SKILL Development Reference
@@ -1388,7 +1388,7 @@ August 2014                                  142                              Pr
 
 ### untracev
 
-`untracev( [ { s_variable ... | t } ] ) => g_result`
+`untracev( [ ( s_variable ... / t ) ] ) => g_result`
 
 ```text
                       Cadence SKILL Development Reference
@@ -1797,7 +1797,7 @@ August 2014                                  152                             Pro
 
 ### skTabulate
 
-`skTabulate( ?fileNames g_tabulatedFileNames [?reportFile t_reportFile] [?showFile g_showFile] [?dontResolveSymLink g_dontResolveSymLink] [?customerInfo l_customerInfo] [?printFiltered g_printFiltered] [?ext l_ext] [?infoFile g_infoFile] [?defnFile g_defnFile] [?recurse g_recurse] [?exclude g_exclude] [?recurseExclude g_recurseExclude] [?sendReport g_sendReport] => t`
+`skTabulate( ?fileNames g_tabulatedFileNames [?reportFile t_reportFile] [?showFile g_showFile] [?dontResolveSymLink g_dontResolveSymLink] [?customerInfo l_customerInfo] [?printFiltered g_printFiltered] [?ext l_ext] [?infoFile g_infoFile] [?defnFile g_defnFile] [?recurse g_recurse] [?exclude g_exclude] [?recurseExclude g_recurseExclude] [?sendReport g_sendReport] ) => t`
 
 ```text
                      Cadence SKILL Development Reference

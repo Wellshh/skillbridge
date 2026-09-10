@@ -2042,11 +2042,21 @@ class TestDrcApi:
         assert all(drc._id == _session_id(session) for drc in drcs)
         assert 'dbid:' not in repr(drcs)
         assert session.drc.snapshot() == drcs
+        assert all(0 <= len(drc.figures) <= 2 for drc in drcs)
+        assert all('dbid' not in repr(figure) for drc in drcs for figure in drc.figures)
         if allegro.mode == 'cli':
             references = [reference for drc in drcs for reference in drc.objects]
             assert any(isinstance(reference, AbComponentRef) for reference in references)
             assert any(isinstance(reference, AbNetRef) for reference in references)
             assert any(isinstance(reference, AbPinRef) for reference in references)
+            # Fresh shape1 contains geometric figures (polygon/shape/tee); their
+            # snapshot geometry is available even though route identity is not.
+            assert any(
+                figure.obj_type in {'polygon', 'shape', 'tee'}
+                and (figure.layer is not None or figure.bbox is not None)
+                for drc in drcs
+                for figure in drc.figures
+            )
 
     def test_update_preview_returns_projection_and_rolls_back(
         self,

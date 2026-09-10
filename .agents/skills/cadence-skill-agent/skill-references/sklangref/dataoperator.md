@@ -8,7 +8,7 @@ Data Operator Functions
 
 ### alphaNumCmp
 
-`alphaNumCmp( S_arg1 S_arg2 [ g_arg3 ] ) => 1 | 0 | -1`
+`alphaNumCmp( S_arg1 S_arg2 [ g_arg3 ] ) => 1 / 0 / -1`
 
 #### Description
 
@@ -18,15 +18,12 @@ If the third optional argument is non-`nil` and the first two arguments are stri
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_arg1` | First string or symbol to compare.
-|  |
-| --- | ---
-| `S_arg2` | String or symbol to compare against`S_arg1`.
-|  |
-| --- | ---
-| `g_arg3` | If non-`nil`, can cause a numeric comparison of `S_arg1` and `S_arg2` depending whether those arguments are strings holding purely numeric values.
+| Name | Description |
+|---|---|
+| `S_arg1` | First string or symbol to compare. |
+| `S_arg2` | String or symbol to compare against`S_arg1`. |
+| `g_arg3` | If non-`nil`, can cause a numeric comparison of `S_arg1` and `S_arg2` depending whether those arguments are strings holding purely numeric values. |
+
 #### Value Returned
 
 1. If`S_arg1` is alphanumerically greater than `S_arg2`
@@ -60,17 +57,17 @@ Symbol functions such as`eq`, `memq`, and `caseq` are much faster than their sib
 
 #### Arguments
 
-|  |
-| --- | ---
-| `Sx_arg1` | String, symbol, or integer to be concatenated.
-|  |
-| --- | ---
-| `Sx_arg2` | Zero or more strings, symbols, or integers to be concatenated.
+| Name | Description |
+|---|---|
+| `Sx_arg1` | String, symbol, or integer to be concatenated. |
+| `Sx_arg2` | Zero or more strings, symbols, or integers to be concatenated. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `s_result` | Returns a symbol whose print name is the result ofconcatenating the printed representation of the argument or arguments.
+| Name | Description |
+|---|---|
+| `s_result` | Returns a symbol whose print name is the result ofconcatenating the printed representation of the argument or arguments. |
+
 #### Example
 
 ```
@@ -95,14 +92,16 @@ Structures can contain instances of other structures; therefore you need to be c
 
 #### Arguments
 
-|  |
-| --- | ---
-| `r_defstruct` | An instance of a defstruct.
+| Name | Description |
+|---|---|
+| `r_defstruct` | An instance of a defstruct. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `r_defstruct` | Copy of the given instance
+| Name | Description |
+|---|---|
+| `r_defstruct` | Copy of the given instance |
+
 #### Example
 
 ```
@@ -127,14 +126,16 @@ The various`copy_<``name``>` functions are called to create copies for the vario
 
 #### Arguments
 
-|  |
-| --- | ---
-| `r_object` | An instance of a`defstruct`.
+| Name | Description |
+|---|---|
+| `r_object` | An instance of a`defstruct`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `r_defstruct` | A deep copy of the given instance.
+| Name | Description |
+|---|---|
+| `r_defstruct` | A deep copy of the given instance. |
+
 #### Example
 
 `defstruct(myStruct a b c) => t ;creates a function _myStruct`
@@ -169,7 +170,7 @@ m4->a => array[5]:3873024eq(m4->a m2->a) => t       ; share identical sub
 
 ### get
 
-`get( sl_id S_name ) => g_result | nil`
+`get( sl_id S_name ) => g_result / nil`
 
 #### Description
 
@@ -179,20 +180,18 @@ Used in conjunction with`putprop`, where `putprop` stores the property and `get`
 
 #### Arguments
 
-|  |
-| --- | ---
-| `sl_id` | Symbol or disembodied property list.
-|  |
-| --- | ---
-| `S_name` | Name of the property you want the value of.
+| Name | Description |
+|---|---|
+| `sl_id` | Symbol or disembodied property list. |
+| `S_name` | Name of the property you want the value of. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Value of`S_name` in the `sl_id` property list.
-|  |
-| --- | ---
-| `nil` | The named property does not exist.
+| Name | Description |
+|---|---|
+| `g_result` | Value of`S_name` in the `sl_id` property list. |
+| `nil` | The named property does not exist. |
+
 #### Example
 
 `putprop( 'chip 8 'pins ) => 8`
@@ -209,7 +208,7 @@ Assigns the property pins to a value of 8 to the symbol chip.
 
 ### getSG
 
-`getSG(g_objS_prop)=>g_propValue`
+`getSG( g_obj S_prop ) =>g_propValue`
 
 #### Description
 
@@ -217,15 +216,17 @@ Evaluates and then retrieves the value of the specified attribute or property. I
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_obj` | Specifies the name of an object
+| Name | Description |
+|---|---|
+| `g_obj` | Specifies the name of an object |
+
 | `S_prop` | Specifies the name of the attribute or property for which youwant to retireve the value
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_propValue` | The value of the property
+| Name | Description |
+|---|---|
+| `g_propValue` | The value of the property |
+
 #### Example
 
 In the following example,`getSG()` evaluates the `tbl_list` argument and then retrieves its value.
@@ -246,7 +247,7 @@ In the following example,`getSG()` evaluates the `tbl_list` argument and then re
 
 ### getq
 
-`getq( sl_id S_name ) => g_result | nilsl_id->S_name => g_result | nil`
+`getq( sl_id S_name ) => g_result / nil`
 
 #### Description
 
@@ -258,20 +259,18 @@ Used in conjunction with`putprop`, where `putprop` stores the property and `getq
 
 #### Arguments
 
-|  |
-| --- | ---
-| `sl_id` | Symbol or disembodied property list.
-|  |
-| --- | ---
-| `S_name` | Name of the property you want the value of.
+| Name | Description |
+|---|---|
+| `sl_id` | Symbol or disembodied property list. |
+| `S_name` | Name of the property you want the value of. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Value of`S_name` in the `sl_id` property list.
-|  |
-| --- | ---
-| `nil` | The named property does not exist.
+| Name | Description |
+|---|---|
+| `g_result` | Value of`S_name` in the `sl_id` property list. |
+| `nil` | The named property does not exist. |
+
 #### Example
 
 `putprop( 'chip 8 'pins ) => 8`
@@ -288,7 +287,7 @@ getq( 'chip pins )           => 8chip.pins             �
 
 ### getqq
 
-`getqq( s_id S_name ) => g_result | nilsl_id.S_name => g_result | nil`
+`getqq( s_id S_name ) => g_result / nil`
 
 #### Description
 
@@ -300,20 +299,18 @@ Used in conjunction with`putprop`, where `putprop` stores the property and `getq
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_id` | Symbol to get a property from.
-|  |
-| --- | ---
-| `S_name` | Name of the property you want the value of.
+| Name | Description |
+|---|---|
+| `s_id` | Symbol to get a property from. |
+| `S_name` | Name of the property you want the value of. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Value ofthe property `S_name` in the property list of `s_id`.
-|  |
-| --- | ---
-| `nil` | The named property does not exist.
+| Name | Description |
+|---|---|
+| `g_result` | Value ofthe property `S_name` in the property list of `s_id`. |
+| `nil` | The named property does not exist. |
+
 #### Example
 
 `putprop( 'chip 8 'pins ) => 8`
@@ -342,14 +339,16 @@ This function has no effect if there is already a SKILL++ global variable of the
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_variable` | Variable to be treated as SKILL global variables in SKILL++code.
+| Name | Description |
+|---|---|
+| `s_variable` | Variable to be treated as SKILL global variables in SKILL++code. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `nil` | Always returns`nil`. This function is for side-effect only.
+| Name | Description |
+|---|---|
+| `nil` | Always returns`nil`. This function is for side-effect only. |
+
 #### Example
 
 ```
@@ -360,7 +359,7 @@ This example shows assigning a value to the global variable`q` in SKILL mode and
 
 ### integerp
 
-`integerp( g_obj ) => t | nil`
+`integerp( g_obj ) => t / nil`
 
 #### Description
 
@@ -368,17 +367,17 @@ Checks if an object is an integer. This function is the same as`fixp`.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_obj` | Any SKILL object.
+| Name | Description |
+|---|---|
+| `g_obj` | Any SKILL object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | The given object is an integer.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | The given object is an integer. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `(integerp 123) => t(integerp "123") => nil`
@@ -397,14 +396,16 @@ Creates an instance of a`defstruct` specified by <`name`>.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `...` | Initial values for structure elements (slots).
+| Name | Description |
+|---|---|
+| ... | Initial values for structure elements (slots). |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `r_defstruct` | Copy of the given instance
+| Name | Description |
+|---|---|
+| `r_defstruct` | Copy of the given instance |
+
 #### Example
 
 ```
@@ -417,7 +418,7 @@ defstruct(myStruct a b c) => tm1 = _myStruct(?a 3 ?b 2 ?c 1) => array[5]:3436504
 
 ### otherp
 
-`otherp( g_value ) => t | nil`
+`otherp( g_value ) => t / nil`
 
 #### Description
 
@@ -427,17 +428,17 @@ The suffix`p` is usually added to the name of a function to indicate that it is 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_value` | A data object.
+| Name | Description |
+|---|---|
+| `g_value` | A data object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`g_value` is a user type object.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | If`g_value` is a user type object. |
+| `nil` | Otherwise. |
+
 #### Example
 
 otherp(3.0)                        => nil
@@ -445,7 +446,7 @@ otherp( makeTable("table1" nil))   => t
 
 ### plist
 
-`plist( s_symbolName ) => l_propertyList | nil`
+`plist( s_symbolName ) => l_propertyList / nil`
 
 #### Description
 
@@ -455,17 +456,17 @@ From time to time, it is useful to print out the entire property list attached t
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_symbolName` | Name of the symbol.
+| Name | Description |
+|---|---|
+| `s_symbolName` | Name of the symbol. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_propertyList` | Property list for the named symbol.
-|  |
-| --- | ---
-| `nil` | If there is no property list for the named symbol.
+| Name | Description |
+|---|---|
+| `l_propertyList` | Property list for the named symbol. |
+| `nil` | If there is no property list for the named symbol. |
+
 #### Example
 
 `a.x = 10a.y = 20println(plist('a)) (y 20 x 10)=> nil`
@@ -478,7 +479,7 @@ Prints the property list attached to the symbol`a`. Returns `nil`, the result of
 
 ### popf
 
-`popf( g_place) => g_result`
+`popf( g_place ) => g_result`
 
 #### Description
 
@@ -486,14 +487,16 @@ A pop that uses the`setf` function. It returns the value for `g_place` that is r
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_place` | Place to be modified.
+| Name | Description |
+|---|---|
+| `g_place` | Place to be modified. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | The value for`g_place` that is removed.
+| Name | Description |
+|---|---|
+| `g_result` | The value for`g_place` that is removed. |
+
 #### Example
 
 `a = '((4 1) 2 3)`
@@ -520,17 +523,17 @@ If the associated table element is not a number or`g_index` is not valid, it ret
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_array` | An array or an associated table.
-|  |
-| --- | ---
-| `g_index` | An index in the array or an associated table.
+| Name | Description |
+|---|---|
+| `g_array` | An array or an associated table. |
+| `g_index` | An index in the array or an associated table. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `n_oldValue` | Original value of the element.
+| Name | Description |
+|---|---|
+| `n_oldValue` | Original value of the element. |
+
 #### Example
 
 ```
@@ -553,17 +556,17 @@ If the associated table element is not a number or`g_index` is not valid, it ret
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_array` | An array or an associated table.
-|  |
-| --- | ---
-| `g_index` | An index in the array or an associated table.
+| Name | Description |
+|---|---|
+| `g_array` | An array or an associated table. |
+| `g_index` | An index in the array or an associated table. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `n_oldValue` | Original value of the element.
+| Name | Description |
+|---|---|
+| `n_oldValue` | Original value of the element. |
+
 #### Example
 
 ```
@@ -586,20 +589,18 @@ If the associated table element is not a number or`g_index` is not valid, it ret
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_array` | An array or an associated table.
-|  |
-| --- | ---
-| `g_index` | An index in the array or an associated table.
-|  |
-| --- | ---
-| `n_modifier` | Value that should be added to the element.
+| Name | Description |
+|---|---|
+| `g_array` | An array or an associated table. |
+| `g_index` | An index in the array or an associated table. |
+| `n_modifier` | Value that should be added to the element. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `n_oldValue` | Original value of the element.
+| Name | Description |
+|---|---|
+| `n_oldValue` | Original value of the element. |
+
 #### Example
 
 ```
@@ -620,14 +621,16 @@ Takes a variable, decrements its value by one, stores the new value back into th
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_var` | Variable representing a number.
+| Name | Description |
+|---|---|
+| `s_var` | Variable representing a number. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `n_result` | Original value of the variable.
+| Name | Description |
+|---|---|
+| `n_result` | Original value of the variable. |
+
 #### Example
 
 `s = 2postdecrement( s ) => 2s => 1`
@@ -648,14 +651,16 @@ Takes a variable, increments its value by one, stores the new value back into th
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_var` | Variable representing a number.
+| Name | Description |
+|---|---|
+| `s_var` | Variable representing a number. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `n_result` | Original value of the variable.
+| Name | Description |
+|---|---|
+| `n_result` | Original value of the variable. |
+
 #### Example
 
 `s = 2postincrement( s ) => 2s => 3`
@@ -678,17 +683,17 @@ If the associated table element is not a number or`g_index` is not valid, it ret
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_array` | An array or an associated table.
-|  |
-| --- | ---
-| `g_index` | An index in the array or an associated table.
+| Name | Description |
+|---|---|
+| `g_array` | An array or an associated table. |
+| `g_index` | An index in the array or an associated table. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `n_newValue` | New value of the element.
+| Name | Description |
+|---|---|
+| `n_newValue` | New value of the element. |
+
 #### Example
 
 ```
@@ -711,17 +716,17 @@ If the associated table element is not a number or`g_index` is not valid, it ret
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_array` | An array or an associated table.
-|  |
-| --- | ---
-| `g_index` | An index in the array or an associated table.
+| Name | Description |
+|---|---|
+| `g_array` | An array or an associated table. |
+| `g_index` | An index in the array or an associated table. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `n_newValue` | New value of the element.
+| Name | Description |
+|---|---|
+| `n_newValue` | New value of the element. |
+
 #### Example
 
 ```
@@ -744,20 +749,18 @@ If the associated table element is not a number or`g_index` is not valid, it ret
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_array` | An array or an associated table.
-|  |
-| --- | ---
-| `g_index` | An index in the array or an associated table.
-|  |
-| --- | ---
-| `n_modifier` | The value that should be added to the element.
+| Name | Description |
+|---|---|
+| `g_array` | An array or an associated table. |
+| `g_index` | An index in the array or an associated table. |
+| `n_modifier` | The value that should be added to the element. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `n_newValue` | New value of the element i.e, (g\_array [`g_index`] + `n_modifier`)
+| Name | Description |
+|---|---|
+| `n_newValue` | New value of the element i.e, (g\_array [`g_index`] + `n_modifier`) |
+
 #### Example
 
 ```
@@ -778,14 +781,16 @@ Takes a variable, decrements its value by one, stores the new value back into th
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_var` | Variable representing a number.
+| Name | Description |
+|---|---|
+| `s_var` | Variable representing a number. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `n_result` | Decremented value of the variable.
+| Name | Description |
+|---|---|
+| `n_result` | Decremented value of the variable. |
+
 #### Example
 
 `s = 2predecrement( s ) => 1s => 1`
@@ -806,14 +811,16 @@ Takes a variable, increments its value by one, stores the new value back into th
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_var` | Variable representing a number.
+| Name | Description |
+|---|---|
+| `s_var` | Variable representing a number. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `n_result` | Incremented value of the variable.
+| Name | Description |
+|---|---|
+| `n_result` | Incremented value of the variable. |
+
 #### Example
 
 `s = 2preincrement( s ) => 3s => 3`
@@ -826,7 +833,7 @@ Takes a variable, increments its value by one, stores the new value back into th
 
 ### pushf
 
-`pushf( g_objg_place) => g_newPlaceValue`
+`pushf( g_obj g_place ) => g_newPlaceValue`
 
 #### Description
 
@@ -834,17 +841,17 @@ A push that uses the`setf` function. It modifies the contents of the original st
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_obj` | New value to be pushed.
-|  |
-| --- | ---
-| `g_place` | Place to be modified with the new value.
+| Name | Description |
+|---|---|
+| `g_obj` | New value to be pushed. |
+| `g_place` | Place to be modified with the new value. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_newPlaceValue` | New value.
+| Name | Description |
+|---|---|
+| `g_newPlaceValue` | New value. |
+
 #### Example
 
 `a = list((list 1) 2 3)`
@@ -869,20 +876,18 @@ If the property already exists, the old value is replaced with a new one. The`pu
 
 #### Arguments
 
-|  |
-| --- | ---
-| `sl_id` | Symbol or disembodied property list.
-|  |
-| --- | ---
-| `g_value` | Value of the named property.
-|  |
-| --- | ---
-| `S_name` | Name of the property.
+| Name | Description |
+|---|---|
+| `sl_id` | Symbol or disembodied property list. |
+| `g_value` | Value of the named property. |
+| `S_name` | Name of the property. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_value` | The value of the named property.
+| Name | Description |
+|---|---|
+| `g_value` | The value of the named property. |
+
 #### Example
 
 `putprop('s 1+2 'x) => 3`
@@ -895,7 +900,7 @@ Sets the property`x` on symbol `s` to 3.
 
 ### putpropq
 
-`putpropq( sl_id g_value S_name ) => g_valuesl_id->S_name = g_value => g_value`
+`putpropq( sl_id g_value S_name ) => g_value`
 
 #### Description
 
@@ -905,20 +910,18 @@ Adds properties to symbols or disembodied property lists.Identical to `putprop` 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `sl_id` | Symbol or disembodied property list.
-|  |
-| --- | ---
-| `g_value` | Value of the named property.
-|  |
-| --- | ---
-| `S_name` | Name of the property.
+| Name | Description |
+|---|---|
+| `sl_id` | Symbol or disembodied property list. |
+| `g_value` | Value of the named property. |
+| `S_name` | Name of the property. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_value` | Value of the named property.
+| Name | Description |
+|---|---|
+| `g_value` | Value of the named property. |
+
 #### Example
 
 `putpropq('s 1+2 x)    => 3y = 'x                => xy->x = 1+2            => 3`
@@ -931,7 +934,7 @@ Both examples are equivalent expressions that set the property`x` on symbol `s` 
 
 ### putpropqq
 
-`putpropqq( s_id g_value S_name ) => g_values_id.S_name = g_value => g_value`
+`putpropqq( s_id g_value S_name ) => g_value`
 
 #### Description
 
@@ -941,20 +944,18 @@ Adds properties to symbols.Identical to `putprop` except that `sl_id` and `S_nam
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_id` | Can only be a symbol.
-|  |
-| --- | ---
-| `g_value` | Value of the named property.
-|  |
-| --- | ---
-| `S_name` | Name of the property.
+| Name | Description |
+|---|---|
+| `s_id` | Can only be a symbol. |
+| `g_value` | Value of the named property. |
+| `S_name` | Name of the property. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_value` | Value of the named property.
+| Name | Description |
+|---|---|
+| `g_value` | Value of the named property. |
+
 #### Example
 
 `putpropqq(s 1+2 x)    => 3s.x = 1+2             => 3`
@@ -975,14 +976,16 @@ Returns the name of the variable or the expression. Prefix form of the`'` operat
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_expr` | Variable or expression.
+| Name | Description |
+|---|---|
+| `g_expr` | Variable or expression. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Name of the variable or expression.
+| Name | Description |
+|---|---|
+| `g_result` | Name of the variable or expression. |
+
 #### Example
 
 (quote a)       => a
@@ -990,7 +993,7 @@ Returns the name of the variable or the expression. Prefix form of the`'` operat
 
 ### remprop
 
-`remprop( sl_id S_name ) => l_result | nil`
+`remprop( sl_id S_name ) => l_result / nil`
 
 #### Description
 
@@ -998,20 +1001,18 @@ Removes a property from a property list and returns the property's former value.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `sl_id` | Symbol or disembodied property list.
-|  |
-| --- | ---
-| `S_name` | Property name.
+| Name | Description |
+|---|---|
+| `sl_id` | Symbol or disembodied property list. |
+| `S_name` | Property name. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | Former value of the property as a single element list.
-|  |
-| --- | ---
-| `nil` | The property does not exist.
+| Name | Description |
+|---|---|
+| `l_result` | Former value of the property as a single element list. |
+| `nil` | The property does not exist. |
+
 #### Example
 
 `putprop( 'chip 8 'pins ) => 8`
@@ -1030,7 +1031,7 @@ Removes the property pins from`chip`.
 
 ### rotatef
 
-`rotatef( [ gplace1 ][ gplace2 ].....[ gplacen ]) => g_newPlaceValues`
+`rotatef( [ gplace1 ] [ gplace2 ] ..... [ gplacen ] ) => g_newPlaceValues`
 
 #### Description
 
@@ -1038,14 +1039,16 @@ Modifies the value of each place by rotating the values from one place to anothe
 
 #### Arguments
 
-|  |
-| --- | ---
-| `gplace1...gplacen` | Values to be rotated.
+| Name | Description |
+|---|---|
+| `gplace1...gplacen` | Values to be rotated. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_newPlaceValues` | New values.
+| Name | Description |
+|---|---|
+| `g_newPlaceValues` | New values. |
+
 #### Example
 
 `a=1 b=2 c=3`
@@ -1060,7 +1063,7 @@ Now,
 
 ### set
 
-`set( s_variableName g_newValue [ e_environment ]) => g_result`
+`set( s_variableName g_newValue [ e_environment ] ) => g_result`
 
 #### Description
 
@@ -1070,20 +1073,18 @@ The`set` function is similar to the `setq` function, but unlike `setq`, the firs
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_variableName` | Symbol that is evaluated.
-|  |
-| --- | ---
-| `g_newValue` | Value to set symbol to.
-|  |
-| --- | ---
-| `e_environment` | If this argument is given, SKILL++ semantics is assumed. Theforms entered will be evaluated within the given (lexical) environment.
+| Name | Description |
+|---|---|
+| `s_variableName` | Symbol that is evaluated. |
+| `g_newValue` | Value to set symbol to. |
+| `e_environment` | If this argument is given, SKILL++ semantics is assumed. Theforms entered will be evaluated within the given (lexical) environment. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Returns`g_newValue`.
+| Name | Description |
+|---|---|
+| `g_result` | Returns`g_newValue`. |
+
 #### Example
 
 ```
@@ -1104,17 +1105,17 @@ Assigns a new value to an existing storage location, destroying the value that w
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_place` | Specifies the storage location
-|  |
-| --- | ---
-| `g_value` | Specifies the new value
+| Name | Description |
+|---|---|
+| `g_place` | Specifies the storage location |
+| `g_value` | Specifies the new value |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Returns the updated result
+| Name | Description |
+|---|---|
+| `g_result` | Returns the updated result |
+
 #### Example
 
 `x = '(a b c d e)setf( (car x) 42);; here x changes to (42 b c d e)`
@@ -1135,17 +1136,17 @@ An expander function for`setf`, which returns the result of the corresponding `s
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_new` | New value to be set for`g_cell`.
-|  |
-| --- | ---
-| `g_cell` | Cell to be modified.
+| Name | Description |
+|---|---|
+| `g_new` | New value to be set for`g_cell`. |
+| `g_cell` | Cell to be modified. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Result of the corresponding`setf` operation.
+| Name | Description |
+|---|---|
+| `g_result` | Result of the corresponding`setf` operation. |
+
 #### Example
 
 The following is an example of the helper function for`getSkillPath`:
@@ -1174,17 +1175,17 @@ Mainly enforces disciplined use of a symbol as a global variable by associating 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_symbol` | Symbol to be associated with the guarding function.
-|  |
-| --- | ---
-| `g_guard` | Guarding function to be associated with the symbol.
+| Name | Description |
+|---|---|
+| `s_symbol` | Symbol to be associated with the guarding function. |
+| `g_guard` | Guarding function to be associated with the symbol. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `u_guard` | Either a symbol that identifies the name of the guarding functionor a function object.
+| Name | Description |
+|---|---|
+| `u_guard` | Either a symbol that identifies the name of the guarding functionor a function object. |
+
 #### Example
 
 ```
@@ -1235,17 +1236,17 @@ Sets the property list of an object to a new property list; the old property lis
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_atom` | A symbol.
-|  |
-| --- | ---
-| `l_plist` | New property list to attach to`s_atom`.
+| Name | Description |
+|---|---|
+| `s_atom` | A symbol. |
+| `l_plist` | New property list to attach to`s_atom`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_plist` | New property list for`s_atom`; the old property list is lost.
+| Name | Description |
+|---|---|
+| `l_plist` | New property list for`s_atom`; the old property list is lost. |
+
 #### Example
 
 ```
@@ -1258,9 +1259,8 @@ setplist( 'chip '(pins 8 power 5) )    => (pins 8 power 5)plist( 'chip )  
 
 ### setq
 
-```
-setq( s_variableName g_newValueExp ) => g_resultsetq( s_variableName = g_newValue ) => g_result
-```
+`setq( s_variableName g_newValueExp ) => g_result`
+`setq( s_variableName = g_newValue ) => g_result`
 
 #### Description
 
@@ -1270,17 +1270,17 @@ The symbol`s_variableName` is bound to the value of `g_newValueExp`. Note that t
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_variableName` | Variable to be bound.
-|  |
-| --- | ---
-| `g_newValueExp` | Expression to be evaluated and bound to`s_variableName`.
+| Name | Description |
+|---|---|
+| `s_variableName` | Variable to be bound. |
+| `g_newValueExp` | Expression to be evaluated and bound to`s_variableName`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Evaluated result of`g_newValueExp` is returned.
+| Name | Description |
+|---|---|
+| `g_result` | Evaluated result of`g_newValueExp` is returned. |
+
 #### Example
 
 `x = 5         => 5`
@@ -1301,7 +1301,7 @@ Assigns the symbol`a` to the variable `y`.
 
 ### setSG
 
-`setSG(g_objS_propg_value)=>g_propValue`
+`setSG( g_obj S_prop g_value ) =>g_propValue`
 
 #### Description
 
@@ -1309,16 +1309,18 @@ Evaluates and then sets the value for the specified attribute or property. It is
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_obj` | Specifies the name of an object
+| Name | Description |
+|---|---|
+| `g_obj` | Specifies the name of an object |
+
 | `S_prop` | Specifies the name of the attribute or property for which youwant to set the value
 | g\_value | Specifies the value you want to set
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_propValue` | The set value of the property
+| Name | Description |
+|---|---|
+| `g_propValue` | The set value of the property |
+
 #### Example
 
 In the following example,`setSG()` evaluates the `tbl_list` argument and then sets its value.
@@ -1335,7 +1337,7 @@ In the following example,`setSG()` evaluates the `tbl_list` argument and then se
 
 ### symbolp
 
-`symbolp( g_value ) => t | nil`
+`symbolp( g_value ) => t / nil`
 
 #### Description
 
@@ -1345,17 +1347,17 @@ The suffix`p` is usually added to the name of a function to indicate that it is 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_value` | A data object.
+| Name | Description |
+|---|---|
+| `g_value` | A data object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`g_value` is a symbol.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | If`g_value` is a symbol. |
+| `nil` | Otherwise. |
+
 #### Example
 
 ```
@@ -1378,17 +1380,17 @@ Returns the value of the named variable.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_symbol` | Name of the variable.
-|  |
-| --- | ---
-| `e_environment` | If this argument is given, SKILL++ semantics is assumed. Thevariable name will be looked up within the given (lexical) environment.
+| Name | Description |
+|---|---|
+| `s_symbol` | Name of the variable. |
+| `e_environment` | If this argument is given, SKILL++ semantics is assumed. Thevariable name will be looked up within the given (lexical) environment. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Value of thenamed variable.
+| Name | Description |
+|---|---|
+| `g_result` | Value of thenamed variable. |
+
 #### Example
 
 `x = 5symeval( 'x ) => 5`
@@ -1401,7 +1403,7 @@ Returns the value of the named variable.
 
 ### symstrp
 
-`symstrp( g_value ) => t | nil`
+`symstrp( g_value ) => t / nil`
 
 #### Description
 
@@ -1411,17 +1413,17 @@ The suffix`p` is usually added to the name of a function to indicate that it is 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_value` | A data object.
+| Name | Description |
+|---|---|
+| `g_value` | A data object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`g_value` is either a symbol or a string.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | If`g_value` is either a symbol or a string. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `symstrp( "foo" )    => tsymstrp( 'foo )     => tsymstrp( 3 )        => nil`

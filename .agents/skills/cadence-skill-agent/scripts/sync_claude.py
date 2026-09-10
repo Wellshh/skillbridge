@@ -98,20 +98,21 @@ def expected_files() -> dict[Path, bytes]:
     }
     reference_root = SOURCE / "skill-references"
     for source in reference_root.rglob("*"):
-        if source.is_file() and "__pycache__" not in source.parts:
+        if (
+            source.is_file()
+            and "__pycache__" not in source.parts
+            and ".pytest_cache" not in source.parts
+        ):
             destination = CLAUDE / "skill-references" / source.relative_to(reference_root)
             files[destination] = adapt_reference(source.read_bytes())
-    for name in (
-        "build_reference_indexes.py",
-        "convert_pdf_references.py",
-        "skill_lint.py",
-        "sync_claude.py",
-        "validate_facts.py",
-    ):
-        files[CLAUDE / "scripts" / name] = (SOURCE / "scripts" / name).read_bytes()
-    files[CLAUDE / "tests/test_sync_claude.py"] = (
-        SOURCE / "tests/test_sync_claude.py"
-    ).read_bytes()
+    # Keep all Cadence quality gates in lockstep.  OrCAD helpers stay Claude-only
+    # and are intentionally excluded from the shared source tree.
+    for source in (SOURCE / "scripts").iterdir():
+        if source.is_file() and source.name != "build_orcad_index.py":
+            files[CLAUDE / "scripts" / source.name] = source.read_bytes()
+    for source in (SOURCE / "tests").iterdir():
+        if source.is_file() and source.name != "test_build_orcad_index.py":
+            files[CLAUDE / "tests" / source.name] = source.read_bytes()
     return files
 
 
@@ -125,6 +126,7 @@ def stale_reference_files(root: Path, expected: set[Path]) -> list[Path]:
         and path not in expected
         and path != orcad_index
         and orcad_root not in path.parents
+        and ".pytest_cache" not in path.parts
     )
 
 

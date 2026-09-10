@@ -1,0 +1,1364 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN" "http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+<html xmlns="http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Allegro SKILL Reference -- 22</title>
+<META NAME="Approver" CONTENT="Technical Publications">
+<META NAME="Author" CONTENT="Technical Publications">
+<META NAME="CreateDate" CONTENT="2017-11-25">
+<META NAME="CreateTime" CONTENT="1511600113">
+<META NAME="DataType" CONTENT="Manuals">
+<META NAME="Description" CONTENT="Describes the Allegro eXtension Language (AXL) and how to use each AXL function.">
+<META NAME="DocTitle" CONTENT="Allegro SKILL Reference">
+<META NAME="DocType" CONTENT="SKILL Reference">
+<META NAME="EdmsRelease" CONTENT="FM-Wiki-2.0_HF2">
+<META NAME="FileTitle" CONTENT="22">
+<META NAME="FileType" CONTENT="Chapter">
+<META NAME="Group" CONTENT="Allegro User Guide">
+<META NAME="Keyword" CONTENT="algroskill">
+<META NAME="Language" CONTENT="English">
+<META NAME="ModifiedDate" CONTENT="2017-11-25">
+<META NAME="ModifiedTime" CONTENT="1511600113">
+<META NAME="NextFile" CONTENT="22extrct.html">
+<META NAME="Order" CONTENT="11">
+<META NAME="PageCount" CONTENT="26">
+<META NAME="Platform" CONTENT="ALL">
+<META NAME="PrevFile" CONTENT="20plyopr.html">
+<META NAME="Product" CONTENT="Allegro PCB Editor, Cadence SiP Digital">
+<META NAME="ProductFamily" CONTENT="Silicon-Package-Board Co-Design, IC Packaging">
+<META NAME="ProductVersion" CONTENT="17.2-2016">
+<META NAME="RightsManagement" CONTENT="Copyright 19912017 Cadence Design Systems Inc.">
+<META NAME="Title" CONTENT="Allegro SKILL Reference -- 22">
+<META NAME="TopicTags" CONTENT="FALSE">
+<META NAME="Version" CONTENT="17.2-2016">
+  </head>
+  <body style="margin-left: 5%;">
+    <a name="pagetop"></a>
+    <a name="firstpage"></a>
+    <!-- Begin Buttons -->
+    <table width="650" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td height="36" width="650" colspan="10">
+          <img src="images/header_doc.gif" width="650" height="34">
+        </td>
+      </tr>
+      <tr>
+        <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+        <td>
+          <a href="20plyopr.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+        </td>
+        <td>
+          <a href="22extrct.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+        </td>
+        <td height="20">
+          <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+          </a>
+        </td>
+        <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+        </td>
+        <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+        </td>
+        <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+        </td>
+        <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+        </td>
+      </tr>
+    </table>
+    <!-- End Buttons -->
+    <p>
+    <hr>
+    <p>
+      <h3>
+        <center>
+          <font >
+            <div>Allegro User Guide: SKILL Reference</div>
+            <font >
+              <div>Product Version 17.2&#45;2016 April 2016</div>
+            </font>
+          </font>
+        </center>
+      </h3>
+      <br>
+    </p>
+    <div>
+      <h1>22<a name="38801">&nbsp;</a></h1>
+      <h1><a name="38804">Allegro PCB Editor File Access Functions</a></h1>
+      <h2><a name="38810">AXL&#45;SKILL File Access Functions</a></h2>
+      <p><a name="38811">This chapter describes the AXL&#45;SKILL functions that open and close Allegro PCB Editor files.</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <font size="3"><img src="images/important.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <font size="3"><a name="652308">Use these functions, instead of SKILL's infile and outfile, to access files using Allegro PCB Editor standards, not via the SKILL path.</a></font>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h3><a name="652319">axlDMFileError</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="652321">axlDMFileError(<dd>) &#45;&#62; nil&#47;t_errorMessage</a></font>
+      </dl>
+      <h4><a name="652323">Description</a></h4>
+      <p><a name="652324">This returns the error from the last </a><font size="2" face="'Courier New'" color="#000000">axlDM</font>xxx call. Subsequent calls reset the error message so you should retrieve the error as soon as a call fails.</p>
+      <h4><a name="652328">Arguments</a></h4>
+      <p><a name="652329">none</a></p>
+      <h4><a name="652330">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="660375"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="660377">No error message available.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660379"><font size="2" face="'Courier New'" color="#000000"><em>t_errorMessage</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660381">Message indicating why last operation failed.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="653078">See Also</a></h4>
+      <p><a href="#38826" title="22" name="653079"><font color="#0000ff"><u>axlDMOpenFile</u></font></a></p>
+      <h4><a name="652333">Example</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="652334">q = axlDMOpenFile(&#34;TEMP&#34; &#34;foo.bar&#34; &#34;r&#34;)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="652335">unless(q</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="652310">printf(&#34;ERROR is %L\n&#34; axlDMFileError()))</a></font>
+      </blockquote>
+      <h3><a name="652311">axlDMFindFile</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="653109">axlDMFindFile (<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_id<dd>t_name<dd>t_mode<dd>[t_prop]<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>t_name</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="40757">Description</a></h4>
+      <p><a name="40758">Opens a file using Allegro PCB Editor conventions. Adds an extension and optionally looks it up in an Allegro PCB Editor search path. </a></p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="40759"> Must have an entry in </a><font size="2" face="'Courier New'" color="#000000">fileops.txt</font> file.</p>
+      <h4><a name="40760">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="649">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="660389"><font size="2" face="'Courier New'" color="#000000"><em>t_id</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="457">
+            <p><a name="660391">Id describing file attributes from</a><font color="#000000"><em> </em></font><font size="2" face="'Courier New'" color="#000000">fileops.txt</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660393"><font size="2" face="'Courier New'" color="#000000"><em>t_name</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660395">Name of file to find.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660397"><font size="2" face="'Courier New'" color="#000000"><em>t_mode</em></font></a></p>
+          </td>
+          <td rowspan="4" cellpadding="4" border="0" valign="top">
+            <p><a name="660399">Open mode. One of the following:</a></p>
+            <p><a name="660403"><font size="2" face="'Courier New'" color="#000000">r: </font></a>read&#45;only</p>
+            <p><a name="660407"><font size="2" face="'Courier New'" color="#000000">w: </font></a>write</p>
+            <p><a name="660411"><font size="2" face="'Courier New'" color="#000000">wf:</font></a> write line&#45;buffered </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660401">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660405">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660409">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660413"><font size="2" face="'Courier New'" color="#000000"><em>t_prop</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660415">Property string.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="40771">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="611">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="660429"><font size="2" face="'Courier New'" color="#000000"><em>t_name</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="418">
+            <p><a name="660431">Name of file opened.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660433"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660435">Failed to open file.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="653138">See Also</a></h4>
+      <p><a href="#38826" title="22" name="653143"><font color="#0000ff"><u>axlDMOpenFile</u></font></a></p>
+      <h4><a name="653148">Example</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="653154">(setq aPort(axlDMFindFile &#34;ALLEGRO_TEXT&#34;,&#34;clip&#34;,&#34;w&#34;,&#34;:HELP=clipboard&#34;))</a></font>
+      </blockquote>
+      <p><a name="653136">Finds the fully qualified name </a><font size="2" face="'Courier New'" color="#000000">clip.txt</font> for writing.</p>
+      <h3><a name="40703">axlDMGetFile</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="653192">axlDMGetFile(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_id<dd>t_name<dd>t_mode<dd>[t_prop]</em></font></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="38814">)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="38815"><font face="symbol" color="#000000">⇒</font></a> <font size="2" face="'Courier New'" color="#000000"><em>t_name</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="39100">Description</a></h4>
+      <p><a name="38816">Gets the file name </a><font size="2" face="'Courier New'" color="#000000"><em>t_name</em></font> using Allegro PCB Editor conventions as described in the arguments. Returns the full path name of the file. Displays an error message if the file cannot be opened.</p>
+      <h4><a name="39115">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="660447"><font size="2" face="'Courier New'" color="#000000"><em>t_id</em></font></a></p>
+          </td>
+          <td rowspan="2" cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="660449">File attribute id. </a></p>
+            <p><a name="660453">This string must be one of the types in the Allegro PCB Editor system file </a><font size="2" face="'Courier New'" color="#000000">fileops.txt</font>. Examples are <font size="2" face="'Courier New'" color="#000000">ALLEGRO_LAYOUT_DB</font> for Allegro PCB Editor layouts with extension <font size="2" face="'Courier New'" color="#000000">brd</font>, <font size="2" face="'Courier New'" color="#000000">ALLEGRO_REPORT</font> for Allegro PCB Editor report files with extension <font size="2" face="'Courier New'" color="#000000">rpt</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660451">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660455"><font size="2" face="'Courier New'" color="#000000"><em>t_name</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660457">String giving name of the file to open.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660459"><font size="2" face="'Courier New'" color="#000000"><em>t_mode</em></font></a></p>
+          </td>
+          <td rowspan="4" cellpadding="4" border="0" valign="top">
+            <p><a name="660461">Open mode. One of the following:</a></p>
+            <p><a name="660465"><font size="2" face="'Courier New'" color="#000000">r</font></a>: read&#45;only</p>
+            <p><a name="660469"><font size="2" face="'Courier New'" color="#000000">w</font></a>: write</p>
+            <p><a name="660473"><font size="2" face="'Courier New'" color="#000000">wf</font></a>: write line&#45;buffered</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660463">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660467">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660471">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660475"><font size="2" face="'Courier New'" color="#000000"><em>t_prop</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660477">Property string.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="39132">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="660507"><font size="2" face="'Courier New'" color="#000000"><em>t_name</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="660509">Name of the file. In the case of </a><font size="2" face="'Courier New'" color="#000000"><em>t_mode</em></font> = &#34;<font size="2" face="'Courier New'" color="#000000">r&#34;</font>, the file must exist for successful completion. </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660511"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660513">File not found. Displays a confirmer giving the name of the file it could not find.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="653199">See Also</a></h4>
+      <p><a href="#38826" title="22" name="653200"><font color="#0000ff"><u>axlDMOpenFile</u></font></a></p>
+      <h4><a name="653197">Example</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="38824">myfile = axlDMGetFile( &#34;ALLEGRO_TEXT&#34; &#34;clip&#34; &#34;r&#34;)<br></a>&nbsp;&nbsp;&nbsp;&nbsp;⇒ &#34;&#47;usr&#47;home&#47;fred&#47;myproj&#47;clip.txt&#34;&nbsp;&nbsp;&nbsp;&nbsp;</font>
+      </blockquote>
+      <p><a name="650864">Finds the file </a><font size="2" face="'Courier New'" color="#000000">clip.txt</font>, available for reading.</p>
+      <h3><a name="38826">axlDMOpenFile</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="38827">axlDMOpenFile(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_id<dd>t_name<dd>t_mode<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>p_port</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="39177">Description</a></h4>
+      <p><a name="651416">Opens a file in conventional Allegro manner; adds an extension and optionally looks it up in an Allegro search path. Must have an entry in </a><font size="2" face="'Courier New'" color="#000000">fileops.txt</font> file.</p>
+      <p><a name="651420">Allegro currently does not support directory or file names containing spaces. </a></p>
+      <p><a name="651423">Use this in place of Skill&#39;s infile&#47;outfile. The Skill interfaces resolve the file location using SKILLPATH which may mean that files may not open in the local directory if the SKILLPATH does not have &#34;.&#34; as its first component. </a><font size="2" face="'Courier New'" color="#000000">axlDMOpenFile</font> uses the Allegro convention to open file.</p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="651429">If you use </a><font size="2" face="'Courier New'" color="#000000">axlDMOpenFile</font> to open a file, use <font size="2" face="'Courier New'" color="#000000">axlDMClose</font> to close it. All other Skill file APIs work on the port returned by this interface.</p>
+      <p><a name="651433">If you want to use Allegro&#39;s standard file extension support (the extension is appended if not present), then see </a><font size="2" face="'Courier New'" color="#000000">&#60;cdsroot&#62;&#47;share&#47;pcb&#47;text&#47;fileops.txt </font>for a list of <font size="2" face="'Courier New'" color="#000000">t_ids</font>. Otherwise, if you always provide an extension, use the <font size="2" face="'Courier New'" color="#000000">TEMP</font> id.</p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <font size="3"><img src="images/tip.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <font size="3"><a name="653241">Use </a><font size="2" face="'Courier New'" color="#000000">get_filename(p_port)</font> to obtain the name of the file.</font>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="39190">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="660544"><font size="2" face="'Courier New'" color="#000000"><em>t_id</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="660546">File attribute id. This string must be one of the types in the Allegro PCB Editor system file </a><font size="2" face="'Courier New'" color="#000000">fileops.txt</font>. Examples are <font size="2" face="'Courier New'" color="#000000">ALLEGRO_LAYOUT_DB</font> for Allegro PCB Editor layouts with extension <font size="2" face="'Courier New'" color="#000000">brd</font>, <font size="2" face="'Courier New'" color="#000000">ALLEGRO_REPORT</font> for Allegro PCB Editor report files with extension <font size="2" face="'Courier New'" color="#000000">rpt</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660548"><font size="2" face="'Courier New'" color="#000000"><em>t_name</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660550">String giving the name of the file to open.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660552"><font size="2" face="'Courier New'" color="#000000"><em>t_mode</em></font></a></p>
+          </td>
+          <td rowspan="4" cellpadding="4" border="0" valign="top">
+            <p><a name="660554">Open mode. One of the following:</a></p>
+            <p><a name="660558"><font size="2" face="'Courier New'" color="#000000">r</font></a>: read&#45;only</p>
+            <p><a name="660562"><font size="2" face="'Courier New'" color="#000000">w</font></a>: write, create if doesn&#39;t exist, truncate to zero length if exists</p>
+            <p><a name="660566"><font size="2" face="'Courier New'" color="#000000">a</font></a>: open for writing, create if doesn&#39;t exist, go to end of file for appending if exists</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660556">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660560">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660564">&nbsp;</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="651655">In addition, the following modifiers are supported</a></p>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="648">
+            <p><a name="661292"><font size="2" face="'Courier New'" color="#000000">f:</font></a>Flush file after each write. This can be slow on Windows if writing across the network. This is typically used if a process will take a long time and you would like to look at the file to see the progress. Example <font size="2" face="'Courier New'" color="#000000">&#34;wf&#34;.</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661295"><font size="2" face="'Courier New'" color="#000000">b: </font></a>Open in binary mode. This only has effect on Windows. If file is ASCII, this has the effect for reading of not eliminating the carriage&#45;returns (\r) that are in DOS ASCII files. For writing, it does not add the carriage&#45;returns when it sees a linefeed (writes it like a UNIX ASCII file). Example <font size="2" face="'Courier New'" color="#000000">&#34;rb&#34;.</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661297"><font size="2" face="'Courier New'" color="#000000">s:</font></a>Allow spaces in the file or directory name. Currently, Allegro does not support this behavior. Setting this option is unsupported. Example <font size="2" face="'Courier New'" color="#000000">&#34;rbs&#34;.</font></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="39235">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="649">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="660529"><font size="2" face="'Courier New'" color="#000000"><em>p_port</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="457">
+            <p><a name="660531">Port of the opened file. In the case of </a><font size="2" face="'Courier New'" color="#000000"><em>t_mode</em></font> <font size="2" face="'Courier New'" color="#000000"><em>=&#34;</em></font><font size="2" face="'Courier New'" color="#000000">r&#34;</font>, the file must exist for successful completion. </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660533"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="660535">File not found. Displays a confirmer giving the name of the file it could not find.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="652110">See Also</a></h4>
+      <p><a href="#652319" title="22" name="652114"><font color="#0000ff"><u>axlDMFileError</u></font></a>, <a href="#652311" title="22"><font color="#0000ff"><u>axlDMFindFile</u></font></a>, <a href="#40703" title="22"><font color="#0000ff"><u>axlDMGetFile</u></font></a>, <a href="#652179" title="22"><font color="#0000ff"><u>axlDMOpenLog</u></font></a>, <a href="#652248" title="22"><font color="#0000ff"><u>axlDMClose</u></font></a>, <a href="#655376" title="22"><font color="#0000ff"><u>axlDMFileParts</u></font></a></p>
+      <h4><a name="42520">Example</a></h4>
+      <p><a name="652120">Opens a file </a><font size="2" face="'Courier New'" color="#000000">clip.txt</font> for writing.</p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="652121">&nbsp;&nbsp;&nbsp;&nbsp;aPort = axlDMOpenFile(&#34;ALLEGRO_TEXT&#34; &#34;clip&#34; &#34;w&#34;)</a></font>
+      </dl>
+      <p><a name="652176">Opens a file </a><font size="2" face="'Courier New'" color="#000000">b.bar</font>.</p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="652177">&nbsp;&nbsp;&nbsp;&nbsp;aPort = axlDMOpenFile(&#34;TEMP&#34; &#34;foo.bar&#34; &#34;r&#34;)</a></font>
+      </dl>
+      <h3><a name="652179">axlDMOpenLog</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="652180">axlDMOpenLog(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_program<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>p_port</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="39250">Description</a></h4>
+      <p><a name="38844">Opens a file for writing log messages. Uses the name of your program or application without an extension. Opens a file with that name and the extension </a><font size="2" face="'Courier New'" color="#000000">.log</font>. Returns the port of the file if it succeeds.</p>
+      <h4><a name="39263">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="661350"><font size="2" face="'Courier New'" color="#000000"><em>t_program</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="661352">Your program name &#45; no extension.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="39280">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="661364"><font size="2" face="'Courier New'" color="#000000"><em>p_port</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="661366">Port of the opened file. In the case of </a><font size="2" face="'Courier New'" color="#000000"><em>t_mode</em></font><font size="2" face="'Courier New'" color="#000000"> = &#34;r&#34;</font>, the file must exist for successful completion. </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661368"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661370">File not found. Displays a confirmer giving the name of the file it could not find.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="39301">See Also</a></h4>
+      <p><a href="#38826" title="22" name="653409"><font color="#0000ff"><u>axlDMOpenFile</u></font></a></p>
+      <h4><a name="653402">Example</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="652245">&nbsp;</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="652258">logport = axlDMOpenLog(&#34;clipboard&#34;))</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="652246">&nbsp;</a></font>
+      </blockquote>
+      <p><a name="652251">Opens the file </a><font size="2" face="'Courier New'" color="#000000">clipboard.log</font> for writing.</p>
+      <h3><a name="652248">axlDMClose</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="38853">axlDMClose(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>p_port</em></font></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="38854">)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="38855"><font face="symbol" color="#000000">⇒</font></a> t&#47;nil</font>
+      </dl>
+      <h4><a name="39374">Description</a></h4>
+      <p><a name="654153">Closes a file currently open in Allegro PCB Editor. Instead of using Skill&#39;s infile&#47;outfile commands, this command must be used to close the files opened using </a><font size="2" face="'Courier New'" color="#000000">axlDMOpenFile</font> or <font size="2" face="'Courier New'" color="#000000">axlDMOpenLog</font> commands.</p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <font size="3"><img src="images/important.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <font size="3"><a name="654140">While the core SKILL function, </a><font size="2" face="'Courier New'" color="#000000">close</font> can be used to close a file, it is recommended that any file opened using an <font size="2" face="'Courier New'" color="#000000">axlDM</font> function, must be closed using this function. Programs that adhere to this standard, will be compatible with future Allegro Data Management enhancements.</font>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="651214">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="661382"><font size="2" face="'Courier New'" color="#000000"><em>p_port</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="661384">Id of the open port to be closed.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="39436">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="324">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="661392"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="132">
+            <p><a name="661394">Closed the file.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661396"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661398">File not found.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="39473">Example</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="38862">mylog = axlDMOpenLog(&#34;myapplic&#34;)<br></a>&nbsp;&nbsp;&nbsp;&nbsp;⇒ port: &#34;&#47;usr&#47;home&#47;fred&#47;myproj&#47;myapplic.log&#34;</font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="38863">axlDMClose(mylog)<br></a>&nbsp;&nbsp;&nbsp;&nbsp;⇒ t</font>
+      </blockquote>
+      <p><a name="650907">Opens and closes the file </a><font size="2" face="'Courier New'" color="#000000">myapplic.log</font>.</p>
+      <h3><a name="650409">axlDMBrowsePath</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="650416">axlDMBrowsePath(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_adsFileType<dd></em></font>[<font size="2" face="'Courier New'" color="#000000"><em>t_title</em></font>]<dd>[<font size="2" face="'Courier New'" color="#000000"><em>t_helpTag</em></font>]<dd>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>t_fileName</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="650419">Description</a></h4>
+      <p><a name="650420">Invokes a standard Allegro PCB Editor file browser supporting paths, for example, </a><font size="2" face="'Courier New'" color="#000000">SCRIPTPATH</font>. To use, pass one of the file types supported by <font size="2" face="'Courier New'" color="#000000">fileops.txt</font>. Browses file types that include the fileops <font size="2" face="'Courier New'" color="#000000">PATH</font> attribute. <font size="2" face="'Courier New'" color="#000000">axlDMFileBrowse</font> should be used to browse other file types. This works on non&#45;PATH file types since this browses in the current working directory. The user is not able to change the directory with this browser.</p>
+      <h4><a name="650421">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="661406"><font size="2" face="'Courier New'" color="#000000"><em>t_adsFileType</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="661408">First entry in </a><font size="2" face="'Courier New'" color="#000000">fileops.txt</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661410"><font size="2" face="'Courier New'" color="#000000"><em>t_title</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661412">Title for the dialog</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661414"><font size="2" face="'Courier New'" color="#000000"><em>t_helpTag</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661416">Tag for the help file (used only by Cadence)</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="650423">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="661424"><font size="2" face="'Courier New'" color="#000000"><em>t_filename</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="661426">Full path to the filename</a><font color="#000000"><em>.</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661428"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661430">Error due to incorrect arguments.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="650425">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="650427">ret = axlDMBrowsePath(&#34;ALLEGRO_SCRIPT&#34;)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="650451">ret = axlDMBrowsePath(&#34;ALLEGRO_CLIPBOARD&#34; &#34;Select Clipboard&#34;)</a></font>
+      </p>
+      <h3><a name="650452">axlDMDirectoryBrowse</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="650459">axlDMDirectoryBrowse(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_startingDirectory<dd>g_writeFlag<dd></em></font>[?helpTag <font size="2" face="'Courier New'" color="#000000"><em>t_helpTag</em></font>]<dd>[?title <font size="2" face="'Courier New'" color="#000000"><em>t_title</em></font>]<dd>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>t_dirName</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="650462">Description</a></h4>
+      <p><a name="650463">Opens a directory browser. Unlike file browsers, this only allows a user to select a directory. This function call blocks until the user selects or cancels.</a></p>
+      <h4><a name="650464">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="661438"><font size="2" face="'Courier New'" color="#000000"><em>t_startingDirectory</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="661440">Name of the starting directory.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661442"><font size="2" face="'Courier New'" color="#000000"><em>g_writeFlag</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661444">A boolean &#45; if the file is to be opened for write (</a><font size="2" face="'Courier New'" color="#000000">t)</font>, or for read (<font size="2" face="'Courier New'" color="#000000">nil</font>).</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661446"><font size="2" face="'Courier New'" color="#000000"><em>t_helpTag</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661448">Defines the help message to display if the </a><font color="#000000"><em>Help</em></font> button is selected in the browser. Default help is provided if this option is not set.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661450"><font size="2" face="'Courier New'" color="#000000"><em>g_title</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661452">Override default title bar of the browser. Normally, this is the name of the command that invoked the browser.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="650466">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="661460"><font size="2" face="'Courier New'" color="#000000"><em>t_dirName</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="661462">Name of directory selected.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661464"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661466">No directory selected.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="650468">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="650457">axlDMDirectoryBrowse(&#34;.&#34; t ?title &#34;Pick a directory&#34;)</a></font>
+      </p>
+      <p><a name="650936">Browses the current directory.</a></p>
+      <h3><a name="650496">axlDMFileBrowse</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="650503">axlDMFileBrowse(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_fileType<dd>g_writeFlag<dd></em></font>[?defaultName <font size="2" face="'Courier New'" color="#000000"><em>t_defaultName</em></font>]<dd>[?helpTag <font size="2" face="'Courier New'" color="#000000"><em>t_helpTag</em></font>]<dd>[?directorySet <font size="2" face="'Courier New'" color="#000000"><em>g_directorySet</em></font>]<dd>[?noDirectoryButton <font size="2" face="'Courier New'" color="#000000"><em>g_noDirectoryButton</em></font>]<dd>[?mainFile <font size="2" face="'Courier New'" color="#000000"><em>g_mainFile</em></font>]<dd>[?noSticky <font size="2" face="'Courier New'" color="#000000"><em>g_noSticky</em></font>]<dd>[?title <font size="2" face="'Courier New'" color="#000000"><em>t_title</em></font>]<dd>[?optFilters <font size="2" face="'Courier New'" color="#000000"><em>t_filters</em></font>]<dd>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>t_fileName</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="650506">Description</a></h4>
+      <p><a name="650507">Opens a standard file browser. Unlike the other </a><font size="2" face="'Courier New'" color="#000000">axlDM</font> functions, this always presents the user with a file browser. This function call blocks until the user selects a file or cancels.</p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="650531">The name of the file is selected and returned to the caller. Does not open the selected file.</a></p>
+      <p><a name="650532">The final filter is </a><font size="2" face="'Courier New'" color="#000000">&#39;All files</font> (<font size="2" face="'Courier New'" color="#000000">*.*</font>)'.</p>
+      <h4><a name="650539">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="661474"><font size="2" face="'Courier New'" color="#000000"><em>t_id</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="661476">Id describing the file attributes from </a><font size="2" face="'Courier New'" color="#000000">fileops.txt</font>, or list of ids for different types, or <font size="2" face="'Courier New'" color="#000000">nil</font> if you use <font size="2" face="'Courier New'" color="#000000">optFilters</font> to describe files.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661478"><font size="2" face="'Courier New'" color="#000000"><em>g_writeFlag</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661480">If the file is to be opened for write (</a><font size="2" face="'Courier New'" color="#000000">t</font>), for read (<font size="2" face="'Courier New'" color="#000000">nil</font>).</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661482"><font size="2" face="'Courier New'" color="#000000"><em>t_defaultName</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661484">Name of file to select by default.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661486"><font size="2" face="'Courier New'" color="#000000"><em>t_helpTag</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661488">Tag that defines the help message to display if the Help button is selected in the browser. Default help provided if option not set.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661490"><font size="2" face="'Courier New'" color="#000000"><em>g_directorySet</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661492">Sets the directory change button which, by default, is not set.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661494"><font size="2" face="'Courier New'" color="#000000"><em>g_noDirectoryButton</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661496">Hiding of the directory change button in the browser. By default, the button is present.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661498"><font size="2" face="'Courier New'" color="#000000"><em>g_noSticky</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661500">File browser normally remembers the directory from the previous invocation. This helps the user who browses in the same location that is different from the current working directory. If </a><font size="2" face="'Courier New'" color="#000000">t</font>, then it starts the browser in the current working directory. Normally, you should set this option if <font size="2" face="'Courier New'" color="#000000"><em>g_directorySet</em></font> is <font size="2" face="'Courier New'" color="#000000">t</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661502"><font size="2" face="'Courier New'" color="#000000"><em>g_mainFile</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661504">Matches options Allegro PCB Editor uses to open files from the File menu. This is </a><font size="2" face="'Courier New'" color="#000000"><em>g_noSticky</em></font>=<font size="2" face="'Courier New'" color="#000000">t</font> &amp; <font size="2" face="'Courier New'" color="#000000"><em>g_directorySet</em></font>=<font size="2" face="'Courier New'" color="#000000">t</font>. For non&#45;main files, use no options.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661506"><font size="2" face="'Courier New'" color="#000000"><em>g_title</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661508">Overrides default title bar of the browser. Normally this is the name of the command that invoked the browser.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661510"><font size="2" face="'Courier New'" color="#000000"><em>g_filters</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661512">Filters added to default </a><font size="2" face="'Courier New'" color="#000000">t_id</font> filter. The format is:</p>
+            <p><a name="661526">&#60;</a><font size="2" face="'Courier New'" color="#000000"><em>msg</em></font>&#62;|&#60;<font size="2" face="'Courier New'" color="#000000"><em>filter</em></font>&#62;|&#60;<font size="2" face="'Courier New'" color="#000000"><em>msg</em></font>&#62;|&#60;<font size="2" face="'Courier New'" color="#000000"><em>filter</em></font>&#62;...</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="650541">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="621">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="661530"><font size="2" face="'Courier New'" color="#000000"><em>t_fileName</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="429">
+            <p><a name="661532">Name of the file selected.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661534"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661536">No file selected.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="650515">Examples</a></h4>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="650953">Browses Allegro PCB Editor text files.</a></td>
+          </tr>
+        </table>
+      </div>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="655482">axlDMFileBrowse(&#34;ALLEGRO_TEXT&#34; nil)</a></font>
+      </blockquote>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="650968">Browses Allegro PCB Editor text files and allows secondary filter of </a><font size="2" face="'Courier New'" color="#000000">*.log</font>.</td>
+          </tr>
+        </table>
+      </div>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="655451">axlDMFileBrowse(&#34;ALLEGRO_TEXT&#34; nil ?optFilters &#34;All log files|*.log|&#34;)</a></font>
+      </blockquote>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="655383">Browse Skill files (both il and ils extensions).</a></td>
+          </tr>
+        </table>
+      </div>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="655402">axlDMFileBrowse(nil nil ?optFilters &#34;Skill files(*.il)|*.il|Skill Oops(*.ils)|*.ils|&#34;)</a></font>
+      </blockquote>
+      <h3><a name="655376">axlDMFileParts</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="655377">axlDMFileParts(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_filespec<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> (<font size="2" face="'Courier New'" color="#000000"><em>directory</em></font> <font size="2" face="'Courier New'" color="#000000"><em>file</em></font> <font size="2" face="'Courier New'" color="#000000"><em>fileWext</em></font> <font size="2" face="'Courier New'" color="#000000"><em>ext</em></font>)</font>
+      </dl>
+      <h4><a name="650602">Description</a></h4>
+      <p><a name="650603">Breaks a filename into it's component parts.</a></p>
+      <h4><a name="650604">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="557">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="661544"><font size="2" face="'Courier New'" color="#000000"><em>t_filespec</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="365">
+            <p><a name="661546">Filename or full path spec.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="650608">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="579">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="661553"><font size="2" face="'Courier New'" color="#000000"><em>list</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="386">
+            <p><a name="661555"><font size="2" face="'Courier New'" color="#000000">(</font></a><font size="2" face="'Courier New'" color="#000000"><em>directory</em></font><font size="2" face="'Courier New'" color="#000000"> </font><font size="2" face="'Courier New'" color="#000000"><em>file</em></font><font size="2" face="'Courier New'" color="#000000"> </font><font size="2" face="'Courier New'" color="#000000"><em>fileWext</em></font><font size="2" face="'Courier New'" color="#000000"> </font><font size="2" face="'Courier New'" color="#000000"><em>ext</em></font><font size="2" face="'Courier New'" color="#000000">)</font></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="650610">See Also</a></h4>
+      <p><a href="#38826" title="22" name="653095"><font color="#0000ff"><u>axlDMOpenFile</u></font></a></p>
+      <h4><a name="653094">Example</a></h4>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="651311">fileparts =  axlDMFileParts(&#34;&#47;usr1&#47;xxx&#47;stuff.txt&#34;))</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="651312">&nbsp;&nbsp;&nbsp;&nbsp;&#45;&#45;&#62; (&#34;&#47;usr1&#47;xxx&#47;&#34; &#34;stuff&#34; &#34;stuff.txt&#34; &#34;txt&#34;) </a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="651314">fileparts = axlDMFileParts(&#34;stuff.txt&#34;))</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="651315">&nbsp;&nbsp;&nbsp;&nbsp;&#45;&#45;&#62; (&#34;&#47;usr1&#47;xxx&#47;&#34; &#34;stuff&#34; &#34;stuff.txt&#34; &#34;txt&#34;) </a></font>
+      </dl>
+      <p><a name="651309">	**where &#47;usr1&#47;xxx is the cwd</a></p>
+      <h3><a name="650586">axlOSFileCopy</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="650638">axlOSFileCopy(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_src<dd>t_dest<dd>g_append<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="650641">Description</a></h4>
+      <p><a name="650642">Copies a given source file to a given destination with optional append.</a></p>
+      <h4><a name="650643">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="644">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="661563"><font size="2" face="'Courier New'" color="#000000"><em>t_src</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="452">
+            <p><a name="661565">Full path of the source file.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661567"><font size="2" face="'Courier New'" color="#000000"><em>t_dest</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661569">Full path of the destination file.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661571"><font size="2" face="'Courier New'" color="#000000"><em>g_append</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661573">Flag for the append function (</a><font size="2" face="'Courier New'" color="#000000">t</font>&#47;<font size="2" face="'Courier New'" color="#000000">nil</font>)</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="650647">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="661581"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="661583">Copied file.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661585"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661587">Failed to copy file due to incorrect arguments.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="650649">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="650650">unless(axlOSFileCopy(&#34;~&#47;myfile&#34; &#34;~&#47;newfile&#34; nil)<br>&nbsp;&nbsp;&nbsp;&nbsp;axlUIConfirm(&#34;file copy FAILED&#34;) )</a></font>
+      </p>
+      <h3><a name="650636">axlOSFileMove</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="650670">axlOSFileMove(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_src<dd>t__dest<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="650673">Description</a></h4>
+      <p><a name="650674">Moves the given source file to the given destination.</a></p>
+      <h4><a name="650675">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="644">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="661595"><font size="2" face="'Courier New'" color="#000000"><em>t_src</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="452">
+            <p><a name="661597">Full path of the source file.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661599"><font size="2" face="'Courier New'" color="#000000"><em>t_dest</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661601">Full path of the destination file.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="650679">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="661609"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="661611">Moved file.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661613"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661615">Failed to move file.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="650681">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="650682">unless (axlOSFileMove(&#34;&#47;mydir&#47;myfile&#34; &#34;&#47;newdir&#47;newfile&#34;)<br>&nbsp;&nbsp;&nbsp;&nbsp;axlUIConfirm(&#34;file move FAILED&#34;) )</a></font>
+      </p>
+      <h3><a name="650668">axlOSSlash</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="650712">axlOSSlash(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_directory<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>t_directory</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="650714">Description</a></h4>
+      <p><a name="650715">Changes DOS style backslashes to UNIX style slashes which are more amenable to SKILL. On UNIX, returns the incoming string.</a></p>
+      <h4><a name="650716">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="636">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="661623"><font size="2" face="'Courier New'" color="#000000"><em>t_directory</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="443">
+            <p><a name="661625">Given directory path.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="650719">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="640">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="661633"><font size="2" face="'Courier New'" color="#000000"><em>t_directory</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="448">
+            <p><a name="661635">Directory path using UNIX style slashes (&#47;).</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661637"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661639">Failed due to incorrect argument.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="656571">See Also</a></h4>
+      <p><a href="23utils.html#929945" title="24" name="656581"><font color="#0000ff"><u>axlOSBackSlash</u></font></a></p>
+      <h4><a name="650721">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="650722">p = axlOSSlash(&#34;\tmp\mydir&#34;)<br>&nbsp;&nbsp;&nbsp;&nbsp;&#45;&#62; &#34;&#47;tmp&#47;mydir&#34;</a></font>
+      </p>
+      <h3><a name="650739">axlRecursiveDelete</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="650746">axlRecursiveDelete(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_directory<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="650748">Description</a></h4>
+      <p><a name="650749">Recursively removes directories and subdirectories in the argument list. Directory is emptied of files and removed. If the removal of a non&#45;empty, write&#45;protected directory is attempted, the utility fails. If it encounters protected files or sub&#45;directories, it does not remove them or the parent directories, but removes all other objects.</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <strong><em><img src="images/caution.gif" alt="ParagraphBullet" border="0"></em></strong>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <strong><em><a name="650764">This can be dangerous since it can severely damage your system or data if not used with care. For example, axlRecursiveDelete("&#47;") could delete your OS and all of your data.</a></em></strong>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="650750">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="639">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="661647"><font size="2" face="'Courier New'" color="#000000"><em>t_directory</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="446">
+            <p><a name="661649">The given directory or filename.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="650752">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="661658"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="661660">Directory is successfully removed. </a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661662"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td rowspan="6" cellpadding="4" border="0" valign="top">
+            <p><a name="661664">Failed for one of the following reasons:</a></p>
+            <p><a name="661690">&#45; doesn't exist</a></p>
+            <p><a name="661692">&#45; read protected</a></p>
+            <p><a name="661694">&#45; sub&#45;file or directory does not allow remove (</a><font color="#000000"><em>partial success</em></font>)</p>
+            <p><a name="661696">&#45; sub&#45;file or directory is in use (NT only) (partial success)</a></p>
+            <p><a name="661698">A partial success means that some of the files and directories were deleted.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661666">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661670">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661674">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661678">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661682">&nbsp;</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="650754">Example</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="650755">parent = &#34;.&#47;tmp&#34;</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="651099">child = (strcat parent &#34;&#47;child&#34;)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="651100">(createDir parent)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="651101">(createDir child)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="651102">(axlOSFileCopy&#34;~&#47;.cshrc&#34; (strcat parent&#34;&#47;csh&#34;) nil)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="651104">(axlOSFileCopy&#34;~&#47;.cshrc&#34; (strcat child&#34;&#47;csh&#34;) nil)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="651106">(axlRecursiveDelete parent)</a></font>
+      </blockquote>
+      <h3><a name="650778">axlTempDirectory</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="650785">axlTempDirectory(<dd>)<dd></a><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>t_directoryName</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="650787">Description</a></h4>
+      <p><a name="650788">Returns the temporary directory for the current platform.</a></p>
+      <h4><a name="650789">Arguments</a></h4>
+      <p><a name="650790"><font size="2" face="'Courier New'" color="#000000">none</font></a></p>
+      <h4><a name="650791">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="661712"><font size="2" face="'Courier New'" color="#000000"><em>t_directory</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="661714">Temporary directory for the current platform.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661716"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661718">Failed to identify temporary directory for the current platform.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h3><a name="650783">axlTempFile</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="650813">axlTempFile(<dd>[</a><font size="2" face="'Courier New'" color="#000000"><em>g_local</em></font>]<dd>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>t_tempFileName</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="650815">Description</a></h4>
+      <p><a name="650816">Returns a unique temp file name. The temp file should be removed, even if not used, by </a><font size="2" face="'Courier New'" color="#000000">axlTempFileRemove</font>.</p>
+      <p><a name="650829">By default, the files are written to </a><font size="2" face="'Courier New'" color="#000000">&#47;tmp</font>, but you can modify this with the environment variable <font size="2" face="'Courier New'" color="#000000">TEMPDIR</font>.</p>
+      <h4><a name="650817">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="661730"><font size="2" face="'Courier New'" color="#000000"><em>g_local</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="661732">Flag, which if </a><font size="2" face="'Courier New'" color="#000000">t</font>, creates a temp file in the current directory. Most applications should use the default <font size="2" face="'Courier New'" color="#000000">&#47;tmp</font> directory. The local directory should only be used if the file will be more than 2 megabytes.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="650819">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="661740"><font size="2" face="'Courier New'" color="#000000"><em>t_tempFileName</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="661742">Name of the unique temp file.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661744"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661746">Failed to create temp file.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h3><a name="650811">axlTempFileRemove</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="650839">axlTempFileRemove(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_filename<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t</font>
+      </dl>
+      <h4><a name="650841">Description</a></h4>
+      <p><a name="650842">Deletes the temporary file and removes the temporary name from the pool. It is important to call this function once you are finished with a temporary filename.</a></p>
+      <p><a name="650843">This can also be used to delete files whose names are not obtained from </a><font size="2" face="'Courier New'" color="#000000">axlTempFile</font>.</p>
+      <h4><a name="650844">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="661754"><font size="2" face="'Courier New'" color="#000000"><em>t_filename</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="661756">Name of the file to delete.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="650846">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="661764"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="661766">Deleted temporary file specified.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661768"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="661770">Failed to delete temporary file specified due to incorrect argument.</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="652753">&nbsp;</a></p>
+      <p><a name="654508">&nbsp;</a></p>
+      <p><a name="655000">&nbsp;</a></p>
+      <p><a name="657517">&nbsp;</a></p>
+      <p><a name="659082">&nbsp;</a></p>
+    </div>
+    <br>
+    <a href="#pagetop">Return to top of page</a>
+    <hr>
+    <hr align="left">
+    <div style="text-align: left;">
+      <!-- Begin Buttons -->      <table width="650" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                    </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+          <td>
+            <a href="20plyopr.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+          </td>
+          <td>
+            <a href="22extrct.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+          </td>
+          <td>
+            <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+            </a>
+          </td>
+          <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+          </td>
+          <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+          </td>
+          <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+          </td>
+          <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+          </td>
+        </tr>
+      </table>
+      <!-- End Buttons -->
+    </div>
+    <br>
+    <font size="-1" >
+For support, see <a href="http://support.cadence.com" target="_blank">Cadence Online Support</a> service.</font>
+    <br>
+    <br>
+    <font size="-1" >
+      <i>Copyright &#169; 2017, <a href="http://www.cadence.com">Cadence Design Systems, Inc.</a></i>
+    </font>
+    <br>
+    <font size="-1" >
+All rights reserved.</font>
+    <br>
+    <br>
+  </body>
+</html>

@@ -8,6 +8,7 @@ from pathlib import Path
 SKILL_ROOT = Path(__file__).resolve().parents[1]
 REFERENCE_ROOT = SKILL_ROOT / "skill-references"
 FACTS_PATH = REFERENCE_ROOT / "verified_facts.json"
+BASELINE_PATH = Path(__file__).resolve().with_name("verified_facts_baseline.json")
 
 REQUIRED_FACT_FIELDS = ("id", "api", "constraint", "evidence", "status")
 VALID_STATUS = ("verified", "documented", "superseded")
@@ -80,6 +81,11 @@ def main(argv: list[str] | None = None) -> int:
         "--root", type=Path, default=None, help="reference root overriding the default"
     )
     parser.add_argument("--check", action="store_true", help="alias; always validates")
+    parser.add_argument(
+        "--write-baseline",
+        action="store_true",
+        help="record current fact counts as the growth baseline",
+    )
     parser.add_argument("facts", nargs="?", type=Path, default=None, help="facts file to validate")
     args = parser.parse_args(argv)
     reference_root = args.root if args.root is not None else REFERENCE_ROOT
@@ -87,7 +93,51 @@ def main(argv: list[str] | None = None) -> int:
     errors = validate(facts_path, reference_root)
     for error in errors:
         print(f"error: {error}")
-    return 1 if errors else 0
+    if errors:
+        return 1
+
+    if args.write_baseline:
+        counts = _counts(facts_path)
+        BASELINE_PATH.write_text(
+            json.dumps(counts, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+        )
+        print(f"baseline written to {BASELINE_PATH.name}: {counts['facts']} facts")
+        return 0
+
+    # Growth gate: verified experience is cumulative knowledge.  Retiring a
+    # fact is done with status "superseded", which keeps the entry, so the
+    # total and the verified count must never shrink.
+    if BASELINE_PATH.is_file():
+        baseline = json.loads(BASELINE_PATH.read_text(encoding="utf-8"))
+        counts = _counts(facts_path)
+        regressions = []
+        if counts["facts"] < baseline.get("facts", 0):
+            regressions.append(
+                f"fact count shrank {baseline['facts']} -> {counts['facts']} "
+                "(retire with status superseded instead of deleting)"
+            )
+        verified_now = counts["by_status"].get("verified", 0)
+        verified_base = baseline.get("by_status", {}).get("verified", 0)
+        if verified_now < verified_base:
+            regressions.append(
+                f"verified facts shrank {verified_base} -> {verified_now}"
+            )
+        for regression in regressions:
+            print(f"error: {regression}")
+        if regressions:
+            return 1
+        print(f"growth baseline held: {counts['facts']} facts ({verified_now} verified)")
+    return 0
+
+
+def _counts(facts_path: Path) -> dict:
+    data = json.loads(facts_path.read_text(encoding="utf-8"))
+    facts = data.get("facts", [])
+    by_status: dict[str, int] = {}
+    for fact in facts:
+        status = str(fact.get("status", "<missing>"))
+        by_status[status] = by_status.get(status, 0) + 1
+    return {"facts": len(facts), "by_status": dict(sorted(by_status.items()))}
 
 
 if __name__ == "__main__":

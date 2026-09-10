@@ -270,6 +270,14 @@ class DrcProbe:
         }
         return report
 
+    def pair_overlap(
+        self,
+        query_order: str = 'first_second',
+        net_a: str | None = None,
+        net_b: str | None = None,
+    ) -> dict[str, object]:
+        return self._call('__abpDrcPairOverlap', query_order, net_a, net_b)
+
     def update(self) -> dict[str, object]:
         report = self._call('__abpDrcUpdate')
         for phase_name in ('before', 'disabled', 'after_update', 'after_restore'):

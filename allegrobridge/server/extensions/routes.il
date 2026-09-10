@@ -6,10 +6,6 @@
 (defun __abRouteLonelyBranches ()
   (axlDBGetLonelyBranches))
 
-(putd '__abCreateLineObject nil)
-(defun __abCreateLineObject (points width layer net)
-  (axlDBCreateLine points width layer net))
-
 (putd '__abCreatePathObject nil)
 (defun __abCreatePathObject (path layer net)
   (axlDBCreatePath path layer net))
@@ -102,18 +98,6 @@
                (not (stringp netObject))
                (not (equal netObject->name "")))
       netObject->name)))
-
-(putd '__abCreateRoute nil)
-(defun __abCreateRoute (net points layer width)
-  (letseq ((created (__abCreateLineObject points width layer net))
-           (paths (when created (car created)))
-           result)
-    (unless paths
-      (error (sprintf nil "ROUTE_CREATE_FAILED: %L" net)))
-    (foreach path paths
-      (setq result (__abCollectRoutePaths (list path) (__abRouteNetName path)
-                                          nil result)))
-    (reverse result)))
 
 (putd '__abCreatePath nil)
 (defun __abCreatePath (net start stepDescs layer width)

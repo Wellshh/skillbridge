@@ -1,0 +1,1665 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN" "http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+<html xmlns="http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Allegro SKILL Reference -- 25</title>
+<META NAME="Approver" CONTENT="Technical Publications">
+<META NAME="Author" CONTENT="Technical Publications">
+<META NAME="CreateDate" CONTENT="2017-11-25">
+<META NAME="CreateTime" CONTENT="1511600113">
+<META NAME="DataType" CONTENT="Manuals">
+<META NAME="Description" CONTENT="Describes the Allegro eXtension Language (AXL) and how to use each AXL function.">
+<META NAME="DocTitle" CONTENT="Allegro SKILL Reference">
+<META NAME="DocType" CONTENT="SKILL Reference">
+<META NAME="EdmsRelease" CONTENT="FM-Wiki-2.0_HF2">
+<META NAME="FileTitle" CONTENT="25">
+<META NAME="FileType" CONTENT="Chapter">
+<META NAME="Group" CONTENT="Allegro User Guide">
+<META NAME="Keyword" CONTENT="algroskill">
+<META NAME="Language" CONTENT="English">
+<META NAME="ModifiedDate" CONTENT="2017-11-25">
+<META NAME="ModifiedTime" CONTENT="1511600113">
+<META NAME="NextFile" CONTENT="25dbmisc.html">
+<META NAME="Order" CONTENT="11">
+<META NAME="PageCount" CONTENT="36">
+<META NAME="Platform" CONTENT="ALL">
+<META NAME="PrevFile" CONTENT="23utils.html">
+<META NAME="Product" CONTENT="Allegro PCB Editor, Cadence SiP Digital">
+<META NAME="ProductFamily" CONTENT="Silicon-Package-Board Co-Design, IC Packaging">
+<META NAME="ProductVersion" CONTENT="17.2-2016">
+<META NAME="RightsManagement" CONTENT="Copyright 19912017 Cadence Design Systems Inc.">
+<META NAME="Title" CONTENT="Allegro SKILL Reference -- 25">
+<META NAME="TopicTags" CONTENT="FALSE">
+<META NAME="Version" CONTENT="17.2-2016">
+  </head>
+  <body style="margin-left: 5%;">
+    <a name="pagetop"></a>
+    <a name="firstpage"></a>
+    <!-- Begin Buttons -->
+    <table width="650" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td height="36" width="650" colspan="10">
+          <img src="images/header_doc.gif" width="650" height="34">
+        </td>
+      </tr>
+      <tr>
+        <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+        <td>
+          <a href="23utils.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+        </td>
+        <td>
+          <a href="25dbmisc.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+        </td>
+        <td height="20">
+          <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+          </a>
+        </td>
+        <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+        </td>
+        <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+        </td>
+        <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+        </td>
+        <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+        </td>
+      </tr>
+    </table>
+    <!-- End Buttons -->
+    <p>
+    <hr>
+    <p>
+      <h3>
+        <center>
+          <font >
+            <div>Allegro User Guide: SKILL Reference</div>
+            <font >
+              <div>Product Version 17.2&#45;2016 April 2016</div>
+            </font>
+          </font>
+        </center>
+      </h3>
+      <br>
+    </p>
+    <div>
+      <h1>25<a name="1001295">&nbsp;</a></h1>
+      <h1><a name="1037521">Math Utility Functions</a></h1>
+      <h2><a name="1065213">Overview</a></h2>
+      <p><a name="1065738">This chapter describes the AXL&#45;SKILL Math Utility functions.</a></p>
+      <h3><a name="1083945">axlDegToRad</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1085364">axlDegToRad(<dd>n_angle<dd>) =&#62; f_angle</a></font>
+      </dl>
+      <h4><a name="1085440">Description</a></h4>
+      <p><a name="1085368">Converts an angle in degrees to radians.</a></p>
+      <h4><a name="1085461">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="324">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1093941"><font size="2" face="'Courier New'" color="#000000"><em>n_angle</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="132">
+            <p><a name="1093943">Angle in degrees</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1085490">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="324">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1093951"><font size="2" face="'Courier New'" color="#000000"><em>f_angle</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="132">
+            <p><a name="1093953">Angle in radians</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1085557">See Also</a></h4>
+      <p><a href="#1083972" title="25" name="1085374"><font color="#0000ff"><u>axlRadToDeg</u></font></a>, axlMathConstants</p>
+      <h4><a name="1085628">Example</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1085629">axlDegToRad(45.0)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1085630">                 =&#62; 0.7853982</a></font>
+      </blockquote>
+      <h3><a name="1085632">axlDistance</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1074955">axlDistance(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>l_point1<dd>l_point2<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>f_distance</em></font></font>
+      </dl>
+      <h4><a name="1075143">Description</a></h4>
+      <p><a name="1075144">Returns the distance between two points. You may use floating point.</a></p>
+      <h4><a name="1075145">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1093961"><font size="2" face="'Courier New'" color="#000000"><em>l_point</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1093963">A point.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1093965"><font size="2" face="'Courier New'" color="#000000"><em>ll_line</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1093967">Two points at the ends of a line.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075151">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1093975"><font size="2" face="'Courier New'" color="#000000"><em>f_distance</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1093977">Distance between two points in floating point form.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075618">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077425">axlDistance(10:20 5:20) = 5.0</a></font>
+      </p>
+      <p><a name="1077432">&nbsp;</a></p>
+      <h3><a name="1077434">axlGeo2Str </a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077436">axlGeo2Str(</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077437">                 f_dbrep&#47;point</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077438">         ) &#45;&#62; t_result&#47;nil</a></font>
+      </dl>
+      <h4><a name="1077439">Description</a></h4>
+      <p><a name="1077440">When converting floating point numbers to strings you may find the number printed is slightly differently then the value Allegro reports. This is difference is due to how floating point numbers are represented in the computer. The following article is an excellent paper on the subject: </a><font color="#000000"><em>What Every Computer Scientist Should Know About Floating&#45;Point Arithmetic</em></font> by David Goldberg.</p>
+      <p><a name="1077447">           http:&#47;&#47;docs.sun.com&#47;source&#47;806&#45;3568&#47;ncg_goldberg.html</a></p>
+      <p><a name="1077449">This article also explains why sometimes the comparison of two floating numbers that appear the same results in a non&#45;equal result. The results only differ from printf when a &#34;5&#34; exists at the location one place more then the database accuracy. The behavior is as follows for rounding:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1077632">if digit at db accuracy is odd and then 5 round up </a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1077637">if digit at db accuracy is even and then 5 round down</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="1077457">See examples below. This supports two modes, a single floating point number and a point (a list of two floating point numbers).</a></p>
+      <h4><a name="1077462">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1093985"><font size="2" face="'Courier New'" color="#000000"><em>dbrep</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1093987">a floating point number</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1093989"><font size="2" face="'Courier New'" color="#000000"><em>point </em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1093991">a xy point</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1077690">Value Returned</a></h4>
+      <p><a name="1077466">Returns a string with Allegro rounding. If a point is passed then the return format is: </a><font size="2" face="'Courier New'" color="#000000">&#34;&#60;x&#62; &#60;xy&#62;&#34;</font></p>
+      <p><a name="1077468"><font size="2" face="'Courier New'" color="#000000">nil:</font></a> not a legal argument</p>
+      <h4><a name="1077469">See Also</a></h4>
+      <p><a href="#1080527" title="25" name="1077470"><font color="#0000ff"><u>axlGeoEqual</u></font></a></p>
+      <h4><a name="1077471">Examples</a></h4>
+      <p><a name="1077472">Assume database is two decimal places </a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077749">procedure( testit( f)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077474">             printf(&#34;printf=%.2f\taxlGeo2Str=%s \toriginal value %.3f\n&#34;</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077475">                          f axlGeo2Str(f) f)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077476">             )</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077477">             testit(1.115)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077478">             testit(1.125)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077479">             testit(&#45;1.115)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077480">             testit(&#45;1.125)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077482">Results:</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077483">         printf=1.11     axlGeo2Str=1.12         original value 1.115</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077484">         printf=1.12     axlGeo2Str=1.12         original value 1.125</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077485">         printf=&#45;1.11    axlGeo2Str=&#45;1.12        original value &#45;1.115</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077486">         printf=&#45;1.12    axlGeo2Str=&#45;1.12        original value &#45;1.125</a></font>
+      </blockquote>
+      <p><a name="1077488">Using a point</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077489">                 axlGeo2Str(100.124:123.345)</a></font>
+      </blockquote>
+      <h3><a name="1078190">axlGeoArcCenterAngle</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078191">axlGeoArcCenterAngle(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>l_startPoint<dd>l_endPoint<dd>f_angle<dd></em></font>[<font size="2" face="'Courier New'" color="#000000"><em>g_clockwise</em></font>]<dd>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>l_center</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="1078194">Description</a></h4>
+      <p><a name="1078195">Calculates the center of an arc given the angle between its endpoints. Uses the arguments depending on </a><font size="2" face="'Courier New'" color="#000000"><em>g_clockwise</em></font> as shown in <a href="#1078200" title="25"><font color="Blue"><u>Figure&nbsp;25&#45;1</u></font></a><a href="#1078200" title="25"></a>.</p>
+      <p>
+        <strong><font color="#000000"><strong>Figure 25&#45;1&nbsp; </strong></font></strong>
+        <strong><a name="1078200">Center of Arc Calculation</a></strong>
+      </p>
+      <p align="left"><a name="1078267"><img src="images/24mthutl.29.1.1.png" width="650" height="513" alt=""><br></a></p>
+      <h4><a name="1078268">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1093999"><font size="2" face="'Courier New'" color="#000000"><em>l_startPoint</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1094001">Start point of the arc</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094003"><font size="2" face="'Courier New'" color="#000000"><em>l_endPoint</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094005">End point of the arc</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094007"><font size="2" face="'Courier New'" color="#000000"><em>f_angle</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094009">Included angle of the arc</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094011"><font size="2" face="'Courier New'" color="#000000"><em>g_clockwise</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094013">Rotational sense of the arc: </a><font size="2" face="'Courier New'" color="#000000">t</font> is clockwise. <font size="2" face="'Courier New'" color="#000000">nil</font> is counterclockwise (the default).</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078273">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094021"><font size="2" face="'Courier New'" color="#000000"><em>l_center</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="1094023">Center of the arc as a list: (</a><font size="2" face="'Courier New'" color="#000000"><em>X</em></font> <font size="2" face="'Courier New'" color="#000000"><em>Y</em></font>). </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094025"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094027">Cannot calculate the center from the given arguments.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078276">Example</a></h4>
+      <blockquote>
+<blockquote>        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078277">print axlGeoArcCenterAngle( 7500:5600 8000:4700 68.5 t)<br>mypath = axlPathStart(list( 7500:5600))<br>&nbsp;&nbsp;&nbsp;&nbsp;axlPathArcAngle(mypath, 0., 8000:4700, t, 68.5)<br>&nbsp;&nbsp;&nbsp;&nbsp;axlDBCreatePath( mypath, &#34;etch&#47;bottom&#34;)<br></a>⇒ (7089.086 4782.826)</font></blockquote>
+      </blockquote>
+      <p><a name="1078278">Prints the center for the clockwise arc going through the points (7500:5600) and (8000:4700) using </a><font size="2" face="'Courier New'" color="#000000">axlGetArcCenterAngle</font>, then adds the arc through those points using <font size="2" face="'Courier New'" color="#000000">axlPathArcAngle</font>, and compares their centers.</p>
+      <p><a name="1078279">The arc is shown in the following figure.</a></p>
+      <p align="left"><a name="1078284"><img src="images/24mthutl.29.1.2.png" width="574" height="256" alt=""><br></a></p>
+      <p><a name="1078285">Do </a><font color="#000000"><em>Show Element</em></font> on the arc to show its center coordinate. The arc lists: <font size="2" face="'Courier New'" color="#000000">&#34;center&#45;xy (7089,4783)&#34;</font> which agrees with the <font color="#000000"><em>(7089.086 4782.826) </em></font>printed by <font size="2" face="'Courier New'" color="#000000">axlGeoArcCenterRadius</font>.</p>
+      <h3><a name="1078318">axlGeoArcCenterRadius</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078319">axlGeoArcCenterRadius(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>l_startPoint<dd>l_endPoint<dd>f_radius<dd></em></font>[<font size="2" face="'Courier New'" color="#000000"><em>g_clockwise</em></font>]<dd>[<font size="2" face="'Courier New'" color="#000000"><em>g_bigArc</em></font>]<dd>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>l_center</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="1078322">Description</a></h4>
+      <p><a name="1078323">Calculates center of an arc given its radius. Calculates </a><font size="2" face="'Courier New'" color="#000000"><em>l_center</em></font> either for one arc or another depending on the arguments, as shown.</p>
+      <p align="left"><a name="1078378"><img src="images/24mthutl.29.1.3.png" width="650" height="324" alt=""><br></a></p>
+      <h4><a name="1078379">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094035"><font size="2" face="'Courier New'" color="#000000"><em>l_startPoint</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1094037">Start point of the arc</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094039"><font size="2" face="'Courier New'" color="#000000"><em>l_endPoint</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094041">End point of the arc</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094043"><font size="2" face="'Courier New'" color="#000000"><em>f_radius</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094045">Radius of the arc</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094047"><font size="2" face="'Courier New'" color="#000000"><em>g_clockwise</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094049">Rotational sense of the arc: </a><font size="2" face="'Courier New'" color="#000000">t</font> is clockwise. <font size="2" face="'Courier New'" color="#000000">nil</font> (default) is counterclockwise.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094051"><font size="2" face="'Courier New'" color="#000000"><em>g_bigArc</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094053">Flag telling whether the arc extends as the larger or the smaller of the two arcs possible between the start and endpoints.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078385">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094061"><font size="2" face="'Courier New'" color="#000000"><em>l_center</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1094063">Center of the arc as a list: (</a><font size="2" face="'Courier New'" color="#000000"><em>X</em></font> <font size="2" face="'Courier New'" color="#000000"><em>Y</em></font>).</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094065"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094067">Cannot calculate the center from the given arguments.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078388">Example</a></h4>
+      <blockquote>
+<blockquote>        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078389">print axlGeoArcCenterRadius( 7500:5600 8000:4700 1000)<br></a>⇒ (8499.434 5566.352)<br><br>mypath = axlPathStart(list( 7500:5600))<br>axlPathArcRadius(mypath, 0., 8000:4700, t, nil, 1000)<br>axlDBCreatePath( mypath, &#34;etch&#47;bottom&#34;)<br><br>print axlGeoArcCenterRadius( 7500:5600 8000:4700 1000 t)<br>⇒ (7000.566 4733.648)<br><br>mypath = axlPathStart(list( 7500:5600))<br>axlPathArcRadius(mypath, 0., 8000:4700, nil, nil, 1000)<br>axlDBCreatePath( mypath, &#34;etch&#47;top&#34;)</font></blockquote>
+      </blockquote>
+      <p><a name="1078390">Prints the two possible centers for the arcs going through the points (7500:5600) and (8000:4700), then adds arcs through those points using </a><font size="2" face="'Courier New'" color="#000000">axlPathArcRadius</font>, and compares the centers.</p>
+      <p><a name="1078391">The arcs are shown in the following figure.</a></p>
+      <p align="left"><a name="1078414"><img src="images/24mthutl.29.1.4.png" width="510" height="373" alt=""><br></a></p>
+      <p><a name="1081213">Do </a><font color="#000000"><em>Show Element</em></font> on each arc to show its center coordinate.The solid arc on the left lists: <font size="2" face="'Courier New'" color="#000000">&#34;center&#45;xy (8499,5566)&#34;</font> which agrees with the <font color="#000000"><em>(8499.434 5566.352)</em></font> printed by <font size="2" face="'Courier New'" color="#000000">axlGeoArcCenterRadius</font>. The dotted arc on the right lists: <font size="2" face="'Courier New'" color="#000000">&#34;center&#45;xy (7001, 4734)&#34;</font>, which agrees within rounding with <font size="2" face="'Courier New'" color="#000000">(7000.566 4733.648) </font>printed for the other arc.</p>
+      <h4><a name="1078417">Arguments 3</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078418">axlMKSConvert(<br>&nbsp;&nbsp;&nbsp;&nbsp;nil<br>&nbsp;&nbsp;&nbsp;&nbsp;[</a><font size="2" face="'Courier New'" color="#000000"><em>t_outUnits</em></font>]</font>
+      </p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078419">)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078420">⇒</a> t&#47;nil</font>
+      </dl>
+      <p><a name="1078421">Pre&#45;registers </a><font size="2" face="'Courier New'" color="#000000"><em>t_outUnits</em></font>, the input units string, so that subsequent calls to <font size="2" face="'Courier New'" color="#000000">axlMKSConvert</font> need not specify units.</p>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094075"><font size="2" face="'Courier New'" color="#000000"><em>t_outUnits</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1094077">String giving the units to convert to for subsequent calls to </a><font size="2" face="'Courier New'" color="#000000">axlMKSConvert</font>. If there is no active drawing, function fails with this combination of arguments.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078423">Value Returned 3</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="630">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094085"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="438">
+            <p><a name="1094087">Conversion string acceptable.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094089"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094091">Conversion string not acceptable.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078426">Example 3</a></h4>
+      <p><a name="1078427">See Example 4 below.</a></p>
+      <h4><a name="1078428">Arguments 4</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078429">axlMKSConvert(<br>&nbsp;&nbsp;&nbsp;&nbsp;</a><font size="2" face="'Courier New'" color="#000000"><em>n_input</em></font></font>
+      </p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078430">)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078431">⇒</a> <font size="2" face="'Courier New'" color="#000000"><em>f_output</em></font>&#47;nil</font>
+      </dl>
+      <p><a name="1078432">Use this combination of arguments only after a call to </a><font size="2" face="'Courier New'" color="#000000">axlMKSConvert</font> as in Arguments 3. Converts the number <font size="2" face="'Courier New'" color="#000000"><em>n_input</em></font> specifying a value using the <font size="2" face="'Courier New'" color="#000000"><em>t_outUnits</em></font> supplied by a previous call to <font size="2" face="'Courier New'" color="#000000">axlMKSConvert</font>, and returns as <font size="2" face="'Courier New'" color="#000000"><em>f_output</em></font>.</p>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="625">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094099"><font size="2" face="'Courier New'" color="#000000"><em>n_input</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="433">
+            <p><a name="1094101">Number giving the input value to convert</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078434">Value Returned 4</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="643">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094109"><font size="2" face="'Courier New'" color="#000000"><em>f_output</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="450">
+            <p><a name="1094111">Converted value of </a><font size="2" face="'Courier New'" color="#000000"><em>n_input</em></font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078436">Example 4</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078437">(axlMKSConvert .5) &#45;&#62; nil ;;error,if no preregistered units<br>&nbsp;&nbsp;&nbsp;&nbsp;(axlMKSConvert nil &#34;MILS) &#45;&#62; t<br>&nbsp;&nbsp;&nbsp;&nbsp;(axlMKSConvert .5) &#45;&#62; 0.0005 ; remembers MILS</a></font>
+      </p>
+      <p><a name="1078438">The following </a><font color="#000000"><strong>Show Element</strong></font> form shows the net with <font size="2" face="'Courier New'" color="#000000">MYPROP</font> attached:</p>
+      <p align="left"><a name="1080523"><img src="images/24mthutl.29.1.5.png" width="617" height="467" alt=""><br></a></p>
+      <p><a name="1080524">&nbsp;</a></p>
+      <h3><a name="1080527">axlGeoEqual</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075629">axlGeoEqual(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>f_one<dd>f_two<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="1075631">Description</a></h4>
+      <p><a name="1075632">Performs an equal comparison between two floating point numbers and determines if they are equal within plus or minus the current database accuracy.</a></p>
+      <p><a name="1075651">Useful for comparing floating point numbers converted from strings (example &#45; using </a><font size="2" face="'Courier New'" color="#000000">atof</font> function) with those obtained from an AXL database id. Since the conversion of these numbers takes different paths (string to float versus integer to float, in the case of the database) you can have different numbers.</p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1091304">To understand the basis of why a simple equal (==) comparison cannot always be used with floating point numbers see David Goldberg&#39;s paper on &#34;</a><a href="http://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.htm" target="external_window"><font color="#0000ff"><u><em>What Every Computer Scientist Should Know About Floating&#45;Point Arithmetic</em></u></font></a>.&#34; <br><br>Wikipedia also has a good article: http:&#47;&#47;en.wikipedia.org&#47;wiki&#47;Floating_point</p>
+      <p><a name="1091330">Floating point numbers can be internally represented by using two different formats; </a><font size="2" face="'Courier New'" color="#000000">float</font> (4 bytes) and <font size="2" face="'Courier New'" color="#000000">double</font> (8 bytes). All AXL interfaces use 8 bytes. Skill interfaces depend upon the use so:</p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1091331">&nbsp;&nbsp;&nbsp;&nbsp;sscanf( &#34;0.2&#34; &#34;%g&#34; n)           ; skill float</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1091332">&nbsp;&nbsp;&nbsp;&nbsp;sscanf( &#34;0.2&#34; &#34;%lg&#34; nd)         ; skill double</a></font>
+      </dl>
+      <p><a name="1091333">Whereever possible, use the double representation as it has more accuracy.</a></p>
+      <h4><a name="1080495">Arguments</a></h4>
+      <p><a name="1075656">Two floating point numbers.</a></p>
+      <h4><a name="1075636">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="644">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094119"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="451">
+            <p><a name="1094121">Given numbers are equal within the current database accuracy.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094123"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094125">Given numbers are not equal within the current database accuracy.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075639">Example</a></h4>
+      <p><a name="1075627"><font color="#000000">axlGeoEqual(2.0 2.0)</font></a></p>
+      <h4><a name="1082755">See Also</a></h4>
+      <p><a href="#1077434" title="25" name="1082759"><font color="#0000ff"><u>axlGeo2Str</u></font></a>, <a href="#1076790" title="25"><font color="#0000ff"><u>axlGeoPointsEqual</u></font></a></p>
+      <h3><a name="1082761">axlGeoRotatePt</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076793">axlGeoRotatePt(<dd>f_angle<dd>l_xy<dd>l_origin&#47;nil<dd>[mirror]<dd>) &#45;&#62; l_xyResult&#47;nil</a></font>
+      </dl>
+      <h4><a name="1076799">Description</a></h4>
+      <p><a name="1076861">Rotates </a><font color="#000000"><em>xy</em></font> about an origin by angle. Optionally applies mirror on the <font color="#000000"><em>x</em></font> axis.</p>
+      <h4><a name="1076862">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094133"><font size="2" face="'Courier New'" color="#000000"><em>f_angle</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1094135">Angle 0 to 360 degrees (support for 1&#47;1000 of a degree); rotation is counter&#45;clockwise for positive numbers.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094137"><font size="2" face="'Courier New'" color="#000000"><em>l_xy</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094139">xy point to rotate in user units.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094141"><font size="2" face="'Courier New'" color="#000000"><em>l_origin</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094143">Origin to rotate about; if </a><font size="2" face="'Courier New'" color="#000000">nil</font> uses (0, 0) mirror: optional mirror flag (<font size="2" face="'Courier New'" color="#000000">t</font> perform mirror).</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076808">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="651">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094155"><font size="2" face="'Courier New'" color="#000000"><em>l_xyResult</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="458">
+            <p><a name="1094157">Rotated result.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094159"><font size="2" face="'Courier New'" color="#000000">nil</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094161">Error in arguments or rotation results in return being outside of the database extents.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076812">Examples</a></h4>
+      <p><a name="1076813">Rotate:</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077008">axlGeoRotatePt(45.0 10:200 5:2) &#45;&#62;   (&#45;131.4716 145.5427)</a></font>
+      </blockquote>
+      <p><a name="1076815">Rotate and mirror:</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077004">axlGeoRotatePt(45.0 10:200 5:2 t) &#45;&#62; (&#45;138.5427 138.4716)</a></font>
+      </blockquote>
+      <p><a name="1076999">Rotate about 0,0:</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077000">axlGeoRotatePt(90.0, 100:0 nil) &#45;&#62;  (0.0 100.0)</a></font>
+      </blockquote>
+      <h3><a name="1076790">axlGeoPointsEqual</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1081358">axlGeoPointsEqual(<dd>l_point1<dd>l_point2<dd>) &#45;&#62; t&#47;nil</a></font>
+      </dl>
+      <h4><a name="1081407">Description</a></h4>
+      <p><a name="1081363">This performs an equal comparison between two xy points and determines if they are equal within db accuracy.</a></p>
+      <h4><a name="1081365">Arguments</a></h4>
+      <p><a name="1081366">two xy points</a></p>
+      <h4><a name="1081367">Value Returned</a></h4>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1081368"><font size="2" face="'Courier New'" color="#000000">t</font></a> if they are equal within current database accuracy.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1081369"><font size="2" face="'Courier New'" color="#000000">nil</font></a> not equal</td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="1081370">See Also</a></h4>
+      <p><a href="#1080527" title="25" name="1081371"><font color="#0000ff"><u>axlGeoEqual</u></font></a></p>
+      <h4><a name="1081372">Examples</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1081373">pt1 = &#39;(2.0 1.1)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1081374">pt2 = &#39;(2.0 1.1)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1081375">axlGeoPointsEqual(pt1 pt2)</a></font>
+      </blockquote>
+      <p><a name="1081340">&nbsp;</a></p>
+      <h3><a name="1084159">axlIsBetween</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1084271">axlIsBetween(<dd>l_testPoint<dd>l_pt1, l_pt2<dd>) &#45;&#62; t&#47;nil</a></font>
+      </dl>
+      <h4><a name="1084182">Description</a></h4>
+      <p><a name="1084134">Used to check if a given point lies between two specified points. Returns </a><font size="2" face="'Courier New'" color="#000000">t</font> if the point is in between the two points or on one of the points.</p>
+      <h4><a name="1084202">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="324">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094169"><font size="2" face="'Courier New'" color="#000000"><em>l_testPoint</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="132">
+            <p><a name="1094171">test point</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094173"><font size="2" face="'Courier New'" color="#000000"><em>l_pt1, l_pt2</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094175">two test points</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1084222">Value Returned</a></h4>
+      <p><a name="1084144"><font size="2" face="'Courier New'" color="#000000">t</font></a> if test point specified by <font size="2" face="'Courier New'" color="#000000"><em>l_testPoint</em></font> is between or on the test points specified by <font size="2" face="'Courier New'" color="#000000"><em>l_pt1</em></font> and <font size="2" face="'Courier New'" color="#000000"><em>l_pt2</em></font>, else <font size="2" face="'Courier New'" color="#000000">nil.</font></p>
+      <h4><a name="1084242">See Also</a></h4>
+      <p><a href="#1075662" title="25" name="1084146"><font color="#0000ff"><u>axlIsPointInsideBox</u></font></a></p>
+      <h3><a name="1075662">axlIsPointInsideBox</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075665">axlIsPointInsideBox(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>l_point<dd>l_box<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="1075667">Description</a></h4>
+      <p><a name="1075668">Returns </a><font size="2" face="'Courier New'" color="#000000">t</font> if a point is inside or on the edge of a box. Also see <a href="25dbmisc.html#1066799" title="26"><font color="Blue"><u>axlGeoPointInShape</u></font></a><a href="25dbmisc.html#1066799" title="26"></a> for <font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font>&#45;based tests. You may use floating point.</p>
+      <h4><a name="1075669">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="324">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094183"><font size="2" face="'Courier New'" color="#000000"><em>l_point</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="132">
+            <p><a name="1094185">A point.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094187"><font size="2" face="'Courier New'" color="#000000"><em>l_box</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094189">A bounding box.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075672">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094197"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1094199">Point is inside or on edge of box</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094201"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094203">Point is outside of box.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075675">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075663">axlIsPointInsideBox(10:20 list(5:20 15:30)) = t</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075690">axlIsPointInsideBox(0:20 list(5:20 15:30)) = nil</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075695">axlIsPointInsideBox(15:20 list(5:20 15:30)) = t</a></font>
+      </p>
+      <h3><a name="1075689">axlIsPointOnLine</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075716">axlIsPointOnLine(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>l_point<dd>ll_line<dd>[f_nearNess]<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="1075718">Description</a></h4>
+      <p><a name="1075719">Returns </a><font size="2" face="'Courier New'" color="#000000">t</font> if point is on a given line or <font size="2" face="'Courier New'" color="#000000">nil</font> if not on the line.</p>
+      <p><a name="1093273">If f_nearNess value is provided, it is used as a tolerance so if a point is within the tolerance value.</a></p>
+      <p><a name="1093276">In either case, an epsilon of axlEpsilonFloat (see axlMathConstants) is applied.</a></p>
+      <h4><a name="1075720">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094211"><font size="2" face="'Courier New'" color="#000000"><em>l_point</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1094213">A point.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094215"><font size="2" face="'Courier New'" color="#000000"><em>ll_line</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094217">Two end points.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094219"><font color="#000000">[f_nearNess]</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094221">(optional) A tolerance value</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075723">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094229"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1094231">Point is on the specified line.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094233"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094235">Point is not on the specified line.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1084058">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075726">axlIsPointOnLine(10:20 list(5:20 15:30)) = nil</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075727">axlIsPointOnLine(10:30 list(5:20 15:30)) = t</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1093368">axlIsPointOnLine(10:20 list(5:20 15:30) 2.5) = t</a></font>
+      </p>
+      <h4><a name="1084088">See Also</a></h4>
+      <p><a href="#1084159" title="25" name="1084089"><font color="#0000ff"><u>axlIsBetween</u></font></a></p>
+      <h3><a name="1075704">axlLineSlope</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075740">axlLineSlope(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>ll_line<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>f_slope</em></font></font>
+      </dl>
+      <h4><a name="1075742">Description</a></h4>
+      <p><a name="1075743">Returns the slope of a line. You may use floating point.</a></p>
+      <h4><a name="1075744">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="324">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094243"><font size="2" face="'Courier New'" color="#000000"><em>ll_line</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="132">
+            <p><a name="1094245">Two end points.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075747">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="324">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094252"><font size="2" face="'Courier New'" color="#000000"><em>f_slope</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="132">
+            <p><a name="1094254">Slope of the line.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094256"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094258">Line is vertical.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075749">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075750">axlLineSlope(list(5.0:20.10 15.4:30.2)) = 0.9711538</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075751">axlLineSlope(list(5:20 5:40)) = nil</a></font>
+      </p>
+      <h3><a name="1075765">axlLineXLine</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075772">axlLineXLine(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>l_seg1<dd>l_seg2<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t</font>
+      </dl>
+      <h4><a name="1076030">Description</a></h4>
+      <p><a name="1076031">This function is no longer required, but is kept for backward compatibility.</a></p>
+      <h4><a name="1076032">Arguments</a></h4>
+      <p><a name="1076033">None.</a></p>
+      <h4><a name="1076034">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="539">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094266"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="346">
+            <p><a name="1094268">Returns </a><font size="2" face="'Courier New'" color="#000000">t</font> always.</p>
+          </td>
+        </tr>
+      </table>
+      <h3><a name="1088431">axlMathConstants</a></h3>
+      <p><a name="1088451">Provides predefined set of high accuracy math constants. They are:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1088452"><font size="2" face="'Courier New'" color="#000000">axlPI</font></a> - PI</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1088453"><font size="2" face="'Courier New'" color="#000000">axlPI_2</font></a> - PI&#47;2.0</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1088454"><font size="2" face="'Courier New'" color="#000000">axlPI_4</font></a> - PI&#47;4.0</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1088456"><font size="2" face="'Courier New'" color="#000000">axlSQRT2</font></a> - sqrt(2)</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1088880"><font size="2" face="'Courier New'" color="#000000">axlSQRT1_2</font></a> - 1&#47;sqrt(2)</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1088882"><font size="2" face="'Courier New'" color="#000000">axlEpsilonFloat</font></a> - epsilon for floating point numbers (32 bit)</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1088460"><font size="2" face="'Courier New'" color="#000000">axlEpsilonDouble</font></a> - epsilon for doubles (64 bit)</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1088462"><font size="2" face="'Courier New'" color="#000000">axlDegPerRad</font></a> - Degrees per radian</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1088463"><font size="2" face="'Courier New'" color="#000000">axlRadPerDeg</font></a> - Radians per degree</td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="1088464">&nbsp;</a></p>
+      <p><a name="1088465">axlRad0, axlRad45, axlRad90, axlRad135, axlRad180, axlRad225, axlRad270, axlRad315, axlRad360 - radians values for popular degrees values</a></p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1088469">Skill, by default, limits the number of decimal places printed but these constants are still stored and used at the full precision. To see the full precision of the constant you can do:</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1088472">sstatus(fullPrecision t)</a></font>
+      </dl>
+      <p><a name="1088473">or</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1088474">printf(&#34;%5.18\n&#34; axlPI)</a></font>
+      </dl>
+      <h3><a name="1090832">axlMathDotProduct</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1090941">axlMathDotProduct(<dd>l_ptA1<dd>l_ptA2<dd>l_ptB1<dd>l_ptB2<dd>) &#45;&#62; f_dotProduct</a></font>
+      </dl>
+      <h4><a name="1090834">Description</a></h4>
+      <p><a name="1090835">This calculates the dot or scaler product.</a></p>
+      <p><a name="1091006">Dot Product:</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1091007">(ptB1.y &#45; ptA1.y)*(ptB2.y &#45; ptA2.y) + (ptB1.x &#45; ptA1.x)*(ptB2.x &#45; ptA2.x)</a></font>
+      </dl>
+      <p><a name="1090994">Line are perpendicular when return is 0.0</a></p>
+      <h4><a name="1090836">Arguments</a></h4>
+      <p><a name="1090837">Four coordinates describing 2 lines.</a></p>
+      <h4><a name="1090977">Value Returned</a></h4>
+      <p><a name="1090978">Dot product result.</a></p>
+      <h4><a name="1090980">Example</a></h4>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1090842">axlMidPointLine(list(5:20 15:30)) = (10.0 25.0)</a></font>
+      </dl>
+      <h4><a name="1090843">See Also</a></h4>
+      <p><a href="#1085632" title="25" name="1090847"><font color="#0000ff"><u>axlDistance</u></font></a></p>
+      <h3><a name="1088434">axlMidPointArc</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1084887">axlMidPointArc(<dd>ll_endPoints<dd>l_center<dd>f_radius<dd>g_clockwise<dd>) &#45;&#62; l_midPoint</a></font>
+      </dl>
+      <h4><a name="1085060">Description</a></h4>
+      <p><a name="1084895">Returns mid&#45;point on a arc. Note mid&#45;point may not be on a database coordinate. All parameters may be obtained from a arc dbid.</a></p>
+      <h4><a name="1085081">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="644">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094276"><font size="2" face="'Courier New'" color="#000000"><em>ll_line</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="452">
+            <p><a name="1094278">arc end points</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094280"><font size="2" face="'Courier New'" color="#000000"><em>l_center</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094282">center of arc</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094284"><font size="2" face="'Courier New'" color="#000000"><em>f_radius</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094286">arc radius</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094288"><font size="2" face="'Courier New'" color="#000000"><em>g_clockwise</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094290">Is arc in clockwise (</a><font size="2" face="'Courier New'" color="#000000">t</font>) or counter clockwise direction (<font size="2" face="'Courier New'" color="#000000">nil</font>)</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1085102">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="540">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094298"><font size="2" face="'Courier New'" color="#000000"><em>l_midPoint</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="347">
+            <p><a name="1094300">mid&#45;point of line</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094302"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094304">error in arguments</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1085300">See Also</a></h4>
+      <p><a href="#1084008" title="25" name="1084906"><font color="#0000ff"><u>axlMidPointLine</u></font></a></p>
+      <h4><a name="1085123">Example</a></h4>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084908">try clockwise</a></td>
+          </tr>
+        </table>
+      </div>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1084909">axlMidPointArc(list(20:0 0:20) 0:0 20 t) = (&#45;14.14214 &#45;14.14214)</a></font>
+      </blockquote>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084910">try counter&#45;clockwise</a></td>
+          </tr>
+        </table>
+      </div>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1084911">axlMidPointArc(list(20:0 0:20) 0:0 20 nil) = (14.14214 14.14214)</a></font>
+      </blockquote>
+      <h3><a name="1084008">axlMidPointLine</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1084669">axlMidPointLine(<dd>ll_line<dd>) &#45;&#62; l_midPoint</a></font>
+      </dl>
+      <h4><a name="1084737">Description</a></h4>
+      <p><a name="1084673">Returns mid&#45;point of line. Note mid&#45;point might not be a database coordinate.</a></p>
+      <h4><a name="1084758">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="324">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094312"><font size="2" face="'Courier New'" color="#000000"><em>ll_line</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="132">
+            <p><a name="1094314">Two end points</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1084779">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="633">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094321"><font size="2" face="'Courier New'" color="#000000"><em>l_midPoint</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="441">
+            <p><a name="1094323">mid&#45;point of line</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094325"><font size="2" face="'Courier New'" color="#000000"><em>nil</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094327">error in arguments</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1084800">Example</a></h4>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1084682">axlMidPointLine(list(5:20 15:30)) = (10.0 25.0)</a></font>
+      </dl>
+      <h4><a name="1090803">See Also</a></h4>
+      <p><a href="#1088434" title="25" name="1090807"><font color="#0000ff"><u>axlMidPointArc</u></font></a></p>
+      <h3><a name="1076082">axlMPythag</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076084">axlMPythag(<dd>l_pt1<dd>l_pt2<dd>) &#45;&#62; f_distance&#47;nil</a></font>
+      </dl>
+      <h4><a name="1076088">Description</a></h4>
+      <p><a name="1076227">Calculates distance between two points using pythagoras. This is faster then building this code in Skill.</a></p>
+      <p><a name="1076228">The </a><font size="2" face="'Courier New'" color="#000000">l_ptN</font> is an x:y coordinate.</p>
+      <h4><a name="1076094">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="516">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094399">l_pt1, l_pt2</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="324">
+            <p><a name="1094401">Two xy points.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076096">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="634">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094405"><font size="2" face="'Courier New'" color="#000000"><em>f_distance</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="442">
+            <p><a name="1094407">Distance between points.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094409"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094411">Arguments were not xy points.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076099">See Also</a></h4>
+      <p><a href="#1076329" title="25" name="1076100"><font color="#0000ff"><u>axlMXYAdd</u></font></a></p>
+      <h4><a name="1076101">Example</a></h4>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076322">axlMPythag(1263.0:1062.0 1338.0:1137.0) &#45;&#62; 106.066</a></font>
+      </dl>
+      <h3><a name="1077779">axlMUniVector</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077781">axlMUniVector(<dd>l_pt1<dd>l_pt2<dd>[f_length]<dd>) &#45;&#62; l_uniPt1</a></font>
+      </dl>
+      <h4><a name="1077786">Description</a></h4>
+      <p><a name="1077787">This calculates a unit&#45;vector. A unit vector allows one to calculate points additional points along that line. </a></p>
+      <p><a name="1077790">It has two modes of operation:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1077791">Without a length returns a unit vector to use in other operations like </a><font size="2" face="'Courier New'" color="#000000">axlMXYMult</font>. Use this mode if you need to calculate several points from the same unit vector.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1077794">With a length, calculates a new </a><font size="2" face="'Courier New'" color="#000000">xy</font> location f_length from l_pt1 along the vector specified by <font size="2" face="'Courier New'" color="#000000">pt1</font> and <font size="2" face="'Courier New'" color="#000000">pt2</font>.</td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="1077797">This provides optimized solution over the traditional trigonometric approach.</a></p>
+      <h4><a name="1077799">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="644">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094427"><font size="2" face="'Courier New'" color="#000000"><em>l_pt1, l_pt2:</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="452">
+            <p><a name="1094429">2 xy points</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094431"><font size="2" face="'Courier New'" color="#000000"><em>f_length:</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094433">optional length to project</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1077802">Value Returned</a></h4>
+      <p><a name="1077803">Returns a unit&#45;vector, xy point</a></p>
+      <p><a name="1077804"><font size="2" face="'Courier New'" color="#000000"><em>nil:</em></font></a> arguments were not xy points</p>
+      <h4><a name="1077807">Examples</a></h4>
+      <p><a name="1077808">Found a point 5 units along a line from 1263.0:1062.0 to 1338.0:1137.0</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077810">                 </a><font size="2" face="'Courier New'" color="#000000">origin = 1263.0:1062.0</font></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077811"><font size="2" face="'Courier New'" color="#000000">                 uniVec = axlMUniVector(origin 1338.0:1137.0) </font></a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077812"><font size="2" face="'Courier New'" color="#000000">                 res = axlMXYMult(uniVec, 5.0 origin)</font></a></font>
+      </dl>
+      <p><a name="1077813">Same as example 1 except have </a><font size="2" face="'Courier New'" color="#000000">uni vec</font> do all the work</p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076328">                 </a><font size="2" face="'Courier New'" color="#000000">res = axlMUniVector(origin 1338.0:1137.0 5.0)</font> </font>
+      </dl>
+      <h3><a name="1076329">axlMXYAdd</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076331">axlMXYAdd(<dd>l_pt1<dd>l_pt2<dd>) &#45;&#62; l_pt&#47;nil</a></font>
+      </dl>
+      <h4><a name="1076335">Description</a></h4>
+      <p><a name="1076336">This does a </a><font size="2" face="'Courier New'" color="#000000">l_pt1 + lpt2</font> and returns the result.</p>
+      <p><a name="1076453">The </a><font size="2" face="'Courier New'" color="#000000">l_ptN</font> is an x:y coordinate.</p>
+      <h4><a name="1076454">Arguments</a></h4>
+      <p><a name="1076455"><font size="2" face="'Courier New'" color="#000000"><em>l_pt1, l_pt2</em></font></a>	 Two xy points.</p>
+      <h4><a name="1076340">Value Returned</a></h4>
+      <p><a name="1076341"><font size="2" face="'Courier New'" color="#000000"><em>l_pt</em></font></a>	Returns coordinate that is result of addition.</p>
+      <p><a name="1076342"><font size="2" face="'Courier New'" color="#000000">nil</font></a>	Arguments are not coordinates.</p>
+      <h4><a name="1076343">See Also</a></h4>
+      <p><a href="#1076545" title="25" name="1076344"><font color="#0000ff"><u>axlMXYSub</u></font></a></p>
+      <h4><a name="1076345">Example</a></h4>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076323">axlMXYAdd(1263.0:1063.0 1338.0:1137.0) &#45;&#62; (2601.0 2200.0)</a></font>
+      </dl>
+      <h3><a name="1078010">axlMXYMult</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078012">axlMXYMult(<dd>l_uniVec<dd>f_factor<dd>[l_origin]<dd>) &#45;&#62; l_pt&#47;nil</a></font>
+      </dl>
+      <h4><a name="1078017">Description</a></h4>
+      <p><a name="1078018">This is a convenience function that does a </a><font size="2" face="'Courier New'" color="#000000">l_pt.x * f_factor</font> and <font size="2" face="'Courier New'" color="#000000">lpt.y * factor</font> and returns the result. If provided an origin, it adds the origin. </p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078022">                 (l_uniVec * f_factor) + l_origin</a></font>
+      </dl>
+      <p><a name="1078024">It is normally used in conjunction with </a><font size="2" face="'Courier New'" color="#000000">axlMUniVector</font> to project a point along a vector.</p>
+      <h4><a name="1078026">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="635">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094453"><font size="2" face="'Courier New'" color="#000000"><em>l_uniVec:</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="442">
+            <p><a name="1094455">xy point</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094457"><font size="2" face="'Courier New'" color="#000000"><em>f_factor:</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094459">multiplication factor </a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094461"><font size="2" face="'Courier New'" color="#000000"><em>l_origin:</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094463">additive point</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078030">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="508">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094475"><font size="2" face="'Courier New'" color="#000000"><em>l_pt:</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="315">
+            <p><a name="1094477">Returns resultant coordinate </a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094479"><font size="2" face="'Courier New'" color="#000000"><em>nil:</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094481">Arguments are not coordinates</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078035">Examples</a></h4>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078036">         axlMXYMult(1263.0:1063.0 2.0) &#45;&#62; (2526.0 2126.0)</a></font>
+      </dl>
+      <h4><a name="1078179">See Also</a></h4>
+      <p><a href="#1077779" title="25" name="1078008"><font color="#0000ff"><u>axlMUniVector</u></font></a></p>
+      <h3><a name="1076545">axlMXYSub</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076547">axlMXYSub(<dd>l_pt1<dd>l_pt2<dd>) &#45;&#62; l_pt&#47;nil</a></font>
+      </dl>
+      <h4><a name="1076551">Description</a></h4>
+      <p><a name="1076552">This does a </a><font size="2" face="'Courier New'" color="#000000">l_pt1 &#45; lpt2</font> and returns the result.</p>
+      <p><a name="1076666">The </a><font size="2" face="'Courier New'" color="#000000">l_ptN</font> is an x:y coordinate.</p>
+      <h4><a name="1076554">Arguments</a></h4>
+      <p><a name="1076555"><font size="2" face="'Courier New'" color="#000000"><em>l_pt1, l_pt2</em></font></a>	Two xy points.</p>
+      <h4><a name="1076556">Value Returned</a></h4>
+      <p><a name="1076557"><font size="2" face="'Courier New'" color="#000000"><em>l_pt</em></font></a>	Returns coordinate that is result of subtraction.</p>
+      <p><a name="1076558"><font size="2" face="'Courier New'" color="#000000">nil</font></a>	Arguments are not coordinates.</p>
+      <h4><a name="1076559">See Also</a></h4>
+      <p><a href="#1076329" title="25" name="1076560"><font color="#0000ff"><u>axlMXYAdd</u></font></a></p>
+      <h4><a name="1076561">Example</a></h4>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076542">axlMXYSub(&#39;(1263.0 1063.0) &#39;(1338.0 1137.0)) &#45;&#62; (&#45;75.0 &#45;74.0)</a></font>
+      </dl>
+      <h3><a name="1083972">axlRadToDeg</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1084433">axlRadToDeg(<dd>n_angle<dd>) =&#62; f_angle</a></font>
+      </dl>
+      <h4><a name="1084468">Description</a></h4>
+      <p><a name="1084437">Converts an angle in radians to degrees.</a></p>
+      <h4><a name="1084489">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="594">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094489"><font size="2" face="'Courier New'" color="#000000"><em>n_angle</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="402">
+            <p><a name="1094491">The angle in radians</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1084510">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="419">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094499"><font size="2" face="'Courier New'" color="#000000"><em>f_angle</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="226">
+            <p><a name="1094501">The angle in degrees</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1084442">See Also</a></h4>
+      <p><a href="#1083945" title="25" name="1084443"><font color="#0000ff"><u>axlDegToRad</u></font></a>, axlMathConstants</p>
+      <h4><a name="1084531">Example</a></h4>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1084445">axlRadToDeg(0.7853982)<dd>=&#62; 45.0</a></font>
+      </dl>
+      <p><a name="1084425">&nbsp;</a></p>
+      <h3><a name="1076324">axl_ol_ol2</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075815">axl_ol_ol2(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>l_seg1<dd>l_seg2<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>l_result</em></font></font>
+      </dl>
+      <h4><a name="1075817">Description</a></h4>
+      <p><a name="1075818">Finds the intersection point of two lines. If the lines intersect, returns the intersection point with a distance of 0. If the lines do not intersect, the distance is not zero and the function returns </a><font size="2" face="'Courier New'" color="#000000">t</font>.</p>
+      <h4><a name="1075819">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="551">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094509"><font size="2" face="'Courier New'" color="#000000"><em>l_seg1</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="358">
+            <p><a name="1094511">1st line segment (list </a><font size="2" face="'Courier New'" color="#000000"><em>x1</em></font>:<font size="2" face="'Courier New'" color="#000000"><em>y1</em></font> <font size="2" face="'Courier New'" color="#000000"><em>x2</em></font>:<font size="2" face="'Courier New'" color="#000000"><em>y2</em></font>)</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094513"><font size="2" face="'Courier New'" color="#000000"><em>l_seg2</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094515">2nd line segment (list </a><font size="2" face="'Courier New'" color="#000000"><em>x1</em></font>:<font size="2" face="'Courier New'" color="#000000"><em>y1</em></font> <font size="2" face="'Courier New'" color="#000000"><em>x2</em></font>:<font size="2" face="'Courier New'" color="#000000"><em>y2</em></font>)</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075822">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="622">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1094523"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="430">
+            <p><a name="1094525">Error due to incorrect argument.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094527"><font color="#000000">(</font></a><font size="2" face="'Courier New'" color="#000000"><em>car</em></font> <font size="2" face="'Courier New'" color="#000000"><em>l_result</em></font>)</p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094529">Intersect or nearest point on seg1</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094531"><font color="#000000">(</font></a><font size="2" face="'Courier New'" color="#000000"><em>cadr</em></font> <font size="2" face="'Courier New'" color="#000000"><em>l_result</em></font>)</p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094533">Intersect or nearest point on seg2</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094535"><font color="#000000">(</font></a><font size="2" face="'Courier New'" color="#000000"><em>caddr</em></font> <font size="2" face="'Courier New'" color="#000000"><em>l_result</em></font>)</p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1094537">Distance between the two intersect points.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075824">Examples</a></h4>
+      <p><a name="1075825"><font color="#000000"><strong>Data for examples</strong></font></a></p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075911">a=list(1:5 5:5)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075856">b=list(2:5 4:2)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075857">c=list(0:0 5:0)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075858">d=list(4:5 7:5)</a></font>
+      </p>
+      <p><a name="1075813"><font color="#000000"><strong>Example 1</strong></font></a></p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075859">axl_ol_ol2(a b)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075860">&nbsp;&nbsp;&nbsp;&nbsp;</a><font face="symbol" color="#000000">⇒ ((2.0 5.0) (2.0 5.0) 0.0)</font></font>
+      </p>
+      <p><a name="1075920">Intersects line, returns intersection point, note distance of 0.</a></p>
+      <p><a name="1075928"><font color="#000000"><strong>Example 2</strong></font></a></p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075874">axl_ol_ol2(a c)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075875">&nbsp;&nbsp;&nbsp;&nbsp;</a><font face="symbol" color="#000000">⇒ ((3.0 5.0) (3.0 0.0) 5.0)</font></font>
+      </p>
+      <p><a name="1075935">Lines don't intersect, returns closest point on each line and distance.</a></p>
+      <p><a name="1075941"><font color="#000000"><strong>Example 3</strong></font></a></p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075883">axl_ol_ol2(a d)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075884">&nbsp;&nbsp;&nbsp;&nbsp;</a><font face="symbol" color="#000000">⇒ ((4.5 5.0) (4.5 5.0) 0.0)</font></font>
+      </p>
+      <p><a name="1079857">Lines overlap, distance of 0 and selects mid&#45;point of the overlap.</a></p>
+      <p><a name="1077145">&nbsp;</a></p>
+      <h3><a name="1079864">bBoxAdd</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1079935">bBoxAdd(<dd>l_bBox1 <dd>l_bBox2<dd>) &#45;&#62; l_bBox_result</a></font>
+      </dl>
+      <h4><a name="1079939">Description</a></h4>
+      <p><a name="1080139">Adds two bounding boxes together and returns the result.</a></p>
+      <h4><a name="1079997">Arguments</a></h4>
+      <p><a name="1079940">2 bBox values</a></p>
+      <h4><a name="1080018">Value Returned</a></h4>
+      <p><a name="1079942">Resulting bounding box.</a></p>
+      <h4><a name="1079943">Example</a></h4>
+      <p><a name="1080063">Expand bounding box by 100.</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1080064">orig = &#39;((200 100) (400 500))</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1080065">res = bBoxAdd(orig &#39;((&#45;100 &#45;100) (100 100)))</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1079947">&#45;&#62; ((100 0) (500 600))</a></font>
+      </dl>
+      <p><a name="1079948">&nbsp;</a></p>
+      <p><a name="1081155">Example 2</a></p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1081159">res = bBoxAdd(&#39;((200 100) (400 500)) &#39;((0 0) (200 100)))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1081160">&#45;&#62; ((200 100) (600 600))</a></font>
+      </p>
+      <p><a name="1079921">&nbsp;</a></p>
+      <p><a name="1082282">&nbsp;</a></p>
+      <p><a name="1087009">&nbsp;</a></p>
+      <p><a name="1089982">&nbsp;</a></p>
+      <p><a name="1092062">&nbsp;</a></p>
+    </div>
+    <br>
+    <a href="#pagetop">Return to top of page</a>
+    <hr>
+    <hr align="left">
+    <div style="text-align: left;">
+      <!-- Begin Buttons -->      <table width="650" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                    </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+          <td>
+            <a href="23utils.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+          </td>
+          <td>
+            <a href="25dbmisc.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+          </td>
+          <td>
+            <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+            </a>
+          </td>
+          <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+          </td>
+          <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+          </td>
+          <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+          </td>
+          <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+          </td>
+        </tr>
+      </table>
+      <!-- End Buttons -->
+    </div>
+    <br>
+    <font size="-1" >
+For support, see <a href="http://support.cadence.com" target="_blank">Cadence Online Support</a> service.</font>
+    <br>
+    <br>
+    <font size="-1" >
+      <i>Copyright &#169; 2017, <a href="http://www.cadence.com">Cadence Design Systems, Inc.</a></i>
+    </font>
+    <br>
+    <font size="-1" >
+All rights reserved.</font>
+    <br>
+    <br>
+  </body>
+</html>

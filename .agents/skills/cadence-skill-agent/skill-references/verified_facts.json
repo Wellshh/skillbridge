@@ -5,7 +5,7 @@
       "id": "axlShellPost-underscore-prefix",
       "api": "axlShellPost",
       "constraint": "post 命令内链超过一条命令时,后续命令必须加 `_` 前缀以抑制 scripting,例如 axlShellPost(\"zoom points; _pick 10 20\")。",
-      "evidence": [{"path": "algroskill/09cmdshl.md", "line": 632}],
+      "evidence": [{"path": "algroskill/09cmdshl.md", "line": 612}],
       "verified_on": {"allegro": "17.2-2016"},
       "status": "documented",
       "source": "reference-doc"
@@ -14,7 +14,7 @@
       "id": "axlShellPost-no-override-infinite-loop",
       "api": "axlShellPost",
       "constraint": "不得用 axlShellPost 覆盖已有 Allegro PCB Editor 命令后再调用原命令——会产生死循环。",
-      "evidence": [{"path": "algroskill/09cmdshl.md", "line": 636}],
+      "evidence": [{"path": "algroskill/09cmdshl.md", "line": 618}],
       "verified_on": {"allegro": "17.2-2016"},
       "status": "documented",
       "source": "reference-doc"
@@ -24,7 +24,7 @@
       "api": "axlShellPost",
       "constraint": "axlShellPost 先返回 Skill 解释器,再执行命令;命令在 Skill 返回后才激活并留给用户交互(即返、非阻塞)。真机实测 connect-post 探针:elapsed 0.08s、fire_and_forget=True、shell_return=t。",
       "evidence": [
-        {"path": "algroskill/09cmdshl.md", "line": 632},
+        {"path": "algroskill/09cmdshl.md", "line": 612},
         {"probe": ".artifacts/connect-probes-fixed-full/connect-post.json"}
       ],
       "verified_on": {"allegro": "17.2-2016 S048"},
@@ -36,7 +36,7 @@
       "api": "axlShell",
       "constraint": "axlShell 对纯交互命令无完成/取消的直接信号,恒返回 t;用户取消时非阻塞返回,必须快照命令前后状态对比判定 done/cancel。真机实测 connect-blocking 探针:blocking_semantics=non_blocking、route_change=cancel、ping=3(通道存活)。",
       "evidence": [
-        {"path": "algroskill/09cmdshl.md", "line": 590},
+        {"path": "algroskill/09cmdshl.md", "line": 578},
         {"probe": ".artifacts/connect-probes-fixed-full/connect-blocking.json"}
       ],
       "verified_on": {"allegro": "17.2-2016 S048"},
@@ -47,7 +47,7 @@
       "id": "axlDBTransaction-not-active-across-commands",
       "api": "axlDBTransactionStart",
       "constraint": "不能启动事务并跨 Allegro 命令保持活动以支持 undo;SKILL 代码终止时取消未提交事务;save/open 数据库会取消事务。",
-      "evidence": [{"path": "algroskill/17dbtran.md", "line": 233}],
+      "evidence": [{"path": "algroskill/17dbtran.md", "line": 230}],
       "verified_on": {"allegro": "17.2-2016"},
       "status": "documented",
       "source": "reference-doc"
@@ -56,7 +56,7 @@
       "id": "axlDBTransaction-no-cloak-crossing",
       "api": "axlDBTransactionStart",
       "constraint": "不得在 cloak 内启动事务再在 cloak 外终止(terminate=Rollback/Commit/Oops);在 cloak 内启动须返回前完成。",
-      "evidence": [{"path": "algroskill/17dbtran.md", "line": 71}],
+      "evidence": [{"path": "algroskill/17dbtran.md", "line": 60}],
       "verified_on": {"allegro": "17.2-2016"},
       "status": "documented",
       "source": "reference-doc"
@@ -66,13 +66,229 @@
       "api": "axlCmdRegister",
       "constraint": "axlCmdRegister(t_allegroCmd ts_callback ?cmdType t_cmdType ?doneCmd ts_doneCmd ?cancelCmd ts_cancelCmd ?undo t)。cmdType: interactive(默认)/general(立即执行,即使另一命令进行中)/sub_cmd(须在 interactive 内);doneCmd/cancelCmd 为 nil 时默认调 axlFinishEnterFun/axlCancelEnterFun;undo 仅 interactive 适用。",
       "evidence": [
-        {"path": "algroskill/19cmdctl.md", "line": 19},
-        {"path": "algroskill/19cmdctl.md", "line": 87},
-        {"path": "algroskill/19cmdctl.md", "line": 88}
+        {"path": "algroskill/19cmdctl.md", "line": 3},
+        {"path": "algroskill/19cmdctl.md", "line": 92},
+        {"path": "algroskill/19cmdctl.md", "line": 93}
       ],
       "verified_on": {"allegro": "17.2-2016"},
       "status": "documented",
       "source": "reference-doc"
+    },
+    {
+      "id": "axlXSectionAssign-callable-17.2-S048",
+      "api": "axlXSectionAssign",
+      "constraint": "17.2 S048 实测 isCallable=true；arglist=((g_general) (g_general) gg)。语料未收录，调用前无需守卫，签名以实测为准。",
+      "evidence": [{"probe": ".artifacts/iscalable-matrix-17.2-S048.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "axlXSectionCreateStackup-callable-17.2-S048",
+      "api": "axlXSectionCreateStackup",
+      "constraint": "17.2 S048 实测 isCallable=true；arglist=((g_general) (@optional) (g_general) gg)。语料未收录，调用前无需守卫，签名以实测为准。",
+      "evidence": [{"probe": ".artifacts/iscalable-matrix-17.2-S048.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "axlXSectionRemove-callable-17.2-S048",
+      "api": "axlXSectionRemove",
+      "constraint": "17.2 S048 实测 isCallable=true；arglist=((g_general) (g_general) gg)。语料未收录，调用前无需守卫，签名以实测为准。",
+      "evidence": [{"probe": ".artifacts/iscalable-matrix-17.2-S048.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "axlXSectionRename-callable-17.2-S048",
+      "api": "axlXSectionRename",
+      "constraint": "17.2 S048 实测 isCallable=true；arglist=((g_general) (t_string) gt)。语料未收录，调用前无需守卫，签名以实测为准。",
+      "evidence": [{"probe": ".artifacts/iscalable-matrix-17.2-S048.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "axlSnapEnableAtRMB-callable-17.2-S048",
+      "api": "axlSnapEnableAtRMB",
+      "constraint": "17.2 S048 实测 isCallable=true；arglist返回nil。语料未收录，调用前无需守卫；参数表以实测为准。",
+      "evidence": [{"probe": ".artifacts/iscalable-matrix-17.2-S048.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "axlSnapDisableAtRMB-callable-17.2-S048",
+      "api": "axlSnapDisableAtRMB",
+      "constraint": "17.2 S048 实测 isCallable=true；arglist返回nil。语料未收录，调用前无需守卫；参数表以实测为准。",
+      "evidence": [{"probe": ".artifacts/iscalable-matrix-17.2-S048.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "axlSwapSymbols-callable-17.2-S048",
+      "api": "axlSwapSymbols",
+      "constraint": "17.2 S048 实测 isCallable=true；arglist=((swapList))。语料未收录，调用前无需守卫，签名以实测为准。",
+      "evidence": [{"probe": ".artifacts/iscalable-matrix-17.2-S048.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "axlDBCreate1SegLine-callable-17.2-S048",
+      "api": "axlDBCreate1SegLine",
+      "constraint": "17.2 S048 实测 isCallable=false；arglist返回unknown。不要把该名字当作可用 API，若兼容代码必须调用应先用 isCallable 守卫并记录平台差异。",
+      "evidence": [{"probe": ".artifacts/iscalable-matrix-17.2-S048.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "axlCMDBInit-callable-17.2-S048",
+      "api": "axlCMDBInit",
+      "constraint": "17.2 S048 实测 isCallable=true；arglist返回空字符串参数标记。语料未收录，调用前无需守卫；参数表以实测为准。",
+      "evidence": [{"probe": ".artifacts/iscalable-matrix-17.2-S048.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "axlCMDBExit-callable-17.2-S048",
+      "api": "axlCMDBExit",
+      "constraint": "17.2 S048 实测 isCallable=true；arglist返回空字符串参数标记。语料未收录，调用前无需守卫；参数表以实测为准。",
+      "evidence": [{"probe": ".artifacts/iscalable-matrix-17.2-S048.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "axlTestDriver-callable-17.2-S048",
+      "api": "axlTestDriver",
+      "constraint": "17.2 S048 实测 isCallable=false；arglist返回unknown。该名字属于示例外部定义，不是当前 Allegro 可调用 API。",
+      "evidence": [{"probe": ".artifacts/iscalable-matrix-17.2-S048.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "axlPerformance-callable-17.2-S048",
+      "api": "axlPerformance",
+      "constraint": "17.2 S048 实测 isCallable=false；arglist返回unknown。该名字属于示例外部定义，不是当前 Allegro 可调用 API。",
+      "evidence": [{"probe": ".artifacts/iscalable-matrix-17.2-S048.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "axlBondFingerDelete-callable-17.2-S048",
+      "api": "axlBondFingerDelete",
+      "constraint": "17.2 S048 全语料实测 isCallable=false；该语料条目在当前平台不可调用，调用前必须用 isCallable 守卫。",
+      "evidence": [{"probe": ".artifacts/iscalable-matrix-17.2-S048-full.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "axlDBCreateConceptComponent-callable-17.2-S048",
+      "api": "axlDBCreateConceptComponent",
+      "constraint": "17.2 S048 全语料实测 isCallable=false；该语料条目在当前平台不可调用，调用前必须用 isCallable 守卫。",
+      "evidence": [{"probe": ".artifacts/iscalable-matrix-17.2-S048-full.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "axlFormCallback-callable-17.2-S048",
+      "api": "axlFormCallback",
+      "constraint": "17.2 S048 全语料实测 isCallable=false；该语料条目在当前平台不可调用，调用前必须用 isCallable 守卫。",
+      "evidence": [{"probe": ".artifacts/iscalable-matrix-17.2-S048-full.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "axlGetFuncKey-callable-17.2-S048",
+      "api": "axlGetFuncKey",
+      "constraint": "17.2 S048 全语料实测 isCallable=false；该语料条目在当前平台不可调用，调用前必须用 isCallable 守卫。",
+      "evidence": [{"probe": ".artifacts/iscalable-matrix-17.2-S048-full.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "axlISProductStarted-callable-17.2-S048",
+      "api": "axlISProductStarted",
+      "constraint": "17.2 S048 全语料实测 isCallable=false；该语料条目在当前平台不可调用，调用前必须用 isCallable 守卫。",
+      "evidence": [{"probe": ".artifacts/iscalable-matrix-17.2-S048-full.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "ilgAddRecentFiles-callable-17.2-S048",
+      "api": "ilgAddRecentFiles",
+      "constraint": "17.2 S048 全语料实测 isCallable=false；IDE 专用语料条目在当前平台不可调用，调用前必须用 isCallable 守卫。",
+      "evidence": [{"probe": ".artifacts/iscalable-matrix-17.2-S048-full.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "ilGetIdeSessionWindow-callable-17.2-S048",
+      "api": "ilGetIdeSessionWindow",
+      "constraint": "17.2 S048 全语料实测 isCallable=false；IDE 专用语料条目在当前平台不可调用，调用前必须用 isCallable 守卫。",
+      "evidence": [{"probe": ".artifacts/iscalable-matrix-17.2-S048-full.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "ilgInvokeIDE-callable-17.2-S048",
+      "api": "ilgInvokeIDE",
+      "constraint": "17.2 S048 全语料实测 isCallable=false；IDE 专用语料条目在当前平台不可调用，调用前必须用 isCallable 守卫。",
+      "evidence": [{"probe": ".artifacts/iscalable-matrix-17.2-S048-full.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "ilgLastDir-callable-17.2-S048",
+      "api": "ilgLastDir",
+      "constraint": "17.2 S048 全语料实测 isCallable=false；IDE 专用语料条目在当前平台不可调用，调用前必须用 isCallable 守卫。",
+      "evidence": [{"probe": ".artifacts/iscalable-matrix-17.2-S048-full.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "ilgRunSKILLIDE-callable-17.2-S048",
+      "api": "ilgRunSKILLIDE",
+      "constraint": "17.2 S048 全语料实测 isCallable=false；IDE 专用语料条目在当前平台不可调用，调用前必须用 isCallable 守卫。",
+      "evidence": [{"probe": ".artifacts/iscalable-matrix-17.2-S048-full.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "ilgSetLastDir-callable-17.2-S048",
+      "api": "ilgSetLastDir",
+      "constraint": "17.2 S048 全语料实测 isCallable=false；IDE 专用语料条目在当前平台不可调用，调用前必须用 isCallable 守卫。",
+      "evidence": [{"probe": ".artifacts/iscalable-matrix-17.2-S048-full.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "Vector-callable-17.2-S048",
+      "api": "Vector",
+      "constraint": "17.2 S048 全语料实测 isCallable=false；该语言类型构造条目在当前 Allegro 进程中不可调用，不能当作函数入口使用。",
+      "evidence": [{"probe": ".artifacts/iscalable-matrix-17.2-S048-full.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
     }
   ]
 }

@@ -8,7 +8,7 @@ Data Structure
 
 ### arrayp
 
-`arrayp( g_value ) => t | nil`
+`arrayp( g_value ) => t / nil`
 
 #### Description
 
@@ -18,17 +18,17 @@ The suffix`p` is usually added to the name of a function to indicate that it is 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_value` | Any data object.
+| Name | Description |
+|---|---|
+| `g_value` | Any data object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`g_value` is an array object.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | If`g_value` is an array object. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `declare(x[10])arrayp(x)  => tarrayp('x) => nil`
@@ -49,17 +49,17 @@ This function is usually called implicitly using the`[ ]` syntax.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_collection` | An array or a table.
-|  |
-| --- | ---
-| `g_index` | An integer for indexing an array. An arbitrary object for indexinga table.
+| Name | Description |
+|---|---|
+| `g_collection` | An array or a table. |
+| `g_index` | An integer for indexing an array. An arbitrary object for indexinga table. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_element` | The element selected by the given index in the given collection.
+| Name | Description |
+|---|---|
+| `g_element` | The element selected by the given index in the given collection. |
+
 #### Example
 
 `a[3] => 100              ;if the fourth element of the array is 100`
@@ -82,20 +82,18 @@ The association list,`l_alist`, must be a list of lists. An association list is 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_key` | An arbitrary object as the search key.
-|  |
-| --- | ---
-| `l_alist` | Association list. Must be a list of lists.
+| Name | Description |
+|---|---|
+| `g_key` | An arbitrary object as the search key. |
+| `l_alist` | Association list. Must be a list of lists. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_association` | The returned list is always an element of`l_alist`.
-|  |
-| --- | ---
-| `nil` | If no list in`l_alist` has `g_key`, as its `car`.
+| Name | Description |
+|---|---|
+| `l_association` | The returned list is always an element of`l_alist`. |
+| `nil` | If no list in`l_alist` has `g_key`, as its `car`. |
+
 #### Example
 
 ```
@@ -116,17 +114,17 @@ Creates an array with a specified number of elements. This is a syntax form. All
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_arrayName` | Name of the array. There must be no white space between thename of an array and the opening bracket containing the size.
-|  |
-| --- | ---
-| `x_sizeOfArray` | Size of the array as an integer.
+| Name | Description |
+|---|---|
+| `s_arrayName` | Name of the array. There must be no white space between thename of an array and the opening bracket containing the size. |
+| `x_sizeOfArray` | Size of the array as an integer. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `a_newArray` | Returns the new array.
+| Name | Description |
+|---|---|
+| `a_newArray` | Returns the new array. |
+
 #### Example
 
 When the name of an array appears on the right side of an assignment statement, only apointer to the array is used in the assignment; the values stored in the array are not copied. It is therefore possible for an array to be accessible by different names. Indices are used to specify elements of an array and always start with 0; that is, the first element of an array is element 0. SKILL checks for an out of bounds array index with each array access.
@@ -178,20 +176,18 @@ The same as`putprop` except that none of its arguments are evaluated.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_id` | Symbol to add property to.
-|  |
-| --- | ---
-| `g_value` | Value of the named property.
-|  |
-| --- | ---
-| `s_name` | Named property.
+| Name | Description |
+|---|---|
+| `s_id` | Symbol to add property to. |
+| `g_value` | Value of the named property. |
+| `s_name` | Named property. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_value` | Value of the named property.
+| Name | Description |
+|---|---|
+| `g_value` | Value of the named property. |
+
 #### Example
 
 `defprop(s 3 x)   => 3`
@@ -222,20 +218,18 @@ Structures can contain instances of other structures; therefore one needs to be 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_name` | A structure name.
-|  |
-| --- | ---
-| `s_slot1` | Name of the first slot in structure`s_name`.
-|  |
-| --- | ---
-| `s_slot2` | Name of the second slot in structure`s_name`.
+| Name | Description |
+|---|---|
+| `s_name` | A structure name. |
+| `s_slot1` | Name of the first slot in structure`s_name`. |
+| `s_slot2` | Name of the second slot in structure`s_name`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | Always.
+| Name | Description |
+|---|---|
+| `t` | Always. |
+
 #### Example
 
 ```
@@ -264,7 +258,7 @@ Returns a property list (not a disembodied property list) containing the slot na
 
 ### defstructp
 
-`defstructp( g_object [ S_name ] ) => t | nil`
+`defstructp( g_object [ S_name ] ) => t / nil`
 
 #### Description
 
@@ -274,20 +268,18 @@ If the optional second argument is given, it is used as the`defstruct` name to c
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_object` | A data object.
-|  |
-| --- | ---
-| `S_name` | Name of the structure to be tested for.
+| Name | Description |
+|---|---|
+| `g_object` | A data object. |
+| `S_name` | Name of the structure to be tested for. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`g_object` is an instance of `defstruct` `S_name`.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | If`g_object` is an instance of `defstruct` `S_name`. |
+| `nil` | Otherwise. |
+
 #### Example
 
 ```
@@ -302,7 +294,7 @@ defstruct(myStruct slot1 slot2 slot3) => tstruct = _myStruct(?slot1 "one" ?slot2
 
 ### defvar
 
-`defvar( s_varName [ g_value ] ) => g_value | nil`
+`defvar( s_varName [ g_value ] ) => g_value / nil`
 
 #### Description
 
@@ -310,20 +302,18 @@ Defines a global variable and assigns it a value. You can also use the`defun` or
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_varName` | Name of the variable to be defined.
-|  |
-| --- | ---
-| `g_value` | Value to assign to the variable. If`g_value` is not given, `nil` is assigned to the variable.
+| Name | Description |
+|---|---|
+| `s_varName` | Name of the variable to be defined. |
+| `g_value` | Value to assign to the variable. If`g_value` is not given, `nil` is assigned to the variable. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_value` | If given.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `g_value` | If given. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `defvar(x 3) => 3`
@@ -344,17 +334,17 @@ Creates an empty association table.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_name` | Print name (either a string or symbol) of the new table.
-|  |
-| --- | ---
-| `g_default_value` | Default value to be returned when references are made to keysthat are not in the table. If no default value is given, the system returns `unbound` if the key is not defined in the table.
+| Name | Description |
+|---|---|
+| `S_name` | Print name (either a string or symbol) of the new table. |
+| `g_default_value` | Default value to be returned when references are made to keysthat are not in the table. If no default value is given, the system returns `unbound` if the key is not defined in the table. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `o_table` | The new association table.
+| Name | Description |
+|---|---|
+| `o_table` | The new association table. |
+
 #### Example
 
 ```
@@ -383,7 +373,7 @@ You can refer to and set the contents of an association table with the standard 
 
 ### Vector
 
-`Vector( x_size [ g_init_val ] )=> a_vectorArray`
+`vector( g_value ... ) => a_vectorArray`
 
 #### Description
 
@@ -393,17 +383,17 @@ Allocates a vector of`x_size` number of entries. `Vector` initializes each entry
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_size` | Size of the vector to be allocated.
-|  |
-| --- | ---
-| `g_init_val` | Initial value of each entry of thevector to be allocated.
+| Name | Description |
+|---|---|
+| `x_size` | Size of the vector to be allocated. |
+| `g_init_val` | Initial value of each entry of thevector to be allocated. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `a_vectorArray` | Array of the given size.
+| Name | Description |
+|---|---|
+| `a_vectorArray` | Array of the given size. |
+
 #### Example
 
 ```
@@ -412,9 +402,8 @@ V = Vector( 3 0 )   => array[3]:1955240V[0]                 
 
 ### setarray
 
-```
-setarray( a_array x_index g_value ) => g_valuesetarray( o_table g_key g_value ) => g_value
-```
+`setarray( a_array x_index g_value ) => g_value`
+`setarray( o_table g_key g_value ) => g_value`
 
 #### Description
 
@@ -424,23 +413,19 @@ Assigns`g_value` to the `x_index` element of `a_array`, or adds the association 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `a_array` | An array object.
-|  |
-| --- | ---
-| `x_index` | Index of the array element to assign a value to. Must be between0 and one less than the size of the array.
-|  |
-| --- | ---
-| `g_key` | Any SKILL value.
-|  |
-| --- | ---
-| `g_value` | Value to be assigned to the specified array element or tableentry.
+| Name | Description |
+|---|---|
+| `a_array` | An array object. |
+| `x_index` | Index of the array element to assign a value to. Must be between0 and one less than the size of the array. |
+| `g_key` | Any SKILL value. |
+| `g_value` | Value to be assigned to the specified array element or tableentry. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_value` | Value assigned to the specified array element or table entry.
+| Name | Description |
+|---|---|
+| `g_value` | Value assigned to the specified array element or table entry. |
+
 #### Example
 
 ```
@@ -463,7 +448,7 @@ mytab = makeTable('myTable) => table:myTablesetarray(mytab 8 4)  => 4mytab[8]�
 
 ### tablep
 
-`tablep( g_object ) => t | nil`
+`tablep( g_object ) => t / nil`
 
 #### Description
 
@@ -471,17 +456,17 @@ Checks if anobject is an association table.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_object` | A SKILL object.
+| Name | Description |
+|---|---|
+| `g_object` | A SKILL object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`g_object` is an association table.
-|  |
-| --- | ---
-| `nil` | If`g_object` is not an association table.
+| Name | Description |
+|---|---|
+| `t` | If`g_object` is an association table. |
+| `nil` | If`g_object` is not an association table. |
+
 #### Example
 
 ```
@@ -494,7 +479,7 @@ myTable = makeTable("atable1" 0)    => table:atable1tablep(myTable)    �
 
 ### type, typep
 
-`type( g_value ) => s_type | niltypep( g_value ) => s_type | nil`
+`type( g_value ) => s_type / nil`
 
 #### Description
 
@@ -502,17 +487,17 @@ Returns a symbol whose name denotes the type of a data object. The functions`typ
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_value` | A data object.
+| Name | Description |
+|---|---|
+| `g_value` | A data object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `s_type` | Symbol whose name denotes the type of`g_value`.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `s_type` | Symbol whose name denotes the type of`g_value`. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `type( 'foo )    => symboltypep( "foo" )  => string`
@@ -523,7 +508,7 @@ Returns a symbol whose name denotes the type of a data object. The functions`typ
 
 ### vector
 
-`vector( g_value ... )=> a_vectorArray`
+`vector( g_value ... ) => a_vectorArray`
 
 #### Description
 
@@ -533,14 +518,16 @@ A vector is implemented as a SKILL array.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_value` | Ordered list of values to be placed in an array.
+| Name | Description |
+|---|---|
+| `g_value` | Ordered list of values to be placed in an array. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `a_vectorArray` | Array filled with the arguments in the given order.
+| Name | Description |
+|---|---|
+| `a_vectorArray` | Array filled with the arguments in the given order. |
+
 #### Example
 
 `V = vector( 1 2 3 4 ) => array[4]:33394440V[0] => 1V[3] => 4`
@@ -551,7 +538,7 @@ A vector is implemented as a SKILL array.
 
 ### vectorp
 
-`vectorp( g_value ) => t | nil`
+`vectorp( g_value ) => t / nil`
 
 #### Description
 
@@ -561,17 +548,17 @@ The suffix`p` is usually added to the name of a function to indicate that it is 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_value` | Any data object.
+| Name | Description |
+|---|---|
+| `g_value` | Any data object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`g_value` is a vector object.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | If`g_value` is a vector object. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `declare(x[10])arrayp(x) => tarrayp('x) => nil`

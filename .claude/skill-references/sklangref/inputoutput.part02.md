@@ -10,23 +10,19 @@ The`printlev` function is identical to `print` except that it takes two addition
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_value` | Any SKILL value.
-|  |
-| --- | ---
-| `x_level` | Specifies the level of nesting that you want to print; lists nesteddeeper than the maximum level specified are abbreviated as "&".
-|  |
-| --- | ---
-| `x_length` | Specifies the length (or maximum number of elements) you wantto print. List elements beyond the maximum specified here are abbreviated as "`...`".
-|  |
-| --- | ---
-| `p_outputPort` | Output port. Default is`poport`.
+| Name | Description |
+|---|---|
+| `g_value` | Any SKILL value. |
+| `x_level` | Specifies the level of nesting that you want to print; lists nesteddeeper than the maximum level specified are abbreviated as "&". |
+| `x_length` | Specifies the length (or maximum number of elements) you wantto print. List elements beyond the maximum specified here are abbreviated as "`...`". |
+| `p_outputPort` | Output port. Default is`poport`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `nil` | Prints the argument value and then returns`nil`.
+| Name | Description |
+|---|---|
+| `nil` | Prints the argument value and then returns`nil`. |
+
 #### Example
 
 ```
@@ -55,17 +51,17 @@ A newline character is automatically printed after printing`g_value`. `println` 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_value` | Any SKILL value.
-|  |
-| --- | ---
-| `p_outputPort` | Port to be used for output. The default is`poport`.
+| Name | Description |
+|---|---|
+| `g_value` | Any SKILL value. |
+| `p_outputPort` | Port to be used for output. The default is`poport`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `nil` | Prints the given object and returns`nil`.
+| Name | Description |
+|---|---|
+| `nil` | Prints the given object and returns`nil`. |
+
 #### Example
 
 ```
@@ -80,7 +76,7 @@ for( i 1 3 println( "hello" ))    ;Prints hello three times."hello""hello""h
 
 `putc(x_symbolp_port)`
 
-`=> s_symbol`
+`putc( x_symbol p_port ) => s_symbol`
 
 #### Description
 
@@ -88,20 +84,17 @@ Puts the`x_symbol` to `p_port` (to complement getc function)
 
 #### Arguments
 
-|  |
-| --- | ---
-| `x_symbol` | Symbol number
-|  |
-| --- | ---
-| `p_port` | An output port
-|  |
-| --- | ---
-|  |
+| Name | Description |
+|---|---|
+| `x_symbol` | Symbol number |
+| `p_port` | An output port |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `s_symbol` | The symbol that was put
+| Name | Description |
+|---|---|
+| `s_symbol` | The symbol that was put |
+
 #### Example
 
 `putc(1 poport)`
@@ -110,7 +103,7 @@ Puts the`x_symbol` to `p_port` (to complement getc function)
 
 ### read
 
-`read( [ p_inputPort ] ) => g_result | nil | t`
+`read( [ p_inputPort ] ) => g_result / nil / t`
 
 #### Description
 
@@ -120,20 +113,18 @@ Returns the next expression regardless of how many lines the expression takes up
 
 #### Arguments
 
-|  |
-| --- | ---
-| `p_inputPort` | Input port. Default is`piport`.
+| Name | Description |
+|---|---|
+| `p_inputPort` | Input port. Default is`piport`. |
+
 #### Values Returned
 
-|  |
-| --- | ---
-| `g_result` | The object read in.
-|  |
-| --- | ---
-| `nil` | When the port is at the end of file.
-|  |
-| --- | ---
-| `t` | If an empty line is encountered.
+| Name | Description |
+|---|---|
+| `g_result` | The object read in. |
+| `nil` | When the port is at the end of file. |
+| `t` | If an empty line is encountered. |
+
 #### Example
 
 Suppose the file`SkillSyntaxFile.il`contains the following expressions. Note that a blank line follows the second expression:
@@ -148,7 +139,7 @@ define( x 1 )define( y 2 )procedure( add( x y ) x+y )myPort = infile( "SkillSynt
 
 ### readTable
 
-`readTable( S_fileName o_table ) => t | nil`
+`readTable( S_fileName o_table ) => t / nil`
 
 #### Description
 
@@ -160,20 +151,18 @@ The file submitted must have been created with the`writeTable` function so that 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_fileName` | File name (either a string or symbol) from which to read the data.
-|  |
-| --- | ---
-| `o_table` | Association table to which the file contents are appended.
+| Name | Description |
+|---|---|
+| `S_fileName` | File name (either a string or symbol) from which to read the data. |
+| `o_table` | Association table to which the file contents are appended. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | The data is read and appended.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | The data is read and appended. |
+| `nil` | Otherwise. |
+
 #### Example
 
 ```
@@ -186,7 +175,7 @@ myTable = makeTable("table1")    => table:table1myTable2 = makeTable("table2
 
 ### renameFile
 
-`renameFile( S_old S_new ) => t | nil`
+`renameFile( S_old S_new ) => t / nil`
 
 #### Description:
 
@@ -194,21 +183,17 @@ The`renameFile``()` function changes the name of a file or directory.The `S_old`
 
 #### Arguments:
 
-|  |
-| --- | ---
-| `S_old` | Points to the pathname of the file or directory to be renamed.
-|  |
-| --- | ---
-| `S_new` | Points to the new pathname of the file or directory.
+| Name | Description |
+|---|---|
+| `S_old` | Points to the pathname of the file or directory to be renamed. |
+| `S_new` | Points to the new pathname of the file or directory. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | File or directory is successfully re-named.
-|  |
-| --- | ---
-| `nil` | If`S_old` path does not exist.
-**Note:** If you do not have sufficient privileges to rename a file or directory, the`renameFile()`function throws an error (neither returns `t`nor `nil`). You can use the `errset()`function to handle such exceptional situations. For more information on the `errset()` function, see [The errset Function](../sklanguser/chap9.html#errset) in the *Cadence SKILL Language User Guide*.
+| Name | Description |
+|---|---|
+| `t` | File or directory is successfully re-named. |
+| `nil` | If`S_old` path does not exist. **Note:** If you do not have sufficient privileges to rename a file or directory, the`renameFile()`function throws an error (neither returns `t`nor `nil`). You can use the `errset()`function to handle such exceptional situations. For more information on the `errset()` function, see [The errset Function](../sklanguser/chap9.html#errset) in the *Cadence SKILL Language User Guide*. |
 
 #### Example
 
@@ -228,7 +213,7 @@ renameFile( "/usr/old" "/usr/new" ) ; if you do not have permissions to rename o
 
 ### simplifyFilename
 
-`simplifyFilename( t_name [ g_dontResolveLinks ]) => t_result`
+`simplifyFilename( t_name [ g_dontResolveLinks ] ) => t_result`
 
 #### Description
 
@@ -240,17 +225,17 @@ If`t_name` is not absolute, the current working directory is prefixed to the ret
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_name` | File to be fully expanded.
-|  |
-| --- | ---
-| `g_dontResolveLinks` | If specified to non-nil, symbolic links are not resolved.
+| Name | Description |
+|---|---|
+| `t_name` | File to be fully expanded. |
+| `g_dontResolveLinks` | If specified to non-nil, symbolic links are not resolved. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_result` | Fully expanded name of the file.
+| Name | Description |
+|---|---|
+| `t_result` | Fully expanded name of the file. |
+
 #### Example
 
 `simplifyFilename("~/test") => "/usr/mnt/user/test"`
@@ -275,14 +260,16 @@ Tries to find the specified file (`t_string`) and returns its truename.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_string` | A string specifying the file name or file path.
+| Name | Description |
+|---|---|
+| `t_string` | A string specifying the file name or file path. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_truename` | The truename of the specified file.
+| Name | Description |
+|---|---|
+| `t_truename` | The truename of the specified file. |
+
 #### Example
 
 ```
@@ -307,7 +294,7 @@ truename("./runtest")=> "/export/home/opt/cds/CAT32/lnx86/latest.il.32bit/tools.
 
 ### which
 
-`which( t_fileName ) => t_fullPath | nil`
+`which( t_fileName ) => t_fullPath / nil`
 
 #### Description
 
@@ -323,17 +310,17 @@ If`t_fileName` identifies a regular file or directory, the current SKILL path is
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_fileName` | Name of a context file, or a regular file or directory that you wantto get the absolute path.
+| Name | Description |
+|---|---|
+| `t_fileName` | Name of a context file, or a regular file or directory that you wantto get the absolute path. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_fullPath` | The absolute path of`t_fileName`.
-|  |
-| --- | ---
-| `nil` | If`t_fileName` is not found.
+| Name | Description |
+|---|---|
+| `t_fullPath` | The absolute path of`t_fileName`. |
+| `nil` | If`t_fileName` is not found. |
+
 #### Example
 
 Loading a prerequisite context file:
@@ -360,17 +347,17 @@ For example, strings are enclosed in ". Same as`print`.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_value` | Any SKILL object.
-|  |
-| --- | ---
-| `p_outputPort` | Output port to print to. Default is `poport`.
+| Name | Description |
+|---|---|
+| `g_value` | Any SKILL object. |
+| `p_outputPort` | Output port to print to. Default is `poport`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `nil` | Always returns`nil`, after it prints out the object supplied to it.
+| Name | Description |
+|---|---|
+| `nil` | Always returns`nil`, after it prints out the object supplied to it. |
+
 #### Example
 
 ```
@@ -383,7 +370,7 @@ for( i 1 3 write( "hello" ))    ;Prints hello three times."hello""hello""hel
 
 ### writeTable
 
-`writeTable( S_fileName o_table ) => t | nil`
+`writeTable( S_fileName o_table ) => t / nil`
 
 #### Description
 
@@ -393,20 +380,18 @@ Writes the contents of an association table to a file with one key/value pair pe
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_fileName` | Name of the print file (either a string or symbol) to which the tablecontents are to be written.
-|  |
-| --- | ---
-| `o_table` | Association table from which the data is accessed.
+| Name | Description |
+|---|---|
+| `S_fileName` | Name of the print file (either a string or symbol) to which the tablecontents are to be written. |
+| `o_table` | Association table from which the data is accessed. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If the data is successfully written to the file.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | If the data is successfully written to the file. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `writeTable("inventory" myTable)    => twriteTable(noFile myTable)         => nil`

@@ -1,0 +1,1218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN" "http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+<html xmlns="http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Allegro SKILL Reference -- 28</title>
+<META NAME="Approver" CONTENT="Technical Publications">
+<META NAME="Author" CONTENT="Technical Publications">
+<META NAME="CreateDate" CONTENT="2017-11-25">
+<META NAME="CreateTime" CONTENT="1511600113">
+<META NAME="DataType" CONTENT="Manuals">
+<META NAME="Description" CONTENT="Describes the Allegro eXtension Language (AXL) and how to use each AXL function.">
+<META NAME="DocTitle" CONTENT="Allegro SKILL Reference">
+<META NAME="DocType" CONTENT="SKILL Reference">
+<META NAME="EdmsRelease" CONTENT="FM-Wiki-2.0_HF2">
+<META NAME="FileTitle" CONTENT="28">
+<META NAME="FileType" CONTENT="Chapter">
+<META NAME="Group" CONTENT="Allegro User Guide">
+<META NAME="Keyword" CONTENT="algroskill">
+<META NAME="Language" CONTENT="English">
+<META NAME="ModifiedDate" CONTENT="2017-11-25">
+<META NAME="ModifiedTime" CONTENT="1511600113">
+<META NAME="NextFile" CONTENT="27langexten.html">
+<META NAME="Order" CONTENT="11">
+<META NAME="PageCount" CONTENT="16">
+<META NAME="Platform" CONTENT="ALL">
+<META NAME="PrevFile" CONTENT="msexl.html">
+<META NAME="Product" CONTENT="Allegro PCB Editor, Cadence SiP Digital">
+<META NAME="ProductFamily" CONTENT="Silicon-Package-Board Co-Design, IC Packaging">
+<META NAME="ProductVersion" CONTENT="17.2-2016">
+<META NAME="RightsManagement" CONTENT="Copyright 19912017 Cadence Design Systems Inc.">
+<META NAME="Title" CONTENT="Allegro SKILL Reference -- 28">
+<META NAME="TopicTags" CONTENT="FALSE">
+<META NAME="Version" CONTENT="17.2-2016">
+  </head>
+  <body style="margin-left: 5%;">
+    <a name="pagetop"></a>
+    <a name="firstpage"></a>
+    <!-- Begin Buttons -->
+    <table width="650" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td height="36" width="650" colspan="10">
+          <img src="images/header_doc.gif" width="650" height="34">
+        </td>
+      </tr>
+      <tr>
+        <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+        <td>
+          <a href="msexl.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+        </td>
+        <td>
+          <a href="27langexten.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+        </td>
+        <td height="20">
+          <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+          </a>
+        </td>
+        <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+        </td>
+        <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+        </td>
+        <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+        </td>
+        <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+        </td>
+      </tr>
+    </table>
+    <!-- End Buttons -->
+    <p>
+    <hr>
+    <p>
+      <h3>
+        <center>
+          <font >
+            <div>Allegro User Guide: SKILL Reference</div>
+            <font >
+              <div>Product Version 17.2&#45;2016 April 2016</div>
+            </font>
+          </font>
+        </center>
+      </h3>
+      <br>
+    </p>
+    <div>
+      <h1>28<a name="1001295">&nbsp;</a></h1>
+      <h1><a name="1037521">Plugin Functions</a></h1>
+      <h2><a name="1065213">Overview</a></h2>
+      <p><a name="1065738">This chapter describes the AXL&#45;SKILL functions related to plugin APIs.</a></p>
+      <p><a name="1084139">The axlDll family of APIs provides the ability to bind compiled Dll (shared library) packages into programs supporting the Skill axl APIs. Any publically exported functions from a Dll can be imported. The only restriction is that exported Dll functions must support the API specified below.</a></p>
+      <p><a name="1084145">Any reference to &#39;DLL&#39; is the equivalent to a shared library for UNIX and Linux programmers. All UNIX references apply to Linux.</a></p>
+      <p><a name="1084148">Creating a plugin requires two components:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084149">Skill code to import and wrap the functionality provided by the dll.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084151">The dll&#47;shared library implementing the plugin functionality.</a></td>
+          </tr>
+        </table>
+      </div>
+      <h3><a name="1084153">SKILL Programming</a></h3>
+      <p><a name="1084154">The Skill progamming model for plugins is:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084155">Locate and open a plugin via </a><font size="2" face="'Courier New'" color="#000000">axlDllOpen</font>. We suggest assigning a handle to a global Skill symbol. On subsequent calls into your Skill application, the symbol will be non&#45;nil, so the call to <font size="2" face="'Courier New'" color="#000000">axlDllOpen</font> can be skipped. (See <font size="2" face="'Courier New'" color="#000000">axlDllOpen</font>.)</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084162">Import the required symbols from the plugin via </a><font size="2" face="'Courier New'" color="#000000">axlDLLSym</font>. Like the handle returned by <font size="2" face="'Courier New'" color="#000000">axlDllOpen</font>, these handles should be assigned to global symbols.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084165">Use either </a><font size="2" face="'Courier New'" color="#000000">axlDllCall</font> or <font size="2" face="'Courier New'" color="#000000">axlDllCallList</font> to access the capability from the plugin.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084167">The I&#47;O data types that are supported are documented in </a><font size="2" face="'Courier New'" color="#000000">axlDllCall</font>.</td>
+          </tr>
+        </table>
+      </div>
+      <h3><a name="1084169">DLL Programming</a></h3>
+      <p><a name="1084170">DLL programming allows the use of external developers to utilize existing C&#47;C++ code or devevlop new capabilities in C&#47;C++ to plugin as extensions to SPB software. SPB software supporting this capability are those that incorporate the &#34;axl&#34; extension package to Skill.</a></p>
+      <p><a name="1084175">Implementation of a plugin dll:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084176">Obtain the compiler environment required by Cadence. (See the Allegro platform documentation.)</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084178">Use the existing Cadence Makefile (UNIX) or Project file (Microsoft) which contains the required compile&#47;link options. You can use these files to build your plugin to adapt your own software configuration environment. (See </a><font size="2" face="'Courier New'" color="#000000">&#60;cdsroot&#62;&#47;share&#47;pcb&#47;examples&#47;skill&#47;plugin.</font>)</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084183">Ensure that the exported Dll functions meet the API requirements. (See API plugin functions below). The include file, </a><font size="2" face="'Courier New'" color="#000000">&#60;cdsroot&#62;&#47;share&#47;pcb&#47;include&#47;axlplugin.h,</font> has the required structure definitions and defines.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084187">Build your plugin.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084188">Test it.</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="1085001">Required Cadence files for plugin programming:</a></p>
+      <p><a name="1085002"><font size="2" face="'Courier New'" color="#000000">&#60;cdsroot&#62;&#47;share&#47;pcb&#47;include&#47;axlplugin.h</font></a></p>
+      <h4><a name="1084193">API Plugin Functions</a></h4>
+      <p><a name="1084194">The C API for any plugin function is as follows:</a></p>
+      <p><a name="1084195"><font size="2" face="'Courier New'" color="#000000">long &#60;function&#62;(AXLPluginArgs *output, AXLPluginArgs *input)</font></a></p>
+      <p><a name="1084197">The API takes identical structures for both its input and output arguments. The calling Cadence software updates the input structure with the data passed by the calling Skill code. It also initializes the output structure. </a></p>
+      <p><a name="1084202">The Plugin function must return a value and optionally update the output structure with return data (</a><font size="2" face="'Courier New'" color="#000000">argv</font> and <font size="2" face="'Courier New'" color="#000000">count</font>). The plugin return value is passed back to the calling Skill code as follows:</p>
+      <p><a name="1084205"><font size="2" face="'Courier New'" color="#000000">return == 0</font></a>	Returns a list of from output data structure up to the count value. If 	count in output structure is 0, returns an empty list.</p>
+      <p><a name="1084208"><font size="2" face="'Courier New'" color="#000000">return != 0</font></a>	Return value is returned to Skill as an integer.</p>
+      <h4><a name="1084210">AXLPluginArgs Input&#47;Output Structure Members</a></h4>
+      <p><a name="1084211"><font size="2" face="'Courier New'" color="#000000">version = AXLPLUGIN_VERS_IN</font></a>	Version of input structure. If additional capability is 	added in the future, this version number will be bumped. It informs the plugin of the capability supported in the structure.</p>
+      <p><a name="1084217"><font size="2" face="'Courier New'" color="#000000">flag = 0</font></a>	Future use </p>
+      <p><a name="1084218"><font size="2" face="'Courier New'" color="#000000">maxEntries = AXLPLUGIN_MAX</font></a>	Can be ignored on input. On ouput, you cannot 	exceed this value for return arguments.</p>
+      <p><a name="1084221"><font size="2" face="'Courier New'" color="#000000">count = &#60;number of argv entries&#62;</font></a>	Number of entries in <font size="2" face="'Courier New'" color="#000000">argv</font>. Basically, the 	number of arguments provided to the <font size="2" face="'Courier New'" color="#000000">axlDLLCall</font> APIs. Will never be more the <font size="2" face="'Courier New'" color="#000000">maxEntries</font>.</p>
+      <p><a name="1084225"><font size="2" face="'Courier New'" color="#000000">argv[]</font></a>	Array of <font size="2" face="'Courier New'" color="#000000">AXLPluginEntry</font> arguments</p>
+      <h4><a name="1084227">AXLPluginEntry (argv) Structure Members</a></h4>
+      <p><a name="1085706">(See Input&#47;Output Data Primitives.)</a></p>
+      <p><a name="1084228"><font size="2" face="'Courier New'" color="#000000">type</font></a>	Indicates type of data </p>
+      <p><a name="1084229"><font size="2" face="'Courier New'" color="#000000">data</font></a>	Union of primitive types supported</p>
+      <p><a name="1084231">For the called Dll function to return data to calling Skill code, both </a><font size="2" face="'Courier New'" color="#000000">set the count</font> and <font size="2" face="'Courier New'" color="#000000">argv</font> entries should be set in the output data structure. For each <font size="2" face="'Courier New'" color="#000000">argv</font> entry return, you should also set the data type to one of the primitives shown below. Under no situation should you attempt to return more then <font size="2" face="'Courier New'" color="#000000">maxEntries</font>.</p>
+      <p><a name="1084237">If your exported dll functions will be used outside your progamming environment, then you should valid check the input arguments either in the Skill wrapper or in your Dll function. For example, if you expect a string argument and the calling Skill code passes an integer, a program exception will occur if the data is not checked.</a></p>
+      <h3><a name="1084243">Input&#47;Output Data Primitives</a></h3>
+      <p><a name="1084244">A set of I&#47;O data primitives is supported. The </a><font size="2" face="'Courier New'" color="#000000">argv</font> entry of <font size="2" face="'Courier New'" color="#000000">AXLPluginArgs</font> is an array of these structures. Each array member has its data type indicated and the data itself. Both the input and output data use the <font size="2" face="'Courier New'" color="#000000">AXLPluginArgs</font> structure. </p>
+      <p><a name="1085999">The data primitives that are supported are:</a></p>
+      <table summary="" border="1" cellpadding="5" cellspacing="0" width="624">
+        <tr>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="192">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1087088"><font color="#000000"><strong>Type</strong></font></a></strong></font>
+            </p>
+          </td>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="144">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1087090">Skill type</a></strong></font>
+            </p>
+          </td>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="96">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1087092">C type</a></strong></font>
+            </p>
+          </td>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="192">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1087182">C struct member</a></strong></font>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1087094">AP_BOOL</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1087096">t&#47;nil</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1087098">int</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1087184">b_value</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1087100">AP_LONG</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1087102">x_value</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1087104">long</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1087186">l_value</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1087106">AP_DOUBLE</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1087108">f_value</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1087110">double</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1087188">d_value</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1087112">AP_CONST_STRING</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1087114">t_value&#47;s_value</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1087116">char *</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1087190">cs_value</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1087118">AP_STRING</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1087120">t_value</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1087122">char *</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1087192">s_value (output only)</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1087124">AP_XY</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1087126">f_value:f_value</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1087128">AXLXY</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1087194">xy_value</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="1084258"><font size="2" face="'Courier New'" color="#000000">AP_STRING</font></a> types will not be seen on input. All strings passed from Allegro to the plugin are <font size="2" face="'Courier New'" color="#000000">AP_CONST_STRING</font>. To return a string, the plugin may use either <font size="2" face="'Courier New'" color="#000000">AP_CONST_STRING</font> or <font size="2" face="'Courier New'" color="#000000">AP_STRING</font>. If <font size="2" face="'Courier New'" color="#000000">AP_STRING</font> is used, then Allegro will free the memory associated with the string using the standard C &#34;free&#34; API, which means you must allocate it via <font size="2" face="'Courier New'" color="#000000">malloc</font>. </p>
+      <p><a name="1086239">Other data type restrictions are:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084264">The plugin must not modify in place any input </a><font size="2" face="'Courier New'" color="#000000">AP_CONST_STRING</font>; corruption of Skill will occur.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084266">To maintain </a><font size="2" face="'Courier New'" color="#000000">AP_CONST_STRING</font> input data across function calls, you should make a copy of them. Skill may garbage collect the memory after your Dll function returns.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084269">If you use your own memory manager, do not use </a><font size="2" face="'Courier New'" color="#000000">AP_STRING</font> types for return. These require the use the standard <font size="2" face="'Courier New'" color="#000000">malloc</font> memory manager.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084271">Input arguments can be Skill symbols (</a><font size="2" face="'Courier New'" color="#000000">&#39;&#60;symbol&#62;</font>) but these are converted to <font size="2" face="'Courier New'" color="#000000">AP_CONST_STRING</font> types.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084273">The </a><font size="2" face="'Courier New'" color="#000000">STRING</font> types do not support wide character sets; use only characters in the ASCII character set.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084275"><font size="2" face="'Courier New'" color="#000000">AP_XY</font></a> reprensents a (x y) location and is implemented as a structure of two doubles.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084277">If </a><font size="2" face="'Courier New'" color="#000000">AP_BOOL</font> type is used, two defines are provided in <font size="2" face="'Courier New'" color="#000000">axlplugin.h</font>:</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084278"><font size="2" face="'Courier New'" color="#000000">AXLPLUGIN_TRUE  = 1</font></a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084279"><font size="2" face="'Courier New'" color="#000000">AXLPLUGIN_FALSE = 0</font></a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="1084281">Return value from plugin exported back to Skill:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084282">If </a><font size="2" face="'Courier New'" color="#000000">output&#45;&#62;count</font> is 0, then the we look at the return value from the plugin function and return <font size="2" face="'Courier New'" color="#000000">x_value</font> to symbol.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084284">Else (non&#45;zero count), we return this value to Skill as a Skill integer type.</a></td>
+          </tr>
+        </table>
+      </div>
+      <h3><a name="1084287">Programming Restrictions, Cautions and Hints</a></h3>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084288">Cadence only supports the compiler listed in the SPB Platform documentation. Also required are any compiler and DLL linker options listed.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084291">If your DLL has dependancies upon other Dlls, make sure those do not conflict with Dlls used by Cadence. Typically, they need to be the same version and not built with debug options. </a></td>
+          </tr>
+        </table>
+      </div>
+      <blockquote><a name="1084294">To determine the DLLs used by Cadence use:</a></blockquote>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084295">Window: </a><font size="2" face="'Courier New'" color="#000000">depends</font> or <font size="2" face="'Courier New'" color="#000000">procexp</font> (<font size="2" face="'Courier New'" color="#000000">www.sysinternals.com</font>)</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084296">Solaris, Linux: </a><font size="2" face="'Courier New'" color="#000000">ldd &#60;program name&#62;</font></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084297">AIX: </a><font size="2" face="'Courier New'" color="#000000">dump &#45;H &#60;program name&#62;</font></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084298">On Windows, you can include UI components in your plugin. This capability is not supported on Unix.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084300">Wide character types are not supported in the plugin to the Allegro interface.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084302">On Unix, if threading is used, then you should </a><font size="2" face="'Courier New'" color="#000000">POSIX</font> threads (<font size="2" face="'Courier New'" color="#000000">pthreads</font>).</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084304">STL programming should use the default STL provided by the Cadence required compiler. Do not use a third party STL.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084306">On Windows, if DLL is MFC based, then do not compile it debug. MFC Classes change in size if code is built debug and are not compatible with non&#45;debug MFC code. There are methods described on the Web on how to build MFC debuggable without requiring the MFC debug shared library. Typically on Windows, Debug Dlls are not compatible with non&#45;Debug Dlls. Also many different versions of MFC exist which are impatible with one another. Use one of the binary query tools (see above) to determine the version of MFC currently required by Cadence.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084315">There are currently no methods to make function calls back to Allegro from the plugin.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084317">Your DLL can be used across multiple Cadence releases without recompiling your plugin. Re&#45;compiling is only required if Cadence changes the compiler in the release. </a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084320">Programming errors in your plugin can crash the host program. In rare cases, these bugs can corrupt an Allegro database. (See customer support below.)</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084323">On Windows, to access </a><font size="2" face="'Courier New'" color="#000000">stdout&#47;stderr</font>, set the <font size="2" face="'Courier New'" color="#000000">TELCONSOLE=1</font> as the OS level. This variable cannot be set via Allegro&#39;s <font size="2" face="'Courier New'" color="#000000">env</font> file. This is also considered a debug environment so it should not be used during board design.</td>
+          </tr>
+        </table>
+      </div>
+      <h3><a name="1084328">Performance Considerations</a></h3>
+      <p><a name="1084329">The following issues should be considered if high performance is required:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084331">Locating and loading a plugin. This should be done once per activation. Assign the handle return by </a><font size="2" face="'Courier New'" color="#000000">axlDllOpen</font> to a global symbol to prevent Skill garbage collection. Do not close the plugin. </td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084334">Import symbols of a plugin once. The </a><font size="2" face="'Courier New'" color="#000000">axlDll</font> interface internally caches symbol import so subsequent lookups will be faster than the initial call.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084337">A plugin function should do meaningful work since there is some overhead converting input data from Skill to native C types and doing the opposite for return data.</a></td>
+          </tr>
+        </table>
+      </div>
+      <h3><a name="1084341">Cadence Customer Support</a></h3>
+      <p><a name="1084342">Cadence does not supporting debugging customer developed plugins.</a></p>
+      <p><a name="1084343">An environment variable, </a><font size="2" face="'Courier New'" color="#000000">allegro_noextension_plugin</font>, is available to disable plugin capability. If Allegro starts crashing or databases become corrupt, you should set this variable to determine if a plugin is the cause.</p>
+      <h3><a name="1084348">Examples</a></h3>
+      <p><a name="1084349">An example containing Skill, the plugin C code, Gnu Makefile (UNIX) and project file (Visual.NET) is contained at </a><font size="2" face="'Courier New'" color="#000000">&#60;cdsroot&#62;&#47;share&#47;pcb&#47;examples&#47;plugin</font>. In addition, a prebuilt plugin module is contained in the Cadence install hierarchy so you do not need to compile and link the plugin source code to run the Skill code.</p>
+      <p><a name="1084356">The example plugin provided has three exported symbols:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084357">An echo API which returns as output any input given.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084358">A </a><font size="2" face="'Courier New'" color="#000000">x_value</font> API which returns the number of input arguments.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1084359">A distance implementation to calculate the distance between two points.</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="1091395">&nbsp;</a></p>
+      <h3><a name="1082969">axlDllCall</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1082976">axlDllCall(</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1082977">&nbsp;&nbsp;&nbsp;&nbsp;o_pluginFunc</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1082978">&nbsp;&nbsp;&nbsp;&nbsp;[g_arg1]</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1082979">&nbsp;&nbsp;&nbsp;&nbsp;...</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1082980">&nbsp;&nbsp;&nbsp;&nbsp;[g_arg10]</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1082981">) &#45;&#62; nil&#47;x_value&#47;lg_data </a></font>
+      </dl>
+      <h4><a name="1082983">Description</a></h4>
+      <p><a name="1082984">Calls a symbol that has been imported from a plugin. As the first argument, it requires </a><font size="2" face="'Courier New'" color="#000000">o_pluginFunc</font> which was returned via a call to <font size="2" face="'Courier New'" color="#000000">axlDllSym</font>. The rest of the arguments are what the implement plugin API has defined. </p>
+      <p><a name="1082989">The return from the call is one of the following:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1082990"><font size="2" face="'Courier New'" color="#000000">nil</font></a>: error processing data</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1082991"><font size="2" face="'Courier New'" color="#000000">x_value</font></a>: plugin function returned a non&#45;zero result</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1082992"><font size="2" face="'Courier New'" color="#000000">lg_data</font></a>: plugin function returned a zero and it calls the import function from the plugin</td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="1082996">Arguments</a></h4>
+      <p><a name="1082997"><font size="2" face="'Courier New'" color="#000000">o_pluginFunc</font></a>	plugin symbol handle</p>
+      <p><a name="1082998"><font size="2" face="'Courier New'" color="#000000">[g_arg1..10]</font></a>	up to 10 arguments </p>
+      <h4><a name="1082999">Value Returned</a></h4>
+      <p><a name="1083000"><font size="2" face="'Courier New'" color="#000000">nil</font></a>	Error in processing arguments or funding functions.</p>
+      <p><a name="1083001"><font size="2" face="'Courier New'" color="#000000">x_value</font></a> 	If plugin function returns a non&#45;zero, then this is what is returned.</p>
+      <p><a name="1083003"><font size="2" face="'Courier New'" color="#000000">lg_data</font></a> 	If plugin function returns zero, then its output arguments are processed 	and returned as a list. If the output argument list from the plugin has 0 entries, then an empty list is returned.</p>
+      <h4><a name="1083007">See Also</a></h4>
+      <p><a href="#1087703" title="28" name="1083008"><font color="#0000ff"><u>axlDllOpen</u></font></a></p>
+      <h4><a name="1083009">Example</a></h4>
+      <p><a name="1083010">Example carried from </a><font size="2" face="'Courier New'" color="#000000">axlDllSym</font></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1083011">axlDllCall(_ashDistance 10:0 25.1:0) &#45;&#62; 15.1</a></font>
+      </dl>
+      <p><a name="1091422">&nbsp;</a></p>
+      <h3><a name="1091355">axlDllCallList</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1083473">axlDllCall(<dd>&nbsp;&nbsp;&nbsp;&nbsp;o_pluginFunc<dd>&nbsp;&nbsp;&nbsp;&nbsp;l_args&#47;nil<dd>) &#45;&#62; nil&#47;x_value&#47;lg_data</a></font>
+      </dl>
+      <h4><a name="1083478">Description</a></h4>
+      <p><a name="1083479">This function is identical to </a><font size="2" face="'Courier New'" color="#000000">axlDllCall</font> except it takes a list of arguments to pass to the plugin function. Unlike <font size="2" face="'Courier New'" color="#000000">axlDllCall,</font> which is limited to 10 arguments, this interface can take up to 512 arguments.</p>
+      <p><a name="1083484">See </a><font size="2" face="'Courier New'" color="#000000">axlDllCall</font> for a further explanation.</p>
+      <h4><a name="1083485">Arguments</a></h4>
+      <p><a name="1083486"><font size="2" face="'Courier New'" color="#000000">o_pluginFunc</font></a>	Plugin symbol handle</p>
+      <p><a name="1083487"><font size="2" face="'Courier New'" color="#000000">l_args</font></a>	A list of up to 512 arguments </p>
+      <h4><a name="1083488">Value Returned</a></h4>
+      <p><a name="1083489"><font size="2" face="'Courier New'" color="#000000">nil</font></a>	Error in processing arguments or funding functions.</p>
+      <p><a name="1083490"><font size="2" face="'Courier New'" color="#000000">x_value</font></a>	If plugin function returns a non&#45;zero, then this is what is returned.</p>
+      <p><a name="1083492"><font size="2" face="'Courier New'" color="#000000">lg_data</font></a>	If plugin function returns zero, then its output arguments are processed 	and returned as a list. If the output argument list from the plugin has 0 entries, then an empty list is returned.</p>
+      <h4><a name="1083496">See Also</a></h4>
+      <p><a href="#1082969" title="28" name="1083497"><font color="#0000ff"><u>axlDllCall</u></font></a><font size="2" face="'Courier New'" color="#000000">, </font><a href="#1087703" title="28"><font color="#0000ff"><u>axlDllOpen</u></font></a></p>
+      <h4><a name="1083498">Example</a></h4>
+      <p><a name="1083499">From </a><font size="2" face="'Courier New'" color="#000000">axlDllOpen</font> example</p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1083500">_ashEcho = axlDllSym(_ashTestDll &#34;ashEcho&#34;)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1083501">axlDllCallList(_ashEcho list(&#45;1 &#45;2.0 nil &#34;another string&#34; </a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1083502">&nbsp;&nbsp;&nbsp;&nbsp;&#45;10.1:&#45;2 0.2))</a></font>
+      </dl>
+      <p><a name="1091441">&nbsp;</a></p>
+      <h3><a name="1083879">axlDllClose</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1083887">axlDllClose(<dd>o_plugin<dd>)<dd>==&#62; t&#47;nil</a></font>
+      </dl>
+      <h4><a name="1083891">Description</a></h4>
+      <p><a name="1083892">This closes an open plugin handle. Once a handle is closed, you can no longer call functions obtained from the plugin. Also, a plugin is automatically closed when there are no active references to it via Skill&#39;s garbage collection. </a></p>
+      <p><a name="1083898">It is not advisable to close a plugin due to performance considerations. </a></p>
+      <h4><a name="1083900">Arguments</a></h4>
+      <p><a name="1083901"><font size="2" face="'Courier New'" color="#000000">o_plugin</font></a>	Plugin handle obtained from <font size="2" face="'Courier New'" color="#000000">axlDllOpen</font>.</p>
+      <h4><a name="1083902">Value Returned</a></h4>
+      <p><a name="1083903"><font size="2" face="'Courier New'" color="#000000">t</font></a> if successful to close, <font size="2" face="'Courier New'" color="#000000">nil</font> if handle is not a legal handle</p>
+      <h4><a name="1083904">See Also</a></h4>
+      <p><a href="#1087703" title="28" name="1083905"><font color="#0000ff"><u>axlDllOpen</u></font></a></p>
+      <h4><a name="1083906">Example</a></h4>
+      <p><a name="1083907">See example referenced by </a><font size="2" face="'Courier New'" color="#000000">axlDllOpen</font>.</p>
+      <p><a name="1083880">&nbsp;</a></p>
+      <h3><a name="1083931">axlDllDump</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1087559">axlDllDump(<dd>)<dd>==&#62; l_dllLoad&#47;nil</a></font>
+      </dl>
+      <h4><a name="1087562">Description</a></h4>
+      <p><a name="1087563">This is a debug function that reports all plugins loaded by Skill. </a></p>
+      <h4><a name="1087565">Arguments</a></h4>
+      <p><a name="1087566">None</a></p>
+      <h4><a name="1087567">Value Returned</a></h4>
+      <p><a name="1087568">List of plugin handles or </a><font size="2" face="'Courier New'" color="#000000">nil</font> if no loaded plugins.</p>
+      <h4><a name="1087569">See Also</a></h4>
+      <p><a href="#1087703" title="28" name="1087570"><font color="#0000ff"><u>axlDllOpen</u></font></a></p>
+      <h4><a name="1087571">Example</a></h4>
+      <p><a name="1087572"><font size="2" face="'Courier New'" color="#000000">axlDllDump()</font></a></p>
+      <p><a name="1083932">&nbsp;</a></p>
+      <h3><a name="1087703">axlDllOpen</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1087718">axlDllOpen(<dd>t_dllname<dd>)<dd>==&#62; o_plugin&#47;nil</a></font>
+      </dl>
+      <h4><a name="1087722">Description</a></h4>
+      <p><a name="1087723">This binds a dll&#47;shared library to the current program. While this can load any dll, only those built to be compatible with the axl Plugin model can be utilized via Skill (see </a><a href="#1084169" title="28"><font color="Blue"><u>DLL Programming</u></font></a><a href="#1084169" title="28"></a> for information on building compatible dlls).</p>
+      <p><a name="1087728">If the dll name does not have a directory path component, then </a><font size="2" face="'Courier New'" color="#000000">AXLPLUGINPATH</font> environment variable is used to search for the dll.</p>
+      <p><a name="1087732">After a dll is successfully loaded, you need to import one or more symbols (</a><font size="2" face="'Courier New'" color="#000000">axlDllSym</font>).</p>
+      <p><a name="1087735">Plugin Attributes</a></p>
+      <table summary="" border="1" cellpadding="5" cellspacing="0" width="567">
+        <tr>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="182">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1088134">Name</a></strong></font>
+            </p>
+          </td>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="96">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1088136">Type</a></strong></font>
+            </p>
+          </td>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="288">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1088146">Description</a></strong></font>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1088138">name</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1088140">string</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1088148">Name of plugin file (dll name)</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1088142">functions</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1088144">l_dbid</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1088150">Disembodied property list name&#47;value pairs of imported symbols (</a><font size="2" face="'Courier New'" color="#000000">t_name o_pluginFunc</font>)</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1088273">objType</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1088275">string</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1088277">&#34;plugin&#34;</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1087979">To access imported plugin function types do a </a></p>
+      <blockquote><a name="1087980"><font size="2" face="'Courier New'" color="#000000">&#60;o_plugin&#62;&#45;&#62;functions&#45;&#62;&#60;pluginFuncName&#62;</font></a></blockquote>
+      <h4><a name="1087745">Arguments</a></h4>
+      <p><a name="1087746"><font size="2" face="'Courier New'" color="#000000">t_dllname</font></a>	Name of dll. For platform indendence, it is strongly suggested that you 	do not include the file extension or a directory path component.</p>
+      <h4><a name="1087749">Value Returned</a></h4>
+      <p><a name="1087750"><font size="2" face="'Courier New'" color="#000000">o_plugin</font></a></p>
+      <p><a name="1087751"><font size="2" face="'Courier New'" color="#000000">nil</font></a>	Can&#39;t locate library or not a dll.</p>
+      <h4><a name="1087752">See Also</a></h4>
+      <p><a href="#1084169" title="28" name="1087753"><font color="Blue"><u>DLL Programming</u></font></a><a href="#1084169" title="28"> </a><font size="2" face="'Courier New'" color="#000000">, </font><a href="#1088093" title="28"><font color="#0000ff"><u>axlDllSym</u></font></a><font size="2" face="'Courier New'" color="#000000">, </font><a href="#1082969" title="28"><font color="#0000ff"><u>axlDllCall</u></font></a><font size="2" face="'Courier New'" color="#000000">, </font><a href="#1091355" title="28"><font color="#0000ff"><u>axlDllCallList</u></font></a><font size="2" face="'Courier New'" color="#000000"> </font><a href="#1083879" title="28"><font color="#0000ff"><u>axlDllClose</u></font></a><font size="2" face="'Courier New'" color="#000000">, </font><a href="#1083931" title="28"><font color="#0000ff"><u>axlDllDump</u></font></a></p>
+      <h4><a name="1087755">Example</a></h4>
+      <p><a name="1087756">Open Cadence test dll</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1087757">_ashTestDll = axlDllOpen(&#34;axlecho_plugin&#34;)</a></font>
+      </dl>
+      <p><a name="1087704">&nbsp;</a></p>
+      <h3><a name="1088093">axlDllSym</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1088323">axlDllSym(<dd>o_plugin<dd>t_symbolName<dd>)<dd>==&#62; o_pluginFunc&#47;nil</a></font>
+      </dl>
+      <h4><a name="1088328">Description</a></h4>
+      <p><a name="1088329">This imports a symbol from a loaded dll. A dll can have one or more exported symbols. The symbol must have been exported from the dll when the dll was compiled and linked (See </a><font size="2" face="'Courier New'" color="#000000">axlDllDoc</font>).</p>
+      <p><a name="1088561">PluginFunc Attributes</a></p>
+      <table summary="" border="1" cellpadding="5" cellspacing="0" width="567">
+        <tr>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="182">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1088538">Name</a></strong></font>
+            </p>
+          </td>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="96">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1088540">Type</a></strong></font>
+            </p>
+          </td>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="288">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1088542">Description</a></strong></font>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1088544">name</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1088546">string</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1088548">Name of imported symbol file</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1088550">functions</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1088552">nil</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1088554">Always </a><font size="2" face="'Courier New'" color="#000000">nil</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1088556">objType</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1088558">string</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1088560">&#34;pluginFunc&#34;</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1088342">Arguments</a></h4>
+      <p><a name="1088343"><font size="2" face="'Courier New'" color="#000000">o_plugin</font></a>	dll handle from <font size="2" face="'Courier New'" color="#000000">axlDllOpen</font></p>
+      <p><a name="1088344"><font size="2" face="'Courier New'" color="#000000">t_symbolName</font></a>	Name of an exported function within the dll</p>
+      <h4><a name="1088345">Value Returned</a></h4>
+      <p><a name="1088346"><font size="2" face="'Courier New'" color="#000000">o_pluginFunc</font></a>	Symbol handle</p>
+      <p><a name="1088347"><font size="2" face="'Courier New'" color="#000000">nil</font></a>	Error; symbol not present in dll.</p>
+      <h4><a name="1088348">See Also</a></h4>
+      <p><a href="#1087703" title="28" name="1088349"><font color="#0000ff"><u>axlDllOpen</u></font></a></p>
+      <h4><a name="1088350">Example</a></h4>
+      <p><a name="1088351">Load the distance symbol from the axl plugin test dll</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1088352">_ashDistance = axlDllSym(_ashTestDll &#34;ashDistance&#34;)</a></font>
+      </dl>
+      <p><a name="1091128">&nbsp;</a></p>
+      <p><a name="1091276">&nbsp;</a></p>
+    </div>
+    <br>
+    <a href="#pagetop">Return to top of page</a>
+    <hr>
+    <hr align="left">
+    <div style="text-align: left;">
+      <!-- Begin Buttons -->      <table width="650" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                    </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+          <td>
+            <a href="msexl.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+          </td>
+          <td>
+            <a href="27langexten.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+          </td>
+          <td>
+            <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+            </a>
+          </td>
+          <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+          </td>
+          <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+          </td>
+          <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+          </td>
+          <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+          </td>
+        </tr>
+      </table>
+      <!-- End Buttons -->
+    </div>
+    <br>
+    <font size="-1" >
+For support, see <a href="http://support.cadence.com" target="_blank">Cadence Online Support</a> service.</font>
+    <br>
+    <br>
+    <font size="-1" >
+      <i>Copyright &#169; 2017, <a href="http://www.cadence.com">Cadence Design Systems, Inc.</a></i>
+    </font>
+    <br>
+    <font size="-1" >
+All rights reserved.</font>
+    <br>
+    <br>
+  </body>
+</html>

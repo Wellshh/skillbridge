@@ -48,253 +48,246 @@
   "documents": [
     {
       "path": "algroskill/01ovrvew.md",
-      "chars": 16945,
-      "estimated_tokens": 4237,
+      "chars": 0,
+      "estimated_tokens": 0,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/02dbdesc.md",
-      "chars": 54898,
-      "estimated_tokens": 13725,
+      "chars": 0,
+      "estimated_tokens": 0,
       "exceeds_limit": false,
-      "exceeds_safety_target": true
+      "exceeds_safety_target": false
     },
     {
       "path": "algroskill/03dbcre8.part01.md",
-      "chars": 54053,
-      "estimated_tokens": 13514,
+      "chars": 51982,
+      "estimated_tokens": 12996,
       "exceeds_limit": false,
-      "exceeds_safety_target": true
+      "exceeds_safety_target": false
     },
     {
       "path": "algroskill/03dbcre8.part02.md",
-      "chars": 19833,
-      "estimated_tokens": 4959,
+      "chars": 15071,
+      "estimated_tokens": 3768,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/04parmgt.part01.md",
-      "chars": 53938,
-      "estimated_tokens": 13485,
+      "chars": 52097,
+      "estimated_tokens": 13025,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/04parmgt.part02.md",
-      "chars": 31834,
-      "estimated_tokens": 7959,
+      "chars": 23094,
+      "estimated_tokens": 5774,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/05selfnd.md",
-      "chars": 54566,
-      "estimated_tokens": 13642,
+      "chars": 38610,
+      "estimated_tokens": 9653,
       "exceeds_limit": false,
-      "exceeds_safety_target": true
+      "exceeds_safety_target": false
     },
     {
       "path": "algroskill/06intedt.part01.md",
-      "chars": 52989,
-      "estimated_tokens": 13248,
+      "chars": 49843,
+      "estimated_tokens": 12461,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/06intedt.part02.md",
-      "chars": 16888,
-      "estimated_tokens": 4222,
+      "chars": 12070,
+      "estimated_tokens": 3018,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/07dbaccs.md",
-      "chars": 30902,
-      "estimated_tokens": 7726,
+      "chars": 31467,
+      "estimated_tokens": 7867,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/08intprm.md",
-      "chars": 48895,
-      "estimated_tokens": 12224,
+      "chars": 40524,
+      "estimated_tokens": 10131,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/09cmdshl.md",
-      "chars": 19923,
-      "estimated_tokens": 4981,
+      "chars": 18305,
+      "estimated_tokens": 4577,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/10usrint.part01.md",
-      "chars": 53909,
-      "estimated_tokens": 13478,
+      "chars": 51861,
+      "estimated_tokens": 12966,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/10usrint.part02.md",
-      "chars": 17571,
-      "estimated_tokens": 4393,
+      "chars": 7483,
+      "estimated_tokens": 1871,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/11frmint.part01.md",
-      "chars": 54035,
-      "estimated_tokens": 13509,
+      "chars": 52120,
+      "estimated_tokens": 13030,
       "exceeds_limit": false,
-      "exceeds_safety_target": true
+      "exceeds_safety_target": false
     },
     {
       "path": "algroskill/11frmint.part02.md",
-      "chars": 54016,
-      "estimated_tokens": 13504,
-      "exceeds_limit": false,
-      "exceeds_safety_target": true
-    },
-    {
-      "path": "algroskill/11frmint.part03.md",
-      "chars": 45784,
-      "estimated_tokens": 11446,
+      "chars": 43179,
+      "estimated_tokens": 10795,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/12draw.md",
-      "chars": 8318,
-      "estimated_tokens": 2080,
+      "chars": 5893,
+      "estimated_tokens": 1474,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/13msghnd.md",
-      "chars": 14101,
-      "estimated_tokens": 3526,
+      "chars": 10741,
+      "estimated_tokens": 2686,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/14dsnctl.md",
-      "chars": 54757,
-      "estimated_tokens": 13690,
+      "chars": 50924,
+      "estimated_tokens": 12731,
       "exceeds_limit": false,
-      "exceeds_safety_target": true
+      "exceeds_safety_target": false
     },
     {
       "path": "algroskill/15dbgrp.md",
-      "chars": 17822,
-      "estimated_tokens": 4456,
+      "chars": 18052,
+      "estimated_tokens": 4513,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/16dbatt.md",
-      "chars": 9179,
-      "estimated_tokens": 2295,
+      "chars": 9080,
+      "estimated_tokens": 2270,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/17dbtran.md",
-      "chars": 9529,
-      "estimated_tokens": 2383,
+      "chars": 6972,
+      "estimated_tokens": 1743,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/18consmgt.part01.md",
-      "chars": 53980,
-      "estimated_tokens": 13495,
+      "chars": 53623,
+      "estimated_tokens": 13406,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/18consmgt.part02.md",
-      "chars": 32199,
-      "estimated_tokens": 8050,
+      "chars": 23522,
+      "estimated_tokens": 5881,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/19cmdctl.md",
-      "chars": 22041,
-      "estimated_tokens": 5511,
+      "chars": 19513,
+      "estimated_tokens": 4879,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/20plyopr.md",
-      "chars": 22384,
-      "estimated_tokens": 5596,
+      "chars": 16124,
+      "estimated_tokens": 4031,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/21filacc.md",
-      "chars": 17614,
-      "estimated_tokens": 4404,
+      "chars": 17633,
+      "estimated_tokens": 4409,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/22extrct.md",
-      "chars": 9184,
-      "estimated_tokens": 2296,
+      "chars": 8860,
+      "estimated_tokens": 2215,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/23utils.md",
-      "chars": 49039,
-      "estimated_tokens": 12260,
+      "chars": 49537,
+      "estimated_tokens": 12385,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/24mthutl.md",
-      "chars": 20923,
-      "estimated_tokens": 5231,
+      "chars": 19660,
+      "estimated_tokens": 4915,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/25dbmisc.md",
-      "chars": 34709,
-      "estimated_tokens": 8678,
+      "chars": 35638,
+      "estimated_tokens": 8910,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/26logacc.md",
-      "chars": 38122,
-      "estimated_tokens": 9531,
+      "chars": 37653,
+      "estimated_tokens": 9414,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/27langexten.md",
-      "chars": 10118,
-      "estimated_tokens": 2530,
+      "chars": 10291,
+      "estimated_tokens": 2573,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/27plugin.md",
-      "chars": 16167,
-      "estimated_tokens": 4042,
+      "chars": 12997,
+      "estimated_tokens": 3250,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/A_bldcontxt.md",
-      "chars": 11901,
-      "estimated_tokens": 2976,
+      "chars": 7205,
+      "estimated_tokens": 1802,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
@@ -314,29 +307,22 @@
     },
     {
       "path": "algroskill/msexl.md",
-      "chars": 28838,
-      "estimated_tokens": 7210,
+      "chars": 28162,
+      "estimated_tokens": 7041,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/preface.md",
-      "chars": 13875,
-      "estimated_tokens": 3469,
+      "chars": 0,
+      "estimated_tokens": 0,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "algroskill/sipapd.md",
-      "chars": 53484,
-      "estimated_tokens": 13371,
-      "exceeds_limit": false,
-      "exceeds_safety_target": false
-    },
-    {
-      "path": "algroskill/titlecopy.md",
-      "chars": 3707,
-      "estimated_tokens": 927,
+      "chars": 52796,
+      "estimated_tokens": 13199,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
@@ -363,99 +349,99 @@
     },
     {
       "path": "sklangref/arithmetic.md",
-      "chars": 33881,
-      "estimated_tokens": 8471,
+      "chars": 34943,
+      "estimated_tokens": 8736,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "sklangref/bitwise.md",
-      "chars": 7900,
-      "estimated_tokens": 1975,
+      "chars": 8018,
+      "estimated_tokens": 2005,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "sklangref/controlflow.md",
-      "chars": 51614,
-      "estimated_tokens": 12904,
+      "chars": 50770,
+      "estimated_tokens": 12693,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "sklangref/core.md",
-      "chars": 32315,
-      "estimated_tokens": 8079,
+      "chars": 32870,
+      "estimated_tokens": 8218,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "sklangref/dataoperator.md",
-      "chars": 36365,
-      "estimated_tokens": 9092,
+      "chars": 37204,
+      "estimated_tokens": 9301,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "sklangref/datastruct.md",
-      "chars": 16081,
-      "estimated_tokens": 4021,
+      "chars": 16293,
+      "estimated_tokens": 4074,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "sklangref/environment.md",
-      "chars": 24410,
-      "estimated_tokens": 6103,
+      "chars": 24482,
+      "estimated_tokens": 6121,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "sklangref/funcprog.part01.md",
-      "chars": 53989,
-      "estimated_tokens": 13498,
+      "chars": 54293,
+      "estimated_tokens": 13574,
       "exceeds_limit": false,
-      "exceeds_safety_target": false
+      "exceeds_safety_target": true
     },
     {
       "path": "sklangref/funcprog.part02.md",
-      "chars": 15287,
-      "estimated_tokens": 3822,
+      "chars": 15543,
+      "estimated_tokens": 3886,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "sklangref/inputoutput.part01.md",
-      "chars": 53945,
-      "estimated_tokens": 13487,
+      "chars": 54566,
+      "estimated_tokens": 13642,
       "exceeds_limit": false,
-      "exceeds_safety_target": false
+      "exceeds_safety_target": true
     },
     {
       "path": "sklangref/inputoutput.part02.md",
-      "chars": 11521,
-      "estimated_tokens": 2881,
+      "chars": 11701,
+      "estimated_tokens": 2926,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "sklangref/list.md",
-      "chars": 31840,
-      "estimated_tokens": 7960,
+      "chars": 32573,
+      "estimated_tokens": 8144,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "sklangref/logicalrel.md",
-      "chars": 15562,
-      "estimated_tokens": 3891,
+      "chars": 15728,
+      "estimated_tokens": 3932,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "sklangref/nmspace.md",
-      "chars": 8957,
-      "estimated_tokens": 2240,
+      "chars": 9553,
+      "estimated_tokens": 2389,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
@@ -475,15 +461,15 @@
     },
     {
       "path": "sklangref/stringfunc.part01.md",
-      "chars": 54023,
-      "estimated_tokens": 13506,
+      "chars": 53659,
+      "estimated_tokens": 13415,
       "exceeds_limit": false,
-      "exceeds_safety_target": true
+      "exceeds_safety_target": false
     },
     {
       "path": "sklangref/stringfunc.part02.md",
-      "chars": 13603,
-      "estimated_tokens": 3401,
+      "chars": 13785,
+      "estimated_tokens": 3447,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
@@ -496,15 +482,15 @@
     },
     {
       "path": "sklangref/trigono.md",
-      "chars": 3892,
-      "estimated_tokens": 973,
+      "chars": 3540,
+      "estimated_tokens": 885,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "sklangref/typeconv.md",
-      "chars": 9982,
-      "estimated_tokens": 2496,
+      "chars": 10454,
+      "estimated_tokens": 2614,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
@@ -678,8 +664,8 @@
     },
     {
       "path": "skdevref/skdevref.part02.md",
-      "chars": 51856,
-      "estimated_tokens": 12964,
+      "chars": 51666,
+      "estimated_tokens": 12917,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
@@ -692,7 +678,7 @@
     },
     {
       "path": "skdevref/skdevref.part04.md",
-      "chars": 51913,
+      "chars": 51915,
       "estimated_tokens": 12979,
       "exceeds_limit": false,
       "exceeds_safety_target": false
@@ -706,8 +692,8 @@
     },
     {
       "path": "skoopref/skoopref.part01.md",
-      "chars": 50833,
-      "estimated_tokens": 12709,
+      "chars": 50803,
+      "estimated_tokens": 12701,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
@@ -739,7 +725,7 @@
     ]
   },
   "quality": {
-    "legacy_html_links": 3159,
-    "signature_name_mismatches": 16
+    "legacy_html_links": 2918,
+    "signature_name_mismatches": 17
   }
 }

@@ -1,0 +1,1488 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN" "http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+<html xmlns="http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Allegro SKILL Reference -- 1</title>
+<META NAME="Approver" CONTENT="Technical Publications">
+<META NAME="Author" CONTENT="Technical Publications">
+<META NAME="CreateDate" CONTENT="2017-11-25">
+<META NAME="CreateTime" CONTENT="1511600111">
+<META NAME="DataType" CONTENT="Manuals">
+<META NAME="Description" CONTENT="Describes the Allegro eXtension Language (AXL) and how to use each AXL function.">
+<META NAME="DocTitle" CONTENT="Allegro SKILL Reference">
+<META NAME="DocType" CONTENT="SKILL Reference">
+<META NAME="EdmsRelease" CONTENT="FM-Wiki-2.0_HF2">
+<META NAME="FileTitle" CONTENT="1">
+<META NAME="FileType" CONTENT="Chapter">
+<META NAME="Group" CONTENT="Allegro User Guide">
+<META NAME="Keyword" CONTENT="algroskill">
+<META NAME="Language" CONTENT="English">
+<META NAME="ModifiedDate" CONTENT="2017-11-25">
+<META NAME="ModifiedTime" CONTENT="1511600111">
+<META NAME="NextFile" CONTENT="02dbdesc.html">
+<META NAME="Order" CONTENT="11">
+<META NAME="PageCount" CONTENT="14">
+<META NAME="Platform" CONTENT="ALL">
+<META NAME="PrevFile" CONTENT="preface.html">
+<META NAME="Product" CONTENT="Allegro PCB Editor, Cadence SiP Digital">
+<META NAME="ProductFamily" CONTENT="Silicon-Package-Board Co-Design, IC Packaging">
+<META NAME="ProductVersion" CONTENT="17.2-2016">
+<META NAME="RightsManagement" CONTENT="Copyright 19912017 Cadence Design Systems Inc.">
+<META NAME="Title" CONTENT="Allegro SKILL Reference -- 1">
+<META NAME="TopicTags" CONTENT="FALSE">
+<META NAME="Version" CONTENT="17.2-2016">
+  </head>
+  <body style="margin-left: 5%;">
+    <a name="pagetop"></a>
+    <a name="firstpage"></a>
+    <!-- Begin Buttons -->
+    <table width="650" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td height="36" width="650" colspan="10">
+          <img src="images/header_doc.gif" width="650" height="34">
+        </td>
+      </tr>
+      <tr>
+        <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+        <td>
+          <a href="preface.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+        </td>
+        <td>
+          <a href="02dbdesc.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+        </td>
+        <td height="20">
+          <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+          </a>
+        </td>
+        <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+        </td>
+        <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+        </td>
+        <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+        </td>
+        <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+        </td>
+      </tr>
+    </table>
+    <!-- End Buttons -->
+    <p>
+    <hr>
+    <p>
+      <h3>
+        <center>
+          <font >
+            <div>Allegro User Guide: SKILL Reference</div>
+            <font >
+              <div>Product Version 17.2&#45;2016 April 2016</div>
+            </font>
+          </font>
+        </center>
+      </h3>
+      <br>
+    </p>
+    <div>
+      <h1>1<a name="61057">&nbsp;</a></h1>
+      <h1><a name="103136">Introduction to Allegro PCB Editor SKILL Functions</a></h1>
+      <h2><a name="69599">Overview</a></h2>
+      <p><a name="69379">This chapter is a brief overview of the following:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="67263">Allegro PCB Editor AXL&#45;SKILL</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="61166">AXL&#45;SKILL functions</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="61167">How to initialize and run AXL&#45;SKILL</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="61168">The AXL Allegro PCB Editor database</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="67418">Later chapters describe in detail the AXL database objects and all AXL&#45;SKILL functions.</a></p>
+      <h2><a name="67472">AXL&#45;SKILL in Allegro PCB Editor</a></h2>
+      <p><a name="105513">AXL&#45;SKILL is a language processor contained in Allegro PCB Editor, as shown in the following figure. </a></p>
+      <p><a name="105520">AXL&#45;SKILL contains and is an extension of the core Cadence SKILL language. You use <br>AXL&#45;SKILL functions to access the Allegro PCB Editor database and its display and user interfaces. Once you have accessed the Allegro PCB Editor database, you can process the data using the core SKILL functions. The </a><font color="#000000"><em>SKILL Language Functions Reference</em></font> describes core SKILL and its available functions.</p>
+      <p align="left"><a name="96044"><img src="images/01ovrvew.05.1.1.png" width="514" height="387" alt=""><br> </a></p>
+      <p><a name="61086">You access AXL&#45;SKILL by entering the command </a><font size="2" face="'Courier New'" color="#000000">skill</font> on the Allegro PCB Editor command line. </p>
+      <p><a name="105529">AXL&#45;SKILL initializes automatically when you start Allegro PCB Editor. As Allegro PCB Editor starts, it reads the Allegro PCB Editor </a><font size="2" face="'Courier New'" color="#000000">env</font> file, then the AXL <font size="2" face="'Courier New'" color="#000000">ilinit</font> file (as described below) then any script you may have specified with the <font size="2" face="'Courier New'" color="#000000">&#45;s</font> option in the UNIX command starting Allegro PCB Editor.</p>
+      <p><a name="105531">Allegro PCB Editor looks for the </a><font size="2" face="'Courier New'" color="#000000">ilinit</font> file in the following way:</p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/arrwrite.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105532">For the locations specified below, Allegro PCB Editor reads one of the following files:</a></td>
+          </tr>
+        </table>
+      </div>
+      <blockquote><a name="105533"><font size="2" face="'Courier New'" color="#000000">&#60;</font></a><font size="2" face="'Courier New'" color="#000000"><em>program_name</em></font><font size="2" face="'Courier New'" color="#000000">&#62;.ilinit</font></blockquote>
+      <blockquote><a name="105534"><font size="2" face="'Courier New'" color="#000000">allegro.ilinit</font></a></blockquote>
+      <blockquote><a name="105535">From the locations:</a></blockquote>
+      <blockquote><a name="105536"><font size="2" face="'Courier New'" color="#000000">&#60;</font></a><font size="2" face="'Courier New'" color="#000000"><em>cdsroot</em></font><font size="2" face="'Courier New'" color="#000000">&#62;&#47;share&#47;pcb&#47;etc&#47;skill</font></blockquote>
+      <blockquote><a name="105537"><font size="2" face="'Courier New'" color="#000000">&#60;</font></a><font size="2" face="'Courier New'" color="#000000"><em>cdssite</em></font><font size="2" face="'Courier New'" color="#000000">&#62;&#47;pcb&#47;skill </font></blockquote>
+      <blockquote><font color="#000000"><strong>Note: </strong></font><a name="105538"><font size="2" face="'Courier New'" color="#000000">&#60;</font></a><font size="2" face="'Courier New'" color="#000000"><em>cdssite</em></font><font size="2" face="'Courier New'" color="#000000">&#62;</font> defaults to <font size="2" face="'Courier New'" color="#000000">&#60;</font><font size="2" face="'Courier New'" color="#000000"><em>cdsroot</em></font><font size="2" face="'Courier New'" color="#000000">&#62;&#47;share&#47;local&#47;pcb&#47;skill</font>, otherwise you can set the <font size="2" face="'Courier New'" color="#000000">CDS_SITE</font> variable to point to another location, the directory where your program started:</blockquote>
+      <blockquote><a name="105539"><font size="2" face="'Courier New'" color="#000000">$HOME&#47;pcbenv</font></a></blockquote>
+      <p><a name="105540">If you have multiple </a><font size="2" face="'Courier New'" color="#000000">ilinit</font> files in the locations listed above, <font color="#000000"><em>each</em></font> of the <font size="2" face="'Courier New'" color="#000000">ilinit</font> files will be read. If you wish only the <font color="#000000"><em>first</em></font> found <font size="2" face="'Courier New'" color="#000000">ilinit</font> file to be read (the methodology employed in pre&#45;14.2 releases), set the environment variable <font size="2" face="'Courier New'" color="#000000">skill_old_ilinit</font>.</p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="105542">You cannot insert SKILL commands in the </a><font size="2" face="'Courier New'" color="#000000">env</font> file.</p>
+      <h4><a name="61637">Running AXL&#45;SKILL from the Command Line</a></h4>
+      <p><a name="61095">You run AXL&#45;SKILL by typing </a><font size="2" face="'Courier New'" color="#000000">skill</font> on the Allegro PCB Editor command line. The AXL&#45;SKILL interpreter appears with the <font color="#000000"><em>skill&#62;</em></font> prompt in place of the Allegro PCB Editor command line.</p>
+      <p><a name="105575">You can also run AXL&#45;SKILL functions from the Allegro PCB Editor command line with the following syntax:</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="73246">&nbsp;&nbsp;&nbsp;&nbsp;skill (&#60;</a><font size="2" face="'Courier New'" color="#000000"><em>function</em></font>&#62; &#60;<font size="2" face="'Courier New'" color="#000000"><em>arguments</em></font>&#62;)</font>
+      </blockquote>
+      <p><a name="73983">Type </a><font size="2" face="'Courier New'" color="#000000">exit</font> to close the AXL&#45;SKILL interpreter and return to the Allegro PCB Editor command line.</p>
+      <h4><a name="61684">Running AXL&#45;SKILL in Batch Mode</a></h4>
+      <p><a name="61097">You can run AXL&#45;SKILL in batch mode using an X terminal window without displaying Allegro PCB Editor, by typing the following command:</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="105586">.</a>allegro &#45;nographic</font>
+      </blockquote>
+      <p><a name="75301">If your system is not running the X window system, verify that it has its DISPLAY environment variable set to a system running an X&#45;server. </a></p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="75272">	The </a><font size="2" face="'Courier New'" color="#000000">&#45;nographic</font> switch is valid for all Allegro PCB Editor graphic executables, such as <font size="2" face="'Courier New'" color="#000000">allegro_layout</font>, <font size="2" face="'Courier New'" color="#000000">allegro_engineer</font>, <font size="2" face="'Courier New'" color="#000000">allegro_prep</font>, <font size="2" face="'Courier New'" color="#000000">allegro_interactive</font>, and <font size="2" face="'Courier New'" color="#000000">allegro_layout</font>.</p>
+      <p><a name="61106">You can also program the Allegro PCB Editor and AXL&#45;SKILL startup and command entry in a shell script, allowing full batch capability.</a></p>
+      <h4><a name="61719">Debugging AXL&#45;SKILL Programs</a></h4>
+      <p><a name="61107">If you have a SKILL ACCESS development license, you can debug AXL&#45;SKILL programs in Allegro PCB Editor using the same tools offered by other Cadence SKILL programs. See </a><font color="#000000"><em>SKILL Language Functions Reference</em></font> for a description of those tools, which are primarily available on Unix.</p>
+      <h4><a name="105551">AXL&#45;SKILL Grammar</a></h4>
+      <p><a name="105552">AXL&#45;SKILL functions follow SKILL grammar rules. In addition, the following characteristics apply to most AXL&#45;SKILL functions:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105553">All Allegro PCB Editor AXL function names begin with </a><font size="2" face="'Courier New'" color="#000000">axl</font>.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105554">AXL functions are classified into families that typically have similar calling sequences and share a common part of their names, for example the </a><font size="2" face="'Courier New'" color="#000000">axlDBCreate</font> family, with members such as <font size="2" face="'Courier New'" color="#000000">axlDBCreateShape</font> and <font size="2" face="'Courier New'" color="#000000">axlDBCreateSymbol</font>.</td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="61108">SKILL Development Window</a></h4>
+      <p><a name="105561">You can get a larger SKILL&#45;only window by setting the Allegro PCB Editor environment variable, </a><font size="2" face="'Courier New'" color="#000000">TELSKILL</font>.</p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="105562">All Allegro PCB Editor console output is directed to the SKILL window when the </a><font size="2" face="'Courier New'" color="#000000">TELSKILL</font> variable is set.</p>
+      <h2><a name="105377">AXL&#45;SKILL Database</a></h2>
+      <p><a name="61110">Allegro PCB Editor stores design data as various types of objects in a proprietary database format. These object types can create a complete representation of an electronic layout. You can create, operate on, and extract information from this database using AXL&#45;SKILL programs.</a></p>
+      <p><a name="61111">The AXL&#45;SKILL database stores both physical and logical information about your design. Physical information is objects such as geometrical shapes (connecting etch, for example). Logical information is objects such as nets and logical components.</a></p>
+      <h4><a name="61747">Object dbids (database identifiers)</a></h4>
+      <p><a name="61112">Every Allegro PCB Editor database object has a unique </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font> (database identifier) associated with it. When you call a function to operate on a database object, you identify the object to the function by giving the object's <font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font> as an argument. </p>
+      <p><a name="105606">Only AXL routines can create </a><font size="2" face="'Courier New'" color="#000000"><em>dbids</em></font>. You cannot alter <font size="2" face="'Courier New'" color="#000000"><em>dbids</em></font> directly, except for parameter record ids.</p>
+      <h4><a name="105611">Out of Scope dbids</a></h4>
+      <p><a name="105616">When a dbid is separated from its object, the dbid is considered out&#45;of&#45;scope. A dbid can become separated from its object for any of the following reasons:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105621">You delete an object.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105622">You add a connect line that touches an existing connect line. This causes the existing line to break in to two objects, each with a separate dbid, so the original dbid of the line no longer denotes the same object.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105623">You return to Allegro PCB Editor from AXL.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105624">You run an Allegro PCB Editor command while in SKILL, using the AXL shell function. To minimize out&#45;of&#45;scope issues with AXL shell, isolate AXL shell functions and if necessary refresh dbids after AXL shell calls with the function axlDBRefreshID.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105625">You open a new layout.</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="65602">Out of scope </a><font size="2" face="'Courier New'" color="#000000"><em>dbids</em></font> have no attributes, so they have no object type. If you try to evaluate a <font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font> that is out of scope, SKILL displays the message: </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><a name="105636"><font size="2" face="'Courier New'" color="#000000">dbid: removed</font></a></font>
+      </p>
+      <p><a name="105637">Using an out of scope </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font> in a function causes unexpected results.</p>
+      <h4><a name="105645">Object Types</a></h4>
+      <p><a name="105646">Each Allegro PCB Editor object has an associated </a><font color="#000000"><em>type</em></font> and a set of <font color="#000000"><em>attributes</em></font> that describe the object. For example, all <font size="2" face="'Courier New'" color="#000000">symbol</font> objects are of type <font size="2" face="'Courier New'" color="#000000">symbol</font>. All <font size="2" face="'Courier New'" color="#000000">symbols</font> have the <font size="2" face="'Courier New'" color="#000000">isMirrored</font> attribute, among others, and this attribute has the value <font size="2" face="'Courier New'" color="#000000">t</font> if the symbol is mirrored or <font size="2" face="'Courier New'" color="#000000">nil</font> if it is not. You can use an AXL&#45;SKILL function with &#34;<font size="2" face="'Courier New'" color="#000000">&#45;&#62;&#34;</font> (the access operator) to access any object attribute. If the attribute does not exist for that object the function returns <font size="2" face="'Courier New'" color="#000000">nil</font>.</p>
+      <p><a name="105650">You use the SKILL special attributes </a><font size="2" face="'Courier New'" color="#000000">?</font> (question mark) and <font size="2" face="'Courier New'" color="#000000">??</font> to see all attributes and all attribute&#47;value pairs of an object. See <a href="02dbdesc.html#462876" title="2"><font color="#0000ff"><u>Chapter&nbsp;2, "The Allegro PCB Editor Database User Model,"</u></font></a> for more information about object types. </p>
+      <h4><a name="105651">Object Classes</a></h4>
+      <p><a name="105679">An </a><font color="#000000"><em>object</em></font> class is a data&#45;type abstraction used to group related object types. When a number of distinct object types share enough attributes, you can discuss them as a single class. The start of each section describing a class of object types lists all attributes common to that class.</p>
+      <p><a name="105655">The different types and classes of objects form a class hierarchy. At the top of the hierarchy is a class containing all types. At the bottom of the hierarchy, each leaf (terminal node) represents an object type that you can create, delete, and save on disk. Each intermediate node in the hierarchy has attributes that are common to all of its children. AXL&#45;SKILL figures, for example, have common attributes of </a><font size="2" face="'Courier New'" color="#000000">layer</font> and <font size="2" face="'Courier New'" color="#000000">bBox</font> (bounding box). These higher level classes do not exist as objects.</p>
+      <h4><a name="61802">Select Sets and Find Functions</a></h4>
+      <p><a name="61118">AXL&#45;SKILL edit functions obtain the identities of the objects on which they operate from a list of </a><font size="2" face="'Courier New'" color="#000000"><em>dbids</em></font> called the <font color="#000000"><em>select set.</em></font> You accumulate <font size="2" face="'Courier New'" color="#000000"><em>dbids</em></font> in the select set by selecting one or several objects using AXL select functions. You then apply edit functions to the objects by passing the select set as an argument to the functions.</p>
+      <p><a name="61119">AXL&#45;SKILL has functions to do the following:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="61120">Set the Find Filter to control the types of objects selected and select options</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="61121">Select objects at a single point, over an area, or by name</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="61122">Select parts of objects (for example, pins, which are parts of symbols)</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="61123">Add or remove objects from the select set (the set of selected objects)</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="61124">Get </a><font size="2" face="'Courier New'" color="#000000"><em>dbids</em></font> and return the count of <font size="2" face="'Courier New'" color="#000000"><em>dbids</em></font> in the select set</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="61125">Add </a><font size="2" face="'Courier New'" color="#000000"><em>dbids</em></font> to and remove them from the select set before using it.</td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="61126">See </a><a href="05selfnd.html#580309" title="4"><font color="#0000ff"><u>Chapter&nbsp;4, "Selection and Find Functions,"</u></font></a> for information about select set functions.</p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="61059">Allegro PCB Editor highlights selected objects whenever it refreshes the display.</a></p>
+      <h4><a name="61852">Design Files</a></h4>
+      <p><a name="61137">Design files</a> are containers for Allegro PCB Editor database objects. AXL&#45;SKILL has two major design file types:</p>
+      <p><a name="61138">&nbsp;</a></p>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="109011"><font size="2" face="'Courier New'" color="#000000">Layout</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="109013">Contains printed circuit or MCM layout data.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109015"><font size="2" face="'Courier New'" color="#000000">Symbol</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109017">Contains the definition drawing of a symbol. The compiled output of a symbol file can be added to layouts. Symbol files can define any of package, mechanical, format, and shape symbols.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="105702">Logical Objects</a></h4>
+      <p><a name="105703">Logical objects are the objects in the netlist that Allegro PCB Editor loads from a schematic or third&#45;party netlist file:</a></p>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="109338"><font color="#000000">Component</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="109340">Contains the electrical functions, such as nand gates, and pins that define the electrical behavior of an object. A component's reference designator is its name.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109342"><font color="#000000">Net</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109344">Is the set of all the etch objects--ppins, etch paths, shapes, and vias--associated with a particular signal name. Every net has a name which is its signal name. A net contains one or more branches. Each branch is a list of the etch objects that are physically connected among themselves. A branch can include ppins, etch paths, shapes, and vias. The number of branches in a net varies as Allegro PCB Editor connects or disconnects parts of the net. A completely connected net consists of one and only one branch.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="105711">Layer Attributes</a></h4>
+      <p><a name="105712">Each Allegro PCB Editor figure exists on a class&#47;subclass in the database. For example, a c&#45;line might be on class ETCH, subclass TOP. AXL&#45;SKILL represents this class&#47;subclass combination with a layer attribute. Each AXL&#45;SKILL layer is in one&#45;to&#45;one correspondence with an Allegro PCB Editor class&#47;subclass combination. A later section describes this structure in detail.</a></p>
+      <h4><a name="105715">Allegro PCB Editor Properties</a></h4>
+      <p><a name="105718">Although they are a class of Allegro PCB Editor objects, you do not create or access Allegro PCB Editor properties directly. Rather, you use AXL&#45;SKILL commands to attach, delete, and read the values of properties on Allegro PCB Editor database objects. You can also use AXL&#45;SKILL commands to read, create and delete definitions of your own properties.</a></p>
+      <h4><a name="105721">Property Definitions</a></h4>
+      <p><a name="105724">AXL&#45;SKILL stores each property definition for an object indirectly associated with that object. You can access any property definition on an object to find its value and you can create new, user&#45;defined properties using AXL&#45;SKILL functions.</a></p>
+      <p><a name="105725">You can use an AXL&#45;SKILL function to attach a property to an object if the object accepts that property type. The property must be defined in the property dictionary of that database. A property definition is an object that contains the property name, value type, and a list specifying to what object types it can be attached.</a></p>
+      <h4><a name="61876">Figures</a></h4>
+      <p><a name="61140">The following AXL&#45;SKILL figures are Allegro PCB Editor geometry types.</a></p>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="109362"><font color="#000000">Arc</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="109364">Is a figure that is either an arc or a circle. You can specify arcs to AXL&#45;SKILL with start and end points, and either radius or center point. (Allegro PCB Editor figure: </a><font size="2" face="'Courier New'" color="#000000">arc segment</font>).</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109366"><font color="#000000">Branch </font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109368">Is a collection of etch figures that make up one physically connected part of a net. Nets are made up of branches, and branches are made up of pins, vias, tees and etch figures, as described later in this chapter.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109370"><font color="#000000">DRC </font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109372">Is a design rule violation marker with one or more object identities and a violation type and location.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109374"><font color="#000000">Line</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109376">An object defined by the coordinates of its center line and a width (Allegro PCB Editor figure: </a><font size="2" face="'Courier New'" color="#000000">line segment</font>).</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109378"><font color="#000000">Path</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109380">Is a sequence of end&#45;to&#45;end lines and arcs on the same layer. Each segment can have a different width (Allegro PCB Editor figures: </a><font size="2" face="'Courier New'" color="#000000">lines and clines</font>).</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109382"><font color="#000000">PPin</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109384">Is a physical instance of a pin with associated padstack.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109386"><font color="#000000">Polygon </font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109388">Is an unfilled, closed path (Allegro PCB Editor figure: </a><font size="2" face="'Courier New'" color="#000000">unfilled shape</font>).</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109390"><font color="#000000">Shape</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109392">Is a filled shape. It can optionally contain voids.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109394"><font color="#000000">Pad</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109396">Is a geometric shape (circle, oblong, rectangle) defining the shape of one type of pad on one layer. Pads are always owned by padstacks.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109398"><font color="#000000">Symbol </font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109400">Is a collection of geometries and text with a type name, location, rotation and mirroring.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109402"><font color="#000000">Tee</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109404">Is the single point where the endpoints of three or more etch paths connect.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109406"><font color="#000000">Text</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109408">Is a string of characters with associated size, mirror, rotation, and location.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109410"><font color="#000000">Via</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109412">Is a connecting drill path between layers with associated padstack.</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="61152">The following types are not figures but contain geometry that defines figure instances:</a></p>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="109445"><font color="#000000">Padstack</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="109447">(Pin&#47;Via Definition) Contains the definition data for all ppins or vias of a named type.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109449"><font color="#000000">Symdef </font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="109451">Contains the definition data for all symbols of a named type.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="105118">Accessing Allegro PCB Editor Colors with AXL&#45;SKILL</a></h4>
+      <p><a name="105119">You can access predefined colors and Allegro PCB Editor database colors using AXL&#45;SKILL. Only graphics editors support access to Allegro PCB Editor database colors.</a></p>
+      <h4><a name="105124">Forms</a></h4>
+      <p><a name="105740">You set and access pre&#45;defined colors by their symbols. The pre&#45;defined colors include the following:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105125">`black</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105126">`white</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105127">`red</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105128">`green</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105129">`yellow</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105130">`blue</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105131">`button</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="105136">Button means grey, the color of buttons in the application. </a></p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="105383">You can use only pre&#45;defined colors in Allegro PCB Editor forms.</a></p>
+      <h4><a name="105137">Design Object</a></h4>
+      <p><a name="105741">Graphics editors support access to the colors used for Allegro PCB Editor layers. These are represented by integers.</a></p>
+      <p><a name="105138">AXL API calls, including </a><font size="2" face="'Courier New'" color="#000000">axlLayerGet</font> ("class&#47;subclass") or its primitive form <font size="2" face="'Courier New'" color="#000000">axlGetParm</font>(<font size="2" face="'Courier New'" color="#000000">paramLayerGroup</font>:&#60;<font size="2" face="'Courier New'" color="#000000"><em>class&#47;paramLayer:</em></font>&#60;<font size="2" face="'Courier New'" color="#000000"><em>subclass</em></font>&#62;), return the current color setting of a layer via the color attribute call, as shown.</p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="105139">p = axlLayerGet(&#34;etch&#47;top&#34;)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="105140">p&#45;&#62;color&nbsp;&nbsp;&nbsp;&nbsp;&#45;&#62;2</a></font>
+      </blockquote>
+      <p><a name="105141">These color settings range between 1 and 24 with 0 reserved for the background color.</a></p>
+      <p><a name="105142">Form based interfaces supporting color include the following:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105143">axlFormDoc</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105144">axlFormColorize</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105145">axlFormGridDoc</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105146">axlGRPDoc</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="105147"><font color="#000000"><strong>Notes:</strong></font></a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105735">AXL does not allow you to change the red&#47;green&#47;blue (RGB) of Allegro PCB Editor database colors.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105148">Pre&#45;defined colors are restricted to minimize problems with 8 bit color graphics on UNIX.</a></td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="67109">Database Objects</a></h4>
+      <p><a name="105369">A design is made of various database objects that you can combine to make other database objects. This section describes the relationships among database objects.</a></p>
+      <p><a name="105197"><font color="#000000"><strong>Parts of a Design</strong></font></a></p>
+      <p><a name="105217">A design can include any of the following database objects:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105198">Property Dictionary</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105199">Lines</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105200">Text</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105201">Polygons</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105202">Shapes</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105203">Property Definitions</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105204">DRCs</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105205">Vias that are Padstack object types</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105206">Symbols that are Symdef object types</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105207">Components</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105208">Nets</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="105209"><font color="#000000"><strong>Parts of a Symbol</strong></font></a></p>
+      <p><a name="105218">Symbols that are Symdef objects types can include any of the following database objects:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105210">PPins that are Padstack object types</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105211">Vias that are Padstack object types</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105212">Lines</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105213">Arcs</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105214">Text</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105215">Polygons</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105216">Shapes</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="105219"><font color="#000000"><strong>Parts of a Branch</strong></font></a></p>
+      <p><a name="105370">Branches can include any of the following database objects:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105224">Tees</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105225">Vias that are Padstack object types</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105226">PPins that are Padstack object types</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105227">Paths</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105228">Shapes</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="105229"><font color="#000000"><strong>Parts of a Path</strong></font></a></p>
+      <p><a name="105371">A path can include any of the following database objects:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105230">Lines</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105231">Arcs</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="105232"><font color="#000000"><strong>Parts of a Symdef</strong></font></a></p>
+      <p><a name="105372">A symdef can include any of the following database objects:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105233">PPins that are Padstack object types</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105234">Vias that are Padstack object types</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105235">Lines</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105239">Arcs</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105240">Text</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105241">Polygons</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105242">Shapes</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="105243"><font color="#000000"><strong>Types of Parameters</strong></font></a></p>
+      <p><a name="105373">Allegro PCB Editor parameters store feature or board level options to the Allegro PCB Editor database. You can modify parameters using a SKILL program. The parameter types include the following:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105244">Design</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105245">Display</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105246">Layer Group</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="105247">Textblock Group</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="105248">&nbsp;</a></p>
+      <table summary="" border="1" cellpadding="5" cellspacing="0" width="648">
+        <caption>
+          <p align="left">
+            <strong><font color="#000000"><strong>Table 1&#45;1&nbsp; </strong></font></strong>
+            <strong><a name="105251">Other Database Object Relationships</a></strong>
+          </p>
+        </caption>
+        <tr>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="182">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="105255">Object Name</a></strong></font>
+            </p>
+          </td>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="466">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="105257">Object Parts</a></strong></font>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="105259">Property Dictionary</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="105261">Property Entries</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="105263">Net</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="105265">Branches</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="105324">Padstack</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="105326">Pads</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="105320">Polygon</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="105322">Paths</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="105316">Shape</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="105318">Paths</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="105312">Void</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="105314">Polygons</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="105308">Polygon</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="105310">Paths</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="105304">PPin</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="105306">Pin Number Text</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="105300">Layer Group</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="105302">Layers</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="105296">Textblock Group</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="105298">Textblocks</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="106318">&nbsp;</a></p>
+      <p><a name="107252">&nbsp;</a></p>
+    </div>
+    <br>
+    <a href="#pagetop">Return to top of page</a>
+    <hr>
+    <hr align="left">
+    <div style="text-align: left;">
+      <!-- Begin Buttons -->      <table width="650" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                    </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+          <td>
+            <a href="preface.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+          </td>
+          <td>
+            <a href="02dbdesc.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+          </td>
+          <td>
+            <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+            </a>
+          </td>
+          <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+          </td>
+          <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+          </td>
+          <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+          </td>
+          <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+          </td>
+        </tr>
+      </table>
+      <!-- End Buttons -->
+    </div>
+    <br>
+    <font size="-1" >
+For support, see <a href="http://support.cadence.com" target="_blank">Cadence Online Support</a> service.</font>
+    <br>
+    <br>
+    <font size="-1" >
+      <i>Copyright &#169; 2017, <a href="http://www.cadence.com">Cadence Design Systems, Inc.</a></i>
+    </font>
+    <br>
+    <font size="-1" >
+All rights reserved.</font>
+    <br>
+    <br>
+  </body>
+</html>

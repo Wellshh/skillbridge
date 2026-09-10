@@ -1,0 +1,2696 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN" "http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+<html xmlns="http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Allegro SKILL Reference -- 6</title>
+<META NAME="Approver" CONTENT="Technical Publications">
+<META NAME="Author" CONTENT="Technical Publications">
+<META NAME="CreateDate" CONTENT="2017-11-25">
+<META NAME="CreateTime" CONTENT="1511600112">
+<META NAME="DataType" CONTENT="Manuals">
+<META NAME="Description" CONTENT="Describes the Allegro eXtension Language (AXL) and how to use each AXL function.">
+<META NAME="DocTitle" CONTENT="Allegro SKILL Reference">
+<META NAME="DocType" CONTENT="SKILL Reference">
+<META NAME="EdmsRelease" CONTENT="FM-Wiki-2.0_HF2">
+<META NAME="FileTitle" CONTENT="6">
+<META NAME="FileType" CONTENT="Chapter">
+<META NAME="Group" CONTENT="Allegro User Guide">
+<META NAME="Keyword" CONTENT="algroskill">
+<META NAME="Language" CONTENT="English">
+<META NAME="ModifiedDate" CONTENT="2017-11-25">
+<META NAME="ModifiedTime" CONTENT="1511600112">
+<META NAME="NextFile" CONTENT="08intprm.html">
+<META NAME="Order" CONTENT="11">
+<META NAME="PageCount" CONTENT="44">
+<META NAME="Platform" CONTENT="ALL">
+<META NAME="PrevFile" CONTENT="06intedt.html">
+<META NAME="Product" CONTENT="Allegro PCB Editor, Cadence SiP Digital">
+<META NAME="ProductFamily" CONTENT="Silicon-Package-Board Co-Design, IC Packaging">
+<META NAME="ProductVersion" CONTENT="17.2-2016">
+<META NAME="RightsManagement" CONTENT="Copyright 19912017 Cadence Design Systems Inc.">
+<META NAME="Title" CONTENT="Allegro SKILL Reference -- 6">
+<META NAME="TopicTags" CONTENT="FALSE">
+<META NAME="Version" CONTENT="17.2-2016">
+  </head>
+  <body style="margin-left: 5%;">
+    <a name="pagetop"></a>
+    <a name="firstpage"></a>
+    <!-- Begin Buttons -->
+    <table width="650" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td height="36" width="650" colspan="10">
+          <img src="images/header_doc.gif" width="650" height="34">
+        </td>
+      </tr>
+      <tr>
+        <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+        <td>
+          <a href="06intedt.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+        </td>
+        <td>
+          <a href="08intprm.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+        </td>
+        <td height="20">
+          <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+          </a>
+        </td>
+        <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+        </td>
+        <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+        </td>
+        <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+        </td>
+        <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+        </td>
+      </tr>
+    </table>
+    <!-- End Buttons -->
+    <p>
+    <hr>
+    <p>
+      <h3>
+        <center>
+          <font >
+            <div>Allegro User Guide: SKILL Reference</div>
+            <font >
+              <div>Product Version 17.2&#45;2016 April 2016</div>
+            </font>
+          </font>
+        </center>
+      </h3>
+      <br>
+    </p>
+    <div>
+      <h1>6<a name="700301">&nbsp;</a></h1>
+      <h1><a name="718825">Database Read Functions</a></h1>
+      <h2><a name="718849">AXL&#45;SKILL Database Read Functions</a></h2>
+      <p><a name="700316">The chapter describes the AXL&#45;SKILL functions that read the Allegro PCB Editor database.</a></p>
+      <h3><a name="739212">axlAltSymbolList</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="739213">axlAltSymbolList(<dd>t_name&#47;o_dbid<dd>g_layer<dd>) lt_symbols&#47;nil<dd></a></font>
+      </dl>
+      <h4><a name="739214">Description</a></h4>
+      <p><a name="739215">This queries the provided object and returns a list of alternative symbol names.</a></p>
+      <h4><a name="739216">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="644">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="106">
+            <p><a name="741215"><font size="2" face="'Courier New'" color="#000000"><em>t_name</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="538">
+            <p><a name="741217">Component definition or a refdesname</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741219"><font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741221">a symbol instance, component instance or compdef dbid</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741223"><font size="2" face="'Courier New'" color="#000000"><em>g_layer</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741225">`top, &#39;bottom, or&#39;internal</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="739220">Value Returns</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="109">
+            <p><a name="741234">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="536">
+            <p><a name="741236">list of alternate symbols for the layer provided</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741238">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741240">nil, in case of error or if the symbol does not have a alternate symbol set</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="739225">Examples</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="739226">strings = axlAltSymbolList(&#34;U1&#34; top)</a></font>
+      </blockquote>
+      <h4><a name="739272">See Also</a></h4>
+      <p><a href="#739374" title="6" name="739273"><font color="#0000ff"><u>axlAltSymbolReplace</u></font></a>, <a href="#739294" title="6"><font color="#0000ff"><u>axlAltSymbolOK</u></font></a>, ALT_SYMBOL property</p>
+      <h3><a name="739294">axlAltSymbolOK</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="739295">axlAltSymbolOK(<dd>t_name&#47;o_dbid<dd>g_layer<dd>t_symbol<dd>) =&#62; t&#47;nil<dd></a></font>
+      </dl>
+      <h4><a name="739296">Description</a></h4>
+      <p><a name="739297">This verifies that symbol is legal for component. Must be in the ALT_SYMBOL list with the correct layer.</a></p>
+      <h4><a name="739298">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="139">
+            <p><a name="741283"><font size="2" face="'Courier New'" color="#000000"><em>t_name</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="508">
+            <p><a name="741285">may be compdef or a refdes name</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741287"><font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741289">a symbol instance, component instance or compdef dbid</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741291"><font size="2" face="'Courier New'" color="#000000"><em>g_layer</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741293">`top, &#39;bottom, or&#39;internal</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741295"><font size="2" face="'Courier New'" color="#000000"><em>t_symbol</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741297">name of symbol</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="739303">Value Returns</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="141">
+            <p><a name="741309"><font size="2" face="'Courier New'" color="#000000"><em>t</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="504">
+            <p><a name="741311">is legal</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741313"><font size="2" face="'Courier New'" color="#000000"><em>nil</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741315">error or symbol is not legal for component</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="739308">Examples</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="739309">result = axlAltSymbolOK(&#34;R1&#34; &#39;top &#34;res400&#34;)</a></font>
+      </blockquote>
+      <h4><a name="739323">See Also</a></h4>
+      <p><a href="#739212" title="6" name="739324"><font color="#0000ff"><u>axlAltSymbolList</u></font></a></p>
+      <h3><a name="739374">axlAltSymbolReplace</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="739375">axlAltSymbolOK(<dd>t_name&#47;o_dbid<dd>t_symbol<dd>) =&#62; t&#47;nil<dd></a></font>
+      </dl>
+      <h4><a name="739376">Description</a></h4>
+      <p><a name="739377">This replaces a PLACED component with one of its allowed replacements (ALT_SYMBOL). To be successful the following must be true</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="739445">symbol must already be placed</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="739455">provided symbol must be a legal alternative for the layer where the symbol is placed</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="739462">the replacement symbol, any of its padstacks and any shape or flash symbols referenced by the padstacks must be found and loaded into the design which this API will attempt to do.</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="739469">Text properties on the symbol instance, and attached text re&#45;positioning are preserved.</a></p>
+      <h4><a name="739378">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="127">
+            <p><a name="741323"><font size="2" face="'Courier New'" color="#000000"><em>t_name</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="519">
+            <p><a name="741325">may be compdef or a refdes name</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741327"><font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741329">a symbol instance, component instance or compdef dbid</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741331"><font size="2" face="'Courier New'" color="#000000"><em>t_symbol</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741333">name of replacement symbol</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="739382">Value Returns</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="130">
+            <p><a name="741345"><font size="2" face="'Courier New'" color="#000000"><em>t</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="515">
+            <p><a name="741347">replacement done</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741349"><font size="2" face="'Courier New'" color="#000000"><em>nil</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741351">error or cannot replace</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="739387">Examples</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="739388">result = axlAltSymbolReplace(&#34;R1&#34; &#34;res400&#34;)</a></font>
+      </blockquote>
+      <h4><a name="739409">See Also</a></h4>
+      <p><a href="#739212" title="6" name="739410"><font color="#0000ff"><u>axlAltSymbolList</u></font></a></p>
+      <h3><a name="739500">axlBackdrillGet</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="739501">axlBackdrillGet(<dd>o_dbidPinOrVia<dd>) =&#62; lt_backdrillData&#47;nil</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="739591">axlBackdrillGet(<dd>status&#39;<dd>) =&#62; g_status<dd></a></font>
+      </dl>
+      <h4><a name="739502">Description</a></h4>
+      <p><a name="739503">In one mode, when  a pin or a via is provided, the command returns  the backdrilling result on that pin or via.</a></p>
+      <p><a name="739603">In other mode, it returns status of design's backdrilling. </a></p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="739622">Symbols do not support backdrilling.</a></p>
+      <h4><a name="739504">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="663">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="191">
+            <p><a name="741360"><font size="2" face="'Courier New'" color="#000000"><em>o_dbidPinOrVia</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="471">
+            <p><a name="741362">query for backdrill on pin or via</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741364"><font size="2" face="'Courier New'" color="#000000"><em>status&#39;</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741366">status of backdrill on design</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="739507">Value Returns</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="741378"><font size="2" face="'Courier New'" color="#000000"><em>nil</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="741380">error or pin&#47;via is not backdrilled</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741382"><font size="2" face="'Courier New'" color="#000000"><em>lt_backdrillData</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741384">A disembodied property list having (all non strings are in user units):</a></p>
+          </td>
+        </tr>
+      </table>
+      <blockquote><a name="739786">&nbsp;</a></blockquote>
+<ul>      <table summary="" border="1" cellpadding="5" cellspacing="0" bgcolor="#FFFFFF" width="615">
+        <tr>
+          <td cellpadding="4" border="2" bordercolor="#000000" valign="top" width="141">
+            <p><a name="739753">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="2" bordercolor="#000000" valign="top" width="182">
+            <p><a name="739685"><font size="2" face="'Courier New'" color="#000000"><em>holeSize</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="2" bordercolor="#000000" valign="top" width="291">
+            <p><a name="739687">finished hole size</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="739755">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="739689"><font size="2" face="'Courier New'" color="#000000"><em>backdrillSize</em></font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="739691">backdrill hole size</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="739757">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="739693"><font size="2" face="'Courier New'" color="#000000"><em>electricalStub</em></font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="739695">max electrical stub (from the </a><font size="2" face="'Courier New'" color="#000000">BACKDRILL_MAX_PTH_STUB</font> property on net)</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="739759">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="739697"><font size="2" face="'Courier New'" color="#000000"><em>mfgStub</em></font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="739699">manufacturing stub from backdrill parameter dialog</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="739761">&nbsp;</a></p>
+          </td>
+          <td colspan="2" cellpadding="4" valign="top">
+            <p><a name="739701">If pin or via is backdrilled from top, topStartLayer is non&#45;nil and the following attributes are set:</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="739763">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="739705"><font size="2" face="'Courier New'" color="#000000"><em>topStartLayer</em></font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="739707">start layer of drill (string)</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="739765">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="739709"><font size="2" face="'Courier New'" color="#000000"><em>topMustCutLayer</em></font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="739711">must cut layer (string)</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="739767">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="739713"><font size="2" face="'Courier New'" color="#000000"><em>topMustNotCutLayer</em></font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="739715">must NOT cut layer (string)</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="739769">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="739717"><font size="2" face="'Courier New'" color="#000000"><em>topDrillDepth</em></font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="739719">depth of backdrill from topStartLayer to immediatelybefore topMustNotCutLayer</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="739771">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="739721"><font size="2" face="'Courier New'" color="#000000"><em>topRemainingStub</em></font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="739723">remaining stub after backdrill. This is fromtopRemainingStub to first layer with a connection(min value is manufacturing stub length)</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="739773">&nbsp;</a></p>
+          </td>
+          <td colspan="2" cellpadding="4" valign="top">
+            <p><a name="739725">if pin&#47;via is backdrilled from bottom, botStartLayer is non&#45;nil and the following attributes are set.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="739775">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="739729"><font size="2" face="'Courier New'" color="#000000"><em>botStartLayer</em></font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="739731">start layer of drill (string)</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="739777">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="739733"><font size="2" face="'Courier New'" color="#000000"><em>botMustCutLayer</em></font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="739735">must cut layer (string)</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="739779">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="739737"><font size="2" face="'Courier New'" color="#000000"><em>botMustNotCutLayer</em></font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="739739">must NOT cut layer (string)</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="739781">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="739741"><font size="2" face="'Courier New'" color="#000000"><em>botDrillDepth</em></font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="739743">depth of backdrill from botStartLayer to immediatelybefore botMustNotCutLayer</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="739783">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="739745"><font size="2" face="'Courier New'" color="#000000"><em>botRemainingStub</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="739747">remaining stub after backdrill. This is frombotRemainingStub to first layer with a connection(min value is manufacturing stub length)</a></p>
+          </td>
+        </tr>
+      </table></ul>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="175">
+            <p><a name="741400"><font size="2" face="'Courier New'" color="#000000"><em>g_status</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="472">
+            <p><a name="741402">returns status about design's backdrill</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741404"><font size="2" face="'Courier New'" color="#000000"><em>nil</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741406">error</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741408"><font size="2" face="'Courier New'" color="#000000"><em>&#39;notStarted</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741410">backdrill not performed on design</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741412"><font size="2" face="'Courier New'" color="#000000"><em>&#39;t</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741414">backdrill done and is up to date</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741416"><font size="2" face="'Courier New'" color="#000000"><em>&#39;odd</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741418">backdrill done but changes make it out&#45;of&#45;date</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="739531">Examples</a></h4>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="739532">Get status</a></td>
+          </tr>
+        </table>
+      </div>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="739902">axlViaZLength(&#39;status)</a></font>
+      </blockquote>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="739912">Get info on a pin or via</a></td>
+          </tr>
+        </table>
+      </div>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="739922">; ashOne is a selection utility found at<br>;   &#60;cdsroot&#62;&#47;pcb&#47;examples&#47;skill&#47;ash&#45;fxf&#47;ashone.il<br>; select a pin or via<br></a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="739977">pinvia = ashOne((&#34;PINS&#34;&#34;VIAS&#34;))&#39;<br>backdrill = axlBackdrillGet(pinvia)<br><br></a></font>
+      </blockquote>
+      <h4><a name="739567">See Also</a></h4>
+      <p><a name="739568">axlViaZLength</a></p>
+      <h3><a name="700317">axlDBGetDesign</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="700723">axlDBGetDesign()<dd></a><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>o_design</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="700732">Description</a></h4>
+      <p><a name="700321">Returns the root design </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font>. Use this <font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font> to get the design properties and to add properties to the design. </p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="734766">You cannot edit the root design object. AXL&#45;SKILL edit commands ignore this </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font>.</p>
+      <p><a name="734767">This also allows access to lists of many types of dbid in the design, such as nets, components, and so on.</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <font size="3"><img src="images/tip.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <font size="3"><a name="734836">If you need to access all dbids if the same type (all nets or all components), it is more efficient to use the appropriate attribute of this dbid than to use the Selection APIs to query all elements.</a></font>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="734734">To flatten attributes in lists, use the &#34;~&#62;&#34; reference. For example, to get names of all nets in the design do:</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="734736">netNames = axlDBGetDesign()&#45;&#62;nets~&#62;name</a></font>
+      </dl>
+      <h4><a name="700745">Arguments</a></h4>
+      <p><a name="700322">None.</a></p>
+      <h4><a name="700762">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="144">
+            <p><a name="741430"><font size="2" face="'Courier New'" color="#000000"><em>o_design</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="501">
+            <p><a name="741432">Root design </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741434"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741436">Error occurred.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="700795">Example</a></h4>
+      <blockquote>
+<blockquote>        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="700327">mydesign = axlDBGetDesign()<br>axlDBAddProp( mydesign, list(&#34;board_thickness&#34;, 0.350))</a></font></blockquote>
+      </blockquote>
+      <p><a name="700328">Gets the root design and sets the </a><font size="2" face="'Courier New'" color="#000000"><em>BOARD_THICKNESS</em></font> property to <font size="2" face="'Courier New'" color="#000000">0.350</font> inches.</p>
+      <p><a name="719724">To verify the property has the value specified:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	1.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="700292">From the Allegro PCB Editor menu, select</a> <font color="#000000"><em>Display - Element</em></font>.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	2.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="700323">From the Find Filter, select </a><font color="#000000"><em>Drawing Select</em></font>. </td>
+          </tr>
+        </table>
+      </div>
+      <blockquote><a name="700429">The </a><font color="#000000"><strong>Show</strong></font> window appears, listing the current properties attached to the design.</blockquote>
+      <h3><a name="705379">axlDBGetDrillPlating </a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="705380">axlDBGetDrillPlating<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_padstackname<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> &#34;PLATED&#34;&#47;&#34;NON PLATED&#34;&#47;nil</font>
+      </dl>
+      <h4><a name="705384">Description</a></h4>
+      <p><a name="705385">Retrieves the plating type of the padstack passed as an argument to this function.</a></p>
+      <h4><a name="705386"> Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="593">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="741448"><font size="2" face="'Courier New'" color="#000000"><em>t_padstackname</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="401">
+            <p><a name="741450">Name of padstack.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="705389">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="635">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="741462"><font size="2" face="'Courier New'" color="#000000">"Plated" or "Nonplated"</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="443">
+            <p><a name="741464">Drillplating name.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741466"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741468">Incorrect padstack name, or other error occurred.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h3><a name="705289">axlIsDBIDType</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="700330">axlIsDBIDType(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>g_dbid<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="700839">Description</a></h4>
+      <p><a name="700333">Determines if </a><font size="2" face="'Courier New'" color="#000000"><em>g_dbid</em></font> is an Allegro PCB Editor database <font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font>. Returns <font size="2" face="'Courier New'" color="#000000">t</font> if so and <font size="2" face="'Courier New'" color="#000000">nil</font> otherwise.</p>
+      <h4><a name="700852">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="584">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="142">
+            <p><a name="741476"><font size="2" face="'Courier New'" color="#000000"><em>g_dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="441">
+            <p><a name="741478">Variable to be checked whether a </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font> or not.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="700869">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="624">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="143">
+            <p><a name="741490"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="481">
+            <p><a name="741492"><font size="2" face="'Courier New'" color="#000000"><em>g_dbid</em></font></a> is a true Allegro PCB Editor <font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741494"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741496"><font size="2" face="'Courier New'" color="#000000"><em>g_dbid</em></font></a> is not a true Allegro PCB Editor <font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="700890">Example</a></h4>
+      <p><a name="700338">Defines a function based on </a><font size="2" face="'Courier New'" color="#000000">axlIsDBIDType</font> to tell whether a symbol is an Allegro PCB Editor <font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font> or not. Then creates an <font size="2" face="'Courier New'" color="#000000"><em>r_path</em></font> (which is not an Allegro PCB Editor <font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font>, because <font color="#000000"><em>paths</em></font> are only temporary building structures) and uses the <font size="2" face="'Courier New'" color="#000000"><em>r_path</em></font> to create an Allegro PCB Editor line (which is an Allegro PCB Editor <font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font>). Shows whether each is a true <font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font>.</p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="700339">defun( isItDBID (testDBID)<br>&nbsp;&nbsp;&nbsp;&nbsp;&#34;Print whether testDBID is a true Allegro dbid&#34;<br>&nbsp;&nbsp;&nbsp;&nbsp;if( axlIsDBIDType( testDBID)<br>&nbsp;&nbsp;&nbsp;&nbsp; then<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;println( &#34;This is an Allegro DBID.&#34;)<br>&nbsp;&nbsp;&nbsp;&nbsp;else<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;println( &#34;This is NOT an Allegro DBID.&#34;) ) )<br><br>mypath = axlPathStart( list(100:500))<br>axlPathLine( mypath, 0.0, 200:250)<br>myline = axlDBCreatePath( mypath, &#34;etch&#47;top&#34; nil)<br>isItDBID(mypath)<br>isItDBID(caar(myline))</a></font>
+      </blockquote>
+      <p><a name="700340">The function prints the following:</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="700341">&#34;This is NOT an Allegro DBID.&#34;<br>&#34;This is an Allegro DBID.&#34;</a></font>
+      </blockquote>
+      <h3><a name="700342">axlDBGetAttachedText</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="700343">axlDBGetAttachedText(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>o_dbid<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>l_dbid</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="731946">Description</a></h4>
+      <p><a name="731954">Returns the list of </a><font size="2" face="'Courier New'" color="#000000"><em>dbids</em></font> of text objects attached to the object whose <font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font> is <font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font>. If <a href="#700317" title="6"><font color="#0000ff"><u>axlDBGetDesign</u></font></a> is used to retrieve the dbid, the function returns all text attached to root design.</p>
+      <h4><a name="731948">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="633">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="138">
+            <p><a name="741510"><font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="495">
+            <p><a name="741512"><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font></a> of object from which attached text <font size="2" face="'Courier New'" color="#000000"><em>dbids</em></font> are retrieved.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="700985">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="632">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="140">
+            <p><a name="741523"><font size="2" face="'Courier New'" color="#000000"><em>l_dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="491">
+            <p><a name="741525">List of the text objects attached to </a><font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font>. </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741527"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741529">No attached text objects.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="701006">Example</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="700352">(defun showText ()<br>&nbsp;&nbsp;&nbsp;&nbsp;&#34;Print text of selected objects&#34;<br>&nbsp;&nbsp;&nbsp;&nbsp;mypopup = axlUIPopupDefine( nil<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(list (list &#34;Done&#34; &#39;axlFinishEnterFun)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(list &#34;Cancel&#34; &#39;axlCancelEnterFun)))<br>axlUIPopupSet( mypopup)<br>axlSetFindFilter( ?enabled list(&#34;noall&#34;)<br>&nbsp;&nbsp;&nbsp;&nbsp;?onButtons &#34;noall&#34;)<br>axlSetFindFilter( ?enabled list(&#34;symbols&#34;)<br>&nbsp;&nbsp;&nbsp;&nbsp;?onButtons &#34;symbols&#34;)<br>axlOpenFindFilter()<br>(while (axlSelect)<br>&nbsp;&nbsp;&nbsp;&nbsp;progn(<br>&nbsp;&nbsp;&nbsp;&nbsp;alltext =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;axlDBGetAttachedText(car(axlGetSelSet()))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;foreach(thistext alltext<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;printf( &#34;Text on this symbol is : &#39;%s&#39;\n&#34;,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;thistext&#45;&#62;text))))<br>axlCloseFindFilter())</a></font>
+      </blockquote>
+      <p><a name="700353">Lets the user pick a symbol, then prints the text attributes of each text object attached to that symbol.</a></p>
+      <p><a name="719760">Run </a><font size="2" face="'Courier New'" color="#000000">showText()</font> and pick a symbol of device type <font size="2" face="'Courier New'" color="#000000">&#34;74F74&#34;,</font> assigned as <font size="2" face="'Courier New'" color="#000000">refdes</font> <font size="2" face="'Courier New'" color="#000000">&#34;T23&#34;.</font> The function prints the following:</p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="700354">Text on this symbol is : &#39;T23&#39;<br>Text on this symbol is : &#39;74F74&#39;</a></font>
+      </blockquote>
+      <h3><a name="700355">axlDBGetPad</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="700356">axlDBGetPad(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>o_dbid<dd>t_layer<dd>t_type<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>o_pad</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="701071">Description</a></h4>
+      <p><a name="700359">For the pin or via specified by </a><font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font>, gets the pad of type <font size="2" face="'Courier New'" color="#000000"><em>t_type</em></font> associated with layer <font size="2" face="'Courier New'" color="#000000"><em>t_layer</em></font>.</p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="740031"><br>          smd pads do not have a default internal layer.<br>          To obtain the adjacent layer keepout pad: </a><font size="2" face="'Courier New'" color="#000000">axlDBGetPad(dbid &#39;adjacent &#34;KEEPOUT&#34;)</font></p>
+      <h4><a name="740013">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="741660"><font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="741662"><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font></a> of the pin, via, or a padstack definition.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741664"><font size="2" face="'Courier New'" color="#000000"><em>t_layer</em></font></a></p>
+          </td>
+          <td rowspan="2" cellpadding="4" border="0" valign="top">
+            <p><a name="741666">String or symbol of a layer desired. </a></p>
+            <p><a name="741686">Format for regular layers:</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741668">&nbsp;</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="728836">&nbsp;</a></p>
+      <table summary="" border="0" cellpadding="4" cellspacing="0" bordercolor="#D3D3D3" width="648">
+        <tr>
+          <td cellpadding="4" valign="top" width="194">
+            <p><a name="740063">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" valign="top" width="453">
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="740065"><font size="2" face="'Courier New'" color="#000000">&#34;ETCH&#47;TOP&#34;</font></a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="740069"><font size="2" face="'Courier New'" color="#000000">&#34;TOP&#34;</font></a> </td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="740079">Mask layers must use class of pin or via class:</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="69">
+                    <div>&nbsp;</div>
+                  </td>
+                  <td width="31.872000000000003">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/bss_bullet_sub_sub.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="740099"><font size="2" face="'Courier New'" color="#000000">&#34;PIN&#47;SOLDERMASK_TOP&#34;</font></a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="740123">Coverlay pads specify by </a><font size="2" face="'Courier New'" color="#000000">&#34;COVERLAY_TOP&#34;</font> or <font size="2" face="'Courier New'" color="#000000">&#34;COVERLAY_BOTTOM&#34;</font></td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="728878">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="740277">Special layers:</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="728880"><font size="2" face="'Courier New'" color="#000000">&#39;internal</font></a> &#45; default internal layer (not present on SMD padstacks)</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="728960"><font size="2" face="'Courier New'" color="#000000">&#39;composite</font></a> &#45; sum of all the layers (worse case) this option ignores the t_type argument</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="740192"> </a><font size="2" face="'Courier New'" color="#000000">&#39;adjacent</font> - adjacent layer keepout option</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="740194"><font size="2" face="'Courier New'" color="#000000">&#39;backdrillStart</font></a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.872">
+                    <div>&nbsp;</div>
+                  </td>
+                  <td width="32.128319999999995">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="740224">type=&#34;REGULAR&#34;  - larger pad for drill start layer  (positive)</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.872">
+                    <div>&nbsp;</div>
+                  </td>
+                  <td width="32.128319999999995">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="740196">type=&#34;ANTI&#34;  - larger pad for drill start layer (negative layers)</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="740197"><font size="2" face="'Courier New'" color="#000000">&#39;backdrillClearance</font></a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.872">
+                    <div>&nbsp;</div>
+                  </td>
+                  <td width="32.128319999999995">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="740198">type=&#34;ANTI&#34; - pad size for internal backdrill layers for negative layers</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.872">
+                    <div>&nbsp;</div>
+                  </td>
+                  <td width="32.128319999999995">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="740252">type=&#34;KEEPOUT&#34; - generate a KEEPOUT for positive layers for backdrill layers.</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="740200"><font size="2" face="'Courier New'" color="#000000">&#39;backdrillSoldermask</font></a> - soldermask pad to substitute for drill start layer</td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="741761"><font size="2" face="'Courier New'" color="#000000"><em>t_type</em></font></a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="741763">Type of pad to retrieve: </a><font size="2" face="'Courier New'" color="#000000">&#34;REGULAR&#34;,</font> <font size="2" face="'Courier New'" color="#000000">&#34;ANTI&#34;,</font> <font size="2" face="'Courier New'" color="#000000">&#34;THERMAL&#34;</font>, or <font size="2" face="'Courier New'" color="#000000">&#34;KEEPOUT&#34;.</font></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="701101">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="644">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="741800"><font size="2" face="'Courier New'" color="#000000"><em>o_pad</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="452">
+            <p><a name="741802"><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font></a> of the pad of the type associated with <font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font> on the layer specified.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741804"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741806">Cannot get the pad </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="740354">Example</a></h4>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="740355">Lets the user pick any pin or via and shows the figureName attribute of the selected pad.</a></td>
+          </tr>
+        </table>
+      </div>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="740319">(defun showPad ()<dd> mypopup = axlUIPopupDefine( nil (list (list &#34;Done&#34; &#39;axlFinishEnterFun)                                 (list &#34;Cancel&#34; &#39;axlCancelEnterFun)))</a></font>
+      </dl>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="740323">axlUIPopupSet( mypopup)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="740324">axlSetFindFilter( ?enabled list(&#34;noall&#34;) ?onButtons &#34;noall&#34;)                 axlSetFindFilter( ?enabled list(&#34;pins&#34; &#34;vias&#34;)?onButtons list(&#34;pins&#34; &#34;vias&#34;))</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="740404">       (while  axlSelect()</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="740410">              progn(mypad = axlDBGetPad(car(axlGetSelSet()) &#34;etch&#47;top&#34; &#34;regular&#34;)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="740405">            printf( &#34;Pad figure type : %s\n&#34;, mypad&#45;&#62;figureName)))</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="740333"> </a></font>
+      </blockquote>
+      <blockquote><a name="740334">To fetch default internal regular pad:</a></blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="740420">r = axlDBGetPad(car(axlGetSelSet() &#39;internal &#34;REGULAR&#34;)</a></font>
+      </blockquote>
+      <blockquote><a name="740422">Run showPad() and pick a pin with a square pad on &#34;etch&#47;top&#34;, then a circular pad. The function prints the following:</a></blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="740339">                 Pad figure type : SQUARE</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="740340">                 Pad figure type : CIRCLE</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="735232">&nbsp;</a></font>
+      </blockquote>
+      <h3><a name="735276">axlDBGetPropDict</a></h3>
+      <p><a name="735243">axlDBGetPropDict &#45; return list of current define property dictionary entries</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="735245">axlDBGetPropDict(<dd>S_filter&#47;nil<dd>) &#45;&#62; lt_propNames</a></font>
+      </dl>
+      <h4><a name="735249">Description</a></h4>
+      <p><a name="735321">Returns a list of property definitions in the current design. Several trivial filters are defined:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="735251"><font size="2" face="'Courier New'" color="#000000">nil</font></a> - visible Allegro and user&#45;defined properties</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="735252"><font size="2" face="'Courier New'" color="#000000">allegro</font></a> - visible Allegro properties. Product tiering results in filtering of these properties.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="735254"><font size="2" face="'Courier New'" color="#000000">user</font></a> - visible user&#45;defined properties.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="735255"><font size="2" face="'Courier New'" color="#000000">invisible</font></a> - Invisible Allegro properties, these are application internal properties.</td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="735257">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="642">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="741818"><font size="2" face="'Courier New'" color="#000000"><em>S_filter</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="449">
+            <p><a name="741820">Symbol or string requesting a list of property types</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="735501">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="632">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="741831"><font size="2" face="'Courier New'" color="#000000">lt_propNames</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="439">
+            <p><a name="741833">List of names (unsorted) or </a><font size="2" face="'Courier New'" color="#000000">nil</font></p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="735263"><font color="#000000"><strong>Examples</strong></font></a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="735264">axlDBGetPropDict(&#39;user) &#45;&#62; list of names</a></font>
+      </dl>
+      <p><a name="735539"><font color="#000000"><strong>See Also</strong></font></a></p>
+      <p><a href="#735236" title="6" name="735540"><font color="#0000ff"><u>axlDBGetPropDictEntry</u></font></a></p>
+      <h3><a name="735236">axlDBGetPropDictEntry</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="700371">axlDBGetPropDictEntry(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_name<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>o_propDictEntry</em></font>&#47;nil</font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="728224">axlDBGetPropDictEntry(<dd>nil<dd>)<dd>==&#62; lt_validObjects</a></font>
+      </dl>
+      <h4><a name="701211">Description</a></h4>
+      <p><a name="728312">Gets the property dictionary entry for the property name given by the string </a><font size="2" face="'Courier New'" color="#000000"><em>t_name</em></font>. Use <a href="#735236" title="6"><font color="#0000ff"><u>axlDBGetPropDictEntry</u></font></a> to get the information about a property dictionary entry. If name is <font size="2" face="'Courier New'" color="#000000">nil</font>, the command returns a list of legal objects that can be used to create property dictionary entries. This is the <font size="2" face="'Courier New'" color="#000000"><em>objects</em></font> attribute of the <font size="2" face="'Courier New'" color="#000000"><em>o_propDictEntry</em></font> data type. You cannot create a property with the same name as an existing Allegro property.</p>
+      <h4><a name="701224">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="644">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="741841"><font size="2" face="'Courier New'" color="#000000"><em>t_name</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="451">
+            <p><a name="741843">String specifying the name of the property whose dictionary entry is to be retrieved.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="718933">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="741855"><font size="2" face="'Courier New'" color="#000000"><em>o_propDictEntry</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="741857"><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font></a> of the property dictionary entry for the property whose name is given by <font size="2" face="'Courier New'" color="#000000"><em>t_name</em></font>. If could not get the entry, it returns nil. </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741859"><font color="#000000"><em>lt_validObjects </em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741861">List of valid objects to associate with a property</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741863"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741865">Could not get the entry.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="721133">See Also</a></h4>
+      <p><a href="03dbcre8.html#367701" title="15" name="722495"><font color="#0000ff"><u>axlDBAddProp</u></font></a></p>
+      <h4><a name="728405">Example</a></h4>
+      <p><a name="728425">The following example gets the </a><font size="2" face="'Courier New'" color="#000000">&#34;SIGNAL MODEL&#34;</font> property, and dumps its attributes.</p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="728426">myprop = axlDBGetPropDictEntry(&#34;SIGNAL_MODEL&#34;)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="728446">myprop&#45;&#62;??</a></font>
+      </blockquote>
+      <blockquote>
+<blockquote>        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="728486">(write nil useCount 0 units nil<br>&nbsp;&nbsp;&nbsp;&nbsp; range nil objType &#34;PropDict&#34;<br>&nbsp;&nbsp;&nbsp;&nbsp; name &#34;SIGNAL_MODEL&#34;<br>&nbsp;&nbsp;&nbsp;&nbsp; dataType &#34;STRING&#34;<br>&nbsp;&nbsp;&nbsp;&nbsp; readOnly t<br>)</a></font></blockquote>
+      </blockquote>
+      <h3><a name="700383">axlDBGetProperties</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="700384">axlDBGetProperties(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>o_dbid<dd></em></font>[<font size="2" face="'Courier New'" color="#000000"><em>lt_type</em></font>]<dd>)<dd>⇒ <font size="2" face="'Courier New'" color="#000000"><em>l_result</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="701368">Description</a></h4>
+      <p><a name="700387">Gets the properties attached to a specified object. Returns the properties in an assoc list, that is, a list of lists, each of which contains a name and a value. The SKILL </a><font size="2" face="'Courier New'" color="#000000">assoc</font> function can operate using this list.</p>
+      <h4><a name="701381">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="742224"><font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="742226"><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font></a> of the object from which to get the properties.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742228"><font size="2" face="'Courier New'" color="#000000"><em>lt_type</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742230">List of strings qualifying the types of properties to be retrieved from </a><font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font>. <font size="2" face="'Courier New'" color="#000000">&#34;user&#34;</font> means retrieve user&#45;defined properties only. <font size="2" face="'Courier New'" color="#000000">&#34;allegro&#34;</font> means retrieve Allegro PCB Editor defined properties only. <font size="2" face="'Courier New'" color="#000000">nil</font> means retrieve both user and Allegro PCB Editor.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="701398">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="742264"><font size="2" face="'Courier New'" color="#000000"><em>l_result</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="742266">List of name&#45;value pairs. For each name&#45;value pair:</a></p>
+            <p><a name="742277">(</a><font size="2" face="'Courier New'" color="#000000">car</font>) is the property name </p>
+            <p><a name="742280">(</a><font size="2" face="'Courier New'" color="#000000">cadr</font>) is the property value, including units.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742268"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742270">No properties found.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="718952">Example</a></h4>
+      <p><a name="724864">The following example selects the component with refdes &#34;U1,&#34; gets its properties using the axlDBGetProperties command, and prints the associated property list it returns. The properties are:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="724922">ROOM with value D</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="724931">DFA_DEV_CLASS with value DIP</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="724938">LEAD_DIAMETER with value 23 mil.</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="724869"> </a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="724870">         axlClearSelSet()</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="724871">         axlSetFindFilter(?enabled &#39;(&#34;noall&#34; &#34;alltypes&#34;) ?onButtons &#34;alltypes&#34;)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="724872">         axlSingleSelectName(&#34;component&#34; &#34;U1&#34;)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="724873">         myprops = axlDBGetProperties(car(axlGetSelSet()) &#39;(&#34;user&#34; &#34;allegro&#34;))</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="724874">         print myprops</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="724875">         ==&#62; ((ROOM &#34;D&#34;)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="724876">                 (DFA_DEV_CLASS &#34;DIP&#34;)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="724877">                         (LEAD_DIAMETER &#34;23 MIL&#34;))</a></font>
+      </blockquote>
+      <p><a name="724856">&nbsp;</a></p>
+      <h3><a name="700396">axlDBGetDesignUnits</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="700397">axlDBGetDesignUnits()<dd></a><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>l_value</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="701449">Description</a></h4>
+      <p><a name="700400">Returns the design units and accuracy number of the active design.</a></p>
+      <h4><a name="701462">Arguments</a></h4>
+      <p><a name="700401">None.</a></p>
+      <h4><a name="701479">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="644">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="742284"><font size="2" face="'Courier New'" color="#000000"><em>l_value</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="451">
+            <p><a name="742286">List containing the design units as a string and the accuracy number as an integer.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742288"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742290">Failed to return the design units and accuracy number of the active design.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="701500">Example</a></h4>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="700406">(axlDBGetDesignUnits)<dd></a>⇒(&#34;millimeters&#34; 3)</font>
+      </dl>
+      <p><a name="719849">The design </a><font color="#000000"><strong>Drawing Parameters</strong></font> form shows <font color="#000000"><em>User Units</em></font> as <font size="2" face="'Courier New'" color="#000000">Millimeter</font> and <font color="#000000"><em>Accuracy</em></font> as <font size="2" face="'Courier New'" color="#000000">3</font>.</p>
+      <h3><a name="700407">axlDBRefreshId</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="700408">axlDBRefreshId(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font>&#47;nil<dd>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="701541">Description</a></h4>
+      <p><a name="700411">Updates the attributes of the object specified by </a><font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font>. Subsequent attribute retrieval requests access the updated information.</p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <font size="3"><img src="images/important.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <font size="3"><a name="734691">This does NOT update the Allegro database. It updates the cached dbid view of objects in Skill.</a></font>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="700412">Because of performance considerations, refreshes only the object itself. If the object being refreshed has </a><font size="2" face="'Courier New'" color="#000000"><em>dbids</em></font> in any of its attributes, those <font size="2" face="'Courier New'" color="#000000"><em>dbids</em></font> are not refreshed. For example, a net branch has <font color="#000000"><em>children</em></font>, a list of paths, tees, vias, pins, and shapes. If another path is added to that list of paths due to connectivity change, <font size="2" face="'Courier New'" color="#000000">axlDBRefreshId</font> of the branch does not update the <font color="#000000"><em>children</em></font>. If you move a via that is a child of the branch, then doing <font size="2" face="'Courier New'" color="#000000">axlDBRefreshId</font> of the branch and accessing the via as child of branch may yield incorrect attributes of that child (via in this case).</p>
+      <h4><a name="701570">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="644">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="742299"><font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="451">
+            <p><a name="742301">SKILL list of </a><font size="2" face="'Courier New'" color="#000000"><em>dbids</em></font> of the objects whose attributes are to be refreshed.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742303"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742305">All ids are refreshed.</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="706339">Refreshing all ids may cause performance problems if done indiscriminately.</a></p>
+      <h4><a name="701615">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="742321"><font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="742323">Refreshed </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font>. </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742325"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742327">Could not refresh.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="701714">Example</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="700418">axlSetFindFilter( ?enabled<br>&nbsp;&nbsp;&nbsp;&nbsp;&#39;(&#34;noall&#34; &#34;alltypes&#34;))<br>axlSingleSelectName(&#34;net&#34; &#34;sclkl&#34;)<br>mynet = car(axlGetSelSet())<br>mybranch = car(mynet&#45;&#62;branches)<br>mychildren = mybranch&#45;&#62;children<br>foreach( thismember mychildren<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if( (thismember&#45;&#62;objType == &#34;via&#34;)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; then<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;axlDeleteObject(thismember)))<br>axlDBRefreshId(mybranch)<br></a>⇒ t</font>
+      </blockquote>
+      <p><a name="719865">Finds </a><font size="2" face="'Courier New'" color="#000000"><em>net</em></font> <font size="2" face="'Courier New'" color="#000000">&#34;sclkl&#34;,</font> walks all members of its first branch, deleting any vias. Then refreshes the branch.</p>
+      <p><a name="720123">If the refresh was not done, </a><font size="2" face="'Courier New'" color="#000000">mybranch</font> would still report having vias following the operation that deleted its vias.</p>
+      <h3><a name="700419">axlDBGetLonelyBranches</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="700420">axlDBGetLonelyBranches()<dd></a><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>l_dbid</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="701731">Description</a></h4>
+      <p><a name="700423">Returns a list of the </a><font color="#000000"><em>standalone branch</em></font> <font size="2" face="'Courier New'" color="#000000"><em>dbids</em></font> in the design. A <font color="#000000"><em>standalone branch</em></font> is a branch not associated with any net.</p>
+      <h4><a name="701744">Arguments</a></h4>
+      <p><a name="700424">None.</a></p>
+      <h4><a name="701761">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="643">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="742336"><font size="2" face="'Courier New'" color="#000000"><em>l_dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="451">
+            <p><a name="742338">List of standalone branches.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742340"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742342">No standalone branches found.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="701794">Example</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="700428">(axlDBGetLonelyBranches)<br></a>⇒(dbid:12051156 dbid:11994768 dbid:12002292 dbid:12000892 dbid:11999396<br>dbid:11996652 dbid:11996048 dbid:11994476 dbid:11992964 dbid:11991564<br>dbid:11989672 dbid:11989344 dbid:12072172 dbid:11895392 dbid:11892048<br>dbid:11888704 dbid:11888744 dbid:11888804 dbid:11888844 dbid:11888884<br>dbid:12074948 dbid:11888984 dbid:11889064 dbid:11889204 dbid:11889224<br>dbid:11889856 dbid:11890036 dbid:11890056 dbid:11890236 dbid:11890256<br>dbid:11886180 dbid:12011360 dbid:11886760 dbid:11887140 dbid:11887916 )</font>
+      </blockquote>
+      <p><a name="719879">Gets list of standalone branch </a><font size="2" face="'Courier New'" color="#000000"><em>dbids</em></font>.</p>
+      <h3><a name="719173">axlDBGetConnect</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="719176">axlDBGetConnect(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>o_dbid<dd>[t_full]<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>l_result&#47;</em></font><font size="2" face="'Courier New'" color="#000000">nil</font></font>
+      </dl>
+      <h4><a name="719179">Description</a></h4>
+      <p><a name="719180">Finds all the elements, including pads and shapes, that are connected to a given </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font>. Input can be a PIN, VIA, T, CLINE&#47;CARC or CLINE&#47;CARC SEGMENT, and shapes. </p>
+      <p><a name="728517">If the second argument is </a><font size="2" face="'Courier New'" color="#000000">nil</font> or is not present:</p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="728518">For pins, vias or Ts, the function returns a list of connected clines.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="728519">For path (clines) or line&#47;arc (segments) returns list of objects connected to either end.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="728521">For shapes same as t_full=t</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="728522">If the second argument is set to </a><font size="2" face="'Courier New'" color="#000000">t</font>,:</p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="728523">For pins, vias and T, the command returns full connectivity which includes clines, shapes, pins, vias or T&#39;s.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="728525">For path (clines) or line&#47;arc (segments) return value is same as </a><font size="2" face="'Courier New'" color="#000000">t_full=nil</font></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="728690">For shapes list of connected objects which may be clines, shapes, pins, vias or T&#39;s.</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="728697">You should set </a><font size="2" face="'Courier New'" color="#000000"><em>t_fill</em></font> to <font size="2" face="'Courier New'" color="#000000">t</font>. The <font size="2" face="'Courier New'" color="#000000">nil</font> option operates in its mode due to legacy considerations and is used by Allegro Package Designer applications.</p>
+      <p><a name="728738">If a segment is passed as an argument, the command does not report inter&#45;path connectivity. Thus only the first and last segment of a path report any connectivity. Internal segments of a path always return nil. This is because the Allegro database connectivity model guarantees that internal segments are always connected to their adjacent segments. The list of segments reported in a path (cline) dbid is how the individual segments are connected.</a></p>
+      <h4><a name="719181">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="644">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="742381"><font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="452">
+            <p><a name="742383">A </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font>, path(cline), line&#47;arc (segment), shape, pin, via or T.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742385"><font size="2" face="'Courier New'" color="#000000"><em>t_full</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742387"><font size="2" face="'Courier New'" color="#000000">t</font></a>: For full connectivity of pins, vias, or Ts.</p>
+            <p><a name="742437"><font size="2" face="'Courier New'" color="#000000">nil</font></a>: Returns connectivity including any connected SHAPES. Also supports segments.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="719183">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="742442"><font size="2" face="'Courier New'" color="#000000"><em>l_result</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="742444">List of </a><font size="2" face="'Courier New'" color="#000000"><em>dbids</em></font> connected to <font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font>. </p>
+            <p>
+              <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="719205">If o_dbid is a CLINE or SEGMENT, then<br>l_result = (list list1 list2)<br>where list1 = nil or elements connected to the first end list2 = nil or elements connected to the second end.</a></font>
+            </p>
+            <p><a name="742471">For all other objects, returns a list of connections.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742495"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742497">Nothing connected to </a><font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font>.</p>
+          </td>
+        </tr>
+      </table>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="720420">&nbsp;</a></font>
+      </p>
+      <h3><a name="719327">axlDBIsFixed</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="719356">axlDBIsFixed(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>o_dbid<dd></em></font>[<font size="2" face="'Courier New'" color="#000000"><em>g_showMessage</em></font>]<dd>)<dd><font face="symbol" color="#000000">⇒</font> nil or [<font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font> of 1st element that makes the item fixed]</font>
+      </dl>
+      <h4><a name="719359">Description</a></h4>
+      <p><a name="729064">Verifies whether or not the specified database object is fixed. When the FIXED property is present if can either be directly on the object, on a parent (e.g. a CLINE is fixed if the NET is fixed) or on a child (e.g. a symbol is fixed if its place bounds is fixed).</a></p>
+      <p><a name="729167">An object can be fixed by the following:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="729168">Object has the </a><font size="2" face="'Courier New'" color="#000000">FIXED</font> property or its parent or child objects have the <font size="2" face="'Courier New'" color="#000000">FIXED</font> property. For example, group symbol </td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="729181">The object (parent or child) has a private database fixed attribute</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="729217">Object is Read&#45;only (typically due to partition enabled)</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="729164">Object is a symbol with test points and the </a><font size="2" face="'Courier New'" color="#000000">FIXED</font> test point flag is set.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="729261">Object is a symbol and has one or more children with the </a><font size="2" face="'Courier New'" color="#000000">FIXED</font> property.</td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="732046">Returns the first item found that causes the element to be fixed (could be more then one).</a></p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="732047">Using </a><a href="17dbtran.html#1065349" title="18"><font color="#0000ff"><u>axlDBCloak</u></font></a> with its <font size="2" face="'Courier New'" color="#000000">&#39;ignoreFixed</font> option is recommended.</p>
+      <h4><a name="732048">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="742526"><font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="742528"><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font></a> of the element to check.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742530"><font size="2" face="'Courier New'" color="#000000"><em>g_showMessage</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742532">Use </a><font size="2" face="'Courier New'" color="#000000">t</font> to have Allegro PCB Editor display the message if the item is fixed or <font size="2" face="'Courier New'" color="#000000">nil</font> to have no message display.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="719364">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="742547"><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="742549"><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font></a> of the element causing the object to be fixed.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742551"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742553">Object not fixed.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="719381">Example</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="719382">p = axlSelectByname(&#34;SYMBOL&#34; &#34;U1&#34;)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="729305">ret = axlDBIsFixed(p)</a></font>
+      </blockquote>
+      <h4><a name="729306">See Also</a></h4>
+      <p><a href="14dsnctl.html#715890" title="14" name="729322"><font color="#0000ff"><u>axlDBIgnoreFixed</u></font></a>, axlDBIsReadOnly, <a href="17dbtran.html#1065349" title="18"><font color="#0000ff"><u>axlDBCloak</u></font></a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="729308">&nbsp;</a></font>
+      </blockquote>
+      <h3><a name="719354">axlDBIsPackagePin</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="719395">axlDBIsPackagePin(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>rd_dbid<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="719398">Description</a></h4>
+      <p><a name="719399">Verifies whether or not the given element is a </a><font color="#000000"><em>package pin</em></font>.</p>
+      <p><a name="719400">A </a><font color="#000000"><em>package pin</em></font> is a pin with a component class of <font size="2" face="'Courier New'" color="#000000">IO</font>.</p>
+      <h4><a name="719401">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="644">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="742561"><font size="2" face="'Courier New'" color="#000000"><em>rd_dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="451">
+            <p><a name="742563"><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font></a> of element to check.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="719403">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="742575"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="742577"><font size="2" face="'Courier New'" color="#000000"><em>rd_dbid</em></font></a> is a package pin.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742579"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742581"><font size="2" face="'Courier New'" color="#000000"><em>rd_dbid</em></font></a> is not a package pin.</p>
+          </td>
+        </tr>
+      </table>
+      <h3><a name="719416">axlGetModuleInstanceDefinition</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="719467">axlGetModuleInstanceDefinition(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>o_modinst<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>t_moddef</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="719445">Description</a></h4>
+      <p><a name="719446">AXL interface to the C function that returns the name of the module definition used to create the module instance.</a></p>
+      <h4><a name="719448">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="742589"><font size="2" face="'Courier New'" color="#000000"><em>o_modinst</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="742591">AXL </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font> of the module instance (the <font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font> returned by <font size="2" face="'Courier New'" color="#000000">axlDBCreateModuleInstance</font>.)</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="719450">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="742605"><font size="2" face="'Courier New'" color="#000000"><em>t_moddef</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="742607">String containing the name of the module definition.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742609"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742611">Could not access the information.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="719473">Example</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="719479">axlSetFindFilter(?enabled &#39;(&#34;noall&#34; &#34;groups&#34;) ?onButtons &#39;(&#34;noall&#34; &#34;groups&#34; ))</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="719483">axlSingleSelectName(&#34;GROUP&#34; &#34;inst&#34;)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="719484">modinst = car(axlGetSelSet())</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="720086">axlGetModuleInstanceDefinition(modinst)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="720087">= &#34;mod&#34;</a></font>
+      </blockquote>
+      <p><a name="720088">Gets the definition of a module instance named </a><font size="2" face="'Courier New'" color="#000000">inst</font>.</p>
+      <h3><a name="719439">axlGetModuleInstanceLocation</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="719502">axlGetModuleInstanceLocation(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>o_modinst<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>l_loc</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="719505">Description</a></h4>
+      <p><a name="719506">AXL interface to the C function that gets the current location of the module instance in the design.</a></p>
+      <h4><a name="719507">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="742623"><font size="2" face="'Courier New'" color="#000000"><em>o_modinst</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="742625">AXL </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font> of the module instance (the <font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font> returned by <font size="2" face="'Courier New'" color="#000000">axlDBCreateModuleInstance</font>.)</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="725081">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="742642"><font size="2" face="'Courier New'" color="#000000"><em>l_loc</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="742644">List of data describing the location of the module instance. The list syntax is as follows.</a></p>
+            <dl>
+              <font size="2" face="'Courier New'" color="#000000"><a name="725097">list(l_origin, x_rotation [g_mirror])</a></font>
+            </dl>
+            <p><a name="742664">where</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="742708">l_origin: </a>origin of module</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="742720">x_rotation: </a>rotation in degress * 1000</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="742732">[g_mirror]:</a> Is a n optional parameter, which is set to <font size="2" face="'Courier New'" color="#000000">t</font> when mirrored</td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="719512">Example</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="719514">axlSetFindFilter(?enabled &#39;(&#34;noall&#34; &#34;groups&#34;) ?onButtons &#39;(&#34;noall&#34; &#34;groups&#34; ))</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="719515">axlSingleSelectName(&#34;GROUP&#34; &#34;inst&#34;)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="719516">modinst = car(axlGetSelSet())</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="719517">axlGetModuleInstanceLocation(modinst)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="719518">&#45;&#45;&#62; ((500 1500) 0)</a></font>
+      </blockquote>
+      <p><a name="719946">Gets the location of a module instance named </a><font size="2" face="'Courier New'" color="#000000">inst</font>.</p>
+      <h3><a name="719496">axlGetModuleInstanceLogicMethod</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="719528">axlGetModuleInstanceMethod(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>o_modinst<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>i_logic</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="719531">Description</a></h4>
+      <p><a name="719532">AXL interface to the C function that determines the logic method used by the module instance.</a></p>
+      <h4><a name="719533">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="742748"><font size="2" face="'Courier New'" color="#000000"><em>o_modinst</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="742750">AXL </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font> of the module instance (the <font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font> returned by <font size="2" face="'Courier New'" color="#000000">axlDBCreateModuleInstance</font>.)</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="719535">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="742800"><font size="2" face="'Courier New'" color="#000000"><em>i_logic</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="742802">Value of the logic method flag for the module instance. Legal values are:</a></p>
+            <p><a name="742813"><font size="2" face="'Courier New'" color="#000000">0</font></a> &#45; no logic</p>
+            <p><a name="742816"><font size="2" face="'Courier New'" color="#000000">1</font></a> &#45; logic from schematic</p>
+            <p><a name="742819"><font size="2" face="'Courier New'" color="#000000">2</font></a> &#45; logic from module definition</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742804"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742806">Could not access the information.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="719538">Example</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="719540">axlSetFindFilter(?enabled &#39;(&#34;noall&#34; &#34;groups&#34;) ?onButtons &#39;(&#34;noall&#34; &#34;groups&#34; ))</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="719541">axlSingleSelectName(&#34;GROUP&#34; &#34;inst&#34;)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="719542">modinst = car(axlGetSelSet())</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="719958">axlGetModuleInstanceLogicMethod(modinst)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="719959">= 2</a></font>
+      </blockquote>
+      <p><a name="719963">Gets the logic method of a module instance named </a><font size="2" face="'Courier New'" color="#000000">inst</font>.</p>
+      <h3><a name="719960">axlGetModuleInstanceNetExceptions</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="719570">axlGetModuleInstanceNetExceptions(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>o_modinst<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>l_nets</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="719573">Description</a></h4>
+      <p><a name="719574">AXL interface to the C function that gets the net exception of the module instance in the design.</a></p>
+      <h4><a name="719575">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="742824"><font size="2" face="'Courier New'" color="#000000"><em>o_modinst</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="742826">AXL </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font> of the module instance (the <font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font> returned by <font size="2" face="'Courier New'" color="#000000">axlDBCreateModuleInstance</font>.)</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="719577">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="742834"><font size="2" face="'Courier New'" color="#000000"><em>l_nets</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="742836">List of names of the nets that are treated as exceptions in the module instance.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742838"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742840">Could not access the information.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="719580">Example</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="719582">axlSetFindFilter(?enabled &#39;(&#34;noall&#34; &#34;groups&#34;) ?onButtons &#39;(&#34;noall&#34; &#34;groups&#34; ))</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="719583">axlSingleSelectName(&#34;GROUP&#34; &#34;inst&#34;)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="719584">modinst = car(axlGetSelSet())</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="719585">axlGetModuleInstanceNetExceptions(modinst)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="719586">= (&#34;GND&#34; &#34;+5&#34;)</a></font>
+      </blockquote>
+      <p><a name="719976">Gets the list of net exceptions of a module instance named </a><font size="2" face="'Courier New'" color="#000000">inst</font>.</p>
+      <h3><a name="719568">axlIsDummyNet</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="719603">axlIsDummyNet(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>net_dbid</em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="719606">Description</a></h4>
+      <p><a name="732071">Determines if a given net is a Dummy net. Name of net is an empty string (&#34;&#34;).</a></p>
+      <h4><a name="719608">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="742849"><font size="2" face="'Courier New'" color="#000000"><em>net_dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="742851">Net database object.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="719610">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="742863"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="742865"><font size="2" face="'Courier New'" color="#000000"><em>net_dbid</em></font></a> is a Dummy Net.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742867"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742869"><font size="2" face="'Courier New'" color="#000000"><em>net_dbid</em></font></a> is not a Dummy Net.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="732094">See Also</a></h4>
+      <p><a href="#719636" title="6" name="732104"><font color="#0000ff"><u>axlIsPinUnused</u></font></a></p>
+      <h3><a name="719601">axlIsLayerNegative</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="719638">axlIsLayerNegative(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_layerName<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="719641">Description</a></h4>
+      <p><a name="719642">Determines whether or not the given plane layer is negative.</a></p>
+      <h4><a name="719643">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="741105"><font size="2" face="'Courier New'" color="#000000"><em>t_layerName</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="741107">Name of the conductor layer to check.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="719645">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="741120"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="741122">Active layer is negative.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741124"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="741126">Active layer is not negative or is not an </a><font size="2" face="'Courier New'" color="#000000">ETCH</font> layer.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="741154">See Also</a></h4>
+      <p><a href="04parmgt.html#1169585" title="3" name="741161"><font color="#0000ff"><u>axlXSectionGet</u></font></a></p>
+      <h4><a name="741162">Examples</a></h4>
+      <p><a name="741137">Tests if layer named GND is negative</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="741138">axlIsLayerNegative(&#34;GND&#34;)</a></font>
+      </dl>
+      <p><a name="719647">&nbsp;</a></p>
+      <h3><a name="719636">axlIsPinUnused</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="719660">axlIsPinUnused(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>pin_dbid<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="719663">Description</a></h4>
+      <p><a name="732139">Determines if the given pin is unused, indicating that it is on a dummy net.</a></p>
+      <h4><a name="719665">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="554">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="742885"><font size="2" face="'Courier New'" color="#000000"><em>pin_dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="362">
+            <p><a name="742887">Pin database object.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="719667">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="585">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="742898"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="393">
+            <p><a name="742900">Pin is unused.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742902"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742904">Pin is used.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="732118">See Also</a></h4>
+      <p><a href="#719568" title="6" name="732128"><font color="#0000ff"><u>axlIsDummyNet</u></font></a></p>
+      <h3><a name="719658">axlIsitFill</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="719682">axlIsitFill(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_layer<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="719685">Description</a></h4>
+      <p><a name="719686">Determines if fill shape is allowed for a given class subclass.</a></p>
+      <h4><a name="719687">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="624">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="742912"><font size="2" face="'Courier New'" color="#000000"><em>t_layer</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="431">
+            <p><a name="742914">Layer name, for example, </a><font size="2" face="'Courier New'" color="#000000">ETCH&#47;TOP</font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="719689">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="644">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="742925"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="452">
+            <p><a name="742927">Fill shape is allowed.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742929"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742931">Fill shape is not allowed.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h3><a name="719680">axlOK2Void</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="719704">axlOK2Void(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_layer<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="719707">Description</a></h4>
+      <p><a name="719708">Determines if voids are allowed for a given </a><font size="2" face="'Courier New'" color="#000000"><em>class&#47;subclass</em></font>. Determines if a layer supports voids for shapes. </p>
+      <h4><a name="719709">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="742962"><font size="2" face="'Courier New'" color="#000000"><em>t_layer</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="742964">Layer name, for example, </a><font size="2" face="'Courier New'" color="#000000">ETCH&#47;TOP</font>.</p>
+            <p><a name="742971">or </a></p>
+            <p><a name="742974">just class name (&#34;ETCH&#34;)</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="719711">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="642">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="742977"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="450">
+            <p><a name="742979">Voids are allowed.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742981"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="742983">Voids are not allowed.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="734651">Example</a></h4>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="734652">axlOK2Void(&#34;ETH&#47;TOP&#34;)</a></font>
+      </dl>
+      <p><a name="734643">&nbsp;</a></p>
+      <h3><a name="720167">axlDBDynamicShapes</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="720168">axlDBDynamicShapes(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>g_value<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> x_count</font>
+      </dl>
+      <h4><a name="720171">Description</a></h4>
+      <p><a name="720172">Queries and updates dynamic shapes. When </a><font size="2" face="'Courier New'" color="#000000"><em>g_value</em></font> is <font size="2" face="'Courier New'" color="#000000">t,</font> updates all out of date dynamic shapes on the board regardless of the dynamic shape updating setting in the <font color="#000000"><strong>Drawing Options</strong></font> dialog. When <font size="2" face="'Courier New'" color="#000000"><em>g_value</em></font> is <font size="2" face="'Courier New'" color="#000000">nil</font>, returns a count of out of date shapes.</p>
+      <h4><a name="720173">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="642">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="743003"><font size="2" face="'Courier New'" color="#000000"><em>g_value</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="449">
+            <p><a name="743005"><font size="2" face="'Courier New'" color="#000000">t</font></a> = update dynamic shapes </p>
+            <p><a name="743016"><font size="2" face="'Courier New'" color="#000000">nil</font></a> = return count of out of date shapes</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="720175">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="644">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="743019"><font size="2" face="'Courier New'" color="#000000"><em>x_count</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="452">
+            <p><a name="743021">Count of out of date shapes. If updating shapes, </a><font size="2" face="'Courier New'" color="#000000"><em>x_count</em></font> is the number of out of date shapes before the update.</p>
+          </td>
+        </tr>
+      </table>
+      <h3><a name="720190">axlDBGetShapes</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="720191">axlDBGetShapes(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_layer<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> l_dbid&#47;nil</font>
+      </dl>
+      <h4><a name="720194">Description</a></h4>
+      <p><a name="720195">Provides quick access to shapes without access to visibility or find settings.</a></p>
+      <h4><a name="720196">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="649">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="743029"><font size="2" face="'Courier New'" color="#000000"><em>t_layer</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="457">
+            <p><a name="743031">Layer name</a></p>
+            <p><a name="743046"><font size="2" face="'Courier New'" color="#000000">nil</font></a> = all layers</p>
+            <p><a name="743049">&#60;</a><font size="2" face="'Courier New'" color="#000000"><em>class</em></font>&#62; = all subclasses of the class</p>
+            <p><a name="743052">&#60;</a><font size="2" face="'Courier New'" color="#000000"><em>class</em></font>&#62;&#47;&#60;<font size="2" face="'Courier New'" color="#000000"><em>subclass</em></font>&#62; = specified layer</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="720198">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="743056"><font size="2" face="'Courier New'" color="#000000">l_dbid</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="743058">List of shapes.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="743060"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="743062">Incorrect argument.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="734496">Examples:</a></h4>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="734498">Returns all shapes on the design.</a></td>
+          </tr>
+        </table>
+      </div>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="734517">axlDBGetShapes(nil)</a></font>
+      </p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="720223">Returns all shapes on the BOUNDARY layer.</a></td>
+          </tr>
+        </table>
+      </div>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="734540">axlDBGetShapes(&#34;BOUNDARY&#34;)</a></font>
+      </p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="720229">Returns all shapes on ETCH GND.</a></td>
+          </tr>
+        </table>
+      </div>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="734568">axlDBGetShapes(&#34;ETCH&#47;GND&#34;)</a></font>
+      </p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="720240">Returns all shapes on ROUTE KEEPOUT.</a></td>
+          </tr>
+        </table>
+      </div>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="734591">axlDBGetShapes(&#34;ROUTE KEEPOUT&#34;)</a></font>
+      </p>
+      <p><a name="734583">&nbsp;</a></p>
+      <h3><a name="720279">axlDBTextBlockCompact</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="720280">axlDBTextBlockCompact(<dd>t&#47;nil<dd>)<dd></a><font face="symbol" color="#000000">⇒</font> x_unusedBlocks</font>
+      </dl>
+      <h4><a name="720283">Description</a></h4>
+      <p><a name="720284">Reports and&#47;or compresses unused database text blocks. If compacting text blocks, it always updates database text to reflect the new text block numbers.</a></p>
+      <p><a name="720295">The database, even if new, must have at least one text block.</a></p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="720296">You must force a </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font> refresh on any text parameters and text type <font size="2" face="'Courier New'" color="#000000"><em>dbids</em></font> in order for them to reflect the new numbering.</p>
+      <h4><a name="720285">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="743074"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="743076">Compact the text blocks.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="743078"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="743080">Report the number of text blocks that can be eliminated from the database.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="720287">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="743097"><font size="2" face="'Courier New'" color="#000000"><em>x_unusedBlocks</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="743099">Count of text blocks that are unused.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="720301">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="720302">unused = axlDBTextBlockCompact(nil)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="720303">printf(&#34;This database has %d unused text blocks\n&#34; unused)</a></font>
+      </p>
+      <p><a name="721503">&nbsp;</a></p>
+      <p><a name="727294">&nbsp;</a></p>
+      <p><a name="733888">&nbsp;</a></p>
+      <p><a name="736382">&nbsp;</a></p>
+      <p><a name="737903">&nbsp;</a></p>
+    </div>
+    <br>
+    <a href="#pagetop">Return to top of page</a>
+    <hr>
+    <hr align="left">
+    <div style="text-align: left;">
+      <!-- Begin Buttons -->      <table width="650" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                    </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+          <td>
+            <a href="06intedt.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+          </td>
+          <td>
+            <a href="08intprm.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+          </td>
+          <td>
+            <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+            </a>
+          </td>
+          <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+          </td>
+          <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+          </td>
+          <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+          </td>
+          <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+          </td>
+        </tr>
+      </table>
+      <!-- End Buttons -->
+    </div>
+    <br>
+    <font size="-1" >
+For support, see <a href="http://support.cadence.com" target="_blank">Cadence Online Support</a> service.</font>
+    <br>
+    <br>
+    <font size="-1" >
+      <i>Copyright &#169; 2017, <a href="http://www.cadence.com">Cadence Design Systems, Inc.</a></i>
+    </font>
+    <br>
+    <font size="-1" >
+All rights reserved.</font>
+    <br>
+    <br>
+  </body>
+</html>

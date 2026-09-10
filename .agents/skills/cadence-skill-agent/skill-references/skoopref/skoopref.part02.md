@@ -389,7 +389,7 @@ November 2014                            44                      Product Version
 
 ### getMethodSpecializers
 
-`getMethodSpecializers( s_genericFunction ) => l_classNames | nil`
+`getMethodSpecializers( s_genericFunction ) => l_classNames / nil`
 
 ```text
                     Cadence SKILL++ Object System Reference
@@ -739,7 +739,7 @@ November 2014                               51                             Produ
 
 ### nextMethodp
 
-`nextMethodp( ) => t | nil`
+`nextMethodp( ) => t / nil`
 
 ```text
                     Cadence SKILL++ Object System Reference
@@ -1291,7 +1291,7 @@ November 2014                                 63                              Pr
 
 ### subclassp
 
-`subclassp( u_classObject1 u_classObject2 ) => t | nil`
+`subclassp( u_classObject1 u_classObject2 ) => t / nil`
 
 ```text
                      Cadence SKILL++ Object System Reference
@@ -1445,7 +1445,7 @@ November 2014                                67                              Pro
 
 ### addDependent
 
-`addDependent( g_object g_dependent ) => t | nil`
+`addDependent( g_object g_dependent ) => t / nil`
 
 ```text
                    Cadence SKILL++ Object System Reference
@@ -1544,7 +1544,7 @@ November 2014                                69                              Pro
 
 ### removeDependent
 
-`removeDependent( g_object g_dependent ) => t | nil`
+`removeDependent( g_object g_dependent ) => t / nil`
 
 ```text
                     Cadence SKILL++ Object System Reference

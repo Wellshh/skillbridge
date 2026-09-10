@@ -1,0 +1,69 @@
+{
+  "free_pairs": {
+    "VCC": 20,
+    "GND": 54,
+    "NET1": 1,
+    "NET6": 1,
+    "NET24": 3
+  },
+  "p8_rename_result": "True",
+  "p8_net_scan": [
+    "NET 24"
+  ],
+  "p8_space_net_quoted": {
+    "command": "add connect -net \"NET 24\" -layer ETCH/TOP -width 12; pick 3300.0 2700.0; pick 2900.0 2700.0; done",
+    "shell_result": true,
+    "mine_added": [
+      [
+        "NET 24",
+        "ETCH/GND",
+        3300.0,
+        2700.0,
+        3248.0,
+        2752.0,
+        25.0
+      ],
+      [
+        "NET 24",
+        "ETCH/GND",
+        3248.0,
+        2752.0,
+        2952.0,
+        2752.0,
+        25.0
+      ],
+      [
+        "NET 24",
+        "ETCH/GND",
+        2952.0,
+        2752.0,
+        2900.0,
+        2700.0,
+        25.0
+      ]
+    ],
+    "mine_removed": [],
+    "other_added_n": 0,
+    "added_layers": [
+      "ETCH/GND"
+    ],
+    "added_widths": [
+      25.0
+    ],
+    "pair": [
+      [
+        3300.0,
+        2700.0,
+        "R2",
+        "2"
+      ],
+      [
+        2900.0,
+        2700.0,
+        "R3",
+        "2"
+      ]
+    ]
+  },
+  "fatal": "NameError: name 'a2' is not defined"
+}

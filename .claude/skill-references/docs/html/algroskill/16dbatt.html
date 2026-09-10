@@ -1,0 +1,779 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN" "http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+<html xmlns="http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Allegro SKILL Reference -- 17</title>
+<META NAME="Approver" CONTENT="Technical Publications">
+<META NAME="Author" CONTENT="Technical Publications">
+<META NAME="CreateDate" CONTENT="2017-11-25">
+<META NAME="CreateTime" CONTENT="1511600113">
+<META NAME="DataType" CONTENT="Manuals">
+<META NAME="Description" CONTENT="Describes the Allegro eXtension Language (AXL) and how to use each AXL function.">
+<META NAME="DocTitle" CONTENT="Allegro SKILL Reference">
+<META NAME="DocType" CONTENT="SKILL Reference">
+<META NAME="EdmsRelease" CONTENT="FM-Wiki-2.0_HF2">
+<META NAME="FileTitle" CONTENT="17">
+<META NAME="FileType" CONTENT="Chapter">
+<META NAME="Group" CONTENT="Allegro User Guide">
+<META NAME="Keyword" CONTENT="algroskill">
+<META NAME="Language" CONTENT="English">
+<META NAME="ModifiedDate" CONTENT="2017-11-25">
+<META NAME="ModifiedTime" CONTENT="1511600113">
+<META NAME="NextFile" CONTENT="17dbtran.html">
+<META NAME="Order" CONTENT="11">
+<META NAME="PageCount" CONTENT="12">
+<META NAME="Platform" CONTENT="ALL">
+<META NAME="PrevFile" CONTENT="15dbgrp.html">
+<META NAME="Product" CONTENT="Allegro PCB Editor, Cadence SiP Digital">
+<META NAME="ProductFamily" CONTENT="Silicon-Package-Board Co-Design, IC Packaging">
+<META NAME="ProductVersion" CONTENT="17.2-2016">
+<META NAME="RightsManagement" CONTENT="Copyright 19912017 Cadence Design Systems Inc.">
+<META NAME="Title" CONTENT="Allegro SKILL Reference -- 17">
+<META NAME="TopicTags" CONTENT="FALSE">
+<META NAME="Version" CONTENT="17.2-2016">
+  </head>
+  <body style="margin-left: 5%;">
+    <a name="pagetop"></a>
+    <a name="firstpage"></a>
+    <!-- Begin Buttons -->
+    <table width="650" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td height="36" width="650" colspan="10">
+          <img src="images/header_doc.gif" width="650" height="34">
+        </td>
+      </tr>
+      <tr>
+        <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+        <td>
+          <a href="15dbgrp.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+        </td>
+        <td>
+          <a href="17dbtran.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+        </td>
+        <td height="20">
+          <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+          </a>
+        </td>
+        <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+        </td>
+        <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+        </td>
+        <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+        </td>
+        <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+        </td>
+      </tr>
+    </table>
+    <!-- End Buttons -->
+    <p>
+    <hr>
+    <p>
+      <h3>
+        <center>
+          <font >
+            <div>Allegro User Guide: SKILL Reference</div>
+            <font >
+              <div>Product Version 17.2&#45;2016 April 2016</div>
+            </font>
+          </font>
+        </center>
+      </h3>
+      <br>
+    </p>
+    <div>
+      <h1>17<a name="1001295">&nbsp;</a></h1>
+      <h1><a name="1037521">Database Attachment Functions</a></h1>
+      <h2><a name="1065213">Overview</a></h2>
+      <p><a name="1065738">This chapter describes the AXL&#45;SKILL Database Attachment functions.</a></p>
+      <h3><a name="1065349">axlCreateAttachment</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078799">axlCreateAttachment(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_attachmentId<dd>t_passwd<dd>x_revision<dd>s_dataFormat<dd>t_data<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>o_attachment</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="1075143">Description</a></h4>
+      <p><a name="1076394">Creates a new Allegro PCB Editor database attachment with the given attachment id. The attachment may optionally be given a password and a revision number. The attachment data may be specified as a string or as a file name.</a></p>
+      <p><a name="1078094"><font size="2" face="'Courier New'" color="#000000">axlDBControl(&#39;maxAttachmentSize)</font></a> returns the maximum size of data that can attach to the database.</p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <strong><em><img src="images/caution.gif" alt="ParagraphBullet" border="0"></em></strong>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <strong><em><a name="1078102">Do NOT create or replace attachments you do not own. This includes any predefined Allegro attachments like DFA or quickviews.</a></em></strong>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="1078096">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1081282"><font size="2" face="'Courier New'" color="#000000"><em>t_attachmentId</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1081284">Id or name of the attachment to retrieve. Can be up to 31 characters in length.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081286"><font size="2" face="'Courier New'" color="#000000"><em>t_passwd</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081288">Password for this attachment. Can be up to 31 characters in length. If no password is desired this may be </a><font size="2" face="'Courier New'" color="#000000">nil</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081290"><font size="2" face="'Courier New'" color="#000000"><em>x_revision</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081292">Revision number of the attachment. If </a><font size="2" face="'Courier New'" color="#000000">nil</font>, the revision number is set to zero.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081294"><font size="2" face="'Courier New'" color="#000000"><em>s_dataFormat</em></font></a></p>
+          </td>
+          <td rowspan="4" cellpadding="4" border="0" valign="top">
+            <p><a name="1081296">Indicates the format of the </a><font size="2" face="'Courier New'" color="#000000"><em>t_data</em></font> argument.</p>
+            <p><a name="1081340">Permitted values:</a></p>
+            <p><a name="1081342">&#39;string -- the value of the t_data argument is used for the attachment data. </a></p>
+            <p><a name="1081346">&#39;file -- t_data references an ASCII file that is read into the database attachment. </a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081306">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081310">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081318">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081326"><font size="2" face="'Courier New'" color="#000000"><em>t_data</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081350">&#39;binary -- t_data references a binary file that is read into the database attachment. Use this option with zip or compressed files.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075151">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="649">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1081366"><font size="2" face="'Courier New'" color="#000000"><em>o_attachment</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="457">
+            <p><a name="1081368">AXL id for the new attachment, which can then be queried using the right arrow (&#45;&#62;) operator.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081370"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081372">Failed to create an attachment due to incorrect arguments.</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1075916">Once an attachment is password protected it needs to be deleted, then re&#45;added to remove or change the password protection.</a></p>
+      <h4><a name="1076427">See Also</a></h4>
+      <p><a href="#1076005" title="17" name="1078128"><font color="#0000ff"><u>axlGetAttachment</u></font></a></p>
+      <h4><a name="1078147">EXAMPLE</a></h4>
+      <p><a name="1078243">This uses an attachment to store in the database a list of variables. For example, you design a form where the user enters in their preferences and you manage them in Skill via a disembodied property list. You would like to store the user&#39;s preferences with the design.</a></p>
+      <p><a name="1078245">Create an attachment name, DO NOT USE &#34;fxf&#34;. I would suggest using an underscore, company name and application to make it unique. For example, </a><font size="2" face="'Courier New'" color="#000000">_acme_bom_rpt</font>, would be a good attachment name.</p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078157">      attachName = &#34;fxf&#34;</a></font>
+      </p>
+      <p><a name="1078159">; A typical disembodied property list</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078160">      mylist = ncons(nil)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078161">      mylist&#45;&#62;ccw = t</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078162">      mylist&#45;&#62;middle = nil</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078163">      mylist&#45;&#62;cx = 0.12</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078164">      mylist&#45;&#62;cy = 10.192</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078165">      mylist&#45;&#62;layer = &#34;TOP&#34;</a></font>
+      </dl>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1078166">Do NOT store dbid&#39;s in the disembodied list or make sure to remove them before storing as an attachment.</a></p>
+      <p><a name="1078170">Store list in current design (assuming user saves design)</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078171">      dataString = sprintf(nil &#34; &#39;%L&#34; mylist)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078172">      axlCreateAttachment(attachName nil 0 &#39;string dataString)</a></font>
+      </dl>
+      <p><a name="1078174">Next time user runs the Skill code, here is how to init the list:</a></p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078175">attach = axlGetAttachment(attachName &#39;string)</a></font>
+      </p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078176">if( attach)  then</a></font>
+      </blockquote>
+      <blockquote>
+<blockquote>        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078177">mylist = car(errsetstring(attach&#45;&#62;data))</a></font></blockquote>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078178">else     ; no list stored in design so init to default settings</a></font>
+      </blockquote>
+      <blockquote>
+<blockquote>        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078179">mylist = ncons(nil)</a></font></blockquote>
+      </blockquote>
+      <blockquote>
+<blockquote>        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078180">mylist&#45;&#62;ccw = t</a></font></blockquote>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078181">)</a></font>
+      </blockquote>
+      <p><a name="1078139">&nbsp;</a></p>
+      <h3><a name="1075932">axlDeleteAttachment</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075936">axlDeleteAttachment(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_attachmentId<dd></em></font>[<font size="2" face="'Courier New'" color="#000000"><em>t_passwd</em></font>]<dd>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="1075938">Description</a></h4>
+      <p><a name="1075939">Deletes the given attachment. If the attachment is password protected, the correct password must be given.</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <strong><em><img src="images/caution.gif" alt="ParagraphBullet" border="0"></em></strong>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <strong><em><a name="1078465">Do NOT delete attachments you do not own. This includes any predefined Allegro attachments like DFA or quickviews.</a></em></strong>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="1075956">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="649">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1081384"><font size="2" face="'Courier New'" color="#000000"><em>t_attachmentId</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="457">
+            <p><a name="1081386">Id or name of the attachment to delete.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081388"><font size="2" face="'Courier New'" color="#000000"><em>t_passwd</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081390">Password for this attachment.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075922">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1081402"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1081404">Attachment successfully deleted.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081406"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081408">Attachment not deleted.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078486">See Also</a></h4>
+      <p><a href="#1076005" title="17" name="1078496"><font color="#0000ff"><u>axlGetAttachment</u></font></a></p>
+      <h3><a name="1075968">axlGetAllAttachmentNames</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075975">axlGetAllAttachmentNames(<dd>)<dd></a><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>l_attachment</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="1075977">Description</a></h4>
+      <p><a name="1075978">Returns a list of the ids for all database attachments in the current Allegro PCB Editor database. If no attachments are present, then </a><font size="2" face="'Courier New'" color="#000000">nil</font> is returned. The attachments can retrieved using the <a href="#1076005" title="17"><font color="#0000ff"><u>axlGetAttachment</u></font></a><font size="2" face="'Courier New'" color="#000000">()</font> function.</p>
+      <h4><a name="1075979">Arguments</a></h4>
+      <p><a name="1075973">none</a></p>
+      <h4><a name="1076002">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="641">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1081416"><font size="2" face="'Courier New'" color="#000000"><em>l_attachment</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="449">
+            <p><a name="1081418">List of attachment ids.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081420"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081422">No attachments exist in the database.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h3><a name="1076005">axlGetAttachment</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076008">axlGetAttachment(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_attachmentId<dd></em></font>[<font size="2" face="'Courier New'" color="#000000"><em>s_dataFormat</em></font>]<dd>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>o_attachment</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="1076010">Description</a></h4>
+      <p><a name="1076011">Returns the database attachment with the given id. If the attachment exists, an </a><font color="#000000"><em>attachment record</em></font> is returned containing information about the attachment. The data is in the format specified by the <font size="2" face="'Courier New'" color="#000000"><em>s_dataFormat</em></font> argument. If <font size="2" face="'Courier New'" color="#000000">&#39;file</font> format, then the <font size="2" face="'Courier New'" color="#000000"><em>data</em></font> attribute contains a temporary file name to which the data was written. If <font size="2" face="'Courier New'" color="#000000">&#39;string</font>, then the <font size="2" face="'Courier New'" color="#000000"><em>data</em></font> attribute contains the attachment data itself. If the <font size="2" face="'Courier New'" color="#000000"><em>s_dataFormat</em></font> argument is omitted or is <font size="2" face="'Courier New'" color="#000000">nil</font>, then the <font size="2" face="'Courier New'" color="#000000"><em>data</em></font> attribute is <font size="2" face="'Courier New'" color="#000000">nil</font>. </p>
+      <p><a name="1076285">The attachment record has the following attributes:</a></p>
+      <p align="left"><a name="1076029">&nbsp;</a></p>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" valign="middle" width="120">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1076032"><font color="#000000"><strong>Name</strong></font></a></strong></font>
+            </p>
+          </td>
+          <td cellpadding="4" valign="middle" width="108">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1076034">Type</a></strong></font>
+            </p>
+          </td>
+          <td cellpadding="4" valign="middle" width="108">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1076036">Set?</a></strong></font>
+            </p>
+          </td>
+          <td cellpadding="4" valign="middle" width="310">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1076038">Description</a></strong></font>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076040"><font size="2" face="'Courier New'" color="#000000"><em>objType</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076042">string</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076044">NO</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076046">Is always &#34;</a><font size="2" face="'Courier New'" color="#000000">attachment&#34;</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076048"><font size="2" face="'Courier New'" color="#000000"><em>id</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076050">string</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076052">NO</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076054">Id (name) of the attachment.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076056"><font size="2" face="'Courier New'" color="#000000"><em>password</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076058">boolean</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076060">NO</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076062"><font size="2" face="'Courier New'" color="#000000">t</font></a>&#47;<font size="2" face="'Courier New'" color="#000000">nil</font> &#45; Indicates if the attachment is password protected.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076064"><font size="2" face="'Courier New'" color="#000000"><em>timeStamp</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076066">integer</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076068">NO</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076070">Indicates the time last modified in seconds.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076072"><font size="2" face="'Courier New'" color="#000000"><em>revision</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076074">integer</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076076">YES</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076078">User defined revision number for the attachment data.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076080"><font size="2" face="'Courier New'" color="#000000"><em>dataFormat</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076082">symbol</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076084">YES</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076086">Indicates the format of the data stored in the &#34;data&#34; attribute and is one of </a><font size="2" face="'Courier New'" color="#000000">&#39;file</font>, <font size="2" face="'Courier New'" color="#000000">&#39;string</font>, or <font size="2" face="'Courier New'" color="#000000">nil</font> (in which case the data is not displayed.)</p>
+            <p><a name="1079934">&#39;file is displayed if you &#39;binary option to create the attachment.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076088"><font size="2" face="'Courier New'" color="#000000"><em>data</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076090">string</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076092">YES</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076094">Attachment data. May be a file name, the data itself, or </a><font size="2" face="'Courier New'" color="#000000">nil</font> depending on the value of the <font size="2" face="'Courier New'" color="#000000"><em>dataFormat</em></font> attribute.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076481"><font color="#000000">timeStamp</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076483">integer</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076485">NO</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1076487">Indicates the size of the attachment.</a></p>
+          </td>
+        </tr>
+      </table>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <strong><em><img src="images/caution.gif" alt="ParagraphBullet" border="0"></em></strong>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <strong><em><a name="1078552">Access to attachments in the private database is allowed. Do not create, change, or delete these attachments. The rule for attachments access is: <br>If your application did NOT create the attachment do NOT change it.</a></em></strong>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="1076012">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1081432"><font size="2" face="'Courier New'" color="#000000"><em>t_attachmentId</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1081434">Id or name of the attachment to retrieve. Can be up to 31 characters in length.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081436"><font size="2" face="'Courier New'" color="#000000"><em>s_dataFormat</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081438">Format in which the attachment data is stored in the &#34;</a><font size="2" face="'Courier New'" color="#000000"><em>data</em></font>&#34; attribute. Must be:</p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1081506"><font size="2" face="'Courier New'" color="#000000">&#39;string: </font></a>return data as a string.</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1081610"><font size="2" face="'Courier New'" color="#000000">&#39;file: </font></a>return data stored in a tmp file. You should use this option if you used &#39;binary method to create the attachment.</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1081665"><font size="2" face="'Courier New'" color="#000000">nil: </font></a>use the method destribe in the attachmennt dataFormat attribute.</td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <p align="left"><a name="1079985"> </a></p>
+      <h4><a name="1076191">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1081704"><font size="2" face="'Courier New'" color="#000000"><em>o_attachment</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1081706">AXL id for the attachment structure which can be queried using the right arrow (&#45;&#62;) operator.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081708"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081710">Attachment does not exist.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076193">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076194">attachment = axlGetAttachment(&#34;attachmentOne&#34; &#39;file)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076206"><font face="symbol" color="#000000">⇒ </font></a>attachment:attachmentOne</font>
+      </p>
+      <h4><a name="1078642">See Also</a></h4>
+      <p><a href="#1076213" title="17" name="1078643"><font color="#0000ff"><u>axlIsAttachment</u></font></a>, <a href="#1075968" title="17"><font color="#0000ff"><u>axlGetAllAttachmentNames</u></font></a>, <a href="#1065349" title="17"><font color="#0000ff"><u>axlCreateAttachment</u></font></a>, <a href="#1076214" title="17"><font color="#0000ff"><u>axlSetAttachment</u></font></a>, <a href="#1075932" title="17"><font color="#0000ff"><u>axlDeleteAttachment</u></font></a></p>
+      <h3><a name="1076213">axlIsAttachment</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076216">axlIsAttachment(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>o_attachment<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000">t</font>&#47;<font size="2" face="'Courier New'" color="#000000">nil</font></font>
+      </dl>
+      <h4><a name="1076218">Description</a></h4>
+      <p><a name="1076219">Determines if the given object is an AXL attachment.</a></p>
+      <h4><a name="1076220">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="324">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1081723"><font size="2" face="'Courier New'" color="#000000"><em>o_attachment</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="132">
+            <p><a name="1081725">Object to check.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076222">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="628">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1081736"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="436">
+            <p><a name="1081738">Object is an attachment.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081740"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081742">Object is not an attachment.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078710">See Also</a></h4>
+      <p><a href="#1076005" title="17" name="1078720"><font color="#0000ff"><u>axlGetAttachment</u></font></a></p>
+      <h3><a name="1076214">axlSetAttachment</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076245">axlSetAttachment(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>o_attachment<dd></em></font>[<font size="2" face="'Courier New'" color="#000000"><em>t_password</em></font>]<dd>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>o_attachment</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="1076247">Description</a></h4>
+      <p><a name="1076248">Modifies an existing Allegro PCB Editor database attachment with the data contained in the given AXL attachment id. Original attachment object must be obtained from the </a><font size="2" face="'Courier New'" color="#000000">axlCreateAttachment</font>, <font size="2" face="'Courier New'" color="#000000">axlGetAttachment</font>, or <font size="2" face="'Courier New'" color="#000000">axlGetAllAttachments</font> function. The attachment revision number and the attachment data may both be modified.</p>
+      <p><a name="1076266">Format of the data is determined by the </a><font size="2" face="'Courier New'" color="#000000"><em>dataFormat</em></font> attribute structure, which may be set by the user. If <font size="2" face="'Courier New'" color="#000000">&#34;</font><font size="2" face="'Courier New'" color="#000000"><em>dataFormat</em></font><font size="2" face="'Courier New'" color="#000000">&#34;</font> is <font size="2" face="'Courier New'" color="#000000">&#39;string</font>, then the value of the <font size="2" face="'Courier New'" color="#000000"><em>data</em></font> attribute is used for the new attachment data. If &#34;<font size="2" face="'Courier New'" color="#000000"><em>dataFormat</em></font>&#34; is <font size="2" face="'Courier New'" color="#000000">&#39;file</font>, then the value of the <font size="2" face="'Courier New'" color="#000000"><em>data</em></font> attribute is a file name from which the attachment data is read.</p>
+      <p><a name="1076267">If the existing attachment is password protected, you must provide the correct password or the function fails.</a></p>
+      <h4><a name="1076249">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1081750"><font size="2" face="'Courier New'" color="#000000"><em>o_attachment</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="1081752">AXL id of the existing attachment to be modified. The </a><font size="2" face="'Courier New'" color="#000000"><em>revision</em></font>, <font size="2" face="'Courier New'" color="#000000"><em>dataFormat</em></font>, and <font size="2" face="'Courier New'" color="#000000"><em>data</em></font> attributes may all be set to new values by the user.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081754"><font size="2" face="'Courier New'" color="#000000"><em>t_password</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081756">Password for the given existing attachment. If this does not match the password of the existing attribute, the attachment update fails. If the existing attachment is not password protected, you may omit this.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078766">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="649">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1081768"><font size="2" face="'Courier New'" color="#000000"><em>o_attachment</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="457">
+            <p><a name="1081770">AXL id of the modified attachment.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081772"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1081774">Failed to modify the attachment.</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1076243">Once an attachment is password protected, to remove or change the password protection you must delete and then re&#45;add the attachment.</a></p>
+      <h4><a name="1078775">See Also</a></h4>
+      <p><a href="#1076005" title="17" name="1078785"><font color="#0000ff"><u>axlGetAttachment</u></font></a></p>
+      <p><a name="1076561">&nbsp;</a></p>
+      <p><a name="1077558">&nbsp;</a></p>
+      <p><a name="1079263">&nbsp;</a></p>
+      <p><a name="1079797">&nbsp;</a></p>
+      <p><a name="1080641">&nbsp;</a></p>
+    </div>
+    <br>
+    <a href="#pagetop">Return to top of page</a>
+    <hr>
+    <hr align="left">
+    <div style="text-align: left;">
+      <!-- Begin Buttons -->      <table width="650" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                    </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+          <td>
+            <a href="15dbgrp.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+          </td>
+          <td>
+            <a href="17dbtran.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+          </td>
+          <td>
+            <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+            </a>
+          </td>
+          <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+          </td>
+          <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+          </td>
+          <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+          </td>
+          <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+          </td>
+        </tr>
+      </table>
+      <!-- End Buttons -->
+    </div>
+    <br>
+    <font size="-1" >
+For support, see <a href="http://support.cadence.com" target="_blank">Cadence Online Support</a> service.</font>
+    <br>
+    <br>
+    <font size="-1" >
+      <i>Copyright &#169; 2017, <a href="http://www.cadence.com">Cadence Design Systems, Inc.</a></i>
+    </font>
+    <br>
+    <font size="-1" >
+All rights reserved.</font>
+    <br>
+    <br>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "comment": "Generation-eval tasks. Each task id matches a sample file <id>.il in this directory. expected_apis are the corpus-documented APIs a direct solution uses; the harness reports (but does not gate on) samples that avoid them, since avoiding the documented API usually means a workaround or a hallucinated substitute.",
+  "tasks": [
+    {
+      "id": "report-net-name",
+      "prompt": "Write a SKILL function that takes a net name and prints that net's documented database name.",
+      "expected_apis": ["axlDBFindByName", "axlDbidName"]
+    },
+    {
+      "id": "rename-net",
+      "prompt": "Write a SKILL function that renames a net and reports success or failure to the user.",
+      "expected_apis": ["axlRenameNet"]
+    },
+    {
+      "id": "with-undo-mark",
+      "prompt": "Write a SKILL wrapper that runs a callback inside a database transaction, committing on success and rolling back on failure.",
+      "expected_apis": ["axlDBTransactionStart", "axlDBTransactionCommit", "axlDBTransactionRollback"]
+    }
+  ]
+}

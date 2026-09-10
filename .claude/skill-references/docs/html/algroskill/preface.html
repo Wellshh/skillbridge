@@ -1,0 +1,1857 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN" "http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+<html xmlns="http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Allegro SKILL Reference -- Before You Start</title>
+<META NAME="Approver" CONTENT="Technical Publications">
+<META NAME="Author" CONTENT="Technical Publications">
+<META NAME="CreateDate" CONTENT="2017-11-25">
+<META NAME="CreateTime" CONTENT="1511600113">
+<META NAME="DataType" CONTENT="Manuals">
+<META NAME="Description" CONTENT="Describes the Allegro eXtension Language (AXL) and how to use each AXL function.">
+<META NAME="DocTitle" CONTENT="Allegro SKILL Reference">
+<META NAME="DocType" CONTENT="SKILL Reference">
+<META NAME="EdmsRelease" CONTENT="FM-Wiki-2.0_HF2">
+<META NAME="FileTitle" CONTENT="Before You Start">
+<META NAME="FileType" CONTENT="Chapter">
+<META NAME="Group" CONTENT="Allegro User Guide">
+<META NAME="Keyword" CONTENT="algroskill">
+<META NAME="Language" CONTENT="English">
+<META NAME="ModifiedDate" CONTENT="2017-11-25">
+<META NAME="ModifiedTime" CONTENT="1511600113">
+<META NAME="NextFile" CONTENT="01ovrvew.html">
+<META NAME="Order" CONTENT="11">
+<META NAME="PageCount" CONTENT="12">
+<META NAME="Platform" CONTENT="ALL">
+<META NAME="PrevFile" CONTENT="algroskillAPL.html">
+<META NAME="Product" CONTENT="Allegro PCB Editor, Cadence SiP Digital">
+<META NAME="ProductFamily" CONTENT="Silicon-Package-Board Co-Design, IC Packaging">
+<META NAME="ProductVersion" CONTENT="17.2-2016">
+<META NAME="RightsManagement" CONTENT="Copyright 19912017 Cadence Design Systems Inc.">
+<META NAME="Title" CONTENT="Allegro SKILL Reference -- Before You Start">
+<META NAME="TopicTags" CONTENT="FALSE">
+<META NAME="Version" CONTENT="17.2-2016">
+  </head>
+  <body style="margin-left: 5%;">
+    <a name="pagetop"></a>
+    <a name="firstpage"></a>
+    <!-- Begin Buttons -->
+    <table width="650" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td height="36" width="650" colspan="10">
+          <img src="images/header_doc.gif" width="650" height="34">
+        </td>
+      </tr>
+      <tr>
+        <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+        <td>
+          <a href="algroskillAPL.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+        </td>
+        <td>
+          <a href="01ovrvew.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+        </td>
+        <td height="20">
+          <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+          </a>
+        </td>
+        <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+        </td>
+        <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+        </td>
+        <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+        </td>
+        <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+        </td>
+      </tr>
+    </table>
+    <!-- End Buttons -->
+    <p>
+    <hr>
+    <p>
+      <h3>
+        <center>
+          <font >
+            <div>Allegro User Guide: SKILL Reference</div>
+            <font >
+              <div>Product Version 17.2&#45;2016 April 2016</div>
+            </font>
+          </font>
+        </center>
+      </h3>
+      <br>
+    </p>
+    <div>
+      <h1><a name="1032288">Before You Start</a></h1>
+      <h2><a name="1032531">About This Manual</a></h2>
+      <p><a name="1032532">This manual is for designers and engineers who use the Allegro PCB Editor SKILL functions to customize existing Allegro PCB Editor interactive commands or create new ones. It describes the AXL (Allegro eXtension Language) user model, how to start AXL, and how to use each AXL function.</a></p>
+      <p><a name="1032537">This manual assumes that you are familiar with the development and design of printed circuit boards (PCBs). It also assumes you are familiar with </a>Allegro PCB Editor for the physical design of PCBs and analysis of reliability, testability, and manufacturability. </p>
+      <p><a name="1033551">If you are reading this manual for a general understanding of AXL capabilities, but do not actually intend to program in AXL, read </a><a href="01ovrvew.html#103136" title="1"><font color="#0000ff"><u>Chapter&nbsp;1, "Introduction to Allegro PCB Editor SKILL Functions."</u></font></a></p>
+      <p><a name="1033547">You should also be familiar with the Cadence SKILL language. The following manuals describe SKILL:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1032542"><font color="#000000"><em>SKILL Language User Guide</em></font></a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1032544"><font color="#000000"><em>SKILL Language Reference</em></font></a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1033497"><font color="#000000">Cadence SKILL Functions Quick Reference</font></a></td>
+          </tr>
+        </table>
+      </div>
+      <h2><a name="1033838">Prerequisites</a></h2>
+      <p><a name="1033839">Before you begin using Allegro PCB Editor to design boards, you should be familiar with the Allegro PCB Editor environment. </a></p>
+      <p><a name="1033841">The </a><a href="../algrostart/algrostartTOC.html" target="external_window"><font color="#0000ff"><u><em>Allegro PCB Editor User Guide: Getting Started with Physical Design </em></u></font></a>explains how to:</p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1033842">Start Allegro PCB Editor</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1033843">Navigate in the Allegro PCB Editor software</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1033844">Get help on a command </a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1033845">Use the mouse, menus and forms</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1033847">Start a design session</a></td>
+          </tr>
+        </table>
+      </div>
+      <h2><a name="1033870">Command Syntax Conventions</a></h2>
+      <p><a name="1033872">AXL-SKILL descriptions adhere to the conventions described in the </a><font color="#000000"><em>SKILL Language Basics</em></font>. In addition, this manual uses the conventions described below.</p>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="106">
+            <p><a name="1035420"><font color="#000000"><em>italics</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="538">
+            <p><a name="1035422">Data type name.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1035424"><font color="#000000"><em>nil</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1035426">Standard SKILL for empty list; as a return value, may indicate failure.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1035428"><font color="#000000"><em>t</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1035430">Standard SKILL for "true;" return value for success.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1035432"><font color="#000000"><em>[name]</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1035434">Optional argument "name."</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1035436"><font color="#000000"><em>&#60;name&#62;</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1035438">Argument of type "name" required.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1035440"><font color="#000000"><em>dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1035442">Instance of an Allegro PCB Editor database object (means "database id")</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1035444"><font color="#000000"><em>figure</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1035446">Geometric Allegro PCB Editor database object--for example, line, shape, or symbol are all Allegro PCB Editor figures. This is not to be confused with the Allegro PCB Editor's database object "figure", a special graphic denoting DRC markers and drill holes. To ensure clear distinction in this manual, "Allegro PCB Editor figure" denotes this special object.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1035448"><font color="#000000"><em>l_bBox</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1035450">A list of the coordinates of a bounding box. Coordinate pairs are lower left and upper right. For example, </a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1035452">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1035454">(list( 100:100 200:200 ))</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1035456"><font color="#000000"><em>t_layer</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1035458">A pair of names separated by a slash "&#47;" denoting the name of an Allegro PCB Editor class&#45;subclass. For example, "PACKAGE GEOMETRY&#47;SILKSCREEN_TOP."</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1035460"><font color="#000000"><em>lo_dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1035462">Function that takes or returns a dbid or list of dbids.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1035464"><font color="#000000"><em>o_dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1035466">Function that takes or returns a single dbid.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h2><a name="1033888">Referencing Objects by Name</a></h2>
+      <p><a name="1033889">When programming AXL, you can select or refer to a named object by using the unique name of that object. The table shows Allegro PCB Editor object types and their associated names:</a></p>
+      <p><a name="1033927">&nbsp;</a></p>
+      <table summary="" border="1" cellpadding="5" cellspacing="0" width="646">
+        <caption>
+          <p align="left">
+            <strong><font color="#000000"><strong>Table 2&#45;1&nbsp; </strong></font></strong>
+            <strong><a name="1033892">Allegro PCB Editor Object Types and Names</a></strong>
+          </p>
+        </caption>
+        <tr>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="228">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1033896">Allegro PCB Editor Object Type</a></strong></font>
+            </p>
+          </td>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="418">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1033898">Name</a></strong></font>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1033900">NET</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1033902">netname</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033904">COMPONENT</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033906">refdes</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033908">SYMBOL</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033910">refdes or symbol pin: &#60;refdes&#62;.&#60;pin number&#62;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033912">FUNCTION</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033914">function designator</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033916">DEVTYPE</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033918">device type</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033920">SYMTYPE</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033922">symbol type, for example, "DIP 14"</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1033924">PROPERTY</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1033926">property name, for example, "MAX_OVERSHOOT"</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="1033930">You can select objects using the </a><font size="2" face="'Courier New'" color="#000000">axlName</font> functions in <a href="05selfnd.html#580309" title="4"><font color="#0000ff"><u>Chapter&nbsp;4, "Selection and Find Functions"</u></font></a>.</p>
+      <h2><a name="1033866">Finding Information in This Manual</a></h2>
+      <p><a name="1033564">The following table summarizes the topics described in this manual.</a></p>
+      <p align="left"><a name="1033828">&nbsp;</a></p>
+      <table summary="" border="1" cellpadding="5" cellspacing="0" width="638">
+        <tr>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="3" bordercolor="#000000" valign="middle" width="300">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1033567"><font color="#000000"><strong>For Information About . . .</strong></font></a></strong></font>
+            </p>
+          </td>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="3" bordercolor="#000000" valign="middle" width="337">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1033569">Read . . .</a></strong></font>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1033571">AXL operation and the relation between Allegro PCB Editor database and AXL functions:</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033572">AXL functions</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033573">AXL initialization, environment</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033574">Starting and stopping AXL</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033575">Debugging AXL programs</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033576"><font color="#000000"><em>dbids</em></font></a> and object persistence</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033577">Selecting Allegro PCB Editor database objects</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033578">AXL-SKILL database object types</a></td>
+                </tr>
+              </table>
+            </div>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a href="01ovrvew.html#103136" title="1" name="1033582"><font color="#0000ff"><u>Chapter&nbsp;1, "Introduction to Allegro PCB Editor SKILL Functions"</u></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td rowspan="1" cellpadding="4" valign="top">
+            <p><a name="1033585">The structure of Allegro PCB Editor AXL database objects, and how they are related to each other. Lists attributes of each object type.</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033586">Database rules</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033587">Attribute types</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033588">Figure (geometric) database types</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033589">Logical database types</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033590">Property database types</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033591">Full attribute listing for all Allegro PCB Editor database objects</a></td>
+                </tr>
+              </table>
+            </div>
+          </td>
+          <td rowspan="1" cellpadding="4" valign="top">
+            <p><a href="02dbdesc.html#462876" title="2" name="1033596"><font color="#0000ff"><u>Chapter&nbsp;2, "The Allegro PCB Editor Database User Model"</u></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033602">Path structures and AXL functions that add path objects and other figure objects to the Allegro PCB Editor database.</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033603">Path create functions</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033604">Create shape and rectangle functions</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033605">Create functions for line, pin, symbol, text, and via</a></td>
+                </tr>
+              </table>
+            </div>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a href="03dbcre8.html#854400" title="15" name="1033610"><font color="#0000ff"><u>Chapter&nbsp;15, "Database Create Functions"</u></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033612">Read&#47;Write access to Allegro PCB Editor database parameter objects.</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a href="04parmgt.html#1069532" title="3" name="1033616"><font color="#0000ff"><u>Chapter&nbsp;3, "Parameter Management Functions"</u></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033619">The select set and AXL functions for managing the select set and selecting single and multiple database objects.</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033620">Point selection</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033621">Box selection</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033622">Selection by name and object </a><font color="#000000"><em>dbid</em></font></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033623">Find filter management</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033624">Selection set management</a></td>
+                </tr>
+              </table>
+            </div>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a href="05selfnd.html#580309" title="4" name="1033629"><font color="#0000ff"><u>Chapter&nbsp;4, "Selection and Find Functions"</u></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033631">AXL functions that operate on database objects in the same way as interactive Allegro PCB Editor commands, including functions to:</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033632">Delete objects</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033633">Show objects</a></td>
+                </tr>
+              </table>
+            </div>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a href="06intedt.html#822268" title="5" name="1033638"><font color="#0000ff"><u>Chapter&nbsp;5, "Interactive Edit Functions"</u></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033640">Reading database objects:</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033641">Opening an Allegro PCB Editor design</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033642">Accessing standalone branch figures, properties, pads, and text</a></td>
+                </tr>
+              </table>
+            </div>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a href="07dbaccs.html#718825" title="6" name="1033647"><font color="#0000ff"><u>Chapter&nbsp;6, "Database Read Functions"</u></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033649">AXL functions for</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033650">Highlighting and displaying database objects</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033651">Loading the cursor buffer and dynamic rubberband displays for interactive commands</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033652">Accepting single and multiple user coordinate picks</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033653">Callback functions for completing and cancelling commands</a></td>
+                </tr>
+              </table>
+            </div>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a href="08intprm.html#571929" title="7" name="1033658"><font color="#0000ff"><u>Chapter&nbsp;7, "Allegro PCB Editor Interface Functions"</u></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033660">AXL functions for</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033661">Setting Allegro PCB Editor shell variables</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033662">Sending a command string to the Allegro PCB Editor shell.</a></td>
+                </tr>
+              </table>
+            </div>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a href="09cmdshl.html#883012" title="8" name="1033666"><font color="#0000ff"><u>Chapter&nbsp;8, "Allegro PCB Editor Command Shell Functions"</u></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033669">AXL functions for</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033670">Prompting and getting confirmation from the user, displaying text files</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033671">Displaying and printing ASCII files</a></td>
+                </tr>
+              </table>
+            </div>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a href="10usrint.html#101740" title="10" name="1033676"><font color="#0000ff"><u>Chapter&nbsp;10, "User Interface Functions"</u></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033678">AXL forms and functions for</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033679">Creating forms, including the various types of form fields</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033680">Setting up callbacks for response to input to individual fields</a></td>
+                </tr>
+              </table>
+            </div>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a href="11frmint.html#414284" title="11" name="1033685"><font color="#0000ff"><u>Chapter&nbsp;11, "Form Interface Functions"</u></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033687">AXL functions related to Simple Graphics Drawing</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a href="12draw.html#1037521" title="12" name="1033691"><font color="#0000ff"><u>Chapter&nbsp;12, "Simple Graphics Drawing Functions"</u></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033694">Writing AXL functions for</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033695">Setting up for user messages</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033696">Displaying messages to users</a></td>
+                </tr>
+              </table>
+            </div>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a href="13msghnd.html#673512" title="13" name="1033701"><font color="#0000ff"><u>Chapter&nbsp;13, "Message Handler Functions"</u></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033703">AXL functions for</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033704">Opening a design</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033705">Compiling, running edit check, and saving the current (symbol) design</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033706">Getting the type of the active design</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033707">Setting the Allegro PCB Editor symbol type</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033708">Getting or setting the value for a specified database control, sector, and obstacle</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033709">Changing the extents, origin, units and accuracy of the design</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033710">Setting, deleting, and getting information about locks on the database</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033711">Setting, clearing, and printing information about triggers, which register interest in events that occur in Allegro PCB Editor</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033712">Getting the active class and subclass, active text block, type of design technology in use, and the full path of the drawing</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033713">Saving the design</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033714">Saving a board padstack out to a library</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033715">Creating a new padstack by copying from an existing padstack</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033716">Running dbdoctor on the current database</a></td>
+                </tr>
+              </table>
+            </div>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a href="14dsnctl.html#688730" title="14" name="1033721"><font color="#0000ff"><u>Chapter&nbsp;14, "Design Control Functions"</u></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033723">AXL functions for</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033724">Creating and removing database groups.</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033725">Adding and removing database objects from database groups.</a></td>
+                </tr>
+              </table>
+            </div>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a href="15dbgrp.html#1037521" title="16" name="1033730"><font color="#0000ff"><u>Chapter&nbsp;16, "Database Group Functions"</u></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033732">AXL functions for</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033733">Creating, changing, and deleting database attachments</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033734">Checking whether an object is a database attachment</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033735">Getting the ids of all database attachments</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033736">Getting a database attachment</a></td>
+                </tr>
+              </table>
+            </div>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a href="16dbatt.html#1037521" title="17" name="1033741"><font color="#0000ff"><u>Chapter&nbsp;17, "Database Attachment Functions"</u></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033743">AXL functions for</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033744">Improving the performance and program memory use while updating many etch or package symbols in batch mode</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033745">Marking the start of a database transaction and returning the mark to the calling function</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033746">Writing a mark in the database to allow future rollback or commitment</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033747">Commiting and undoing a database transaction</a></td>
+                </tr>
+              </table>
+            </div>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a href="17dbtran.html#1037521" title="18" name="1033752"><font color="#0000ff"><u>Chapter&nbsp;18, "Database Transaction Functions"</u></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033754">AXL functions for</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033755">Getting and setting current DRC modes and values for design constraints and ECset members</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033756">Creating, deleting, and getting the dbid of an ECset</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033757">Checking the syntax of a given value against the allowed syntax for a given constraint</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033758">Batching and tuning DRC updates from constraint changes made using axlCNS&#60;xxx&#62; functions</a></td>
+                </tr>
+              </table>
+            </div>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a href="18consmgt.html#1037521" title="19" name="1033762"><font color="#0000ff"><u>Chapter&nbsp;19, "Constraint Management Functions"</u></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033765">AXL functions for</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033766">Registering and unregistering SKILL commands with the command interpreter</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033767">Getting and setting the controls for line lock, active layer</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033768">Defining popups</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033769">Getting user data</a></td>
+                </tr>
+              </table>
+            </div>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a href="19cmdctl.html#978462" title="20" name="1033774"><font color="#0000ff"><u>Chapter&nbsp;20, "Command Control Functions"</u></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033776">Polygon operation functions, attributes, and use models.</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a href="20plyopr.html#1037521" title="21" name="1033781"><font color="#0000ff"><u>Chapter&nbsp;21, "Polygon Operation Functions"</u></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033783">Getting Allegro PCB Editor file names, and opening and closing  files</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a href="21filacc.html#38804" title="22" name="1033788"><font color="#0000ff"><u>Chapter&nbsp;22, "Allegro PCB Editor File Access Functions"</u></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033790">AXL functions for</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033791">SKILL access to the extract command</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033792">Selecting sets of database objects as members of a view and applying an AXL function to each</a></td>
+                </tr>
+              </table>
+            </div>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a href="22extrct.html#665474" title="23" name="1033797"><font color="#0000ff"><u>Chapter&nbsp;23, "AXL&#45;SKILL Data Extract Functions"</u></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033799">AXL functions for</a></p>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033800">Calculating an arc center given various data</a></td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <img src="images/b_bullet.gif" alt="*" border="0" width="8" height="8">
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1033801">Converting quantities to various units</a></td>
+                </tr>
+              </table>
+            </div>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a href="23utils.html#756635" title="24" name="1033806"><font color="#0000ff"><u>Chapter&nbsp;24, "Utility Functions"</u></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033808">Using math utility functions.</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a href="24mthutl.html#1037521" title="25" name="1033813"><font color="#0000ff"><u>Chapter&nbsp;25, "Math Utility Functions"</u></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1033815">Odds and ends.</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a href="25dbmisc.html#1037521" title="26" name="1033819"><font color="#0000ff"><u>Chapter&nbsp;26, "Database Miscellaneous Functions"</u></font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1033822">Using logic access functions.</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a href="26logacc.html#1037521" title="30" name="1033827"><font color="#0000ff"><u>Chapter&nbsp;30, "Logic Access Functions"</u></font></a></p>
+          </td>
+        </tr>
+      </table>
+      <h2><a name="1032810">Other Sources of Information </a></h2>
+      <p><a name="1032811">For more information about Allegro PCB Editor and other related products, consult the sources listed below.</a></p>
+      <h4><a name="1032812">Product Installation</a></h4>
+      <p><a name="1032816">The </a><font color="#000000"><em>Cadence Installation Guide</em></font> tells you how to install Cadence products.</p>
+      <h4><a name="1032817">Related Manuals</a></h4>
+      <p><a name="1032818">The following manuals comprise the Allegro PCB Editor documentation set for your workbench of PCB design tools:</a></p>
+      <p align="left"><a name="1033031">&nbsp;</a></p>
+      <table summary="" border="1" cellpadding="5" cellspacing="0" width="648">
+        <tr>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="3" bordercolor="#000000" valign="middle" width="476">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1032821">For Information About...</a></strong></font>
+            </p>
+          </td>
+          <td bgcolor="#CCCCCC" cellpadding="4" border="3" bordercolor="#000000" valign="middle" width="172">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1032823">Read...</a></strong></font>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1032830">The Allegro PCB Editor user interface. An overview of the design process using Allegro PCB Editor, starting and exiting, controlling the graphic display, graphic and text elements, design information, and system information.</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p>
+              <u><a href="../algrostart/algrostartTOC.html" target="external_window" name="1032833"><font color="#0000ff"><u><em>Allegro PCB Editor User Guide: Getting Started with Physical Design</em></u></font></a></u>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1032835">Building and managing libraries, including defining padstacks, custom pads, packages, electrical attributes, and formats.</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p>
+              <u><a href="../algrolibdev/algrolibdevTOC.html" target="external_window" name="1032838"><font color="#0000ff"><u><em>Allegro PCB Editor User Guide: Defining and Developing Libraries </em></u></font></a></u>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1032840">Loading logical design data and converting third&#45;party mechanical data, including loading data from Concept</a>&#8482;, netlists, and board mechanical data.</p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p>
+              <u><a href="../algrologic/algrologicTOC.html" target="external_window" name="1032842"><font color="#0000ff"><u><em>Allegro PCB Editor User Guide: Transferring Logic Design Data</em></u></font></a></u>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1032845">Setting up the design and specifying design rules and controls, including instructions for specifying properties and constraints.</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p>
+              <u><a href="../algrolay/algrolayTOC.html" target="external_window" name="1032847"><font color="#0000ff"><u><em>Allegro PCB Editor User Guide:Preparing the Layout</em></u></font></a></u>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1032850">Placing components using Allegro PCB Editor, including automatic and interactive placement.</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p>
+              <u><a href="../algroplace/algroplaceTOC.html" target="external_window" name="1032853"><font color="#0000ff"><u><em>Allegro PCB Editor User Guide: Placing the Elements</em></u></font></a></u>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1032855">Routing using Allegro PCB Editor, including interactive and automatic routing.</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p>
+              <u><a href="../algroroute/algrorouteTOC.html" target="external_window" name="1032858"><font color="#0000ff"><u><em>Allegro PCB Editor User Guide: Routing the Design</em></u></font></a></u>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1032860">Design output, including renaming reference designators, creating drill and silkscreen data, and generating penplots.</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p>
+              <u><a href="../algroman/algromanTOC.html" target="external_window" name="1032862"><font color="#0000ff"><u><em>Allegro PCB Editor User Guide: Preparing Manufacturing Data </em></u></font></a></u>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1032865">Optional Allegro PCB Editor interfaces, including Cadnetix&#45;E, CBDS, Racal Visula, IGES, Greenfield, Computervision CADDS, SDRC I&#45;DEAS, AutoCAD DXF, PTC, CATIA, IPC&#45;D_350C, GDSII, Fluke Defect Analyzer, and HP3070 Tester.</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p>
+              <u><a href="../algrologic/chap3.html" target="external_window" name="1032867"><font color="#0000ff"><u><em>Converting Third Party Designs and Mechanical Data</em></u></font></a></u>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1032870">Allegro PCB Editor commands, listed alphabetically</a>.</p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a href="../cmdrefmast/cmdrefmast.html" target="external_window" name="1032873"><font color="#0000ff"><u><em>Allegro PCB and Package Physical Layout Command Reference</em></u></font></a> </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1032875">Allegro PCB Editor properties, extracts (examples), and reports.</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a href="../algrodesrls/algrodesrlsTOC.html" target="external_window" name="1032877"><font color="#0000ff"><u><em>Allegro PCB Editor User Guide: Design Rules</em></u></font></a><font color="#000000"><em>,</em></font> <a href="../algrodescmp/chap4.html" target="external_window"><font color="#0000ff"><u><em>Extract Data Dictionary</em></u></font></a>, and <a href="../rcoms/rchap.html#reportsprocedure" target="external_window"><font color="#0000ff"><u><em>Viewing Reports On Screen in HTML Format</em></u></font></a> </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1032880">A comprehensive glossary for the Allegro PCB Editor user guides and reference manuals.</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p>
+              <u><a href="../algrostart/glossary.html" target="external_window" name="1032883"><font color="#0000ff"><u><em>Allegro PCB Editor User Guide Glossary</em></u></font></a></u>
+            </p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1032885">Customer Support</a></h4>
+      <p><a name="1035140">Cadence offers many customer education services. Ask your sales representative</a> for more information.</p>
+      <p><a href="http://support.cadence.com" target="external_window" name="1035142"><font color="#0000ff"><u>Cadence Online Support (COS)</u></font></a> is available for customers who have a maintenance agreement with Cadence. </p>
+      <p><a name="1035143">Here, you can also find technical information, including SKILL documentation and shareware code, online. COS provides the latest in Quarterly Incremental Releases (QIRs), case and product change release (CCR) information, technical documentation, solutions, software updates and more.</a></p>
+      <h4><a name="1035132">Allegro PCB Editor Users Mailing List Subscription</a></h4>
+      <p><a name="1032896">You can use electronic mail (email) to subscribe to the Allegro PCB Editor users mailing list. You will receive periodic newsletters containing up&#45;to&#45;date information on the Allegro PCB Editor product family.</a></p>
+      <h4><a name="1032897">To subscribe to the Allegro PCB Editor mailing list</a></h4>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/arrwrite.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1032898">Send an email message to </a><font color="#000000"><em>majordomo@cadence.com</em></font>, and include the phrase "subscribe allegro_users" in the body of the message.</td>
+          </tr>
+        </table>
+      </div>
+      <blockquote><a name="1032899">You will receive an acceptance notification.</a></blockquote>
+      <h4><a name="1033942">AXL&#45;SKILL Example Files</a></h4>
+      <p><a name="1033943">You can find AXL&#45;SKILL example files in this location:</a></p>
+      <p><a name="1033944"><font size="2" face="'Courier New'" color="#000000"><em>&#60;install_dir&#62;</em></font></a><font size="2" face="'Courier New'" color="#000000">&#47;share&#47;pcb&#47;examples&#47;skill</font></p>
+      <h4><a name="1033945">User Discussion Forums</a></h4>
+      <p><a name="1035184">You can find discussion groups for users of Cadence products at </a><a href="http://community.cadence.com" target="external_window"><font color="#0000ff"><u>Cadence Community</u></font></a> site.</p>
+    </div>
+    <br>
+    <a href="#pagetop">Return to top of page</a>
+    <hr>
+    <hr align="left">
+    <div style="text-align: left;">
+      <!-- Begin Buttons -->      <table width="650" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                    </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+          <td>
+            <a href="algroskillAPL.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+          </td>
+          <td>
+            <a href="01ovrvew.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+          </td>
+          <td>
+            <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+            </a>
+          </td>
+          <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+          </td>
+          <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+          </td>
+          <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+          </td>
+          <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+          </td>
+        </tr>
+      </table>
+      <!-- End Buttons -->
+    </div>
+    <br>
+    <font size="-1" >
+For support, see <a href="http://support.cadence.com" target="_blank">Cadence Online Support</a> service.</font>
+    <br>
+    <br>
+    <font size="-1" >
+      <i>Copyright &#169; 2017, <a href="http://www.cadence.com">Cadence Design Systems, Inc.</a></i>
+    </font>
+    <br>
+    <font size="-1" >
+All rights reserved.</font>
+    <br>
+    <br>
+  </body>
+</html>

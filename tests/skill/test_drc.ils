@@ -27,6 +27,45 @@
         (qtest::assertEqual "net" (get (caddr objects) 'kind))
         (qtest::assertNil (get projected 'violations))))
 
+    (qtest::TestCase test_drc_projection_projects_violation_figures_in_order
+      (letseq ((net (list nil 'objType "net" 'name "GND"))
+               ;; Real Allegro markers contain at most two violation figures.
+               ;; Route figures may have no xy (as observed on shape1); retain
+               ;; one populated xy fixture to cover the optional branch.
+               (line (list nil 'objType "line" 'layer "ETCH/TOP"
+                           'bBox '((1.0 2.0) (3.0 4.0)) 'net net))
+               (lineWithXY (list nil 'objType "line" 'layer "ETCH/BOTTOM"
+                                  'xy '(7.0 8.0) 'net net))
+               (marker (list nil 'name "Line spacing" 'type "PHYSICAL"
+                             'source "DEFAULT" 'expected "10 MILS"
+                             'actual "5 MILS" 'layer "DRC ERROR CLASS/TOP"
+                             'xy '(5.0 6.0) 'bBox '((0.0 0.0) (6.0 6.0))
+                             'violations (list line lineWithXY)))
+               (projected (__abProjectDrc marker))
+               (figures (get projected 'figures))
+               (objects (get projected 'objects))
+               (first (car figures))
+               (second (cadr figures)))
+        (qtest::assertEqual 2 (length figures))
+        (qtest::assertEqual 1 (length objects))
+        (qtest::assertEqual "line" (get first 'obj_type))
+        (qtest::assertEqual "ETCH/TOP" (get first 'layer))
+        (qtest::assertEqual 1.0 (get (get (get first 'bbox) 'll) 'x))
+        (qtest::assertEqual "GND" (get (get first 'net) 'name))
+        (qtest::assertNil (get first 'reference))
+        (qtest::assertEqual "line" (get second 'obj_type))
+        (qtest::assertEqual "ETCH/BOTTOM" (get second 'layer))
+        (qtest::assertEqual 7.0 (get (get second 'location) 'x))
+        (qtest::assertNil (get second 'bbox))
+        (qtest::assertNil (get second 'reference))
+        ;; An anonymous figure exercises all missing optional fields.
+        (let ((anonymous (__abDrcFigure (list nil 'objType "polygon"))))
+          (qtest::assertNil (get anonymous 'layer))
+          (qtest::assertNil (get anonymous 'location))
+          (qtest::assertNil (get anonymous 'bbox))
+          (qtest::assertNil (get anonymous 'net))
+          (qtest::assertNil (get anonymous 'reference)))))
+
     (qtest::TestCase test_drc_projection_omits_anonymous_geometry_and_duplicates
       (letseq ((net (list nil 'objType "net" 'name "GND"))
                (branch (list nil 'objType "branch" 'net net 'parent net))

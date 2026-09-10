@@ -1,0 +1,3106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN" "http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+<html xmlns="http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Allegro SKILL Reference -- 30</title>
+<META NAME="Approver" CONTENT="Technical Publications">
+<META NAME="Author" CONTENT="Technical Publications">
+<META NAME="CreateDate" CONTENT="2017-11-25">
+<META NAME="CreateTime" CONTENT="1511600113">
+<META NAME="DataType" CONTENT="Manuals">
+<META NAME="Description" CONTENT="Describes the Allegro eXtension Language (AXL) and how to use each AXL function.">
+<META NAME="DocTitle" CONTENT="Allegro SKILL Reference">
+<META NAME="DocType" CONTENT="SKILL Reference">
+<META NAME="EdmsRelease" CONTENT="FM-Wiki-2.0_HF2">
+<META NAME="FileTitle" CONTENT="30">
+<META NAME="FileType" CONTENT="Chapter">
+<META NAME="Group" CONTENT="Allegro User Guide">
+<META NAME="Keyword" CONTENT="algroskill">
+<META NAME="Language" CONTENT="English">
+<META NAME="ModifiedDate" CONTENT="2017-11-25">
+<META NAME="ModifiedTime" CONTENT="1511600113">
+<META NAME="NextFile" CONTENT="">
+<META NAME="Order" CONTENT="11">
+<META NAME="PageCount" CONTENT="54">
+<META NAME="Platform" CONTENT="ALL">
+<META NAME="PrevFile" CONTENT="27langexten.html">
+<META NAME="Product" CONTENT="Allegro PCB Editor, Cadence SiP Digital">
+<META NAME="ProductFamily" CONTENT="Silicon-Package-Board Co-Design, IC Packaging">
+<META NAME="ProductVersion" CONTENT="17.2-2016">
+<META NAME="RightsManagement" CONTENT="Copyright 19912017 Cadence Design Systems Inc.">
+<META NAME="Title" CONTENT="Allegro SKILL Reference -- 30">
+<META NAME="TopicTags" CONTENT="FALSE">
+<META NAME="Version" CONTENT="17.2-2016">
+  </head>
+  <body style="margin-left: 5%;">
+    <a name="pagetop"></a>
+    <a name="firstpage"></a>
+    <!-- Begin Buttons -->
+    <table width="650" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td height="36" width="650" colspan="10">
+          <img src="images/header_doc.gif" width="650" height="34">
+        </td>
+      </tr>
+      <tr>
+        <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+        <td>
+          <a href="27langexten.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+        </td>
+        <td height="20">
+          <img src="images/nav2_next_b.gif" alt="Previous">
+        </td>
+        <td height="20">
+          <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+          </a>
+        </td>
+        <td height="20" width="59">
+          <img src="images/nav_next_b.gif" alt="Next" border="0">
+        </td>
+        <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+        </td>
+        <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+        </td>
+        <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+        </td>
+        <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+        </td>
+      </tr>
+    </table>
+    <!-- End Buttons -->
+    <p>
+    <hr>
+    <p>
+      <h3>
+        <center>
+          <font >
+            <div>Allegro User Guide: SKILL Reference</div>
+            <font >
+              <div>Product Version 17.2&#45;2016 April 2016</div>
+            </font>
+          </font>
+        </center>
+      </h3>
+      <br>
+    </p>
+    <div>
+      <h1>30<a name="1001295">&nbsp;</a></h1>
+      <h1><a name="1037521">Logic Access Functions</a></h1>
+      <h2><a name="1065213">Overview</a></h2>
+      <p><a name="1065738">This chapter describes the AXL&#45;SKILL functions related to schematic capture or the logical definition of the design.</a></p>
+      <h3><a name="1092015">axlDBAssignNet</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1092016">axlDBAssignNet(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>o_object</em></font>&#47;<font size="2" face="'Courier New'" color="#000000"><em>lo_object<dd>o_net</em></font>&#47;<font size="2" face="'Courier New'" color="#000000"><em>t_net<dd></em></font>[<font size="2" face="'Courier New'" color="#000000"><em>g_ripup</em></font>]<dd>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="1092017">Description</a></h4>
+      <p><a name="1092018">Assigns an object or a list of objects to a new net. Supports pins, vias, and shapes. Vias may not stay on net assigned if they do not connect to an object on the new net. This is not applicable if the new net has RETAIN_NET_ON_VIAS property.</a></p>
+      <h4><a name="1092019">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099071"><font size="2" face="'Courier New'" color="#000000"><em>o_object</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1099073"><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font></a>, or list of <font size="2" face="'Courier New'" color="#000000"><em>dbids</em></font> of objects to change net.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099075"><font size="2" face="'Courier New'" color="#000000"><em>o_net</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099077"><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font></a> of destination net, or <font size="2" face="'Courier New'" color="#000000">nil</font> if assigning to a dummy net.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099079"><font size="2" face="'Courier New'" color="#000000"><em>t_net</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099081">Net name can be used as an alternative to a dbid net.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099083"><font size="2" face="'Courier New'" color="#000000"><em>g_ripup</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099085">An optional flag to ripup clines and vias connected to modified objects. possible values are:</a></p>
+            <p><a name="1099104"><font size="2" face="'Courier New'" color="#000000">t</font></a> = ripup clines connected to modified objects.</p>
+            <p><a name="1099107"><font size="2" face="'Courier New'" color="#000000">nil</font></a> = do not ripup clines connected to modified objects. The default is <font size="2" face="'Courier New'" color="#000000">nil</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099087"><font size="2" face="'Courier New'" color="#000000"><em>g_ignoreFixed</em></font></a>  </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099089">By default, won&#39;t allow net assignment if FIXED property is present on the object(s) in question. Setting this argument to </a><font size="2" face="'Courier New'" color="#000000"><em>t </em></font>ignores the FIXED property.</p>
+            <p><a name="1099111">If </a><font size="2" face="'Courier New'" color="#000000">g_ripup </font>is <font size="2" face="'Courier New'" color="#000000">t</font>, and connected clines have the FIXED property then the clines will remain and an error message thrown.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1092025">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099115"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1099117">At least one object changed net.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099119"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099121">No object changed net.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1092028">See Also	</a></h4>
+      <p><a href="#1092110" title="30" name="1092035"><font color="#0000ff"><u>axlDBCreateNet</u></font></a>, <a href="14dsnctl.html#715890" title="14"><font color="#0000ff"><u>axlDBIgnoreFixed</u></font></a></p>
+      <h4><a name="1092036">Example: </a></h4>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1092037">Simple re&#45;assignment</a></td>
+          </tr>
+        </table>
+      </div>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1092038">pin_id&#45;&#62;net&#45;&#62;name =&#62; &#34;&#34;</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1092039">net_id&#45;&#62;name =&#62; &#34;GND&#34;</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1092040">&nbsp;</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1092041">axlDBAssignNet(pin_id net_id t)=&#62; t</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1092042">pin_id&#45;&#62;net&#45;&#62;name =&#62; &#34;GND&#34;</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1092043">&nbsp;</a></font>
+      </blockquote>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1092044">Interactive exploration; use the ashOne shareware provided in examples area of cdsroot.</a></td>
+          </tr>
+        </table>
+      </div>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1092045">;select an object</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1092046">item = ashOne()</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1092047">new net</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1092048">net = &#34;net1&#34;</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1092049">&nbsp;</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1092050">axlDBAssignNet(item net t t)</a></font>
+      </blockquote>
+      <h3><a name="1065349">axlDBCreateConceptComponent</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1074955">axlDBCreateConceptComponent(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>s_refdes<dd>s_partPath<dd>s_logName<dd>s_primName<dd></em></font>[<font size="2" face="'Courier New'" color="#000000"><em>s_pptRowName</em></font>]</font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075133">)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075134"><font face="symbol" color="#000000">⇒</font></a> <font size="2" face="'Courier New'" color="#000000"><em>r_dbid</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="1075143">Description</a></h4>
+      <p><a name="1075144">Given the Concept information needed to describe an Allegro PCB Editor device, create the Allegro PCB Editor component and return its </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font>. If the component definition already exists, use the existing definition to create the new component. If the component definition does not exist, create a new definition and then create the component instance. Concept information comes from a <font size="2" face="'Courier New'" color="#000000">chips_prt</font> file and from a physical parts table (PPT). Determine the location of this information using the <font size="2" face="'Courier New'" color="#000000">cptList</font><font size="2" face="'Courier New'" color="#000000"><em>XXX</em></font> family of routines, which allow browsing through a Concept library.</p>
+      <h4><a name="1075145">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099134"><font size="2" face="'Courier New'" color="#000000"><em>s_refDes</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1099136">Reference designator for the new component.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099138"><font size="2" face="'Courier New'" color="#000000"><em>s_partPath</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099140">Full path to the </a><font size="2" face="'Courier New'" color="#000000">chips_ptr</font> file containing the description of the desired logical part. Determine using the <font size="2" face="'Courier New'" color="#000000">cptListComponentLibraries</font> function.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099142"><font size="2" face="'Courier New'" color="#000000"><em>s_logName</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099144">Name of the desired logical part. You can determine this using the </a><font size="2" face="'Courier New'" color="#000000">cptListComponentPrimitives</font> function.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099146"><font size="2" face="'Courier New'" color="#000000"><em>s_primName</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099148">Name of the desired primitive. You can determine this using the </a><font size="2" face="'Courier New'" color="#000000">cptListComponentPrimitives</font> function.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099150"><font size="2" face="'Courier New'" color="#000000"><em>s_pptRowName</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099152">Name of the desired PPT part. Concept data may not include specific device information which would be contained in a PPT. Indicates a specific row in a PPT from which to create the component. You can determine this using the </a><font size="2" face="'Courier New'" color="#000000">cptListComponentDevices()</font> function.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075151">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099168"><font size="2" face="'Courier New'" color="#000000"><em>r_dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1099170"><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font></a> of the new Allegro PCB Editor component instance.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099172"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099174">Unable to create component instance.</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1075158">The actual name of the resulting Allegro PCB Editor device is generated automatically. If using the </a><font size="2" face="'Courier New'" color="#000000">cptListComponentDevices()</font> function, then the name should have been created already and is included in the return values of that function. Name is determined by the Concept library data you use to create the part.</p>
+      <p><a name="1075159">This function is meant to be called from SKILL.</a></p>
+      <h3><a name="1076090">axlDBCreateComponent</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076096">axlDBCreateComponent(<dd>s_refDes<dd>s_deviceName<dd>[s_package]<dd>[s_value]<dd>[s_tolerance]<dd>)<dd>==&#62; r_dbid&#47;nil</a></font>
+      </dl>
+      <h4><a name="1076105">Description</a></h4>
+      <p><a name="1076106">Given the information needed to describe a Allegro PCB Editor device, create the Allegro PCB Editor component and return its </a><font size="2" face="'Courier New'" color="#000000">dbid</font>.  If the component definition already exists, use the existing definition to create the new component. If the component definition does not exist, create a new definition using the device file and create the new component.</p>
+      <h4><a name="1076113">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099185"><font size="2" face="'Courier New'" color="#000000"><em>s_refDes</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1099187">The reference designator for the new component.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099189"><font size="2" face="'Courier New'" color="#000000"><em>s_deviceName</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099191">Name of Allegro PCB Editor device file.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099193"><font size="2" face="'Courier New'" color="#000000"><em>s_package</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099195">Package name to be used for the component. This overrides the value found in the device file (can be nil).</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099197"><font size="2" face="'Courier New'" color="#000000"><em>s_value</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099199">&#34;Value&#34; attribute value. This will override the value found in the device file (can be nil).</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099201"><font size="2" face="'Courier New'" color="#000000"><em>s_tolerance</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099203">&#34;Tolerance&#34; attribute value. This will override the value found in the device file (can be nil).</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076125">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099214"><font size="2" face="'Courier New'" color="#000000"><em>r_dbid</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1099216"><font size="2" face="'Courier New'" color="#000000">dbid</font></a> of new Allegro PCB Editor component.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099218"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099220">If unable to create component.</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1076129">If you change an existing component definition by specifying a new value for package, value, or tolerance, you need a device file.</a></p>
+      <h4><a name="1091019">Example</a></h4>
+      <p><a name="1091020">Create a new empty comp from an existing one, ashOne can be found at:</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1091021">&#60;cdsroot&#62;&#47;share&#47;pcb&#47;examples&#47;skill&#47;examples&#47;ash&#45;fxf&#47;ashone.il</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1091022">syminst = ashOne()</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1091023">ci = syminst&#45;&#62;component</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1091024">nci = axlDBCreateComponent(&#34;C1_NEW&#34; ci&#45;&#62;deviceType ci&#45;&#62;package</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1091025">ci&#45;&#62;compdef&#45;&#62;prop&#45;&#62;VALUE ci&#45;&#62;compdef&#45;&#62;prop&#45;&#62;TOL)</a></font>
+      </blockquote>
+      <p><a name="1091026">If your component is not a discrete component, you do not need the fourth and fifth arguments, but the above example will work for all components.</a></p>
+      <p><a name="1094885"><font color="#000000"><strong>See Also</strong></font></a></p>
+      <p><a href="sipapd.html#1099342" title="9" name="1097548"><font color="#0000ff"><u>axlComponentChangeClass</u></font></a></p>
+      <h3><a name="1076329">axlDBCreateManyModuleInstances</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076342">axlDBCreateManyModuleInstances(</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076343">             t_name</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076344">             t_moddefName</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076345">             x_tileStartNum</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076346">             l_origin</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076347">             l_offset</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076348">             x_num_tiles</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076349">             f_rotation</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076350">             x_logicMethod</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1086430">             [l_netExcept]<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[g_mirror]</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076352">)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076353">         ==&#62; o_result&#47;nil</a></font>
+      </dl>
+      <h4><a name="1076354">Description</a></h4>
+      <p><a name="1076356">Creates multiple module instances in the design. By reducing the number of times the module definition file opens, this function optimizes performance when creating several instances of the same module.</a></p>
+      <h4><a name="1076360">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099231"><font size="2" face="'Courier New'" color="#000000"><em>t_name</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1099233">Prefix of the names of the module instances.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099235"><font size="2" face="'Courier New'" color="#000000"><em>t_moddefName</em></font></a>   </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099237">Name of the module definition&#47;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099239"><font size="2" face="'Courier New'" color="#000000"><em>x_tileStartNum</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099241">Tile numbering start number and increment by 1 for each tile.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099243"><font size="2" face="'Courier New'" color="#000000"><em>l_origin</em></font></a>       </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099245">First location of first module.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099247"><font size="2" face="'Courier New'" color="#000000"><em>l_offset</em></font></a>       </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099249">List containing the offset wanted between module origins.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099251"><font size="2" face="'Courier New'" color="#000000"><em>x_numTiles</em></font></a>     </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099253">The number of module instances to be place.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099255"><font size="2" face="'Courier New'" color="#000000"><em>f_rotation</em></font></a>     </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099257">Angle of rotation for the module instance.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099259"><font size="2" face="'Courier New'" color="#000000"><em>x_logicMethod</em></font></a>  </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099261">Flag to indicate where the logic for the module comes from.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099263"><font size="2" face="'Courier New'" color="#000000">0</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099265">No logic.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099267"><font size="2" face="'Courier New'" color="#000000">1</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099269">Logic from schematic.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099271"><font size="2" face="'Courier New'" color="#000000">2</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099273">Logic from module definition.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099275"><font size="2" face="'Courier New'" color="#000000"><em>l_netExcept</em></font></a>    </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099277">Optional list of net names to add to the net exception list.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099279"><font size="2" face="'Courier New'" color="#000000">g_mirror</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099281">Optional if modules should be mirrored</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1086491">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099289"><font size="2" face="'Courier New'" color="#000000"><em>lo_result</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1099291">If successful, returns the list of database objects that belong to the module instances created.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099293"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099295">Creation of module instance could not be completed.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076383">See Also </a></h4>
+      <p><a href="#1075174" title="30" name="1083051"><font color="#0000ff"><u>axlDBCreateModuleDef</u></font></a>, <a href="#1075221" title="30"><font color="#0000ff"><u>axlDBCreateModuleInstance</u></font></a></p>
+      <h4><a name="1076385">Example</a></h4>
+      <p><a name="1076386">Add five module instances based on the module definition file </a><font size="2" face="'Courier New'" color="#000000">mod.mdd</font>, starting at point (<font size="2" face="'Courier New'" color="#000000">10,10</font>) and offsetting by (<font size="2" face="'Courier New'" color="#000000">5,0</font>) every time:</p>
+      <blockquote>
+        <font size="2" face="Courier" color="#000000"></font>
+        <font size="2" face="Courier" color="#000000"><a name="1076388"><font size="2" face="'Courier New'" color="#000000">modinsts = axlDBCreateManyModuleInstances(</font></a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="Courier" color="#000000"></font>
+        <font size="2" face="Courier" color="#000000"><a name="1076389"><font size="2" face="'Courier New'" color="#000000">&#34;Num&#34; &#34;mod&#34; 2 10:10 &#39;(5 0) 5 0 2 &#39;(&#34;GND&#34; &#34;+5&#34;))</font></a></font>
+      </blockquote>
+      <p><a name="1076390">Creates five module instances named </a><font size="2" face="'Courier New'" color="#000000">Num2</font>, <font size="2" face="'Courier New'" color="#000000">Num3</font>, <font size="2" face="'Courier New'" color="#000000">Num4</font>, <font size="2" face="'Courier New'" color="#000000">Num5</font>, <font size="2" face="'Courier New'" color="#000000">Num6</font>.</p>
+      <p><a name="1076340">&nbsp;</a></p>
+      <h3><a name="1075174">axlDBCreateModuleDef</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075178">axlDBCreateModuleDef(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_name<dd>l_origin<dd>l_objects</em></font></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075186">)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075180"><font face="symbol" color="#000000">⇒</font></a> t&#47;nil</font>
+      </dl>
+      <h4><a name="1075181">Description</a></h4>
+      <p><a name="1075165">Creates a module based on existing database objects.</a></p>
+      <h4><a name="1075187">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099311"><font size="2" face="'Courier New'" color="#000000"><em>t_name</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1099313">String providing the name of the module definition. File name is the module definition name appended with </a><font size="2" face="'Courier New'" color="#000000">.mdd</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099315"><font size="2" face="'Courier New'" color="#000000"><em>l_origin</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099317">Coordinate serving as the origin of the module definition.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099319"><font size="2" face="'Courier New'" color="#000000"><em>l_objects</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099321">List of objects to add to the module.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075191">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099333"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="1099335">Module definition successfully created.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099337"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099339">No module definition created.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075194">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075196">axlSetFindFilter(?enabled &#39;(&#34;noall&#34; &#34;components&#34;) ?onButtons &#39;(&#34;noall&#34;<br>&nbsp;&nbsp;&nbsp;&nbsp;&#34;components&#34;))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075199">axlSingleSelectName(&#34;COMPONENT&#34; &#34;U1&#34;)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075200">comp1 = car(axlGetSelSet())</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075201">axlSingleSelectName(&#34;COMPONENT&#34; &#34;U2&#34;)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075202">comp2 = car(axlGetSelSet())</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075203">axlDBCreateModuleDef(&#34;comps&#34; &#39;(0 0) &#39;(comp1 comp2))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075204"><font face="symbol" color="#000000">⇒</font></a> A module definition file named comps.mdd is created.</font>
+      </p>
+      <p><a name="1075606">Creates a module definition file containing two components.</a></p>
+      <h3><a name="1075221">axlDBCreateModuleInstance</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075227">axlDBCreateModuleInstance(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_name<dd>t_moddef_name<dd>l_origin<dd>r_rotation<dd>i_logic_method<dd>l_net_except</em></font></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075228">)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075229"><font face="symbol" color="#000000">⇒</font></a> <font size="2" face="'Courier New'" color="#000000"><em>o_result</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="1075938">Description</a></h4>
+      <p><a name="1075939">Allows you to use or place a previously defined module.</a></p>
+      <h4><a name="1075940">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099347"><font size="2" face="'Courier New'" color="#000000"><em>t_name</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1099349">String providing name of the module instance.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099351"><font size="2" face="'Courier New'" color="#000000"><em>t_moddef_name</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099353">String providing name of the module definition to base the instance on.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099355"><font size="2" face="'Courier New'" color="#000000"><em>l_origin</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099357">Coordinate location to place the origin of the module definition.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099359"><font size="2" face="'Courier New'" color="#000000"><em>r_rotation</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099361">Angle of rotation for the module instance.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099363"><font size="2" face="'Courier New'" color="#000000"><em>i_logic_method</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099365">Flag indicating where the logic for the module comes from:</a></p>
+            <p><a name="1099376">0 &#45; no logic</a></p>
+            <p><a name="1099379">1 &#45; logic from schematic</a></p>
+            <p><a name="1099382">2 &#45; logic from module definition.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099367"><font size="2" face="'Courier New'" color="#000000"><em>l_net_except</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099369">Optional list of net names to add to net exception list.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075244">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099386"><font size="2" face="'Courier New'" color="#000000"><em>o_result</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1099388">Database object that is the group used to represent the module instance.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099390"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099392">Module instance not created.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075247">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075249">modinst = axlDBCreateModuleInstance(&#34;inst&#34; &#34;mod&#34; &#39;(500 1500) 2 &#39;(&#34;GND&#34; &#34;+5&#34;))</a></font>
+      </p>
+      <p><a name="1075624">Adds a module instance based on the module definition file </a><font size="2" face="'Courier New'" color="#000000">mod.mdd</font>.</p>
+      <h3><a name="1092110">axlDBCreateNet</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1092111">axlDBCreateNet(<dd>t_netName<dd>)<dd>==&#62; o_dbid&#47;nil</a></font>
+      </dl>
+      <h4><a name="1092112">Description</a></h4>
+      <p><a name="1092113">Creates a net in database if does not exist or returns </a><font size="2" face="'Courier New'" color="#000000">dbid</font> of net if it exists.</p>
+      <h4><a name="1092114">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099400"><font size="2" face="'Courier New'" color="#000000"><em>t_netName</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="1099402">Net name to create, or find.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1092116">Value Returned</a></h4>
+      <p><a name="1092117"><font size="2" face="'Courier New'" color="#000000">nil</font></a> if not created, or a axl <font size="2" face="'Courier New'" color="#000000">dbid</font> of net</p>
+      <h4><a name="1092118">See Also</a></h4>
+      <p><a href="#1092015" title="30" name="1092122"><font color="#0000ff"><u>axlDBAssignNet</u></font></a></p>
+      <h4><a name="1092123">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1092124">net = axlDBNetCreate(&#34;gnd&#34;)</a></font>
+      </p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1092125">=&#62; dbid:123456</a></font>
+      </blockquote>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1092126">net&#45;&#62;name</a></font>
+      </p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1092127">=&#62; &#34;GND&#34;</a></font>
+      </blockquote>
+      <p><a name="1092095">&nbsp;</a></p>
+      <h3><a name="1076599">axlDBCreateSymDefSkeleton</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1076612">axlDBCreateSymDefSkeleton(<dd>l_symbolData<dd>l_extents<dd>[l_pinData]<dd>)<dd>==&#62; </a><font size="2" face="'Courier New'" color="#000000">axlDBID</font>&#47;nil</font>
+      </dl>
+      <h4><a name="1076618">Description</a></h4>
+      <p><a name="1076620">Creates a "minimal" symbol definition. While the symbol name and type must be provided, the instance is created only with pins.  Once this "skeleton" definition has been created, you add the rest of the symbol geometry with additional </a><font size="2" face="'Courier New'" color="#000000">axlDBCreate</font> calls. This provides the ability to create symbols that do not exist in the library.</p>
+      <p><a name="1082744">Shape symbol:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1082745">You may only attach a single shape to a shape symbol, no voids.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1082752">Layer required is 	"ETCH&#47;TOP".</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1082753">Extents should be larger than the shape but there is no adverse impact if they are significantly larger.</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="1082756">Flash symbol:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1082757">You may attach multiple shapes, but none may contain voids.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1082761">Layer required is "ETCH&#47;TOP".</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1082764">Extents should be larger than the shape but there is no adverse impact if they are significantly larger.</a></td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="1076628">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099457"><font size="2" face="'Courier New'" color="#000000"><em>l_symbolData</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1099459">A list of (</a><font size="2" face="'Courier New'" color="#000000">t_symbolName</font> <font size="2" face="'Courier New'" color="#000000">[t_symbolType]</font>).</p>
+            <p><a name="1099474"><font size="2" face="'Courier New'" color="#000000"><em>t_symbolName</em></font></a><font size="2" face="'Courier New'" color="#000000"><em>:</em></font> Name of the symbol.</p>
+            <p><a name="1099477"><font size="2" face="'Courier New'" color="#000000"><em>t_symbolType</em></font></a>: Package (default), mechanical, or format.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099461"><font size="2" face="'Courier New'" color="#000000"><em>l_extents</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099463">The lower left and upper right corners of the symbol def extents.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099465"><font size="2" face="'Courier New'" color="#000000"><em>l_pinData</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099467">List of </a><font size="2" face="'Courier New'" color="#000000">axlPinData</font> defstructs for the pins.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1076637">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="649">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099482"><font size="2" face="'Courier New'" color="#000000">axlDBCreateSymDefSkeleton</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="457">
+            <p><a name="1099484"><font size="2" face="'Courier New'" color="#000000">nil</font></a> if not created, or <font size="2" face="'Courier New'" color="#000000">axlDBID</font> of the symbol definition.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1082822">Examples</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1082823">symdef = axlDBCreateSymDefSkeleton(&#39;(&#34;shape_pad&#34; &#34;shape&#34;) list(&#45;100:&#45;100 100:100))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1082859">p = axlPathStart( list(&#45;4:10 4:10 8:0 4:&#45;10 &#45;4:&#45;10 &#45;4:10))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1082874">s = axlDBCreateShape(p t &#34;ETCH&#47;TOP&#34; nil symdef)</a></font>
+      </p>
+      <p><a name="1082824">Creates a shape symbol.</a></p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1082893">symdef = axlDBCreateSymDefSkeleton(&#39;(&#34;flash_pad&#34; &#34;flash&#34;) list(&#45;100:&#45;100 100:100))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1082894">p = axlPathStart( list(&#45;4:10 4:10 8:0 4:&#45;10 &#45;4:&#45;10 &#45;4:10))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1082908">ps = axlPathStart( list(&#45;4:10 4:10 4:&#45;10 &#45;4:&#45;10 &#45;4:10))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1082895">s = axlDBCreateShape(p t &#34;ETCH&#47;TOP&#34; nil symdef)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1082915">s = axlDBCreateShape(ps t &#34;ETCH&#47;TOP&#34; nil symdef)</a></font>
+      </p>
+      <p><a name="1082896">Creates a flash symbol.</a></p>
+      <p><a name="1082891">&nbsp;</a></p>
+      <h3><a name="1087265">axlDBDummyNet</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1087266">axlDBDummyNet (<dd>g_mode)<dd>&#45;&#62; lo_dbid&#47;nil</a></font>
+      </dl>
+      <h4><a name="1087269">Description</a></h4>
+      <p><a name="1087270">This command returns all dummy nets in design. Two courtesy options provided are:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1086712"><font size="2" face="'Courier New'" color="#000000">&#39;pin</font></a> for any dummy net that has a pin return the first pin of the dummy net</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1086714"><font size="2" face="'Courier New'" color="#000000">&#39;shape</font></a> for any dummy net that has a shape return the first shape of the dummy net</td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="1087069">Typically each dummy net in design will only have a single pin or shape but this may not always be the case. Clines or vias cannot, by themselves exist on a dummy. Symbols (</a><font size="2" face="'Courier New'" color="#000000">dra</font>) do not have dummy nets</p>
+      <h4><a name="1087127">Arguments</a></h4>
+      <p><a name="1087128">&nbsp;</a></p>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="198">
+            <p><a name="1099521"><font size="2" face="'Courier New'" color="#000000"><em>g_mode</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="450">
+            <p><a name="1099523">Can have following two values:</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1087140">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1087142"><font size="2" face="'Courier New'" color="#000000">&#39;pin</font></a> - returns a list of first pins on dummy nets</td>
+                </tr>
+              </table>
+            </div>
+            <div>
+              <table border="0" cellspacing="0" cellpadding="3" summary="">
+                <tr valign="baseline">
+                  <td width="31.999679999999998">
+                    <div>
+                      <nobr>
+                        <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                      </nobr>
+                    </div>
+                  </td>
+                  <td><a name="1087171"><font size="2" face="'Courier New'" color="#000000">&#39;shape</font></a> - returns list of first shapes on dummy nets</td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1086725">Value Returned</a></h4>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1086726"><font size="2" face="'Courier New'" color="#000000">t</font></a> &#45; indicates success</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1086984"><font size="2" face="'Courier New'" color="#000000">nil</font></a> &#45; failed due to incorrect arguments</td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="1086728">See Also</a></h4>
+      <p><a href="07dbaccs.html#719568" title="6" name="1086729"><font color="#0000ff"><u>axlIsDummyNet</u></font></a>, <a href="#1076610" title="30"><font color="#0000ff"><u>axlDbidName</u></font></a></p>
+      <h4><a name="1086730">Examples</a></h4>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	1.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="1086731">Print all 1st pins on dummy nets</a></td>
+          </tr>
+        </table>
+      </div>
+      <blockquote>
+<blockquote>        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1086732">foreach( mapc x axlDBDummyNet(&#39;pin) printf(&#34;%s\n&#34; axlDbidName(x)))</a></font></blockquote>
+      </blockquote>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	2.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="1086733">Get all dummy nets on design</a></td>
+          </tr>
+        </table>
+      </div>
+      <blockquote>
+<blockquote>        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1086734">p = axlDBDummyNet(nil)</a></font></blockquote>
+      </blockquote>
+      <h3><a name="1076610">axlDbidName</a></h3>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077055">axlDbidName(</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077056">                 o_dbid</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077057">         ) &#45;&#62; t_name&#47;nil</a></font>
+      </p>
+      <h4><a name="1077058">Description</a></h4>
+      <p><a name="1077059">Provides the standard Allegro PCB Editor name of a database object. Many of the named Allegro PCB Editor objects ( for example, nets) have names defined in the name attribute (for example, </a><font size="2" face="'Courier New'" color="#000000">dbid&#45;&#62;name</font>) but other objects (for example, clines and pins) either do not have the desired reporting name or are unnamed. </p>
+      <h4><a name="1077064">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099564"><font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="1099566">A Allegro PCB Editor database id. </a></p>
+          </td>
+        </tr>
+      </table>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1077143">Some Allegro PCB Editor database ids are pseudo ids (for example, </a><font size="2" face="'Courier New'" color="#000000">axlDBGetDesign </font>and pads) and generate a <font size="2" face="'Courier New'" color="#000000">nil</font> return.</p>
+      <h4><a name="1077068">Value Returned</a></h4>
+      <p><a name="1077069">Allegro PCB Editor name of object, or </a><font size="2" face="'Courier New'" color="#000000">nil</font> if not a <font size="2" face="'Courier New'" color="#000000">dbid</font> or true Allegro PCB Editor database object.</p>
+      <h4><a name="1077071">Examples</a></h4>
+      <p><a name="1077072">This uses the ashOne selection function found in:</a></p>
+      <p><a name="1077073">            </a><font size="2" face="'Courier New'" color="#000000">&#60;cdsroot&#62;&#47;share&#47;pcb&#47;examples&#47;skill&#47;examples&#47;ash&#45;fxf&#47;ashone.il</font></p>
+      <p><a name="1077074">Pin name:</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077075">pin = ashOne() </a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077076">axlDbidName(pin)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077077">&#45;&#62; &#34;U1.1&#34;</a></font>
+      </blockquote>
+      <p><a name="1077078">Cline name:</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077079">cline = ashOne() </a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077080">axlDbidName(cline)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077081">&#45;&#62; &#34;Net3, Etch&#47;Top&#34;</a></font>
+      </blockquote>
+      <p><a name="1077053">&nbsp;</a></p>
+      <h3><a name="1075197">axlDiffPair</a></h3>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075543">Add DiffPair</a></td>
+          </tr>
+        </table>
+      </div>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075260">axlDiffPair(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_diffpair<dd>o_net1</em></font>&#47;<font size="2" face="'Courier New'" color="#000000"><em>t_net1<dd>o_net2</em></font>&#47;<font size="2" face="'Courier New'" color="#000000"><em>t_net2</em></font></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075272">)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075262"><font face="symbol" color="#000000">⇒</font></a> <font size="2" face="'Courier New'" color="#000000"><em>o_diffpair</em></font>&#47;nil</font>
+      </dl>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075546">Modify DiffPair</a></td>
+          </tr>
+        </table>
+      </div>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075547">axlDiffPair(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>o_diffpair</em></font>&#47;<font size="2" face="'Courier New'" color="#000000"><em>t_diffpair<dd>o_net1</em></font>&#47;<font size="2" face="'Courier New'" color="#000000"><em>t_net1<dd>o_net2</em></font>&#47;<font size="2" face="'Courier New'" color="#000000"><em>t_net2</em></font></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075548">)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075549"><font face="symbol" color="#000000">⇒</font></a> <font size="2" face="'Courier New'" color="#000000"><em>o_diffpair</em></font>&#47;nil</font>
+      </dl>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075557">Delete DiffPair</a></td>
+          </tr>
+        </table>
+      </div>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075558">axlDiffPair(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>o_diffpair</em></font>&#47;<font size="2" face="'Courier New'" color="#000000"><em>t_diffpair</em></font></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075565">)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075560"><font face="symbol" color="#000000">⇒</font></a> t&#47;nil</font>
+      </dl>
+      <h4><a name="1075263">Description</a></h4>
+      <p><a name="1075258">Creates, modifies, or deletes a differential pair. In all cases you can pass names or a </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font>.</p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1075570">If the differential pair was created due to Signoise models, you cannot modify or delete it. Consequently, you cannot modify or delete the differential pair if the following is true:</a></p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075571">&nbsp;&nbsp;&nbsp;&nbsp;diffpair_dbid&#45;&#62;prop&#45;&#62;DIFFP_ELECTRICAL ==t.</a></font>
+      </p>
+      <h4><a name="1075273">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="642">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099585"><font size="2" face="'Courier New'" color="#000000"><em>o_diffpair</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="449">
+            <p><a name="1099587">Diffpair</a><font size="2" face="'Courier New'" color="#000000"><em> dbid</em></font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099589"><font size="2" face="'Courier New'" color="#000000"><em>t_diffpair</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099591">Diffpair name.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099593"><font size="2" face="'Courier New'" color="#000000"><em>o_net</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099595">Net </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099597"><font size="2" face="'Courier New'" color="#000000"><em>t_net</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099599">Net name.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075275">Value Returned</a></h4>
+      <p><a name="1075582">Values returned depend on whether adding, modifying, or deleting.</a></p>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="627">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099607"><font size="2" face="'Courier New'" color="#000000"><em>o_diffpair</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="435">
+            <p><a name="1099609"><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font></a> of new or modified diffpair</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099611"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099613">Diffpair deleted.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099615"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099617">Error due to incorrect arguments.</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="1075580"><font color="#000000"><strong>Example 1</strong></font></a></p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075583">DPdbid = axlDiffPair(&#34;DP&#34; &#34;NET1+&#34; &#34;NET2&#45;&#34;)</a></font>
+      </p>
+      <p><a name="1075637">Creates a differential pair and names it DP1.</a></p>
+      <p><a name="1075645"><font color="#000000"><strong>Example 2</strong></font></a></p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075585">DPdbid = axlDiffPair(DPdbid &#34;NET1+&#34; &#34;NET1&#45;&#34;)</a></font>
+      </p>
+      <p><a name="1075652">Modifies a differential pair.</a></p>
+      <p><a name="1075586"><font color="#000000"><strong>Example 3</strong></font></a></p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075587">axlDiffPair(DPdbid)</a></font>
+      </p>
+      <p><a name="1075665">Deletes a differential pair.</a></p>
+      <p><a name="1075992"><font color="#000000"><strong>Example 4</strong></font></a></p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075998">axlDiffPair(axlDBGetDesign()&#45;&#62;diffpair)</a></font>
+      </p>
+      <p><a name="1076007">Delete all differential pairs in design.</a></p>
+      <p><a name="1075999">&nbsp;</a></p>
+      <p><a name="1075996">&nbsp;</a></p>
+      <h3><a name="1075277">axlDiffPairAuto</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075280">axlDiffPairAuto(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_diffPairPrefix<dd>t_posNetPostfix<dd>t_negNetPostfix<dd></em></font>[<font size="2" face="'Courier New'" color="#000000"><em>g_returnDiffPairList</em></font>]</font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075281">)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075282"><font face="symbol" color="#000000">⇒</font></a> <font size="2" face="'Courier New'" color="#000000"><em>x_cnt</em></font>&#47;(<font size="2" face="'Courier New'" color="#000000"><em>xcnt</em></font> <font size="2" face="'Courier New'" color="#000000"><em>lo_diffpair</em></font>)&#47;nil</font>
+      </dl>
+      <h4><a name="1075283">Description</a></h4>
+      <p><a name="1075278">Allows automatic generation of the diffpair. Generates the set of diffpairs based on the provided positive (</a><font size="2" face="'Courier New'" color="#000000"><em>t_posNetPostfix</em></font>) and negative (<font size="2" face="'Courier New'" color="#000000"><em>t_negNetPostfix</em></font>) postfixes used in your net naming.</p>
+      <p><a name="1075290">You may provide a prefix (</a><font size="2" face="'Courier New'" color="#000000"><em>t_diffPairPrefix</em></font>) used in generating the diffpair names of the form: &#60;<font size="2" face="'Courier New'" color="#000000"><em>t_diffPairPrefix</em></font>&#62; + <font size="2" face="'Courier New'" color="#000000"><em>netname</em></font> &#45; <font size="2" face="'Courier New'" color="#000000"><em>postfix</em></font>.</p>
+      <p><a name="1076033">If nets are part of busses and end the bitfield syntax (</a><font size="2" face="'Courier New'" color="#000000">&#60;1&#62;</font>), the syntax portion is ignored when performing suffix matching. If a diffpair is created the bit number is added to the base net name used in forming a diffpair. For example, given two nets; <font size="2" face="'Courier New'" color="#000000">DATA_P&#60;1&#62;</font> and <font size="2" face="'Courier New'" color="#000000">DATA_N&#60;1&#62;</font> will result in a diffpair called <font size="2" face="'Courier New'" color="#000000">DP_DATA1</font> with this call:</p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1076039">             axlDiffPairAuto(&#34;DP_&#34; &#34;_P&#34; &#34;_N&#34;)</a></font>
+      </p>
+      <h4><a name="1075291">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="644">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099625"><font size="2" face="'Courier New'" color="#000000"><em>t_diffPairPrefix</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="451">
+            <p><a name="1099627">String to prefix diffpair names. Use </a><font size="2" face="'Courier New'" color="#000000">&#34;&#34;</font> if no prefix is desired.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099629"><font size="2" face="'Courier New'" color="#000000"><em>t_posNetPostfix</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099631">Postfixes used to identify </a><font size="2" face="'Courier New'" color="#000000">+</font> diffpair members.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099633"><font size="2" face="'Courier New'" color="#000000"><em>t_negNetPostfix</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099635">Postfixes used to identify </a><font size="2" face="'Courier New'" color="#000000">&#45;</font> diffpair members.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099637"><font size="2" face="'Courier New'" color="#000000"><em>g_returnDiffPairList</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099639">Controls return.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075299">Value Returned</a></h4>
+      <p><a name="1075300">Returns depend on value of </a><font size="2" face="'Courier New'" color="#000000"><em>g_returnDiffPairList</em></font> as shown:</p>
+      <p><a name="1075309">&nbsp;</a></p>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="540">
+        <tr>
+          <td cellpadding="4" valign="middle" width="180">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1075315"><font color="#000000"><strong>g_returnDiffPairList</strong></font></a></strong></font>
+            </p>
+          </td>
+          <td cellpadding="4" valign="middle" width="180">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1075317">Value Returned</a></strong></font>
+            </p>
+          </td>
+          <td cellpadding="4" valign="middle" width="180">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1075333">Description</a></strong></font>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1075319"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1075321"><font size="2" face="'Courier New'" color="#000000"><em>x_cnt</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1075335">Number of diffpairs created.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1075323"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1075325">(</a><font size="2" face="'Courier New'" color="#000000"><em>x_cnt</em></font>, <font size="2" face="'Courier New'" color="#000000"><em>lo_diffpair</em></font>)</p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1075337">List of diffpairs created</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075344">Examples</a></h4>
+      <p><a name="1075670"><font color="#000000"><strong>Example nets</strong></font></a></p>
+      <p><a name="1075675">Two nets called </a><font size="2" face="'Courier New'" color="#000000">NET1+</font> and <font size="2" face="'Courier New'" color="#000000">NET1&#45;</font> are passed to this function.</p>
+      <p><a name="1075671"><font color="#000000"><strong>Example 1</strong></font></a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075682">axlDiffPairAuto(&#34;DP_&#34; &#34;+&#34; &#34;&#45;&#34;)</a></font>
+      </blockquote>
+      <p><a name="1075349">Shows diffpair creation and name generation. Results in one diffpair called </a><font size="2" face="'Courier New'" color="#000000">DP_NET1</font> with members <font size="2" face="'Courier New'" color="#000000">NET1+</font> and <font size="2" face="'Courier New'" color="#000000">NET1&#45;</font>.</p>
+      <p><a name="1075691"><font color="#000000"><strong>Example 2</strong></font></a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075358">axlDiffPairAuto(&#34;&#34; &#34;+&#34; &#34;&#45;&#34;)</a></font>
+      </blockquote>
+      <p><a name="1075692">Gives the same result as the previous example, but names the diffpair </a><font size="2" face="'Courier New'" color="#000000">NET1</font>.</p>
+      <h3><a name="1075366">axlDiffPairDBID</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075369">axlDiffPairDBID(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_name<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="1075372">Description</a></h4>
+      <p><a name="1075373">Returns the </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font> of the named diffpair (<font size="2" face="'Courier New'" color="#000000"><em>t_name</em></font>) if it exists in the database.</p>
+      <h4><a name="1075374">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="324">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099655"><font size="2" face="'Courier New'" color="#000000"><em>t_name</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="132">
+            <p><a name="1099657">Diffpair name.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075376">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="669">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099665"><font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="477">
+            <p><a name="1099667"><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font></a> of diffpair if it exists.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099669"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099671">Diffpair does not exist.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h3><a name="1076859">axlMatchGroupAdd</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1077225">axlMatchGroupAdd(<dd>o_mgdbid&#47;t_mgName<dd>o_dbid&#47;lo_dbid<dd>)==&#62; t&#47;nil</a></font>
+      </dl>
+      <h4><a name="1077229">Description</a></h4>
+      <p><a name="1077230">Adds members to a matched group. Eligible members are:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1077231">nets (if a net is part of an xnet the xnet is added to the group)</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1077233">xnets</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1077234">pinpairs</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="1077236">See discussion in </a><font size="2" face="'Courier New'" color="#000000">axlDBMatchGroupCreate</font>.</p>
+      <p><a name="1077238">Command fails in product tiers that do not support electrical constraints or the symbol editor.</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <font size="3"><img src="images/tip.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <font size="3"><a name="1077240">Using </a><font size="2" face="'Courier New'" color="#000000">dbids</font> is faster than using names.</font>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="1077242">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="633">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099679"><font size="2" face="'Courier New'" color="#000000"><em>o_mgdbid</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="441">
+            <p><a name="1099681"><font size="2" face="'Courier New'" color="#000000">dbid</font></a> of a match group.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099683"><font size="2" face="'Courier New'" color="#000000"><em>t_mgName</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099685">Name of a match group.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099687"><font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099689">Legal database </a><font size="2" face="'Courier New'" color="#000000">dbid</font> to add to match group.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099691"><font size="2" face="'Courier New'" color="#000000"><em>lo_dbid</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099693">List of legal database </a><font size="2" face="'Courier New'" color="#000000">dbids</font> to add to match group.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1077247">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="593">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099701"><font size="2" face="'Courier New'" color="#000000">t</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="401">
+            <p><a name="1099703">Added elements.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099705"><font size="2" face="'Courier New'" color="#000000">nil</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099707">Failed one or more element additions.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1077250">See Also </a></h4>
+      <p><a href="#1077223" title="30" name="1083056"><font color="#0000ff"><u>axlMatchGroupCreate</u></font></a></p>
+      <h4><a name="1077252">Example</a></h4>
+      <p><a name="1077253">Add two nets to match group created in </a><font size="2" face="'Courier New'" color="#000000">axlMatchGroupCreate</font>:</p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077254">mg = car(axlSelectByName(&#34;MATCH_GROUP&#34; &#34;MG1&#34;))</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077255">nets = axlSelectByName(&#34;NET&#34; &#39;(&#34;B1_OUT&#34; &#34;B2_OUT&#34;))</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077256">axlMatchGroupAdd(mg  nets)</a></font>
+      </blockquote>
+      <h3><a name="1077223">axlMatchGroupCreate</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1089416">axlMatchGroupCreate(<dd>t_name<dd>)==&#62; o_mgdbid</a></font>
+      </dl>
+      <h4><a name="1089418">Description</a></h4>
+      <p><a name="1089442">Creates a new match group. If a match group already exists with the same name, </a><font size="2" face="'Courier New'" color="#000000">nil</font> is returned. Match groups need to be populated, or they are deleted when saving. Use the <a href="#1076859" title="30"><font color="#0000ff"><u>axlMatchGroupAdd</u></font></a> command to populate the match groups. </p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1089457">The axlMatchGroupCreate command fails in product tiers that do not support electrical constraints or the symbol editor.</a></p>
+      <p><a name="1089448">If the match group was partially or completely created from an ECset, you can delete it, but it reappears when ECset flattening is required due to modifications in the design. SKILL functions do not indicate ECset&#45;derived match groups.</a></p>
+      <p><a name="1091218">You can access list of match groups in database by:</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1091210">axlDBGetDesign()&#45;&#62;matchgroup</a></font>
+      </blockquote>
+      <p><a name="1089449"><font color="#000000"><strong><em>RELATIVE_PROPAGATION_DELAY</em></strong></font></a> </p>
+      <p><a name="1077473">The RELATIVE_PROPAGATION_DELAY property can be added to match groups, xnets, and pinpairs. If you add it to the match group then any match group member that does not have that property inherits it from the match group. </a></p>
+      <p><a name="1091258">Match groups contain the following elements: xnets, nets, and pinpairs. If a net is part of an xnet, the xnet is added to the match group.</a></p>
+      <p><a name="1091265">Xnets and pinpairs can belong to multiple match groups, so an RPD property exists on the </a><font size="2" face="'Courier New'" color="#000000">dbid</font> for nets, xnets and pinpairs. This property is a list of lists where each sub&#45;list contains a match group <font size="2" face="'Courier New'" color="#000000">dbid</font> and the RELATIVE_PROPAGATION_DELAY value:</p>
+      <p><a name="1077486">                 </a><font size="2" face="'Courier New'" color="#000000">rpd = ( (o_mgDbid t_rpdValue) ....)</font></p>
+      <p><a name="1091299">Thus if a pinpair belongs to 2 match groups, you see two lists that are the inherited. A pinpair in a single match group has a single list of list. For example, a pinpair in MG3 with global scope and an override of delta&#47;tolerance of </a><font size="2" face="'Courier New'" color="#000000">10ns:5%</font> reports:</p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1091303">rpd = ((dbid:61315360 &#34;MG3:G:::10 ns:5 %&#34;))</a></font>
+      </blockquote>
+      <p><a name="1091304">The same pinpair without an override will report default match group value as</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1091305">rpd = ((dbid:61315360 &#34;MG3:G:AD:AR:0 ns:5 %&#34;))</a></font>
+      </blockquote>
+      <p><a name="1091423">In both the examples, the dbid references the match group id (MG3).</a></p>
+      <p><a name="1091436">The RELATIVE_PROPAGATION_DELAY syntax is discussed in the Allegro Property Reference Manual. In general the syntax is:</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1091284">&#60;Match group name&#62;:&#60;scope&#62;:&#60;pinpair&#62;:&#60;value&#62;</a></font>
+      </dl>
+      <p><a name="1091279">You can add and delete properties to a match group or pinpair </a><font size="2" face="'Courier New'" color="#000000">dbid</font> using <a href="#1078079" title="30"><font color="#0000ff"><u>axlMatchGroupProp</u></font></a>. When creating the property value, you must include the match group name but not an explicit pinpair. For example, the following adds an RPD property to a match group named <font size="2" face="'Courier New'" color="#000000">MG2</font>:</p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1091494">axlMatchGroupProp.(mg &#39;(&#34;RELATIVE_PROPAGATION_DELAY&#34; &#34;MG2:G:::0 ns:5 %&#34;))</a></font>
+      </dl>
+      <p><a name="1077833">Additional restrictions for this property are:   </a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1077504">Pinpairs should leave the pinpair section empty (</a><font size="2" face="'Courier New'" color="#000000">&#34;::&#34;</font>). </td>
+          </tr>
+        </table>
+      </div>
+      <blockquote><a name="1077505">              Example: </a><font size="2" face="'Courier New'" color="#000000">&#34;MG2:G:::0 ns:5 %&#34;</font></blockquote>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1077507">Match groups should not reference an explicit pinpair but, if not empty, should use a pinpair type (for example, &#34;AD:AR&#34;,&#34;D:R&#34; etc.)</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="1091529">For nets and xnets, if you access the RELATIVE_PROPAGATION_DELAY property, you may see the flattened version. This implies that if nets and xnets are part of multiple Match Groups, they all appear concatenated in the RELATIVE_PROPAGATION_DELAY property.</a></p>
+      <p><a name="1091560">Any pinpairs that are part of the net appear as part of the property at the net or xnet level. This is present to support legacy applications like netlisters. The RPD property that is </a><font size="2" face="'Courier New'" color="#000000">dbids</font> for pinpairs, net and xnets breaks this concatentation. Using <font size="2" face="'Courier New'" color="#000000">axlDBAddProp</font> and <font size="2" face="'Courier New'" color="#000000">axlDBDeleteProp</font> commands to modify the property may effect all match groups and pinpairs. It is recommended that <a href="#1078079" title="30"><font color="#0000ff"><u>axlMatchGroupProp</u></font></a> is used for modification of the RELATIVE_PROPAGATION_DELAY property for all objects.</p>
+      <h4><a name="1077972">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099715"><font size="2" face="'Courier New'" color="#000000"><em>t_name</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="1099717">Name of match group (changed to upper case).</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1077974">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="610">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099725"><font size="2" face="'Courier New'" color="#000000">nil</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="417">
+            <p><a name="1099727">Error or match group with same name already exists.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099729"><font size="2" face="'Courier New'" color="#000000"><em>o_mgdbid</em></font></a>: </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099731"><font size="2" face="'Courier New'" color="#000000">dbid</font></a> of match group.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078021">See Also </a></h4>
+      <p><a href="#1078813" title="30" name="1083061"><font color="#0000ff"><u>axlPinPairSeek</u></font></a> , <a href="#1078733" title="30"><font color="#0000ff"><u>axlPinsOfNet</u></font></a> , <a href="#1077223" title="30"><font color="#0000ff"><u>axlMatchGroupCreate</u></font></a>, <a href="#1077449" title="30"><font color="#0000ff"><u>axlMatchGroupDelete</u></font></a>, <a href="#1076859" title="30"><font color="#0000ff"><u>axlMatchGroupAdd</u></font></a>, <a href="#1080542" title="30"><font color="#0000ff"><u>axlMatchGroupRemove</u></font></a>, <a href="#1078079" title="30"><font color="#0000ff"><u>axlMatchGroupProp</u></font></a></p>
+      <h4><a name="1078071">Example</a></h4>
+      <p><a name="1077534">Create a match group called </a><font size="2" face="'Courier New'" color="#000000">MG1:</font></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1077535">mg = axlMatchGroupCreate(&#34;mg1&#34;)</a></font>
+      </blockquote>
+      <h3><a name="1077449">axlMatchGroupDelete</a></h3>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078081">axlMatchGroupDelete(</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078082">                 o_mgdbid&#47;t_mgName</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078083">         ) &#45;&#62; t&#47;nil</a></font>
+      </p>
+      <h4><a name="1078084">Description</a></h4>
+      <p><a name="1078085">This deletes a match group. The command fails in product tiers that do not support electrical constraints or the symbol editor.</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <font size="3"><img src="images/tip.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <font size="3"><a name="1078089">Using </a><font size="2" face="'Courier New'" color="#000000">dbids</font> is faster than using names.</font>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="1078091">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="630">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099739"><font size="2" face="'Courier New'" color="#000000"><em>o_mgdbid</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="437">
+            <p><a name="1099741"><font size="2" face="'Courier New'" color="#000000">dbid</font></a> of a match group.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099743"><font size="2" face="'Courier New'" color="#000000"><em>t_mgName</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099745">Name of a match group.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078094">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="644">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099755"><font size="2" face="'Courier New'" color="#000000">t</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="452">
+            <p><a name="1099757">Match group deleted.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099759"><font size="2" face="'Courier New'" color="#000000">nil</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099761">Failed.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078097">See Also </a></h4>
+      <p><a href="#1077223" title="30" name="1083066"><font color="#0000ff"><u>axlMatchGroupCreate</u></font></a></p>
+      <h4><a name="1078099">Examples</a></h4>
+      <p><a name="1078100">Delete match group created in </a><font size="2" face="'Courier New'" color="#000000">axlMatchGroupCreate:</font></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078101">mg = car(axlSelectByName(&#34;MATCH_GROUP&#34; &#34;MG1&#34;))</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078102">axlMatchGroupDelete(mg)</a></font>
+      </blockquote>
+      <p><a name="1078103">or</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078104">axlMatchGroupDelete(&#34;MG1&#34;)</a></font>
+      </blockquote>
+      <h3><a name="1078079">axlMatchGroupProp</a></h3>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078264">axlMatchGroupProp(</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078265">                 o_mgdbid&#47;t_mgName</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078266">                 o_dbid</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078267">                 t_value&#47;nil</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078268">         )==&#62; t&#47;nil</a></font>
+      </p>
+      <h4><a name="1078269">Description</a></h4>
+      <p><a name="1078270">Adds or removes the RELATIVE_PROPAGATION_DELAY property from a member of a match group. Property must be a legal RPD syntax that includes the RPD name.</a></p>
+      <p><a name="1078274">The command fails in product tiers that do not support electrical constraints or the symbol editor.</a></p>
+      <p><a name="1078277">See discussion in </a><font size="2" face="'Courier New'" color="#000000">axlDBMatchGroupCreate</font>.</p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <font size="3"><img src="images/tip.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <font size="3"><a name="1078278">Using </a><font size="2" face="'Courier New'" color="#000000">dbids</font> is faster than using names.</font>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="1078280">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099769"><font size="2" face="'Courier New'" color="#000000"><em>o_mgdbid</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="1099771"><font size="2" face="'Courier New'" color="#000000">dbid</font></a> of a match group</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099773"><font size="2" face="'Courier New'" color="#000000"><em>t_mgName</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099775">Name of a match group</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099777"><font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099779">Legal database dbid to of a member of the match group</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099781"><font size="2" face="'Courier New'" color="#000000"><em>t_value</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099783">RELATIVE_PROPAGATION_DELAY value in legal syntax. If value is </a><font size="2" face="'Courier New'" color="#000000">nil;</font> removes the property.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078286">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="581">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099791"><font size="2" face="'Courier New'" color="#000000">t</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="389">
+            <p><a name="1099793">Added elements.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099795"><font size="2" face="'Courier New'" color="#000000">nil</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099797">Failed one or more element additions.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078289">See Also </a></h4>
+      <p><a href="#1077223" title="30" name="1083071"><font color="#0000ff"><u>axlMatchGroupCreate</u></font></a></p>
+      <h4><a name="1078291">Examples</a></h4>
+      <p><a name="1078466">Add two nets to match group created in </a><font size="2" face="'Courier New'" color="#000000">axlMatchGroupCreate:</font> </p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078293">mg = car(axlSelectByName(&#34;MATCH_GROUP&#34; &#34;MG1&#34;))</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078294">nets = axlSelectByName(&#34;NET&#34; &#39;(&#34;B1_OUT&#34; &#34;B2_OUT&#34;))</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078295">n1 = car(nets)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078296">n2 = cadr(nets)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078297">axlMatchGroupAdd(mg  nets)</a></font>
+      </blockquote>
+      <p><a name="1078299">Add properties:</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078300">axlMatchGroupProp(mg n1 &#34;MG1:G:::100 ns:5 %&#34;)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1080539">axlMatchGroupProp(mg n2 &#34;MG1:G:AD:AR:0 ns:5 %&#34;)</a></font>
+      </blockquote>
+      <p><a name="1080540">Remove property from </a><font size="2" face="'Courier New'" color="#000000">n2:</font></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1080541">axlMatchGroupProp(mg n2 nil</a></font>
+      </blockquote>
+      <h3><a name="1080542">axlMatchGroupRemove</a></h3>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078537">axlMatchGroupRemove(</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078538">                 o_mgdbid&#47;t_mgName</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078539">                 o_dbid&#47;lo_dbid</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078540">         )==&#62; t&#47;nil</a></font>
+      </p>
+      <h4><a name="1078541">Description</a></h4>
+      <p><a name="1078542">Removes elements from an existing match group. Elements must be members (attribute groupMembers) of the match group.</a></p>
+      <p><a name="1078546">The command fails in product tiers that do not support electrical constraints or the symbol editor.</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <font size="3"><img src="images/tip.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <font size="3"><a name="1078548">Using </a><font size="2" face="'Courier New'" color="#000000">dbids</font> is faster than using names.</font>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="1078550">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099805"><font size="2" face="'Courier New'" color="#000000"><em>o_mgdbid</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="1099807"><font size="2" face="'Courier New'" color="#000000">dbid</font></a> of a match group.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099809"><font size="2" face="'Courier New'" color="#000000"><em>t_mgName</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099811">Name of a match group.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099813"><font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099815">Legal database </a><font size="2" face="'Courier New'" color="#000000">dbid</font> to remove from match group.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099817"><font size="2" face="'Courier New'" color="#000000"><em>lo_dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099819">List of legal database </a><font size="2" face="'Courier New'" color="#000000">dbids</font> to remove from match group.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078555">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="635">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099827"><font size="2" face="'Courier New'" color="#000000">t</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="443">
+            <p><a name="1099829">Removed elements.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099831"><font size="2" face="'Courier New'" color="#000000">nil</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099833">Failed one or more element removals.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078558">See Also</a></h4>
+      <p><a href="#1077223" title="30" name="1083076"><font color="#0000ff"><u>axlMatchGroupCreate</u></font></a></p>
+      <h4><a name="1078560">Example</a></h4>
+      <p><a name="1078561">To match group in example </a><font size="2" face="'Courier New'" color="#000000">axlMatchGroupAdd</font> remove one of the nets:</p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078562">axlMatchGroupRemove(mg  car(nets))</a></font>
+      </blockquote>
+      <h3><a name="1081079">axlNetSched</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1081082">axlNetSched()</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1081083">==&#62; t</a></font>
+      </dl>
+      <h4><a name="1081084">Description</a></h4>
+      <p><a name="1081086">This is the main routine that the command processor calls for the</a><font size="2" face="'Courier New'" color="#000000"> net schedule</font> command.</p>
+      <h4><a name="1081090">Arguments</a></h4>
+      <p><a name="1081152">None</a></p>
+      <h4><a name="1082930">Value Returned</a></h4>
+      <p><a name="1082931"><font size="2" face="'Courier New'" color="#000000"><em>t</em></font></a></p>
+      <p><a name="1082932">&nbsp;</a></p>
+      <h3><a name="1078535">axlPinPair</a></h3>
+      <p><a name="1078735">Add </a></p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078736">             axlPinPair(</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078737">                 o_pin1&#47;t_pin1</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078738">                 o_pin2&#47;t_pin2</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078739">             )==&#62; o_pinpair</a></font>
+      </p>
+      <p><a name="1078741">Delete</a></p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078742">             axlPinPair(</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078743">                 o_pinpair&#47;lo_pinpair</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078744">             )==&#62; t&#47;nil</a></font>
+      </p>
+      <h4><a name="1078745">Description</a></h4>
+      <p><a name="1078746">This creates or deletes a pinpair. A pinpair consists of two un&#45;ordered pins or ratTs on the same net. For example, pinpair </a><font size="2" face="'Courier New'" color="#000000">u1.2:r1.2</font> is the same pinpair as <font size="2" face="'Courier New'" color="#000000">r1.2:u1.2</font>. If the pinpair already exists then the existing pinpair is returned. The command fails in product tiers that do not support electrical constraints or the symbol editor. </p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1080616">You cannot create a pinpair if both pins (or ratT) do not belong to the same xnet. </a></p>
+      <p><a name="1078759">If the pinpair was created in an ECset, the ECsetDerived attribute will be </a><font size="2" face="'Courier New'" color="#000000">t </font>and<font size="2" face="'Courier New'" color="#000000"> </font>cannot delete it. You must modify the pinpair in the associated ECset.</p>
+      <p><a name="1078765">At database save, a pinpair must be part of a match group or have a legal electrical constraint property assigned to it. Legal electrical properties are:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1078768">PROPAGATION_DELAY</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1078769">MIN_FIRST_SWITCH</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1078770">MAX_FINAL_SETTLE</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1078771">IMPEDANCE_RULE</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1078772">TIMING_DELAY_OVERRIDE</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1078773">RELATIVE_SKEW</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="1078775">RELATIVE_PROPAGATION_DELAY is stored on the RPD attrbiute as a list of lists. </a></p>
+      <p><a name="1080649">See </a><font size="2" face="'Courier New'" color="#000000">axlMatchGroupCreate</font> for more infomation.</p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <font size="3"><img src="images/tip.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <font size="3"><a name="1078779">Using </a><font size="2" face="'Courier New'" color="#000000">dbids</font> is faster than using names.</font>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="1078781">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099841"><font size="2" face="'Courier New'" color="#000000"><em>o_pin1&#47;o_pin2</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1099843"><font size="2" face="'Courier New'" color="#000000">dbid</font></a> of a pin or ratT </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099845"><font size="2" face="'Courier New'" color="#000000"><em>t_pin1&#47;t_pin2</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099847">A pin name (</a><font size="2" face="'Courier New'" color="#000000">&#60;refdes&#62;.&#60;pin#&#62;</font>); ratT names are not supported.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099849"><font size="2" face="'Courier New'" color="#000000"><em>o_pinpair</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099851">Pinpair </a><font size="2" face="'Courier New'" color="#000000">dbid.</font></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099853"><font size="2" face="'Courier New'" color="#000000"><em>lo_pinpair</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099855">List of pinpair </a><font size="2" face="'Courier New'" color="#000000">dbids</font> (delete mode only).</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078786">Value Returned</a></h4>
+      <p><a name="1078787">Returns depending upon the mode.</a></p>
+      <p><a name="1078788"><font size="2" face="'Courier New'" color="#000000">nil</font></a>: error</p>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="649">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099863"><font size="2" face="'Courier New'" color="#000000">t</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="457">
+            <p><a name="1099865">Deletion was successful.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099867"><font size="2" face="'Courier New'" color="#000000"><em>o_pinpair</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099869"><font size="2" face="'Courier New'" color="#000000">dbid</font></a> of added or modified differential pair.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1078791">See Also </a></h4>
+      <p><a href="#1078813" title="30" name="1083089"><font color="#0000ff"><u>axlPinPairSeek</u></font></a>, <a href="#1078733" title="30"><font color="#0000ff"><u>axlPinsOfNet</u></font></a>, <a href="#1077223" title="30"><font color="#0000ff"><u>axlMatchGroupCreate</u></font></a></p>
+      <h4><a name="1078793">Examples</a></h4>
+      <p><a name="1078794">Example 1: Xnet having two nets; </a><font size="2" face="'Courier New'" color="#000000">NET1</font> and <font size="2" face="'Courier New'" color="#000000">NET1A</font>. This demonstrates that pinpairs are stored on the xnet.</p>
+      <p><a name="1080720">Create pinpair using name:</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1080763">pp = axlPinPair(&#34;U2.13&#34; &#34;R1.2&#34;)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1080773">&nbsp;</a></font>
+      </blockquote>
+      <p><a name="1080774">Create pinpair with ratT of net </a><font size="2" face="'Courier New'" color="#000000">NET1A:</font></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1080765">ratTs = axlPinsOfNet(&#34;NET1A&#34; &#39;ratT)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078801">pp = axlPinPair(&#34;U2.13&#34; car(ratTs))</a></font>
+      </blockquote>
+      <p><a name="1080828">Verify pinpairs are both on </a><font size="2" face="'Courier New'" color="#000000">NET1A:</font></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078804">n = car(axlSelectByName(&#34;NET&#34; &#34;NET1A&#34;))</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078805">n&#45;&#62;pinpair RETURNS nil</a></font>
+      </blockquote>
+      <p><a name="1078807">Examine the xnet (</a><font size="2" face="'Courier New'" color="#000000">NET1</font>):</p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078808">xn = car(axlSelectByName(&#34;XNET&#34; &#34;NET1&#34;))</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1078809">xn&#45;&#62;pinpair RETURNS (dbid:21697512 dbid:21697232)</a></font>
+      </blockquote>
+      <p><a name="1078811">Delete all pinpairs of Example 1:</a></p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1078812">             axlPinPair(xn&#45;&#62;pinpair)</a></font>
+      </dl>
+      <h3><a name="1078813">axlPinPairSeek</a></h3>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1079259">axlPinPairSeek(</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1079260">                 o_pin1</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1079261">                 o_pin2</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1079262">             )==&#62; o_pinpair&#47;nil</a></font>
+      </p>
+      <h4><a name="1079263">Description</a></h4>
+      <p><a name="1079264">Given two pins or ratTs reports if they are part of a pinpair.</a></p>
+      <h4><a name="1079265">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099877"><font size="2" face="'Courier New'" color="#000000"><em>o_pin1&#47;o_pin2</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1099879"><font size="2" face="'Courier New'" color="#000000">dbid</font></a> of a pin or ratT. </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099881"><font size="2" face="'Courier New'" color="#000000"><em>t_pin1&#47;t_pin2</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099883">A pin name (</a><font size="2" face="'Courier New'" color="#000000">&#60;refdes&#62;.&#60;pin#&#62;</font>); ratT names not supported.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1079268">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="644">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099891"><font size="2" face="'Courier New'" color="#000000"><em>o_pinpair</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="452">
+            <p><a name="1099893">Pinpair </a><font size="2" face="'Courier New'" color="#000000">dbid.</font> </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099895"><font size="2" face="'Courier New'" color="#000000">nil</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099897">Pinpair for given pins does not exist.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1079271">See Also </a></h4>
+      <p><a href="#1078535" title="30" name="1083101"><font color="#0000ff"><u>axlPinPair</u></font></a></p>
+      <h4><a name="1079273">Example</a></h4>
+      <p><a name="1079274">See if a pinpair for these two pins exists:</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1080966">pp = axlPinPair(&#34;U2.13&#34; &#34;R1.2&#34;)</a></font>
+      </blockquote>
+      <h3><a name="1078733">axlPinsOfNet</a></h3>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1079396">axlPinsOfNet(</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1079397">                 o_net&#47;t_net</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1079398">                 g_mode</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1079399">         ) &#45;&#62; lo_pins&#47;nil</a></font>
+      </p>
+      <h4><a name="1079400">Description</a></h4>
+      <p><a name="1079401">Returns list of pins and ratTs on a net or xnet. First argument can be either a net, xnet </a><font size="2" face="'Courier New'" color="#000000">dbid</font> or a net name (xnet names are not supported). Second option, <font size="2" face="'Courier New'" color="#000000"><em>g_mode</em></font>, can be <font size="2" face="'Courier New'" color="#000000"><em>&#39;pin</em></font> to return only the pins, <font size="2" face="'Courier New'" color="#000000"><em>&#39;ratT</em></font> to return list of ratTs or nil to return both pins and ratTs. There is no meaning conveyed in the list of items returned.</p>
+      <h4><a name="1079411">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099905"><font size="2" face="'Courier New'" color="#000000"><em>o_net</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1099907"><font size="2" face="'Courier New'" color="#000000">dbid</font></a> of a net or xnet.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099909"><font size="2" face="'Courier New'" color="#000000"><em>t_net</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099911">Name of a net (does not support xnet names).</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099913"><font size="2" face="'Courier New'" color="#000000"><em>g_mode</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099915"><font size="2" face="'Courier New'" color="#000000">nil</font></a> return both pins and ratTs of a net.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099917"><font size="2" face="'Courier New'" color="#000000"><em>&#39;pin</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099919">Return only pins.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099921"><font size="2" face="'Courier New'" color="#000000"><em>&#39;ratT</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099923">Return only the ratT&#39;s.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1079417">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099931"><font size="2" face="'Courier New'" color="#000000"><em>lo_pins</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1099933">List of pins and&#47;or ratTs on net or xnet.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099935"><font size="2" face="'Courier New'" color="#000000">nil</font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099937">Nothing meeting criteria  (or error, </a><font size="2" face="'Courier New'" color="#000000">dbid</font> not net or xnet).</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1079420">Examples</a></h4>
+      <p><a name="1079421">All pins on GND:</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1079422">net = car(axlSelectByName(&#34;NET&#34; &#34;GND&#34;))</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1079423">lpins = axlPinsOfNet(net, &#39;pins)</a></font>
+      </blockquote>
+      <p><a name="1079424">All pins and ratTs on first xnet in design root (could be a net):</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1079425">xnet = car( axlDBGetDesign()&#45;&#62;xnet )</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1079628">lpins = axlPinsOfNet(xnet, nil)</a></font>
+      </blockquote>
+      <h3><a name="1075367">axlRemoveNet</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075390">axlRemoveNet(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_name&#47;o_dbid<dd>[g_ripup]<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="1075393">Description</a></h4>
+      <p><a name="1075394">Removes a net. May either give a string with the net name to be renamed or </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font> of an object on that net.</p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <strong><em><img src="images/caution.gif" alt="ParagraphBullet" border="0"></em></strong>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <strong><em><a name="1075405">The net name may be used in properties. This function does not update these values.</a></em></strong>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="1075395">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099945"><font size="2" face="'Courier New'" color="#000000"><em>t_name</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1099947">Net name.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099949"><font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099951"><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font></a> of a net.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099953"><font size="2" face="'Courier New'" color="#000000"><em>g_ripup</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099955">Optional argument. Ripup associated etch when a net is deleted.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075397">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="649">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099963"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="457">
+            <p><a name="1099965">Net successfully removed.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099967"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099969">No net is removed.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1091797">Example</a></h4>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1091798">axlRemoveNet(&#34;GND&#34;)</a></font>
+      </dl>
+      <h3><a name="1091800">axlRenameNet</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075444">axlRenameNet(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_old_name<dd>t_new_name<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075447">axlRenameNet(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>o_dbid<dd>t_new_name<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="1075450">Description</a></h4>
+      <p><a name="1075440">Renames a net. For the old object, may either give a string with the net name to be renamed, or </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font> of an object on that net. Fails if the new net name already exists in the database.</p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075457">dbid = axlSingleSelectName(&#34;NET&#34; &#39;(&#34;NET&#34;))</a></font>
+      </blockquote>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1075458">This function does not refresh any </a><font size="2" face="'Courier New'" color="#000000">axl</font> <font size="2" face="'Courier New'" color="#000000"><em>dbids</em></font> to reflect the new net name.</p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <strong><em><img src="images/caution.gif" alt="ParagraphBullet" border="0"></em></strong>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <strong><em><a name="1075459">The net name may be used in properties. This function does not update net names in property values.</a></em></strong>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="1075388">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099977"><font size="2" face="'Courier New'" color="#000000"><em>t_old_name</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1099979">Existing net name.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099981"><font size="2" face="'Courier New'" color="#000000"><em>o_dbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099983"><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font></a> of an object on a net.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099985"><font size="2" face="'Courier New'" color="#000000"><em>t_new_name</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099987">New net name (should not exist in the database.)</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075463">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1099995"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1099997">Net successfully renamed.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1099999"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1100001">Net name already exists in the database.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075466">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075471">axlRenameNet(&#34;GND&#34; &#34;NEWGND&#34;)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075472">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075473">; first verify the new net name doesn't exist</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075474">axlSetFindFilter(?enabled &#39;(&#34;noall&#34; &#34;nets&#34;))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075475">if(axlSingleSelectName(&#34;NET&#34; &#39;(&#34;NEWGND&#34;) ) then</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075476">&nbsp;&nbsp;&nbsp;&nbsp;axlRenameNet(dbid &#34;NEWGND&#34;)</a></font>
+      </p>
+      <h3><a name="1075491">axlRenameRefdes</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075495">axlRenameRefdes(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_old_name</em></font>&#47;<font size="2" face="'Courier New'" color="#000000"><em>o_oldCompDbid<dd>t_new_name</em></font>&#47;<font size="2" face="'Courier New'" color="#000000"><em>o_newCompDbid</em></font></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075496">)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075497"><font face="symbol" color="#000000">⇒</font></a> t&#47;nil</font>
+      </dl>
+      <h4><a name="1075501">Description</a></h4>
+      <p><a name="1075502">Renames a refdes. For either argument, may use a refdes name or a component instance.</a></p>
+      <p><a name="1075517">If both refdes exist, a swap is done.</a></p>
+      <h4><a name="1075506">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="649">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1100009"><font size="2" face="'Courier New'" color="#000000"><em>t_oldName</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="457">
+            <p><a name="1100011">Existing refdes name.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1100013"><font size="2" face="'Courier New'" color="#000000"><em>o_oldCompDbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1100015">Component </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1100017"><font size="2" face="'Courier New'" color="#000000"><em>t_newName</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1100019">New refdes name.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1100021"><font size="2" face="'Courier New'" color="#000000"><em>o_newCompDbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1100023">Component </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075521">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1100031"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1100033">Refdes successfully renamed or swapped.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1100035"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1100037">No refdes renamed or swapped due to incorrect arguments.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075524">Example 1</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075526">axlRenameRefdes(&#34;U1&#34; &#34;X1&#34;)</a></font>
+      </p>
+      <p><a name="1075703">Changes refdes by name.</a></p>
+      <p><a name="1075527"><font color="#000000"><strong>Example 2</strong></font></a></p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075528">axlSetFindFilter(?enabled &#39;(&#34;noall&#34; &#34;components&#34;) ?onButtons &#39;(all))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075529">axlSingleSelectName(&#34;COMPONENT&#34; &#34;U1&#34;)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075530">firstComp = car(axlGetSelSet())</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075531">axlSingleSelectName(&#34;COMPONENT&#34; &#34;U2&#34;)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075532">secondComp = car(axlGetSelSet())</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075537">axlRenameRefdes(firstComp secondComp)</a></font>
+      </p>
+      <p><a name="1075714">Swaps with starting point of two component </a><font size="2" face="'Courier New'" color="#000000"><em>dbids</em></font>.</p>
+      <h3><a name="1083124">axlSchedule</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1083742">axlSchedule(</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1083239">&nbsp;&nbsp;&nbsp;&nbsp;o_net&#47;t_net&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<dd>&nbsp;&nbsp;&nbsp;&nbsp;[g_userSchedule]</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1083143">        )</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1083144">        ==&#62; t_schedule&#47;nil</a></font>
+      </dl>
+      <h4><a name="1083145">Description</a></h4>
+      <p><a name="1083364">Gets net schedule. When </a><font size="2" face="'Courier New'" color="#000000">g_userSchedule</font> is<font size="2" face="'Courier New'" color="#000000"> t, </font>this fetches the <font size="2" face="'Courier New'" color="#000000">a</font> user schedule or a partial user schedule from a net. Returns nil if the net is completely algorithm scheduled. Using<font size="2" face="'Courier New'" color="#000000"> t</font> is recommended. When <font size="2" face="'Courier New'" color="#000000">g_userSchedule</font> is nil, returns the schedule of the complete net even if the net is  completely algorithm scheduled.</p>
+      <p><a name="1083469">The format of </a><font size="2" face="'Courier New'" color="#000000">t_schedule </font>is a string in the $SCHEDULE netin (3rd party) format. See <font size="2" face="'Courier New'" color="#000000">netin</font> documentation for more info about the syntax.</p>
+      <h4><a name="1083158">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="324">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1100045"><font size="2" face="'Courier New'" color="#000000"><em>o_net </em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="132">
+            <p><a name="1100047"><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font></a> of net</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1100049"><font size="2" face="'Courier New'" color="#000000"><em>t_net </em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1100051">Name of net</a></p>
+          </td>
+        </tr>
+      </table>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1100079"><font size="2" face="'Courier New'" color="#000000"><em>g_userSchedule</em></font></a>(optional) </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1100093">If t returns the schdule if the net is user schedule or partial userschedule. Other nets in this netin format if nil remove</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1083167">Values Returned </a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1100113"><font size="2" face="'Courier New'" color="#000000"><em>t_schedule</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1100115">Schedule or partial user schedule.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1100117"><font size="2" face="'Courier New'" color="#000000"><em>nil</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1100119">Failed or net is not user schedule or partial user schedule. Use axlDebug to obtain more data.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1083172">See Also</a></h4>
+      <p><a href="#1081172" title="30" name="1083906"><font color="#0000ff"><u>axlScheduleNet</u></font></a></p>
+      <h4><a name="1083174">Examples</a></h4>
+      <p><a name="1083175">Net2 has the following pins and rat&#45;Ts:</a></p>
+      <p>
+        <font size="3" face="Sans-Serif" color="#000000"><a name="1083176"><font color="#000000">                P1.7 U1.4 U1.10 U2.6 T.1</font></a></font>
+      </p>
+      <p><a name="1083177">It is partially user schedule such as P1.7, U1.4, and U1.10 should be connected to rat&#45;T, T.1. Pin U2.6 is algorithm scheduled but the sub&#45;schedule (partial) indicates it should connected to U1.10 (indicated by a star &#39;*&#39; in the schedule string).</a></p>
+      <p><a name="1083827">Fetch partial schedule (note no U2.6)</a></p>
+      <p>
+        <font size="3" face="Sans-Serif" color="#000000"><a name="1083184"><font color="#000000">           q = axlSchedule(&#34;NET2&#34; t)</font></a></font>
+      </p>
+      <p>
+        <font size="3" face="Sans-Serif" color="#000000"><a name="1083185"><font color="#000000">           ==&#62; &#34;P1.7 T.1 U1.4 ; T.1 *U1.10 &#34;</font></a></font>
+      </p>
+      <p><a name="1083187">Same net but complete schedule</a></p>
+      <p>
+        <font size="3" face="Sans-Serif" color="#000000"><a name="1083188"><font color="#000000">           q = axlSchedule(&#34;NET2&#34; t)</font></a></font>
+      </p>
+      <p>
+        <font size="3" face="Sans-Serif" color="#000000"><a name="1083189"><font color="#000000">           ==&#62; &#34;P1.7 T.1 U1.4 ; T.1 *U1.10 U2.6 &#34;</font></a></font>
+      </p>
+      <p><a name="1083123">&nbsp;</a></p>
+      <h3><a name="1081172">axlScheduleNet</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1081182">axlScheduleNet(</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1081183">&nbsp;&nbsp;&nbsp;&nbsp;o_net&#47;t_net</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1081184">&nbsp;&nbsp;&nbsp;&nbsp;t_schedule&#47;nil</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1081185">         )</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1081186">==&#62; t&#47;nil</a></font>
+      </dl>
+      <h4><a name="1081187">Description</a></h4>
+      <p><a name="1081188">This applies a user schedule or a partial user schedule to a net. Format of </a><font size="2" face="'Courier New'" color="#000000"><em>t_schedule</em></font> is a string in the $SCHEDULE netin (3rd party) format. </p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1086540">See </a><font size="2" face="'Courier New'" color="#000000">netin</font> documentation for more info about the syntax. </p>
+      <p><a name="1086550">When </a><font size="2" face="'Courier New'" color="#000000"><em>t_schedule</em></font> is<font size="2" face="'Courier New'" color="#000000"><em> nil</em></font> it removes any user schedule or partial user schedule from the net and restores its default schedule algorithm (NET_SCHEDULE property).</p>
+      <h4><a name="1081196">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1100127"><font size="2" face="'Courier New'" color="#000000"><em>o_net</em></font></a>   </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1100129"><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font></a> of net </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1100131"><font size="2" face="'Courier New'" color="#000000"><em>t_net  </em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1100133">Name of net</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1100135"><font size="2" face="'Courier New'" color="#000000"><em>t_schedule</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1100137">Schedule or partial schedule using $SCHEDULE netin format; if </a><font size="2" face="'Courier New'" color="#000000"><em>nil,</em></font> remove</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1081203">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1100147"><font size="2" face="'Courier New'" color="#000000"><em>t</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1100149">Schedule applied.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1100151"><font size="2" face="'Courier New'" color="#000000"><em>nil</em></font></a> </p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1100153">Failed or arguments are incorrect (use </a><font size="2" face="'Courier New'" color="#000000">axlDebug</font>) for more info.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1081546">See Also</a></h4>
+      <p><a href="#1083124" title="30" name="1083106"><font color="#0000ff"><u>axlSchedule</u></font></a></p>
+      <p><a name="1081210">&nbsp;</a></p>
+      <h3><a name="1075859">axlWriteDeviceFile</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075860">axlWriteDeviceFile(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>o_compDefDbid<dd></em></font>[<font size="2" face="'Courier New'" color="#000000"><em>t_output_dir</em></font>]</font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075861">)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075862"><font face="symbol" color="#000000">⇒</font></a> t&#47;nil</font>
+      </dl>
+      <h4><a name="1075863">Description</a></h4>
+      <p><a name="1075864">Given a component definition, writes out a third party device file. Writes to the directory specified, or if no directory or </a><font size="2" face="'Courier New'" color="#000000">nil</font> is given, writes to the current directory.</p>
+      <p><a name="1075880">Name of the file is compDef&#45;&#62;deviceType in lower case with a .txt file extension. For example, if component definition (compDef) device type is </a><font size="2" face="'Courier New'" color="#000000">CAP1</font>, then the device file name is <font size="2" face="'Courier New'" color="#000000">cap1.txt</font>.</p>
+      <p><a name="1075881">Also creates a </a><font size="2" face="'Courier New'" color="#000000">devices.map</font> file which is empty unless the device name has characters that are not legal as a filename.</p>
+      <p><a name="1075882">See </a><font size="2" face="'Courier New'" color="#000000">netin</font> documentation for device file syntax. </p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1075883">Do not use this function if you use Cadence Front&#45;End Schematic packages.</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <strong><em><img src="images/caution.gif" alt="ParagraphBullet" border="0"></em></strong>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <strong><em><a name="1075884">This function overwrites existing &#60;</a><font size="2" face="'Courier New'" color="#000000"><em>device</em></font>&#62; and <font size="2" face="'Courier New'" color="#000000">devices.map</font> files in the directory.</em></strong>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="1075865">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1100168"><font size="2" face="'Courier New'" color="#000000"><em>o_compDefDbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="1100170">Component definition of the device file to write out.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1100172"><font size="2" face="'Courier New'" color="#000000"><em>t_output_dir</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1100174">Directory in which to write the files. If not provided, the current directory is used.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075867">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1100182"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1100184">Device file successfully written.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1100186"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1100188">Failed to write device file due to incorrect </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font> or directory.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075890">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075891">axlWriteDeviceFile( car(axlDBGetDesign()&#45;&#62;components)&#45;&#62;compdef)</a></font>
+      </p>
+      <p><a name="1075892">Writes device file of the definition for the first component instance off the design root.</a></p>
+      <h3><a name="1075894">axlWritePackageFile</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075895">axlWritePackageFile(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>o_symDefDbid<dd></em></font>[<font size="2" face="'Courier New'" color="#000000"><em>t_output_dir</em></font>]</font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075896">)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075897"><font face="symbol" color="#000000">⇒</font></a> t&#47;nil</font>
+      </dl>
+      <h4><a name="1075898">Description</a></h4>
+      <p><a name="1075899">Given a symbol definition, writes out symbol </a><font size="2" face="'Courier New'" color="#000000">.dra</font>, <font size="2" face="'Courier New'" color="#000000">.psm</font> and associated padstack files. Works like <font size="2" face="'Courier New'" color="#000000">dump_libraries</font> on a single symbol definition.</p>
+      <p><a name="1075900">The file name root is the symbol definition name. For example, if the symbol definition (symDef) name is </a><font size="2" face="'Courier New'" color="#000000">CAPCK05</font>, the output files created are named <font size="2" face="'Courier New'" color="#000000">capck05.psm</font> and <font size="2" face="'Courier New'" color="#000000">capck05.dra</font>, plus any padstacks (in lower case) that are part of the symbol.</p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <strong><em><img src="images/caution.gif" alt="ParagraphBullet" border="0"></em></strong>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <strong><em><a name="1075904">This function overwrites existing files in the target directory.</a></em></strong>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="1075905">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1100196"><font size="2" face="'Courier New'" color="#000000"><em>o_symDefDbid</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1100198">Symbol definition to store on disk.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1100200"><font size="2" face="'Courier New'" color="#000000"><em>t_output_dir</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1100202">Directory in which to store the files. If not provided, the current directory is used.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075908">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1100210"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1100212">Files successfully written.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1100214"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1100216">Failed to write files due to incorrect </a><font size="2" face="'Courier New'" color="#000000"><em>dbid</em></font> or directory.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075911">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075912">symDef = car(axlDBGetDesign()&#45;&#62;components)&#45;&#62;symbol&#45;&#62;definition</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="1075934">axlWritePackageFile( symDef)</a></font>
+      </p>
+      <p><a name="1075913">Writes symbol files of the definition for the first component instance off the design root.</a></p>
+      <p><a name="1082227">&nbsp;</a></p>
+      <p><a name="1088487">&nbsp;</a></p>
+      <p><a name="1093438">&nbsp;</a></p>
+      <p><a name="1096097">&nbsp;</a></p>
+    </div>
+    <br>
+    <a href="#pagetop">Return to top of page</a>
+    <hr>
+    <hr align="left">
+    <div style="text-align: left;">
+      <!-- Begin Buttons -->      <table width="650" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                    </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+          <td>
+            <a href="27langexten.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+          </td>
+          <td height="20">
+            <img src="images/nav2_next_b.gif" alt="Previous">
+          </td>
+          <td>
+            <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+            </a>
+          </td>
+          <td height="20" width="59">
+            <img src="images/nav_next_b.gif" alt="Next" border="0">
+          </td>
+          <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+          </td>
+          <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+          </td>
+          <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+          </td>
+          <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+          </td>
+        </tr>
+      </table>
+      <!-- End Buttons -->
+    </div>
+    <br>
+    <font size="-1" >
+For support, see <a href="http://support.cadence.com" target="_blank">Cadence Online Support</a> service.</font>
+    <br>
+    <br>
+    <font size="-1" >
+      <i>Copyright &#169; 2017, <a href="http://www.cadence.com">Cadence Design Systems, Inc.</a></i>
+    </font>
+    <br>
+    <font size="-1" >
+All rights reserved.</font>
+    <br>
+    <br>
+  </body>
+</html>

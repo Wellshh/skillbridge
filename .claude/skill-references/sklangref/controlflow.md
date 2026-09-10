@@ -8,7 +8,7 @@ Flow Control Functions
 
 ### case
 
-`case( g_keyForm l_clause1 [ l_clause2 ... ] ) => g_result | nil`
+`case( g_keyForm l_clause1 [ l_clause2 ... ] ) => g_result / nil`
 
 #### Description
 
@@ -20,32 +20,19 @@ The symbol t has special meaning as a key in that it matches anything. It acts a
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_keyForm` | An expression whose value is evaluated and tested for equalityagainst the keys in each clause. A match occurs when either the selector is equal to the key or the selector is equal to one of the elements in the list of keys.
-|  |
-| --- | ---
-|  | If a match is found, the expressions in that clause and that clauseonly (that is, the first match) are executed. The value of case is then the value of the last expression evaluated (that is, the last expression in the clause selected).
-|  |
-| --- | ---
-|  | If there is no match, case returns nil.
-|  |
-| --- | ---
-| `l_clause1` | An expression whose first element is an atom or list of atoms tobe compared against the value of `g_keyForm`. The remainder of the `l_clause` is evaluated if a match is found.
-|  |
-| --- | ---
-|  | **Note**: Do not put quotes or use the list() function when specifying the lists in a clause.
-|  |
-| --- | ---
-| `l_clause2` | Zero or more clauses of the same form as`l_clause1`.
+| Name | Description |
+|---|---|
+| `g_keyForm` | An expression whose value is evaluated and tested for equalityagainst the keys in each clause. A match occurs when either the selector is equal to the key or the selector is equal to one of the elements in the list of keys. |
+| `l_clause1` | An expression whose first element is an atom or list of atoms tobe compared against the value of `g_keyForm`. The remainder of the `l_clause` is evaluated if a match is found. |
+| `l_clause2` | Zero or more clauses of the same form as`l_clause1`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Returns the value of the last expression evaluated in thematched clause, or `nil` if there is no match.
-|  |
-| --- | ---
-| `nil` | If there is no match.
+| Name | Description |
+|---|---|
+| `g_result` | Returns the value of the last expression evaluated in thematched clause, or `nil` if there is no match. |
+| `nil` | If there is no match. |
+
 #### Example 1
 
 `nameofmonth = "February"`
@@ -136,7 +123,7 @@ The symbol t has special meaning as a key in that it matches anything. It acts a
 
 ### caseq
 
-`caseq( g_keyForm l_clause1 [ l_clause2 ... ] ) => g_result | nil`
+`caseq( g_keyForm l_clause1 [ l_clause2 ... ] ) => g_result / nil`
 
 #### Description
 
@@ -144,29 +131,19 @@ Works exactly like the case() function, but uses eq() to find a matching clause 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_keyForm` | An expression whose value is evaluated and tested for equalityagainst the comparators in each clause. A match occurs when either the selector is equal to the comparator or the selector is equal to one of the elements in the list given as the comparator.
-|  |
-| --- | ---
-|  | If a match is found, the expressions in that clause and that clauseonly (that is, the first match) are executed. The value of case is then the value of the last expression evaluated (that is, the last expression in the clause selected).
-|  |
-| --- | ---
-|  | If there is no match, case returns nil.
-|  |
-| --- | ---
-| `l_clause1` | An expression whose first element is an atom or list of atoms tobe compared against the value of `g_keyForm`. The remainder of the `l_clause` is evaluated if a match is found.
-|  |
-| --- | ---
-| `l_clause2` | Zero or more clauses of the same form as`l_clause1`.
+| Name | Description |
+|---|---|
+| `g_keyForm` | An expression whose value is evaluated and tested for equalityagainst the comparators in each clause. A match occurs when either the selector is equal to the comparator or the selector is equal to one of the elements in the list given as the comparator. |
+| `l_clause1` | An expression whose first element is an atom or list of atoms tobe compared against the value of `g_keyForm`. The remainder of the `l_clause` is evaluated if a match is found. |
+| `l_clause2` | Zero or more clauses of the same form as`l_clause1`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Returns the value of the last expression evaluated in thematched clause, or `nil` if there is no match.
-|  |
-| --- | ---
-| `nil` | If there is no match.
+| Name | Description |
+|---|---|
+| `g_result` | Returns the value of the last expression evaluated in thematched clause, or `nil` if there is no match. |
+| `nil` | If there is no match. |
+
 #### Example
 
 `caseq(value`
@@ -183,7 +160,7 @@ Works exactly like the case() function, but uses eq() to find a matching clause 
 
 ### catch
 
-`catch(s_tagg_form) => g_result`
+`catch( s_tag g_form ) => g_result`
 
 #### Description
 
@@ -191,17 +168,17 @@ Establishes a control transfer or a return point for the `throw` and `err` funct
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_tag` | Identifies the return point for the`throw` and `err` functions
-|  |
-| --- | ---
-| `g_form` | Specifies the forms that are evaluated
+| Name | Description |
+|---|---|
+| `s_tag` | Identifies the return point for the`throw` and `err` functions |
+| `g_form` | Specifies the forms that are evaluated |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Returns the value of the last form if the forms exit normally,otherwise, returns the values that are thrown if a `throw` or `err` occurs
+| Name | Description |
+|---|---|
+| `g_result` | Returns the value of the last form if the forms exit normally,otherwise, returns the values that are thrown if a `throw` or `err` occurs |
+
 #### Example
 
 The following example describes a nested catch. The tag, '`wrongPlat`, is caught by the default handler `catch(t . . .).`
@@ -232,14 +209,16 @@ Each clause has the form`(``g_condition g_expr1``... )`. `cond` examines a claus
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_clause1` | Each clause should be of the form (`g_condition g_expr1``...`) where if `g_condition` evaluates to non-`nil` then all the succeeding expressions are evaluated.
+| Name | Description |
+|---|---|
+| `l_clause1` | Each clause should be of the form (`g_condition g_expr1``...`) where if `g_condition` evaluates to non-`nil` then all the succeeding expressions are evaluated. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Value of the last expression of the satisfied clause, or`nil` if no clause is satisfied.
+| Name | Description |
+|---|---|
+| `g_result` | Value of the last expression of the satisfied clause, or`nil` if no clause is satisfied. |
+
 #### Example
 
 ```
@@ -252,9 +231,9 @@ test( 'sym )         => nil; Prints "Arg is an unknown type".
 
 ### do
 
-```
-do( ( ( s_var1 g_initExp1 [ g_stepExp1 ] )( s_var2 g_initExp2 [ g_stepExp2 ] ) ... )( g_terminationExp g_terminationExp1 ... )            g_loopExp1             g_loopExp2 ... )=> g_value
-```
+
+`do( ( ( s_var1 g_initExp1 [ g_stepExp1 ] )( s_var2 g_initExp2 [ g_stepExp2 ] ) ... )( g_terminationExp g_terminationExp1 ... )            g_loopExp1             g_loopExp2 ... )=> g_value`
+
 
 #### Description
 
@@ -308,9 +287,10 @@ procedure( trTriangularNumber( limit )    do(        (       
 
 ### exists
 
-```
-exists( s_formalVar l_valueList g_predicateExpr )=> g_resultexists( s_key o_table g_predicateExpr )=> t | nil
-```
+
+`exists( s_formalVar l_valueList g_predicateExpr ) => g_result`
+`exists( s_key o_table g_predicateExpr ) => t / nil`
+
 
 #### Description
 
@@ -322,32 +302,22 @@ This function can also be used to verify whether an entry in an association tabl
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_formalVar` | Local variable that is usually referenced in`g_predicateExpr`.
-|  |
-| --- | ---
-| `l_valueList` | List of elements that are bound to`s_formalVar`, one at a time.
-|  |
-| --- | ---
-| `g_predicateExpr` | SKILL expression that usually uses the value of`s_formalVar`.
-|  |
-| --- | ---
-| `s_key` | Key portion of an association table entry.
-|  |
-| --- | ---
-| `o_table` | Association table containing the entries to be processed.
+| Name | Description |
+|---|---|
+| `s_formalVar` | Local variable that is usually referenced in`g_predicateExpr`. |
+| `l_valueList` | List of elements that are bound to`s_formalVar`, one at a time. |
+| `g_predicateExpr` | SKILL expression that usually uses the value of`s_formalVar`. |
+| `s_key` | Key portion of an association table entry. |
+| `o_table` | Association table containing the entries to be processed. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | First tail of`l_valueList` whose `car` satisfies `g_predicateExpr`.
-|  |
-| --- | ---
-| `nil` | If none of the elements in`l_valueList` can satisfy it.
-|  |
-| --- | ---
-| `t` | Entry in an association table satisfies`g_predicateExpr`.
+| Name | Description |
+|---|---|
+| `g_result` | First tail of`l_valueList` whose `car` satisfies `g_predicateExpr`. |
+| `nil` | If none of the elements in`l_valueList` can satisfy it. |
+| `t` | Entry in an association table satisfies`g_predicateExpr`. |
+
 #### Example
 
 `exists( x '(1 2 3 4) (x > 1) )  => (2 3 4)exists( x '(1 2 3 4) (x > 4) ) => nil`
@@ -362,9 +332,10 @@ Tests an association table and verifies the existence of an entry where both the
 
 ### existss
 
-```
-existss( s_formalVar l_valueList g_predicateExpr )=> g_resultexistss( s_key o_table g_predicateExpr )=> t/nil
-```
+
+`existss( s_formalVar l_valueList g_predicateExpr ) => g_result`
+`existss( s_key o_table g_predicateExpr ) => t / nil`
+
 
 #### Description
 
@@ -376,32 +347,22 @@ This function can also be used to verify whether an entry in an association tabl
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_formalVar` | Local variable that is usually referenced in`g_predicateExpr`.
-|  |
-| --- | ---
-| `l_valueList` | List of elements that are bound to`s_formalVar`, one at a time.
-|  |
-| --- | ---
-| `g_predicateExpr` | SKILL expression that usually uses the value of`s_formalVar`.
-|  |
-| --- | ---
-| `s_key` | Key portion of an association table entry.
-|  |
-| --- | ---
-| `o_table` | Association table containing the entries to be processed.
+| Name | Description |
+|---|---|
+| `s_formalVar` | Local variable that is usually referenced in`g_predicateExpr`. |
+| `l_valueList` | List of elements that are bound to`s_formalVar`, one at a time. |
+| `g_predicateExpr` | SKILL expression that usually uses the value of`s_formalVar`. |
+| `s_key` | Key portion of an association table entry. |
+| `o_table` | Association table containing the entries to be processed. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | First tail of`l_valueList` whose `car` satisfies `g_predicateExpr`.
-|  |
-| --- | ---
-| `nil` | If none of the elements in`l_valueList` can satisfy it.
-|  |
-| --- | ---
-| `t` | Entry in an association table satisfies`g_predicateExpr`.
+| Name | Description |
+|---|---|
+| `g_result` | First tail of`l_valueList` whose `car` satisfies `g_predicateExpr`. |
+| `nil` | If none of the elements in`l_valueList` can satisfy it. |
+| `t` | Entry in an association table satisfies`g_predicateExpr`. |
+
 #### Example
 
 ```
@@ -418,7 +379,7 @@ nil
 
 ### for
 
-`for( s_loopVarx_initialValuex_finalValueg_expr1[ g_expr2 ... ])=> t`
+`for( s_loopVar x_initialValue x_finalValue g_expr1 [ g_expr2 ... ] ) => t`
 
 #### Description
 
@@ -428,26 +389,20 @@ First evaluates the initial and final values, which set the initial value and fi
 
 #### Arguments
 
-|  |
-| --- | ---
-| s\_loopVar | Name of the local loop variable that must not be changed insidethe loop.
-|  |
-| --- | ---
-| x\_initialValue | Integer expression setting the initial value for the local loopvariable.
-|  |
-| --- | ---
-| x\_finalValue | Integer expression giving final limit value for the loop.
-|  |
-| --- | ---
-| g\_expr1 | Expression to evaluate inside loop.
-|  |
-| --- | ---
-| g\_expr2 | Additional expression(s) to evaluate inside loop.
+| Name | Description |
+|---|---|
+| `s\_loopVar` | Name of the local loop variable that must not be changed insidethe loop. |
+| `x\_initialValue` | Integer expression setting the initial value for the local loopvariable. |
+| `x\_finalValue` | Integer expression giving final limit value for the loop. |
+| `g\_expr1` | Expression to evaluate inside loop. |
+| `g\_expr2` | Additional expression(s) to evaluate inside loop. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| t | This construct always returnst.
+| Name | Description |
+|---|---|
+| `t` | This construct always returnst. |
+
 #### Example
 
 ```
@@ -460,7 +415,7 @@ sum = 0for( i 1 10    sum = sum + i    printf("%d\n" sum))=> t     
 
 ### fors
 
-`fors( s_loopVarx_initialValuex_finalValueg_expr1[ g_expr2 ... ])=> t`
+`fors( s_loopVar x_initialValue x_finalValue g_expr1 [ g_expr2 ... ] ) => t`
 
 #### Description
 
@@ -470,26 +425,20 @@ First evaluates the initial and final values, which set the initial value and fi
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_loopVar` | Name of the local loop variable that must not be changed insidethe loop
-|  |
-| --- | ---
-| `x_initialValue` | Integer expression setting the initial value for the local loopvariable
-|  |
-| --- | ---
-| `x_finalValue` | Integer expression giving final limit value for the loop
-|  |
-| --- | ---
-| `g_expr1` | Expression to evaluate inside loop
-|  |
-| --- | ---
-| `g_expr2` | Additional expression(s) to evaluate inside loop
+| Name | Description |
+|---|---|
+| `s_loopVar` | Name of the local loop variable that must not be changed insidethe loop |
+| `x_initialValue` | Integer expression setting the initial value for the local loopvariable |
+| `x_finalValue` | Integer expression giving final limit value for the loop |
+| `g_expr1` | Expression to evaluate inside loop |
+| `g_expr2` | Additional expression(s) to evaluate inside loop |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| t | This construct always returns t
+| Name | Description |
+|---|---|
+| `t` | This construct always returns t |
+
 #### Example
 
 `(defun test_for (x)`
@@ -526,9 +475,10 @@ First evaluates the initial and final values, which set the initial value and fi
 
 ### forall
 
-```
-forall(s_formalVarl_valueListg_predicateExpr)=> t / nilforall(s_keyo_tableg_predicateExpr)=> t / nil
-```
+
+`forall( s_formalVar l_valueList g_predicateExpr ) => t / nil`
+`forall( s_key o_table g_predicateExpr ) => t / nil`
+
 
 #### Description
 
@@ -538,29 +488,21 @@ Verifies that an expression remains true for every element in a list. Theforall 
 
 #### Arguments
 
-|  |
-| --- | ---
-| s\_formalVar | Local variable usually referenced ing\_predicateExpr.
-|  |
-| --- | ---
-| l\_valueList | List of elements that are bound tos\_formalVar one at a time.
-|  |
-| --- | ---
-| g\_predicateExpr | A SKILL expression that usually uses the value ofs\_formalVar.
-|  |
-| --- | ---
-| s\_key | Key portion of the table entry.
-|  |
-| --- | ---
-| o\_table | Association table containing the entries to be processed.
+| Name | Description |
+|---|---|
+| `s\_formalVar` | Local variable usually referenced ing\_predicateExpr. |
+| `l\_valueList` | List of elements that are bound tos\_formalVar one at a time. |
+| `g\_predicateExpr` | A SKILL expression that usually uses the value ofs\_formalVar. |
+| `s\_key` | Key portion of the table entry. |
+| `o\_table` | Association table containing the entries to be processed. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| t | Ifg\_predicateExpr evaluates to non-nil for every element in l\_valueList or for every key in an association table.
-|  |
-| --- | ---
-| nil | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | Ifg\_predicateExpr evaluates to non-nil for every element in l\_valueList or for every key in an association table. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `forall( x '(1 2 3 4) (x > 0) )=> tforall( x '(1 2 3 4) (x < 4) )=> nil`
@@ -573,9 +515,10 @@ Returnst if each key and its value in the association table are of the type stri
 
 ### foralls
 
-```
-foralls( s_formalVarl_valueListg_predicateExpr)=> t / nilforalls(s_keyo_tableg_predicateExpr)=> t / nil
-```
+
+`foralls( s_formalVar l_valueList g_predicateExpr ) => t / nil`
+`foralls( s_key o_table g_predicateExpr ) => t / nil`
+
 
 #### Description
 
@@ -585,29 +528,21 @@ Verifies that an expression remains true for every element in a list.The forall 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_formalVar` | Local variable usually referenced in g\_predicateExpr.
-|  |
-| --- | ---
-| `l_valueList` | List of elements that are bound to s\_formalVar one at a time.
-|  |
-| --- | ---
-| `g_predicateExpr` | A SKILL expression that usually uses the value of s\_formalVar.
-|  |
-| --- | ---
-| `s_key` | Key portion of the table entry.
-|  |
-| --- | ---
-| `o_table` | Association table containing the entries to be processed.
+| Name | Description |
+|---|---|
+| `s_formalVar` | Local variable usually referenced in g\_predicateExpr. |
+| `l_valueList` | List of elements that are bound to s\_formalVar one at a time. |
+| `g_predicateExpr` | A SKILL expression that usually uses the value of s\_formalVar. |
+| `s_key` | Key portion of the table entry. |
+| `o_table` | Association table containing the entries to be processed. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| t | If g\_predicateExpr evaluates to non-nil for every element inl\_valueList or for every key in an association table.
-|  |
-| --- | ---
-| nil | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | If g\_predicateExpr evaluates to non-nil for every element inl\_valueList or for every key in an association table. |
+| `nil` | Otherwise. |
+
 #### Example
 
 ```
@@ -620,9 +555,11 @@ Verifies that an expression remains true for every element in a list.The forall 
 
 ### foreach
 
-```
-foreach( s_formalVar g_exprList g_expr1 [ g_expr2 ... ] )=> l_valueList / l_resultforeach( ( s_formalVar1... s_formalVarN ) g_exprList1... g_exprListN g_expr1 [ g_expr2 ... ] )=> l_valueList / l_resultforeach( s_formalVar g_exprTable g_expr1 [ g_expr2 ... ] )=> o_valueTable | l_result
-```
+
+`foreach( s_formalVar g_exprList g_expr1 [ g_expr2 ... ] )=> l_valueList / l_result`
+`foreach( ( s_formalVar1... s_formalVarN ) g_exprList1... g_exprListN g_expr1 [ g_expr2 ... ] )`
+`=> l_valueList / l_result
+
 
 #### Description
 
@@ -645,32 +582,22 @@ The third syntax form offoreach can be used to process the elements of an associ
 
 #### Arguments
 
-|  |
-| --- | ---
-| s\_formalVar | Name of the variable.
-|  |
-| --- | ---
-| s\_mappingFunction | One ofmap, mapc, mapcan, mapcar, or maplist.
-|  |
-| --- | ---
-| g\_exprList | Expression whose value is a list of elements to assign to theformal variable s\_formalVar.
-|  |
-| --- | ---
-| g\_expr1, g\_expr2 | Expressions to execute.
-|  |
-| --- | ---
-| g\_exprTable | Association table whose elements are to be processed.
+| Name | Description |
+|---|---|
+| `s\_formalVar` | Name of the variable. |
+| `s\_mappingFunction` | One ofmap, mapc, mapcan, mapcar, or maplist. |
+| `g\_exprList` | Expression whose value is a list of elements to assign to theformal variable s\_formalVar. |
+| `g\_expr1, g\_expr2` | Expressions to execute. |
+| `g\_exprTable` | Association table whose elements are to be processed. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| l\_valueList | Value of the second argument,g\_exprList.
-|  |
-| --- | ---
-| l\_result | The result of the last expression evaluated.
-|  |
-| --- | ---
-| o\_valueTable | Value ofg\_exprTable.
+| Name | Description |
+|---|---|
+| `l\_valueList` | Value of the second argument,g\_exprList. |
+| `l\_result` | The result of the last expression evaluated. |
+| `o\_valueTable` | Value ofg\_exprTable. |
+
 #### Example
 
 `foreach( x '(1 2 3 4) println(x))`
@@ -703,9 +630,11 @@ foreach( mapcar x '(1 2 3) (x >1))=> (nil t t) foreach( mapcan x '(1 2 3) if((x 
 
 ### foreachs
 
-```
-foreachs( s_formalVar g_exprList g_expr1 [ g_expr2 ... ] )=> l_valueList/l_resultforeachs( ( s_formalVar1... s_formalVarN ) g_exprList1... g_exprListN g_expr1 [ g_expr2 ... ] )=> l_valueList/l_resultforeachs( s_formalVar g_exprTable g_expr1 [ g_expr2 ... ] )=> o_valueTable/l_result
-```
+
+`foreachs( s_formalVar g_exprList g_expr1 [ g_expr2 ... ] )=> l_valueList/l_result`
+`foreachs( ( s_formalVar1... s_formalVarN ) g_exprList1... g_exprListN g_expr1 [ g_expr2 ... ] )`
+`=> l_valueList/l_result
+
 
 #### Description
 
@@ -719,32 +648,22 @@ The third form shown in the syntax above can be used to process the elements of 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_formalVar` | Name of the local loop variable that must not be changed insidethe loop
-|  |
-| --- | ---
-| `s_mappingFunction` | One of`map`, `mapc`, `mapcan`, `mapcar`, or `maplist`
-|  |
-| --- | ---
-| `g_exprList` | Expression whose value is a list of elements to assign to theformal variable `s_formalVar`
-|  |
-| --- | ---
-| `g_expr1`, `g_expr2` | Expressions to execute
-|  |
-| --- | ---
-| `g_exprTable` | Association table whose elements are to be processed
+| Name | Description |
+|---|---|
+| `s_formalVar` | Name of the local loop variable that must not be changed insidethe loop |
+| `s_mappingFunction` | One of`map`, `mapc`, `mapcan`, `mapcar`, or `maplist` |
+| `g_exprList` | Expression whose value is a list of elements to assign to theformal variable `s_formalVar` |
+| `g_expr1`, `g_expr2` | Expressions to execute |
+| `g_exprTable` | Association table whose elements are to be processed |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_valueList` | Value of the second argument,`g_exprList`
-|  |
-| --- | ---
-| `l_result` | The result of the last expression evaluated
-|  |
-| --- | ---
-| `o_valueTable` | Value of`g_exprTable`
+| Name | Description |
+|---|---|
+| `l_valueList` | Value of the second argument,`g_exprList` |
+| `l_result` | The result of the last expression evaluated |
+| `o_valueTable` | Value of`g_exprTable` |
+
 #### Example
 
 ```
@@ -759,9 +678,10 @@ toplevel('ils)(defun test_foreach (x)    foreachs( x (list x x+1 x+9) printl
 
 ### if
 
-```
-if( g_condition g_thenExpression [ g_elseExpression ] ) => g_resultif( g_condition then g_thenExpr1 ... [ else g_elseExpr1 ... ] ) => g_result
-```
+
+`if( g_condition g_thenExpression [ g_elseExpression ] ) => g_result`
+`if( g_condition then g_thenExpr1 ... [ else g_elseExpr1 ... ] ) => g_result`
+
 
 #### Description
 
@@ -777,20 +697,18 @@ The second form of`if` uses the keywords `then` and `else` to group sequences of
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_condition` | Any SKILL expression.
-|  |
-| --- | ---
-| `g_thenExpression` | Any SKILL expression.
-|  |
-| --- | ---
-| `g_elseExpression` | Any SKILL expression.
+| Name | Description |
+|---|---|
+| `g_condition` | Any SKILL expression. |
+| `g_thenExpression` | Any SKILL expression. |
+| `g_elseExpression` | Any SKILL expression. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | The value of`g_thenExpression` if `g_condition` has a non-`nil` value. The value of `g_elseExpression` is returned if the above condition is not true.
+| Name | Description |
+|---|---|
+| `g_result` | The value of`g_thenExpression` if `g_condition` has a non-`nil` value. The value of `g_elseExpression` is returned if the above condition is not true. |
+
 #### Example
 
 ```
@@ -833,14 +751,16 @@ The`go` statement is only meaningful when it is used inside a `prog` statement. 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_label` | Label you want to transfer control to inside a`prog`.
+| Name | Description |
+|---|---|
+| `s_label` | Label you want to transfer control to inside a`prog`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| None |
+| Name | Description |
+|---|---|
+| `None` |  |
+
 #### Example
 
 The following example demonstrates how to use the`go` function form in a simple loop structure.
@@ -871,20 +791,18 @@ Applies the given function to successive*sublists* of the argument lists and ret
 
 #### Arguments
 
-|  |
-| --- | ---
-| `u_func` | Function to apply to successive sublists. Must be a function thataccepts lists as arguments.
-|  |
-| --- | ---
-| `l_arg1` | Argument list.
-|  |
-| --- | ---
-| `l_arg2` | Additional argument lists, which must be the same length as`l_arg1`.
+| Name | Description |
+|---|---|
+| `u_func` | Function to apply to successive sublists. Must be a function thataccepts lists as arguments. |
+| `l_arg1` | Argument list. |
+| `l_arg2` | Additional argument lists, which must be the same length as`l_arg1`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_arg1` | The first argument list.
+| Name | Description |
+|---|---|
+| `l_arg1` | The first argument list. |
+
 #### Example
 
 `map( 'list '(1 2 3) '(9 8 7) )=> (1 2 3)`
@@ -913,20 +831,18 @@ Applies a function to successiveelements of the argument lists and returns the f
 
 #### Arguments
 
-|  |
-| --- | ---
-| `u_func` | Function to apply to argument lists.
-|  |
-| --- | ---
-| `l_arg1` | Argument list.
-|  |
-| --- | ---
-| `l_arg2` | Additional argument lists, which must be the same length as`l_arg1`.
+| Name | Description |
+|---|---|
+| `u_func` | Function to apply to argument lists. |
+| `l_arg1` | Argument list. |
+| `l_arg2` | Additional argument lists, which must be the same length as`l_arg1`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_arg1` | The first argument list.
+| Name | Description |
+|---|---|
+| `l_arg1` | The first argument list. |
+
 #### Example
 
 `mapc( 'list '(1 2 3) '(9 8 7) ) => (1 2 3)`
@@ -953,20 +869,18 @@ Specifically, a function is applied to the `car` of all the argument lists, pass
 
 #### Arguments
 
-|  |
-| --- | ---
-| `u_func` | Function to apply to argument lists.
-|  |
-| --- | ---
-| `l_arg1` | Argument list.
-|  |
-| --- | ---
-| `l_arg2` | Additional argument lists, which must be the same length as`l_arg1`.
+| Name | Description |
+|---|---|
+| `u_func` | Function to apply to argument lists. |
+| `l_arg1` | Argument list. |
+| `l_arg2` | Additional argument lists, which must be the same length as`l_arg1`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | List consisting of the concatenated results.
+| Name | Description |
+|---|---|
+| `l_result` | List consisting of the concatenated results. |
+
 #### Example
 
 ```
@@ -989,20 +903,18 @@ The values returned from successive calls to `u_func` are put into a list using 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `u_func` | Function to be applied to argument lists. The result of each callto `u_func` can be of any data type.
-|  |
-| --- | ---
-| `l_arg1` | Argument list.
-|  |
-| --- | ---
-| `l_arg2` | Additional argument lists.
+| Name | Description |
+|---|---|
+| `u_func` | Function to be applied to argument lists. The result of each callto `u_func` can be of any data type. |
+| `l_arg1` | Argument list. |
+| `l_arg2` | Additional argument lists. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | A list of results from applying`u_func` to successive elements of the argument list.
+| Name | Description |
+|---|---|
+| `l_result` | A list of results from applying`u_func` to successive elements of the argument list. |
+
 #### Example
 
 `mapcar( 'plus '(1 2 3) '(9 8 7) )=> (10 10 10)`
@@ -1027,20 +939,18 @@ Applies the function`u_func` to successive sublists of the lists and returns a c
 
 #### Arguments
 
-|  |
-| --- | ---
-| `u_func` | Specifies the function to be applied to the given list. Must acceptlists as arguments. The result of calling `u_func` can be of any data type.
-|  |
-| --- | ---
-| `l_arg1` | Specifies the argument list to be processed
-|  |
-| --- | ---
-| `l_arg2` | Additional argument lists, which must be the same length as`l_arg1`
+| Name | Description |
+|---|---|
+| `u_func` | Specifies the function to be applied to the given list. Must acceptlists as arguments. The result of calling `u_func` can be of any data type. |
+| `l_arg1` | Specifies the argument list to be processed |
+| `l_arg2` | Additional argument lists, which must be the same length as`l_arg1` |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | Returns a concatenated list that results from calling the`u_func` on the cons cells of the given list
+| Name | Description |
+|---|---|
+| `l_result` | Returns a concatenated list that results from calling the`u_func` on the cons cells of the given list |
+
 #### Example
 
 ```
@@ -1079,7 +989,7 @@ mapcon((lambda (x)(printf "x = %L\n" x)(list (car x) (add1 (car x)))) '(1 2 3 4)
 
 ### mapinto
 
-`mapinto( l_resultSequence g_function ({l_sequences}*)) => l_resultSequence`
+`mapinto( l_resultSequence g_function (( l_sequences )*) ) => l_resultSequence`
 
 #### Description
 
@@ -1091,20 +1001,18 @@ If`l_resultSequence` is longer than `l_sequences`, extra elements at the end of 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_resultSequence` | A sequence that receives the results of the mapping.
-|  |
-| --- | ---
-| `g_function` | Function (`symbol` or `funobj`) that takes as many arguments as there are sequences.
-|  |
-| --- | ---
-| `l_sequences` | Several lists. Each element of these lists is used as an argumentof `g_function`.
+| Name | Description |
+|---|---|
+| `l_resultSequence` | A sequence that receives the results of the mapping. |
+| `g_function` | Function (`symbol` or `funobj`) that takes as many arguments as there are sequences. |
+| `l_sequences` | Several lists. Each element of these lists is used as an argumentof `g_function`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_resultSequence` | Updated first argument list.
+| Name | Description |
+|---|---|
+| `l_resultSequence` | Updated first argument list. |
+
 #### Example
 
 `mapinto ('(1 2 3 4) 'plus )`
@@ -1133,20 +1041,18 @@ The returned values of the successive function calls are concatenated using the 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `u_func` | Function to be applied to argument lists. Must accept lists asarguments. The result of calling `u_func` can be of any data type.
-|  |
-| --- | ---
-| `l_arg1` | Argument list.
-|  |
-| --- | ---
-| `l_arg2` | Additional argument lists, which must be the same length as`l_arg1`.
+| Name | Description |
+|---|---|
+| `u_func` | Function to be applied to argument lists. Must accept lists asarguments. The result of calling `u_func` can be of any data type. |
+| `l_arg1` | Argument list. |
+| `l_arg2` | Additional argument lists, which must be the same length as`l_arg1`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | A list of the results returned from calling`u_func` on successive sublists of the argument list.
+| Name | Description |
+|---|---|
+| `l_result` | A list of the results returned from calling`u_func` on successive sublists of the argument list. |
+
 #### Example
 
 `maplist( 'length '(1 2 3) )=> (3 2 1)`
@@ -1159,7 +1065,7 @@ The returned values of the successive function calls are concatenated using the 
 
 ### not
 
-`not( g_obj ) => t | nil`
+`not( g_obj ) => t / nil`
 
 #### Description
 
@@ -1167,17 +1073,17 @@ Same as the`!` operator. Returns `t` if the object is `nil`, and returns `nil` o
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_obj` | Any SKILL object.
+| Name | Description |
+|---|---|
+| `g_obj` | Any SKILL object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`g_obj` is `nil`.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | If`g_obj` is `nil`. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `(not nil)        => t(not 123)        => nil(not t)          => nil`
@@ -1188,7 +1094,7 @@ Same as the`!` operator. Returns `t` if the object is `nil`, and returns `nil` o
 
 ### regExitAfter
 
-`regExitAfter( s_name ) => t | nil`
+`regExitAfter( s_name ) => t / nil`
 
 #### Description
 
@@ -1196,17 +1102,17 @@ Registers the action to be taken after the`exit` function has performed its book
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_name` | Name of the function that is to be added to the head of the list offunctions to be performed after the `exit` function.
+| Name | Description |
+|---|---|
+| `s_name` | Name of the function that is to be added to the head of the list offunctions to be performed after the `exit` function. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | The function is added to the list of functions.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | The function is added to the list of functions. |
+| `nil` | Otherwise. |
+
 #### Example
 
 ```
@@ -1227,14 +1133,16 @@ Registers the action to be taken before the`exit` function is executed. If the f
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_name` | Name of the function that is to be added to the head of the list offunctions to be executed before the `exit` function.
+| Name | Description |
+|---|---|
+| `s_name` | Name of the function that is to be added to the head of the list offunctions to be executed before the `exit` function. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | Always.
+| Name | Description |
+|---|---|
+| `t` | Always. |
+
 #### Example
 
 ```
@@ -1261,14 +1169,16 @@ The exit procedure must have been previously registered with the`regExitBefore` 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_name` | Name of the registered exit procedure to be removed.
+| Name | Description |
+|---|---|
+| `s_name` | Name of the registered exit procedure to be removed. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | Always.
+| Name | Description |
+|---|---|
+| `t` | Always. |
+
 #### Example
 
 `remExitProc( 'endProc) => t`
@@ -1279,7 +1189,7 @@ The exit procedure must have been previously registered with the`regExitBefore` 
 
 ### return
 
-`return( [ g_result ] ) => g_result | nil`
+`return( [ g_result ] ) => g_result / nil`
 
 #### Description
 
@@ -1289,9 +1199,10 @@ Both`go` and `return` are not purely functional in the sense that they transfer 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_result` | Any SKILL object.
+| Name | Description |
+|---|---|
+| `g_result` | Any SKILL object. |
+
 #### Value Returned
 
 The enclosing`prog` statement exits with the value given to `return` as the `prog`'s value. If `return` is called with no arguments, `nil` is returned as the enclosing `prog`'s value.
@@ -1314,9 +1225,10 @@ summation( '(1 2 3 nil 4)) => 6                  ; 1+2+3summat
 
 ### setof
 
-```
-setof( s_formalVar l_valueList g_predicateExpression )=> l_resultsetof( s_formalVar o_table g_predicateExpression )=> l_result
-```
+
+`setof( s_formalVar l_valueList g_predicateExpression )=> l_result`
+`setof( s_formalVar o_table g_predicateExpression )=> l_result`
+
 
 #### Description
 
@@ -1326,23 +1238,19 @@ The`setof` form can also be used to identify all keys in an association table th
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_formalVar` | Local variable that is usually referenced in`g_predicateExpression`.
-|  |
-| --- | ---
-| `l_valueList` | List of elements that are bound to`s_formalVar` one at a time.
-|  |
-| --- | ---
-| `g_predicateExpression` | SKILL expression that usually uses the value of `s_formalVar`.
-|  |
-| --- | ---
-| `o_table` | Association table whose keys are bound to`s_formalVar` one at time.
+| Name | Description |
+|---|---|
+| `s_formalVar` | Local variable that is usually referenced in`g_predicateExpression`. |
+| `l_valueList` | List of elements that are bound to`s_formalVar` one at a time. |
+| `g_predicateExpression` | SKILL expression that usually uses the value of `s_formalVar`. |
+| `o_table` | Association table whose keys are bound to`s_formalVar` one at time. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | New list containing only those elements in`l_valueList` that satisfy `g_predicateExpression`, or list of all keys that satisfy the specified expression.
+| Name | Description |
+|---|---|
+| `l_result` | New list containing only those elements in`l_valueList` that satisfy `g_predicateExpression`, or list of all keys that satisfy the specified expression. |
+
 #### Example
 
 ```
@@ -1355,9 +1263,10 @@ myTable = makeTable("atable" 0)  => table:atablemyTable["a"]="first"     
 
 ### setofs
 
-```
-setofs( s_formalVar l_valueList g_predicateExpression )=> l_resultsetofs( s_formalVar o_table g_predicateExpression )=> l_result
-```
+
+`setofs( s_formalVar l_valueList g_predicateExpression )=> l_result`
+`setofs( s_formalVar o_table g_predicateExpression )=> l_result`
+
 
 #### Description
 
@@ -1367,23 +1276,19 @@ The`setof` form can also be used to identify all keys in an association table th
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_formalVar` | Local variable that is usually referenced in`g_predicateExpression`.
-|  |
-| --- | ---
-| `l_valueList` | List of elements that are bound to`s_formalVar` one at a time.
-|  |
-| --- | ---
-| `g_predicateExpression` | SKILL expression that usually uses the value of `s_formalVar`.
-|  |
-| --- | ---
-| `o_table` | Association table whose keys are bound to`s_formalVar` one at time.
+| Name | Description |
+|---|---|
+| `s_formalVar` | Local variable that is usually referenced in`g_predicateExpression`. |
+| `l_valueList` | List of elements that are bound to`s_formalVar` one at a time. |
+| `g_predicateExpression` | SKILL expression that usually uses the value of `s_formalVar`. |
+| `o_table` | Association table whose keys are bound to`s_formalVar` one at time. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | New list containing only those elements in`l_valueList` that satisfy `g_predicateExpression`, or list of all keys that satisfy the specified expression.
+| Name | Description |
+|---|---|
+| `l_result` | New list containing only those elements in`l_valueList` that satisfy `g_predicateExpression`, or list of all keys that satisfy the specified expression. |
+
 #### Example
 
 ```
@@ -1400,7 +1305,7 @@ nil
 
 ### throw
 
-`throw(s_tagg_value) =>`
+`throw( s_tag g_value ) =>`
 
 #### Description
 
@@ -1408,12 +1313,11 @@ Transfers the control back to the return point established in a catch block. The
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_tag` | Specifies the return point in a catch block
-|  |
-| --- | ---
-| `g_value` | Evaluates forms and saves the results. If the form producesmultiple values, then all the values are saved. The saved results are returned as the value or values of catch.
+| Name | Description |
+|---|---|
+| `s_tag` | Specifies the return point in a catch block |
+| `g_value` | Evaluates forms and saves the results. If the form producesmultiple values, then all the values are saved. The saved results are returned as the value or values of catch. |
+
 #### Value Returned
 
 Transfers the control back to the return point in a catch block
@@ -1434,7 +1338,7 @@ catch( 'problem    begin(        throw( 'problem          
 
 ### unless
 
-`unless( g_condition g_expr1 ... ) => g_result | nil`
+`unless( g_condition g_expr1 ... ) => g_result / nil`
 
 #### Description
 
@@ -1444,20 +1348,18 @@ The semantics of this function can be read literally as "unless the condition is
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_condition` | Any SKILL expression.
-|  |
-| --- | ---
-| `g_expr1` | Any SKILL expression.
+| Name | Description |
+|---|---|
+| `g_condition` | Any SKILL expression. |
+| `g_expr1` | Any SKILL expression. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Value of the last expression of the sequence`g_expr1` if `g_condition` evaluates to `nil`.
-|  |
-| --- | ---
-| `nil` | If`g_condition` evaluates to non-`nil`.
+| Name | Description |
+|---|---|
+| `g_result` | Value of the last expression of the sequence`g_expr1` if `g_condition` evaluates to `nil`. |
+| `nil` | If`g_condition` evaluates to non-`nil`. |
+
 #### Example
 
 ```
@@ -1472,7 +1374,7 @@ x = -123unless( x >= 0 println("x is negative") -x)=> 123           �
 
 ### when
 
-`when( g_condition g_expr1 ... ) => g_result | nil`
+`when( g_condition g_expr1 ... ) => g_result / nil`
 
 #### Description
 
@@ -1482,20 +1384,18 @@ If the result of evaluating`g_condition` is `nil`, `when` returns `nil`.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_condition` | Any SKILL expression.
-|  |
-| --- | ---
-| `g_expr1` | Any SKILL expression.
+| Name | Description |
+|---|---|
+| `g_condition` | Any SKILL expression. |
+| `g_expr1` | Any SKILL expression. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Value of the last expression of the sequence`g_expr1` if `g_condition` evaluates to non-`nil`.
-|  |
-| --- | ---
-| `nil` | If the`g_condition` expression evaluates to `nil`.
+| Name | Description |
+|---|---|
+| `g_result` | Value of the last expression of the sequence`g_expr1` if `g_condition` evaluates to non-`nil`. |
+| `nil` | If the`g_condition` expression evaluates to `nil`. |
+
 #### Example
 
 ```
@@ -1520,17 +1420,17 @@ Repeatedly evaluates`g_condition` and the sequence of expressions `g_expr1 ...` 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_condition` | Any SKILL expression.
-|  |
-| --- | ---
-| `g_expr1` | Any SKILL expression.
+| Name | Description |
+|---|---|
+| `g_condition` | Any SKILL expression. |
+| `g_expr1` | Any SKILL expression. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | Always returns`t`.
+| Name | Description |
+|---|---|
+| `t` | Always returns`t`. |
+
 #### Example
 
 `i = 0while( (i <= 10) printf("%d\n" i++) ) => t`

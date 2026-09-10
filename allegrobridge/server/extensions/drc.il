@@ -35,6 +35,41 @@
       result
       (cons reference result)))
 
+(putd '__abDrcFigurePoint nil)
+(defun __abDrcFigurePoint (object)
+  (let (xy)
+    (when (member 'xy object->?)
+      (setq xy object->xy))
+    (when xy
+      (list nil 'x (car xy) 'y (cadr xy)))))
+
+(putd '__abDrcFigureBBox nil)
+(defun __abDrcFigureBBox (object)
+  (let (bbox)
+    (when (member 'bBox object->?)
+      (setq bbox object->bBox))
+    (when bbox
+      (list nil
+            'll (list nil 'x (car (car bbox)) 'y (cadr (car bbox)))
+            'ur (list nil 'x (car (cadr bbox)) 'y (cadr (cadr bbox)))))))
+
+(putd '__abDrcFigure nil)
+(defun __abDrcFigure (object)
+  (list nil
+        'obj_type object->objType
+        'layer (when (member 'layer object->?) object->layer)
+        'location (__abDrcFigurePoint object)
+        'bbox (__abDrcFigureBBox object)
+        'net (__abDrcNetRef object)
+        'reference (__abDrcStableRef object)))
+
+(putd '__abDrcFigures nil)
+(defun __abDrcFigures (marker)
+  (let (result)
+    (foreach object marker->violations
+      (setq result (cons (__abDrcFigure object) result)))
+    (reverse result)))
+
 (putd '__abDrcObjects nil)
 (defun __abDrcObjects (marker)
   (let (result)
@@ -62,6 +97,7 @@
           'bbox (list nil
                       'll (list nil 'x (car (car bbox)) 'y (cadr (car bbox)))
                       'ur (list nil 'x (car (cadr bbox)) 'y (cadr (cadr bbox))))
+          'figures (__abDrcFigures marker)
           'objects (__abDrcObjects marker))))
 
 (putd '__abProjectDrcs nil)

@@ -1,0 +1,1606 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN" "http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+<html xmlns="http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Allegro SKILL Reference -- 20</title>
+<META NAME="Approver" CONTENT="Technical Publications">
+<META NAME="Author" CONTENT="Technical Publications">
+<META NAME="CreateDate" CONTENT="2017-11-25">
+<META NAME="CreateTime" CONTENT="1511600113">
+<META NAME="DataType" CONTENT="Manuals">
+<META NAME="Description" CONTENT="Describes the Allegro eXtension Language (AXL) and how to use each AXL function.">
+<META NAME="DocTitle" CONTENT="Allegro SKILL Reference">
+<META NAME="DocType" CONTENT="SKILL Reference">
+<META NAME="EdmsRelease" CONTENT="FM-Wiki-2.0_HF2">
+<META NAME="FileTitle" CONTENT="20">
+<META NAME="FileType" CONTENT="Chapter">
+<META NAME="Group" CONTENT="Allegro User Guide">
+<META NAME="Keyword" CONTENT="algroskill">
+<META NAME="Language" CONTENT="English">
+<META NAME="ModifiedDate" CONTENT="2017-11-25">
+<META NAME="ModifiedTime" CONTENT="1511600113">
+<META NAME="NextFile" CONTENT="20plyopr.html">
+<META NAME="Order" CONTENT="11">
+<META NAME="PageCount" CONTENT="28">
+<META NAME="Platform" CONTENT="ALL">
+<META NAME="PrevFile" CONTENT="18consmgt.html">
+<META NAME="Product" CONTENT="Allegro PCB Editor, Cadence SiP Digital">
+<META NAME="ProductFamily" CONTENT="Silicon-Package-Board Co-Design, IC Packaging">
+<META NAME="ProductVersion" CONTENT="17.2-2016">
+<META NAME="RightsManagement" CONTENT="Copyright 19912017 Cadence Design Systems Inc.">
+<META NAME="Title" CONTENT="Allegro SKILL Reference -- 20">
+<META NAME="TopicTags" CONTENT="FALSE">
+<META NAME="Version" CONTENT="17.2-2016">
+  </head>
+  <body style="margin-left: 5%;">
+    <a name="pagetop"></a>
+    <a name="firstpage"></a>
+    <!-- Begin Buttons -->
+    <table width="650" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td height="36" width="650" colspan="10">
+          <img src="images/header_doc.gif" width="650" height="34">
+        </td>
+      </tr>
+      <tr>
+        <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+        <td>
+          <a href="18consmgt.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+        </td>
+        <td>
+          <a href="20plyopr.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+        </td>
+        <td height="20">
+          <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+          </a>
+        </td>
+        <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+        </td>
+        <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+        </td>
+        <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+        </td>
+        <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+        </td>
+      </tr>
+    </table>
+    <!-- End Buttons -->
+    <p>
+    <hr>
+    <p>
+      <h3>
+        <center>
+          <font >
+            <div>Allegro User Guide: SKILL Reference</div>
+            <font >
+              <div>Product Version 17.2&#45;2016 April 2016</div>
+            </font>
+          </font>
+        </center>
+      </h3>
+      <br>
+    </p>
+    <div>
+      <h1>20<a name="978460">&nbsp;</a></h1>
+      <h1><a name="978462">Command Control Functions</a></h1>
+      <p><a name="954293">The chapter describes the AXL&#45;SKILL functions that register and unregister AXL&#45;SKILL functions with Allegro PCB Editor and set various modes in the user interface.</a></p>
+      <h2><a name="954294">AXL&#45;SKILL Command Control Functions</a></h2>
+      <p><a name="954295">This section lists the command control functions.</a></p>
+      <h3><a name="954297">axlCmdRegister</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="954298">axlCmdRegister(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_allegroCmd<dd>ts_callback<dd></em></font>?cmdType <font size="2" face="'Courier New'" color="#000000"><em>t_cmdType<dd></em></font>?doneCmd <font size="2" face="'Courier New'" color="#000000"><em>ts_doneCmd<dd></em></font>?cancelCmd <font size="2" face="'Courier New'" color="#000000"><em>ts_cancelCmd<dd></em></font>?undo <font size="2" face="'Courier New'" color="#000000"><em>t<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="954809">Description</a></h4>
+      <p><a name="954301">Registers a command named </a><font size="2" face="'Courier New'" color="#000000"><em>t_allegroCmd</em></font> with the Allegro PCB Editor shell system. If the command already exists, either because it is a base Allegro PCB Editor command or because it has been registered by this function at an earlier time, it will be hidden.</p>
+      <p><a name="989743">Once you register a command, Allegro PCB Editor passes its arguments to SKILL&#45;AXL without parsing them.</a></p>
+      <p><a name="989744">You can call the </a><font size="2" face="'Courier New'" color="#000000">axlCmdRegister</font> command any time. Once a command is registered, you can type it at the Allegro PCB Editor command line and also incorporate it into menus and pop&#45;ups.</p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <font size="3"><img src="images/tip.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <font size="3"><a name="989779">Interactive mode should be used if you are changing the database. It will &#34;done&#34; an active interactive command before starting your command. General mode should be used to view the database or to provide some non&#45;database capabilities. It is allowed to co&#45;exist with other general and interactive commands. If changing the database using a form only command, for example, not requesting user picks from the canvas, then you should provide a dummy event handler to prevent your skill code from returning to Allegro.<br>See example in </a><font size="2" face="'Courier New'" color="#000000"><em>&#60;cdsroot&#62;</em></font><font size="2" face="'Courier New'" color="#000000">&#47;share&#47;pcb&#47;examples&#47;skill&#47;cns&#45;design.il</font> function <font size="2" face="'Courier New'" color="#000000">_AcDesignEvent()</font>.<br>You can pass arguments from the Allegro command line to your registered Skill function. See <font size="2" face="'Courier New'" color="#000000"><em>&#60;cdsroot&#62;</em></font><font size="2" face="'Courier New'" color="#000000">&#47;share&#47;pcb&#47;examples&#47;skill&#47;examples&#47;axlcore&#47;arg.il</font></font>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <blockquote><a name="995907">Commands that support undo or redo must follow the programming concepts.</a></blockquote>
+      <blockquote><a name="996000">Programming checklist includes:</a></blockquote>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="995909">utilize </a><font size="2" face="'Courier New'" color="#000000">axlDBTransaction</font> APIs around database changes</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="995910">do not save or open the databases </a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="995911">do not call </a><font size="2" face="'Courier New'" color="#000000">axlRunBatchDBProgram</font> with an option to reload the database</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="995912">make use of </a><font size="2" face="'Courier New'" color="#000000">axlShell</font></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="995913">if your program typically performs extensive database changes, do not register it as undoable due to memory consumption requirements</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="995916">            The following items do not follow undo or redo:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="995917">files saved or updated on disk</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="995918">database attachment changes (see </a><font size="2" face="'Courier New'" color="#000000">axlCreateAttachment</font>)</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="995919">communication to external programs or user interfaces</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="995920">certain design state changes such as active layer</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="995921">if your program maintains state across invocations then redo may not work properly</a></td>
+          </tr>
+        </table>
+      </div>
+      <blockquote><a name="995924">An interactive command may be updated or written to support undo (see </a><font size="2" face="'Courier New'" color="#000000">cline2shape.il</font>) using two models:</blockquote>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="995926">Undo all Allegro database changes made by the command from start to done. If you use database transactions in an existing SKILL command then to convert it to support undo all you need to do is to add the undo option to </a><font size="2" face="'Courier New'" color="#000000">axlCmdRegister</font>.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.872">
+              <div>&nbsp;</div>
+            </td>
+            <td width="32.128319999999995">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bs_bullet_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="995930">To have it work like place manual, where each individual placement operation is an undo then you will need to revamp the transaction model of your code. You need to start and commit and a database transaction around each user change to the design. The </a><font size="2" face="'Courier New'" color="#000000">cline2shape.il</font> shows how the code is slightly different in transaction handling between the two modes.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="69">
+              <div>&nbsp;</div>
+            </td>
+            <td width="31.872000000000003">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bss_bullet_sub_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="995935">Avoid doing a start transaction with the undoMark symbol and a commit if you do not perform database operations.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="69">
+              <div>&nbsp;</div>
+            </td>
+            <td width="31.872000000000003">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/bss_bullet_sub_sub.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="995937">If you do this incorrectly, additional undo items are listed on the toolbar&#39;s undo icon. The code still performs properly but some undo operations will not do anything.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <strong><em><img src="images/caution.gif" alt="ParagraphBullet" border="0"></em></strong>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <strong><em><a name="996725">You cannot access interactive Allegro PCB Editor commands via </a><font size="2" face="'Courier New'" color="#000000">axlShell</font> if you register your skill code as interactive, because nesting interactive commands are not supported. This includes using <font size="2" face="'Courier New'" color="#000000">axlShell</font> to spawn Allegro PCB Editor scripts that contain interactive commands, which are those that display in the lower right side of the Allegro PCB Editor window (where the <font size="2" face="'Courier New'" color="#000000">Idle</font> string appears). For an interactive command the status area shows the command name. Failing that if you notice odd behavior when calling <font size="2" face="'Courier New'" color="#000000">axlShell</font>, try changing your command type to General. As noted above, you should not call any APIs in the <font size="2" face="'Courier New'" color="#000000">axlEnter</font> or <font size="2" face="'Courier New'" color="#000000">axlSelect</font> families in a General command type.</em></strong>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h4><a name="954822">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="997184"><font size="2" face="'Courier New'" color="#000000"><em>t_allegroCmd</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="997186">Name of the command to register. Use lowercase letters for the command name.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997188"><font size="2" face="'Courier New'" color="#000000"><em>ts_callback</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997190">Name of SKILL callback routine called when the command is activated from the Allegro PCB Editor window.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997192"><font size="2" face="'Courier New'" color="#000000"><em>t_cmdType</em></font></a></p>
+          </td>
+          <td rowspan="7" cellpadding="4" border="0" valign="top">
+            <p><a name="997194">String denoting the type of this command:</a></p>
+            <p><a name="997270"><font size="2" face="'Courier New'" color="#000000">&#34;interactive&#34;</font></a></p>
+            <p><a name="997275">Allegro PCB Editor interactive command which is the default.</a></p>
+            <p><a name="997277"><font size="2" face="'Courier New'" color="#000000">&#34;general&#34;</font></a></p>
+            <p><a name="997279">Immediate command that executes as soon as the command is called, even during another command. Use for display refresh commands, for example.</a></p>
+            <p><a name="997281"><font size="2" face="'Courier New'" color="#000000">&#34;sub_cmd&#34;</font></a></p>
+            <p><a name="997283">Must be called inside an interactive command. Use for pop&#45;ups.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997196">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997200">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997204">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997208">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997216">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997220">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997224"><font size="2" face="'Courier New'" color="#000000"><em>ts_doneCmd</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997226"><font color="#000000"><em>Done</em></font></a> callback function that Allegro PCB Editor calls when the user types <font size="2" face="'Courier New'" color="#000000">done</font> or selects <font color="#000000"><em>Done</em></font> from the pop&#45;up. Can be either a symbol or string. If <font size="2" face="'Courier New'" color="#000000">nil</font>, Allegro PCB Editor calls <font size="2" face="'Courier New'" color="#000000">axlFinishEnterFun</font> by default.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997228"><font size="2" face="'Courier New'" color="#000000"><em>ts_cancelCmd</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997230">Cancel callback function that Allegro PCB Editor calls when the user types </a><font size="2" face="'Courier New'" color="#000000">cancel</font> or selects <font color="#000000"><em>Cancel</em></font> from the pop&#45;up. This argument can be either a symbol or a string. If it is <font size="2" face="'Courier New'" color="#000000">nil</font>, Allegro PCB Editor calls <font size="2" face="'Courier New'" color="#000000">axlCancelEnterFun</font> by default.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997232"><font size="2" face="'Courier New'" color="#000000"><em>undo</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997234">If </a><font size="2" face="'Courier New'" color="#000000">t</font>, command can be undone. It is only applicable for <font size="2" face="'Courier New'" color="#000000">t_cmdType</font> <font size="2" face="'Courier New'" color="#000000">&#34;interactive&#34;</font>. Refer Tip section for programming requirements of undo commands.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997236">&nbsp;</a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997238">Other options may be added at a future time.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="954891">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="997517"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="997519"> Command registered successfully.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997521"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997523">Command not registered.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="989639">See Also</a></h4>
+      <p><a href="#954317" title="20" name="989656"><font color="#0000ff"><u>axlCmdUnregister</u></font></a>, <a href="23utils.html#913642" title="24"><font color="#0000ff"><u>axlCmdList</u></font></a>, <a href="10usrint.html#404919" title="10"><font color="#0000ff"><u>axlUIWHelpRegister</u></font></a>, <a href="17dbtran.html#1076430" title="18"><font color="#0000ff"><u>axlDBTransactionStart</u></font></a></p>
+      <h4><a name="954912">Example 1</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="954316">axlCmdRegister( &#34;my swap gates&#34; &#39;axlMySwapGates <br>?cmdType &#34;interactive&#34; ?doneCmd &#39;axlMySwapDone<br>?cancelCmd &#39;axlMySwapCancel)<br></a>⇒ t</font>
+      </blockquote>
+      <p><a name="984657">Registers the command </a><font size="2" face="'Courier New'" color="#000000">my swap gates</font> as calling the function <font size="2" face="'Courier New'" color="#000000">axlMySwapGates</font>.</p>
+      <h4><a name="971933">Example 2 SKILL Function Example</a></h4>
+      <p><a name="984668">For commands (</a><font size="2" face="'Courier New'" color="#000000">s_allegroCmd</font> value) that accept parameters as strings, the SKILL function converts the parameters to symbols. </p>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="984669">axlCmdRegister( &#34;do it&#34; &#39;do_print)</a></font>
+      </dl>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="972048">do it myFile Text AshFindAllText</a></font>
+      </dl>
+      <p><a name="984676">Sample </a><font size="2" face="'Courier New'" color="#000000">axlCmdRegister</font> with a registered function that takes arguments where <font size="2" face="'Courier New'" color="#000000"><em>myFile</em></font> is an output port.</p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><a name="972186"><font size="2" face="'Courier New'" color="#000000">(defun do_print (arg1 description find_func) ;; Added to deal with strings</font></a></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><a name="972187"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;myport = evalstring(arg1)            ;; Added to deal with strings</font></a></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><a name="972188"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp; do_print2( myport description find_func) ;; Added to deal with strings</font></a></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><a name="972189"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) ; do_print                         ;; Added to deal with strings</font></a></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><a name="972190"><font size="2" face="'Courier New'" color="#000000"># Here is the real function</font></a></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><a name="972191"><font size="2" face="'Courier New'" color="#000000">(defun do_print2 (p description find_func)</font></a></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><a name="972192"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;(let (list)</font></a></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><a name="972193"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fprintf p &#34;Properties on %s:\n&#34; description)</font></a></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><a name="972194"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(setq list (apply find_func nil))</font></a></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><a name="972195"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(print_list_props list p)</font></a></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><a name="972196"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(fprintf p &#34;\n\n&#34;)</font></a></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><a name="972197"><font size="2" face="'Courier New'" color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) ; let</font></a></font>
+      </p>
+      <p>
+        <font size="2" face="Courier" color="#000000"><a name="972172"><font size="2" face="'Courier New'" color="#000000">) ; do_print2</font></a></font>
+      </p>
+      <p><a name="984685">Parse and process the </a><font size="2" face="'Courier New'" color="#000000"><em>do it</em></font> arguments.</p>
+      <p><a name="997019">See </a><font size="2" face="'Courier New'" color="#000000"><em>&#60;cdsroot&#62;</em></font><font size="2" face="'Courier New'" color="#000000">&#47;share&#47;pcb&#47;examples&#47;skill&#47;examples&#47;axlcore&#47;cline2shape.il </font>for the undo examples.</p>
+      <h3><a name="954317">axlCmdUnregister</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="954318">axlCmdUnregister(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_allegroCmd<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="954957">Description</a></h4>
+      <p><a name="954321">Unregisters or removes from the Allegro PCB Editor shell system, a previously registered command named </a><font size="2" face="'Courier New'" color="#000000">t_allegroCmd</font>. If the command already exists because it is a base Allegro PCB Editor command, the original command is available again.</p>
+      <h4><a name="954978">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="997535"><font size="2" face="'Courier New'" color="#000000"><em>t_allegroCmd</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="997537"> Name of command to be unregistered.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="955003">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="997545"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="997547">Command unregistered successfully.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997549"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997551">Failed to unregister the specified command.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="955032">Example</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="954327">axlCmdUnregister( &#34;my swap gates&#34;)<br></a>⇒ t</font>
+      </blockquote>
+      <p><a name="984695">Unregisters the command </a><font size="2" face="'Courier New'" color="#000000">my swap gates</font>.</p>
+      <h3><a name="954328">axlEndSkillMode</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="954329">axlEndSkillMode(<dd>)<dd></a><font face="symbol" color="#000000">⇒</font> t</font>
+      </dl>
+      <h4><a name="955121">Description</a></h4>
+      <p><a name="311008">Returns from the SKILL command mode to the program's command line. The SKILL exit function is mapped to this function. In a SKILL program this command has no effect.</a></p>
+      <h4><a name="955150">Arguments</a></h4>
+      <p><a name="960859">None</a></p>
+      <h4><a name="955183">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="324">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="997559"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="132">
+            <p><a name="997561">Always returns </a><font size="2" face="'Courier New'" color="#000000">t</font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="955220">Example</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="954338">axlEndSkillMode()<br></a>⇒ t</font>
+      </blockquote>
+      <p><a name="984708">Exits AXL&#45;SKILL.</a></p>
+      <h3><a name="954339">axlFlushDisplay</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="954340">axlFlushDisplay(<dd>)<dd></a><font face="symbol" color="#000000">⇒</font> t</font>
+      </dl>
+      <h4><a name="955301">Description</a></h4>
+      <p><a name="954343">Flushes all data from the display buffer to the display screen itself. Displays items intended to be displayed, but not yet displayed because no event has triggered a flush of the display buffer. </a></p>
+      <p><a name="984721">You can display the following Items:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="954344">Visible objects added to the database</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="954345">Messages</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="954346">Highlighting and dehighlighting of selected objects</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="954347">Pending display repairs</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="954348">Generally, AXL delays screen updates until a prompt for user input occurs or an AXL program completes, such as </a><font size="2" face="'Courier New'" color="#000000">axlEnterPoint</font>. Certain programs, such as those that spend long times doing calculations between screen updates, might want to call <font size="2" face="'Courier New'" color="#000000">axlFlushDisplay</font> after each batch of screen updates to indicate the progress of the command. Overuse of this call may hurt performance.</p>
+      <h4><a name="955330">Arguments</a></h4>
+      <p><a name="954349">None</a></p>
+      <h4><a name="955363">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="324">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="997569"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="132">
+            <p><a name="997571">Always returns </a><font size="2" face="'Courier New'" color="#000000">t</font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="955428">Example</a></h4>
+      <blockquote>
+<blockquote>        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="954354">mypath = axlPathStart( list(8900:4400))<br>axlPathArcRadius(mypath, 12., 8700:5300, nil, nil, 500)<br>myline = axlDBCreatePath( mypath, &#34;etch&#47;top&#34; nil)<br>; Arc is not yet visible<br>axlFlushDisplay()<br>; Now arc is visible</a></font></blockquote>
+      </blockquote>
+      <p><a name="984729">Creates a path and displays it immediately regardless of whether the user has caused a display event such as moving the cursor into the Allegro PCB Editor window.</a></p>
+      <blockquote>
+<blockquote>        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984727">&nbsp;</a></font></blockquote>
+      </blockquote>
+      <p align="left"><a name="306209"><img src="images/19cmdctl.24.1.1.png" width="609" height="162" alt=""><br></a></p>
+      <h3><a name="963366">axlOKToProceed</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="954367">axlOKToProceed(<dd>)<dd></a><font face="symbol" color="#000000">⇒</font> t</font>
+      </dl>
+      <h4><a name="955553">Description</a></h4>
+      <p><a name="954370">Checks whether Allegro PCB Editor is processing another interactive command or engaged in some process that might interfere with a SKILL command. Use this to check before starting functions such as </a><font size="2" face="'Courier New'" color="#000000">dbcreate</font>, user interactions, and select set operations. Returns <font size="2" face="'Courier New'" color="#000000">t</font> if Allegro PCB Editor is ready to properly execute a SKILL command, and returns <font size="2" face="'Courier New'" color="#000000">nil</font> if it is not.</p>
+      <h4><a name="955582">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="997579"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="997581">Suppresses the error message produced when it is not OK to proceed. </a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="955615">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="997588"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="997590">Allegro PCB Editor can allow AXL&#45;SKILL database, selection, and interactive functions to execute.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997592"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997594">Allegro PCB Editor cannot allow AXL&#45;SKILL database, selection, and interactive functions to execute.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="955652">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="954361">(when axlOKToProceed<br>&nbsp;&nbsp;&nbsp;&nbsp;;; do AXL interactive command<br>&nbsp;&nbsp;&nbsp;&nbsp;)</a></font>
+      </p>
+      <h3><a name="954384">axlSetLineLock</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="954385">axlSetLineLock(<dd>?arcEnable&nbsp;&nbsp;&nbsp;&nbsp;</a><font size="2" face="'Courier New'" color="#000000"><em>g_arcEnable<dd></em></font>?lockAngle&nbsp;&nbsp;&nbsp;&nbsp;<font size="2" face="'Courier New'" color="#000000"><em>f_lockAngle<dd></em></font>?minRadius&nbsp;&nbsp;&nbsp;&nbsp;<font size="2" face="'Courier New'" color="#000000"><em>f_minRadius<dd></em></font>?length45&nbsp;&nbsp;&nbsp;&nbsp;f_length45<dd>?fixed45&nbsp;&nbsp;&nbsp;&nbsp;<font size="2" face="'Courier New'" color="#000000"><em>g_fixed45<dd></em></font>?lengthRadius&nbsp;&nbsp;&nbsp;&nbsp;<font size="2" face="'Courier New'" color="#000000"><em>f_lengthRadius<dd></em></font>?fixedRadius&nbsp;&nbsp;&nbsp;&nbsp;<font size="2" face="'Courier New'" color="#000000"><em>g_fixedRadius<dd></em></font>?lockTangent&nbsp;&nbsp;&nbsp;&nbsp;<font size="2" face="'Courier New'" color="#000000"><em>g_lockTangent<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="955905">Description</a></h4>
+      <p><a name="954388">Sets one or more of the line lock parameters. The parameters are the same as those accessible in the </a><font color="#000000"><em>Line Lock</em></font> section of the <font color="#000000">Allegro PCB Editor Status</font> form.</p>
+      <p><a name="954389">All parameters not explicitly set in a call to </a><font size="2" face="'Courier New'" color="#000000">axlSetLineLock</font> keep their current settings.</p>
+      <h4><a name="955934">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="997608"><font size="2" face="'Courier New'" color="#000000"><em>g_arcEnable</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="997610">If </a><font size="2" face="'Courier New'" color="#000000">t</font>, sets Lock Mode to <font size="2" face="'Courier New'" color="#000000">Arc</font>. Otherwise Lock Mode is Line. Default is Line.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997612"><font size="2" face="'Courier New'" color="#000000"><em>f_lockAngle</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997614">Sets Lock Direction. Allowed values are: 45 (degrees), 90 (degrees), or 0 (off, or no lock).</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997616"><font size="2" face="'Courier New'" color="#000000"><em>f_minRadius</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997618">Sets Minimum Radius, a value in user units.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997620"><font size="2" face="'Courier New'" color="#000000"><em>f_length45</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997622">Sets the Fixed 45 Length value in user units.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997624"><font size="2" face="'Courier New'" color="#000000"><em>g_fixed45</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997626">If </a><font size="2" face="'Courier New'" color="#000000">t</font>, sets the Fixed 45 Length mode. You cannot set this parameter unless <font size="2" face="'Courier New'" color="#000000"><em>f_lockAngle</em></font> is 45, and <font size="2" face="'Courier New'" color="#000000"><em>g_arcEnable</em></font> is <font size="2" face="'Courier New'" color="#000000">nil</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997628"><font size="2" face="'Courier New'" color="#000000"><em>f_lengthRadius</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997630">Sets Fixed Radius value in user units.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997632"><font size="2" face="'Courier New'" color="#000000"><em>g_fixedRadius</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997634">If </a><font size="2" face="'Courier New'" color="#000000">t</font>, sets the Fixed Radius mode. You cannot set this parameter unless <font size="2" face="'Courier New'" color="#000000"><em>f_lockAngle</em></font> is 45 or 90, and <font size="2" face="'Courier New'" color="#000000"><em>g_arcEnable</em></font> is <font size="2" face="'Courier New'" color="#000000">t</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997636"><font size="2" face="'Courier New'" color="#000000"><em>g_lockTangent</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997638">If </a><font size="2" face="'Courier New'" color="#000000">t</font>, sets the Tangent mode to <font size="2" face="'Courier New'" color="#000000">on</font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="956063">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="649">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="997650"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="457">
+            <p><a name="997652">Set the given line lock parameters successfully.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997654"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997656">Failed to set the given line lock parameters.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="956090">Example</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="954401">axlSetLineLock( ?arcEnable t ?lockAngle 90 ?fixedRadius t<br>?lengthRadius 50)</a></font>
+      </blockquote>
+      <p><a name="984751">Sets the Line Lock parameters to Lock Direction: </a><font size="2" face="'Courier New'" color="#000000">90</font>, Lock Mode: <font size="2" face="'Courier New'" color="#000000">Arc</font>, Fixed Radius: <font size="2" face="'Courier New'" color="#000000">on</font> at <font size="2" face="'Courier New'" color="#000000">30</font> mils.</p>
+      <h3><a name="954402">axlSetRotateIncrement</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="954403">axlSetRotateIncrement(<dd>?angular&nbsp;&nbsp;&nbsp;&nbsp;</a><font size="2" face="'Courier New'" color="#000000"><em>f_angular<dd></em></font>?radial&nbsp;&nbsp;&nbsp;&nbsp;<font size="2" face="'Courier New'" color="#000000"><em>f_radial<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="956141">Description</a></h4>
+      <p><a name="954406">Sets the dynamic rotate angle increment in degrees (</a><font size="2" face="'Courier New'" color="#000000"><em>f_angular</em></font>) or radians (<font size="2" face="'Courier New'" color="#000000"><em>f_radial</em></font>). Sets the rotate increment for rotation of objects in the dynamic buffer.</p>
+      <h4><a name="956162">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="997664"><font size="2" face="'Courier New'" color="#000000"><em>f_angular</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="997666"> Sets angle lock increment in degrees.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997668"><font size="2" face="'Courier New'" color="#000000"><em>f_radial</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997670"> Sets radial lock increment in radians.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="956187">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="997678"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="997680">Set the given rotate increment parameters successfully.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="956216">Example</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="954413">(axlSetRotateIncrement ?angular 15)<br></a>⇒ t</font>
+      </blockquote>
+      <p><a name="984764">Sets the dynamic rotate angle to 15 degrees.</a></p>
+      <h3><a name="954414">axlUIGetUserData</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="954415">axlUIGetUserData()<dd></a><font face="symbol" color="#000000">⇒</font> r_userData&#47;nil</font>
+      </dl>
+      <h4><a name="956325">Description</a></h4>
+      <p><a name="954418">Gets the current user data structure from Allegro PCB Editor. The user data structure stores basic information about the state of the user interface. By default it contains the properties:</a></p>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="649">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="997696"><font size="2" face="'Courier New'" color="#000000"><em>doneState</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="457">
+            <p><a name="997698">How the user returned control to the application. Possible values are either: </a><font size="2" face="'Courier New'" color="#000000">done</font> or <font size="2" face="'Courier New'" color="#000000">cancel</font>.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997700"><font size="2" face="'Courier New'" color="#000000"><em>popupId</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997702">List of the current pop&#45;up values. A list of string pairs, as shown:</a></p>
+            <p><a name="997713"><font size="2" face="'Courier New'" color="#000000">((&#34;Done&#34; &#34;axlFinishEnterFun&#34;) (&#34;Cancel&#34; &#34;axlCancelEnterFun&#34;))</font></a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997704"><font size="2" face="'Courier New'" color="#000000"><em>ministatForm</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997706"> Always </a><font size="2" face="'Courier New'" color="#000000">nil</font>. (Reserved for future releases.)</p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="954422">You can set your own attributes in the user data structure to communicate with callbacks, as shown in the example. You cannot overwrite the three basic attributes: </a><font size="2" face="'Courier New'" color="#000000"><em>doneState</em></font>, <font size="2" face="'Courier New'" color="#000000"><em>popupId</em></font>, or <font size="2" face="'Courier New'" color="#000000"><em>ministatForm</em></font>.</p>
+      <h4><a name="956354">Arguments</a></h4>
+      <p><a name="954423">None</a></p>
+      <h4><a name="956387">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="650">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="997717"><font size="2" face="'Courier New'" color="#000000"><em>r_userData</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="457">
+            <p><a name="997719">User data structure from Allegro PCB Editor.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997721"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997723">Failed to get user data structure from Allegro PCB Editor.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="956452">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="954426">userdata = axlUIGetUserData()<br>&nbsp;&nbsp;&nbsp;&nbsp;userdata&#45;&#62;??<br></a>&nbsp;&nbsp;&nbsp;&nbsp;⇒ (doneState cancel<br>&nbsp;&nbsp;&nbsp;&nbsp;popupId ((&#34;Cancel&#34; &#34;axlCancelEnterFun&#34;))<br> &nbsp;&nbsp;&nbsp;&nbsp;ministatForm nil<br> )</font>
+      </p>
+      <h3><a name="954427">axlUIPopupDefine</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="954428">axlUIPopupDefine(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>r_popup<dd>ts_pairs</em></font>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>r_popup</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="956477">Description</a></h4>
+      <p><a name="954431">Creates a pop&#45;up from the name value pair list </a><font size="2" face="'Courier New'" color="#000000"><em>ts_pairs</em></font>. If <font size="2" face="'Courier New'" color="#000000"><em>r_popup</em></font> already exists, it appends the name value pairs at the end of the existing pairs in <font size="2" face="'Courier New'" color="#000000"><em>r_popup</em></font>. Use the returned <font size="2" face="'Courier New'" color="#000000"><em>r_popup</em></font> id as the argument to <font size="2" face="'Courier New'" color="#000000">axlUIPopupSet</font> to make it the active pop&#45;up.</p>
+      <h4><a name="956490">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="644">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="997737"><font size="2" face="'Courier New'" color="#000000"><em>r_popup</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="452">
+            <p><a name="997739">Predefined pop&#45;up handle to which to append new entries. Can be </a><font size="2" face="'Courier New'" color="#000000">nil</font> to create a new pop&#45;up.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997741"><font size="2" face="'Courier New'" color="#000000"><em>ts_pairs</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997743">List containing the pairs ((</a><font size="2" face="'Courier New'" color="#000000"><em>t_display</em></font><font color="#000000"><em> </em></font><font size="2" face="'Courier New'" color="#000000"><em>t_callback</em></font>) defining each pop&#45;up entry display name and its AXL function callback.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="956507">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="997751"><font size="2" face="'Courier New'" color="#000000"><em>r_popup</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="997753">Id of the pop&#45;up created or updated.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997755"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997757">No pop&#45;up created or updated.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="956528">Example</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="954438">popid = axlUIPopupDefine( nil<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(list (list &#34;Complete&#34; &#39;axlMyComplete)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(list &#34;Rotate&#34; &#39;axlMyRotate)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(list &#34;Something&#34; &#39;axlMySomething)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(list &#34;Cancel&#34; &#39;axlCancelEnterFun))<br><br></a>⇒ (&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&#34;Complete&#34; &#39;axlMyComplete)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&#34;Rotate&#34; &#39;axlMyRotate)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&#34;Something&#34; &#39;axlMySomething)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&#34;Cancel&#34; &#39;axlCancelEnterFun))</font>
+      </blockquote>
+      <p><a name="984776">Creates a pop&#45;up with the following selections:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="984777"><font color="#000000"><em>Complete</em></font></a>, associated with your function <font size="2" face="'Courier New'" color="#000000">axlMyComplete</font></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="984778"><font color="#000000"><em>Rotate</em></font></a>, associated with <font size="2" face="'Courier New'" color="#000000">axlMyRotate</font></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="984779"><font color="#000000"><em>Something</em></font></a>, associated with <font size="2" face="'Courier New'" color="#000000">axlMySomething</font></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="984780"><font color="#000000"><em>Cancel</em></font></a>, associated with <font size="2" face="'Courier New'" color="#000000">axlCancelEnterFun</font></td>
+          </tr>
+        </table>
+      </div>
+      <h3><a name="954439">axlUIPopupSet</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="954440">axlUIPopupSet(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>r_popup<dd></em></font>)<dd><font face="symbol" color="#000000"><sub>⇒</sub></font> t&#47;nil</font>
+      </dl>
+      <h4><a name="956601">Description</a></h4>
+      <p><a name="954443">Sets the active pop&#45;up in Allegro PCB Editor. If </a><font size="2" face="'Courier New'" color="#000000"><em>r_popup</em></font> is <font size="2" face="'Courier New'" color="#000000">nil</font>, unsets the currently active pop&#45;up.</p>
+      <p><a name="988580">If this call is preceded by a call to axlUICmdPopupSet with a non&#45;nil r_popup, the contents of this popup are used to control graying of the popup items defined in the call to axlUICmdPopupSet. Otherwise r_popup is used to replace the popup entries. In both cases, the popup callbacks will be replaced.</a></p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="988586">The popup is invoked by pressing mouse popup button, this is normally the right mouse button.</a></p>
+      <p><a name="954444">You can clear the active pop&#45;up by calling outside of the form callback, as follows:</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="954445">axlUIPopup (nil)</a></font>
+      </blockquote>
+      <h4><a name="956614">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="997766"><font size="2" face="'Courier New'" color="#000000"><em>r_popup</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="997768">Predefined pop&#45;up handle created by </a><font size="2" face="'Courier New'" color="#000000">axlUIPopupDefine</font>.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="956631">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="997780"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="997782">Set </a><font size="2" face="'Courier New'" color="#000000"><em>r_popup</em></font> as the active pop&#45;up.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997784"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997786">Failed to set </a><font size="2" face="'Courier New'" color="#000000"><em>r_popup</em></font> as the active pop&#45;up.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="956652">Example</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="954462">popid = axlUIPopupDefine( nil<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(list (list &#34;Complete&#34; &#39;axlMyComplete)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(list &#34;Rotate&#34; &#39;axlMyRotate)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(list &#34;Something&#34; &#39;axlMySomething)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(list &#34;Cancel&#34; &#39;axlCancelEnterFun))<br><br></a>⇒ (&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&#34;Complete&#34; &#39;axlMyComplete)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&#34;Rotate&#34; &#39;axlMyRotate)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&#34;Something&#34; &#39;axlMySomething)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(&#34;Cancel&#34; &#39;axlCancelEnterFun))</font>
+      </blockquote>
+      <p><a name="984794">Creates a pop&#45;up with the following selections:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="984795"><font color="#000000"><em>Complete</em></font></a>, associated with your function <font size="2" face="'Courier New'" color="#000000">axlMyComplete</font></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="984796"><font color="#000000"><em>Rotate</em></font></a>, associated with <font size="2" face="'Courier New'" color="#000000">axlMyRotate</font></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="984797"><font color="#000000"><em>Something</em></font></a>, associated with <font size="2" face="'Courier New'" color="#000000">axlMySomething</font></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="984798"><font color="#000000"><em>Cancel</em></font></a>, associated with <font size="2" face="'Courier New'" color="#000000">axlCancelEnterFun</font></td>
+          </tr>
+        </table>
+      </div>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="954452">axlUIPopupSet( popid)<br></a>&nbsp;&nbsp;&nbsp;&nbsp;⇒ t</font>
+      </blockquote>
+      <p><a name="984811">Sets up the pop&#45;up.</a></p>
+      <h3><a name="984532">axlBuildClassPopup</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="984533">axlBuildClassPopup(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>r_form<dd>t_field<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="984535">Description</a></h4>
+      <p><a name="984536">Supports building a form pop&#45;up with a list of classes.</a></p>
+      <h4><a name="984537">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="997794"><font size="2" face="'Courier New'" color="#000000"><em>r_form</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="997796">Form handle.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997798"><font size="2" face="'Courier New'" color="#000000"><em>t_field</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997800">Field name in form or pop&#45;up name of form.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="984540">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="997812"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="997814">Pop&#45;up built.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997816"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997818">Failed to build pop&#45;up due to incorrect arguments.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="984542">Examples</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984543">axlBuildClassPopup(fw, &#34;CLASS&#34;)</a></font>
+      </blockquote>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984544">axlFormSetField(fw, &#34;CLASS&#34; axlMapClassName(&#34;ETCH&#34;))</a></font>
+      </blockquote>
+      <h3><a name="984545">axlBuildSubclassPopup</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="984546">axlBuildSubclassPopup(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>r_form<dd>t_field<dd>t_class<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="984548">Description</a></h4>
+      <p><a name="984549">Supports building a form pop&#45;up with a list of subclasses from the indicated class.</a></p>
+      <h4><a name="984550">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="324">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="997826"><font size="2" face="'Courier New'" color="#000000"><em>r_form</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="132">
+            <p><a name="997828">Form handle</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997830"><font size="2" face="'Courier New'" color="#000000"><em>t_field</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997832">Field name</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997834"><font size="2" face="'Courier New'" color="#000000"><em>t_class</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997836">Class name</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="985060">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="997848"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="997850">Built form subclass pop&#45;up.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997852"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997854">Failed to build form subclass pop&#45;up due to incorrect arguments.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="984555">Example</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984557">&nbsp;&nbsp;&nbsp;&nbsp;# place holder since popup will be overridden by the code</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984558">&nbsp;&nbsp;&nbsp;&nbsp;POPUP &#60;subclass&#62;&#34;subclass&#34; &#34;subclass&#34;.</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984559">&nbsp;&nbsp;&nbsp;&nbsp;...</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984560">&nbsp;&nbsp;&nbsp;&nbsp;# field name should match t_field</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984561">&nbsp;&nbsp;&nbsp;&nbsp;FIELD subclass</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984562">&nbsp;&nbsp;&nbsp;&nbsp;FLOC 9 3</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984563">&nbsp;&nbsp;&nbsp;&nbsp;ENUMSET 19</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984564">&nbsp;&nbsp;&nbsp;&nbsp;OPTIONS prettyprint ownerdrawn</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984565">&nbsp;&nbsp;&nbsp;&nbsp;POP &#34;subclass&#34;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984566">&nbsp;&nbsp;&nbsp;&nbsp;ENDFIELD</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984567">axlBuildSubclassPopup(fw, &#34;subclass&#34; axlMapClassName(&#34;ETCH&#34;))</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984568">axlFormSetField(fw, &#34;subclass&#34; &#34;GND&#34;)</a></font>
+      </p>
+      <p><a name="984822">Form file entry provides a subclass pop&#45;up with color swatch support. </a></p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="984831"><font size="2" face="'Courier New'" color="#000000">axlMapClassName</font></a> supports Allegro Package Designer L and Allegro Package SI XL, which rename certain classes.</p>
+      <h3><a name="984569">axlSubclassFormPopup</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="984570">axlSubclassFormPopup(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>r_form<dd>t_field<dd>t_class<dd></em></font>nil&#47;<font size="2" face="'Courier New'" color="#000000"><em>lt_subclass<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="984572">Description</a></h4>
+      <p><a name="984573">Builds a form pop&#45;up for a given Allegro PCB Editor class for a given field of </a><font size="2" face="'Courier New'" color="#000000"><em>r_form</em></font> using the <font size="2" face="'Courier New'" color="#000000">axlSubclassFormPopup</font> function. This function is a combination of <font size="2" face="'Courier New'" color="#000000">axlGetParam</font> and <font size="2" face="'Courier New'" color="#000000">axlFormBuildPopup</font> with color swatching.</p>
+      <p><a name="984574">If the fourth argument is </a><font size="2" face="'Courier New'" color="#000000">nil</font>, the pop&#45;up is based on all subclasses of the given class.</p>
+      <p><a name="984575">You can easily build a subclass pop&#45;up containing current colors as swatches. To do this, add the following in the form file for that field:</a></p>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984832"><font size="2" face="'Courier New'" color="#000000">OPTIONS</font></a> ownerdrawn</font>
+      </blockquote>
+      <p><a name="984576">Pop&#45;ups built this way are dispatched back to the application as strings.</a></p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="985238">if list of subclasses are passed, illegal subclass names are silently ignored.</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="13.333333333333332">
+              <div>&nbsp;</div>
+            </td>
+            <td width="133.33333333333331">
+              <div>
+                <nobr>
+                  <font size="3"><img src="images/tip.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td>
+              <font size="3"><a name="985241">To take advantage of color swatches in your subclass pulldown (ENUMSET) use this interface and the owner drawn option in the form file. The form file entry for your control should look like:</a></font>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="985244">             FIELD </a><font size="2" face="'Courier New'" color="#000000"><em>&#60;field name&#62;</em></font></p>
+      <p><a name="985245">             FLOC </a><font size="2" face="'Courier New'" color="#000000"><em>&#60;x y location&#62;</em></font></p>
+      <p><a name="985246">             ENUMSET </a><font size="2" face="'Courier New'" color="#000000"><em>&#60;width of field&#62;</em></font></p>
+      <p><a name="985247">             OPTIONS </a><font size="2" face="'Courier New'" color="#000000"><em>prettyprint ownerdrawn</em></font></p>
+      <p><a name="985248">             POP </a><font size="2" face="'Courier New'" color="#000000"><em>&#60;popup name&#62;</em></font></p>
+      <p><a name="985249">             ENDFIELD</a></p>
+      <p><a name="985236">         Note </a><font size="2" face="'Courier New'" color="#000000"><em>prettyprint</em></font> option upper&#47;lower cases the popup name the user sees.</p>
+      <h4><a name="984577">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="997867"><font size="2" face="'Courier New'" color="#000000"><em>r_form</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="997869">Standard form handle (see </a><a href="11frmint.html#414342" title="11"><font color="Blue"><u>axlFormCreate</u></font></a><a href="11frmint.html#414342" title="11"> </a>)</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997871"><font size="2" face="'Courier New'" color="#000000"><em>t_field</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997873">Field name in form or pop&#45;up name of form.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997875"><font size="2" face="'Courier New'" color="#000000"><em>t_class</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997877">Class name.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997879"><font size="2" face="'Courier New'" color="#000000">nil</font></a>&#47;<font size="2" face="'Courier New'" color="#000000"><em>lt_subclass</em></font></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997881">Use </a><font size="2" face="'Courier New'" color="#000000">nil</font> for all members of the class, otherwise specify a list.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="984582">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="627">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="997896"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="435">
+            <p><a name="997898">Form pop&#45;up built.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997900"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997902">Failed to build form pop&#45;up.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="984584">Example</a></h4>
+      <blockquote>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"></font>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984585">axlSubclassFormPopup( form &#34;subclass_name&#34; &#34;ETCH&#34; nil)</a></font>
+      </blockquote>
+      <h3><a name="984586">axlVisibleUpdate</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="984587">axlVisibleUpdate(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>t_now</em></font>)<dd><font face="symbol" color="#000000">⇒</font> t</font>
+      </dl>
+      <h4><a name="984589">Description</a></h4>
+      <p><a name="984590">The </a><font size="2" face="'Courier New'" color="#000000">axlVisible</font> family and its base building block permit changing layer color and visibility.</p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984848">&nbsp;&nbsp;&nbsp;&nbsp;axlSetParam(&#34;paramLayerGroup:...&#34;))</a></font>
+      </p>
+      <p><a name="984844">You can also use these functions in conjunction with Find Filter interaction to permit filtering objects by layer via changing visibility.</a></p>
+      <p><a name="984593">The SKILL application must indicate display update via </a><font size="2" face="'Courier New'" color="#000000">axlVisibleUpdate</font> when changing visibility on the user.</p>
+      <p><a name="984594">Updates any forms that display color or visibility to the user.</a></p>
+      <p><a name="984595">For most situations, pass </a><font size="2" face="'Courier New'" color="#000000">nil</font> to this function. This defers updating the main graphics canvas until control is returned to the user, allowing a combination of several canvas updates into one update.</p>
+      <h4><a name="984596">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="997914"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="997916">Update now.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997918"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="997920">Update when control is returned to the user.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="984599">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="532">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="997928"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="340">
+            <p><a name="997930">Returns </a><font size="2" face="'Courier New'" color="#000000">t</font> always.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="984601">Example 1</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984603">;; You should not interact with the user when you have </a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984604">;; visibility modified</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984605">;; get current visibility</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984606">p = axlVisibleGet()</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984607">axlVisibleDesign(nil) ; turn off all layers</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984608">;;... change visiblity of selected layers ...</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984609">;;... Selection of objects without user interaction</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984610">; restore visibility</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984611">axlVisibleSet(p)</a></font>
+      </p>
+      <p><a name="984863">Selects items using visibility without updating the display.</a></p>
+      <p><a name="984612"><font color="#000000"><strong>Example 2</strong></font></a></p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984614">;; only leave top etch layer on</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984615">axlVisibleLayer(&#34;etch&#34; nil)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984616">axlVisibleLayer(&#34;etch&#47;top&#34; t)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984617">; update display when control is returned to the user</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="984618">axlVisibleUpdate(nil)</a></font>
+      </p>
+      <p><a name="984875">Updates the display after changing visibility.</a></p>
+      <h4><a name="985064">Example 3</a></h4>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="985065">p = axlLayerGet(&#34;etch&#47;top&#34;)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="985069">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="985070">; legal numbers are 1 to 24</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="985071">p&#45;&#62;color = 10</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="985072">axlSetParam(p)</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="985073">&nbsp;</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="985074">;make this call after you change all colors and visibility</a></font>
+      </p>
+      <p>
+        <font size="2" face="&quot;Courier New&quot;" color="#000000"><a name="985075">axlVisibleUpdate(t)</a></font>
+      </p>
+      <p><a name="985076">Changes color on top etch layer.</a></p>
+      <h3><a name="985013">&nbsp;</a></h3>
+      <p><a name="989007">&nbsp;</a></p>
+      <p><a name="990443">&nbsp;</a></p>
+      <p><a name="992963">&nbsp;</a></p>
+      <p><a name="994565">&nbsp;</a></p>
+    </div>
+    <br>
+    <a href="#pagetop">Return to top of page</a>
+    <hr>
+    <hr align="left">
+    <div style="text-align: left;">
+      <!-- Begin Buttons -->      <table width="650" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                    </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+          <td>
+            <a href="18consmgt.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+          </td>
+          <td>
+            <a href="20plyopr.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+          </td>
+          <td>
+            <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+            </a>
+          </td>
+          <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+          </td>
+          <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+          </td>
+          <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+          </td>
+          <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+          </td>
+        </tr>
+      </table>
+      <!-- End Buttons -->
+    </div>
+    <br>
+    <font size="-1" >
+For support, see <a href="http://support.cadence.com" target="_blank">Cadence Online Support</a> service.</font>
+    <br>
+    <br>
+    <font size="-1" >
+      <i>Copyright &#169; 2017, <a href="http://www.cadence.com">Cadence Design Systems, Inc.</a></i>
+    </font>
+    <br>
+    <font size="-1" >
+All rights reserved.</font>
+    <br>
+    <br>
+  </body>
+</html>

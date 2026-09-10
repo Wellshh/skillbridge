@@ -1,0 +1,867 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN" "http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+<html xmlns="http://www.w3.org/MarkUp/Wilbur/HTML32.dtd">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>Allegro SKILL Reference -- 12</title>
+<META NAME="Approver" CONTENT="Technical Publications">
+<META NAME="Author" CONTENT="Technical Publications">
+<META NAME="CreateDate" CONTENT="2017-11-25">
+<META NAME="CreateTime" CONTENT="1511600112">
+<META NAME="DataType" CONTENT="Manuals">
+<META NAME="Description" CONTENT="Describes the Allegro eXtension Language (AXL) and how to use each AXL function.">
+<META NAME="DocTitle" CONTENT="Allegro SKILL Reference">
+<META NAME="DocType" CONTENT="SKILL Reference">
+<META NAME="EdmsRelease" CONTENT="FM-Wiki-2.0_HF2">
+<META NAME="FileTitle" CONTENT="12">
+<META NAME="FileType" CONTENT="Chapter">
+<META NAME="Group" CONTENT="Allegro User Guide">
+<META NAME="Keyword" CONTENT="algroskill">
+<META NAME="Language" CONTENT="English">
+<META NAME="ModifiedDate" CONTENT="2017-11-25">
+<META NAME="ModifiedTime" CONTENT="1511600112">
+<META NAME="NextFile" CONTENT="13msghnd.html">
+<META NAME="Order" CONTENT="11">
+<META NAME="PageCount" CONTENT="12">
+<META NAME="Platform" CONTENT="ALL">
+<META NAME="PrevFile" CONTENT="11frmint.html">
+<META NAME="Product" CONTENT="Allegro PCB Editor, Cadence SiP Digital">
+<META NAME="ProductFamily" CONTENT="Silicon-Package-Board Co-Design, IC Packaging">
+<META NAME="ProductVersion" CONTENT="17.2-2016">
+<META NAME="RightsManagement" CONTENT="Copyright 19912017 Cadence Design Systems Inc.">
+<META NAME="Title" CONTENT="Allegro SKILL Reference -- 12">
+<META NAME="TopicTags" CONTENT="FALSE">
+<META NAME="Version" CONTENT="17.2-2016">
+  </head>
+  <body style="margin-left: 5%;">
+    <a name="pagetop"></a>
+    <a name="firstpage"></a>
+    <!-- Begin Buttons -->
+    <table width="650" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td height="36" width="650" colspan="10">
+          <img src="images/header_doc.gif" width="650" height="34">
+        </td>
+      </tr>
+      <tr>
+        <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+        <td>
+          <a href="11frmint.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+        </td>
+        <td>
+          <a href="13msghnd.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+        </td>
+        <td height="20">
+          <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+          </a>
+        </td>
+        <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+        </td>
+        <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+        </td>
+        <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+        </td>
+        <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+        </td>
+      </tr>
+    </table>
+    <!-- End Buttons -->
+    <p>
+    <hr>
+    <p>
+      <h3>
+        <center>
+          <font >
+            <div>Allegro User Guide: SKILL Reference</div>
+            <font >
+              <div>Product Version 17.2&#45;2016 April 2016</div>
+            </font>
+          </font>
+        </center>
+      </h3>
+      <br>
+    </p>
+    <div>
+      <h1>12<a name="1001295">&nbsp;</a></h1>
+      <h1><a name="1037521">Simple Graphics Drawing Functions</a></h1>
+      <p><a name="1065738">This chapter describes the AXL&#45;SKILL functions related to Simple Graphics Drawing. You use these drawing utilities for drawing into bitmap areas such as thumbnails within the UIF forms package.</a></p>
+      <p><a name="1075118"><font size="2" face="'Courier New'" color="#000000">axlGRP</font></a> is the AXL interface to a Simple Graphics Drawing utility.</p>
+      <p><a name="1075119">You can simplify application drawing into thumbnails within forms as follows:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	1.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="1075120">Specify the thumbnail field within the form file. This should not have a bitmap associated with it.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	2.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="1075121">Call the </a><font size="2" face="'Courier New'" color="#000000">axlGRPDrwInit</font> function with the form, field name, and a callback function. Keep the handle returned by this function so you can use it in later processing.</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	3.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="1075122">Using the functions provided, redraw the image. The callback function is invoked with the graphics handle as the parameter.</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="28.8" align="center">
+              <div>
+                <nobr><font color="#000000"><strong>	4.	</strong></font></nobr>
+              </div>
+            </td>
+            <td><a name="1075123">Use the </a><font size="2" face="'Courier New'" color="#000000">axlGRPDrwUpdate</font> function to trigger the callback function.</td>
+          </tr>
+        </table>
+      </div>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1075124">The application </a><font color="#000000"><em>cannot</em></font> set bitmaps or graphics callbacks using the facilities outlined in the Thumbnail documentation while using this package.</p>
+      <p><a name="1075125">Simple Graphics Drawing package supports the following:</a></p>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075126">Rectangles (Filled and unfilled)</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075127">Polygons (Filled and unfilled)</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075128">Circles (Filled and unfilled)</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075129">Simple Lines</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075130">Poly Lines</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075131">Bitmaps</a></td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <table border="0" cellspacing="0" cellpadding="3" summary="">
+          <tr valign="baseline">
+            <td width="31.999679999999998">
+              <div>
+                <nobr>
+                  <font color="#000000"><img src="images/b_bullet.gif" alt="ParagraphBullet" border="0"></font>
+                </nobr>
+              </div>
+            </td>
+            <td><a name="1075132">Text</a></td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="1075140">This package supports a mappable coordinate system. With the </a><font size="2" face="'Courier New'" color="#000000">GRPDrwMapWindow</font> function, you can specify a rectangle that gets mapped to the actual drawing area. An aspect ratio of 1 to 1 is maintained.</p>
+      <p><a name="1075141">The zero point of the drawing area is the upper left point of the drawing:</a></p>
+      <p><a name="1075142"><img src="images/12draw.16.1.1.png" width="400" height="225" alt=""><br></a></p>
+      <p><font color="#000000"><strong>Note: </strong></font><a name="1075152">Objects drawn earlier are overlapped by objects drawn later. The application must manage this.</a></p>
+      <p><a name="1079136">&nbsp;</a></p>
+      <p><a name="1075153"><font color="#000000"><strong>Setting Option Properties on the r_graphics Handle</strong></font></a></p>
+      <p align="left"><a name="1075154">You can set option properties on the </a><font size="2" face="'Courier New'" color="#000000"><em>r_graphics</em></font> handle before calling the drawing functions. These properties, if applicable, are used by the drawing properties.</p>
+      <p align="left"><a name="1075653">&nbsp;</a></p>
+      <table summary="" border="1" cellpadding="5" cellspacing="0" width="638">
+        <caption>
+          <p align="left">
+            <strong><font color="#000000"><strong>Table 12&#45;1&nbsp; </strong></font></strong>
+            <strong><a name="1075640">r_graphics Option Properties&nbsp;</a></strong>
+          </p>
+        </caption>
+        <tr>
+          <td cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="132">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1075506">Option</a></strong></font>
+            </p>
+          </td>
+          <td cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="108">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1075508">Default</a></strong></font>
+            </p>
+          </td>
+          <td cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="120">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1075510">Description</a></strong></font>
+            </p>
+          </td>
+          <td cellpadding="4" border="2" bordercolor="#000000" valign="middle" width="277">
+            <p>
+              <font face="Verdana, Arial, Helvetica, sans-serif" color="#003366"><strong><a name="1075512">Available Settings</a></strong></font>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1075514">color</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1075516">black</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1075518">Applies to all elements.</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1075520">black, white, red, green, yellow, blue, lightblue, rose, purple, teal, darkpink, darkmagenta, aqua, gray, olive, orange, pink, beige, navy, violet, silver, rust, lime, brown, mauve, magenta, lightpink, cyan, salmon, peach, darkgray, button (represents the current button color)</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1075522">fill</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1075524">unfilled</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1075526">Applies only to rectangles and polygons.</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1075528">filled, filled_solid, unfilled</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1075530">width</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1075532">0</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1075534">Applies only when geometric elements are unfilled.</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1075536">&nbsp;</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" valign="top">
+            <p><a name="1075538">text_align</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1075540">left</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1075542">Text justification. Applies only to text.</a></p>
+          </td>
+          <td cellpadding="4" valign="top">
+            <p><a name="1075544">left, center, right</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1075546">text_bkmode</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1075548">transparent</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1075550">Text background display mode. Applies only to text.</a></p>
+          </td>
+          <td cellpadding="4" border="1" bordercolor="#000000" valign="top">
+            <p><a name="1075552">transparent, opaque</a></p>
+          </td>
+        </tr>
+      </table>
+      <p><a name="1075415"><font color="#000000"><strong>Examples</strong></font></a></p>
+      <p><a name="1075416">See </a><font size="2" face="'Courier New'" color="#000000">&#60;</font><font size="2" face="'Courier New'" color="#000000"><em>cdsroot</em></font><font size="2" face="'Courier New'" color="#000000">&#62;&#47;share&#47;pcb&#47;examples&#47;skill&#47;form&#47;basic&#47;axlform.il</font> for a complete example.</p>
+      <h2><a name="1065349">Functions</a></h2>
+      <h3><a name="1075417">axlGRPDrwBitmap</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1065350">axlGRPDrwBitmap(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>r_graphics<dd>t_bitmap<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="1074842">Description</a></h4>
+      <p><a name="1074888">Loads a bitmap into a form draw window (drawing area in the graphics field). More drawing can take place on top of the bitmap.</a></p>
+      <h4><a name="1074889">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1080193"><font size="2" face="'Courier New'" color="#000000"><em>r_graphics</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="1080195">Graphics handle.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080197"><font size="2" face="'Courier New'" color="#000000"><em>t_bitmap</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080199">Name of bitmap file. File must be on the </a><font size="2" face="'Courier New'" color="#000000">BMPPATH</font>, with <font size="2" face="'Courier New'" color="#000000">.bmp</font> as the extension.</p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1074895">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1080207"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1080209">Bitmap loaded into drawing area in the graphics field.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080211"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080213">No bitmap loaded into the drawing area in the graphics field due to invalid arguments.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h3><a name="1074897">axlGRPDrwCircle</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1074904">axlGRPDrwCircle(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>r_graphics<dd>l_origin<dd>x_radius<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="1074907">Description</a></h4>
+      <p><a name="1074908">Draws a circle into the area identified by the </a><font size="2" face="'Courier New'" color="#000000"><em>r_graphics</em></font> handle, at the origin specified, and with the specified radius. Option properties attached to the <font size="2" face="'Courier New'" color="#000000"><em>r_graphics</em></font> handle are applied when drawing the circle.</p>
+      <h4><a name="1074909">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1080221"><font size="2" face="'Courier New'" color="#000000"><em>r_graphics</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1080223">Graphics handle.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080225"><font size="2" face="'Courier New'" color="#000000"><em>l_origin</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080227">List noting the </a><font size="2" face="'Courier New'" color="#000000"><em>x</em></font> and <font size="2" face="'Courier New'" color="#000000"><em>y</em></font> coordinates of the origin.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080229"><font size="2" face="'Courier New'" color="#000000"><em>x_radius</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080231">Integer noting the radius of the circle.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1074912">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1080239"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1080241">Circle drawn.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080243"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080245">No circle drawn due to invalid arguments.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h3><a name="1074902">axlGRPDrwInit</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1074931">axlGRPDrwInit(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>r_form<dd>t_field<dd>t_func<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> <font size="2" face="'Courier New'" color="#000000"><em>r_graphics</em></font>&#47;nil</font>
+      </dl>
+      <h4><a name="1074934">Description</a></h4>
+      <p><a name="1079090">Use this command to set graphics callback in a form field. It sets up necessary data structures for triggering the graphics callback into the graphics field.</a></p>
+      <h4><a name="1074936">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1080253"><font size="2" face="'Courier New'" color="#000000"><em>r_form</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1080255">Handle of the form.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080257"><font size="2" face="'Courier New'" color="#000000"><em>t_field</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080259">Name of field into which the package should draw. (Only </a><font size="2" face="'Courier New'" color="#000000">THUMBNAIL</font> fields are supported.)</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080261"><font size="2" face="'Courier New'" color="#000000"><em>t_func</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080263">Name of the drawing callback function. Callback function is invoked with the graphics handle as the parameter.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1074939">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1080270"><font size="2" face="'Courier New'" color="#000000"><em>r_graphics</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1080272">Graphics package handle.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080274"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080276">Failed to set up necessary data structures for triggering the graphics callback due to invalid arguments.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h3><a name="1074929">axlGRPDrwLine</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1074957">axlGRPDrwLine(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>r_graphics<dd>l_vertices<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="1074960">Description</a></h4>
+      <p><a name="1074961">Draws a line into the area identified by the </a><font size="2" face="'Courier New'" color="#000000"><em>r_graphics</em></font> handle and the list of coordinates. Option properties attached to the <font size="2" face="'Courier New'" color="#000000"><em>r_graphics</em></font> handle are applied when drawing the line.</p>
+      <h4><a name="1074962">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1080284"><font size="2" face="'Courier New'" color="#000000"><em>r_graphics</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1080286">Graphics handle.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080288"><font size="2" face="'Courier New'" color="#000000"><em>l_vertices</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080290">List of coordinates describing the line.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1074965">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1080298"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="456">
+            <p><a name="1080300">Line drawn.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080302"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080304">No line drawn due to invalid arguments.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h3><a name="1074977">axlGRPDrwMapWindow</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1074985">axlGRPDrwMapWindow(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>r_graphics<dd>x_hgt<dd>x_width<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="1074988">Description</a></h4>
+      <p><a name="1074989">Forces a draw in a form draw field. Allows the application to denote the coordinate system that is mapped into the drawing area of the graphics field.</a></p>
+      <h4><a name="1074990">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1080312"><font size="2" face="'Courier New'" color="#000000"><em>r_graphics</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1080314">Graphics handle.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080316"><font size="2" face="'Courier New'" color="#000000"><em>x_hgt</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080318">Height of drawing window.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080320"><font size="2" face="'Courier New'" color="#000000"><em>x_width</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080322">Width of drawing window.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1074993">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1080330"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1080332">Successful</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080334"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080336">Error occurred due to invalid arguments.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h3><a name="1074983">axlGRPDrwPoly</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075015">axlGRPDrwPoly(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>r_graphics<dd>l_vertices<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="1075018">Description</a></h4>
+      <p><a name="1075019">Draws a polygon (multi&#45;segment line) into the area identified by the </a><font size="2" face="'Courier New'" color="#000000"><em>r_graphics</em></font> handle and the list of coordinates. Option properties attached to the <font size="2" face="'Courier New'" color="#000000"><em>r_graphics</em></font> handle are applied when drawing the polygon. If the coordinates do not form a closed polygon, the first and last coordinates in the list are connected by a straight line.</p>
+      <h4><a name="1075020">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="645">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1080344"><font size="2" face="'Courier New'" color="#000000"><em>r_graphics</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="453">
+            <p><a name="1080346">Graphics handle.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080348"><font size="2" face="'Courier New'" color="#000000"><em>l_vertices</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080350">List of coordinates describing the line.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075023">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="646">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1080357"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1080359">Polygon or line drawn.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080361"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080363">No polygon or line drawn due to invalid arguments.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h3><a name="1075013">axlGRPDrwRectangle</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075041">axlGRPDrwRectangle(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>r_graphics<dd>l_upper_left<dd>l_lower_right<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="1075044">Description</a></h4>
+      <p><a name="1075045">Draws a rectangle into the area identified by the </a><font size="2" face="'Courier New'" color="#000000"><em>r_graphics</em></font> handle and the <font size="2" face="'Courier New'" color="#000000"><em>upper_left</em></font> and <font size="2" face="'Courier New'" color="#000000"><em>lower_right</em></font> coordinates. Option properties attached to the <font size="2" face="'Courier New'" color="#000000"><em>r_graphics</em></font> handle are applied when drawing the rectangle.</p>
+      <h4><a name="1075046">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1080371"><font size="2" face="'Courier New'" color="#000000"><em>r_graphics</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1080373">Graphics handle.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080375"><font size="2" face="'Courier New'" color="#000000"><em>l_upper_left</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080377">List noting the coordinate of the upper left point of the rectangle.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080379"><font size="2" face="'Courier New'" color="#000000"><em>l_lower_right</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080381">List noting the coordinate of the lower right point of the rectangle.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075049">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1080391"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1080393">Rectangle drawn.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080395"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080397">No rectangle drawn due to incorrect arguments.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h3><a name="1075039">axlGRPDrwText</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075070">axlGRPDrwText(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>r_graphics<dd>l_origin<dd>t_text<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="1075073">Description</a></h4>
+      <p><a name="1075074">Draws text into the area identified by the </a><font size="2" face="'Courier New'" color="#000000"><em>r_graphics</em></font> handle at the origin specified. Option properties attached to the <font size="2" face="'Courier New'" color="#000000"><em>r_graphics</em></font> handle are applied when drawing the text.</p>
+      <h4><a name="1075075">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="647">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1080405"><font size="2" face="'Courier New'" color="#000000"><em>r_graphics</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="454">
+            <p><a name="1080407">Graphics handle.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080409"><font size="2" face="'Courier New'" color="#000000"><em>l_origin</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080411">List noting the </a><font size="2" face="'Courier New'" color="#000000"><em>x</em></font> and <font size="2" face="'Courier New'" color="#000000"><em>y</em></font> coordinate of the origin.</p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080413"><font size="2" face="'Courier New'" color="#000000"><em>t_text</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080415">Text string to be drawn.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075079">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1080422"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1080424">Text drawn.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080426"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080428">No text drawn due to incorrect arguments.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h3><a name="1075068">axlGRPDrwUpdate</a></h3>
+      <dl>
+        <font size="2" face="'Courier New'" color="#000000"><a name="1075094">axlGRPDrwUpdate(<dd></a><font size="2" face="'Courier New'" color="#000000"><em>r_graphics<dd></em></font>)<dd><font face="symbol" color="#000000">⇒</font> t&#47;nil</font>
+      </dl>
+      <h4><a name="1075097">Description</a></h4>
+      <p><a name="1079023">Force call to register callback function for a draw window. Triggers calling of the application supplied callback function.</a></p>
+      <h4><a name="1075099">Arguments</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="324">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1080436"><font size="2" face="'Courier New'" color="#000000"><em>r_graphics</em></font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="132">
+            <p><a name="1080438">Graphics handle.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1075103">Value Returned</a></h4>
+      <table summary="" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" width="648">
+        <tr>
+          <td cellpadding="4" border="0" valign="top" width="192">
+            <p><a name="1080445"><font size="2" face="'Courier New'" color="#000000">t</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top" width="455">
+            <p><a name="1080447">Application supplied callback function called.</a></p>
+          </td>
+        </tr>
+        <tr>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080449"><font size="2" face="'Courier New'" color="#000000">nil</font></a></p>
+          </td>
+          <td cellpadding="4" border="0" valign="top">
+            <p><a name="1080451">No callback function called due to an incorrect argument.</a></p>
+          </td>
+        </tr>
+      </table>
+      <h4><a name="1074955">&nbsp;</a></h4>
+      <p><a name="1075754">&nbsp;</a></p>
+      <p><a name="1077141">&nbsp;</a></p>
+      <p><a name="1078490">&nbsp;</a></p>
+      <p><a name="1078737">&nbsp;</a></p>
+      <p><a name="1079393">&nbsp;</a></p>
+    </div>
+    <br>
+    <a href="#pagetop">Return to top of page</a>
+    <hr>
+    <hr align="left">
+    <div style="text-align: left;">
+      <!-- Begin Buttons -->      <table width="650" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td height="20" width="59">
+<a href="javascript:openLibrary()"><img src="../support/nav2_library.gif" border="0" alt="View Library" height="20" width="59"></a>
+
+                    </td>
+<td height="20" width="73">
+<a href="algroskillTOC.html"><img src="../support/nav2_toc.gif" alt="Table of Contents" border="0"></a>
+</td>
+<td height="20" width="46">
+<img src="../support/nav2_index_b.gif" border="0">
+</td>
+
+          <td>
+            <a href="11frmint.html"><img src="images/nav2_previous.gif" alt="Previous" border="0"></a>
+          </td>
+          <td>
+            <a href="13msghnd.html"><img src="images/nav_next.gif" alt="Next" border="0"></a>
+          </td>
+          <td>
+            <a>
+<a href="algroskill.pdf"><img src="../support/nav2_print.gif" border="0" alt="Open PDF to print book" height="20" width="114"></a>
+
+            </a>
+          </td>
+          <td height="20" width="61">
+<img src="../support/nav2_black.gif" border="0"  height="20" width="76">
+
+          </td>
+          <td height="20" width="76">
+<a href="/feedback.htm"><img src="../support/nav2_feedback.gif" border="0" alt="Email Comments" height="20" width="76"></a>
+
+          </td>
+          <td height="20" width="43">
+<a href="../cdsuser/help.html"><img src="../support/nav2_help.gif" border="0" alt="Help Using Documentation" height="20" width="43"></a>
+
+          </td>
+          <td height="20" width="37">
+<a href="/exitsearch.htm"><img src="../support/nav2_exit.gif" border="0" alt="Shut Down Cadence Documentation Server" height="20" width="37"></a>
+
+          </td>
+        </tr>
+      </table>
+      <!-- End Buttons -->
+    </div>
+    <br>
+    <font size="-1" >
+For support, see <a href="http://support.cadence.com" target="_blank">Cadence Online Support</a> service.</font>
+    <br>
+    <br>
+    <font size="-1" >
+      <i>Copyright &#169; 2017, <a href="http://www.cadence.com">Cadence Design Systems, Inc.</a></i>
+    </font>
+    <br>
+    <font size="-1" >
+All rights reserved.</font>
+    <br>
+    <br>
+  </body>
+</html>

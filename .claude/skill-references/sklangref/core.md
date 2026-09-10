@@ -20,14 +20,16 @@ If the function is read-protected, the arguments are still returned. If the func
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_function` | Name of the function or the symbol whose argument list youwant to see.
+| Name | Description |
+|---|---|
+| `g_function` | Name of the function or the symbol whose argument list youwant to see. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_argumentList` | Number and types of arguments for `g_function`.
+| Name | Description |
+|---|---|
+| `l_argumentList` | Number and types of arguments for `g_function`. |
+
 #### Example
 
 `arglist('rexMatchp) => ( t_string S_stringSymbol "tS")`
@@ -44,14 +46,16 @@ Enables you to insert assertions into the SKILL code, either at the top-level or
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_expression` | A generic expression.
+| Name | Description |
+|---|---|
+| `g_expression` | A generic expression. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `nil` | Assertion is successful.
+| Name | Description |
+|---|---|
+| `nil` | Assertion is successful. |
+
 | g\_expression | Assertion failed.
 #### Example
 
@@ -61,7 +65,7 @@ Enables you to insert assertions into the SKILL code, either at the top-level or
 
 ### atom
 
-`atom( g_arg ) => t | nil`
+`atom( g_arg ) => t / nil`
 
 #### Description
 
@@ -71,17 +75,17 @@ Checks if an object is an atom.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_arg` | Any SKILL object.
+| Name | Description |
+|---|---|
+| `g_arg` | Any SKILL object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`g_arg` is an atom.
-|  |
-| --- | ---
-| `nil` | If`g_arg` is not an atom.
+| Name | Description |
+|---|---|
+| `t` | If`g_arg` is an atom. |
+| `nil` | If`g_arg` is not an atom. |
+
 #### Example
 
 `atom( 'hello )  => t`
@@ -92,7 +96,7 @@ Checks if an object is an atom.
 
 ### bcdp
 
-`bcdp( g_value ) => t | nil`
+`bcdp( g_value ) => t / nil`
 
 #### Description
 
@@ -102,24 +106,24 @@ The suffix`p` is usually added to the name of a function to indicate that it is 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_value` | Object to check.
+| Name | Description |
+|---|---|
+| `g_value` | Object to check. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`g_value` is a binary function.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | If`g_value` is a binary function. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `bcdp(getd('plus)) => tbcdp('plus) => nil`
 
 ### booleanp
 
-`booleanp( g_obj ) => t | nil`
+`booleanp( g_obj ) => t / nil`
 
 #### Description
 
@@ -127,17 +131,17 @@ Checks if an object is a boolean. Returns`t` if the object is `t` or `nil`. Retu
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_obj` | Any SKILL object.
+| Name | Description |
+|---|---|
+| `g_obj` | Any SKILL object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If`g_obj` is either `t` or `nil`.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | If`g_obj` is either `t` or `nil`. |
+| `nil` | Otherwise. |
+
 #### Example
 
 (booleanp 0 ) => nil
@@ -146,7 +150,7 @@ Checks if an object is a boolean. Returns`t` if the object is `t` or `nil`. Retu
 
 ### boundp
 
-`boundp( s_arg [ e_environment ] ) => t | nil`
+`boundp( s_arg [ e_environment ] ) => t / nil`
 
 #### Description
 
@@ -158,20 +162,18 @@ Remember that a variable can be set to the special symbol`unbound`.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_arg` | Symbol to be tested to see if it is bound.
-|  |
-| --- | ---
-| `e_environment` | If this argument is given, SKILL++ semantics are used. Thesymbol will be searched for within the given (lexical) environment.
+| Name | Description |
+|---|---|
+| `s_arg` | Symbol to be tested to see if it is bound. |
+| `e_environment` | If this argument is given, SKILL++ semantics are used. Thesymbol will be searched for within the given (lexical) environment. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | If the symbol`s_arg` has been assigned a value.
-|  |
-| --- | ---
-| `nil` | If the symbol`s_arg` has not been assigned a value.
+| Name | Description |
+|---|---|
+| `t` | If the symbol`s_arg` has been assigned a value. |
+| `nil` | If the symbol`s_arg` has not been assigned a value. |
+
 #### Example
 
 `x = 5                ; Binds x to the value 5.y = 'unbound         ; Unbind y`
@@ -201,14 +203,16 @@ You can turn on the printing of garbage collection messages by setting the`_gcpr
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_string` | File into which additional information is dumped.
+| Name | Description |
+|---|---|
+| `t_string` | File into which additional information is dumped. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `nil` | Always returns`nil`.
+| Name | Description |
+|---|---|
+| `nil` | Always returns`nil`. |
+
 #### Example
 
 `gc( ) => nil`
@@ -229,14 +233,16 @@ The new symbol's print name is the result of concatenating the printed represent
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_arg` | String or symbol to be concatenated into a new symbol. If notsupplied, the default value is `G`.
+| Name | Description |
+|---|---|
+| `S_arg` | String or symbol to be concatenated into a new symbol. If notsupplied, the default value is `G`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `s_result` | New unique symbol.
+| Name | Description |
+|---|---|
+| `s_result` | New unique symbol. |
+
 #### Example
 
 ```
@@ -245,7 +251,7 @@ gensym()                 => G5gensym("test")         �
 
 ### getSkillVersion
 
-`getSkillVersion( [g_printSubVersion]) => t_version`
+`getSkillVersion( [g_printSubVersion] ) => t_version`
 
 #### Description
 
@@ -253,14 +259,16 @@ Returns the major version if the argument is left`blank`; otherwise, returns the
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_printSubVersion` | (Optional) Specify a flag to print the current subversion (or tarkitversion) of SKILL running in the build
+| Name | Description |
+|---|---|
+| `g_printSubVersion` | (Optional) Specify a flag to print the current subversion (or tarkitversion) of SKILL running in the build |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_version` | If the argument flag is left`blank`, returns the major version of SKILL running in the build. If the argument flag is specified, returns the current subversion (tarkit version) of SKILL running in the build
+| Name | Description |
+|---|---|
+| `t_version` | If the argument flag is left`blank`, returns the major version of SKILL running in the build. If the argument flag is specified, returns the current subversion (tarkit version) of SKILL running in the build |
+
 #### Example
 
 `getSkillVersion()=> "SKILL04.20"`
@@ -280,14 +288,16 @@ This function is useful for converting symbols to strings. If you just want to p
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_arg` | A symbol.
+| Name | Description |
+|---|---|
+| `s_arg` | A symbol. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_result` | Print name of the symbol.
+| Name | Description |
+|---|---|
+| `t_result` | Print name of the symbol. |
+
 #### Example
 
 ```
@@ -308,14 +318,16 @@ Converts the argument to a string if it is a symbol. Otherwise it returns the st
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_arg` | String or symbol.
+| Name | Description |
+|---|---|
+| `S_arg` | String or symbol. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_result` | Of the argument is a string, returns the argument itself. If theargument is a symbol, returns the print name as a string.
+| Name | Description |
+|---|---|
+| `t_result` | Of the argument is a string, returns the argument itself. If theargument is a symbol, returns the print name as a string. |
+
 #### Example
 
 `get_string('xyz)    => "xyz"get_string("xyz")   => "xyz"`
@@ -352,17 +364,16 @@ These`system.??` properties are initialized at startup.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_opt` | Optional argument.
-|  |
-| --- | ---
-|  | If the optional argument,`g_opt`, is specified as `t` (or a non-nil value), the subversion number of the Cadence software currently used is returned. By default, the full version number, including the hotfix version, of the Cadence software currently used is returned.
+| Name | Description |
+|---|---|
+| `g_opt` | Optional argument. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_[sub]version` | String identifying the version/subversion of the program you arerunning.
+| Name | Description |
+|---|---|
+| `t_[sub]version` | String identifying the version/subversion of the program you arerunning. |
+
 #### Example
 
 ```
@@ -393,14 +404,16 @@ Returns the buffered warning if it has not already been printed.
 
 #### Arguments
 
-|  |
-| --- | ---
-| None. |
+| Name | Description |
+|---|---|
+| `None.` |  |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_warning` | The warning message that would have been printed if it had notbeen intercepted by the call to `getWarn`.
+| Name | Description |
+|---|---|
+| `t_warning` | The warning message that would have been printed if it had notbeen intercepted by the call to `getWarn`. |
+
 #### Example
 
 ```
@@ -433,7 +446,7 @@ testWarn( ?getLastWarn nil)*WARNING* This is warning 1*WARNING* This is warning 
 
 ### help
 
-`help( [ S_name ] ) => t | nil`
+`help( [ S_name ] ) => t / nil`
 
 #### Description
 
@@ -441,17 +454,17 @@ Retrieves and prints the cdsFinder documentation strings for the given function 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_name` | Name to search for.
+| Name | Description |
+|---|---|
+| `S_name` | Name to search for. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | The given function name is found in the cdsFinder.
-|  |
-| --- | ---
-| `nil` | No match is found for`S_name`.
+| Name | Description |
+|---|---|
+| `t` | The given function name is found in the cdsFinder. |
+| `nil` | No match is found for`S_name`. |
+
 #### Example
 
 `help nonexist`
@@ -506,14 +519,16 @@ Evaluates a form as top-level SKILL++ code, disregarding the surrounding evaluat
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_form` | Form to be evaluated as top-level SKILL++ code.
+| Name | Description |
+|---|---|
+| `g_form` | Form to be evaluated as top-level SKILL++ code. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Result of the evaluation.
+| Name | Description |
+|---|---|
+| `g_result` | Result of the evaluation. |
+
 #### Example
 
 `(inScheme        (define myVar 100)) => myVar`
@@ -534,14 +549,16 @@ Evaluates a form as top-level SKILL code, disregarding the surrounding evaluatio
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_form` | Form to be evaluated as top-level SKILL code.
+| Name | Description |
+|---|---|
+| `g_form` | Form to be evaluated as top-level SKILL code. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Result of the evaluation.
+| Name | Description |
+|---|---|
+| `g_result` | Result of the evaluation. |
+
 #### Example
 
 `(inSkill        skillVar = 100) => 100`
@@ -558,17 +575,17 @@ Checks if the specified variable was imported into SKILL++ or not.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_var` | The variable to be checked.
+| Name | Description |
+|---|---|
+| `s_var` | The variable to be checked. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | The specified variable`s_var` was imported into SKILL++.
-|  |
-| --- | ---
-| `nil` | Returns`nil`, if the given variable is not imported.
+| Name | Description |
+|---|---|
+| `t` | The specified variable`s_var` was imported into SKILL++. |
+| `nil` | Returns`nil`, if the given variable is not imported. |
+
 #### Example
 
 `isVarImported('myvar)`
@@ -577,7 +594,7 @@ Checks if the specified variable was imported into SKILL++ or not.
 
 ### makeSymbol
 
-`makeSymbol( S_createSymbol [ t_namespaceArg ]) => s_result`
+`makeSymbol( S_createSymbol [ t_namespaceArg ] ) => s_result`
 
 #### Description
 
@@ -587,17 +604,17 @@ Creates a symbol corresponding to the specified symbol or character string. In I
 
 #### Arguments
 
-|  |
-| --- | ---
-| `S_createSymbol` | Specifies the value for which a corresponding symbol needs tobe created.
-|  |
-| --- | ---
-| `t_namespaceArg` | (Optional) Specifies the name of the namespace in which youwant to create the symbol.
+| Name | Description |
+|---|---|
+| `S_createSymbol` | Specifies the value for which a corresponding symbol needs tobe created. |
+| `t_namespaceArg` | (Optional) Specifies the name of the namespace in which youwant to create the symbol. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `s_result` | Returns a symbol corresponding to the specifed string value.
+| Name | Description |
+|---|---|
+| `s_result` | Returns a symbol corresponding to the specifed string value. |
+
 #### Example 1
 
 The following example creates a symbol corresponding to the specified string value,`myString`.
@@ -640,14 +657,16 @@ Measures the time needed to evaluate an expression and returns a list of four nu
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_expression` | Expression(s) to be evaluated and timed.
+| Name | Description |
+|---|---|
+| `g_expression` | Expression(s) to be evaluated and timed. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | Returns the elapsed time and number of page faults to evaluate`g_expression`.
+| Name | Description |
+|---|---|
+| `l_result` | Returns the elapsed time and number of page faults to evaluate`g_expression`. |
+
 #### Example
 
 ```
@@ -664,7 +683,7 @@ Result indicates that it took 5 seconds and 0 page faults to build a list from 1
 
 ### needNCells
 
-`needNCells( {s_cellType | S_userType} x_cellCount )=> t | nil`
+`needNCells( ( s_cellType / S_userType ) x_cellCount ) => t / nil`
 
 #### Description
 
@@ -674,23 +693,19 @@ If necessary, more memory is allocated. The name of the user type can be passed 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_cellType` | Objects of type`cellType`.
-|  |
-| --- | ---
-| `S_userType` | Objects of type`userType`.
-|  |
-| --- | ---
-| `x_cellCount` | Number of objects.
+| Name | Description |
+|---|---|
+| `s_cellType` | Objects of type`cellType`. |
+| `S_userType` | Objects of type`userType`. |
+| `x_cellCount` | Number of objects. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | Enough memory is available.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | Enough memory is available. |
+| `nil` | Otherwise. |
+
 #### Example
 
 `needNCells( 'list 1000 ) => t`
@@ -709,14 +724,16 @@ Restores a floating point number (`f_number`) from its serialized string (`t_str
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_string` | A serialized float created by`ilSaveFloat()`.
+| Name | Description |
+|---|---|
+| `t_string` | A serialized float created by`ilSaveFloat()`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `f_number` | The restored floating point number.
+| Name | Description |
+|---|---|
+| `f_number` | The restored floating point number. |
+
 #### Example
 
 `str = saveFloat(1.4106)`
@@ -735,14 +752,16 @@ Serializes the given floating point number (`f_number`) to string (`t_string`).
 
 #### Arguments
 
-|  |
-| --- | ---
-| `f_number` | The floating point number that needs to be serialized.
+| Name | Description |
+|---|---|
+| `f_number` | The floating point number that needs to be serialized. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t_string` | The string representation of`f_number`.
+| Name | Description |
+|---|---|
+| `t_string` | The string representation of`f_number`. |
+
 #### Example
 
 `str = saveFloat(1.4106)`
@@ -759,21 +778,23 @@ Returns the top level SKILL++ environment as an environment object.
 
 #### Arguments
 
-|  |
-| --- | ---
-| None. |
+| Name | Description |
+|---|---|
+| `None.` |  |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `e_envobj` | The top level SKILL++ environment object.
+| Name | Description |
+|---|---|
+| `e_envobj` | The top level SKILL++ environment object. |
+
 #### Example
 
 `schemeTopLevelEnv() => envobj:0x1ad018`
 
 ### setPrompts
 
-`setPrompts(s_prompt1s_prompt2)=> t | nil`
+`setPrompts( s_prompt1 s_prompt2 ) => t / nil`
 
 #### Description
 
@@ -785,15 +806,17 @@ The text string for`s_prompt2` should always be the `%d` format string, which be
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_prompt1` | Prompt text string.
+| Name | Description |
+|---|---|
+| `s_prompt1` | Prompt text string. |
+
 | `s_prompt2` | Prompt text string.
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | The prompt has been set.
+| Name | Description |
+|---|---|
+| `t` | The prompt has been set. |
+
 | `nil` | Returns`nil` and issues an error message if the prompt is not changed.
 #### Example
 
@@ -846,17 +869,17 @@ The internal variables are typically Boolean switches that accept only the Boole
 | stackTraceFormat | Controls the stacktrace output format. It can havethree values: `fullStack`, `onlyCall`, and `onlyTop`.  `fullStack` prints the complete set of SKILL stack frames.  `onlyCall` supresses the printing of non-function frames in the output.  `onlyTop` supresses the printing of non-function frames except for the top most function frame. | `fullStack`
 #### Arguments
 
-|  |
-| --- | ---
-| `s_name` | Name of internal system variable.
-|  |
-| --- | ---
-| `g_switchValue` | New value for internal system variable, usually`t` or `nil`.
+| Name | Description |
+|---|---|
+| `s_name` | Name of internal system variable. |
+| `g_switchValue` | New value for internal system variable, usually`t` or `nil`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_switchValue` | The second argument to`sstatus`.
+| Name | Description |
+|---|---|
+| `g_switchValue` | The second argument to`sstatus`. |
+
 #### Example 1
 
 `sstatus( debugMode t )          => t`
@@ -1000,14 +1023,16 @@ See the`sstatus` function for a list of the [Internal System Variables](#1039940
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_name` | Name of internal system variable.
+| Name | Description |
+|---|---|
+| `s_name` | Name of internal system variable. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_switchValue` | Status of the internal system variable, usually either`t` or `nil`.
+| Name | Description |
+|---|---|
+| `g_switchValue` | Status of the internal system variable, usually either`t` or `nil`. |
+
 #### Example
 
 `status( debugMode ) => t`
@@ -1022,7 +1047,7 @@ status debugMode    ; read the current value of the switch=> nilsstatus debu
 
 ### theEnvironment
 
-`theEnvironment( [ u_funobj ] ) => e_environment | nil`
+`theEnvironment( [ u_funobj ] ) => e_environment / nil`
 
 #### Description
 
@@ -1042,17 +1067,17 @@ status debugMode    ; read the current value of the switch=> nilsstatus debu
 
 #### Arguments
 
-|  |
-| --- | ---
-| `u_funobj` | Optional argument. Should be a SKILL++ closure.
+| Name | Description |
+|---|---|
+| `u_funobj` | Optional argument. Should be a SKILL++ closure. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `nil` | Returned when called from a SKILL function and you do not passa SKILL++ closure as the optional argument.
-|  |
-| --- | ---
-| `e_environment` | Either the top-level environment, or the enclosing environment,or the closure's environment.
+| Name | Description |
+|---|---|
+| `nil` | Returned when called from a SKILL function and you do not passa SKILL++ closure as the optional argument. |
+| `e_environment` | Either the top-level environment, or the enclosing environment,or the closure's environment. |
+
 #### Example
 
 `Z = let( ( x )     x = 3     theEnvironment()     ) ; let=> envobj:0x1e0060`

@@ -316,6 +316,33 @@ Bullet returns.
     )
 
 
+def test_build_api_specs_ignores_unquoted_markdown_table_headers(tmp_path: Path) -> None:
+    api_names_path, reference_root = _write_sources(
+        tmp_path,
+        ['axlHeader'],
+        {
+            'apis.md': """
+### axlHeader
+`axlHeader(t_value) => t/nil`
+#### Arguments
+| Name | Description |
+|---|---|
+| `t_value` | Input value. |
+#### Value Returns
+| Name | Description |
+|---|---|
+| `t` | Success. |
+""",
+        },
+    )
+
+    spec = build_api_specs(api_names_path, reference_root)[0]
+
+    assert spec.quality == 'exact'
+    assert spec.doc.arguments == (ArgumentDoc('t_value', 'Input value.'),)
+    assert spec.doc.returns == (ArgumentDoc('t', 'Success.'),)
+
+
 def test_build_api_specs_classifies_duplicates_conflicts_and_missing_entries(
     tmp_path: Path,
 ) -> None:
@@ -401,10 +428,10 @@ def test_real_allegro_references_cover_the_supported_inventory() -> None:
         report.document_only,
     ) == (
         792,
-        782,
+        783,
         3,
         0,
-        1,
+        0,
         6,
     )
     assert by_name['axlDBGetDesign'].quality == 'exact'
@@ -430,13 +457,13 @@ def test_real_allegro_references_cover_the_supported_inventory() -> None:
         ('s_mode', True),
     ]
     assert by_name['axlAltSymbolReplace'].quality == 'exact'
-    assert by_name['axl_ol_ol2'].quality == 'missing'
+    assert by_name['axl_ol_ol2'].quality == 'exact'
     assert by_name['axlReportList'].quality == 'exact'
     assert by_name['axlPurgePadstacks'].quality == 'exact'
     assert by_name['axlSpreadsheetDoc'].quality == 'document_only'
     assert by_name['axlcreate'].quality == 'exact'
     assert by_name['axlDBCreateFilmRec'].quality == 'fallback'
-    assert by_name['axlISProductStarted'].quality == 'fallback'
+    assert by_name['axlISProductStarted'].quality == 'exact'
     assert by_name['axlIgnoreFixed'].quality == 'fallback'
     assert [
         parameter.name
@@ -476,7 +503,7 @@ def test_real_allegro_references_cover_the_supported_inventory() -> None:
         ArgumentDoc(
             't_padstack',
             'Padstack name. If a padstack definition with this name is not already in the '
-            'layout, the function searches in order the libraries specified by`PADPATH` and '
+                'layout, the function searches in order the libraries specified by `PADPATH` and '
             'loads the definition into the database.',
         ),
         ArgumentDoc('o_padstackDbid', 'a padstack dbid'),
@@ -488,7 +515,7 @@ def test_real_allegro_references_cover_the_supported_inventory() -> None:
         ArgumentDoc(
             'g_mirror',
             '`t` → create via mirrored. `nil` → create via unmirrored. '
-            '`` `GEOMETRY `` → only geometry is mirrored.',
+            '``GEOMETRY` → only geometry is mirrored.',
         ),
         ArgumentDoc('f_rotation', 'Rotation of via in degrees.'),
         ArgumentDoc(
@@ -500,15 +527,15 @@ def test_real_allegro_references_cover_the_supported_inventory() -> None:
     assert via.returns == (
         ArgumentDoc(
             'l_result',
-            'List: (`car`) `DBID`of the via created. (`cadr`) `t`if DRCs are created. '
-            '`nil`if DRCs are not created.',
+                'List: (`car`) `DBID`of the via created. (`cadr`) `t` if DRCs are created. '
+                '`nil` if DRCs are not created.',
         ),
         ArgumentDoc('nil', 'Nothing is created.'),
     )
     assert via.examples[0].kind == 'code'
     assert via.examples[0].lines == (
         (
-            'myvia = axlDBCreateVia( "pad1", 5600:4200,    "sclkl", t, 45., nil)    ⇒ '
+                'myvia = axlDBCreateVia( "pad1", 5600:4200,"sclkl", t, 45., nil)⇒ '
             '(dbid:526745 nil)'
         ),
     )
@@ -517,8 +544,7 @@ def test_real_allegro_references_cover_the_supported_inventory() -> None:
     mks = by_name['axlMKSConvert'].doc
     assert mks.description[0] == (
         (
-            'Converts any allowable unit to any other allowable unit. It operates in several '
-            'ways, depending on the arguments.'
+            'Operates in several ways, depending on the arguments passed.'
         ),
     )
     assert [doc.name for doc in mks.arguments] == ['n_input', 't_inUnits', 't_outUnits']
@@ -539,8 +565,8 @@ def test_real_allegro_references_cover_the_supported_inventory() -> None:
         ),
     )
     assert text_block.examples[-1] == ExampleSegment(
-        'code',
-        ('blockNum = axlDBTextBlockCreate(1 ?width 15.0 ?height 16.0)',),
+        'prose',
+        ('Create a new text block based upon text block 1 but change width and height',),
     )
 
     alt_symbol = by_name['axlAltSymbolOK'].doc

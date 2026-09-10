@@ -92,7 +92,7 @@ defun( factorial (x)    if( (x == 0) then 1    else x * factorial( x - 1
 
 ### procedurep
 
-`procedurep( g_obj ) => t | nil`
+`procedurep( g_obj ) => t / nil`
 
 #### Description
 
@@ -102,17 +102,17 @@ A procedure may be a function object defined in SKILL or SKILL++, or system prim
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_obj` | Any SKILL object.
+| Name | Description |
+|---|---|
+| `g_obj` | Any SKILL object. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | The argument is a procedure, or function, object.
-|  |
-| --- | ---
-| `nil` | Otherwise.
+| Name | Description |
+|---|---|
+| `t` | The argument is a procedure, or function, object. |
+| `nil` | Otherwise. |
+
 #### Example
 
 ```
@@ -125,7 +125,7 @@ A procedure may be a function object defined in SKILL or SKILL++, or system prim
 
 ### prog
 
-`prog( l_localVariables [ [ s_label ] g_expr1 ] ... )=> g_result | nil`
+`prog( l_localVariables [ [ s_label ] g_expr1 ] ... ) => g_result / nil`
 
 #### Description
 
@@ -137,23 +137,19 @@ Any statement in a`prog` can be preceded by a symbol that serves as a label for 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `l_localVariables` | List of variables local to`prog`.
-|  |
-| --- | ---
-| `s_label` | Labels a statement inside a`prog`; labels can be defined only for statements at the top level. Statements nested inside another statement cannot be labelled unless the surrounding statement is itself a `prog`.
-|  |
-| --- | ---
-| `g_expr1` | Any SKILL expression to be evaluated inside the`prog`.
+| Name | Description |
+|---|---|
+| `l_localVariables` | List of variables local to`prog`. |
+| `s_label` | Labels a statement inside a`prog`; labels can be defined only for statements at the top level. Statements nested inside another statement cannot be labelled unless the surrounding statement is itself a `prog`. |
+| `g_expr1` | Any SKILL expression to be evaluated inside the`prog`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Value of the`return` statement if one is used.
-|  |
-| --- | ---
-| `nil` | Otherwise always returns`nil`.
+| Name | Description |
+|---|---|
+| `g_result` | Value of the`return` statement if one is used. |
+| `nil` | Otherwise always returns`nil`. |
+
 #### Example
 
 `x = "hello"=> "hello"`
@@ -178,17 +174,17 @@ Evaluates expressions from left to right and returns the value of the*first* exp
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_expr1` | Any SKILL expression.
-|  |
-| --- | ---
-| `g_expr2` | Any SKILL expression.
+| Name | Description |
+|---|---|
+| `g_expr1` | Any SKILL expression. |
+| `g_expr2` | Any SKILL expression. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Value of the first expression,`g_expr1`.
+| Name | Description |
+|---|---|
+| `g_result` | Value of the first expression,`g_expr1`. |
+
 #### Example
 
 `prog1(    x = 5    y = 7 )=> 5`
@@ -209,20 +205,18 @@ Evaluates expressions from left to right and returns the value of the*second* ex
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_expr1` | First SKILL expression.
-|  |
-| --- | ---
-| `g_expr2` | Second SKILL expression.
-|  |
-| --- | ---
-| `g_expr3` | Additional SKILL expressions.
+| Name | Description |
+|---|---|
+| `g_expr1` | First SKILL expression. |
+| `g_expr2` | Second SKILL expression. |
+| `g_expr3` | Additional SKILL expressions. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Value of the second expression,`g_expr2`.
+| Name | Description |
+|---|---|
+| `g_result` | Value of the second expression,`g_expr2`. |
+
 #### Example
 
 `prog2(     x = 4     p = 12    x = 6 )=> 12`
@@ -245,14 +239,16 @@ Evaluates expressions from left to right and returns the value of the last expre
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_expr1` | Any SKILL expression.
+| Name | Description |
+|---|---|
+| `g_expr1` | Any SKILL expression. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Value of the last expression evaluated.
+| Name | Description |
+|---|---|
+| `g_result` | Value of the last expression evaluated. |
+
 #### Example
 
 `progn(     println("expr 1")     println("expr 2") )"expr 1" "expr 2"=> nil`
@@ -279,17 +275,17 @@ Assigns the function definition of `u_functionDef` to `s_functionName`. This is 
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_functionName` | Name of the function.
-|  |
-| --- | ---
-| `u_functionDef` | New function binding, which must be a binary function, a`lambda` expression, or `nil`.
+| Name | Description |
+|---|---|
+| `s_functionName` | Name of the function. |
+| `u_functionDef` | New function binding, which must be a binary function, a`lambda` expression, or `nil`. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `u_functionDef` | Function definition, which is either a binary function or a SKILLexpression.
+| Name | Description |
+|---|---|
+| `u_functionDef` | Function definition, which is either a binary function or a SKILLexpression. |
+
 #### Example
 
 `putd( 'mySqrt getd( 'sqrt )) => lambda:sqrt`
@@ -306,7 +302,7 @@ Assigns the symbol`newFn` a function definition that prints the string`This is a
 
 ### setFnWriteProtect
 
-`setFnWriteProtect( s_name ) => t | nil`
+`setFnWriteProtect( s_name ) => t / nil`
 
 #### Description
 
@@ -316,17 +312,17 @@ If`s_name` has a function value, it can no longer be changed. If it does not hav
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_name` | Name of the function.
+| Name | Description |
+|---|---|
+| `s_name` | Name of the function. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | The function is now write protected.
-|  |
-| --- | ---
-| `nil` | If the function is already write protected.
+| Name | Description |
+|---|---|
+| `t` | The function is now write protected. |
+| `nil` | If the function is already write protected. |
+
 #### Example
 
 Define a function and set its write protection so it cannot be redefined.
@@ -349,7 +345,7 @@ Returns`nil` because the `plus` function is already write protected.
 
 ### setVarWriteProtect
 
-`setVarWriteProtect( s_name ) => t | nil`
+`setVarWriteProtect( s_name ) => t / nil`
 
 #### Description
 
@@ -367,17 +363,17 @@ In SKILL++ mode, use`setFnWriteProtect` instead.
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_name` | Name of variable to be write-protected.
+| Name | Description |
+|---|---|
+| `s_name` | Name of variable to be write-protected. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `t` | Variable is write protected.
-|  |
-| --- | ---
-| `nil` | Variable was already write protected.
+| Name | Description |
+|---|---|
+| `t` | Variable is write protected. |
+| `nil` | Variable was already write protected. |
+
 #### Example
 
 ```
@@ -390,7 +386,7 @@ y = 10                               ; y is write
 
 ### unalias
 
-`unalias( s_aliasName1 ... )=> l_result`
+`unalias( s_aliasName1 ... ) => l_result`
 
 #### Description
 
@@ -400,14 +396,16 @@ Undefines the aliases specified in an argument list and returns a list containin
 
 #### Arguments
 
-|  |
-| --- | ---
-| `s_aliasName1` | Symbol name of the alias.
+| Name | Description |
+|---|---|
+| `s_aliasName1` | Symbol name of the alias. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `l_result` | List of the aliases removed.
+| Name | Description |
+|---|---|
+| `l_result` | List of the aliases removed. |
+
 #### Example
 
 `alias path getSkillPath => path`
@@ -420,7 +418,7 @@ Aliases`path` to the `getSkillPath` function.
 
 ### unwindProtect
 
-`unwindProtect( [ g_protectedForm ] [ g_cleanupForm ]) => g_result`
+`unwindProtect( [ g_protectedForm ] [ g_cleanupForm ] ) => g_result`
 
 #### Description
 
@@ -428,15 +426,17 @@ Evaluates the function`g_protectedForm` and executes the SKILL expression in `g_
 
 #### Arguments
 
-|  |
-| --- | ---
-| `g_protectedForm` | Name of the function to be evaluated.
+| Name | Description |
+|---|---|
+| `g_protectedForm` | Name of the function to be evaluated. |
+
 | `g_cleanupForm` | Any valid SKILL expression.
 #### Value Returned
 
-|  |
-| --- | ---
-| `g_result` | Result of the expression evaluated.
+| Name | Description |
+|---|---|
+| `g_result` | Result of the expression evaluated. |
+
 #### Example
 
 ```
@@ -457,17 +457,17 @@ This function is useful for printing SKILL warning messages in a consistent form
 
 #### Arguments
 
-|  |
-| --- | ---
-| `t_formatString` | Characters to print verbatim in the warning message with formatspecifications prefixed by the percent (%) sign.
-|  |
-| --- | ---
-| `g_arg1 ...` | Optional arguments following the format string, which are printedaccording to their corresponding format specifications.
+| Name | Description |
+|---|---|
+| `t_formatString` | Characters to print verbatim in the warning message with formatspecifications prefixed by the percent (%) sign. |
+| `g_arg1 ...` | Optional arguments following the format string, which are printedaccording to their corresponding format specifications. |
+
 #### Value Returned
 
-|  |
-| --- | ---
-| `nil` | Always returns`nil`.
+| Name | Description |
+|---|---|
+| `nil` | Always returns`nil`. |
+
 #### Example
 
 ```

@@ -1,344 +1,129 @@
 <!--
 source: algroskill/11frmint.md
-part: 1/3
-estimated_tokens: 13490
+part: 1/2
+estimated_tokens: 13012
 -->
-
-### Allegro User Guide: SKILL Reference Product Version 17.2-2016 April 2016
-
-11
-==
-
-Form Interface Functions
-========================
-
-Overview
---------
-
-This chapter describes the control types and functions you use to create Allegro PCB Editor forms (dialogs) and interact with users through them.
-
-Allegro PCB Editor AXL forms support a variety of field types. See[Callback Procedure: formCallback](#428663 "11") and [Using Forms Specification Language](#480398 "11") for a complete description of field types.
-
-The Skill implementation of the forms package does not support the all functionality present in the core form package; short fields and variable tile forms.
-
-#### See Also
-
-[axlFormCreate](#414342 "11") - open a form
-
-[axlFormCallback](#469106 "11") - callback model for interaction with user
-
-[axlFormBNFDoc](#472343 "11") - Backus Naur Form, form file syntax, demos
-
-[axlFormTest](#477426 "11")
 
 ### Programming
 
+#### Description
+
 It is best to look at the two form demo.
 
-* basic controls --`axlform.il/axlform.form`
+- basic controls -- `axlform.il/axlform.form`
 
-* grid control -`fgrid.il/fgrid.form`
+- grid control - `fgrid.il/fgrid.form`
 
-* multi-select grid control -`fgrid-msel.il/fgrid.form`
+- multi-select grid control - `fgrid-msel.il/fgrid.form`
 
-The first step is to create form file. Use`axlFormTest` to ensure fields are correctly positioned.
+The first step is to create form file. Use `axlFormTest` to ensure fields are correctly positioned.
 
 The following procedure is generally used.
 
-* Open form (`axlFormCreate`)
+| Name | Description |
+|---|---|
+| 1. | Open form (`axlFormCreate`) |
 
-* Initialize fields (`axlFormSetField`)
+| Name | Description |
+|---|---|
+| 2. | Initialize fields (`axlFormSetField`) |
 
-* Display Form (`axlFormDisplay`)
+| Name | Description |
+|---|---|
+| 3. | Display Form (`axlFormDisplay`) |
 
-* Interactive with user (`axlFormCallback`)
+| Name | Description |
+|---|---|
+| 4. | Interactive with user (`axlFormCallback`) |
 
-* Close Form (`axlFormClose`)
+| Name | Description |
+|---|---|
+| 5. | Close Form (`axlFormClose`) |
 
-* Many users find that it is easier to distribute their program
-  using a form if they embed the form file in their Skill code.
-  In this case use Skill to open a temporary file and print
-  the statements, open for form, then delete the file.
+- Many users find that it is easier to distribute their programusing a form if they embed the form file in their Skill code.In this case use Skill to open a temporary file and printthe statements, open for form, then delete the file.
 
-* Use`axlFormTest`("<form file>") to interactively adjust of fields.
+- Use `axlFormTest`("<form file>") to interactively adjust of fields.
 
-* You can use "`ifdef`", "`ifndef`", and Allegro environment variables
-  (`axlSetVariable`) to control appearance of items in the form file.
+- You can use "`ifdef`", "`ifndef`", and Allegro environment variables(`axlSetVariable`) to control appearance of items in the form file.
 
 ### Field / Control
 
+#### Description
+
 Most interaction to the controls are via axlFormSetField, axlFormGetField, axlFormSetFieldEditable, and axlFormSetFieldVisible.Certain controls have additional APIs which are noted in the description for the control.
 
-Most controls support setting their background and foreground colors. See`axlColorDoc` and `axlFormColorize` for more information.
+Most controls support setting their background and foreground colors. See `axlColorDoc` and `axlFormColorize` for more information.
 
 Following is a list of fields and their capabilities.
-
-#### *TABSET / TAB*
-
-A property sheet control. Provides the ability to organize and nest many controls on multiple tabs.
-
-Unlike other form controls you nest other form controls within TAB/ENDTAB keywords. The size of the tab is control is specified by the FLOC and FSIZE keywords used as part of the TABSET definition. The single option provided to the TAB keyword serves the dual purpose of being both the display name and the tab label name. The TABSET has a single option which is the fieldLabel of the TABSET.
-
-The TABSET has a single option - tabsetDispatch.
-
-When a user picks on a TAB, by default, it is dispatched to the application as the with the fieldLabel set to the name of the tab and the fieldValue as a 't'. With this option we use the fieldLabel defined with the TABSET keyword and the fieldValue as the tab name. In most cases you do not need to handle tab changes in your form dispatch code but when you do each dispatch method has its advantages.
-
-**Note:** TABSETs cannot be nested.
-
-#### *GROUP*
-
-A visible box around other controls. As such, you give it a width, height and optional text. If width or height is 0, we draw the appropriate horizontal or vertical line. Normally the group text is static but you can change it at run-time by assigning a label to the group.
-
-#### *TEXT*
-
-Static text, defined in the form file with the keyword "TEXT". The optional second field (use double quotes if more then one word) is any text string that should appear in the field. An optional third field can be use to define a label for run-time control. In addition the label INFO can be used to define the field label and text width.
-
-Multi-line text can be specified by using the FSIZE label with a the height greater then 2. If no FSIZE label is present then a one-line text control is assumed where the field width is specified in the INFO label.
-
-OPTIONS include (form file)
-
-> any of:
-
-> > bold - text is displayed in bold font
-
-> > underline - text is displayed with underline
-
-> > border - text is displayed with a sunken border
-
-> > prettyprint - make text more read-able using upper/lower case
-
-> and one of justification:
-
-> > left - left justified (default)
-
-> > center - center text in control
-
-> > right - right justify text
-
-#### *STRFILLIN*
-
-Provides a string entry control. The STRFILLIN keyword takes two required arguments, width of control in characters and string length (which may be a larger or smaller value then the width of the control).
-
-There are three variations of the fillin control.
-
-* single line text
-
-* single line text with a drop-down (use POP keyword).
-  The drop-down provides the ability to have pre-defined values for the user.
-
-* multi-line text control. Use a FSIZE keyword to indicate field width and height.
-
-#### *INTFILLIN*
-
-Similar to a STRFILLIN except input data is checked to be an integer (numbers 0 to 9 and + and -). Use the LONGFILLIN keyword with two arguments; field width and string length.
-
-It only supports variations 1 and 2 of STRFILLIN.
-
-It also supports a minimum and maximum data verification. This can be done via the form file with the MIN and MAX keywords or at run-time via`axlFormSetFieldLimits`.
-
-#### *INTSLIDEBAR*
-
-This is a special version of the INTFILLIN, it provides an up/down control to the right of the field that allows the user to change the value using the mouse. You should use MIN/MAX settings to limit the allowed value.
-
-#### *REALFILLIN*
-
-Similar to INTFILLIN except supports floating point numbers. Edit checks are done to only allow [0 to 9 .+-]. If addition to min/max support you can also provide number of decimals via the DECIMAL keyword or at run-time via`axlFormSetDecimal`.
-
-#### *MENUBUTTON*
-
-Provides a button control. Buttons are stateless. The MENUBUTTON keyword takes two options; width and height.
-
-A button has one option - multiline.
-
-If button text cannot fit on one line wrap it. Otherwise text is centered and restricted to a single line.
-
-A button can have a popup by inserting the "POP" label.
-
-With no popup pressing the button dispatches a value of 1. If it is a button with a popup then the dispatch is the dispatch entry of the popup.
-
-Standards:
-
-> - use "..." if button brings up a file browser
-
-> - append "..." to text of button if button brings up another window
-
-> - use these labels for:
-
-> > > close - to Close dialog without
-
-> > > done/ok - to store changes and close dialog
-
-> > > cancel - to cancel dialog without making any changes
-
-> > > help - The is reserved for cdsdoc help
-
-> > > print - do not use (will get changed to Help).
-
-#### *CHECKLIST*
-
-Provides a check box control (on/off). Two variants are supported:
-
-* a check box
-
-* a radio box
-
-For both types the CHECKLIST control takes an argument for the text that should appear to the right of the checkbox.
-
-A radio box allows you to several checkboxes to be grouped together. The form package insures only one radio box be set. To enable a radio grouping provide a common text string as a third argument to the CHECKLIST keyword. An idiosyncrasy of a radio box is that you will be dispatched for both the field being unset and also for the field being set.
-
-#### *ENUM(sometimes called combo box)*
-
-Provides a drop-down to present the user a fixed set of choices. The drop-down can either be pre-defined in the form file via the POPUP keyword or at run-time with`axlFormBuildPopup`. Even if you choose to define the popup at run-time, you must provide a POPUP placeholder in the form file.
-
-POPUP entries are in the form of display/dispatch pairs. Your setting and dispatching of this field must be via the dispatch item of the popup (you can always make both the same). This technique allows you to isolate what is displayed to the user from what your software uses. The special case of nil as a value to axlFormSetField will blank the control.
-
-Two forms of ENUM field are supported, the default is single line always has the drop-down hidden until the user requests it. In this case only define the ENUMSET with the width parameter. A multi-line version is available where the drop-down is always displayed. To enable the multi-line version specify both the width and height in ENUMSET keyword.
-
-* FILLIN fields also offer ENUM capability, see below.
-
-OPTIONS include (form file)
-
-* prettyprint - make text more read-able using upper/lower case.
-
-* ownerdrawn - provided to support color swatches next.to subclass names. See axlSubclassFormPopup.
-
-* dispatchsame - Normally if user selects same entry that is currently shown it will not dispatch.
-
-#### *LIST*
-
-A list box is a control that displays multiple items. If the list box is not large enough to display all the list box items at once, the list box provides the required horizontal or vertical scroll bar.
-
-We support two list box types; single (default) and multi-selection. You define a multi-select box in form file with a "OPTIONS multiselect" List boxes have a width and height specified by the second and third options to the LIST keyword. The first option to the LIST keyword is ignored and should always be an empty string ("").
-
-List box options are:
-
-> SORT - alphabetical sort.
-
-> ALPHANUMSORT - takes in account trailing numbers so a NET2 appears before a NET10 in the list.
-
-> PRETTYPRINT - case is ignored and items are reformatted for readability.
-
-Special APIs for list controls are:`axlFormListOptions`, `axlFormListDeleteAll`, `axlFormListSelect`, `axlFormListGetItem`, `axlFormListAddItem`, `axlFormListDeleteItem`, `axlFormListGetSelCount`, `axlFormListGetSelItems`, `axlFormListSelAll`.
-
-For best performance in loading large lists consider passing a list of items to`axlFormSetField`.
-
-#### *THUMBNAIL*
-
-Provides a rectangular area for bitmaps or simple drawings. You must provide a FSIZE keyword to specify the area occupied by the thumbnail.
-
-In bitmap mode, you can provide a bitmap as an argument to the THUMBNAIL keyword or at run time as a file to`axlFormSetField`. In either case, BMPPATH and a `.bmp` extension is used to locate the bitmap file. The bitmap should be 256 colors or less.
-
-For bitmaps one OPTION is supported:
-
-> stretch - draw bitmap to fill space provided. Default is to center bitmap in the thumbnail region.
-
-In the drawing mode you use the APIs provided by`axlGRPDoc` to perform simple graphics drawing.
-
-#### *TREEVIEW*
-
-Provides a hierarchical tree selector. See[axlFormTreeViewSet](#520741 "11").
-
-#### *GRID*
-
-This provides a simple spreadsheet like control. See axlFormGridDoc for more info.
-
-#### *COLOR*
-
-Provides a COLOR swatch. Can be used to indicate status (for example: red, yellow, green). The size of the color swatch is controlled by a width and height option the COLOR keyword.
-
-Add the INFO\_ONLY keyword to have a read-only color swatch. Without INFO\_ONLY the color swatch provides CHECKBOX like functionality via its up/down appearance.
-
-With COLOR swatches you can use predefine colors or Allegro database colors. See axlColorDoc.
-
-#### *TRACKBAR*
-
-Provides a slider bar for setting integer values. The TRACKBAR keyword takes both a width and height and the bar may be either horizontal or vertical.
-
-The length of step of the trackbar can be set in the form file where MIN is the tick mark interval and MAX is the length of the trackbar. The minimum tick mark is 1 and is usually indicated by setting MIN to 0 in the form file.
-
-You can change the length and tick mark interval at run-time through`axlFormSetFieldLimits`
-
-The trackbar indicator can be moved through`axlFormSetField`.
-
-#### *PROGRESS*
-
-Provides a progress bar usually used to indicate status of time consuming operations. For setting options to the progress meter pass of list of 3 items to axlFormSetField which are (<step value> <number of steps> <initial position>). A subsequent nil passed to axlFormSetField will step the meter by the<step value>.
-
-PROGRESS keyword provides for both a width and height of the bar. Bar should be horizontal.
-
-You get information from the user using forms that support the following modes:
-
-****Table 11-1****
-**Form Modes**
-
-|  |
-| --- | ---
-| **Form Mode** | **Description**
-| Blocking with no callback | Easy to program. Limited to user interaction, such as checking that the information entered for each field uses syntax acceptable to the form's package. Your program calls`axlUIWBlock` after displaying the form. The user can close a form that has the standard *OK* or *Cancel* button.  After*OK* or *Cancel* is selected, `axlUIBlock` returns allowing you to query field values using `axlFormGetField`.  **Note:** Use this programming model only with simple forms.
-| Blocking with callback | Prevents use of Allegro PCB Editor until the user enters information in the dialog. The form callback you provide lets your interactive program accept the data entered.
-| Callback with no blocking | Works like many native Allegro PCB Editor forms. The user can work with both the form and other parts of Allegro PCB Editor.  With Allegro PCB Editor database transactions, the programming is more complex. You can use transactions while the form is open by declaring your command interactive. You end your command when another Allegro PCB Editor command starts by using`axlEvent`.
-| Options form | Allegro PCB Editor window to the left of the canvas. The options (ministatus) form is non-blocking and restricted to the Options panel size. See`axlMiniStatusLoad` for details.
-Do not attempt to set the Button field (except*Done*, *Cancel* and *Help*), as it is designed to initiate actions. Consequently, having buttons in a form without a callback function registered renders those buttons useless.
-
-**Note:** AXL-SKILL does not support the short fields and variable tiles which are part of the Allegro PCB Editor core form package.
-
-You can set background and foreground color on many form fields. For more information, see[axlFormColorize](#463432 "11"). For information on color specific to grids, see [Using Grids](#461722 "11").
 
 #### Examples
 
 These examples, especially the basic one, help you understand how the forms package works:
 
-|  |
-| --- | ---
-| basic | Demonstrates basic form capabilities.
-| grid | Demonstrates grid control capabilities.
-| wizard | Demonstrates use of a form in Wizard mode.
-Use the examples located in`<``cdsroot``>/share/pcb/examples/form` as follows:
+| Name | Description |
+|---|---|
+| basic | Demonstrates basic form capabilities. |
+| grid | Demonstrates grid control capabilities. |
+| wizard | Demonstrates use of a form in Wizard mode. |
 
-* Copy all the files from one of the directories to your computer.
+Use the examples located in `<``cdsroot``>/share/pcb/examples/form` as follows:
 
-* Start Allegro PCB Editor.
+| Name | Description |
+|---|---|
+| 1. | Copy all the files from one of the directories to your computer. |
 
-* From the Allegro PCB Editor command line, change to the directory to which you copied the files as shown:
+| Name | Description |
+|---|---|
+| 2. | Start Allegro PCB Editor. |
 
-> `cd <directory>`
+| Name | Description |
+|---|---|
+| 3. | From the Allegro PCB Editor command line, change to the directory to which you copied the files as shown: |
 
-* Load the SKILL file in the directory.
+`cd <``directory``>`
 
-> **Note:** The SKILL file has the`.il` extension.
+| Name | Description |
+|---|---|
+| 4. | Load the SKILL file in the directory. |
 
-> `skill load "<filename>"`
+Note: The SKILL file has the `.il` extension.
 
-* Start the demo by typing on the Allegro PCB Editor command line as shown:
+`skill load "<``filename``>"`
 
-> For basic demo:
+| Name | Description |
+|---|---|
+| 5. | Start the demo by typing on the Allegro PCB Editor command line as shown: |
 
-> > `skill formtest`
+For basic demo:
 
-> For grid demo:
+`skill formtest`
 
-> > `skill gridtest`
+For grid demo:
 
-* Examine the SKILL code and form file.
+`skill gridtest`
 
-* Setting the Allegro PCB Editor environment variable`TELSKILL` opens a SKILL interpreter window that is more flexible than the Allegro PCB Editor command area. On UNIX, if you set this variable before starting the tool then the SKILL type-in area is the X terminal you used to start Allegro PCB Editor. See the enved tool to configure the width and height of the window.
+| Name | Description |
+|---|---|
+| 6. | Examine the SKILL code and form file. |
+
+- Setting the Allegro PCB Editor environment variable `TELSKILL` opens a SKILL interpreter window that is more flexible than the Allegro PCB Editor command area. On UNIX, if you set this variable before starting the tool then the SKILL type-in area is the X terminal you used to start Allegro PCB Editor. See the enved tool to configure the width and height of the window.
 
 Using Forms Specification Language
-----------------------------------
 
-*Backus Naur Form* (BNF) is a formal notation used to describe the syntax of a language. Form File Language Description is the BNF grammar for the Forms Specification Language. Forms features in new versions are not backwards compatible.
+Backus Naur Form (BNF) is a formal notation used to describe the syntax of a language. Form File Language Description is the BNF grammar for the Forms Specification Language. Forms features in new versions are not backwards compatible.
 
 The following table shows the conventions used in the form file grammar:
 
-|  |
-| --- | ---
-| **Convention** | **Description**
-| `[ ]` | Optional
-| `{ }` | May repeat one or more times
-| `< >` | Supplied by the user
-| `|` | Choose one or the other
-| `:` | Definition of a token
-| `CAPS` | Items in caps are keywords
+| Name | Description |
+|---|---|
+| Convention | Description |
+| `[ ]` | Optional |
+| `{ }` | May repeat one or more times |
+| `< >` | Supplied by the user |
+| `|` | Choose one or the other |
+| `:` | Definition of a token |
+| `CAPS` | Items in caps are keywords |
+
 The BNF format definition follows.
 
 `BNF:`
@@ -361,7 +146,7 @@ The BNF format definition follows.
 
 `ENDFORM`
 
-`formtype:            FIXED | VARIABLE`
+`formtype: FIXED | VARIABLE`
 
 `- FIXED forms have one unlabeled TILE stanza`
 
@@ -371,15 +156,11 @@ The BNF format definition follows.
 
 `PORT:`
 
-```
--    Width and height of the form. Height is ignored for fixed forms which auto-calculate required height.Width must be in character units.
-```
+`- Width and height of the form. Height is ignored for fixed forms which auto-calculate required height.Width must be in character units.`
 
 `HEADER:`
 
-```
--    Initial string used in the title bar of the form. This may be overridden by the application.
-```
+`- Initial string used in the title bar of the form. This may be overridden by the application.`
 
 `form_header:`
 
@@ -393,19 +174,15 @@ The BNF format definition follows.
 
 `DEFAULT <label>`
 
-```
--    Sets the default button to be <label>. If not present, the form sets the default button to be one of the following: ok (done), close, or cancel.
-```
+`- Sets the default button to be <label>. If not present, the form sets the default button to be one of the following: ok (done), close, or cancel.`
 
-`-    Label must be of type MENU BUTTON.`
+`- Label must be of type MENU BUTTON.`
 
 `popup_def:`
 
 `POPUP <<popupLabel>> {"<display>","<dispatch>"}.`
 
-```
--    Popups may be continued over several lines by using the backslash (\) as the last character on a line.
-```
+`- Popups may be continued over several lines by using the backslash (\) as the last character on a line.`
 
 `message_def:`
 
@@ -415,27 +192,19 @@ The BNF format definition follows.
 
 `[TOOLWINDOW]`
 
-```
--    This makes a form a toolwindow which is a floating toolbar. It is typically used as a narrow temp window to display readouts.
-```
+`- This makes a form a toolwindow which is a floating toolbar. It is typically used as a narrow temp window to display readouts.`
 
 `[FIXED_FONT]`
 
-```
--    By default, forms use a variable width font. This option sets the form to use a fixed font. Allegro PCB Editor uses mostly variable width while SPECCTRAQuest and SigXP use fixed width fonts.
-```
+`- By default, forms use a variable width font. This option sets the form to use a fixed font. Allegro PCB Editor uses mostly variable width while SPECCTRAQuest and SigXP use fixed width fonts.`
 
 `[AUTOGREYTEXT]`
 
-```
--    When a fillin or enum control is greyed, grey static text to the left of it.
-```
+`- When a fillin or enum control is greyed, grey static text to the left of it.`
 
 `[UNIXHGT]`
 
-```
--    Works around a problem with Mainsoft in 15.0 where a button is sandwiched vertically between 2 combo/fillin controls. The button then overlaps these controls. This adds extra line spacing to avoid this. You should only use this option as a last resort. In a future release, it may be treated as a Nop. On Windows, this is ignored.
-```
+`- Works around a problem with Mainsoft in 15.0 where a button is sandwiched vertically between 2 combo/fillin controls. The button then overlaps these controls. This adds extra line spacing to avoid this. You should only use this option as a last resort. In a future release, it may be treated as a Nop. On Windows, this is ignored.`
 
 `tile_def:`
 
@@ -599,65 +368,63 @@ The BNF format definition follows.
 
 `[INFO_ONLY]`
 
-`-    Sets field to be read-only`
+`- Sets field to be read-only`
 
 `[POP "<popupName>"]`
 
-`-    Assigns a popup with the field.`
+`- Assigns a popup with the field.`
 
-`-    A POPUP definition by the same name should exist.`
+`- A POPUP definition by the same name should exist.`
 
-`-    Supported by field_types: xxxFILLIN, INTSLIDEBAR, MENUBUTTON,and ENUMSET.`
+`- Supported by field_types: xxxFILLIN, INTSLIDEBAR, MENUBUTTON,and ENUMSET.`
 
 `[MIN <value>]`
 
 `[MAX <value>]`
 
-`-    Assigns a min and/or max value for the field.`
+`- Assigns a min and/or max value for the field.`
 
-`-    Both supported by field types: LONGFILLIN, INTSLIDEBAR, REALFILLIN.`
+`- Both supported by field types: LONGFILLIN, INTSLIDEBAR, REALFILLIN.`
 
-`-    Value either an integer or floating point number.`
+`- Value either an integer or floating point number.`
 
 `[DECIMAL <accuracy>]`
 
-`-    Assigns a floating min and/or max value for the field.`
+`- Assigns a floating min and/or max value for the field.`
 
-`-    Assigns the number of decimal places the field has (default is 2)`
+`- Assigns the number of decimal places the field has (default is 2)`
 
-`-    Both supported by field_types: REALFILLIN`
+`- Both supported by field_types: REALFILLIN`
 
 `[VALUE "<display>"]`
 
-`-    Initial field value.`
+`- Initial field value.`
 
-`-    Supported by field_types: xxxFILLIN`
+`- Supported by field_types: xxxFILLIN`
 
 `[SORT]`
 
-`-    Alphanumeric sorted list (default order of creation)`
+`- Alphanumeric sorted list (default order of creation)`
 
-`-    Supported by field_type: LIST`
+`- Supported by field_type: LIST`
 
 `[OPTIONS dispatchsame]`
 
-`-    For enumset fields only`
+`- For enumset fields only`
 
-```
--    If present, will dispatch to application drop-down selection even if the same as current. By default, the form's package filters out any user selection if it is the same as what is currently displayed.
-```
+`- If present, will dispatch to application drop-down selection even if the same as current. By default, the form's package filters out any user selection if it is the same as what is currently displayed.`
 
 `[OPTIONS prettyprint]`
 
-`-    For enumset fields only.`
+`- For enumset fields only.`
 
-`-    Displays contents of ENUM field in a visually pleasing way.`
+`- Displays contents of ENUM field in a visually pleasing way.`
 
 `[OPTIONS ownerdrawn]`
 
-`-    For enumset fields only.`
+`- For enumset fields only.`
 
-`-    Used to display color swatches in an ENUM field. See axlFormBuildPopup.`
+`- Used to display color swatches in an ENUM field. See axlFormBuildPopup.`
 
 `x:`
 
@@ -667,99 +434,85 @@ The BNF format definition follows.
 
 `h:`
 
-`-    Display geometry (integers)`
+`- Display geometry (integers)`
 
-```
--    All field, group and text locations are relative to the start of the tile they belong or to the start of the form in the case of FIXED forms.
-```
+`- All field, group and text locations are relative to the start of the tile they belong or to the start of the form in the case of FIXED forms.`
 
-`-    x and h are in CHARHEIGHT/2 units.`
+`- x and h are in CHARHEIGHT/2 units.`
 
-`-    y and w are in CHARWIDTH units.`
+`- y and w are in CHARWIDTH units.`
 
 `button_options:`
 
 `[MULTILINE]`
 
-```
--    Wraps button text to multiple lines if text string is too long for a single line.
-```
+`- Wraps button text to multiple lines if text string is too long for a single line.`
 
 `dispatch:`
 
-`-    String that is dispatched to the code.`
+`- String that is dispatched to the code.`
 
 `display:`
 
-`-    String that is shown to the user.`
+`- String that is shown to the user.`
 
 `bitmapFile:`
 
-`-    Name of a bmp file. Finds the file using BITMAPPATH`
+`- Name of a bmp file. Finds the file using BITMAPPATH`
 
 `resource:`
 
-```
--    Integer resource id (bitmap must be bound in executable via the resource file). '#' indicates it is a resource id.
-```
+`- Integer resource id (bitmap must be bound in executable via the resource file). '#' indicates it is a resource id.`
 
-`-    Not supported in AXL forms.`
+`- Not supported in AXL forms.`
 
 `fieldLength:`
 
-```
--    Maximum width of field. Field scrolls if larger than the field display width.
-```
+`- Maximum width of field. Field scrolls if larger than the field display width.`
 
 `label:`
 
-`-    Name used to access a field from code. All fields should have unique names.`
+`- Name used to access a field from code. All fields should have unique names.`
 
-`-    Labels should be lower case.`
+`- Labels should be lower case.`
 
 `messageLabel:`
 
-`-    Name used to allow code to refer to messages.`
+`- Name used to allow code to refer to messages.`
 
-`-    Case insensitive.`
+`- Case insensitive.`
 
 `messagePriority:`
 
-```
--    Message priority 0 - (not in journal file), 1 - information, 2 - warning, 3 - error, 4 - fatal (display in message box)
-```
+`- Message priority 0 - (not in journal file), 1 - information, 2 - warning, 3 - error, 4 - fatal (display in message box)`
 
 `radioLabel:`
 
-```
--    Name used to associate several CHECKLIST fields as a radio button set. All check fields should be given the same radioLabel.
-```
+`- Name used to associate several CHECKLIST fields as a radio button set. All check fields should be given the same radioLabel.`
 
-`-    Should use lower case.`
+`- Should use lower case.`
 
 `textOptions:`
 
 `[RIGHT | CENTER | BORDER | BOLD | UNDERLINE]`
 
-`-    TEXT/INFO field type`
+`- TEXT/INFO field type`
 
-`-    text justification, default is left`
+`- text justification, default is left`
 
-`-    BORDER: draw border around text`
+`- BORDER: draw border around text`
 
 `[STRETCH]`
 
-`-    THUMBNAIL field type`
+`- THUMBNAIL field type`
 
-`-    Stretch bitmap to fit thumbnail rectangle, default is center bitmap.`
+`- Stretch bitmap to fit thumbnail rectangle, default is center bitmap.`
 
 `tabsetOptions:`
 
 `[tabsetDispatch]`
 
-```
--    By default, tabsets dispatch individual tabs as seperate events. This is not always convenient for certain programming styles. This changes the dispatch mode to be upon the tabset where a selection of a tab causes the event:
-```
+`- By default, tabsets dispatch individual tabs as seperate events. This is not always convenient for certain programming styles. This changes the dispatch mode to be upon the tabset where a selection of a tab causes the event:`
 
 `field=tabsetLabel value=tabLabel`
 
@@ -771,27 +524,25 @@ The BNF format definition follows.
 
 `tileLabel:`
 
-`-    Name used to allow code to refer to this tile.`
+`- Name used to allow code to refer to this tile.`
 
-`-    Should use lower case.`
+`- Should use lower case.`
 
-`-    Only applies to VARIABLE forms.`
+`- Only applies to VARIABLE forms.`
 
-`-    Not supported with AXL forms.`
+`- Not supported with AXL forms.`
 
-`tileType        [0|1|2]`
+`tileType [0|1|2]`
 
-`-    0 top tile, 1 scroll tile, 2 bottom tile`
+`- 0 top tile, 1 scroll tile, 2 bottom tile`
 
-`-    Only applies to VARIABLE FORMS.`
+`- Only applies to VARIABLE FORMS.`
 
-```
--    Region where tile will be instantiated. Forms have the following regions: top, bottom, and scroll (middle).
-```
+`- Region where tile will be instantiated. Forms have the following regions: top, bottom, and scroll (middle).`
 
-`-    Not supported with AXL forms.`
+`- Not supported with AXL forms.`
 
-`flex_def:        Rule based control sizing upon form resize (see axlFormFlex)`
+`flex_def: Rule based control sizing upon form resize (see axlFormFlex)`
 
 `[FLEXMODE <autorule>]`
 
@@ -799,11 +550,11 @@ The BNF format definition follows.
 
 `FLEXMODE <autoRule>`
 
-`FLEX        fx fy fw fz`
+`FLEX fx fy fw fz`
 
-`-    see axlFormFlexDoc`
+`- see axlFormFlexDoc`
 
-`autorule:        -    Generic sizing placement rule.`
+`autorule: - Generic sizing placement rule.`
 
 `fx:`
 
@@ -811,581 +562,1115 @@ The BNF format definition follows.
 
 `fh:`
 
-`-    Floating value between 0 and 1.0`
+`- Floating value between 0 and 1.0`
 
-* Follow these rules when using BNF format:
+- Follow these rules when using BNF format:
 
-* `FILE_TYPE` line must always appear as the first line of the form file in the format shown.
+- `FILE_TYPE` line must always appear as the first line of the form file in the format shown.
 
-* Form files must have a`.form` extension.
+- Form files must have a `.form` extension.
 
-* There may only be one`FORM` in a form file.
+- There may only be one `FORM` in a form file.
 
-* There must be one and only one`TILE` definition in a `FIXED` form file. <`tileLabel`> and `TPANEL` are not required.
+- There must be one and only one `TILE` definition in a `FIXED` form file. <`tileLabel`> and `TPANEL` are not required.
 
-* Unless otherwise noted, character limits are as follows:
-  labels - 128
-  title - 1024
-  display - 128 except for`xxx``FILLIN` types which are 1024
+- Unless otherwise noted, character limits are as follows:labels - 128title - 1024display - 128 except for `xxx``FILLIN` types which are 1024
 
-* Additional items may appear in existing form files (`FGROUP`) but they are obsolete and are ignored by the form parser. `REALMIN` and `REALMAX` are obsolete and replaced by `MIN` and `MAX` respectively. They will still be supported and are mapped to `MIN` and `MAX`.
+- Additional items may appear in existing form files (`FGROUP`) but they are obsolete and are ignored by the form parser. `REALMIN` and `REALMAX` are obsolete and replaced by `MIN` and `MAX` respectively. They will still be supported and are mapped to `MIN` and `MAX`.
 
-* For`grid_def`, two headers (side and top) are maximum.
+- For `grid_def`, two headers (side and top) are maximum.
 
-* `FSIZE` - Most controls determine the size from the text string.
-  You must provide `FSIZE` for `GROUP`, `GRID`, `TREEVIEW` and `LIST` controls. For `TEXT` controls, if `FSIZE` is provided, it overrides the width calculated by the text length and, if present, the `INFO` width. If using the `INFO` line, put the `FSIZE` line after it.
+- `FSIZE` - Most controls determine the size from the text string.You must provide `FSIZE` for `GROUP`, `GRID`, `TREEVIEW` and `LIST` controls. For `TEXT` controls, if `FSIZE` is provided, it overrides the width calculated by the text length and, if present, the `INFO` width. If using the `INFO` line, put the `FSIZE` line after it.
 
-* Both`TEXT` and `GROUP` support the optional label on their definition line. This was added as a convenience in supporting `FLEX` capability. If the application wishes to dynamically modify the text, the `INFO` keyword is normally used. When both are present, the `INFO` keyword takes precedence.
+- Both `TEXT` and `GROUP` support the optional label on their definition line. This was added as a convenience in supporting `FLEX` capability. If the application wishes to dynamically modify the text, the `INFO` keyword is normally used. When both are present, the `INFO` keyword takes precedence.
 
-* If the optional label for`TABS` is not provided, the field display name is used. Any spaces within the field display name are replaced by underscores (`"_"`).
+- If the optional label for `TABS` is not provided, the field display name is used. Any spaces within the field display name are replaced by underscores (`"_"`).
 
-* The height ([`h`]) for `ENUMSET` is optional. When not set (the default), the drop-down is only presented under user control. When height is greater than 1, the drop-down is always visible (Microsoft SIMPLE drop-down). Only use this feature in forms that can afford the space consumed by the drop-down.
+- The height ([`h`]) for `ENUMSET` is optional. When not set (the default), the drop-down is only presented under user control. When height is greater than 1, the drop-down is always visible (Microsoft SIMPLE drop-down). Only use this feature in forms that can afford the space consumed by the drop-down.
 
 The forming syntaxes are NOT supported by the form editor.
 
 This syntax is supported and may be placed anywhere in the form file to support conditional processing of the form file:
 
-> `#ifdef <variable>`
+`#ifdef <``variable``>`
 
-> `{}`
+`{}`
 
-> `{ #elseif <variable>`
+`{ #elseif <``variable``>`
 
-> `}`
+`}`
 
-> `{    #else`
+`{ #else`
 
-> `{}    }`
+`{} }`
 
 Moving and Sizing Form Controls During Form Resizing
-----------------------------------------------------
 
 You can use the axlFormFlexDoc command to move and size controls within a form based on rules described in the form file. Rules may either be general (`FLEXMODE`) or specific to a single control (`FLEX`.) Flex adjusting of the controls is adjusting the form larger than its base size. Sizing the form smaller than the base size disables flex sizing.
 
 Controls are divided into the following classes:
 
-* Containers
-  Containers can have other controls as members, including other containers. To be a container member is automatic; the control's`xy` location must be within the container. Container controls of the form are `TABSET`s and `GROUP`s.
+- ContainersContainers can have other controls as members, including other containers. To be a container member is automatic; the control's `xy` location must be within the container. Container controls of the form are `TABSET`s and `GROUP`s.
 
-* All others, including containers
+- All others, including containers
 
-All controls except`TABS`, which are locked to their `TABSET`, may be moved when a form is resized. Sizing width or height is control dependent as shown:
+All controls except `TABS`, which are locked to their `TABSET`, may be moved when a form is resized. Sizing width or height is control dependent as shown:
 
-****Table 11-2****
-**Controls - Resizing Options**
+Table 11-2 
+ Controls - Resizing Options
 
-| **Control** | **Resizing Options**
-| `REALFILLIN` | width
-| `LONGFILLIN` | width
-| `STRFILLIN` | width
-| `INTSLIDEBAR` | width
-| `ENUMSET` | width
-| `PROGRESS` | width
-| `TRACKBAR` | width
-| `LIST` | width and height
-| `GRID` | width and height
-| `TREEVIEW` | width and height
-| `THUMBNAIL` | width and height
-| `GROUP` | width and height
-| `TABSET` | width and height
-| `<``others``>` | no change in size
-#### Using Global Modes or FLEXMODE
+| Name | Description |
+|---|---|
+| Control | Resizing Options |
+| `REALFILLIN` | width |
+| `LONGFILLIN` | width |
+| `STRFILLIN` | width |
+| `INTSLIDEBAR` | width |
+| `ENUMSET` | width |
+| `PROGRESS` | width |
+| `TRACKBAR` | width |
+| `LIST` | width and height |
+| `GRID` | width and height |
+| `TREEVIEW` | width and height |
+| `THUMBNAIL` | width and height |
+| `GROUP` | width and height |
+| `TABSET` | width and height |
+| `<``others``>` | no change in size |
 
-`FLEXMODE` represents the general rules that apply to all controls in the form except those with specific overrides (`FLEX`). Only a single `FLEXMODE` is supported per form. The last encountered in the form file is used. The following rules are supported:
+- If grids replace the text parameter form, you need not label the columns. A column number is sufficient. You can label the columns for script readability. This application does not require cell labeling.
 
-* EdgeGravity
-  All controls have an affinity to the closest edge of their immediate container. Exceptions are:`<``xxx``>FILLIN` and `INTSLIDEBAR` controls. The edge gravity, for these, is based upon a `TEXT` control positioned to the left of the control.
+- If grids replace the color form for certain color grids, like stackup, you would need to label each cell. Each class grouped in the stackup grid is not row consistent. For example, depending on design, subclasses are not the same going across the rows. Other groupings require labeling on class for `col` and `subclass` for `row` since it is orthogonal.
 
-* EdgeGravityOne
-  Similar to EdgeGravity except that controls are only locked to the right or bottom edge, but not both. The closest edge is used.
+See Using Grids for a grid overview.
 
-* StandButtons
-  Only effects button controls. Uses the same logic as EdgeGravityOne.
+Headers
 
-FLEXMODE can have an optional pair of additional arguments that specify the minimum form width and height for flexing. The argument values are in character units. Flexing will stop in the given direction when the width/height goes below the specified value.
+You can set column (top) headers either using `axlFormGridInsertCol` at column creation time, or using `axlFormGridSetBatch` if you need to change the header using row number `0`.
 
-#### Managing Sizing and Movement of Individual Controls
-
-You use the`FLEX` parameter to manage the sizing and movement of individual controls as shown:
-
-> `FLEX fx fy fw fh`
-
-The`FLEX` parameter overrides any `FLEXMODE` in effect for that control, and is based upon parameters (`fx`, `fy`, `fw`, `fh`). These values, which are floating point numbers between 0.0 and 1.0, control the fraction of the change in container size that the control should move or change in size:
-
-**fx and fy Parameters**
-
-1. Control remains locked to the left or top edge of its container.
-2. Control remains locked to the right or bottom edge of its container.
-
-**fw and fh Parameters**
-
-1. Control is not resized.
-2. Control is resized in width or height based upon the size change of its container.
-
-A container's position and size effect the container's member controls. Containers are hierarchical. Make sure the container of the control also has a`FLEX` constraint. The sum of the width and height of the immediate controls of a container should not be greater than `1` to prevent overlapping. `TABSETS` are slightly different since sizing of their member controls is also based on the `TAB` they belong to.
-
-* ***It is possible to create FLEX constraints that result in overlapping controls. FLEX does not protect against this.***
-
-#### FLEX Restrictions
-
-* The form must be`FIXED`.
-
-* While`FLEX` rules may appear anywhere in the form file, they should be grouped together immediately before the <`ENDTILE`>
-
-* Range errors for`FLEX` option or applying width or height to controls not supporting them are silently ignored.
-
-#### Example 1
-
-> `FLEXMODE standbuttons`
-
-> `FLEX list 0 0 1 1`
-
-> Simple list-based form with buttons (label of`LIST` is list.) The list gets all of form sizing.
-
-#### Example 2
-
-> `FLEXMODE EdgeGravity`
-
-> `FLEX a 0 0 0.33 1`
-
-> `FLEX b 0.33 0 0.67 1`
-
-> `FLEX c 0.67 0 1 1`
-
-> Form containing 3 lists (`a`, `b`, and `c`) positioned equally across the form. Each list gets the total change in height, but shares in the increase in form width. Thus, if the form changes width, each control gets 1/3 of this change. Since the list's widths change, the list must move to the right.
-
-#### Example 3
-
-> `FLEX l1 0 0 1 0.5`
-
-> `FLEX g1 0 0.5 1 0.5`
-
-> `FLEX l2 0 0 1 1`
-
-> Form has a group (`g1`) containing a list (`l2`). These are at the bottom of another list (`l1`). Both lists share in any change of the form size. The second list (`l2`) is a member of the group container (`g1`), so it moves if the group moves (`0` for `y`) and it gets all of the group resizing (`h` is `1`).
-
-#### Example 4
-
-> `FLEX g1 1 1 0 0`
-
-> `FLEX l1 0 0 1 1`
-
-> Form has a group (`g1`) with a list member (`l1`), but the list doesn't resize because the list is a member of the group which has `0:0` sizing. Though the list has `1:1` sizing, it never changes in size because its container never changes in size. Both the group and its member list move because the group has a `1:1` `x/y` factor.
-
-#### Example 5
-
-> `FLEX t1 0 0 1 1`
-
-> `FLEX l1 0 0 1 1`
-
-> `FLEX l2 0 0 1 1`
-
-> Form is a tabset (`t1`) with 2 tabs. Each tab controls a list (`l1` and `l2`) that accommodates the maximum change in the form size.
-
-* Use`axlFormTest`(*<*`formname`*>*) to experiment with your form.
-
-Using Grids
------------
-
-Grids offer tabular support and the following features:
-
-* Optional side and top headers
-
-* Several data types on a per column basis: Text (info), Checkbox with optional text, Enum (Drop-drop) and Fillin (text box with built-in types: string, integer, and real.)
-
-* Row and column indexing which is 1-based
-
-Grids have the following limits:
-
-* Maximum of 200 columns
-
-* Maximum rows of 1,000,000
-
-* Maximum field string length per column of 256 characters
-
-* Column creation only at grid initialization time.
-
-#### Form File Support for Grids
-
-The following defines the form file structure relating to grids.
-
-`GRID`
-
-`Standard items`
-
-`FLOC    -    x, y location`
-
-`FSIZE    -    width and height including headers if used`
-
-```
-POP    -    Optional right button popup for body. Also requires application to set the GEVENT_RIGHTPOPUP option.
-```
-
-`OPTIONS:`
-
-`INFO    -    Entire grid is info-only even if it contains typeable fields`
-
-`HLINES    -    Draw horizontal lines between columns`
-
-`VLINES    -    Draw vertical lines between rows`
-
-`USERSIZE    -    Allow user to resize columns.`
-
-```
-MULTISELROW        allows multi-row select (also set via Skill API, axlFormGridEvents)
-```
-
-`HEADERS (GHEAD)`
-
-`-    Specified within GRID section.`
-
-`-    TOP and SIDE header (only one per type allowed in a grid)`
-
-`HEADSIZE    -    Height (TOP) or width (SIDE) for the header.`
-
-`OPTIONS:`
-
-`3D    -    Display raised.`
-
-```
-NUMBER    -    For side header, display row number if application does not provide text.
-```
-
-```
-POP    -    Optional right mouse button popup. One per header. Requires application to set GEVENT_RIGHTPOPUP for the header.
-```
-
-#### Programming Support for Grids
-
-The following Grid APIs are available:
-
-|  |
-| --- | ---
-| `axlFormGridInsertCol` | Insert a column.
-| `axlFormGridInsertRows` | Insert one or more rows.
-| `axlFormGridDeleteRows` | Delete one or more rows.
-| `axlFormGridEvents` | Set grid events.
-| `axlFormGridOptions` | Miscellaneous grid options.
-| `axlFormGridNewCell` | Obtain structure for setting a cell.
-| `axlIsGridCellType` | Is item a cell data type.
-| `axlFormGridSetBatch` | For setting multiple cells.
-| `axlFormGridGetCell` | For getting cell data.
-| `axlFormGridBatch` | Used with`axlFormGridSetBatch`
-| `axlFormGridUpdate` | Update display after changes.
-| `make_formGridCol` | For defstruct`formGridCol`
-| `copy_formGridCol` | For defstruct`formGridCol`
-In addition, the following standard form APIs may be used:
-
-|  |
-| --- | ---
-| `axlFormSetFieldVisible` | Set grid visibility
-| `axlFormIsFieldVisible` | Is field visible
-| `axlFormSetFieldEditable` | Set grid editability
-| `axlFormIsFieldEditable` | Is field editable
-| `axlFormBuildPopup` | Change a popup
-| `axlFormSetField` | Set individual cell.
-| `axlFormRestoreField` | Restore last cell changed.Restore supports undoing last*change* event.Adding, deleting, or right mouse event reset restore.
-***Multi-row select support functions:***
-
-|  |
-| --- | ---
-| `axlFormGridSetSelectRows` | control selection of rows
-| `axlFormGridSelectedCnt` | number of rows selected
-| `axlFormGridSelected` | list of rows selected
-#### Data Structures
-
-|  |
-| --- | ---
-| `r_cell` | User data type for cell update (see[axlFormGridNewCell](#459451 "11"))
-| `r_formGridCol` | Defstruct to describe column (see[axlFormGridInsertCol](#459328 "11"))
-#### Column Field Types
-
-Grids support the assignment of data types by column. You may change an editable cell into a read-only cell by assigning it a`s_noEdit` or `s_invisible` attribute. See `axlFormGridInsertCol` for a complete description of column attributes and `axlFormGridSetBatch` for a discussion of cell attributes.
-
-|  |
-| --- | ---
-| `TEXT` | Column is composed of display only text.
-| `STRING` | Column supports editable text. See edit-combo.
-| `LONG` | Column supports numeric data entry cells. See edit-combo.
-| `REAL` | Column supports numeric floating point entry cells.  See edit-combo.
-| `ENUMSET` | Column supports combo-box (drop-down) cells. Must have a popup attribute on the column.
-| `CHECKITEM` | Column has checkbox cells with optional text.
-| `EDIT-COMBO` | By assigning a popup attribute at the column and/or at the cell level, you can change STRING, LONG, and REAL types to support the original text editing field with the addition of a drop-down.
-#### Initializing the Grid
-
-Once a grid is defined in the form file, you can initialize the grid as follows:
-
-* Create required columns using`axlFormGridInsertCol`
-
-* Create initial set of rows using`axlFormGridInsertRows`
-
-* Create initial grid cells and headers using`axlFormGridSetBatch`,
-  then on callback, use:
-
-|
-| ---
-|
- **a.** | `axlFormGridNewCell`
-|
-| ---
-|
- **b.** | `axlFormGridSetBatch`
-* Set event filters using`axlFormGridOptions`.
-
-* Display the grid using`axlFormGridUpdate`.
-
-See`grid.il` and `grid.form` for a programming example. You can find these in the AXL Shareware area:
-
-> `<CDS_INST_DIR>/share/pcb/etc/skill/examples/ui`
-
-#### Dispatching Events
-
-Unlike other form controls, an application can specify what events are dispatched. You control this using the`axlFormGridEvents` API which documents the usage. Also, the form callback structure has new fields for grids (see [axlFormGridEvents](#459032 "11").)
-
-By default, you create a grid with the*'*rowselect enabled which is typically appropriate for a multi-column table.
-
-#### Multi-row Selection
-
-A super-set of row selection is the multi-row selection option. With this option the user can select multiple rows. Grids running in this mode do now support cell select or change options.
-
-This is set in Skill via:
-
-`axlFormGridEvents(<form> <grid> '(mrowselect))`
-
-or from the formfile by adding the`MULTISELROW` option to the grid's `OPTION` line.
-
-Standard selection model is supported (not extended). This means:
-
-* left click selects a row
-
-* shift-left click selects all rows between the initial and current row
-
-* ctrl-left click on to selection of row that is currently selected, it de-selects
-
-* control-a selects all rows
-
-APIs are provided (see above) to get current selected rows and set or clear row selections.
-
-Finally, since multiple rows may be selected the standard form callback mechanism only informs you of a selection event. You need to utilize[axlFormGridSetSelectRows](#495777 "11") to determine the current selection.
-
-#### Using Scripting with Grid Controls
-
-Unlike most other form controls where the programmer needs no concern over scripting, grid programmers should address scripting. By default, the grid uses the event type and
-row/column number for scripting. Depending on your application, this may create scripts that do not replay given different starting data. Grids support assigning script labels to rows, to columns, and on a per cell basis.
-
-You label by setting the`scriptLabel` attribute from the application code with the `axlFormGridInsertCol`function for a column or the `axlFormGridNewCell`function for a row, column, or per cell basis. You can also change this dynamically. Note that (`row=0`, `col=``n`) sets the `scriptLabel` for the column using `axlFormGridNewCell` and (`row=``n`, col=0) allows setting for row script labels.
-
-The grid script line format extends upon the standard form scripting as shown:
-
-> `FORM <formname> [tileLabel] <fieldLabel> <event> <glabel> [<value>]`
-
-> where
-
-> `FORM <formname> [tileLabel] <fieldLabel>`
-
-> `-    standard form script form fieldLabel is the grid label`
-
-> `<event> is the grid event. Grid events include:`
-
-> `rowselect    := GEVENT_ROWSELECT`
-
-> `cellselect    := GEVENT_CELLSELECT`
-
-> `change    := GEVENT_CELLCHANGE`
-
-> `rpopup    := GEVENT_RIGHTPOPUP`
-
-> `rprepopup    := GEVENT_RIGHTPOPUPPRE`
-
-> `lprepopup    := GEVENT_LEFTPOPUPPRE`
-
-> ```
-> <glabel> label corresponds to the location in the grid the event        occurred.
-> ```
-
-> `[<value>] optional value depending upon event.`
-
-> `Depending on the event, the rest of the script line appears as follows:`
-
-> `rowselect    <glabel:=row>`
-
-> `cellselect    <glabel:=cell>`
-
-> `change    <glabel:=cell> <value>`
-
-> `rpopup    <glabel:=cell> <popup value>`
-
-> `rprepopup    <glabel:=cell>`
-
-> `lprepopup    <glabel:=cell>`
-
-The`glabel` has several format options depending on the event:
-
-|  |
-| --- | ---
-| `row` | If the row has a*scriptLabel*, it is used, otherwise the row number is used.
-| `cell` | If the cell has a label, that is used. If the cell does not have a label, the row and /or column labels are used. If either the row or column does not have labels, the row and/or column number is used.
-When you set a`scriptLabel` to `row`, `col`, or `cell`, the following character set is enforced: case insensitive, no white space or comma or $. Labels with these characters are replaced by an underscore (\_). You may use pure numeric strings, but if you do not label everything, scripts may fall back and use the row/grid number to resolve a number not found as a script label string.
-
-**Notes**
-
-* If you use`row` and `col` as the `glabel`, use a comma `(,)`to delineate between the row and column name and number.
-
-* Do not turn on events that you do not plan to process since scripts record them. For instance, if you only process on`rowselect` (no editable cells), then only enable `rowselect`. As a side benefit, you do not have to label columns or cells since row label is sufficient.
-
-* If you use a row and/or column heading, you may use that for assigning`scriptLabels`.
-
-**Examples**
-
-* If grids replace the text parameter form, you need not label the columns. A column number is sufficient. You can label the columns for script readability. This application does not require cell labeling.
-
-* If grids replace the color form for certain color grids, like stackup, you would need to label each cell. Each class grouped in the stackup grid is not row consistent. For example, depending on design, subclasses are not the same going across the rows. Other groupings require labeling on class for`col` and `subclass` for `row` since it is orthogonal.
-
-See[Using Grids](#461722 "11") for a grid overview.
-
-**Headers**
-
-You can set column (top) headers either using`axlFormGridInsertCol` at column creation time, or using `axlFormGridSetBatch` if you need to change the header using row number `0`.
-
-Row (side) headers default to automatic run numbers with this option set in the form file. Using`axlFormGridSetBatch`, you can set the text for individual rows using col number `0`.
-
-#### AXL Forms: Example 1
-
-> > ```
-> > FILE_TYPE=FORM_DEFN VERSION=2FORMFIXEDPORT 50 11HEADER "Extract Selector"TILETEXT "Select View File to Extract"TLOC 12 1ENDTEXTTEXT "View File:"TLOC 1 12ENDTEXTFIELD view_fileFLOC 12 12STRFILLIN 24 24ENDFIELDFIELD file_listFLOC 5 3LIST "" 40 5ENDFIELDFIELD cancelFLOC 5 15MENUBUTTON "Cancel" 8 3ENDFIELDFIELD doneFLOC 15 15MENUBUTTON "Done" 9 3ENDFIELDFIELD printFLOC 25 15MENUBUTTON "Print" 9 3ENDFIELDFIELD scriptFLOC 35 15MENUBUTTON "Script" 11 3ENDFIELDENDTILEENDFORM
-> > ```
-
-* Uses a form file (expected to be in the current directory) that can display a selection list.
-
-* Gets the list of available extract definition (view) files pointed to by the`TEXTPATH` environment variable.
-
-* Displays the list in the form.
-
-> The user can then select any filename listed, and the name displays in the*View File* field.
-
-> Selecting the*Done* button causes the form to call `axlExtractToFile`with the selected extract filename as the view file, and `myextract.dat`as the extract output filename, and closes the form. Selecting *Cancel* cancels the command and closes the form.
-
-> The form file has`FIELD` definitions for the selection list, the *View File* field, and each of the buttons (*Cancel*, *Done*, *Print* and *Script*).
-
-> > ```
-> > ; myExtractViews.il;            -- Displays a form with a selection list of;                 the available extract definition files;            -- Lets the user select any of the files on;                 the list as the "View file";            -- Starts Allegro extract process with the;                 user-selected View file when;                the user picks Done from the form.; Function to extract user selected view to the output file.(defun myExtractViews (viewFile outFile)     axlExtractToFile( viewFile outFile)); defun myExtractViews; Function to start the view extraction(defun _extract () myExtractViews(buildString(list(cadr(parseString(    axlGetVariable("TEXTPATH"))) selectedFile) "/")            "myextract.dat")); defun _extract; Form callback function to respond(defun _formAction (form)     (case form->curField         ("done"             (axlFormClose form)             (axlCancelEnterFun)             (_extract)             t)         ("cancel"             (axlFormClose form)             (axlCancelEnterFun)             nil)         ("view_file"             (if form->curValue                 (progn                     ; Accept user input only if on list                     if(member( form->curValue fileList)                        then axlFormSetField( form                             "view_file" form->curValue)                         else axlFormRestoreField(                                form "view_file"))))             t)         ("file_list"             (axlFormSetField form "view_file"                form->curValue)             selectedFile = form->curValue             t)); case); defun _formAction; User-callable function to set up and;        display the Extract Selector form(defun myExtract ()    fileList = (cdr (cdr (getDirFiles    cadr( parseString( axlGetVariable("TEXTPATH"))))))    form = axlFormCreate( (gensym)         "extract_selector.form" '("E" "OUTER")            '_formAction t) axlFormTitle( form "Extract Selector") axlFormSetField( form "view_file" (car fileList)) selectedFile = (car fileList) foreach( fileName fileList        axlFormSetField( form "file_list" fileName))     axlFormDisplay( form)); defun myExtract
-> > ```
-
-* Creates a form named`form` with the callback function`_formAction` that analyzes user action stored in `form->curField` and responds appropriately.
-
-* Loads the example AXL program shown.
-
-* Enters the command`myExtract()`.
-
-> SKILL displays the**Extract Selector** form, as specified in the form file `extract_selector.form` that this code created when it first loaded. This is a non-blocking form--you can enter other SKILL and Allegro PCB Editor commands while the form displays.
-
-The program shows how to analyze the user selection when control passes to the callback function*\_*`formAction`. Name of the field selected by the user is in `form->curField`. In this case, that is one of the strings `done`, `cancel`, `view_file`, or `file_list`. The value of the field is in`form->curValue`. This has a value for the `view_file` and`file_list` fields.
-
-The actions in the`callback``_formAction` are
-
-|  |
-| --- | ---
-| `"done"` | The user selected the*Done* button. Closes the form, clears input using `axlCancelEnterFun`, and calls the \_extract function to execute the data extract.
-| `"cancel"` | The user selected the*Cancel* button. Closes the form, clears input using `axlCancelEnterFun`, and calls the \_extract function to execute the data extract.
-| `"view_file"` | The user selected the*View File* field, possibly typed an entry, and pressed *Return*. Sets the `view file` name to the current value of the *View File* field, letting the user type in a name. Name must be a name on the list displayed.
-| `"file_list"` | The user picked a name from the displayed list of view file names. Name picked is`form->curValue`, and the program sets `selectedFile` (the name of the currently selected extract file) to the new value, and displays it in the *View File* field.
-The*Print* and *Script* buttons have pop-ups that call predefined Allegro PCB Editor functions.
-
-#### AXL Forms: Example 2
-
-The form file`popup.form` for this is shown:
-
-```
-FILE_TYPE=FORM_DEFN VERSION=2FORMFIXEDPORT 50 5HEADER "Popup Selector"POPUP <PRINTP>    "to File""0","to Printer""1","to Script""2".POPUP <SCRIPTP>    "Record""record","Replay""replay","Stop""stop".POPUP <MYPOPUP>    "MyPopup1""myPopup1","MyPopup2" "myPopup2".TILETEXT "My Popup Here:"TLOC 1 1ENDTEXTFIELD my_popupFLOC 12 3ENUMSET 24POP "MYPOPUP"ENDFIELDFIELD change_popFLOC 5 6MENUBUTTON "Change" 8 3ENDFIELDFIELD doneFLOC 15 6MENUBUTTON "Done" 9 3ENDFIELDFIELD printFLOC 25 6MENUBUTTON "Print" 9 3POP "PRINTP"ENDFIELDFIELD scriptFLOC 35 6MENUBUTTON "Script" 11 3POP "SCRIPTP"ENDFIELDENDTILEENDFORM
-```
-
-Uses a form file (expected to be in the current directory) to create a pop-up. The sample program also displays in the pop-up field the value returned whenever the user selects a pop-up.
-
-The form field`my_popup` originally has the popup values specified by the file `popup.form`(*MyPopup1* and *MyPopup2*). The AXL program responds to the *Change* button by building the pop-up display and returning the values.
-
-> `list( list( "MyPop 1" "myPopValue1")         list( "MyPop 2" "myPopValue2"))`
-
-A list of lists of display and dispatch string pairs.
-
-> `list( list( "MyPop 12" 12) list( "MyPop 5" 5))`
-
-A list of lists of display and dispatch pairs, where the display value is a string, and the dispatch value is an integer.
-
-> `list( "MyPopValue1" "MyPopValue2")`
-
-A list of strings, which means that each string represents both the display and dispatch values of that popup selection.
-
-```
-; formpop.il - Create and display a form with a popup; Form call back function to respond to user selection of any field in the form(defun _popAction (form)     (case form->curField         ("done"             (axlFormClose form)             (axlCancelEnterFun)             t)         ("change_pop"             (case already_changed                  (0;Use display/dispatch string pairs                     axlFormBuildPopup(form "my_popup"                      list(                     list("NewPopup A" "mynewpopup_a")                     list("NewPopup B" "mynewpopup_b")))                      axlFormSetField(form "my_popup"                        "My First Popups")                )                 (1;Display string/dispatch integer pairs                     axlFormBuildPopup(form "my_popup"                      list( list("NewPopup 12" 12)                         list("NewPopup 5" 5)))                          axlFormSetField(form "my_popup"                            "My Second Popups")                )                 (t;String is both display and dispatch                     axlFormBuildPopup(form "my_popup"                      list( "MyPopNValue1"                                 "MyPopNValue2"))                      axlFormSetField(form "my_popup"                            "My Third Popups")                     )                     )                     already_changed++                t)            ("my_popup"                 printf( "Got my_popup event:                    form->curValue %s", form->curValue)                 if( form->curValue                    (progn                     axlFormSetField( form "my_popup"                        form->curValue)))             t)         ); case    ); defun _popAction; User-callable function to set up and;    display the Extract Selector form(defun myPop ()    form = axlFormCreate( (gensym) "popup.form"        '("E" "OUTER") '_popAction t)     if( axlIsFormType(form)        then (print "Created form successfully.")         else (print "Error! Could not create form."))     axlFormTitle( form "Try My Popup")     mypopvalue = "my_start_popup"    axlFormSetField( form "my_popup" mypopvalue)     axlFormDisplay( form)    already_changed = 0); defun myPop
-```
-
-Sets the field`my_popup` to the value selected by the user and prints it.
-
-* Enter `myPop()` on the SKILL command line to display the **Try My Popup** form.
-
-* Press the middle mouse button over the pop-up field to display the original pop-up specified by the file`popup.form`.
-
-* Click*Change*.
-
-> The form displays the first set of pop-up values set by the program. The first pop-up values also display when you press the middle mouse button over the field.
-
-* Make a selection.
-
-> If, for example, you selected*NewPopup B*, the program prints the following on the SKILL command line:
-
-`Got my_popup event: form->curValue mynewpopup_b`
-
-> The following form is displayed.
-
-* ClickChange.
-
-> The program displays the third set of pop-ups.
-
-AXL-SKILL Form Interface Functions
-----------------------------------
-
-This section lists the form interface functions.
+Row (side) headers default to automatic run numbers with this option set in the form file. Using `axlFormGridSetBatch`, you can set the text for individual rows using col number `0`.
 
 ### axlFormBNFDoc
+
+#### Description
 
 This is the BNF grammar for the Forms Specification Language. New options and field types are added every release. Form files are always upwards compatible but may NOT be backwards compatible if you take advantage of a new feature. Thus, a form file created in 12.0 Allegro works in 13.0 Allegro. However, if you take advantage of the TAB control (13.0) or the RIGHT justification of TEXT (13.5), you will have a form file that will not function with 12.0 of Allegro.
 
 The following outlines the conventions used in the grammar:
 
-[] Optional
-{} May repeat one or more times.
-<> Supplied by user.
-| Choose one or the other.
-: Definition of a token.
-CAPS Items in caps are keywords (note form parser is case insensitive)
-(#) Note: See number at end of this documentation.
+[] Optional{} May repeat one or more times.<> Supplied by user.| Choose one or the other.: Definition of a token.CAPS Items in caps are keywords (note form parser is case insensitive)(#) Note: See number at end of this documentation.
 
-#### BNF
+### axlFormCallback
 
-#### *form*
+`axlFormCallback( [ r_form ] ) => t`
 
-FILE\_TYPE=FORM\_DEFN VERSION=2 (1)
- FORM [form\_options] (3)
- formtype
- PORT w h
- HEADER "text"
- form\_header
- {tile\_def}
- ENDFORM
+#### Description
 
-#### *formtype FIXED | VARIABLE*
+This is not a function but documents the callback interface for form interaction between a user and Skill code. The Skill program author provides this function.
 
-- FIXED forms have a one unlabeled TILE stanza
- - VARIABLE forms have one or more label TILE stanzas
- - Skill only supports FIXED form types.
+When the user changes a field in a form the Allegro form processor calls the procedure you specified as the `g_formAction` argument in `axlFormCreate` when you created that form. The form attribute `curField` specifies the name of the field that changed. The form attribute `curValue` specifies the current value of the field (after the user changed it). If you set `g_stringOption` to `t` in your call to `axlFormCreate` when you created that form, then `curValue` is a string. If `g_stringOption` was `nil` (the default), then `curValue` is the type you specified for that field in the form file.
 
-#### PORT
+Note: The term `formCallback` used in the title of this callback procedure description is a dummy name. The callback function name must match the name or symbol name you used as the `g_formAction` argument in `axlFormCreate` when you created the form.
 
-- width and height of form. Height is ignored for fixed forms which auto-calculates required height. Width must be in character units.
+If you specify the callback name (`g_formAction`) as a string in your call to `axlFormCreate`, SKILL calls that function with no arguments. If you specify `g_formAction` as a symbol, then SKILL calls that function with the form handle as its single argument.
 
-#### HEADER
+The callback must call `axlFormClose` to close the form and to continue in the main application code if form mode is blocking.
 
-- initial string used in title bar of form (may be overridden by application).
+All form information is provided by the `r_form` argument which is a form data type. Applications can extend the data stored on this type by adding their own attributes. Capitalize the first letter of the attribute name to avoid conflicts with future additions by Cadence to this structure. Tables 1 and 2 show the available field types and how they impact the `r_form` data type.
 
-#### *form\_header*
+#### Arguments
+
+`r_form` Form dbid.
+
+#### Value Returns
+
+`t`Always returns `t`.
+
+#### Examples
+
+See `axlFormCreate` and `axlFormBuildPopup` examples.
+
+### axlFormCreate
+
+`axlFormCreate( s_formHandle t_formfile/(t_formName t_contents)/(t_formName (t_contents)) [lt_placement] g_formAction g_nonBlock [g_stringOption] ) => r_form/nil`
+
+#### Description
+
+Creates a dialog based on the form descriptive file `t_formfile`. This call only supports forms of type `"fixed"` and fails if `t_formfile` contains any variable tiles. This function does not display the form. Use `axlFormDisplay` to display a form.
+
+An alternative interface is supported that allows embedding the contents of the form file in the skill code. Instead of passing the external form file name provide the name (t_formName) for scripting purposes and form file contents (t_contents) as string. The packaged skill code has a example of this method at the end of the `<cdsroot>``/share/pcb/examples/form/finline.il` file. This method has the advantage of only distributing one file.
+
+Rules to remember when creating this form content string:
+
+- Every non-blank line must have a tab character
+
+Example:
+
+`FILE_TYPE=FORM_DEFN VERSION=2`
+
+- Any embedded quotes must be escaped (use backslash '\')
+
+Example:
+
+`MENUBUTTON \"Ok\" 10 3\n`
+
+- Any paraenthesis '()' must be escaped '\'
+
+Note: If `s_formHandle` is an existing `r_form`, then `axlFormCreate` does not create a new form, but simply exposes and displays the existing form, `s_formHandle`, and returns `nil`.
+
+#### Arguments
+
+| Name | Description |
+|---|---|
+| `s_formHandle` | Global SKILL symbol used to reference form.Note: Do not use the same symbol to reference different form instances. |
+| `t_formfile` | Filename of the form file to be used to define this form. `axlFormCreate` uses the Allegro PCB Editor environment variable, `FORMPATH`, to find the file, if `t_formfile` is not a full path. The filename, by convention, should use the `.form` extension.Alternative interface to embed form file into Skill code: `t_formName`: Name of form (used for scripting) `(t_contents)`: Contents of form file. This may be a string or a list containing or a string. The string format is obsolete and you should use `t_contents t_contents`: the list with string format |
+| `lt_placement` | Form placement. Allegro PCB Editor uses its default placement if this argument is `nil`. See Window Placement |
+| `g_formAction` | Specifies the SKILL commands (callbacks) to be executed after every field change (Note that this is very different from Cadence IC forms). You can set this to one of the formats shown: |
+| `g_form` | `Action` Options |
+
+| Name | Description |
+|---|---|
+| Option | Description |
+| `t_callback` | String representation of the SKILL command to be executed. |
+| `s_callback` | Symbol of the SKILL function to be called (passes the `r_form` returned from `axlFormCreate` as its only parameter.) |
+| `nil` | `axlFormDisplay` blocks until the user closes the form.You must place a Done button (field name `done`) and optionally a Cancel button (field name `cancel`) in the form for `g_formAction` to function properly. The user can access all of the fields and values using the `r_form` user type. |
+
+| Name | Description |
+|---|---|
+| `g_nonBlock` | If `g_nonBlock` is `t`, the form runs in non-blocking mode. In blocking mode (the default), `axlFormDisplay` blocks until the user closes the form. Blocking is an easier programming mode but might not be appropriate for your application. If the callback (`g_formAction`) is `nil`, then `axlFormDisplay` ignores `g_nonBlock`, and the form runs in blocking mode. 
+ Use of blocking mode blocks the progress of the SKILL code, but does not prevent other Allegro PCB Editor events from occurring. For example, if blocked, users can start the Add Line command from Allegro PCB Editor menus. |
+| `g_stringOption` | If`t,` the form returns and accepts all values as strings. By default, it returns and accepts values in the format declared in the form file. |
+
+#### Value Returns
+
+| Name | Description |
+|---|---|
+| `r_form` | `dbid` of form created. |
+| `nil` | No form created. |
+
+#### Examples
+
+See `<cdsroot>/share/pcb/examples/form`
+
+basic: demostrates basic form capabilities
+
+finline.il shows correct inline method
+
+grid: demostrates grid control capabilites
+
+wizard: form when used in a Wizard mode
+
+finline: demostrates inline option to avoid having a .form file
+
+See AXL Forms: Example 1.
+
+#### See Also
+
+- axlFormIntroDoc: Introduction to the Allegro Form Package.
+
+- axlFormBNFDoc: Form file language description
+
+- axlFormCallback: Methods and structures for interacting with user.
+
+### axlFormClearMouseActive
+
+`axlFormClearMouseActive( r_form ) => t/nil`
+
+#### Description
+
+Clears the option to dispatch the MouseActive event on a form.
+
+#### Arguments
+
+| Name | Description |
+|---|---|
+| `r_form` | Handle for the form |
+
+#### Value Returns
+
+| Name | Description |
+|---|---|
+| `t` | Option was cleared |
+| `nil` | r_form does not reference a valid form |
+
+### axlFormClose
+
+`axlFormClose( r_form ) => t/nil`
+
+#### Description
+
+Closes the form `r_form`. Unless the form is running without a callback handler, you must make this call to close the form. Without a registered dispatch handler, Allegro PCB Editor closes the form automatically before returning to the application from `axlFormDisplay`.
+
+Note: `axlUIWClose` also performs the same function.
+
+#### Arguments
+
+| Name | Description |
+|---|---|
+| `r_form` | Form `dbid`. |
+
+#### Value Returns
+
+| Name | Description |
+|---|---|
+| `t` | Closed the form. |
+| `nil` | Form was already closed. |
+
+#### Examples
+
+See AXL Forms: Example 1 :
+
+`(case form->curField``("done"``(axlFormClose form)``(axlCancelEnterFun)``(_extract)``t)`
+
+### axlFormDisplay
+
+`axlFormDisplay( r_form ) => t/nil`
+
+#### Description
+
+Displays the form `r_form` already created by `axlFormCreate`. For superior display appearance, set all the field values of the form before calling this function. A form in blocking mode blocks until the user closes the form.
+
+If a form is already displayed, this function simply exposes it.
+
+#### Arguments
+
+| Name | Description |
+|---|---|
+| `r_form` | Form `dbid`. |
+
+#### Value Returns
+
+| Name | Description |
+|---|---|
+| `t` | Successfully opened or exposed the form. |
+| `nil` | Failed to open or expose the form. |
+
+#### Examples
+
+See AXL Forms: Example 1.
+
+`axlFormDisplay( form)`
+
+### axlFormBuildPopup
+
+`axlFormBuildPopup( r_form t_field l_pairs ) => t/nil`
+
+#### Description
+
+This provides the ability to dynamically change popups of fields that have them. These fields are enum (or pop-up) and other fields that have a popup icon. Buttons, optionally, may also have a popup if they have a right arrow. Attempting this call on a field without a popup is an error.
+
+#### Arguments
+
+| Name | Description |
+|---|---|
+| `r_form` | a form handle |
+| `t_field` | Name of form field. |
+| `l_pairs` | May be one of four formats where each element is a single popup entry. A maximum of 256 popup entries are allowed.<br><br>normal `( (t_display t_dispatch) ... )` alternative normal `( t_displayNdispatch ... )` for enum field types `( (t_display x_dispatch) ... ) ( (t_display t_dispatch/x_dispatch options) ... )` Options can be 1 or 2 additional list options that are `S_color/x_color` for enum field types with color; bold or underline for bold or underlined items. |
+
+Note:
+
+All entries in an `l_pairs` argument must be the same type of format. That is, you cannot have a list containing, for example, both display/dispatch strings and display/enum types, or display/dispatch and single-string entries.
+
+Must be one of the formats described. Each list object defines a single popup entry.
+
+Table 11-3 
+ l_pairs Format Options
+
+| Name | Description |
+|---|---|
+| Option | Description; Example |
+| List of lists of string pairs | The first member of each string pair list is the display value-the string displayed in the pop-up. The second member of each string pair is the dispatch value-the string value returned as `form->curValue` when the user selects that pop-up entry.; `(list (list "MyPop A" "myvalue_a") list("MyPop B" "myvalue_b"))` |
+| List of lists of pairs | List of lists of pairs where the first member of each pair is a string giving the display value, and the second member is an integer that is the dispatch value, returned as `form - curValue` when the user selects that pop-up entry. 
+ You can use the return value as an index into an array.; `(list (list "MyPop A" 5)``list("MyPop B" 7))` |
+| List of strings | Uses each string both for display value and the return value.; `(list "MyPop A" "MyPop B")` |
+| Optional field | Specifies a color swatch. This is currently only supported by ENUM field types (it is ignored by other field types). With an ENUM you need to add `OPTIONS ownerdrawn` in the form file for the FIELD in question to see the color swatch in the popup. You can use either pre-defined color names (see `axlColorDoc`) or Allegro board colors (see `axlLayerGet`).; You can't mix this color type in a single popup. `'(("Green" 1 green) ("Red" 2 red) ("Yellow" 3 yellow)) '(("Top" "top" 2) ("Gnd "gnd" 4) ("Bottom" "btm" 18))` If instead of a color or Allegro color number, you provide a `nil,` then that popup entry will not have a color swatch. `'("(None" 0 nil) ("Green" 1 green) ("Red" 2 red) ("Yellow" 3 yellow))` Font type of bold or underline can be specified via: `'(("Top" "top" bold) ("Gnd "gnd" underline) ("Bottom" "btm"))` When font type is combined with color it looks like: `'(("Top" "top" "Green" bold) ("Gnd "gnd" "Red" underline)` |
+
+Notes:
+
+- Allows a maximum of 1000 pop-up entries in one pop-up.
+
+- If creating a dynamic popup (entries created under program control) a dummy entry must exist in the form file or build popup will fail. Example:
+
+`<popupname> """".`
+
+- The field name is actually a search mechanism. We first search the fields for the field name with a popup and then search the popup names. Since the only way to change grid column or cell based popups is by popup name you may run into failures if that popup name has the same name as another field in the form.
+
+#### Value Returns
+
+| Name | Description |
+|---|---|
+| `t` | Field set. |
+| `nil` | Field not set. |
+
+#### Examples
+
+See AXL Forms: Example 2.
+
+### axlFormGetField
+
+`axlFormGetField( r_form t_field ) => g_value/nil`
+
+#### Description
+
+Gets the value of `t_field` in the open form `r_form`. The value is a string if `g_stringOption` was set in `axlFormCreate`. Otherwise the value is in the field type declared in the form file.
+
+#### Arguments
+
+| Name | Description |
+|---|---|
+| `r_form` | Form `dbid`. |
+| `t_field` | Name of field. |
+
+#### Value Returns
+
+| Name | Description |
+|---|---|
+| `g_value` | Current value of the field. |
+| `nil` | Field does not exist, or false if boolean field such as check box or radio button. |
+
+#### Examples
+
+| Name | Description |
+|---|---|
+| 1. | Load the example code given in AXL Forms: Example 1. |
+
+| Name | Description |
+|---|---|
+| 2. | Enter the command `myExtract()` on the SKILL command line. |
+
+The command displays the Extract Selector form, listing all available extract view files.
+
+| Name | Description |
+|---|---|
+| 3. | Select any file in the list, or type a name into the View File field. |
+
+`allegro2rlb_view.txt` is entered.
+
+`axlFormGetField( form "view_file")``⇒ "allegro2rlb_view.txt"`
+
+Examines the value of "`view_file`" .
+
+### axlFormGridSelected
+
+`axlFormGridSelected( r_form t_field ) => lx_selected/nil`
+
+#### Description
+
+This returns the selected item in a multi-select grid control. This should only be used if grid is running with the multi-select row option.
+
+#### Arguments
+
+| Name | Description |
+|---|---|
+| `r_form` | standard form handle |
+| `t_field` | standard field name |
+
+#### Value Returns
+
+Returns list of selected items in a multi-select grid or nil if not the correct control.
+
+#### Examples
+
+See `fgrid.il` in `<CDSROOT>``/share/pcb/examples/skill/form/grid`
+
+Pseudo code:
+
+#### See Also
+
+axlFormGridNewCell
+
+### axlFormGridSelectedCnt
+
+`axlFormGridSelectedCnt( r_form t_field ) => x_cnt/nil`
+
+#### Description
+
+`axlFormGridEvents(fg "grid" 'mrowselect) ;; select items selected = axlFormGridSelected(fg "grid") ; if form select rows 5,6,7 (click on 5, then Shift click on 7) ;; select items selected = axlFormGridSelected(fg "grid") -> (5 6 7)` This returns the count of rows selected in a multi-select grid control. This should only be used if grid is running with the multi-select row option.
+
+#### Arguments
+
+| Name | Description |
+|---|---|
+| `r_form` | standard form handle |
+| `t_field` | standard field name |
+
+#### Value Returns
+
+Returns count of selected items or `nil` if wrong type of control
+
+#### Examples
+
+See `fgrid.il` in `<CDSROOT>``/share/pcb/examples/skill/form/grid`
+
+Pseudo code:
+
+`axlFormGridEvents(fg "grid" 'mrowselect)`
+
+`; if form select rows all rows (Ctrl-A in grid)`
+
+`;; select items`
+
+`selected = axlFormGridSelectedCnt(fg "grid")`
+
+`-> 16`
+
+#### See Also
+
+axlFormGridNewCell
+
+### axlFormGridSetSelectRows
+
+`axlFormGridSetSelectRows( r_form t_field x_min x_max g_option ) => x_cnt/nil`
+
+#### Description
+
+This allows setting, clearing or toggling of selection state for a grid in multi-select row mode.
+
+#### Arguments
+
+| Name | Description |
+|---|---|
+| `r_form` | standard form handle |
+| `t_field` | standard field name |
+| `x_min` | min row number |
+| `x_max` | max row number |
+| `g_option` | what to do<br><br>`t` - set row as selected<br><br>`nil` - clear row as selected<br><br>`'toggle` - toggle selected state of row |
+
+#### Value Returns
+
+`t` if succeeded, `nil` if not a grid field or not in multi-row select mode
+
+#### Examples
+
+See `fgrid.il` in `<CDSROOT>``/share/pcb/examples/skill/form/grid`
+
+Pseudo code:
+
+`axlFormGridEvents(fg "grid" 'mrowselect)`
+
+- set row 4 as selected
+
+`axlFormGridSetSelectRows(fg "grid" 4 4 t)`
+
+- clear rows 4 thru 8 being selected
+
+`axlFormGridSetSelectRows(fg "grid" 4 8 t)`
+
+- clear all rows
+
+`axlFormGridSetSelectRows(fg "grid" -1 -1 nil)`
+
+- toggle state of row 1
+
+`axlFormGridSetSelectRows(fg "grid" 1 1 'toggle)`
+
+#### See Also
+
+axlFormGridNewCell
+
+### axlFormListDeleteAll
+
+`axlFormListDeleteAll( r_form t_field ) => t/nil`
+
+#### Description
+
+Deletes all the items from the form list field, `t_field`. Use `axlFormListDeleteAll` to clear an entire list field to update it using `axlFormSetField`, then display it using `axlFormSetField` on the field with a `nil` field value.
+
+#### Arguments
+
+| Name | Description |
+|---|---|
+| `r_form` | Form `dbid`. |
+| `t_field` | Name of field. |
+
+#### Value Returns
+
+| Name | Description |
+|---|---|
+| `t` | All items deleted properly. |
+| `nil` | All items not deleted. |
+
+#### Examples
+
+In this example you do the following:
+
+| Name | Description |
+|---|---|
+| 1. | Use the `axlFormCreate` examples to create and display the Extract Selector dialog box shown in Figure 11-1. |
+
+| Name | Description |
+|---|---|
+| 2. | On the SKILL command line, enter: |
+
+`axlFormListDeleteAll(form "file_list")`
+
+`==> nil`
+
+The list is removed from the dialog box as shown in Figure 11-2.
+
+| Name | Description |
+|---|---|
+| 3. | On the SKILL command line, enter: |
+
+`axlFormSetField(form "file_list" "fu")`
+
+`axlFormSetField(form "file_list" "bar")`
+
+`axlFormSetField(form "file_list" nil)`
+
+`==> t`
+
+The Extract Selector dialog box is displayed with new list as shown in Figure 11-3.
+
+Figure 11-1 
+ Extract Selector Dialog Box
+
+Figure 11-2 
+ Extract Selector Dialog Box - List removed
+
+Figure 11-3 
+ The Extract Selector dialog box - Displayed with a new list
+
+### axlFormListSelect
+
+`axlFormListSelect( r_form t_field t_listItem/nil ) => t/nil`
+
+#### Description
+
+Highlights, and if not visible in the list, shows the designated item. Since Allegro PCB Editor forms permit only one item to be visible, it deselects any previously selected item. If `nil` is passed for `t_listItem` the list is reset to top and the selected list item is deselected.
+
+#### Arguments
+
+| Name | Description |
+|---|---|
+| `r_form` | Form id |
+| `t_field` | Name of field. |
+| `t_listItem``/nil` | String of item in the list. Send `nil` to deselect any selected item and set list back to top. |
+
+#### Value Returns
+
+| Name | Description |
+|---|---|
+| `t` | Highlights item. Arguments are valid. |
+| `nil` | Arguments are invalid. |
+
+### axlFormSetEventAction
+
+`axlFormSetEventAction( r_form g_callback ) => t/nil`
+
+#### Description
+
+This function allows the user to register a callback function to be called whenever the user changes to a new active cell in the form. The callback registered during axlFormCreate dispatches events only when the user modifies a field value on the form (on exit from the field). This function allows the caller to receive an event when a field is first entered.
+
+#### Arguments
+
+| Name | Description |
+|---|---|
+| `r_form` | Form `dbid` |
+| `g_callback` | Specifies the SKILL command(s) (callback(s)) to be executed whenever a new field is activated. The setting can be one of two formats: `t_callback`: the string representation of the SKILL command(s) to be executed `s_callback`: the symbol of the SKILL function to be called (the function is passed the `r_form` returned from `axlFormCreate` as its only parameter). |
+
+#### Value Returns
+
+| Name | Description |
+|---|---|
+| `t` | Field set to desired value. |
+| `nil` | Field not set to the desired value due to invalid arguments. |
+
+#### Examples
+
+`form = axlFormCreate( MyForm`
+
+`"extract_selector.form" '("E" "OUTER")`
+
+`'_formAction t)`
+
+`axlFormSetEventAction( form '_formEventAction)`
+
+#### See Also
+
+axlFormBNFDoc and axlFormCreate
+
+### axlFormSetField
+
+`axlFormSetField( r_form t_field g_value/nil ) => t/nil`
+
+#### Description
+
+Sets `t_field` to value `g_value` in open form `r_form`. Must pass the correct type, matching the entry in the form value or string type. Value type is dependent upon type of field type. For a complete discussion of field types, see the discussion at the front of this section.
+
+Special notes for certain controls:
+
+- LIST TYPE
+
+Value may be a string, integer or real. Items are converted to strings before being displayed. A `nil` is needed to display the list.
+
+Alternatively, value may be a list of strings. This results in better performance when you have many items to display.
+
+- COLOR TYPE
+
+`g_value` parameter may have several types:
+
+`s_colorSymbol` Set field to predefined color
+
+`x_number` Set field to product color
+
+`t` or `nil` Depress or raise field
+
+`l_both` A list allows setting both check and value; pass a list of the color set
+
+`s_colorSymbol`may be black, white, red, green, yellow.
+
+`x_number`is an integer between 1 and 24 with 0 being background.
+
+- CHECKBOX
+
+The values that unset the checkbox are: `nil`, `0`, `"nil"`, `"false"` and `"no"`. All other values set the checkbox.
+
+- TRACKBAR
+
+If the field is a trackbar, two modes are supported.
+
+- g_value = t
+
+Moves the slider to the next position.
+
+- g_value = integer
+
+Absolutely sets trackbar to the indicated position.
+
+#### Arguments
+
+| Name | Description |
+|---|---|
+| `r_form` | Form `dbid`. |
+| `t_field` | Name of field. Field name is a string or symbol. |
+| `g_value` | Desired value of field. may be a string, boolean, integer or floating point number or a list; function of field type. |
+
+#### Value Returns
+
+| Name | Description |
+|---|---|
+| `t` | Field set to desired value. |
+| `nil` | Field not set to the desired value due to invalid arguments. |
+
+#### Examples
+
+See AXL Forms: Example 1.
+
+`axlFormSetField( form "file_list" fileName)`
+
+List Field (field is named `"list"`)
+
+`;; display 3 items in list`
+
+`axlFormSetField(fw, "list", "a")`
+
+`axlFormSetField(fw, "list", "b")`
+
+`axlFormSetField(fw, "list", "c")`
+
+`; nil required first time list is displayed`
+
+`axlFormSetField(fw, "list", nil)`
+
+`;; display 3 items in list - alternative`
+
+`axlFormSetField(fw, "list", '("a" "b" "c"))`
+
+Color field (field is named `"color"`)
+
+`;; sets the color field to pre-defined color "red"`
+
+`axlFormSetField(fw, "color", `red)`
+
+`;; sets the color field to product color 1`
+
+`axlFormSetField(fw, "color", 1)`
+
+`;; visually depresses the color field if not greyed`
+
+`axlFormSetField(fw, "color", t)`
+
+`;; visually depresses the color field and set to`
+
+`;; pre-defined green color`
+
+`axlFormSetField(fw, "color", '(green t))`
+
+Tab field (field is named `"tab"`)
+
+`;; puts the tab on top`
+
+`axlformSetField(fw, "tab", nil)`
+
+### axlFormSetInfo
+
+`axlFormSetInfo( r_form t_field t_value ) => t/nil`
+
+#### Description
+
+Sets info `t_field` to value `t_value` in open form `r_form`. Unlike `axlFormSet`, user cannot change an info field.
+
+Note: You can also use `axlFormSetField` for this function.
+
+#### Arguments
+
+| Name | Description |
+|---|---|
+| `r_form` | Form `dbid`. |
+| `t_field` | Name of field. |
+| `t_value` | Desired value of field. |
+
+#### Value Returns
+
+| Name | Description |
+|---|---|
+| `t` | Field was set to desired value. |
+| `nil` | Field not set to desired value due to invalid arguments. |
+
+#### Examples
+
+See the use of `axlFormSetField` in the "AXL Forms: Example 1".
+
+`axlFormSetInfo( form "file_list" fileName)`
+
+### axlFormSetMouseActive
+
+`axlFormSetMouseActive( r_form ) => t/nil`
+
+#### Description
+
+Sets the option to dispatch the MouseActive event on a form.
+
+While this can be use to display dynamic help on a per field basis (this is what the example code does) a better method exists called the "helptip" which is driven from the form file. See the axlFormBNFDoc (note 12).
+
+#### Arguments
+
+| Name | Description |
+|---|---|
+| `r_form` | Handle for the form |
+
+#### Value Returns
+
+| Name | Description |
+|---|---|
+| `t` | Option was set |
+| `nil` | `r_form` does not reference a valid form |
+
+#### Examples
+
+See `<cdsroot>/share/pcb/examples/form/basic`
+
+### axlFormTest
+
+`axlFormTest( t_formName ) => r_form/nil`
+
+#### Description
+
+This is a development function for test purposes. Given a form file name this opens a form file to check for placement of controls. If form uses standard button names (for example, ok, done, close, cancel), you can close it be clicking the button. Otherwise, use the window control. If form is currently open, exposes form and returns.
+
+#### Arguments
+
+| Name | Description |
+|---|---|
+| `t_formName` | Name of form. |
+
+#### Value Returns
+
+Form handle if successfully opens.
+
+#### Examples
+
+Open Allegro PCB Editor drawing parameter form:
+
+`axlFormTest("status")`
+
+### axlFormRestoreField
+
+`axlFormRestoreField( r_form t_field ) => t/nil`
+
+#### Description
+
+Restores the `t_field` in the open form `r_form` to its previous value. The previous value is only from the last user change and not from the form set field functions. This is only useful in the form callback function.
+
+Use in the `form callback` to restore the previous value when you detect the user has entered an illegal value in the field.
+
+#### Arguments
+
+| Name | Description |
+|---|---|
+| `r_form` | Form `dbid`. |
+| `t_field` | Name of field. |
+
+#### Value Returns
+
+| Name | Description |
+|---|---|
+| `t` | Field restored. |
+| `nil` | Field not restored and may not exist. |
+
+#### Examples
+
+See "AXL Forms: Example 1" where the callback function checks that the user has entered a filename that is on the list of available extract view filenames. If the user-entered value is not on the list, then the program calls `axlFormRestoreField` to restore the field to its previous value.
+
+### axlFormTitle
+
+`axlFormTitle( r_form t_title ) => t/nil`
+
+#### Description
+
+`(case form->curField ("view_file" (if form->curValue (progn ; Accept user input only if on list if(member( form->curValue fileList) then axlFormSetField( form "view_file" form->curValue) else axlFormRestoreField( form "view_file")))) t)` Overrides title of the form.
+
+#### Arguments
+
+| Name | Description |
+|---|---|
+| `r_form` | Form `dbid`. |
+| `t_title` | String to be used for new form title |
+
+#### Value Returns
+
+| Name | Description |
+|---|---|
+| `t` | Changed form title. |
+| `nil` | No form title changed. |
+
+#### Examples
+
+See "AXL Forms: Example 1".
+
+`axlFormTitle( form "Extract Selector")`
+
+### axlIsFormType
+
+`axlIsFormType( g_form ) => t/nil`
+
+#### Description
+
+Tests if argument `g_form` is a form `dbid`.
+
+#### Arguments
+
+| Name | Description |
+|---|---|
+| `g_form` | `dbid` of object to test. |
+
+#### Value Returns
+
+| Name | Description |
+|---|---|
+| `t` | `r_form` is the `dbid` of a form. |
+| `nil` | `r_form` is not the `dbid` of a form. |
+
+#### Examples
+
+`form = axlFormCreate( (gensym)``"extract_selector.form" '("E" "OUTER")``'_formAction t)``if( axlIsFormType(form)``then (print "Created form successfully.")``else (print "Error! Could not create form."))`
+
+Checks that the form you create is truly a form.
+
+### axlFormSetFieldVisible
+
+`axlFormSetFieldVisible( r_form t_field x_value ) => t/nil`
+
+#### Description
+
+Sets a form field to visible or invisible.
+
+#### Arguments
+
+| Name | Description |
+|---|---|
+| `r_form` | Form id. |
+| `t_field` | Form field name (string). |
+| `x_value` | 1 - set field visible or 0 - Set field invisible |
+
+#### Value Returns
+
+| Name | Description |
+|---|---|
+| `t` | Form field set visible. |
+| `nil` | Form field set invisible. |
+
+### axlFormIsFieldVisible
+
+`axlFormIsFieldVisible( r_form t_field ) => t/nil`
+
+#### Description
+
+Determines whether a form field is visible.
+
+#### Arguments
+
+| Name | Description |
+|---|---|
+| `r_form` | Form id. |
+| `t_field` | Form field name (string). |
+
+#### Value Returns
+
+| Name | Description |
+|---|---|
+| `t` | Form field is visible. |
+| `nil` | Form field is not visible. |
+
+### Callback Procedure: formCallback
+
+formCallback( [r_form] ) => t
+
+#### Description
+
+This is not a function but documents the callback interface for form interaction between a user and SKILL code. The SKILL programmer provides this function.
+
+When the user changes a field in a form, the Allegro PCB Editor form processor calls the procedure you specified as the `g_formAction` argument in `axlFormCreate` when you created that form. The form attribute `curField` specifies the name of the field that changed. The form attribute `curValue` specifies the current value of the field (after the user changed it). If you set `g_stringOption` to `t` in your call to `axlFormCreate` when you created that form, then `curValue` is a string. If `g_stringOption` was `nil` (the default), then `curValue` is the type you specified for that field in the form file.
+
+Note: The term `formCallback` used in the title of this callback procedure description is a dummy name. The callback function name must match the name or symbol name you used as the `g_formAction` argument in `axlFormCreate` when you created the form.
+
+If you specify the callback name (`g_formAction`) as a string in your call to `axlFormCreate`, SKILL calls that function with no arguments. If you specify `g_formAction` as a symbol, then SKILL calls that function with the form handle as its single argument.
+
+The callback must call `axlFormClose` to close the form and to continue in the main application code if form mode is blocking.
+
+All form information is provided by the `r_form` argument which is a form data type. Applications can extend the data stored on this type by adding their own attributes. Please capitalize the first letter of the attribute name to avoid conflicts with future additions by Cadence to this structure. Table 11-4 and Table 11-5 show the available field types and how they impact the `r_form` data type.
+
+Table 11-4 describes Form Field Types using the following:
+
+| Name | Description |
+|---|---|
+| Type | What the user calls the field |
+| Keyword | What the form file calls the field |
+| curValue | Data type seen in the form dispatch and axlFormGetField. See Callback for more information. |
+| curValueInt | Additional information for certain field types that can be mapped to integers. |
+
+Table 11-4 
+ Form Field Types
+
+| Name | Description |
+|---|---|
+| Type | Keyword; curValue; curValueInt |
+| Button | `MENUBUTTON`; dispatch action only (t); 1 |
+| Check Box | `CHECKLIST`; `t/nil`; 0 or 1 |
+| Radio Button | `CHECKLIST`; `t/nil`; 0 or 1 |
+| Long (integer) | `INTFILLIN`; integer number; Integer |
+| Real (float) | `REALFILLIN`; float number; n/a |
+| String | `STRFILLIN`; string; n/a |
+| Enum (popup) | `ENUMSET`; string; Possible integer1 |
+| List | `LIST`; string; Offset from start of list (`0` = first entry). |
+| Color well | COLOR; `t/nil`; `1` or `0` |
+| Tab | TABSET/TAB; string or `t`; n/a or `1`/`0` |
+| Tree | TREEVIEW; string; see `axlFormTreeViewSet` |
+| Text | INFO; n/a; n/a |
+| Graphics | THUMBNAIL; n/a; n/a |
+| GRID | GRID; see Using Grids |
+
+| Name | Description |
+|---|---|
+| 1 | Integer if the dispatch value of the pop-up is an integer. |
+
+Notes:
+
+- What distinguishes between a radio button and a check box is that radio buttons are a group of boxes where only one can be set. To relate several check boxes as radio buttons, supply the same label name as the third field (groupLabel) in the form file description:
+
+`CHECKLIST <fieldLabel> <groupLabel>`
+
+When a user sets a radio button, the button being unset will dispatch to the application's callback with a value of nil.
+
+- Enum will only set curValueInt on dispatch when their dispatch value of their popup uses an integer. Otherwise this field is `nil`.
+
+- Tabs can dispatch in two methods:
+
+- Default when a tab is selected, your dispatcher receives the tab name in the curField and curValue is t.
+
+- If "OPTIONS tabsetDispatch" is set in the TABSET of the form file, then when a tab is selected your application dispatcher receives the TABSET as the curField and the curValue being the name of the TAB that was selected.
+
+- INFO fields can be static where the text is declared in the form file or dynamic where you can set the text via the application at run-time. To achieve dynamic access, enter the following in the form file:
+
+`TEXT "<optional initial text>"`
+
+`INFO <fieldLabel>`
+
+`... reset of TEXT section ...`
+
+- Thumbnails support the following methods:
+
+- static bitmap declared via the form file
+
+- bitmaps that can be changed by the application at run-time
+
+- basic drawing canvas -- see Chapter 12, "Simple Graphics Drawing Functions"
+
+- Buttons are stateless. The application cannot set the button to the depressed state. You can only use axlFormSetField to change the text in the button. Several button fieldLabels are reserved. Use them only as described:
+
+| Name | Description |
+|---|---|
+| done or OK | Do action and close the form. |
+| cancel | Cancel changes and close the form. |
+| print | Print the form -- do not use. |
+| help | Call cdsdoc for help about the form -- do not use. |
+
+Table 11-5 
+ Form Attributes
+
+| Name | Description |
+|---|---|
+| Attribute Name | Set?; Type*; Description |
+| `curField` | no; string; Name of form field just changed |
+| `curValue` | no; See -->; Depends on value of `curField` (`string`, `int`, `float`, `boolean`) |
+| `curValueInt` | no; See -->; Depends on value of `curField` field |
+| `doneState` | no; int; `0` = action; `1` = done; `2` = cancel; `3` = abort |
+| `form` | no; string; Name of this form |
+| `isChanged` | no; `t/nil`; `t` = user has changed one or more fields in form. |
+| `isValueString` | no; `t/nil`; `t` = all field values are strings`nil` = one or more fields are not strings |
+| `objType` | no; string; Type of object, in this case `"form"` |
+| `type` | no; string; Form type, always `"fixed"` |
+| fields | no; list of strings; All fields in the form. |
+| infos | no; list of strings; All info fields in the form. |
+| event | no; symbol; Grid control only -- see Using Grids |
+| row | no; integer; Grid control only |
+| col | no; integer; Grid control only |
+| treeViewSelState | no; integer; Tree control only |
+| *	You can add your own attribute types to the form type. It is recommended you capitalize the first letter of the name to avoid conflict with future Allegro PCB Editor releases. |  |
+
+Notes:
+
+- The doneState shows 0 for most actions. Selecting a Done or OK button sets the done state. Selecting a Cancel button sets the cancel state. With the done or cancel state set, you use `axlFormClose` to close the form. Setting the abort state closes the form, even if you do not issue an `axlFormClose` command.
+
+- Data type is dependant on the field type. See Table 11-4 for more information on Form Field Types.
+
+- The infos list is different from the fields list. The infos list comprises static text strings that the program can change at run-time. The fields list comprises all other labels which can be changed by the user including even those on buttons and tabs, greyed and hidden fields.
+
+#### Arguments
+
+| Name | Description |
+|---|---|
+| `r_form` | Form `dbid`. |
+
+#### Value Returns
+
+| Name | Description |
+|---|---|
+| `t` | Always returns `t`. |
+
+#### Examples
+
+See axlFormCreate and axlFormBuildPopup for examples.
+
+### axlFormAutoResize
+
+`axlFormAutoResize( r_form ) => t/nil`
+
+#### Description
+
+Resizes a form to fit its controls. Recalculates the required width and height and resizes the form based on the current visibility of the form's fields.
+
+#### Arguments
+
+| Name | Description |
+|---|---|
+| `r_form` | Form handle. |
+| `t_field` | Form field name (string). |
+
+#### Value Returns
+
+| Name | Description |
+|---|---|
+| `t` | Form resized. |
+| `nil` | `r_form` does not reference a valid form. |
 
