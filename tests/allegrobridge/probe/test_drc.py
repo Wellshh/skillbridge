@@ -274,10 +274,11 @@ def test_pair_overlap_preserves_probe_payload() -> None:
         'candidate': {'figures': [{'obj_type': 'path'}, {'obj_type': 'path'}]},
         'queries': [{'label': 'first', 'markers': []}],
     }
-    probe = DrcProbe(cast('Workspace', FakeWorkspace({'__abpDrcPairOverlap': payload})))
+    workspace = FakeWorkspace({'__abpDrcPairOverlap': payload})
+    probe = DrcProbe(cast('Workspace', workspace))
 
     assert probe.pair_overlap() == payload
-    assert probe.workspace.calls[-1] == (
+    assert workspace.calls[-1] == (
         '__abpDrcPairOverlap',
         ('first_second', None, None),
     )

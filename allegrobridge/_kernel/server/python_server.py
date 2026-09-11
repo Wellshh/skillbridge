@@ -16,7 +16,7 @@ from socketserver import (
     TCPServer,
     ThreadingMixIn,
 )
-from threading import Thread
+from threading import Condition, Thread
 
 try:
     from socketserver import UnixStreamServer
@@ -39,9 +39,46 @@ from allegrobridge._logging import setup_logging
 LOG_DIRECTORY = Path(getenv('ALLEGROBRIDGE_LOG_DIRECTORY', '.'))
 LOG_FILE = LOG_DIRECTORY / 'allegrobridge_server.log'
 logger = getLogger("allegrobridge.server")
+_SHUTDOWN_GRACE_SECONDS = 1.0
 
 # payload size should at least be capable of reporting back error
 MIN_MAX_PAYLOAD_SIZE = 28
+
+
+class _RequestTracker:
+    """Thread-safe counter tracking in-flight requests for graceful shutdown.
+
+    Coordinates request execution with server shutdown by gating new requests
+    and allowing active handlers to finish sending responses (such as ACK frames)
+    before the process exits.
+
+    Attributes:
+        _active: Number of currently in-flight requests being processed.
+        _stopping: Flag indicating whether new requests are being rejected.
+        _sync: Condition variable synchronizing active counter updates and drain waits.
+    """
+
+    def __init__(self) -> None:
+        self._active = 0
+        self._stopping = False
+        self._sync = Condition()
+
+    def start(self) -> bool:
+        with self._sync:
+            if self._stopping:
+                return False
+            self._active += 1
+            return True
+
+    def finish(self) -> None:
+        with self._sync:
+            self._active -= 1
+            self._sync.notify_all()
+
+    def stop_and_wait(self, timeout: float) -> bool:
+        with self._sync:
+            self._stopping = True
+            return self._sync.wait_for(lambda: self._active == 0, timeout)
 
 
 class SingleTcpServer(TCPServer):
@@ -59,8 +96,13 @@ class SingleTcpServer(TCPServer):
     ) -> None:
         self.pipe = pipe
         self.timeout = timeout
+        self._requests = _RequestTracker()
         self.max_payload_size = max_payload_size
         super().__init__(("localhost", int(port)), handler)
+
+    @property
+    def request_tracker(self) -> _RequestTracker:
+        return self._requests
 
     def server_bind(self) -> None:
         try:
@@ -101,9 +143,14 @@ if UnixStreamServer is not None:  # pragma: no branch
             self.path.unlink(missing_ok=True)
             self.pipe = pipe
             self.timeout = timeout
+            self._requests = _RequestTracker()
             self.max_payload_size = max_payload_size
 
             super().__init__(path, handler)
+
+        @property
+        def request_tracker(self) -> _RequestTracker:
+            return self._requests
 
         def server_close(self) -> None:
             try:
@@ -116,18 +163,11 @@ if UnixStreamServer is not None:  # pragma: no branch
 
 
 def _respond_to_client(sock: Socket, response: SkillResp) -> None:
-    restarting = response.status == 'restart'
-    status = 'success' if restarting else response.status
-    if restarting:
-        logger.info("graceful restart requested; exiting daemon")
+    status = 'success' if response.status == 'restart' else response.status
 
     payload = response.payload.encode()
-    try:
-        sock.send_frame(payload, prefix=f'{status} '.encode())
-        logger.debug("sent response to client")
-    finally:
-        if restarting:
-            os._exit(0)
+    sock.send_frame(payload, prefix=f'{status} '.encode())
+    logger.debug("sent response to client")
 
 
 class Handler(StreamRequestHandler):
@@ -155,21 +195,26 @@ class Handler(StreamRequestHandler):
             _respond_to_client(sock, SkillResp('failure', '<invalid-utf8>'))
             return False
         logger.debug(f"got data {decoded[:1000]}")
-        try:
-            response = server.pipe.execute(decoded, timeout=server.timeout)
-        except SkillPipeTimeoutError as exc:
-            _respond_to_client(sock, SkillResp('failure', exc.wire_payload))
-            return True
-        except SkillPipeError as exc:
-            _respond_to_client(sock, SkillResp('failure', exc.wire_payload))
+        if not server.request_tracker.start():
             return False
-        logger.debug(f"got response from skill {response.payload[:1000]!r}")
-
         try:
-            _respond_to_client(sock, response)
-        except FrameTooLargeError:
-            _respond_to_client(sock, SkillResp('failure', '<response-too-large>'))
-        return True
+            try:
+                response = server.pipe.execute(decoded, timeout=server.timeout)
+            except SkillPipeTimeoutError as exc:
+                _respond_to_client(sock, SkillResp('failure', exc.wire_payload))
+                return True
+            except SkillPipeError as exc:
+                _respond_to_client(sock, SkillResp('failure', exc.wire_payload))
+                return False
+            logger.debug(f"got response from skill {response.payload[:1000]!r}")
+
+            try:
+                _respond_to_client(sock, response)
+            except FrameTooLargeError:
+                _respond_to_client(sock, SkillResp('failure', '<response-too-large>'))
+            return response.status != 'restart'
+        finally:
+            server.request_tracker.finish()
 
     def handle(self) -> None:
         logger.info(f"client {self.client_address} connected")
@@ -210,9 +255,16 @@ def create_server(
     )
 
 
-def _watch_pipe_death(pipe: Pipe) -> None:
+def _watch_pipe_death(
+    pipe: Pipe,
+    tracker: _RequestTracker,
+    *,
+    grace: float = _SHUTDOWN_GRACE_SECONDS,
+) -> None:
     if pipe.wait_peer_closed():
-        logger.info("SKILL IPC pipe closed by peer; exiting")
+        logger.info("SKILL IPC reader stopped; stopping request intake")
+        if not tracker.stop_and_wait(grace):
+            logger.warning("SKILL IPC shutdown grace expired with active requests")
         os._exit(0)
 
 
@@ -243,7 +295,7 @@ def main(
     ):
         Thread(
             target=_watch_pipe_death,
-            args=(pipe,),
+            args=(pipe, server.request_tracker),
             name="allegrobridge-pipe-watcher",
             daemon=True,
         ).start()

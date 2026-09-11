@@ -17,6 +17,7 @@ from allegrobridge._kernel.exception import (
     SkillPipeBrokenError,
     SkillPipeClosedError,
     SkillPipeDesynchronizedError,
+    SkillPipeInvalidCommandError,
     SkillPipeTimeoutError,
 )
 from allegrobridge._kernel.protocol.response import Response, RespStatus, SkillResp
@@ -260,9 +261,69 @@ class TestStateMachine:
     def test_stale_drain_watchdog_does_not_change_ready_state(self) -> None:
         machine = _StateMachine(drain_timeout=None)
 
-        machine._expire_drain()
+        machine._expire_drain(0)
 
         assert machine.state is _PipeState.READY
+
+    def test_stale_drain_watchdog_cannot_desynchronize_new_drain(self) -> None:
+        class ControlledDrainTimer:
+            timeout = 30.0
+
+            def __init__(self) -> None:
+                self.callbacks: list[Callable[[], None]] = []
+
+            def start(self, callback: Callable[[], None]) -> None:
+                self.callbacks.append(callback)
+
+            def cancel(self) -> None:
+                pass
+
+        machine = _StateMachine(drain_timeout=30.0)
+        timer = ControlledDrainTimer()
+        machine._drain = timer  # type: ignore[assignment]
+
+        machine.begin(timeout=0.0, deadline=time.monotonic())
+        with raises(SkillPipeTimeoutError):
+            machine.wait_response(timeout=0.0, deadline=time.monotonic())
+        first_watchdog = timer.callbacks[0]
+
+        machine.publish(SkillResp('success', 'late'))
+        assert machine.state is _PipeState.READY
+
+        machine.begin(timeout=0.0, deadline=time.monotonic())
+        with raises(SkillPipeTimeoutError):
+            machine.wait_response(timeout=0.0, deadline=time.monotonic())
+        second_watchdog = timer.callbacks[1]
+
+        first_watchdog()
+        assert machine.state is _PipeState.DRAINING
+        second_watchdog()
+        assert machine.state is _PipeState.DESYNCHRONIZED
+
+
+@mark.integration
+@mark.parametrize(
+    'command',
+    ['', ' \t', 'ping()\nnext()', 'ping()\n\n', 'ping()\r', 'ping()\r\nnext()'],
+    ids=['empty', 'whitespace', 'embedded-lf', 'extra-lf', 'bare-cr', 'embedded-crlf'],
+)
+def test_execute_rejects_invalid_command_without_writing(
+    skill_pipe: tuple[Pipe, Server], command: str
+) -> None:
+    channel, server = skill_pipe
+
+    with raises(SkillPipeInvalidCommandError):
+        channel.execute(command, timeout=TEST_TIMEOUT)
+
+    assert channel.state is _PipeState.READY
+    with raises(Empty):
+        server.recv(timeout=0.01)
+
+    client = Client(lambda: channel.execute('good()', timeout=TEST_TIMEOUT))
+    client.start()
+    assert server.recv() == 'good()'
+    server.respond('ok')
+    assert client.result() == SkillResp('success', 'ok')
 
 
 @mark.integration
@@ -279,9 +340,10 @@ def test_execute_roundtrip_with_multiline_payload(skill_pipe: tuple[Pipe, Server
 
 
 @mark.integration
-def test_execute_preserves_existing_newline(skill_pipe: tuple[Pipe, Server]) -> None:
+@mark.parametrize('command', ['ping()\n', 'ping()\r\n'], ids=['lf', 'crlf'])
+def test_execute_preserves_existing_newline(skill_pipe: tuple[Pipe, Server], command: str) -> None:
     channel, server = skill_pipe
-    client = Client(lambda: channel.execute('ping()\n', timeout=TEST_TIMEOUT))
+    client = Client(lambda: channel.execute(command, timeout=TEST_TIMEOUT))
     client.start()
 
     assert server.recv() == 'ping()'
@@ -358,9 +420,30 @@ def test_restart_closes_before_next_client_can_write(skill_pipe: tuple[Pipe, Ser
     assert restarting.result() == SkillResp('restart', 'True')
     with raises(SkillPipeClosedError):
         waiting.result()
-    assert_pipe_state(channel, _PipeState.CLOSED)
+    assert_pipe_state(channel, _PipeState.RESTARTING)
+    assert channel.wait_peer_closed(TEST_TIMEOUT)
     with raises(EOFError):
         server.recv()
+
+
+@mark.integration
+def test_late_restart_stops_pipe_without_next_request(
+    skill_pipe: tuple[Pipe, Server],
+) -> None:
+    channel, server = skill_pipe
+
+    requesting = Client(lambda: channel.execute('restart()', timeout=0.05))
+    requesting.start()
+    assert server.recv() == 'restart()'
+    with raises(SkillPipeTimeoutError):
+        requesting.result()
+
+    server.respond('True', status='restart')
+
+    assert channel.wait_peer_closed(TEST_TIMEOUT)
+    assert_pipe_state(channel, _PipeState.RESTARTING)
+    with raises(SkillPipeClosedError):
+        channel.execute('next()', timeout=TEST_TIMEOUT)
 
 
 @mark.integration

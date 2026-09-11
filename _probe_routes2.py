@@ -36,14 +36,31 @@ def try_manual_connect(ws, net, layer, width_text, pairs, quote_net=True, label=
     for p0, p1 in pairs:
         res = pr.manual_connect(ws, net, layer, width_text, p0, p1, quote_net=quote_net)
         mine = [r for r in res['db_added'] if r[0] == net]
-        attempts.append({'pair': [list(p0), list(p1)], 'mine_added': [list(r) for r in mine],
-                         'db_added_n': len(res['db_added']), 'db_removed_n': len(res['db_removed']),
-                         'command': res['command'], 'shell_result': res['shell_result']})
+        attempts.append({
+            'pair': [list(p0), list(p1)],
+            'mine_added': [list(r) for r in mine],
+            'db_added_n': len(res['db_added']),
+            'db_removed_n': len(res['db_removed']),
+            'command': res['command'],
+            'shell_result': res['shell_result'],
+        })
         if mine:
-            return {'label': label, 'layer_requested': layer, 'width_requested': width_text,
-                    'quote_net': quote_net, 'attempts': attempts, 'success_pair': [list(p0), list(p1)]}
-    return {'label': label, 'layer_requested': layer, 'width_requested': width_text,
-            'quote_net': quote_net, 'attempts': attempts, 'success_pair': None}
+            return {
+                'label': label,
+                'layer_requested': layer,
+                'width_requested': width_text,
+                'quote_net': quote_net,
+                'attempts': attempts,
+                'success_pair': [list(p0), list(p1)],
+            }
+    return {
+        'label': label,
+        'layer_requested': layer,
+        'width_requested': width_text,
+        'quote_net': quote_net,
+        'attempts': attempts,
+        'success_pair': None,
+    }
 
 
 def main() -> None:
@@ -71,40 +88,51 @@ def main() -> None:
             print(f"[probe2] net created: exists={report['net_exists']}", flush=True)
 
             # candidate empty-area pairs (away from known pins 1200-3500 x 500-2640)
-            pairs_a = [((2800.0, 2000.0), (3000.0, 2200.0)),
-                       ((2200.0, 650.0), (2400.0, 650.0)),
-                       ((1600.0, 2400.0), (1700.0, 2500.0))]
-            pairs_b = [((2800.0, 2300.0), (3000.0, 2500.0)),
-                       ((2200.0, 750.0), (2400.0, 750.0)),
-                       ((1600.0, 2200.0), (1700.0, 2300.0))]
+            pairs_a = [
+                ((2800.0, 2000.0), (3000.0, 2200.0)),
+                ((2200.0, 650.0), (2400.0, 650.0)),
+                ((1600.0, 2400.0), (1700.0, 2500.0)),
+            ]
+            pairs_b = [
+                ((2800.0, 2300.0), (3000.0, 2500.0)),
+                ((2200.0, 750.0), (2400.0, 750.0)),
+                ((1600.0, 2200.0), (1700.0, 2300.0)),
+            ]
 
             # --- P5: space-containing net, quoted, layer ETCH/TOP, width 50 ---
             report['p5_space_net_quoted'] = try_manual_connect(
-                ws, 'MY NET', 'ETCH/TOP', '50', pairs_a, quote_net=True, label='space_net_quoted')
+                ws, 'MY NET', 'ETCH/TOP', '50', pairs_a, quote_net=True, label='space_net_quoted'
+            )
             save()
             print('[probe2] p5 done', flush=True)
 
             # --- P5b: control - unquoted space net (expected to fail/misparse) ---
             report['p5b_space_net_unquoted'] = try_manual_connect(
-                ws, 'MY NET', 'ETCH/TOP', '50', [pairs_b[0]], quote_net=False,
-                label='space_net_unquoted')
+                ws,
+                'MY NET',
+                'ETCH/TOP',
+                '50',
+                [pairs_b[0]],
+                quote_net=False,
+                label='space_net_unquoted',
+            )
             save()
             print('[probe2] p5b done', flush=True)
 
             # --- P6: layer format - short subclass name "TOP" ---
             mine_before = rows_for_net(ws, 'MY NET')
             report['p6_layer_short_name'] = try_manual_connect(
-                ws, 'MY NET', 'TOP', '50', pairs_b, quote_net=True, label='layer_TOP')
+                ws, 'MY NET', 'TOP', '50', pairs_b, quote_net=True, label='layer_TOP'
+            )
             report['p6_rows_before'] = [list(r) for r in mine_before]
             save()
             print('[probe2] p6 done', flush=True)
 
             # --- P7: width clamping on the fresh net (tiny width, same layer as P5) ---
-            pairs_c = [((3100.0, 2000.0), (3200.0, 2100.0)),
-                       ((1450.0, 2450.0), (1550.0, 2550.0))]
+            pairs_c = [((3100.0, 2000.0), (3200.0, 2100.0)), ((1450.0, 2450.0), (1550.0, 2550.0))]
             report['p7_width_tiny'] = try_manual_connect(
-                ws, 'MY NET', 'ETCH/TOP', '0.0001', pairs_c, quote_net=True,
-                label='width_0.0001')
+                ws, 'MY NET', 'ETCH/TOP', '0.0001', pairs_c, quote_net=True, label='width_0.0001'
+            )
             save()
             print('[probe2] p7 done', flush=True)
 

@@ -15,6 +15,7 @@ __all__ = [
     'SkillPipeClosedError',
     'SkillPipeDesynchronizedError',
     'SkillPipeError',
+    'SkillPipeInvalidCommandError',
     'SkillPipeTimeoutError',
 ]
 
@@ -87,6 +88,19 @@ class SkillPipeError(SkillBridgeError, RuntimeError):
 
     code = 'pipe_error'
     wire_payload: ClassVar[str] = '<pipe-error>'
+
+
+class SkillPipeInvalidCommandError(SkillPipeError, ValueError):
+    """A command is not exactly one non-empty logical line."""
+
+    code = 'pipe_invalid_command'
+    wire_payload = '<invalid-command>'
+
+    def __init__(self) -> None:
+        super().__init__(
+            'SKILL command must be one non-empty logical line.',
+            hint='Remove embedded newlines and provide a non-blank command.',
+        )
 
 
 class SkillPipeTimeoutError(SkillPipeError, TimeoutError):

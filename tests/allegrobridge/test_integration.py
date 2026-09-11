@@ -1831,9 +1831,9 @@ class TestRoutesConnectApi:
 
         created = session.routes.connect(net, start, end, source.layer, source.width)
 
-        assert created
-        assert all(isinstance(route, AbRoute) and route.net == net for route in created)
-        assert all(route._id == _session_id(session) for route in created)
+        assert created.added
+        assert all(isinstance(route, AbRoute) and route.net == net for route in created.added)
+        assert all(route._id == _session_id(session) for route in created.added)
         assert session.generation == generation + 1
         current = {
             (
@@ -1856,7 +1856,7 @@ class TestRoutesConnectApi:
                 route.obj_type,
             )
             in current
-            for route in created
+            for route in created.added
         )
         with pytest.raises(RecordIDError, match='stale'):
             source._check_id(session)

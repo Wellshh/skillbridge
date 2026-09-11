@@ -727,6 +727,7 @@ class TestReadApi:
             'AbPin',
             'AbPinRef',
             'AbRoute',
+            'AbRouteConnectResult',
             'AbShape',
             'AbSymbol',
             'AbVia',
@@ -760,6 +761,7 @@ class TestReadApi:
             'PinsApi',
             'Point',
             'Route',
+            'RouteConnectResult',
             'RoutesApi',
             'RpcArgs',
             'RpcDef',
@@ -1345,8 +1347,7 @@ class TestReadApi:
             AbRoute.model_validate(second).model_dump(),
         ]
         assert all(
-            route.layer == 'ETCH/GND' and math.isclose(route.width, 25.0)
-            for route in result.added
+            route.layer == 'ETCH/GND' and math.isclose(route.width, 25.0) for route in result.added
         )
         assert session.generation == generation + 1
         assert all(route._id == _ID(ref(session), session.generation) for route in result.added)
@@ -1380,43 +1381,61 @@ class TestReadApi:
             0.2,
         )
 
-        assert len(created) == 1
-        assert created[0].model_dump() == AbRoute.model_validate(duplicate).model_dump()
+        assert len(created.added) == 1
+        assert created.added[0].model_dump() == AbRoute.model_validate(duplicate).model_dump()
 
-    def test_route_connect_rejects_no_change_and_disconnected_change(self) -> None:
+    def test_route_connect_accepts_no_change_and_disconnected_change(self) -> None:
         source = _route_payload((0.0, 0.0), (1.0, 0.0), net='VCC')
         cases = [
-            ([source], 'ROUTE_CONNECT_NO_CHANGE'),
+            ([source], 0),
             (
                 [
                     source,
                     _route_payload((1.0, 0.0), (2.0, 0.0), net='VCC'),
                     _route_payload((10.0, 0.0), (11.0, 0.0), net='VCC'),
                 ],
-                'ROUTE_CONNECT_AMBIGUOUS',
+                2,
             ),
         ]
-        for after, message in cases:
+        for after, added_count in cases:
             workspace = MagicMock()
             workspace.__getitem__.side_effect = {
                 '__abConnectRoutes': MagicMock(return_value=[source]),
                 '__abProjectRoutes': MagicMock(return_value=after),
             }.__getitem__
 
-            with pytest.raises(RuntimeError, match=message):
-                _session(workspace).routes.connect(
-                    'VCC',
-                    (1.0, 0.0),
-                    (2.0, 0.0),
-                    'ETCH/TOP',
-                    0.2,
-                )
+            result = _session(workspace).routes.connect(
+                'VCC',
+                (1.0, 0.0),
+                (2.0, 0.0),
+                'ETCH/TOP',
+                0.2,
+            )
+            assert len(result.added) == added_count
+
+    def test_route_connect_accepts_inner_spaces_in_net_name(self) -> None:
+        workspace = MagicMock()
+        workspace.__getitem__.side_effect = {
+            '__abConnectRoutes': MagicMock(return_value=[]),
+            '__abProjectRoutes': MagicMock(return_value=[]),
+        }.__getitem__
+
+        result = _session(workspace).routes.connect(
+            'MY NET',
+            (1.0, 0.0),
+            (2.0, 0.0),
+            'ETCH/TOP',
+            0.2,
+        )
+        assert isinstance(result, RouteConnectResult)
 
     @pytest.mark.parametrize(
         ('net', 'layer'),
         [
             ('', 'ETCH/TOP'),
-            ('V CC', 'ETCH/TOP'),
+            (' VCC', 'ETCH/TOP'),
+            ('VCC ', 'ETCH/TOP'),
+            ('V\tCC', 'ETCH/TOP'),
             ('VCC;delete', 'ETCH/TOP'),
             ('VCC', ''),
             ('VCC', 'ETCH/TO"P'),

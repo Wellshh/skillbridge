@@ -17,6 +17,11 @@ header followed by the payload:
 Payloads are capped at 64 MiB (`DEFAULT_MAX_PAYLOAD_SIZE`); a longer frame
 raises `FrameTooLargeError` before anything is sent. The channel is TCP on
 Windows and a Unix socket on Linux (`force_tcp=True` selects TCP everywhere).
+An oversized or malformed response header is a framing failure: the old
+connection is discarded and reconnection is attempted, while the original
+protocol exception is returned and the failed command is never replayed.
+Local send-side size rejection occurs before transmission and does not trigger
+reconnection.
 
 ## Response framing
 
@@ -36,20 +41,29 @@ A reply that does not start with a known marker raises `InvalidResponseError`.
 
 ## The serialized pipe
 
-`skillbridge/server/_pipe.py` — exactly one request is in flight per server.
+`allegrobridge/_kernel/server/_pipe.py` — exactly one request is in flight per server.
+Each command must be one non-empty logical line. A single terminal `LF` (or
+`CRLF`) is accepted and normalized; embedded or extra newlines are rejected as
+`<invalid-command>` before anything is written to the SKILL pipe.
 Every call has a timeout; a late answer arriving after its timeout is drained
 and discarded instead of corrupting the next response. The pipe is a state
-machine with three terminal states:
+machine with four terminal states:
 
 - `DESYNCHRONIZED` — a reply could not be matched to a request
 - `BROKEN` — an unrecoverable protocol violation
+- `RESTARTING` — a restart response was delivered; new requests are refused
 - `CLOSED` — shut down cleanly
+
+`RESTARTING` is a terminal state after a normal or late `RST`; it rejects new
+requests. The reader stops after the complete `RST`, and the shared watcher
+waits for active requests to finish (up to a one-second grace period) before
+exiting. A local `close()` remains distinct and does not exit the process.
 
 Once terminal, every further call raises the matching `SkillPipe*Error`
 immediately instead of hanging.
 
 ## Structured errors
 
-`skillbridge/exception.py` — every failure carries a machine-readable `code`,
+`allegrobridge/_kernel/exception.py` — every failure carries a machine-readable `code`,
 a human-readable hint, and the offending wire payload. AllegroBridge adds its
 own subclasses on top; see [Exceptions](exceptions.md).

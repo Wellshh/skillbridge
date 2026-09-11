@@ -9,7 +9,7 @@ from socket import AF_INET, SOCK_STREAM, socket
 from sys import platform
 from typing import Any, TextIO
 
-from allegrobridge._kernel.exception import PeerClosedError
+from allegrobridge._kernel.exception import PeerClosedError, ProtocolError
 from allegrobridge._kernel.protocol.socket import DEFAULT_MAX_PAYLOAD_SIZE, Socket
 
 PORT_RANGE_MIN = 0
@@ -164,6 +164,10 @@ class TcpChannel(Channel):
             with suppress(OSError):
                 self.reconnect()
             raise RuntimeError("The server unexpectedly died") from e
+        except ProtocolError:
+            with suppress(OSError):
+                self.reconnect()
+            raise
 
         return self.decode_response(payload)
 

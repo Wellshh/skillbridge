@@ -17,6 +17,7 @@ from allegrobridge._kernel.exception import (
     SkillPipeBrokenError,
     SkillPipeClosedError,
     SkillPipeDesynchronizedError,
+    SkillPipeInvalidCommandError,
     SkillPipeTimeoutError,
 )
 from allegrobridge._kernel.protocol.response import Response, SkillResp
@@ -31,6 +32,16 @@ def _remaining(deadline: float | None) -> float | None:
     if deadline is None:
         return None
     return max(0.0, deadline - time.monotonic())
+
+
+def _command_line(cmd: str) -> str:
+    if cmd.endswith('\r\n'):
+        cmd = cmd[:-2]
+    elif cmd.endswith('\n'):
+        cmd = cmd[:-1]
+    if not cmd or cmd.isspace() or '\n' in cmd or '\r' in cmd:
+        raise SkillPipeInvalidCommandError
+    return cmd
 
 
 class _DrainTimer:
@@ -71,6 +82,7 @@ class _PipeState(Enum):
     DRAINING = auto()
     DESYNCHRONIZED = auto()
     BROKEN = auto()
+    RESTARTING = auto()
     CLOSED = auto()
 
 
@@ -78,6 +90,7 @@ class _StateMachine:
     __slots__ = (
         "_cause",
         "_drain",
+        "_drain_generation",
         "_resp",
         "_state",
         "_sync",
@@ -85,6 +98,7 @@ class _StateMachine:
 
     _cause: Exception | None
     _drain: _DrainTimer
+    _drain_generation: int
     _resp: SkillResp | object
     _state: _PipeState
     _sync: threading.Condition
@@ -92,6 +106,7 @@ class _StateMachine:
     def __init__(self, drain_timeout: float | None) -> None:
         self._cause = None
         self._drain = _DrainTimer(drain_timeout)
+        self._drain_generation = 0
         self._resp = _MISSING
         self._state = _PipeState.READY
         self._sync = threading.Condition(threading.Lock())
@@ -133,6 +148,8 @@ class _StateMachine:
 
             if self._state is _PipeState.CLOSED:
                 raise SkillPipeClosedError("SKILL pipe is closed")
+            if self._state is _PipeState.RESTARTING:
+                raise SkillPipeClosedError("SKILL pipe is restarting")
             if self._state is _PipeState.DESYNCHRONIZED:
                 desync_error = SkillPipeDesynchronizedError(
                     "SKILL pipe is desynchronized; "
@@ -177,7 +194,9 @@ class _StateMachine:
 
             if is_waiting():
                 self._state = _PipeState.DRAINING
-                self._drain.start(self._expire_drain)
+                self._drain_generation += 1
+                generation = self._drain_generation
+                self._drain.start(lambda: self._expire_drain(generation))
                 self._sync.notify_all()
                 raise SkillPipeTimeoutError(
                     timeout if timeout is not None else 0.0, phase="SKILL response"
@@ -195,7 +214,7 @@ class _StateMachine:
 
             resp = cast("SkillResp", self._resp)
             self._resp = _MISSING
-            if self._state is not _PipeState.BROKEN:
+            if self._state not in {_PipeState.BROKEN, _PipeState.RESTARTING}:
                 self._state = _PipeState.READY
                 self._cause = None
             return resp
@@ -212,6 +231,8 @@ class _StateMachine:
                 return
             if self._state is _PipeState.EXECUTING and self._resp is _MISSING:
                 self._resp = event
+                if event.status == 'restart':
+                    self._state = _PipeState.RESTARTING
                 self._sync.notify_all()
                 return
             if self._state is _PipeState.DRAINING:
@@ -230,7 +251,9 @@ class _StateMachine:
                 self._drain.cancel()
                 self._resp = _MISSING
                 self._cause = None
-                self._state = _PipeState.READY
+                self._state = (
+                    _PipeState.RESTARTING if event.status == 'restart' else _PipeState.READY
+                )
                 self._sync.notify_all()
                 return
             if self._state not in {_PipeState.DESYNCHRONIZED, _PipeState.BROKEN}:
@@ -240,9 +263,9 @@ class _StateMachine:
                     )
                 )
 
-    def _expire_drain(self) -> None:
+    def _expire_drain(self, generation: int) -> None:
         with self._sync:
-            if self._state is not _PipeState.DRAINING:
+            if self._state is not _PipeState.DRAINING or generation != self._drain_generation:
                 return
             timeout = self._drain.timeout
             timeout_str = f"{timeout:g}" if timeout is not None else "configured"
@@ -364,12 +387,16 @@ class Pipe:
 
         Raises:
             ValueError: If the timeout is negative or not finite.
+            SkillPipeInvalidCommandError: If the command is empty or multiline.
             SkillPipeClosedError: If the pipe is closed.
             SkillPipeBrokenError: If the pipe broke while executing.
             SkillPipeTimeoutError: If the command did not finish in time.
         """
         if timeout is not None and (timeout < 0.0 or not math.isfinite(timeout)):
             raise ValueError("timeout must be None or a non-negative finite number")
+
+        cmd = _command_line(cmd)
+
         deadline = None if timeout is None else time.monotonic() + timeout
 
         if deadline is None:
@@ -392,8 +419,7 @@ class Pipe:
             self._machine.begin(timeout=timeout, deadline=deadline)
             try:
                 self._writer.write(cmd)
-                if not cmd.endswith("\n"):
-                    self._writer.write("\n")
+                self._writer.write("\n")
                 self._writer.flush()
             except Exception as exc:
                 if not self._machine.write_failed(exc):
@@ -402,19 +428,21 @@ class Pipe:
                     ) from exc
                 raise SkillPipeBrokenError("failed to write command to the SKILL IPC pipe") from exc
 
-            response = self._machine.wait_response(timeout=timeout, deadline=deadline)
-            if response.status == 'restart':
-                self.close()
-            return response
+            return self._machine.wait_response(timeout=timeout, deadline=deadline)
         finally:
             self._lock.release()
 
     def _start(self) -> None:
         def loop() -> None:
-            try:
+            try:  # ruff: ignore[too-many-statements-in-try-clause]
                 while True:
                     resp = self._decoder.recv()
                     self._machine.publish(resp)
+                    if resp.status == 'restart':
+                        # Wait for execute() to release the lock before closing its flushed writer.
+                        with self._lock, suppress(OSError):
+                            self._writer.close()
+                        return
             except Exception as exc:  # ruff: ignore[blind-except] - publish reader failure
                 self._machine.publish(exc)
             finally:

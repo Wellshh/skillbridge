@@ -10,7 +10,7 @@ import sys
 import threading
 from collections.abc import Iterator
 from contextlib import nullcontext
-from os import getpid
+from os import fdopen, getpid, pipe
 from queue import Empty, Queue
 from socket import socketpair
 from socketserver import BaseServer
@@ -25,11 +25,13 @@ from allegrobridge._kernel.exception import (
     SkillPipeBrokenError,
     SkillPipeClosedError,
     SkillPipeDesynchronizedError,
+    SkillPipeInvalidCommandError,
     SkillPipeTimeoutError,
 )
-from allegrobridge._kernel.protocol.response import SkillResp
+from allegrobridge._kernel.protocol.response import Response, SkillResp
 from allegrobridge._kernel.protocol.socket import DEFAULT_MAX_PAYLOAD_SIZE, Socket
 from allegrobridge._kernel.server import python_server
+from allegrobridge._kernel.server._pipe import Pipe
 
 TEST_TIMEOUT = 1.0
 channel_class = create_channel_class()
@@ -237,8 +239,9 @@ def test_oversized_response_keeps_connection_for_next_request(
         (SkillPipeDesynchronizedError(), '<desynchronized>'),
         (SkillPipeClosedError(), '<closed>'),
         (SkillPipeBrokenError(), '<pipe-error>'),
+        (SkillPipeInvalidCommandError(), '<invalid-command>'),
     ],
-    ids=['timeout', 'desynchronized', 'closed', 'broken'],
+    ids=['timeout', 'desynchronized', 'closed', 'broken', 'invalid-command'],
 )
 def test_pipe_error_is_reported(
     redirect: Redirect,
@@ -306,7 +309,9 @@ def test_server_startup_failure_propagates(monkeypatch: MonkeyPatch, redirect: R
     assert isinstance(thread.failure, OSError)
 
 
-def test_restart_acknowledges_client_before_exit(monkeypatch: MonkeyPatch) -> None:
+def test_restart_acknowledges_client_without_exit_side_effect(
+    monkeypatch: MonkeyPatch,
+) -> None:
     server_socket, client_socket = socketpair()
     exits: list[int] = []
     monkeypatch.setattr(python_server.os, '_exit', exits.append)
@@ -317,13 +322,13 @@ def test_restart_acknowledges_client_before_exit(monkeypatch: MonkeyPatch) -> No
         )
 
         assert Socket(client_socket).recv_frame() == b'success True'
-        assert exits == [0]
+        assert exits == []
     finally:
         server_socket.close()
         client_socket.close()
 
 
-def test_restart_exits_when_acknowledgement_fails(monkeypatch: MonkeyPatch) -> None:
+def test_restart_acknowledgement_failure_propagates(monkeypatch: MonkeyPatch) -> None:
     server_socket, client_socket = socketpair()
     sock = Socket(server_socket)
     exits: list[int] = []
@@ -341,7 +346,7 @@ def test_restart_exits_when_acknowledgement_fails(monkeypatch: MonkeyPatch) -> N
     try:
         with raises(OSError):
             python_server._respond_to_client(sock, SkillResp('restart', 'True'))
-        assert exits == [0]
+        assert exits == []
     finally:
         server_socket.close()
         client_socket.close()
@@ -349,22 +354,178 @@ def test_restart_exits_when_acknowledgement_fails(monkeypatch: MonkeyPatch) -> N
 
 def test_pipe_death_watcher_exits_process(monkeypatch: MonkeyPatch) -> None:
     pipe = SimpleNamespace(wait_peer_closed=lambda: True)
+    tracker = python_server._RequestTracker()
     exits: list[int] = []
     monkeypatch.setattr(python_server.os, '_exit', exits.append)
 
-    python_server._watch_pipe_death(cast('Any', pipe))
+    python_server._watch_pipe_death(cast('Any', pipe), tracker)
 
     assert exits == [0]
 
 
 def test_pipe_death_watcher_ignores_local_close(monkeypatch: MonkeyPatch) -> None:
     pipe = SimpleNamespace(wait_peer_closed=lambda: False)
+    tracker = python_server._RequestTracker()
     exits: list[int] = []
     monkeypatch.setattr(python_server.os, '_exit', exits.append)
 
-    python_server._watch_pipe_death(cast('Any', pipe))
+    python_server._watch_pipe_death(cast('Any', pipe), tracker)
 
     assert exits == []
+
+
+def test_request_tracker_waits_for_active_request() -> None:
+    tracker = python_server._RequestTracker()
+    assert tracker.start()
+    assert not tracker.stop_and_wait(0.0)
+    assert not tracker.start()
+
+    tracker.finish()
+    assert tracker.stop_and_wait(TEST_TIMEOUT)
+
+
+@mark.parametrize(
+    ('status', 'ack_fails'),
+    [('success', False), ('restart', False), ('restart', True)],
+    ids=['success', 'restart', 'restart-ack-failure'],
+)
+def test_watcher_waits_for_handler_ack_before_exit(
+    monkeypatch: MonkeyPatch, status: str, ack_fails: bool
+) -> None:
+    case = _WatcherAckCase(monkeypatch, status, ack_fails)
+    try:
+        case.run()
+    finally:
+        case.close()
+
+
+class _WatcherAckCase:
+    def __init__(self, monkeypatch: MonkeyPatch, status: str, ack_fails: bool) -> None:
+        self.status = status
+        self.ack_fails = ack_fails
+        self.response_read_fd, response_write_fd = pipe()
+        self.response_reader = fdopen(self.response_read_fd, 'r', encoding='utf-8', newline='')
+        self.response_writer = fdopen(response_write_fd, 'w', encoding='utf-8', newline='')
+        self.command_written = threading.Event()
+        self.skill_pipe = Pipe(self.response_reader, self._command_writer())
+        self.tracker = python_server._RequestTracker()
+        self.server_socket, self.client_socket = socketpair()
+        self.server_socket.settimeout(TEST_TIMEOUT)
+        self.client_socket.settimeout(TEST_TIMEOUT)
+        self.ack_entered = threading.Event()
+        self.release_ack = threading.Event()
+        self.stop_entered = threading.Event()
+        self.handler_outcome: list[Exception | bool] = []
+        self.exits: list[int] = []
+        dummy_server = SimpleNamespace(
+            max_payload_size=DEFAULT_MAX_PAYLOAD_SIZE,
+            pipe=self.skill_pipe,
+            timeout=TEST_TIMEOUT,
+            request_tracker=self.tracker,
+        )
+        self.handler = python_server.Handler.__new__(python_server.Handler)
+        self.handler.client_address = ('127.0.0.1', 12345)
+        self.handler.request = self.server_socket
+        self.handler.server = cast('python_server.SingleTcpServer', dummy_server)
+        original_respond = python_server._respond_to_client
+
+        def delayed_respond(sock: Socket, response: SkillResp) -> None:
+            self.ack_entered.set()
+            assert self.release_ack.wait(TEST_TIMEOUT)
+            if self.ack_fails:
+                raise OSError('acknowledgement send failed')
+            original_respond(sock, response)
+
+        monkeypatch.setattr(python_server, '_respond_to_client', delayed_respond)
+        monkeypatch.setattr(python_server.os, '_exit', self.exits.append)
+        original_stop = self.tracker.stop_and_wait
+        monkeypatch.setattr(
+            self.tracker,
+            'stop_and_wait',
+            lambda timeout: self._tracked_stop(original_stop, timeout),
+        )
+        self.request: threading.Thread | None = None
+        self.watcher: threading.Thread | None = None
+
+    def _command_writer(self) -> io.StringIO:
+        case = self
+
+        class CommandWriter(io.StringIO):
+            def write(self, value: str) -> int:
+                written = super().write(value)
+                if value.endswith('\n'):
+                    case.command_written.set()
+                return written
+
+        return CommandWriter()
+
+    def _tracked_stop(self, original_stop: object, timeout: float) -> bool:
+        self.stop_entered.set()
+        return cast('Any', original_stop)(timeout)
+
+    def run(self) -> None:
+        def handle() -> None:
+            try:
+                self.handler_outcome.append(self.handler.handle_one_request())
+            except OSError as exc:
+                self.handler_outcome.append(exc)
+
+        self.request = threading.Thread(target=handle)
+        self.request.start()
+        Socket(self.client_socket).send_frame(b'ping()')
+        assert self.command_written.wait(TEST_TIMEOUT)
+        marker = Response.RST if self.status == 'restart' else Response.STX
+        payload = 'True' if self.status == 'restart' else 'pong'
+        self.response_writer.write(marker + payload + Response.RS)
+        self.response_writer.flush()
+        assert self.ack_entered.wait(TEST_TIMEOUT)
+        self.response_writer.close()
+        self.watcher = threading.Thread(
+            target=python_server._watch_pipe_death,
+            args=(self.skill_pipe, self.tracker),
+            kwargs={'grace': TEST_TIMEOUT},
+        )
+        self.watcher.start()
+        assert self.stop_entered.wait(TEST_TIMEOUT)
+        assert self.exits == []
+        self.release_ack.set()
+        self.request.join(TEST_TIMEOUT)
+        self.watcher.join(TEST_TIMEOUT)
+        assert not self.request.is_alive()
+        assert not self.watcher.is_alive()
+        assert self.exits == [0]
+        if self.ack_fails:
+            assert isinstance(self.handler_outcome[0], OSError)
+        else:
+            assert self.handler_outcome == [self.status != 'restart']
+            assert Socket(self.client_socket).recv_frame() == f'success {payload}'.encode()
+
+    def close(self) -> None:
+        self.release_ack.set()
+        self.response_writer.close()
+        if self.request is not None:
+            self.request.join(TEST_TIMEOUT)
+        if self.watcher is not None:
+            self.watcher.join(TEST_TIMEOUT)
+        self.client_socket.close()
+        self.server_socket.close()
+        self.skill_pipe.close()
+        assert self.request is None or not self.request.is_alive()
+        assert self.watcher is None or not self.watcher.is_alive()
+        assert self.skill_pipe.wait_closed(TEST_TIMEOUT)
+
+
+def test_pipe_death_watcher_exits_after_grace(monkeypatch: MonkeyPatch) -> None:
+    pipe = SimpleNamespace(wait_peer_closed=lambda: True)
+    tracker = python_server._RequestTracker()
+    assert tracker.start()
+    exits: list[int] = []
+    monkeypatch.setattr(python_server.os, '_exit', exits.append)
+
+    python_server._watch_pipe_death(cast('Any', pipe), tracker, grace=0.0)
+
+    assert exits == [0]
+    tracker.finish()
 
 
 def test_create_server_rejects_payload_size_smaller_than_minimum(
@@ -463,7 +624,10 @@ def test_main_startup(
     expected_output: str,
 ) -> None:
     served: list[bool] = []
-    dummy_server = SimpleNamespace(serve_forever=lambda: served.append(True))
+    dummy_server = SimpleNamespace(
+        serve_forever=lambda: served.append(True),
+        request_tracker=python_server._RequestTracker(),
+    )
     dummy_pipe = SimpleNamespace(wait_peer_closed=lambda: False)
     monkeypatch.setattr(python_server, "Pipe", lambda *_a, **_kw: nullcontext(dummy_pipe))
     monkeypatch.setattr(
@@ -486,7 +650,10 @@ def test_main_startup_configures_file_logging(monkeypatch: MonkeyPatch) -> None:
         calls.append({'args': args, 'kwargs': kwargs})
 
     monkeypatch.setattr(python_server, "setup_logging", fake_setup_logging)
-    dummy_server = SimpleNamespace(serve_forever=lambda: None)
+    dummy_server = SimpleNamespace(
+        serve_forever=lambda: None,
+        request_tracker=python_server._RequestTracker(),
+    )
     dummy_pipe = SimpleNamespace(wait_peer_closed=lambda: False)
     monkeypatch.setattr(python_server, "Pipe", lambda *_a, **_kw: nullcontext(dummy_pipe))
     monkeypatch.setattr(

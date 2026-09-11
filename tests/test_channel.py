@@ -25,7 +25,7 @@ from allegrobridge._kernel.client.channel import (
     create_channel_class,
 )
 from allegrobridge._kernel.client.objects import RemoteObject
-from allegrobridge._kernel.exception import PeerClosedError
+from allegrobridge._kernel.exception import PeerClosedError, ProtocolError
 from allegrobridge._kernel.protocol.socket import DEFAULT_MAX_PAYLOAD_SIZE, Socket
 from tests.virtuoso import Virtuoso
 
@@ -402,6 +402,70 @@ def test_flush_does_no_harm(server: Virtuoso, ws: Workspace):
 
 
 class TestTcpChannelCleanup:
+    @mark.parametrize(
+        'bad_header',
+        [Socket.encode_header(65), b'badheader!'],
+        ids=['oversized', 'invalid-length'],
+    )
+    def test_protocol_receive_failure_reconnects_without_replaying_request(
+        self,
+        local_tcp_channel: tuple[TcpChannel, socket],
+        monkeypatch,
+        bad_header: bytes,
+    ) -> None:
+        channel, peer = local_tcp_channel
+        old_local = channel.socket
+        channel._max_transmission_length = 64
+        next_local, next_peer = socketpair()
+        next_local.settimeout(SOCKET_TIMEOUT_SECONDS)
+        next_peer.settimeout(SOCKET_TIMEOUT_SECONDS)
+
+        def start() -> socket:
+            channel.connected = True
+            return next_local
+
+        monkeypatch.setattr(channel, 'start', start)
+        peer.sendall(bad_header + b'leftover body')
+
+        try:
+            with raises(ProtocolError):
+                channel.send('bad()')
+            assert Socket(peer).recv_frame() == b'bad()'
+            assert old_local.fileno() == -1
+            assert channel.epoch == 1
+            assert channel.socket is next_local
+            assert select([next_peer], [], [], 0)[0] == []
+
+            Socket(next_peer).send_frame(b'success ok')
+            assert channel.send('next()') == 'ok'
+            assert Socket(next_peer).recv_frame() == b'next()'
+        finally:
+            channel.connected = False
+            peer.close()
+            next_local.close()
+            next_peer.close()
+
+    def test_protocol_receive_failure_preserves_original_when_reconnect_fails(
+        self,
+        local_tcp_channel: tuple[TcpChannel, socket],
+        monkeypatch,
+    ) -> None:
+        channel, _ = local_tcp_channel
+        old_socket = channel.socket
+        original = ProtocolError('bad frame')
+        channel._socket = cast('Any', RaisingSocketWrapper(original))
+
+        def start() -> socket:
+            raise OSError('offline')
+
+        monkeypatch.setattr(channel, 'start', start)
+
+        with raises(ProtocolError, match='bad frame') as caught:
+            channel._receive_only()
+        assert caught.value is original
+        assert channel.connected is False
+        assert old_socket.fileno() == -1
+
     def test_failed_connect_releases_socket(self) -> None:
         channel = object.__new__(TcpChannel)
         channel.address = ('localhost', 1)

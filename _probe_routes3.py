@@ -34,11 +34,15 @@ def summarize(res, net):
     mine_added = [list(r) for r in res['db_added'] if r[0] == net]
     mine_removed = [list(r) for r in res['db_removed'] if r[0] == net]
     other_added = len(res['db_added']) - len(mine_added)
-    return {'command': res['command'], 'shell_result': res['shell_result'],
-            'mine_added': mine_added, 'mine_removed': mine_removed,
-            'other_added_n': other_added,
-            'added_layers': sorted({r[1] for r in mine_added}),
-            'added_widths': sorted({r[6] for r in mine_added})}
+    return {
+        'command': res['command'],
+        'shell_result': res['shell_result'],
+        'mine_added': mine_added,
+        'mine_removed': mine_removed,
+        'other_added_n': other_added,
+        'added_layers': sorted({r[1] for r in mine_added}),
+        'added_widths': sorted({r[6] for r in mine_added}),
+    }
 
 
 def main() -> None:
@@ -66,17 +70,19 @@ def main() -> None:
 
             # --- P8: rename NET24 -> "NET 24", then quoted connect on its pins ---
             report['p8_rename_result'] = str(
-                ws.transaction(SkillCode('(axlRenameNet "NET24" "NET 24")')))
+                ws.transaction(SkillCode('(axlRenameNet "NET24" "NET 24")'))
+            )
             report['p8_net_scan'] = pr.ev(ws, NET_SCAN)
             save()
-            print(f"[probe3] p8 rename: {report['p8_rename_result']} "
-                  f"scan={report['p8_net_scan']}", flush=True)
+            print(
+                f"[probe3] p8 rename: {report['p8_rename_result']} scan={report['p8_net_scan']}",
+                flush=True,
+            )
 
             take = budget.take('NET24')
             if take and report['p8_net_scan'] == ['NET 24']:
                 _, a, b = take
-                r = pr.manual_connect(ws, 'NET 24', 'ETCH/TOP', '12', a[:2], b[:2],
-                                      quote_net=True)
+                r = pr.manual_connect(ws, 'NET 24', 'ETCH/TOP', '12', a[:2], b[:2], quote_net=True)
                 report['p8_space_net_quoted'] = summarize(r, 'NET 24')
                 report['p8_space_net_quoted']['pair'] = [list(a), list(b)]
                 save()
@@ -85,8 +91,9 @@ def main() -> None:
                 take2 = budget.take('NET24')
                 if take2:
                     _, a2, b2 = take2
-                    r2 = pr.manual_connect(ws, 'NET 24', 'ETCH/TOP', '12',
-                                           a2[:2], b2[:2], quote_net=False)
+                    r2 = pr.manual_connect(
+                        ws, 'NET 24', 'ETCH/TOP', '12', a2[:2], b2[:2], quote_net=False
+                    )
                     report['p8b_space_net_unquoted'] = summarize(r2, 'NET 24')
                     report['p8b_space_net_unquoted']['pair'] = [list(a2), list(b2)]
                     save()
@@ -94,12 +101,15 @@ def main() -> None:
             else:
                 report['p8_space_net_quoted'] = (
                     f"SKIPPED rename={report['p8_rename_result']} "
-                    f"scan={report['p8_net_scan']} take={take}")
+                    f"scan={report['p8_net_scan']} take={take}"
+                )
                 save()
 
             # --- P9: layer honoring on VCC ---
-            for label, layer in (('p9_layer_ETCH_BOTTOM', 'ETCH/BOTTOM'),
-                                 ('p9b_layer_short_BOTTOM', 'BOTTOM')):
+            for label, layer in (
+                ('p9_layer_ETCH_BOTTOM', 'ETCH/BOTTOM'),
+                ('p9b_layer_short_BOTTOM', 'BOTTOM'),
+            ):
                 take = budget.take('VCC')
                 if not take:
                     report[label] = 'SKIPPED_NO_PAIR'

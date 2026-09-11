@@ -101,9 +101,7 @@ def _validated_layer_name(value: str) -> str:
         or not value
         or any(_rejects_name_char(char, allow_space=False) for char in value)
     ):
-        raise ValueError(
-            'layer must be a non-empty name without whitespace or command syntax'
-        )
+        raise ValueError('layer must be a non-empty name without whitespace or command syntax')
     return value
 
 

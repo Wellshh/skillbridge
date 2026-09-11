@@ -503,7 +503,7 @@ def test_real_allegro_references_cover_the_supported_inventory() -> None:
         ArgumentDoc(
             't_padstack',
             'Padstack name. If a padstack definition with this name is not already in the '
-                'layout, the function searches in order the libraries specified by `PADPATH` and '
+            'layout, the function searches in order the libraries specified by `PADPATH` and '
             'loads the definition into the database.',
         ),
         ArgumentDoc('o_padstackDbid', 'a padstack dbid'),
@@ -527,26 +527,19 @@ def test_real_allegro_references_cover_the_supported_inventory() -> None:
     assert via.returns == (
         ArgumentDoc(
             'l_result',
-                'List: (`car`) `DBID`of the via created. (`cadr`) `t` if DRCs are created. '
-                '`nil` if DRCs are not created.',
+            'List: (`car`) `DBID`of the via created. (`cadr`) `t` if DRCs are created. '
+            '`nil` if DRCs are not created.',
         ),
         ArgumentDoc('nil', 'Nothing is created.'),
     )
     assert via.examples[0].kind == 'code'
     assert via.examples[0].lines == (
-        (
-                'myvia = axlDBCreateVia( "pad1", 5600:4200,"sclkl", t, 45., nil)⇒ '
-            '(dbid:526745 nil)'
-        ),
+        ('myvia = axlDBCreateVia( "pad1", 5600:4200,"sclkl", t, 45., nil)⇒ (dbid:526745 nil)'),
     )
     assert via.examples[-1].kind == 'prose'
 
     mks = by_name['axlMKSConvert'].doc
-    assert mks.description[0] == (
-        (
-            'Operates in several ways, depending on the arguments passed.'
-        ),
-    )
+    assert mks.description[0] == (('Operates in several ways, depending on the arguments passed.'),)
     assert [doc.name for doc in mks.arguments] == ['n_input', 't_inUnits', 't_outUnits']
     mks_code = [
         line for segment in mks.examples if segment.kind == 'code' for line in segment.lines

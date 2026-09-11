@@ -105,13 +105,15 @@ def diff(before: list[tuple], after: list[tuple]) -> tuple[list[tuple], list[tup
     return added, removed
 
 
-def api_connect(session: Any, ws: Any, net: str, p0: tuple, p1: tuple,
-                layer: str, width: float) -> dict:
+def api_connect(
+    session: Any, ws: Any, net: str, p0: tuple, p1: tuple, layer: str, width: float
+) -> dict:
     before = snapshot(ws)
     tees_before = ev(ws, TEES)
     try:
-        added = session.routes.connect(net, (float(p0[0]), float(p0[1])),
-                                       (float(p1[0]), float(p1[1])), layer, width)
+        added = session.routes.connect(
+            net, (float(p0[0]), float(p0[1])), (float(p1[0]), float(p1[1])), layer, width
+        )
         outcome: dict = {'status': 'ok', 'returned': [r.model_dump(mode='json') for r in added]}
     except Exception as exc:  # noqa: BLE001 - probe records everything
         outcome = {'status': 'error', 'type': type(exc).__name__, 'message': str(exc)}
@@ -123,8 +125,13 @@ def api_connect(session: Any, ws: Any, net: str, p0: tuple, p1: tuple,
             break
         sleep(0.5)
     outcome.update({
-        'requested': {'net': net, 'layer': layer, 'width': width,
-                      'start': list(p0), 'end': list(p1)},
+        'requested': {
+            'net': net,
+            'layer': layer,
+            'width': width,
+            'start': list(p0),
+            'end': list(p1),
+        },
         'db_added': [list(r) for r in db_added],
         'db_removed': [list(r) for r in db_removed],
         'tees_before': tees_before,
@@ -133,13 +140,22 @@ def api_connect(session: Any, ws: Any, net: str, p0: tuple, p1: tuple,
     return outcome
 
 
-def manual_connect(ws: Any, net: str, layer: str, width_text: str,
-                   p0: tuple, p1: tuple, quote_net: bool = False,
-                   quote_layer: bool = False) -> dict:
+def manual_connect(
+    ws: Any,
+    net: str,
+    layer: str,
+    width_text: str,
+    p0: tuple,
+    p1: tuple,
+    quote_net: bool = False,
+    quote_layer: bool = False,
+) -> dict:
     n = f'"{net}"' if quote_net else net
     lay = f'"{layer}"' if quote_layer else layer
-    cmd = (f'add connect -net {n} -layer {lay} -width {width_text}; '
-           f'pick {p0[0]!r} {p0[1]!r}; pick {p1[0]!r} {p1[1]!r}; done')
+    cmd = (
+        f'add connect -net {n} -layer {lay} -width {width_text}; '
+        f'pick {p0[0]!r} {p0[1]!r}; pick {p1[0]!r} {p1[1]!r}; done'
+    )
     escaped = cmd.replace('\\', '\\\\').replace('"', '\\"')
     before = snapshot(ws)
     shell_result = ev(ws, f'(axlShell "{escaped}")')
@@ -151,9 +167,12 @@ def manual_connect(ws: Any, net: str, layer: str, width_text: str,
         if added or removed:
             break
         sleep(0.5)
-    return {'command': cmd, 'shell_result': shell_result,
-            'db_added': [list(r) for r in added],
-            'db_removed': [list(r) for r in removed]}
+    return {
+        'command': cmd,
+        'shell_result': shell_result,
+        'db_added': [list(r) for r in added],
+        'db_removed': [list(r) for r in removed],
+    }
 
 
 def probe0_formats_and_grid(ws: Any) -> dict:
@@ -233,11 +252,17 @@ def enumerate_resources(session: Any, ws: Any) -> dict:
         if rs:
             routes_by_net[netname] = {'layer': rs[0].layer, 'width': rs[0].width}
     layers = [lay.model_dump(mode='json') for lay in session.layers()]
-    etch_layers = [lay['name'] for lay in layers
-                   if lay.get('class_name') == 'ETCH' or lay.get('is_etch')]
-    return {'nets': nets, 'pins_by_net': {k: [list(p) for p in v] for k, v in pins_by_net.items()},
-            'branch_pins_raw': branch, 'free_pairs': {k: len(v) for k, v in free.items()},
-            'routes_by_net': routes_by_net, 'etch_layers': etch_layers}, free
+    etch_layers = [
+        lay['name'] for lay in layers if lay.get('class_name') == 'ETCH' or lay.get('is_etch')
+    ]
+    return {
+        'nets': nets,
+        'pins_by_net': {k: [list(p) for p in v] for k, v in pins_by_net.items()},
+        'branch_pins_raw': branch,
+        'free_pairs': {k: len(v) for k, v in free.items()},
+        'routes_by_net': routes_by_net,
+        'etch_layers': etch_layers,
+    }, free
 
 
 class Budget:
@@ -306,8 +331,14 @@ def probe1_grid_snap(session, ws, res, budget, p0) -> dict:
                 net2, a2, b2 = take2
                 layer2, width2 = default_layer_width(res, net2)
                 out['B_offgrid_near_pins'] = api_connect(
-                    session, ws, net2, (a2[0] + off, a2[1] - off),
-                    (b2[0] - off, b2[1] + off), layer2, width2)
+                    session,
+                    ws,
+                    net2,
+                    (a2[0] + off, a2[1] - off),
+                    (b2[0] - off, b2[1] + off),
+                    layer2,
+                    width2,
+                )
             else:
                 out['B_offgrid_near_pins'] = 'SKIPPED_NO_PAIRS'
     else:
@@ -324,13 +355,14 @@ def probe2_t_junction(session, ws, res, budget, p0) -> dict:
             net = name
             break
     if net is None:
-        return {'status': 'SKIPPED_NEED_NET_WITH_3_PINS',
-                'pin_counts': {k: len(v) for k, v in pins_by_net.items()},
-                'free_pair_counts': budget.counts()}
+        return {
+            'status': 'SKIPPED_NEED_NET_WITH_3_PINS',
+            'pin_counts': {k: len(v) for k, v in pins_by_net.items()},
+            'free_pair_counts': budget.counts(),
+        }
     pins = pins_by_net[net]
     layer, width = default_layer_width(res, net)
-    out: dict = {'net': net, 'layer': layer, 'width': width,
-                 'pins': [list(p) for p in pins]}
+    out: dict = {'net': net, 'layer': layer, 'width': width, 'pins': [list(p) for p in pins]}
     # baseline: connect a known-unconnected pin pair through the API
     take = budget.take(net)
     if take is None:
@@ -339,13 +371,14 @@ def probe2_t_junction(session, ws, res, budget, p0) -> dict:
     _, a, b = take
     out['baseline'] = api_connect(session, ws, net, a[:2], b[:2], layer, width)
     # find a segment of this net to T into: prefer one just created
-    rows = out['baseline'].get('db_added') or [
-        list(r) for r in snapshot(ws) if r[0] == net]
+    rows = out['baseline'].get('db_added') or [list(r) for r in snapshot(ws) if r[0] == net]
     if not rows:
         out['t_step'] = 'SKIPPED_NO_SEGMENT'
         return out
-    seg = max(rows, key=lambda r: ((float(r[2]) - float(r[4])) ** 2
-                                   + (float(r[3]) - float(r[5])) ** 2) ** 0.5)
+    seg = max(
+        rows,
+        key=lambda r: ((float(r[2]) - float(r[4])) ** 2 + (float(r[3]) - float(r[5])) ** 2) ** 0.5,
+    )
     mid = ((float(seg[2]) + float(seg[4])) / 2.0, (float(seg[3]) + float(seg[5])) / 2.0)
     target = max(pins, key=lambda p: (p[0] - mid[0]) ** 2 + (p[1] - mid[1]) ** 2)
     out['t_segment'] = list(seg)
@@ -362,8 +395,7 @@ def probe3_quoted_net(ws, res, budget) -> dict:
         return {'quoted_net': 'SKIPPED_NO_PAIRS'}
     net, a, b = take
     layer, width = default_layer_width(res, net)
-    out['quoted_net'] = manual_connect(ws, net, layer, repr(width), a[:2], b[:2],
-                                       quote_net=True)
+    out['quoted_net'] = manual_connect(ws, net, layer, repr(width), a[:2], b[:2], quote_net=True)
     if not out['quoted_net']['db_added']:
         budget.restore(net, (a, b))
         take = budget.take()
@@ -371,20 +403,18 @@ def probe3_quoted_net(ws, res, budget) -> dict:
             net, a, b = take
             layer, width = default_layer_width(res, net)
             out['quoted_net_and_layer'] = manual_connect(
-                ws, net, layer, repr(width), a[:2], b[:2],
-                quote_net=True, quote_layer=True)
+                ws, net, layer, repr(width), a[:2], b[:2], quote_net=True, quote_layer=True
+            )
             if not out['quoted_net_and_layer']['db_added']:
                 budget.restore(net, (a, b))
                 # unquoted control on the same pair to prove the pair was routable
-                out['unquoted_control'] = manual_connect(
-                    ws, net, layer, repr(width), a[:2], b[:2])
+                out['unquoted_control'] = manual_connect(ws, net, layer, repr(width), a[:2], b[:2])
     return out
 
 
 def probe4_tiny_width(ws, res, budget) -> dict:
     out: dict = {}
-    for label, width_text in (('positional_0.0001', '0.0001'),
-                              ('exponent_1e-07', '1e-07')):
+    for label, width_text in (('positional_0.0001', '0.0001'), ('exponent_1e-07', '1e-07')):
         take = budget.take()
         if not take:
             out[label] = 'SKIPPED_NO_PAIRS'
