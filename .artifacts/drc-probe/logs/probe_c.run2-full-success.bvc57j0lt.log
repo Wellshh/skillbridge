@@ -1,0 +1,377 @@
+PADSTACK: VIA_ALL_0103
+STAGE1: rule learning (natural arc y0=390 + tight line)
+CREATE_ARC STAGE1_ARC net=NFC_SWP cw=False
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 390.0 bits=4078600000000000 on_grid=True)
+   requested E=(302.0001 bits=4072e00068db8bac on_grid=True | 390.0 bits=4078600000000000 on_grid=True)
+   requested C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 390.124975 bits=407861ffe5c91d15 on_grid=False)
+   committed C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 390.124975 bits=407861ffe5c91d15 on_grid=False)
+   committed r=1.0078287320398243 bits=3ff0201105414878 on_grid=False length=2.9155922850665696 bits=400753220c46a588 on_grid=False is_clockwise=None
+   center_bit_preserved=True dcy=0E-44 dcx=0E-43
+   r_committed - |S-C|_exact = 1.162176123163137234737398875118089750055275800E-14
+   bottom_in_span(math_ccw)=True
+CREATE_LINE STAGE1_LINE requested y=388.9571 bits=40784f504816f007 on_grid=True
+   committed y=388.9571 bits=40784f504816f007 on_grid=True
+DRC STAGE1: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.01 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'line', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (299.0, 388.9571), 'end': (303.0001, 388.9571), 'center': None, 'radius': None, 'width': 0.15, 'location': None}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 390.0), 'end': (302.0001, 390.0), 'center': (301.00005, 390.124975), 'radius': 1.0078287320398243, 'width': 0.15, 'location': (301.00005, 390.124975)}
+DRC STAGE1: MARKER name='Line to Route Keepin Spacing' expected='0 MM' actual='461.0504 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'polygon', 'layer': 'ROUTE KEEPIN/ALL', 'net': None, 'start': None, 'end': None, 'center': None, 'radius': None, 'width': None, 'location': None}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 390.0), 'end': (302.0001, 390.0), 'center': (301.00005, 390.124975), 'radius': 1.0078287320398243, 'width': 0.15, 'location': (301.00005, 390.124975)}
+STAGE1: 2 spacing markers; preferring Line to Line Spacing
+STAGE1: marker_name='Line to Line Spacing' R=0.06 (actual='0.01 MM') on_grid=True
+PHASE6: DELTA=1.9757 (clear(eps=0) ~ R - residual)
+=== CC_FLIP_LO y0=600.0 DELTA=1.9757 y1=598.0243 (on_grid=True)
+   PLANNED cy1=600.1249806699999 bits=4082c0fff5dd9241 eps=0.0000056699998998738010413944721221923828125 predicted delta=0.0000024971992380962149127299198880791664123535156250
+CREATE_ARC CC_FLIP_LO_UPPER net=NFC_SWP cw=False
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 600.0 bits=4082c00000000000 on_grid=True)
+   requested E=(302.0001 bits=4072e00068db8bac on_grid=True | 600.0 bits=4082c00000000000 on_grid=True)
+   requested C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 600.1249806699999 bits=4082c0fff5dd9241 on_grid=False)
+   committed C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 600.1249806699999 bits=4082c0fff5dd9241 on_grid=False)
+   committed r=1.0078294351593506 bits=3ff02011c1ff49fd on_grid=False length=2.9155830666779936 bits=4007531d37013a1a on_grid=False is_clockwise=None
+   center_bit_preserved=True dcy=0E-43 dcx=0E-43
+   r_committed - |S-C|_exact = 8.42699691619820208105234204254203572055183155E-15
+   bottom_in_span(math_ccw)=True
+CREATE_ARC CC_FLIP_LO_LOWER net=FINGER_SPI_MISO cw=True
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 598.0243 bits=4082b031c432ca58 on_grid=True)
+   requested E=(302.0001 bits=4072e00068db8bac on_grid=True | 598.0243 bits=4082b031c432ca58 on_grid=True)
+   requested C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 597.899325 bits=4082af31d14e3bcd on_grid=False)
+   committed C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 597.899325 bits=4082af31d14e3bcd on_grid=False)
+   committed r=1.0078287320398243 bits=3ff0201105414878 on_grid=False length=2.915592285066569 bits=400753220c46a587 on_grid=False is_clockwise=True
+   center_bit_preserved=True dcy=0E-43 dcx=0E-43
+   r_committed - |S-C|_exact = 4.57293830538560930477521906234613889079168743E-15
+   top_in_span(math_cw)=True
+   COMMITTED clear=0.0599975028007488031533966932329349219799041748046875 delta=0.0000024971992511968466033067670650780200958251953125 in_window=True
+ORACLE CC_FLIP_LO (ARC-ARC, committed values):
+   FULL      clear=0.0599975028007488031533966932329349219799041748046875 verdict=FLAGGED
+   BINARY64  clear=0.05999750280077479 verdict=FLAGGED (naive float<0.06: True)
+   GRID      clear=0.060099999999960651564379077171906828880310058593750 verdict=clean
+   DROUND    round4(FULL)=0.0600 verdict=clean
+   DISPLAY_PREDICTED(trunc4)='0.0599 MM'
+DRC CC_FLIP_LO: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 598.0243), 'end': (302.0001, 598.0243), 'center': (301.00005, 597.899325), 'radius': 1.0078287320398243, 'width': 0.15, 'location': (301.00005, 597.899325)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 600.0), 'end': (302.0001, 600.0), 'center': (301.00005, 600.1249806699999), 'radius': 1.0078294351593506, 'width': 0.15, 'location': (301.00005, 600.1249806699999)}
+DRC CC_FLIP_LO: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='640.4739 MM'
+DRC CC_FLIP_LO: VERDICT=FLAGGED hits=1
+RESULT CC_FLIP_LO: verdict=FLAGGED expected='0.06 MM' actual='0.0599 MM' display_match=True
+=== CC_FLIP_HI y0=610.0 DELTA=1.9757 y1=608.0243 (on_grid=True)
+   PLANNED cy1=610.12498417 bits=408310fff7b35557 eps=0.0000091699999478805693797767162322998046875 predicted margin=None
+CREATE_ARC CC_FLIP_HI_UPPER net=NFC_SWP cw=False
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 610.0 bits=4083100000000000 on_grid=True)
+   requested E=(302.0001 bits=4072e00068db8bac on_grid=True | 610.0 bits=4083100000000000 on_grid=True)
+   requested C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 610.12498417 bits=408310fff7b35557 on_grid=False)
+   committed C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 610.12498417 bits=408310fff7b35557 on_grid=False)
+   committed r=1.0078298691994512 bits=3ff0201236824c30 on_grid=False length=2.9155773763597232 bits=4007531a3b436145 on_grid=False is_clockwise=None
+   center_bit_preserved=True dcy=0E-43 dcx=0E-43
+   r_committed - |S-C|_exact = 1.591527938840728677136352606789876247104997584E-14
+   bottom_in_span(math_ccw)=True
+CREATE_ARC CC_FLIP_HI_LOWER net=FINGER_SPI_MISO cw=True
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 608.0243 bits=40830031c432ca58 on_grid=True)
+   requested E=(302.0001 bits=4072e00068db8bac on_grid=True | 608.0243 bits=40830031c432ca58 on_grid=True)
+   requested C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 607.899325 bits=4082ff31d14e3bcd on_grid=False)
+   committed C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 607.899325 bits=4082ff31d14e3bcd on_grid=False)
+   committed r=1.0078287320398243 bits=3ff0201105414878 on_grid=False length=2.915592285066569 bits=400753220c46a587 on_grid=False is_clockwise=True
+   center_bit_preserved=True dcy=0E-43 dcx=0E-43
+   r_committed - |S-C|_exact = 4.57293830538560930477521906234613889079168743E-15
+   top_in_span(math_cw)=True
+   COMMITTED clear=0.0600005687606962823110734461806714534759521484375 margin=5.687606962823110734461806714534759521484375E-7 in_window=True
+ORACLE CC_FLIP_HI (ARC-ARC, committed values):
+   FULL      clear=0.0600005687606962823110734461806714534759521484375 verdict=clean
+   BINARY64  clear=0.06000056876073359 verdict=clean (naive float<0.06: False)
+   GRID      clear=0.060099999999960651564379077171906828880310058593750 verdict=clean
+   DROUND    round4(FULL)=0.0600 verdict=clean
+   DISPLAY_PREDICTED(trunc4)='0.06 MM'
+DRC CC_FLIP_HI: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='649.4744 MM'
+DRC CC_FLIP_HI: VERDICT=clean hits=0
+RESULT CC_FLIP_HI: verdict=clean expected=None actual=None display_match=None
+=== CC_GOLD y0=620.0 DELTA=1.9757 y1=618.0243 (on_grid=True)
+   PLANNED cy1=620.12492759 bits=408360ffda094b58 eps=-0.0000474100000297767110168933868408203125 predicted delta=0.0000489961382903825182211221545003354549407958984375
+CREATE_ARC CC_GOLD_UPPER net=NFC_SWP cw=False
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 620.0 bits=4083600000000000 on_grid=True)
+   requested E=(302.0001 bits=4072e00068db8bac on_grid=True | 620.0 bits=4083600000000000 on_grid=True)
+   requested C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 620.12492759 bits=408360ffda094b58 on_grid=False)
+   committed C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 620.12492759 bits=408360ffda094b58 on_grid=False)
+   committed r=1.0078228540984784 bits=3ff0200adb683ac1 on_grid=False length=2.9156693686604065 bits=4007534a7642c368 on_grid=False is_clockwise=None
+   center_bit_preserved=True dcy=0E-40 dcx=0E-43
+   r_committed - |S-C|_exact = 1.353800518364235651902674679343020368193205473E-14
+   bottom_in_span(math_ccw)=True
+CREATE_ARC CC_GOLD_LOWER net=FINGER_SPI_MISO cw=True
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 618.0243 bits=40835031c432ca58 on_grid=True)
+   requested E=(302.0001 bits=4072e00068db8bac on_grid=True | 618.0243 bits=40835031c432ca58 on_grid=True)
+   requested C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 617.899325 bits=40834f31d14e3bcd on_grid=False)
+   committed C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 617.899325 bits=40834f31d14e3bcd on_grid=False)
+   committed r=1.0078287320398243 bits=3ff0201105414878 on_grid=False length=2.915592285066569 bits=400753220c46a587 on_grid=False is_clockwise=True
+   center_bit_preserved=True dcy=0E-43 dcx=0E-43
+   r_committed - |S-C|_exact = 4.57293830538560930477521906234613889079168743E-15
+   top_in_span(math_cw)=True
+   COMMITTED clear=0.0599510038616914098241750252782367169857025146484375 delta=0.0000489961383085901758249747217632830142974853515625 in_window=True
+ORACLE CC_GOLD (ARC-ARC, committed values):
+   FULL      clear=0.0599510038616914098241750252782367169857025146484375 verdict=FLAGGED
+   BINARY64  clear=0.059951003861760915 verdict=FLAGGED (naive float<0.06: True)
+   GRID      clear=0.059999999999985753618148009991273283958435058593750 verdict=FLAGGED
+   DROUND    round4(FULL)=0.0600 verdict=clean
+   DISPLAY_PREDICTED(trunc4)='0.0599 MM'
+DRC CC_GOLD: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 618.0243), 'end': (302.0001, 618.0243), 'center': (301.00005, 617.899325), 'radius': 1.0078287320398243, 'width': 0.15, 'location': (301.00005, 617.899325)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 620.0), 'end': (302.0001, 620.0), 'center': (301.00005, 620.12492759), 'radius': 1.0078228540984784, 'width': 0.15, 'location': (301.00005, 620.12492759)}
+DRC CC_GOLD: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='658.5036 MM'
+DRC CC_GOLD: VERDICT=FLAGGED hits=1
+RESULT CC_GOLD: verdict=FLAGGED expected='0.06 MM' actual='0.0599 MM' display_match=True
+=== CC_ABOVE y0=630.0 DELTA=1.9757 y1=628.0243 (on_grid=True)
+   PLANNED cy1=630.1249841 bits=4083b0fff7a9f029 eps=0.0000091000000060375896282494068145751953125 predicted margin=5.074416868566800076223444193601608276367187500E-7
+CREATE_ARC CC_ABOVE_UPPER net=NFC_SWP cw=False
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 630.0 bits=4083b00000000000 on_grid=True)
+   requested E=(302.0001 bits=4072e00068db8bac on_grid=True | 630.0 bits=4083b00000000000 on_grid=True)
+   requested C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 630.1249841 bits=4083b0fff7a9f029 on_grid=False)
+   committed C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 630.1249841 bits=4083b0fff7a9f029 on_grid=False)
+   committed r=1.0078298605185354 bits=3ff02012342dbfe7 on_grid=False length=2.915577490165704 bits=4007531a4a89b943 on_grid=False is_clockwise=None
+   center_bit_preserved=True dcy=0E-43 dcx=0E-43
+   r_committed - |S-C|_exact = 1.196620597106738122494086121310211478790272087E-14
+   bottom_in_span(math_ccw)=True
+CREATE_ARC CC_ABOVE_LOWER net=FINGER_SPI_MISO cw=True
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 628.0243 bits=4083a031c432ca58 on_grid=True)
+   requested E=(302.0001 bits=4072e00068db8bac on_grid=True | 628.0243 bits=4083a031c432ca58 on_grid=True)
+   requested C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 627.899325 bits=40839f31d14e3bcd on_grid=False)
+   committed C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 627.899325 bits=40839f31d14e3bcd on_grid=False)
+   committed r=1.0078287320398243 bits=3ff0201105414878 on_grid=False length=2.915592285066569 bits=400753220c46a587 on_grid=False is_clockwise=True
+   center_bit_preserved=True dcy=0E-43 dcx=0E-43
+   r_committed - |S-C|_exact = 4.57293830538560930477521906234613889079168743E-15
+   top_in_span(math_cw)=True
+   COMMITTED clear=0.0600005074416702033346382449963130056858062744140625 margin=5.074416702033346382449963130056858062744140625E-7 in_window=True
+ORACLE CC_ABOVE (ARC-ARC, committed values):
+   FULL      clear=0.0600005074416702033346382449963130056858062744140625 verdict=clean
+   BINARY64  clear=0.0600005074416913 verdict=clean (naive float<0.06: False)
+   GRID      clear=0.060099999999960651564379077171906828880310058593750 verdict=clean
+   DROUND    round4(FULL)=0.0600 verdict=clean
+   DISPLAY_PREDICTED(trunc4)='0.06 MM'
+DRC CC_ABOVE: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='667.5605 MM'
+DRC CC_ABOVE: VERDICT=clean hits=0
+RESULT CC_ABOVE: verdict=clean expected=None actual=None display_match=None
+=== CC_BELOW y0=640.0 DELTA=1.9757 y1=638.0243 (on_grid=True)
+   PLANNED cy1=640.12486995 bits=408400ffbbd0fc06 eps=-0.000105050000052506220526993274688720703125 predicted delta=0.0000994928287623508822434814646840095520019531250000
+CREATE_ARC CC_BELOW_UPPER net=NFC_SWP cw=False
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 640.0 bits=4084000000000000 on_grid=True)
+   requested E=(302.0001 bits=4072e00068db8bac on_grid=True | 640.0 bits=4084000000000000 on_grid=True)
+   requested C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 640.12486995 bits=408400ffbbd0fc06 on_grid=False)
+   committed C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 640.12486995 bits=408400ffbbd0fc06 on_grid=False)
+   committed r=1.0078157107889227 bits=3ff020035de3bc14 on_grid=False length=2.91576309369843 bits=4007537b99d28c5f on_grid=False is_clockwise=None
+   center_bit_preserved=True dcy=0E-42 dcx=0E-43
+   r_committed - |S-C|_exact = 8.56894600720313604591288590586586765268794670E-15
+   bottom_in_span(math_ccw)=True
+CREATE_ARC CC_BELOW_LOWER net=FINGER_SPI_MISO cw=True
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 638.0243 bits=4083f031c432ca58 on_grid=True)
+   requested E=(302.0001 bits=4072e00068db8bac on_grid=True | 638.0243 bits=4083f031c432ca58 on_grid=True)
+   requested C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 637.899325 bits=4083ef31d14e3bcd on_grid=False)
+   committed C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 637.899325 bits=4083ef31d14e3bcd on_grid=False)
+   committed r=1.0078287320398243 bits=3ff0201105414878 on_grid=False length=2.915592285066569 bits=400753220c46a587 on_grid=False is_clockwise=True
+   center_bit_preserved=True dcy=0E-43 dcx=0E-43
+   r_committed - |S-C|_exact = 4.57293830538560930477521906234613889079168743E-15
+   top_in_span(math_cw)=True
+   COMMITTED clear=0.05990050717122432644146101665683090686798095703125 delta=0.00009949282877567355853898334316909313201904296875 in_window=True
+ORACLE CC_BELOW (ARC-ARC, committed values):
+   FULL      clear=0.05990050717122432644146101665683090686798095703125 verdict=FLAGGED
+   BINARY64  clear=0.05990050717125542 verdict=FLAGGED (naive float<0.06: True)
+   GRID      clear=0.059999999999985753618148009991273283958435058593750 verdict=FLAGGED
+   DROUND    round4(FULL)=0.0599 verdict=FLAGGED
+   DISPLAY_PREDICTED(trunc4)='0.0599 MM'
+DRC CC_BELOW: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 638.0243), 'end': (302.0001, 638.0243), 'center': (301.00005, 637.899325), 'radius': 1.0078287320398243, 'width': 0.15, 'location': (301.00005, 637.899325)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 640.0), 'end': (302.0001, 640.0), 'center': (301.00005, 640.12486995), 'radius': 1.0078157107889227, 'width': 0.15, 'location': (301.00005, 640.12486995)}
+DRC CC_BELOW: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='676.6437 MM'
+DRC CC_BELOW: VERDICT=FLAGGED hits=1
+RESULT CC_BELOW: verdict=FLAGGED expected='0.06 MM' actual='0.0599 MM' display_match=True
+PHASE6_PAIR: dcy1(committed)-10=0.0000035000000480067683383822441101074218750 dcy2-10=0E-43 dr1=4.340401005276106616292963735759258270263671875E-7 dr2=0E-49
+PHASE6_PAIR: verdicts LO=FLAGGED HI=clean (designed: FLAGGED/clean)
+=== CC_GRID_EQ (grid pair) y0=660.0 y1=658.79 (on_grid=True)
+CREATE_ARC CC_GRID_EQ_UPPER net=NFC_SWP cw=False
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 660.0 bits=4084a00000000000 on_grid=True)
+   requested E=(302.0 bits=4072e00000000000 on_grid=True | 660.0 bits=4084a00000000000 on_grid=True)
+   requested C=(301.0 bits=4072d00000000000 on_grid=True | 660.75 bits=4084a60000000000 on_grid=True)
+   committed C=(301.0 bits=4072d00000000000 on_grid=True | 660.75 bits=4084a60000000000 on_grid=True)
+   committed r=1.25 bits=3ff4000000000000 on_grid=True length=2.3182380450040307 bits=40028bc0635d1512 on_grid=False is_clockwise=None
+   center_bit_preserved=True dcy=0.00 dcx=0
+   r_committed - |S-C|_exact = 0.00
+   bottom_in_span(math_ccw)=True
+CREATE_ARC CC_GRID_EQ_LOWER net=FINGER_SPI_MISO cw=True
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 658.79 bits=40849651eb851eb8 on_grid=True)
+   requested E=(302.0 bits=4072e00000000000 on_grid=True | 658.79 bits=40849651eb851eb8 on_grid=True)
+   requested C=(301.0 bits=4072d00000000000 on_grid=True | 658.04 bits=40849051eb851eb8 on_grid=True)
+   committed C=(301.0 bits=4072d00000000000 on_grid=True | 658.04 bits=40849051eb851eb8 on_grid=True)
+   committed r=1.25 bits=3ff4000000000000 on_grid=True length=2.3182380450040307 bits=40028bc0635d1512 on_grid=False is_clockwise=True
+   center_bit_preserved=True dcy=0E-40 dcx=0
+   r_committed - |S-C|_exact = 0E-30
+   top_in_span(math_cw)=True
+   COMMITTED clear=0.0600000000000363797880709171295166015625 (R-clear=-3.63797880709171295166015625E-14)
+ORACLE CC_GRID_EQ (ARC-ARC, committed values):
+   FULL      clear=0.0600000000000363797880709171295166015625 verdict=clean
+   BINARY64  clear=0.060000000000036385 verdict=clean (naive float<0.06: False)
+   GRID      clear=0.0600000000000363797880709171295166015625 verdict=clean
+   DROUND    round4(FULL)=0.0600 verdict=clean
+   DISPLAY_PREDICTED(trunc4)='0.06 MM'
+DRC CC_GRID_EQ: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='695.2154 MM'
+DRC CC_GRID_EQ: VERDICT=clean hits=0
+RESULT CC_GRID_EQ: verdict=clean expected_verdict=clean match=True actual=None display_pred='0.06 MM'
+=== CC_GRID_FLAG (grid pair) y0=680.0 y1=678.7901 (on_grid=True)
+CREATE_ARC CC_GRID_FLAG_UPPER net=NFC_SWP cw=False
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 680.0 bits=4085400000000000 on_grid=True)
+   requested E=(302.0 bits=4072e00000000000 on_grid=True | 680.0 bits=4085400000000000 on_grid=True)
+   requested C=(301.0 bits=4072d00000000000 on_grid=True | 680.75 bits=4085460000000000 on_grid=True)
+   committed C=(301.0 bits=4072d00000000000 on_grid=True | 680.75 bits=4085460000000000 on_grid=True)
+   committed r=1.25 bits=3ff4000000000000 on_grid=True length=2.3182380450040307 bits=40028bc0635d1512 on_grid=False is_clockwise=None
+   center_bit_preserved=True dcy=0.00 dcx=0
+   r_committed - |S-C|_exact = 0.00
+   bottom_in_span(math_ccw)=True
+CREATE_ARC CC_GRID_FLAG_LOWER net=FINGER_SPI_MISO cw=True
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 678.7901 bits=408536521ff2e48f on_grid=True)
+   requested E=(302.0 bits=4072e00000000000 on_grid=True | 678.7901 bits=408536521ff2e48f on_grid=True)
+   requested C=(301.0 bits=4072d00000000000 on_grid=True | 678.0401 bits=408530521ff2e48f on_grid=True)
+   committed C=(301.0 bits=4072d00000000000 on_grid=True | 678.0401 bits=408530521ff2e48f on_grid=True)
+   committed r=1.2499999999999443 bits=3ff3ffffffffff05 on_grid=False length=2.318238045004076 bits=40028bc0635d1578 on_grid=False is_clockwise=True
+   center_bit_preserved=True dcy=0E-43 dcx=0
+   r_committed - |S-C|_exact = -5.57331958361828583292663097381591796875E-14
+   top_in_span(math_cw)=True
+   COMMITTED clear=0.0599000000000035281999544167774729430675506591796875 (R-clear=0.0000999999999964718000455832225270569324493408203125)
+ORACLE CC_GRID_FLAG (ARC-ARC, committed values):
+   FULL      clear=0.0599000000000035281999544167774729430675506591796875 verdict=FLAGGED
+   BINARY64  clear=0.0598999999999478 verdict=FLAGGED (naive float<0.06: True)
+   GRID      clear=0.0598999999999477950041182339191436767578125 verdict=FLAGGED
+   DROUND    round4(FULL)=0.0599 verdict=FLAGGED
+   DISPLAY_PREDICTED(trunc4)='0.0599 MM'
+DRC CC_GRID_FLAG: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 678.7901), 'end': (302.0, 678.7901), 'center': (301.0, 678.0401), 'radius': 1.2499999999999443, 'width': 0.15, 'location': (301.0, 678.0401)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 680.0), 'end': (302.0, 680.0), 'center': (301.0, 680.75), 'radius': 1.25, 'width': 0.15, 'location': (301.0, 680.75)}
+DRC CC_GRID_FLAG: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='713.5544 MM'
+DRC CC_GRID_FLAG: VERDICT=FLAGGED hits=1
+RESULT CC_GRID_FLAG: verdict=FLAGGED expected_verdict=FLAGGED match=True actual='0.0599 MM' display_pred='0.0599 MM'
+PHASE7: ARC-Via (rp learned in-run from marker actuals)
+CREATE_ARC CV_CAL_ARC net=NFC_SWP cw=False
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 500.0 bits=407f400000000000 on_grid=True)
+   requested E=(302.0001 bits=4072e00068db8bac on_grid=True | 500.0 bits=407f400000000000 on_grid=True)
+   requested C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 500.124975 bits=407f41ffe5c91d15 on_grid=False)
+   committed C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 500.124975 bits=407f41ffe5c91d15 on_grid=False)
+   committed r=1.0078287320398243 bits=3ff0201105414878 on_grid=False length=2.9155922850665696 bits=400753220c46a588 on_grid=False is_clockwise=None
+   center_bit_preserved=True dcy=0E-44 dcx=0E-43
+   r_committed - |S-C|_exact = 1.162176123163137234737398875118089750055275800E-14
+   bottom_in_span(math_ccw)=True
+VIA_READBACK CV_PASS1 p1_j0: req=(301.0,498.9921) committed=(301.0,498.9921) bits=(4072d00000000000,407f2fdfa43fe5c9) dx=0 dy=0E-44 on_grid=(True,True)
+VIA_READBACK CV_PASS1 p1_j1: req=(301.0,498.8921) committed=(301.0,498.8921) bits=(4072d00000000000,407f2e460aa64c30) dx=0 dy=0E-40 on_grid=(True,True)
+VIA_READBACK CV_PASS1 p1_j2: req=(301.0,498.7921) committed=(301.0,498.7921) bits=(4072d00000000000,407f2cac710cb296) dx=0 dy=0E-43 on_grid=(True,True)
+VIA_READBACK CV_PASS1 p1_j3: req=(301.0,498.6921) committed=(301.0,498.6921) bits=(4072d00000000000,407f2b12d77318fc) dx=0 dy=0E-42 on_grid=(True,True)
+VIA_READBACK CV_PASS1 p1_j4: req=(301.0,498.5921) committed=(301.0,498.5921) bits=(4072d00000000000,407f29793dd97f63) dx=0 dy=0E-44 on_grid=(True,True)
+VIA_READBACK CV_PASS1 p1_j5: req=(301.0,498.4921) committed=(301.0,498.4921) bits=(4072d00000000000,407f27dfa43fe5c9) dx=0 dy=0E-44 on_grid=(True,True)
+VIA_READBACK CV_PASS1 p1_j6: req=(301.0,498.3921) committed=(301.0,498.3921) bits=(4072d00000000000,407f26460aa64c30) dx=0 dy=0E-40 on_grid=(True,True)
+VIA_READBACK CV_PASS1 p1_j7: req=(301.0,498.2921) committed=(301.0,498.2921) bits=(4072d00000000000,407f24ac710cb296) dx=0 dy=0E-43 on_grid=(True,True)
+VIA_READBACK CV_PASS1 p1_j8: req=(301.0,498.1921) committed=(301.0,498.1921) bits=(4072d00000000000,407f2312d77318fc) dx=0 dy=0E-42 on_grid=(True,True)
+VIA_READBACK CV_PASS1 p1_j9: req=(301.0,498.0921) committed=(301.0,498.0921) bits=(4072d00000000000,407f21793dd97f63) dx=0 dy=0E-44 on_grid=(True,True)
+VIA_READBACK CV_PASS1 p1_j10: req=(301.0,497.9921) committed=(301.0,497.9921) bits=(4072d00000000000,407f1fdfa43fe5c9) dx=0 dy=0E-44 on_grid=(True,True)
+VIA_READBACK CV_PASS1 p1_j11: req=(301.0,497.8921) committed=(301.0,497.8921) bits=(4072d00000000000,407f1e460aa64c30) dx=0 dy=0E-40 on_grid=(True,True)
+VIA_READBACK CV_PASS1 p1_j12: req=(301.0,497.7921) committed=(301.0,497.7921) bits=(4072d00000000000,407f1cac710cb296) dx=0 dy=0E-43 on_grid=(True,True)
+DRC CV_PASS1: MARKER name='Line to Thru Via Spacing' expected='0.065 MM' actual='0 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'via', 'layer': None, 'net': 'FINGER_SPI_MISO', 'start': None, 'end': None, 'center': None, 'radius': None, 'width': None, 'location': (301.0, 498.8921)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 500.0), 'end': (302.0001, 500.0), 'center': (301.00005, 500.124975), 'radius': 1.0078287320398243, 'width': 0.15, 'location': (301.00005, 500.124975)}
+DRC CV_PASS1: MARKER name='Line to Thru Via Spacing' expected='0.065 MM' actual='0 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'via', 'layer': None, 'net': 'FINGER_SPI_MISO', 'start': None, 'end': None, 'center': None, 'radius': None, 'width': None, 'location': (301.0, 498.9921)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 500.0), 'end': (302.0001, 500.0), 'center': (301.00005, 500.124975), 'radius': 1.0078287320398243, 'width': 0.15, 'location': (301.00005, 500.124975)}
+DRC CV_PASS1: MARKER name='Line to Route Keepin Spacing' expected='0 MM' actual='552.3588 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'polygon', 'layer': 'ROUTE KEEPIN/ALL', 'net': None, 'start': None, 'end': None, 'center': None, 'radius': None, 'width': None, 'location': None}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 500.0), 'end': (302.0001, 500.0), 'center': (301.00005, 500.124975), 'radius': 1.0078287320398243, 'width': 0.15, 'location': (301.00005, 500.124975)}
+CV: via_marker='Line to Thru Via Spacing' R_via=0.065 flagged_count=2
+CV_PASS1 flagged: ['p1_j0', 'p1_j1']
+VIA_READBACK CV_PASS2 p2_m1: req=(301.0,498.7991) committed=(301.0,498.7991) bits=(4072d00000000000,407f2cc91d14e3bd) dx=0 dy=0E-44 on_grid=(True,True)
+VIA_READBACK CV_PASS2 p2_m2: req=(301.0,498.8061) committed=(301.0,498.8061) bits=(4072d00000000000,407f2ce5c91d14e4) dx=0 dy=0E-42 on_grid=(True,True)
+VIA_READBACK CV_PASS2 p2_m3: req=(301.0,498.8131) committed=(301.0,498.8131) bits=(4072d00000000000,407f2d027525460b) dx=0 dy=0E-44 on_grid=(True,True)
+VIA_READBACK CV_PASS2 p2_m4: req=(301.0,498.8201) committed=(301.0,498.8201) bits=(4072d00000000000,407f2d1f212d7732) dx=0 dy=0E-43 on_grid=(True,True)
+VIA_READBACK CV_PASS2 p2_m5: req=(301.0,498.8271) committed=(301.0,498.8271) bits=(4072d00000000000,407f2d3bcd35a858) dx=0 dy=0E-41 on_grid=(True,True)
+VIA_READBACK CV_PASS2 p2_m6: req=(301.0,498.8341) committed=(301.0,498.8341) bits=(4072d00000000000,407f2d58793dd97f) dx=0 dy=0E-44 on_grid=(True,True)
+VIA_READBACK CV_PASS2 p2_m7: req=(301.0,498.8411) committed=(301.0,498.8411) bits=(4072d00000000000,407f2d7525460aa6) dx=0 dy=0E-43 on_grid=(True,True)
+VIA_READBACK CV_PASS2 p2_m8: req=(301.0,498.8481) committed=(301.0,498.8481) bits=(4072d00000000000,407f2d91d14e3bcd) dx=0 dy=0E-44 on_grid=(True,True)
+VIA_READBACK CV_PASS2 p2_m9: req=(301.0,498.8551) committed=(301.0,498.8551) bits=(4072d00000000000,407f2dae7d566cf4) dx=0 dy=0E-42 on_grid=(True,True)
+VIA_READBACK CV_PASS2 p2_m10: req=(301.0,498.8621) committed=(301.0,498.8621) bits=(4072d00000000000,407f2dcb295e9e1b) dx=0 dy=0E-44 on_grid=(True,True)
+VIA_READBACK CV_PASS2 p2_m11: req=(301.0,498.8691) committed=(301.0,498.8691) bits=(4072d00000000000,407f2de7d566cf42) dx=0 dy=0E-43 on_grid=(True,True)
+VIA_READBACK CV_PASS2 p2_m12: req=(301.0,498.8761) committed=(301.0,498.8761) bits=(4072d00000000000,407f2e04816f0069) dx=0 dy=0E-44 on_grid=(True,True)
+VIA_READBACK CV_PASS2 p2_m13: req=(301.0,498.8831) committed=(301.0,498.8831) bits=(4072d00000000000,407f2e212d773190) dx=0 dy=0E-40 on_grid=(True,True)
+VIA_READBACK CV_PASS2 p2_m14: req=(301.0,498.8901) committed=(301.0,498.8901) bits=(4072d00000000000,407f2e3dd97f62b7) dx=0 dy=0E-44 on_grid=(True,True)
+CV_PASS2: total via markers now 11
+CV: rp interval from 9 positive actuals: (0.14994626897241211899127222077038018427883224177611777646870, 0.15004626892853936496584648328927604003705906117867455873855]
+CV: on-grid rp candidates in interval: ['0.1500']
+CV: rp=0.1500 (learned)
+CV_CONSISTENCY: mismatches=0 viacom=27 flagged=11
+=== CV_FLIP_LO y0=540 cy1=540.1249193299999 bits=4080e0ffd5b4a7e7
+CREATE_ARC CV_FLIP_LO net=NFC_SWP cw=False
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 540.0 bits=4080e00000000000 on_grid=True)
+   requested E=(302.0001 bits=4072e00068db8bac on_grid=True | 540.0 bits=4080e00000000000 on_grid=True)
+   requested C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 540.1249193299999 bits=4080e0ffd5b4a7e7 on_grid=False)
+   committed C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 540.1249193299999 bits=4080e0ffd5b4a7e7 on_grid=False)
+   committed r=1.007821830239657 bits=3ff02009c8912fe3 on_grid=False length=2.915682799187797 bits=4007535180e02bac on_grid=False is_clockwise=None
+   center_bit_preserved=True dcy=0E-43 dcx=0E-43
+   r_committed - |S-C|_exact = 6.91618813198238758756161505205387462076662044E-15
+   bottom_in_span(math_ccw)=True
+VIA_READBACK CV_FLIP_LO CV_FLIP_LO: req=(301.0,538.8271) committed=(301.0,538.8271) bits=(4072d00000000000,4080d69de69ad42c) dx=0 dy=0E-41 on_grid=(True,True)
+   COMMITTED clear=0.06499750072342176648067586650908235223444619300254584419407 delta=0.00000249927657823351932413349091764776555380699745415580593 in_window=True
+ORACLE CV_FLIP_LO (ARC-Via, committed values, rp=0.1500):
+   FULL      clear=0.06499750072342176648067586650908235223444619300254584419407 verdict=FLAGGED
+   BINARY64  clear=0.06499750072342168 verdict=FLAGGED (naive float<0.065: True)
+   GRID      clear=0.06500000000005199396468924533110111951828002929687500000000 verdict=clean
+   DROUND    round4(FULL)=0.0650 verdict=clean
+   DISPLAY_PREDICTED(trunc4)='0.0649 MM'
+DRC CV_FLIP_LO: MARKER name='Line to Thru Via Spacing' expected='0.065 MM' actual='0.0649 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'via', 'layer': None, 'net': 'FINGER_SPI_MISO', 'start': None, 'end': None, 'center': None, 'radius': None, 'width': None, 'location': (301.0, 538.8271)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 540.0), 'end': (302.0001, 540.0), 'center': (301.00005, 540.1249193299999), 'radius': 1.007821830239657, 'width': 0.15, 'location': (301.00005, 540.1249193299999)}
+DRC CV_FLIP_LO: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='587.1491 MM'
+DRC CV_FLIP_LO: VERDICT=FLAGGED hits=1
+RESULT CV_FLIP_LO: verdict=FLAGGED actual='0.0649 MM' display_match=True
+=== CV_FLIP_HI y0=550 cy1=550.12492283 bits=408130ffd78a6afd
+CREATE_ARC CV_FLIP_HI net=NFC_SWP cw=False
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 550.0 bits=4081300000000000 on_grid=True)
+   requested E=(302.0001 bits=4072e00068db8bac on_grid=True | 550.0 bits=4081300000000000 on_grid=True)
+   requested C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 550.12492283 bits=408130ffd78a6afd on_grid=False)
+   committed C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 550.12492283 bits=408130ffd78a6afd on_grid=False)
+   committed r=1.0078222640700092 bits=3ff0200a3d05c827 on_grid=False length=2.9156771082627264 bits=4007534e850d795e on_grid=False is_clockwise=None
+   center_bit_preserved=True dcy=0E-43 dcx=0E-43
+   r_committed - |S-C|_exact = 1.441870775548079579056668519149933849527811913E-14
+   bottom_in_span(math_ccw)=True
+VIA_READBACK CV_FLIP_HI CV_FLIP_HI: req=(301.0,548.8271) committed=(301.0,548.8271) bits=(4072d00000000000,4081269de69ad42c) dx=0 dy=0E-41 on_grid=(True,True)
+   COMMITTED clear=0.06500056689311508901916332949944246493259861859376276729159 margin=5.6689311508901916332949944246493259861859376276729159E-7 in_window=True
+ORACLE CV_FLIP_HI (ARC-Via, committed values, rp=0.1500):
+   FULL      clear=0.06500056689311508901916332949944246493259861859376276729159 verdict=clean
+   BINARY64  clear=0.06500056689311516 verdict=clean (naive float<0.065: False)
+   GRID      clear=0.06500000000005199396468924533110111951828002929687500000000 verdict=clean
+   DROUND    round4(FULL)=0.0650 verdict=clean
+   DISPLAY_PREDICTED(trunc4)='0.065 MM'
+DRC CV_FLIP_HI: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='595.9486 MM'
+DRC CV_FLIP_HI: VERDICT=clean hits=0
+RESULT CV_FLIP_HI: verdict=clean actual=None display_match=None
+CV_PAIR: LO=FLAGGED HI=clean (designed FLAGGED/clean)
+STAGE4: re-query
+REQUERY count=131 created=18
+REQUERY STAGE1_ARC: identical=True
+REQUERY CC_FLIP_LO_UPPER: identical=True
+REQUERY CC_FLIP_LO_LOWER: identical=True
+REQUERY CC_FLIP_HI_UPPER: identical=True
+REQUERY CC_FLIP_HI_LOWER: identical=True
+REQUERY CC_GOLD_UPPER: identical=True
+REQUERY CC_GOLD_LOWER: identical=True
+REQUERY CC_ABOVE_UPPER: identical=True
+REQUERY CC_ABOVE_LOWER: identical=True
+REQUERY CC_BELOW_UPPER: identical=True
+REQUERY CC_BELOW_LOWER: identical=True
+REQUERY CC_GRID_EQ_UPPER: identical=True
+REQUERY CC_GRID_EQ_LOWER: identical=True
+REQUERY CC_GRID_FLAG_UPPER: identical=True
+REQUERY CC_GRID_FLAG_LOWER: identical=True
+REQUERY CV_CAL_ARC: identical=True
+REQUERY CV_FLIP_LO: identical=True
+REQUERY CV_FLIP_HI: identical=True
+SUMMARY
+   CC_FLIP_LO: verdict=FLAGGED actual='0.0599 MM' in_window=True
+   CC_FLIP_HI: verdict=clean actual=None in_window=True
+   CC_GOLD: verdict=FLAGGED actual='0.0599 MM' in_window=True
+   CC_ABOVE: verdict=clean actual=None in_window=True
+   CC_BELOW: verdict=FLAGGED actual='0.0599 MM' in_window=True
+   CC_GRID_EQ: verdict=clean actual=None in_window=True
+   CC_GRID_FLAG: verdict=FLAGGED actual='0.0599 MM' in_window=True
+   CV_FLIP_HI: verdict=clean actual=None in_window=True
+   CV_FLIP_LO: verdict=FLAGGED actual='0.0649 MM' in_window=True
+TOTAL_MARKERS: 178
+DONE
+
+[exited with code 0]

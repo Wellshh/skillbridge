@@ -1,0 +1,23 @@
+BOARD: path='C:/Users/baijunyan/AppData/Local/Temp/drc-probe-recon-6bsqrtwc/EL5_MIAN_FPC.brd' units='millimeters' component_count=4 symbol_count=4 net_count=63
+NET_COUNT: 63
+NETS_TOP5: [('GND', 32, 31), ('NFC_SWP', 1, 0), ('AU_MICBIAS0', 2, 1), ('SPK_OUT_P', 2, 1), ('FINGER_SPI_MISO', 1, 0)]
+ETCH: [('ETCH/TOP', 'TOP', 0), ('ETCH/BOTTOM', 'BOTTOM', 1)]
+DRC_COUNT: 93
+Traceback (most recent call last):
+  File "D:\AutoPlacer\skillbridge\.artifacts\drc-probe\recon.py", line 66, in <module>
+    main()
+  File "D:\AutoPlacer\skillbridge\.artifacts\drc-probe\recon.py", line 57, in main
+    print('DRC_SAMPLE:', ws['evalstring'](_SAMPLE), flush=True)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AutoPlacer\skillbridge\allegrobridge\_kernel\client\functions.py", line 49, in __call__
+    result = self._channel.send(command)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AutoPlacer\skillbridge\allegrobridge\_kernel\client\channel.py", line 172, in send
+    return self._receive_only()
+           ^^^^^^^^^^^^^^^^^^^^
+  File "D:\AutoPlacer\skillbridge\allegrobridge\_kernel\client\channel.py", line 168, in _receive_only
+    return self.decode_response(payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AutoPlacer\skillbridge\allegrobridge\_kernel\client\channel.py", line 71, in decode_response
+    raise RuntimeError(payload)
+RuntimeError: ("lineread/read" 1 t nil ("*Error* lineread/read: syntax error encountered in input at line 1 column 93 in file *stdin*"))

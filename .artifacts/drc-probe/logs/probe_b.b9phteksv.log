@@ -1,0 +1,510 @@
+SCAN cy_flip_lo(410)=410.1249193400748
+SCAN cy_flip_hi(420)=420.1249228400748 (= cy_lo + 10 + 3.5e-6)
+SCAN flip_lo: cy=410.1249193400748 phi=0.000097508586389675855343739385716617107391357421875 delta_below=0.000002491413610324144656260614283382892608642578125 r_s=1.0078218314884357
+SCAN flip_hi: cy=420.1249228400748 phi=5.747560089904624192058690823614597320556640625E-7 delta_below=0.0000994252439910095375807941309176385402679443359375 r_s=1.0078222653188076
+SCAN gold: cy=430.1248662600327 phi=0.0000510064298895258616539649665355682373046875 delta_below=0.0000489935701104741383460350334644317626953125 r_s=1.0078152536028284
+SCAN above: cy=440.124825 phi=0.0000148575996579065616742809652350842952728271484375 delta_below=0.0000851424003420934383257190347649157047271728515625 r_s=1.0078101424003292
+SCAN below: cy=450.124825 phi=0.0000148575996579065616742809652350842952728271484375 delta_below=0.0000851424003420934383257190347649157047271728515625 r_s=1.0078101424003292
+PADSTACK: VIA_ALL_0103
+===== STAGE 1: rule probe (y0=400, natural center, tight pair)
+--- STAGE1: ARC requested S=(300.0, 400.0) E=(302.0001, 400.0) C=(301.00005, 400.124975) cw=False
+    requested C bits=(4072d000346dc5d6,407901ffe5c91d15)
+    committed net='NFC_SWP' is_clockwise=None
+    committed center: 301.00005 bits=4072d000346dc5d6 on_grid=False frac_g=0.0000499999999874489731155335903167724609375 | 400.124975 bits=407901ffe5c91d15 on_grid=False frac_g=-0.00002499999999372448655776679515838623046875
+    committed radius: 1.0078287320398243 bits=3ff0201105414878 on_grid=False frac_g=0.000028732039824230781732694595120847225189208984375
+    committed length: 2.9155922850665696 bits=400753220c46a588 on_grid=False frac_g=-0.000007714933430325032759355963207781314849853515625
+    center bit-preserved: True  dC=(0E-43, 0E-44)
+    r_committed - |S-C|_exact = 1.162176123163137234737398875118089750055275800E-14
+    bottom_in_span(math_ccw): True
+--- STAGE1: LINE requested y=398.9571 bits=4078ef504816f007 on_grid=True
+    committed net='FINGER_SPI_MISO' y=398.9571 bits=4078ef504816f007 on_grid=True frac_g=0E-44 (end y=398.9571)
+    committed - requested dy = 0E-44
+    MARKER[STAGE1]: category='NET SPACING CONSTRAINTS' name='Line to Line Spacing' expected='0.06 MM' actual='0.01 MM' figures=['line', 'arc']
+    MARKER[STAGE1]: category='NET SPACING CONSTRAINTS' name='Line to Route Keepin Spacing' expected='0 MM' actual='469.0208 MM' figures=['polygon', 'arc']
+RULE: name='Line to Line Spacing' R=0.06 on_grid=True
+STAGE1 clearance_full=0.0100462679601566406972779077477753162384033203125
+===== RUNG FLIP_LO (y0=410.0)
+--- FLIP_LO: ARC requested S=(300.0, 410.0) E=(302.0001, 410.0) C=(301.00005, 410.1249193400748) cw=False
+    requested C bits=(4072d000346dc5d6,4079a1ffab6c0426)
+    committed net='NFC_SWP' is_clockwise=None
+    committed center: 301.00005 bits=4072d000346dc5d6 on_grid=False frac_g=0.0000499999999874489731155335903167724609375 | 410.1249193400748 bits=4079a1ffab6c0426 on_grid=False frac_g=0.0000193400748003114131279289722442626953125
+    committed radius: 1.007821831488446 bits=3ff02009c8e700d0 on_grid=False frac_g=0.000021831488445922531127507681958377361297607421875
+    committed length: 2.9156827828060887 bits=400753517ead4ca4 on_grid=False frac_g=-0.00001721719391145626332217943854629993438720703125
+    center bit-preserved: True  dC=(0E-43, 0E-43)
+    r_committed - |S-C|_exact = 1.030376105636383611988974188245558041600405488E-14
+    bottom_in_span(math_ccw): True
+    PLANNED[FLIP_LO]: place=below L=408.9071 clearance=0.059997508586379461803517187945544719696044921875 delta=0.000002491413620538196482812054455280303955078125 delta_in_window=True
+--- FLIP_LO: LINE requested y=408.9071 bits=40798e837b4a233a on_grid=True
+    committed net='FINGER_SPI_MISO' y=408.9071 bits=40798e837b4a233a on_grid=True frac_g=0E-43 (end y=408.9071)
+    committed - requested dy = 0E-43
+    MODELS[FLIP_LO] (R=0.06):
+      FULL       clearance=0.0599975085863654611362250079764635302126407623291015625
+                 verdict=FLAGGED
+      BINARY64   clearance=0.0599975085863548 (<R_float: True) verdict=FLAGGED
+      GRID       quant4(cy)=410.1249 quant4(r)=1.0078 clearance=0.0600000000000110722542245866861776448786258697509765625 verdict=clean
+      DROUND     round4(FULL)=0.0600 (half-even; exact_tie=False) verdict=clean
+      predicted display if flagged: '0.06 MM'
+    DRC[FLIP_LO]: FLAGGED expected='0.06 MM' actual='0.0599 MM'
+      FIGURE: line ETCH/TOP net= kind='net' name='FINGER_SPI_MISO' start= Point(x=300.0, y=408.9071) end= Point(x=302.0001, y=408.9071) center= None radius= None w= 0.15
+      FIGURE: arc ETCH/TOP net= kind='net' name='NFC_SWP' start= Point(x=300.0, y=410.0) end= Point(x=302.0001, y=410.0) center= Point(x=301.00005, y=410.1249193400748) radius= 1.007821831488446 w= 0.15
+      OTHER: NET SPACING CONSTRAINTS | Line to Route Keepin Spacing | expected= '0 MM' | actual= '477.0673 MM'
+    RESULT[FLIP_LO]: actual=FLAGGED FULL=FLAGGED B64=FLAGGED GRID=clean DROUND=clean display_match=False
+===== RUNG FLIP_HI (y0=420.0)
+--- FLIP_HI: ARC requested S=(300.0, 420.0) E=(302.0001, 420.0) C=(301.00005, 420.1249228400748) cw=False
+    requested C bits=(4072d000346dc5d6,407a41ffaf178a51)
+    committed net='NFC_SWP' is_clockwise=None
+    committed center: 301.00005 bits=4072d000346dc5d6 on_grid=False frac_g=0.0000499999999874489731155335903167724609375 | 420.1249228400748 bits=407a41ffaf178a51 on_grid=False frac_g=0.00002284007479147476260550320148468017578125
+    committed radius: 1.0078222653188207 bits=3ff0200a3d5b997a on_grid=False frac_g=0.000022265318820657853393640834838151931762695312500
+    committed length: 2.9156770918812684 bits=4007534e82da9c8a on_grid=False frac_g=-0.00002290811873173481671983608976006507873535156250
+    center bit-preserved: True  dC=(0E-43, 0E-44)
+    r_committed - |S-C|_exact = 1.304975555995669077792634621416518983742021197E-14
+    bottom_in_span(math_ccw): True
+    PLANNED[FLIP_HI]: place=above L=418.9071 clearance=0.060000574755995889830728629021905362606048583984375 delta=-5.74755995889830728629021905362606048583984375E-7 margin_in_window=True
+--- FLIP_HI: LINE requested y=418.9071 bits=407a2e837b4a233a on_grid=True
+    committed net='FINGER_SPI_MISO' y=418.9071 bits=407a2e837b4a233a on_grid=True frac_g=0E-43 (end y=418.9071)
+    committed - requested dy = 0E-43
+    MODELS[FLIP_HI] (R=0.06):
+      FULL       clearance=0.0600005747559818891634364490528241731226444244384765625
+                 verdict=clean
+      BINARY64   clearance=0.06000057475600898 (<R_float: False) verdict=clean
+      GRID       quant4(cy)=420.1249 quant4(r)=1.0078 clearance=0.0600000000000110722542245866861776448786258697509765625 verdict=clean
+      DROUND     round4(FULL)=0.0600 (half-even; exact_tie=False) verdict=clean
+      predicted display if flagged: '0.06 MM'
+    DRC[FLIP_HI]: clean expected= actual=
+      OTHER: NET SPACING CONSTRAINTS | Line to Route Keepin Spacing | expected= '0 MM' | actual= '485.1863 MM'
+    RESULT[FLIP_HI]: actual=clean FULL=clean B64=clean GRID=clean DROUND=clean display_match=True
+===== RUNG GOLD (y0=430.0)
+--- GOLD: ARC requested S=(300.0, 430.0) E=(302.0001, 430.0) C=(301.00005, 430.1248662600327) cw=False
+    requested C bits=(4072d000346dc5d6,407ae1ff73c3736e)
+    committed net='NFC_SWP' is_clockwise=None
+    committed center: 301.00005 bits=4072d000346dc5d6 on_grid=False frac_g=0.0000499999999874489731155335903167724609375 | 430.1248662600327 bits=407ae1ff73c3736e on_grid=False frac_g=-0.0000337399673071558936499059200286865234375
+    committed radius: 1.0078152536028422 bits=3ff02002e32a257e on_grid=False frac_g=0.000015253602842157931718247709795832633972167968750
+    committed length: 2.915769094058425 bits=4007537ebf2d590e on_grid=False frac_g=-0.00003090594157484360948728863149881362915039062500
+    center bit-preserved: True  dC=(0E-43, 0E-43)
+    r_committed - |S-C|_exact = 1.383193855554518429283673147743237577720366871E-14
+    bottom_in_span(math_ccw): True
+    PLANNED[GOLD]: place=below L=428.9071 clearance=0.059951006429875759096148613025434315204620361328125 delta=0.000048993570124240903851386974565684795379638671875 delta_in_window=True
+--- GOLD: LINE requested y=428.9071 bits=407ace837b4a233a on_grid=True
+    committed net='FINGER_SPI_MISO' y=428.9071 bits=407ace837b4a233a on_grid=True frac_g=0E-43 (end y=428.9071)
+    committed - requested dy = 0E-43
+    MODELS[GOLD] (R=0.06):
+      FULL       clearance=0.0599510064298617584288564330563531257212162017822265625
+                 verdict=FLAGGED
+      BINARY64   clearance=0.059951006429889736 (<R_float: True) verdict=FLAGGED
+      GRID       quant4(cy)=430.1249 quant4(r)=1.0078 clearance=0.0600000000000110722542245866861776448786258697509765625 verdict=clean
+      DROUND     round4(FULL)=0.0600 (half-even; exact_tie=False) verdict=clean
+      predicted display if flagged: '0.06 MM'
+    DRC[GOLD]: FLAGGED expected='0.06 MM' actual='0.0599 MM'
+      FIGURE: line ETCH/TOP net= kind='net' name='FINGER_SPI_MISO' start= Point(x=300.0, y=428.9071) end= Point(x=302.0001, y=428.9071) center= None radius= None w= 0.15
+      FIGURE: arc ETCH/TOP net= kind='net' name='NFC_SWP' start= Point(x=300.0, y=430.0) end= Point(x=302.0001, y=430.0) center= Point(x=301.00005, y=430.1248662600327) radius= 1.0078152536028422 w= 0.15
+      OTHER: NET SPACING CONSTRAINTS | Line to Route Keepin Spacing | expected= '0 MM' | actual= '493.3742 MM'
+    RESULT[GOLD]: actual=FLAGGED FULL=FLAGGED B64=FLAGGED GRID=clean DROUND=clean display_match=False
+===== RUNG ABOVE (y0=440.0)
+--- ABOVE: ARC requested S=(300.0, 440.0) E=(302.0001, 440.0) C=(301.00005, 440.124825) cw=False
+    requested C bits=(4072d000346dc5d6,407b81ff487fcb92)
+    committed net='NFC_SWP' is_clockwise=None
+    committed center: 301.00005 bits=4072d000346dc5d6 on_grid=False frac_g=0.0000499999999874489731155335903167724609375 | 440.124825 bits=407b81ff487fcb92 on_grid=False frac_g=0.00002499999999372448655776679515838623046875
+    committed radius: 1.0078101424003432 bits=3ff01ffd8722fc38 on_grid=False frac_g=0.000010142400343138291418654262088239192962646484375
+    committed length: 2.9158361907856882 bits=400753a1ecbf578c on_grid=False frac_g=0.00003619078568828371089693973772227764129638671875
+    center bit-preserved: True  dC=(0E-43, 0E-43)
+    r_committed - |S-C|_exact = 1.404057863538756486738860305792269655327709367E-14
+    bottom_in_span(math_ccw): True
+    PLANNED[ABOVE]: place=above L=438.9070 clearance=0.0600148575996439177515640039928257465362548828125 delta=-0.0000148575996439177515640039928257465362548828125 margin_in_window=True
+--- ABOVE: LINE requested y=438.907 bits=407b6e83126e978d on_grid=True
+    committed net='FINGER_SPI_MISO' y=438.907 bits=407b6e83126e978d on_grid=True frac_g=0E-44 (end y=438.907)
+    committed - requested dy = 0E-44
+    MODELS[ABOVE] (R=0.06):
+      FULL       clearance=0.0600148575996616584493636992192477919161319732666015625
+                 verdict=clean
+      BINARY64   clearance=0.06001485759967409 (<R_float: False) verdict=clean
+      GRID       quant4(cy)=440.1248 quant4(r)=1.0078 clearance=0.0600000000000110722542245866861776448786258697509765625 verdict=clean
+      DROUND     round4(FULL)=0.0600 (half-even; exact_tie=False) verdict=clean
+      predicted display if flagged: '0.06 MM'
+    DRC[ABOVE]: clean expected= actual=
+      OTHER: NET SPACING CONSTRAINTS | Line to Route Keepin Spacing | expected= '0 MM' | actual= '501.6276 MM'
+    RESULT[ABOVE]: actual=clean FULL=clean B64=clean GRID=clean DROUND=clean display_match=True
+===== RUNG BELOW (y0=450.0)
+--- BELOW: ARC requested S=(300.0, 450.0) E=(302.0001, 450.0) C=(301.00005, 450.124825) cw=False
+    requested C bits=(4072d000346dc5d6,407c21ff487fcb92)
+    committed net='NFC_SWP' is_clockwise=None
+    committed center: 301.00005 bits=4072d000346dc5d6 on_grid=False frac_g=0.0000499999999874489731155335903167724609375 | 450.124825 bits=407c21ff487fcb92 on_grid=False frac_g=0.00002499999999372448655776679515838623046875
+    committed radius: 1.0078101424003432 bits=3ff01ffd8722fc38 on_grid=False frac_g=0.000010142400343138291418654262088239192962646484375
+    committed length: 2.9158361907856882 bits=400753a1ecbf578c on_grid=False frac_g=0.00003619078568828371089693973772227764129638671875
+    center bit-preserved: True  dC=(0E-43, 0E-43)
+    r_committed - |S-C|_exact = 1.404057863538756486738860305792269655327709367E-14
+    bottom_in_span(math_ccw): True
+    PLANNED[BELOW]: place=below L=448.9071 clearance=0.0599148575996439177515640039928257465362548828125 delta=0.0000851424003560822484359960071742534637451171875 delta_in_window=True
+--- BELOW: LINE requested y=448.9071 bits=407c0e837b4a233a on_grid=True
+    committed net='FINGER_SPI_MISO' y=448.9071 bits=407c0e837b4a233a on_grid=True frac_g=0E-43 (end y=448.9071)
+    committed - requested dy = 0E-43
+    MODELS[BELOW] (R=0.06):
+      FULL       clearance=0.0599148575996299170842718240237445570528507232666015625
+                 verdict=FLAGGED
+      BINARY64   clearance=0.05991485759964235 (<R_float: True) verdict=FLAGGED
+      GRID       quant4(cy)=450.1248 quant4(r)=1.0078 clearance=0.0598999999999793308891327114906744100153446197509765625 verdict=FLAGGED
+      DROUND     round4(FULL)=0.0599 (half-even; exact_tie=False) verdict=FLAGGED
+      predicted display if flagged: '0.0599 MM'
+    DRC[BELOW]: FLAGGED expected='0.06 MM' actual='0.0599 MM'
+      FIGURE: line ETCH/TOP net= kind='net' name='FINGER_SPI_MISO' start= Point(x=300.0, y=448.9071) end= Point(x=302.0001, y=448.9071) center= None radius= None w= 0.15
+      FIGURE: arc ETCH/TOP net= kind='net' name='NFC_SWP' start= Point(x=300.0, y=450.0) end= Point(x=302.0001, y=450.0) center= Point(x=301.00005, y=450.124825) radius= 1.0078101424003432 w= 0.15
+      OTHER: NET SPACING CONSTRAINTS | Line to Route Keepin Spacing | expected= '0 MM' | actual= '509.9434 MM'
+    RESULT[BELOW]: actual=FLAGGED FULL=FLAGGED B64=FLAGGED GRID=FLAGGED DROUND=FLAGGED display_match=True
+===== PHASE4 PAIR ANALYSIS
+    dcy(committed) - 10mm = 0.00000349999999116334947757422924041748046875
+    dcx(committed) - 0    = 0E-43
+    dr(committed)         = 4.33830374735322266133152879774570465087890625E-7
+    requested dcy - 10mm  = 0.00000349999999116334947757422924041748046875
+===== RUNG GRID_EQ (y0=460.0, target clearance=0.06)
+--- GRID_EQ: ARC requested S=(300.0, 460.0) E=(302.0, 460.0) C=(301.0, 460.75) cw=False
+    requested C bits=(4072d00000000000,407ccc0000000000)
+    committed net='NFC_SWP' is_clockwise=None
+    committed center: 301.0 bits=4072d00000000000 on_grid=True frac_g=0 | 460.75 bits=407ccc0000000000 on_grid=True frac_g=0.00
+    committed radius: 1.25 bits=3ff4000000000000 on_grid=True frac_g=0.00
+    committed length: 2.3182380450040307 bits=40028bc0635d1512 on_grid=False frac_g=0.00003804500403070676384231774136424064636230468750
+    center bit-preserved: True  dC=(0, 0.00)
+    r_committed - |S-C|_exact = 0.00
+    bottom_in_span(math_ccw): True
+    bottom=459.50 on_grid=True L=459.29
+--- GRID_EQ: LINE requested y=459.29 bits=407cb4a3d70a3d71 on_grid=True
+    committed net='FINGER_SPI_MISO' y=459.29 bits=407cb4a3d70a3d71 on_grid=True frac_g=0E-44 (end y=459.29)
+    committed - requested dy = 0E-44
+    MODELS[GRID_EQ] (R=0.06):
+      FULL       clearance=0.0599999999999795419203252322404296137392520904541015625
+                 verdict=FLAGGED
+      BINARY64   clearance=0.05999999999997954 (<R_float: True) verdict=FLAGGED
+      GRID       quant4(cy)=460.75 quant4(r)=1.25 clearance=0.0599999999999795419203252322404296137392520904541015625 verdict=FLAGGED
+      DROUND     round4(FULL)=0.0600 (half-even; exact_tie=False) verdict=clean
+      predicted display if flagged: '0.06 MM'
+    DRC[GRID_EQ]: clean expected= actual=
+      OTHER: NET SPACING CONSTRAINTS | Line to Route Keepin Spacing | expected= '0 MM' | actual= '518.6019 MM'
+    RESULT[GRID_EQ]: actual=clean FULL=FLAGGED B64=FLAGGED display_match=True actual_str=
+===== RUNG GRID_FLAG (y0=470.0, target clearance=0.0599)
+--- GRID_FLAG: ARC requested S=(300.0, 470.0) E=(302.0, 470.0) C=(301.0, 470.75) cw=False
+    requested C bits=(4072d00000000000,407d6c0000000000)
+    committed net='NFC_SWP' is_clockwise=None
+    committed center: 301.0 bits=4072d00000000000 on_grid=True frac_g=0 | 470.75 bits=407d6c0000000000 on_grid=True frac_g=0.00
+    committed radius: 1.25 bits=3ff4000000000000 on_grid=True frac_g=0.00
+    committed length: 2.3182380450040307 bits=40028bc0635d1512 on_grid=False frac_g=0.00003804500403070676384231774136424064636230468750
+    center bit-preserved: True  dC=(0, 0.00)
+    r_committed - |S-C|_exact = 0.00
+    bottom_in_span(math_ccw): True
+    bottom=469.50 on_grid=True L=469.2901
+--- GRID_FLAG: LINE requested y=469.2901 bits=407d54a43fe5c91d on_grid=True
+    committed net='FINGER_SPI_MISO' y=469.2901 bits=407d54a43fe5c91d on_grid=True frac_g=0E-44 (end y=469.2901)
+    committed - requested dy = 0E-44
+    MODELS[GRID_FLAG] (R=0.06):
+      FULL       clearance=0.0599000000000046439740941650597960688173770904541015625
+                 verdict=FLAGGED
+      BINARY64   clearance=0.059900000000004644 (<R_float: True) verdict=FLAGGED
+      GRID       quant4(cy)=470.75 quant4(r)=1.25 clearance=0.0599000000000046439740941650597960688173770904541015625 verdict=FLAGGED
+      DROUND     round4(FULL)=0.0599 (half-even; exact_tie=False) verdict=FLAGGED
+      predicted display if flagged: '0.0599 MM'
+    DRC[GRID_FLAG]: FLAGGED expected='0.06 MM' actual='0.0599 MM'
+      FIGURE: line ETCH/TOP net= kind='net' name='FINGER_SPI_MISO' start= Point(x=300.0, y=469.2901) end= Point(x=302.0, y=469.2901) center= None radius= None w= 0.15
+      FIGURE: arc ETCH/TOP net= kind='net' name='NFC_SWP' start= Point(x=300.0, y=470.0) end= Point(x=302.0, y=470.0) center= Point(x=301.0, y=470.75) radius= 1.25 w= 0.15
+      OTHER: NET SPACING CONSTRAINTS | Line to Route Keepin Spacing | expected= '0 MM' | actual= '527.037 MM'
+    RESULT[GRID_FLAG]: actual=FLAGGED FULL=FLAGGED B64=FLAGGED display_match=True actual_str='0.0599 MM'
+===== RUNG STAIR_n0 (y0=480.0, target clearance=0.0605)
+--- STAIR_n0: ARC requested S=(300.0, 480.0) E=(302.0, 480.0) C=(301.0, 480.75) cw=False
+    requested C bits=(4072d00000000000,407e0c0000000000)
+    committed net='NFC_SWP' is_clockwise=None
+    committed center: 301.0 bits=4072d00000000000 on_grid=True frac_g=0 | 480.75 bits=407e0c0000000000 on_grid=True frac_g=0.00
+    committed radius: 1.25 bits=3ff4000000000000 on_grid=True frac_g=0.00
+    committed length: 2.3182380450040307 bits=40028bc0635d1512 on_grid=False frac_g=0.00003804500403070676384231774136424064636230468750
+    center bit-preserved: True  dC=(0, 0.00)
+    r_committed - |S-C|_exact = 0.00
+    bottom_in_span(math_ccw): True
+    bottom=479.50 on_grid=True L=479.2895
+--- STAIR_n0: LINE requested y=479.2895 bits=407df4a1cac08312 on_grid=True
+    committed net='FINGER_SPI_MISO' y=479.2895 bits=407df4a1cac08312 on_grid=True frac_g=0E-43 (end y=479.2895)
+    committed - requested dy = 0E-43
+    MODELS[STAIR_n0] (R=0.06):
+      FULL       clearance=0.0605000000000245619080629921882064081728458404541015625
+                 verdict=clean
+      BINARY64   clearance=0.06050000000002456 (<R_float: False) verdict=clean
+      GRID       quant4(cy)=480.75 quant4(r)=1.25 clearance=0.0605000000000245619080629921882064081728458404541015625 verdict=clean
+      DROUND     round4(FULL)=0.0605 (half-even; exact_tie=False) verdict=clean
+      predicted display if flagged: '0.0605 MM'
+    DRC[STAIR_n0]: clean expected= actual=
+      OTHER: NET SPACING CONSTRAINTS | Line to Route Keepin Spacing | expected= '0 MM' | actual= '535.5259 MM'
+    RESULT[STAIR_n0]: actual=clean FULL=clean B64=clean display_match=True actual_str=
+===== RUNG STAIR_n1 (y0=490.0, target clearance=0.0604)
+--- STAIR_n1: ARC requested S=(300.0, 490.0) E=(302.0, 490.0) C=(301.0, 490.75) cw=False
+    requested C bits=(4072d00000000000,407eac0000000000)
+    committed net='NFC_SWP' is_clockwise=None
+    committed center: 301.0 bits=4072d00000000000 on_grid=True frac_g=0 | 490.75 bits=407eac0000000000 on_grid=True frac_g=0.00
+    committed radius: 1.25 bits=3ff4000000000000 on_grid=True frac_g=0.00
+    committed length: 2.3182380450040307 bits=40028bc0635d1512 on_grid=False frac_g=0.00003804500403070676384231774136424064636230468750
+    center bit-preserved: True  dC=(0, 0.00)
+    r_committed - |S-C|_exact = 0.00
+    bottom_in_span(math_ccw): True
+    bottom=489.50 on_grid=True L=489.2896
+--- STAIR_n1: LINE requested y=489.2896 bits=407e94a2339c0ebf on_grid=True
+    committed net='FINGER_SPI_MISO' y=489.2896 bits=407e94a2339c0ebf on_grid=True frac_g=0E-44 (end y=489.2896)
+    committed - requested dy = 0E-44
+    MODELS[STAIR_n1] (R=0.06):
+      FULL       clearance=0.0603999999999928205429711169927031733095645904541015625
+                 verdict=clean
+      BINARY64   clearance=0.06039999999999282 (<R_float: False) verdict=clean
+      GRID       quant4(cy)=490.75 quant4(r)=1.25 clearance=0.0603999999999928205429711169927031733095645904541015625 verdict=clean
+      DROUND     round4(FULL)=0.0604 (half-even; exact_tie=False) verdict=clean
+      predicted display if flagged: '0.0604 MM'
+    DRC[STAIR_n1]: clean expected= actual=
+      OTHER: NET SPACING CONSTRAINTS | Line to Route Keepin Spacing | expected= '0 MM' | actual= '544.0659 MM'
+    RESULT[STAIR_n1]: actual=clean FULL=clean B64=clean display_match=True actual_str=
+===== RUNG STAIR_n2 (y0=500.0, target clearance=0.0603)
+--- STAIR_n2: ARC requested S=(300.0, 500.0) E=(302.0, 500.0) C=(301.0, 500.75) cw=False
+    requested C bits=(4072d00000000000,407f4c0000000000)
+    committed net='NFC_SWP' is_clockwise=None
+    committed center: 301.0 bits=4072d00000000000 on_grid=True frac_g=0 | 500.75 bits=407f4c0000000000 on_grid=True frac_g=0.00
+    committed radius: 1.25 bits=3ff4000000000000 on_grid=True frac_g=0.00
+    committed length: 2.3182380450040307 bits=40028bc0635d1512 on_grid=False frac_g=0.00003804500403070676384231774136424064636230468750
+    center bit-preserved: True  dC=(0, 0.00)
+    r_committed - |S-C|_exact = 0.00
+    bottom_in_span(math_ccw): True
+    bottom=499.50 on_grid=True L=499.2897
+--- STAIR_n2: LINE requested y=499.2897 bits=407f34a29c779a6b on_grid=True
+    committed net='FINGER_SPI_MISO' y=499.2897 bits=407f34a29c779a6b on_grid=True frac_g=0E-44 (end y=499.2897)
+    committed - requested dy = 0E-44
+    MODELS[STAIR_n2] (R=0.06):
+      FULL       clearance=0.0603000000000179225967400498120696283876895904541015625
+                 verdict=clean
+      BINARY64   clearance=0.06030000000001792 (<R_float: False) verdict=clean
+      GRID       quant4(cy)=500.75 quant4(r)=1.25 clearance=0.0603000000000179225967400498120696283876895904541015625 verdict=clean
+      DROUND     round4(FULL)=0.0603 (half-even; exact_tie=False) verdict=clean
+      predicted display if flagged: '0.0603 MM'
+    DRC[STAIR_n2]: clean expected= actual=
+      OTHER: NET SPACING CONSTRAINTS | Line to Route Keepin Spacing | expected= '0 MM' | actual= '552.6548 MM'
+    RESULT[STAIR_n2]: actual=clean FULL=clean B64=clean display_match=True actual_str=
+===== RUNG STAIR_n3 (y0=510.0, target clearance=0.0602)
+--- STAIR_n3: ARC requested S=(300.0, 510.0) E=(302.0, 510.0) C=(301.0, 510.75) cw=False
+    requested C bits=(4072d00000000000,407fec0000000000)
+    committed net='NFC_SWP' is_clockwise=None
+    committed center: 301.0 bits=4072d00000000000 on_grid=True frac_g=0 | 510.75 bits=407fec0000000000 on_grid=True frac_g=0.00
+    committed radius: 1.25 bits=3ff4000000000000 on_grid=True frac_g=0.00
+    committed length: 2.3182380450040307 bits=40028bc0635d1512 on_grid=False frac_g=0.00003804500403070676384231774136424064636230468750
+    center bit-preserved: True  dC=(0, 0.00)
+    r_committed - |S-C|_exact = 0.00
+    bottom_in_span(math_ccw): True
+    bottom=509.50 on_grid=True L=509.2898
+--- STAIR_n3: LINE requested y=509.2898 bits=407fd4a305532618 on_grid=True
+    committed net='FINGER_SPI_MISO' y=509.2898 bits=407fd4a305532618 on_grid=True frac_g=0E-41 (end y=509.2898)
+    committed - requested dy = 0E-41
+    MODELS[STAIR_n3] (R=0.06):
+      FULL       clearance=0.0601999999999861812316481746165663935244083404541015625
+                 verdict=clean
+      BINARY64   clearance=0.06019999999998618 (<R_float: False) verdict=clean
+      GRID       quant4(cy)=510.75 quant4(r)=1.25 clearance=0.0601999999999861812316481746165663935244083404541015625 verdict=clean
+      DROUND     round4(FULL)=0.0602 (half-even; exact_tie=False) verdict=clean
+      predicted display if flagged: '0.0602 MM'
+    DRC[STAIR_n3]: clean expected= actual=
+      OTHER: NET SPACING CONSTRAINTS | Line to Route Keepin Spacing | expected= '0 MM' | actual= '561.2903 MM'
+    RESULT[STAIR_n3]: actual=clean FULL=clean B64=clean display_match=True actual_str=
+===== RUNG STAIR_n4 (y0=520.0, target clearance=0.0601)
+--- STAIR_n4: ARC requested S=(300.0, 520.0) E=(302.0, 520.0) C=(301.0, 520.75) cw=False
+    requested C bits=(4072d00000000000,4080460000000000)
+    committed net='NFC_SWP' is_clockwise=None
+    committed center: 301.0 bits=4072d00000000000 on_grid=True frac_g=0 | 520.75 bits=4080460000000000 on_grid=True frac_g=0.00
+    committed radius: 1.25 bits=3ff4000000000000 on_grid=True frac_g=0.00
+    committed length: 2.3182380450040307 bits=40028bc0635d1512 on_grid=False frac_g=0.00003804500403070676384231774136424064636230468750
+    center bit-preserved: True  dC=(0, 0.00)
+    r_committed - |S-C|_exact = 0.00
+    bottom_in_span(math_ccw): True
+    bottom=519.50 on_grid=True L=519.2899
+--- STAIR_n4: LINE requested y=519.2899 bits=40803a51b71758e2 on_grid=True
+    committed net='FINGER_SPI_MISO' y=519.2899 bits=40803a51b71758e2 on_grid=True frac_g=0E-42 (end y=519.2899)
+    committed - requested dy = 0E-42
+    MODELS[STAIR_n4] (R=0.06):
+      FULL       clearance=0.0601000000000112832854171074359328486025333404541015625
+                 verdict=clean
+      BINARY64   clearance=0.06010000000001128 (<R_float: False) verdict=clean
+      GRID       quant4(cy)=520.75 quant4(r)=1.25 clearance=0.0601000000000112832854171074359328486025333404541015625 verdict=clean
+      DROUND     round4(FULL)=0.0601 (half-even; exact_tie=False) verdict=clean
+      predicted display if flagged: '0.0601 MM'
+    DRC[STAIR_n4]: clean expected= actual=
+      OTHER: NET SPACING CONSTRAINTS | Line to Route Keepin Spacing | expected= '0 MM' | actual= '569.9703 MM'
+    RESULT[STAIR_n4]: actual=clean FULL=clean B64=clean display_match=True actual_str=
+===== RUNG STAIR_n5 (y0=530.0, target clearance=0.0600)
+--- STAIR_n5: ARC requested S=(300.0, 530.0) E=(302.0, 530.0) C=(301.0, 530.75) cw=False
+    requested C bits=(4072d00000000000,4080960000000000)
+    committed net='NFC_SWP' is_clockwise=None
+    committed center: 301.0 bits=4072d00000000000 on_grid=True frac_g=0 | 530.75 bits=4080960000000000 on_grid=True frac_g=0.00
+    committed radius: 1.25 bits=3ff4000000000000 on_grid=True frac_g=0.00
+    committed length: 2.3182380450040307 bits=40028bc0635d1512 on_grid=False frac_g=0.00003804500403070676384231774136424064636230468750
+    center bit-preserved: True  dC=(0, 0.00)
+    r_committed - |S-C|_exact = 0.00
+    bottom_in_span(math_ccw): True
+    bottom=529.50 on_grid=True L=529.2900
+--- STAIR_n5: LINE requested y=529.29 bits=40808a51eb851eb8 on_grid=True
+    committed net='FINGER_SPI_MISO' y=529.29 bits=40808a51eb851eb8 on_grid=True frac_g=0E-40 (end y=529.29)
+    committed - requested dy = 0E-40
+    MODELS[STAIR_n5] (R=0.06):
+      FULL       clearance=0.0600000000000363853391860402552993036806583404541015625
+                 verdict=clean
+      BINARY64   clearance=0.060000000000036385 (<R_float: False) verdict=clean
+      GRID       quant4(cy)=530.75 quant4(r)=1.25 clearance=0.0600000000000363853391860402552993036806583404541015625 verdict=clean
+      DROUND     round4(FULL)=0.0600 (half-even; exact_tie=False) verdict=clean
+      predicted display if flagged: '0.06 MM'
+    DRC[STAIR_n5]: clean expected= actual=
+      OTHER: NET SPACING CONSTRAINTS | Line to Route Keepin Spacing | expected= '0 MM' | actual= '578.6928 MM'
+    RESULT[STAIR_n5]: actual=clean FULL=clean B64=clean display_match=True actual_str=
+===== RUNG STAIR_n6 (y0=540.0, target clearance=0.0599)
+--- STAIR_n6: ARC requested S=(300.0, 540.0) E=(302.0, 540.0) C=(301.0, 540.75) cw=False
+    requested C bits=(4072d00000000000,4080e60000000000)
+    committed net='NFC_SWP' is_clockwise=None
+    committed center: 301.0 bits=4072d00000000000 on_grid=True frac_g=0 | 540.75 bits=4080e60000000000 on_grid=True frac_g=0.00
+    committed radius: 1.25 bits=3ff4000000000000 on_grid=True frac_g=0.00
+    committed length: 2.3182380450040307 bits=40028bc0635d1512 on_grid=False frac_g=0.00003804500403070676384231774136424064636230468750
+    center bit-preserved: True  dC=(0, 0.00)
+    r_committed - |S-C|_exact = 0.00
+    bottom_in_span(math_ccw): True
+    bottom=539.50 on_grid=True L=539.2901
+--- STAIR_n6: LINE requested y=539.2901 bits=4080da521ff2e48f on_grid=True
+    committed net='FINGER_SPI_MISO' y=539.2901 bits=4080da521ff2e48f on_grid=True frac_g=0E-43 (end y=539.2901)
+    committed - requested dy = 0E-43
+    MODELS[STAIR_n6] (R=0.06):
+      FULL       clearance=0.0598999999999478005552333570449263788759708404541015625
+                 verdict=FLAGGED
+      BINARY64   clearance=0.0598999999999478 (<R_float: True) verdict=FLAGGED
+      GRID       quant4(cy)=540.75 quant4(r)=1.25 clearance=0.0598999999999478005552333570449263788759708404541015625 verdict=FLAGGED
+      DROUND     round4(FULL)=0.0599 (half-even; exact_tie=False) verdict=FLAGGED
+      predicted display if flagged: '0.0599 MM'
+    DRC[STAIR_n6]: FLAGGED expected='0.06 MM' actual='0.0599 MM'
+      FIGURE: line ETCH/TOP net= kind='net' name='FINGER_SPI_MISO' start= Point(x=300.0, y=539.2901) end= Point(x=302.0, y=539.2901) center= None radius= None w= 0.15
+      FIGURE: arc ETCH/TOP net= kind='net' name='NFC_SWP' start= Point(x=300.0, y=540.0) end= Point(x=302.0, y=540.0) center= Point(x=301.0, y=540.75) radius= 1.25 w= 0.15
+      OTHER: NET SPACING CONSTRAINTS | Line to Route Keepin Spacing | expected= '0 MM' | actual= '587.4558 MM'
+    RESULT[STAIR_n6]: actual=FLAGGED FULL=FLAGGED B64=FLAGGED display_match=True actual_str='0.0599 MM'
+===== RUNG STAIR_n7 (y0=550.0, target clearance=0.0598)
+--- STAIR_n7: ARC requested S=(300.0, 550.0) E=(302.0, 550.0) C=(301.0, 550.75) cw=False
+    requested C bits=(4072d00000000000,4081360000000000)
+    committed net='NFC_SWP' is_clockwise=None
+    committed center: 301.0 bits=4072d00000000000 on_grid=True frac_g=0 | 550.75 bits=4081360000000000 on_grid=True frac_g=0.00
+    committed radius: 1.25 bits=3ff4000000000000 on_grid=True frac_g=0.00
+    committed length: 2.3182380450040307 bits=40028bc0635d1512 on_grid=False frac_g=0.00003804500403070676384231774136424064636230468750
+    center bit-preserved: True  dC=(0, 0.00)
+    r_committed - |S-C|_exact = 0.00
+    bottom_in_span(math_ccw): True
+    bottom=549.50 on_grid=True L=549.2902
+--- STAIR_n7: LINE requested y=549.2902 bits=40812a525460aa65 on_grid=True
+    committed net='FINGER_SPI_MISO' y=549.2902 bits=40812a525460aa65 on_grid=True frac_g=0E-43 (end y=549.2902)
+    committed - requested dy = 0E-43
+    MODELS[STAIR_n7] (R=0.06):
+      FULL       clearance=0.0597999999999729026090022898642928339540958404541015625
+                 verdict=FLAGGED
+      BINARY64   clearance=0.0597999999999729 (<R_float: True) verdict=FLAGGED
+      GRID       quant4(cy)=550.75 quant4(r)=1.25 clearance=0.0597999999999729026090022898642928339540958404541015625 verdict=FLAGGED
+      DROUND     round4(FULL)=0.0598 (half-even; exact_tie=False) verdict=FLAGGED
+      predicted display if flagged: '0.0598 MM'
+    DRC[STAIR_n7]: FLAGGED expected='0.06 MM' actual='0.0598 MM'
+      FIGURE: line ETCH/TOP net= kind='net' name='FINGER_SPI_MISO' start= Point(x=300.0, y=549.2902) end= Point(x=302.0, y=549.2902) center= None radius= None w= 0.15
+      FIGURE: arc ETCH/TOP net= kind='net' name='NFC_SWP' start= Point(x=300.0, y=550.0) end= Point(x=302.0, y=550.0) center= Point(x=301.0, y=550.75) radius= 1.25 w= 0.15
+      OTHER: NET SPACING CONSTRAINTS | Line to Route Keepin Spacing | expected= '0 MM' | actual= '596.2577 MM'
+    RESULT[STAIR_n7]: actual=FLAGGED FULL=FLAGGED B64=FLAGGED display_match=True actual_str='0.0598 MM'
+===== RUNG STAIR_n8 (y0=560.0, target clearance=0.0597)
+--- STAIR_n8: ARC requested S=(300.0, 560.0) E=(302.0, 560.0) C=(301.0, 560.75) cw=False
+    requested C bits=(4072d00000000000,4081860000000000)
+    committed net='NFC_SWP' is_clockwise=None
+    committed center: 301.0 bits=4072d00000000000 on_grid=True frac_g=0 | 560.75 bits=4081860000000000 on_grid=True frac_g=0.00
+    committed radius: 1.25 bits=3ff4000000000000 on_grid=True frac_g=0.00
+    committed length: 2.3182380450040307 bits=40028bc0635d1512 on_grid=False frac_g=0.00003804500403070676384231774136424064636230468750
+    center bit-preserved: True  dC=(0, 0.00)
+    r_committed - |S-C|_exact = 0.00
+    bottom_in_span(math_ccw): True
+    bottom=559.50 on_grid=True L=559.2903
+--- STAIR_n8: LINE requested y=559.2903 bits=40817a5288ce703b on_grid=True
+    committed net='FINGER_SPI_MISO' y=559.2903 bits=40817a5288ce703b on_grid=True frac_g=0E-43 (end y=559.2903)
+    committed - requested dy = 0E-43
+    MODELS[STAIR_n8] (R=0.06):
+      FULL       clearance=0.0596999999999980046627712226836592890322208404541015625
+                 verdict=FLAGGED
+      BINARY64   clearance=0.059699999999998005 (<R_float: True) verdict=FLAGGED
+      GRID       quant4(cy)=560.75 quant4(r)=1.25 clearance=0.0596999999999980046627712226836592890322208404541015625 verdict=FLAGGED
+      DROUND     round4(FULL)=0.0597 (half-even; exact_tie=False) verdict=FLAGGED
+      predicted display if flagged: '0.0597 MM'
+    DRC[STAIR_n8]: FLAGGED expected='0.06 MM' actual='0.0597 MM'
+      FIGURE: line ETCH/TOP net= kind='net' name='FINGER_SPI_MISO' start= Point(x=300.0, y=559.2903) end= Point(x=302.0, y=559.2903) center= None radius= None w= 0.15
+      FIGURE: arc ETCH/TOP net= kind='net' name='NFC_SWP' start= Point(x=300.0, y=560.0) end= Point(x=302.0, y=560.0) center= Point(x=301.0, y=560.75) radius= 1.25 w= 0.15
+      OTHER: NET SPACING CONSTRAINTS | Line to Route Keepin Spacing | expected= '0 MM' | actual= '605.0967 MM'
+    RESULT[STAIR_n8]: actual=FLAGGED FULL=FLAGGED B64=FLAGGED display_match=True actual_str='0.0597 MM'
+===== RUNG STAIR_n9 (y0=570.0, target clearance=0.0596)
+--- STAIR_n9: ARC requested S=(300.0, 570.0) E=(302.0, 570.0) C=(301.0, 570.75) cw=False
+    requested C bits=(4072d00000000000,4081d60000000000)
+    committed net='NFC_SWP' is_clockwise=None
+    committed center: 301.0 bits=4072d00000000000 on_grid=True frac_g=0 | 570.75 bits=4081d60000000000 on_grid=True frac_g=0.00
+    committed radius: 1.25 bits=3ff4000000000000 on_grid=True frac_g=0.00
+    committed length: 2.3182380450040307 bits=40028bc0635d1512 on_grid=False frac_g=0.00003804500403070676384231774136424064636230468750
+    center bit-preserved: True  dC=(0, 0.00)
+    r_committed - |S-C|_exact = 0.00
+    bottom_in_span(math_ccw): True
+    bottom=569.50 on_grid=True L=569.2904
+--- STAIR_n9: LINE requested y=569.2904 bits=4081ca52bd3c3611 on_grid=True
+    committed net='FINGER_SPI_MISO' y=569.2904 bits=4081ca52bd3c3611 on_grid=True frac_g=0E-43 (end y=569.2904)
+    committed - requested dy = 0E-43
+    MODELS[STAIR_n9] (R=0.06):
+      FULL       clearance=0.0596000000000231067165401555030257441103458404541015625
+                 verdict=FLAGGED
+      BINARY64   clearance=0.05960000000002311 (<R_float: True) verdict=FLAGGED
+      GRID       quant4(cy)=570.75 quant4(r)=1.25 clearance=0.0596000000000231067165401555030257441103458404541015625 verdict=FLAGGED
+      DROUND     round4(FULL)=0.0596 (half-even; exact_tie=False) verdict=FLAGGED
+      predicted display if flagged: '0.0596 MM'
+    DRC[STAIR_n9]: FLAGGED expected='0.06 MM' actual='0.0596 MM'
+      FIGURE: line ETCH/TOP net= kind='net' name='FINGER_SPI_MISO' start= Point(x=300.0, y=569.2904) end= Point(x=302.0, y=569.2904) center= None radius= None w= 0.15
+      FIGURE: arc ETCH/TOP net= kind='net' name='NFC_SWP' start= Point(x=300.0, y=570.0) end= Point(x=302.0, y=570.0) center= Point(x=301.0, y=570.75) radius= 1.25 w= 0.15
+      OTHER: NET SPACING CONSTRAINTS | Line to Route Keepin Spacing | expected= '0 MM' | actual= '613.9713 MM'
+    RESULT[STAIR_n9]: actual=FLAGGED FULL=FLAGGED B64=FLAGGED display_match=True actual_str='0.0596 MM'
+===== RUNG STAIR_n10 (y0=580.0, target clearance=0.0595)
+--- STAIR_n10: ARC requested S=(300.0, 580.0) E=(302.0, 580.0) C=(301.0, 580.75) cw=False
+    requested C bits=(4072d00000000000,4082260000000000)
+    committed net='NFC_SWP' is_clockwise=None
+    committed center: 301.0 bits=4072d00000000000 on_grid=True frac_g=0 | 580.75 bits=4082260000000000 on_grid=True frac_g=0.00
+    committed radius: 1.25 bits=3ff4000000000000 on_grid=True frac_g=0.00
+    committed length: 2.3182380450040307 bits=40028bc0635d1512 on_grid=False frac_g=0.00003804500403070676384231774136424064636230468750
+    center bit-preserved: True  dC=(0, 0.00)
+    r_committed - |S-C|_exact = 0.00
+    bottom_in_span(math_ccw): True
+    bottom=579.50 on_grid=True L=579.2905
+--- STAIR_n10: LINE requested y=579.2905 bits=40821a52f1a9fbe7 on_grid=True
+    committed net='FINGER_SPI_MISO' y=579.2905 bits=40821a52f1a9fbe7 on_grid=True frac_g=0E-43 (end y=579.2905)
+    committed - requested dy = 0E-43
+    MODELS[STAIR_n10] (R=0.06):
+      FULL       clearance=0.0595000000000482087703090883223921991884708404541015625
+                 verdict=FLAGGED
+      BINARY64   clearance=0.05950000000004821 (<R_float: True) verdict=FLAGGED
+      GRID       quant4(cy)=580.75 quant4(r)=1.25 clearance=0.0595000000000482087703090883223921991884708404541015625 verdict=FLAGGED
+      DROUND     round4(FULL)=0.0595 (half-even; exact_tie=False) verdict=FLAGGED
+      predicted display if flagged: '0.0595 MM'
+    DRC[STAIR_n10]: FLAGGED expected='0.06 MM' actual='0.0595 MM'
+      FIGURE: line ETCH/TOP net= kind='net' name='FINGER_SPI_MISO' start= Point(x=300.0, y=579.2905) end= Point(x=302.0, y=579.2905) center= None radius= None w= 0.15
+      FIGURE: arc ETCH/TOP net= kind='net' name='NFC_SWP' start= Point(x=300.0, y=580.0) end= Point(x=302.0, y=580.0) center= Point(x=301.0, y=580.75) radius= 1.25 w= 0.15
+      OTHER: NET SPACING CONSTRAINTS | Line to Route Keepin Spacing | expected= '0 MM' | actual= '622.8799 MM'
+    RESULT[STAIR_n10]: actual=FLAGGED FULL=FLAGGED B64=FLAGGED display_match=True actual_str='0.0595 MM'
+===== STAGE 4: re-query
+REQUERY_ARC_COUNT: 19
+REQUERY FLIP_LO: center_matches=1 radius_identical=True
+REQUERY FLIP_HI: center_matches=1 radius_identical=True
+REQUERY GOLD: center_matches=1 radius_identical=True
+REQUERY ABOVE: center_matches=1 radius_identical=True
+REQUERY BELOW: center_matches=1 radius_identical=True
+===== SUMMARY
+  FLIP_LO: actual=FLAGGED actual_str="'0.0599 MM'" FULL=FLAGGED B64=FLAGGED GRID=clean DROUND=clean display_match=False
+  FLIP_HI: actual=clean actual_str='' FULL=clean B64=clean GRID=clean DROUND=clean display_match=True
+  GOLD: actual=FLAGGED actual_str="'0.0599 MM'" FULL=FLAGGED B64=FLAGGED GRID=clean DROUND=clean display_match=False
+  ABOVE: actual=clean actual_str='' FULL=clean B64=clean GRID=clean DROUND=clean display_match=True
+  BELOW: actual=FLAGGED actual_str="'0.0599 MM'" FULL=FLAGGED B64=FLAGGED GRID=FLAGGED DROUND=FLAGGED display_match=True
+  GRID_EQ: actual=clean actual_str='' FULL=FLAGGED B64=FLAGGED GRID=FLAGGED DROUND=clean display_match=True
+  GRID_FLAG: actual=FLAGGED actual_str="'0.0599 MM'" FULL=FLAGGED B64=FLAGGED GRID=FLAGGED DROUND=FLAGGED display_match=True
+  STAIR_n0: actual=clean actual_str='' FULL=clean B64=clean GRID=clean DROUND=clean display_match=True
+  STAIR_n1: actual=clean actual_str='' FULL=clean B64=clean GRID=clean DROUND=clean display_match=True
+  STAIR_n2: actual=clean actual_str='' FULL=clean B64=clean GRID=clean DROUND=clean display_match=True
+  STAIR_n3: actual=clean actual_str='' FULL=clean B64=clean GRID=clean DROUND=clean display_match=True
+  STAIR_n4: actual=clean actual_str='' FULL=clean B64=clean GRID=clean DROUND=clean display_match=True
+  STAIR_n5: actual=clean actual_str='' FULL=clean B64=clean GRID=clean DROUND=clean display_match=True
+  STAIR_n6: actual=FLAGGED actual_str="'0.0599 MM'" FULL=FLAGGED B64=FLAGGED GRID=FLAGGED DROUND=FLAGGED display_match=True
+  STAIR_n7: actual=FLAGGED actual_str="'0.0598 MM'" FULL=FLAGGED B64=FLAGGED GRID=FLAGGED DROUND=FLAGGED display_match=True
+  STAIR_n8: actual=FLAGGED actual_str="'0.0597 MM'" FULL=FLAGGED B64=FLAGGED GRID=FLAGGED DROUND=FLAGGED display_match=True
+  STAIR_n9: actual=FLAGGED actual_str="'0.0596 MM'" FULL=FLAGGED B64=FLAGGED GRID=FLAGGED DROUND=FLAGGED display_match=True
+  STAIR_n10: actual=FLAGGED actual_str="'0.0595 MM'" FULL=FLAGGED B64=FLAGGED GRID=FLAGGED DROUND=FLAGGED display_match=True
+TOTAL_MARKERS: 179
+DONE
+
+[exited with code 0]
