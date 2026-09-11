@@ -4,12 +4,15 @@
 
 from __future__ import annotations
 
+import os
 import threading
 import time
 from collections.abc import Callable, Iterator
-from io import StringIO, TextIOWrapper
+from dataclasses import dataclass, field
+from io import BufferedWriter, StringIO, TextIOWrapper
 from os import fdopen, pipe
 from queue import Empty, Queue
+from typing import BinaryIO
 
 from pytest import MonkeyPatch, fixture, mark, raises
 
@@ -139,13 +142,77 @@ class BlockingWriter(FailingWriter):
             raise TimeoutError('writer was not released')
         return super().write(value)
 
-    def close(self) -> None:
+    def release(self) -> None:
         self._release.set()
+
+    def close(self) -> None:
+        self.release()
         super().close()
+
+
+class GatedPipeWriter(TextIOWrapper):
+    def __init__(self, binary_writer: BufferedWriter, phase: str) -> None:
+        super().__init__(binary_writer, encoding='utf-8', newline='')
+        self.entered = threading.Event()
+        self._phase = phase
+
+    def write(self, value: str) -> int:
+        if self._phase == 'write':
+            self.entered.set()
+        return super().write(value)
+
+    def flush(self) -> None:
+        if self._phase == 'flush':
+            self.entered.set()
+        super().flush()
+
+
+@dataclass
+class BlockedPipe:
+    channel: Pipe
+    command_writer: GatedPipeWriter
+    command_reader: BinaryIO
+    response_writer: TextIOWrapper
+    threads: list[threading.Thread] = field(default_factory=list)
+    errors: list[BaseException] = field(default_factory=list)
 
 
 def assert_pipe_state(channel: Pipe, expected: _PipeState) -> None:
     assert channel.state is expected
+
+
+def start_drainer(
+    resource: BlockedPipe, expected: bytes
+) -> tuple[threading.Thread, list[BaseException]]:
+    errors = resource.errors
+
+    def read_expected() -> None:
+        chunks: list[bytes] = []
+        remaining = len(expected)
+        while remaining:
+            chunk = resource.command_reader.read(remaining)
+            if not chunk:
+                break
+            chunks.append(chunk)
+            remaining -= len(chunk)
+        if b''.join(chunks) != expected:
+            raise AssertionError('command stream was not drained exactly')
+
+    def drain() -> None:
+        try:
+            read_expected()
+        except BaseException as exc:  # ruff: ignore[blind-except] - propagate test thread failure
+            errors.append(exc)
+
+    thread = threading.Thread(target=drain, daemon=True)
+    resource.threads.append(thread)
+    thread.start()
+    return thread, errors
+
+
+def start_thread(resource: BlockedPipe, thread: threading.Thread) -> None:
+    resource.threads.append(thread)
+    thread.start()
 
 
 @fixture
@@ -204,6 +271,49 @@ def channel_factory() -> Iterator[Callable[[StringIO], Pipe]]:
             assert channel.wait_closed(TEST_TIMEOUT)
 
 
+@fixture
+def blocked_pipe() -> Iterator[Callable[[str], BlockedPipe]]:
+    resources: list[BlockedPipe] = []
+
+    def create(phase: str) -> BlockedPipe:
+        command_read_fd, command_write_fd = pipe()
+        response_read_fd, response_write_fd = pipe()
+        raw_writer = os.fdopen(command_write_fd, 'wb', buffering=0)
+        command_writer = GatedPipeWriter(
+            BufferedWriter(
+                raw_writer,
+                buffer_size=8192 if phase == 'write' else 16 * 1024 * 1024,
+            ),
+            phase,
+        )
+        command_reader = os.fdopen(command_read_fd, 'rb', buffering=0)
+        response_reader = fdopen(response_read_fd, encoding='utf-8', newline='')
+        response_writer = fdopen(response_write_fd, 'w', encoding='utf-8', newline='')
+        channel = Pipe(response_reader, command_writer)
+        resource = BlockedPipe(channel, command_writer, command_reader, response_writer)
+        resources.append(resource)
+        return resource
+
+    try:
+        yield create
+    finally:
+        for resource in resources:
+            resource.command_reader.close()
+            channel = resource.channel
+            command_writer = resource.command_writer
+            response_writer = resource.response_writer
+            if not response_writer.closed:
+                response_writer.close()
+            channel.close()
+            assert channel.wait_closed(TEST_TIMEOUT)
+            if not command_writer.closed:
+                command_writer.close()
+            for thread in resource.threads:
+                thread.join(TEST_TIMEOUT)
+                assert not thread.is_alive()
+            assert not resource.errors
+
+
 class TestStateMachine:
     def test_delivers_response_and_returns_to_ready(self) -> None:
         machine = _StateMachine(drain_timeout=None)
@@ -214,6 +324,40 @@ class TestStateMachine:
 
         assert machine.wait_response(timeout=None, deadline=None) == response
         assert machine.state is _PipeState.READY
+
+    def test_write_failure_wins_over_early_response(self) -> None:
+        machine = _StateMachine(drain_timeout=None)
+        response = SkillResp('success', 'early')
+        machine.begin(timeout=None, deadline=None)
+        machine.queue_command('command')
+        machine.publish(response)
+
+        failure = OSError('flush failed')
+        machine.write_completed(failure)
+
+        with raises(SkillPipeBrokenError) as caught:
+            machine.wait_response(timeout=None, deadline=None)
+        assert caught.value.__cause__ is failure
+        assert machine.state is _PipeState.BROKEN
+
+    @mark.parametrize('write_failure', [None, OSError('late flush')])
+    @mark.parametrize('event', [SkillResp('success', 'late'), OSError('late EOF')])
+    def test_write_timeout_cause_survives_late_events(
+        self, write_failure: Exception | None, event: SkillResp | Exception
+    ) -> None:
+        machine = _StateMachine(drain_timeout=None)
+        machine.begin(timeout=0.1, deadline=time.monotonic() + 0.1)
+        machine.queue_command('command')
+        assert machine.take_command() == 'command\n'
+        with machine._sync:
+            timeout = machine._break_on_write_timeout(0.1)
+
+        machine.write_completed(write_failure)
+        machine.publish(event)
+
+        with raises(SkillPipeBrokenError) as caught:
+            machine.begin(timeout=0.1, deadline=time.monotonic() + 0.1)
+        assert caught.value.__cause__ is timeout
 
     def test_close_is_idempotent_and_rejects_requests(self) -> None:
         machine = _StateMachine(drain_timeout=None)
@@ -683,7 +827,9 @@ def test_write_failure_breaks_pipe(channel_factory: Callable[[StringIO], Pipe]) 
     assert channel.state is _PipeState.BROKEN
 
 
-def test_close_interrupts_blocked_write(channel_factory: Callable[[StringIO], Pipe]) -> None:
+def test_close_wakes_client_but_writer_owner_finishes(
+    channel_factory: Callable[[StringIO], Pipe],
+) -> None:
     writer = BlockingWriter()
     channel = channel_factory(writer)
     client = Client(lambda: channel.execute('blocked()', timeout=None))
@@ -694,15 +840,132 @@ def test_close_interrupts_blocked_write(channel_factory: Callable[[StringIO], Pi
 
     with raises(SkillPipeClosedError):
         client.result()
+    writer.release()
+
+
+def test_close_starts_owner_for_pre_execute_buffered_data(
+    blocked_pipe: Callable[[str], BlockedPipe],
+) -> None:
+    resource = blocked_pipe('flush')
+    payload = b'x' * (8 * 1024 * 1024) + b'\n'
+    for offset in range(0, len(payload), 4096):
+        resource.command_writer.buffer.write(payload[offset : offset + 4096])
+
+    close_done = threading.Event()
+    closer = threading.Thread(
+        target=lambda: (resource.channel.close(), close_done.set()), daemon=True
+    )
+    start_thread(resource, closer)
+    assert close_done.wait(TEST_TIMEOUT)
+    drainer, errors = start_drainer(resource, payload)
+    drainer.join(TEST_TIMEOUT)
+    assert not drainer.is_alive()
+    assert close_done.wait(TEST_TIMEOUT)
+    assert not errors
+
+
+@mark.parametrize('phase', ['write', 'flush'])
+def test_real_pipe_write_deadline_poison_is_not_reusable(
+    phase: str,
+    blocked_pipe: Callable[[str], BlockedPipe],
+) -> None:
+    resource = blocked_pipe(phase)
+    channel, command_writer = resource.channel, resource.command_writer
+    client = Client(lambda: channel.execute('x' * (1024 * 1024), timeout=0.05))
+    start_thread(resource, client)
+    assert command_writer.entered.wait(TEST_TIMEOUT)
+    with raises(SkillPipeTimeoutError) as caught:
+        client.result(TEST_TIMEOUT)
+    assert caught.value.phase == 'command write'
+    timeout_cause = caught.value
+    drainer, errors = start_drainer(resource, b'x' * (1024 * 1024) + b'\n')
+    drainer.join(TEST_TIMEOUT)
+    assert not drainer.is_alive()
+    assert not errors
+    assert_pipe_state(channel, _PipeState.BROKEN)
+    with raises(SkillPipeBrokenError) as broken:
+        channel.execute('next()', timeout=TEST_TIMEOUT)
+    assert broken.value.__cause__ is timeout_cause
+
+
+@mark.parametrize('phase', ['write', 'flush'])
+def test_real_pipe_close_wakes_client_without_waiting_for_writer(
+    phase: str,
+    blocked_pipe: Callable[[str], BlockedPipe],
+) -> None:
+    resource = blocked_pipe(phase)
+    channel, command_writer = resource.channel, resource.command_writer
+    client = Client(lambda: channel.execute('x' * (1024 * 1024), timeout=None))
+    start_thread(resource, client)
+    assert command_writer.entered.wait(TEST_TIMEOUT)
+    close_done = threading.Event()
+    closer = threading.Thread(target=lambda: (channel.close(), close_done.set()), daemon=True)
+    start_thread(resource, closer)
+    assert close_done.wait(TEST_TIMEOUT)
+    with raises(SkillPipeClosedError):
+        client.result(TEST_TIMEOUT)
+
+
+def test_real_pipe_eof_wakes_client_without_waiting_for_writer(
+    blocked_pipe: Callable[[str], BlockedPipe],
+) -> None:
+    resource = blocked_pipe('flush')
+    channel = resource.channel
+    command_writer, response_writer = resource.command_writer, resource.response_writer
+    client = Client(lambda: channel.execute('x' * (1024 * 1024), timeout=None))
+    start_thread(resource, client)
+    assert command_writer.entered.wait(TEST_TIMEOUT)
+    response_writer.close()
+
+    with raises(SkillPipeBrokenError):
+        client.result(TEST_TIMEOUT)
+    assert channel.wait_peer_closed(TEST_TIMEOUT)
+
+
+def test_real_pipe_rst_delivers_without_waiting_for_writer(
+    blocked_pipe: Callable[[str], BlockedPipe],
+) -> None:
+    resource = blocked_pipe('flush')
+    channel = resource.channel
+    command_writer, response_writer = resource.command_writer, resource.response_writer
+    client = Client(lambda: channel.execute('x' * (1024 * 1024), timeout=None))
+    start_thread(resource, client)
+    assert command_writer.entered.wait(TEST_TIMEOUT)
+    response_writer.write(Response.RST + 'restart' + Response.RS)
+    response_writer.flush()
+
+    assert client.result(TEST_TIMEOUT) == SkillResp('restart', 'restart')
+    assert channel.state is _PipeState.RESTARTING
+    assert channel.wait_peer_closed(TEST_TIMEOUT)
+
+
+def test_real_pipe_response_waits_for_blocked_writer(
+    blocked_pipe: Callable[[str], BlockedPipe],
+) -> None:
+    resource = blocked_pipe('flush')
+    channel = resource.channel
+    command_writer, response_writer = resource.command_writer, resource.response_writer
+    client = Client(lambda: channel.execute('x' * (1024 * 1024), timeout=None))
+    start_thread(resource, client)
+    assert command_writer.entered.wait(TEST_TIMEOUT)
+    response_writer.write(Response.STX + 'done' + Response.RS)
+    response_writer.flush()
+
+    client.join(0.05)
+    assert client.is_alive()
+    drainer, errors = start_drainer(resource, b'x' * (1024 * 1024) + b'\n')
+    assert client.result(TEST_TIMEOUT) == SkillResp('success', 'done')
+    drainer.join(TEST_TIMEOUT)
+    assert not drainer.is_alive()
+    assert not errors
 
 
 def test_close_closes_streams() -> None:
     reader = StringIO()
     writer = StringIO()
     channel = Pipe(reader, writer)
-    assert channel.wait_closed(TEST_TIMEOUT)
-
     channel.close()
+    assert channel.wait_closed(TEST_TIMEOUT)
 
     assert reader.closed
     assert writer.closed

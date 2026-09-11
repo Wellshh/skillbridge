@@ -5,8 +5,11 @@
 from __future__ import annotations
 
 import os
+import socket
+import stat
 from argparse import ArgumentParser
 from contextlib import suppress
+from errno import EACCES, EADDRINUSE, EAGAIN, ECONNREFUSED
 from io import BufferedIOBase
 from logging import getLogger
 from os import getenv
@@ -124,6 +127,7 @@ class ThreadingTcpServer(ThreadingMixIn, SingleTcpServer):
 
 
 if UnixStreamServer is not None:  # pragma: no branch
+    import fcntl
 
     class SingleUnixServer(UnixStreamServer):
         request_queue_size: int = 0
@@ -140,13 +144,75 @@ if UnixStreamServer is not None:  # pragma: no branch
         ) -> None:
             path = f"/tmp/skill-server-{file}.sock"
             self.path = Path(path)
-            self.path.unlink(missing_ok=True)
+            self.lock_path = Path(f"{path}.lock")
+            self._lock_fd: int | None = None
+            self._owned_identity: tuple[int, int] | None = None
             self.pipe = pipe
             self.timeout = timeout
             self._requests = _RequestTracker()
             self.max_payload_size = max_payload_size
 
             super().__init__(path, handler)
+
+        def _acquire_lock(self) -> None:
+            flags = os.O_CREAT | os.O_RDWR | os.O_NOFOLLOW
+            self._lock_fd = os.open(self.lock_path, flags, 0o600)
+            try:
+                fcntl.flock(self._lock_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except OSError as exc:
+                if exc.errno in {EACCES, EAGAIN}:
+                    raise OSError(EADDRINUSE, f"Unix endpoint is busy: {self.path}") from exc
+                raise
+
+        def _prepare_socket_path(self) -> None:
+            try:
+                identity = self.path.lstat()
+            except FileNotFoundError:
+                return
+            if stat.S_ISLNK(identity.st_mode) or not stat.S_ISSOCK(identity.st_mode):
+                raise OSError(EADDRINUSE, f"Unix endpoint is not a stale socket: {self.path}")
+
+            with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as probe:
+                probe.settimeout(0.1)
+                try:
+                    probe.connect(str(self.path))
+                except FileNotFoundError:
+                    return
+                except OSError as exc:
+                    if exc.errno != ECONNREFUSED:
+                        raise OSError(EADDRINUSE, f"Unix endpoint is busy: {self.path}") from exc
+                    current = self.path.lstat()
+                    if not stat.S_ISSOCK(current.st_mode) or (
+                        current.st_dev,
+                        current.st_ino,
+                    ) != (identity.st_dev, identity.st_ino):
+                        raise OSError(EADDRINUSE, f"Unix endpoint changed: {self.path}") from exc
+                    self.path.unlink()
+                else:
+                    raise OSError(EADDRINUSE, f"Unix endpoint is busy: {self.path}")
+
+        def server_bind(self) -> None:
+            self._acquire_lock()
+            self._prepare_socket_path()
+            super().server_bind()
+            identity = self.path.lstat()
+            self._owned_identity = (identity.st_dev, identity.st_ino)
+
+        def _release_lock(self) -> None:
+            fd, self._lock_fd = self._lock_fd, None
+            if fd is not None:
+                os.close(fd)
+
+        def _unlink_owned_path(self) -> None:
+            identity, self._owned_identity = self._owned_identity, None
+            if identity is None:
+                return
+            try:
+                current = self.path.lstat()
+            except FileNotFoundError:
+                return
+            if stat.S_ISSOCK(current.st_mode) and (current.st_dev, current.st_ino) == identity:
+                self.path.unlink(missing_ok=True)
 
         @property
         def request_tracker(self) -> _RequestTracker:
@@ -156,7 +222,10 @@ if UnixStreamServer is not None:  # pragma: no branch
             try:
                 super().server_close()
             finally:
-                self.path.unlink(missing_ok=True)
+                try:
+                    self._unlink_owned_path()
+                finally:
+                    self._release_lock()
 
     class ThreadingUnixServer(ThreadingMixIn, SingleUnixServer):
         daemon_threads = True

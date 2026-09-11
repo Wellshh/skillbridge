@@ -3,20 +3,24 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 from __future__ import annotations
 
+import errno
 import io
 import socket as socket_mod
 import subprocess
 import sys
+import textwrap
 import threading
-from collections.abc import Iterator
-from contextlib import nullcontext
+from collections.abc import Callable, Iterator
+from contextlib import ExitStack, nullcontext
 from os import fdopen, getpid, pipe
+from pathlib import Path
 from queue import Empty, Queue
 from socket import socketpair
 from socketserver import BaseServer
 from sys import platform
 from types import SimpleNamespace
 from typing import Any, cast
+from uuid import uuid4
 
 from pytest import FixtureRequest, MonkeyPatch, approx, fixture, mark, param, raises
 
@@ -40,6 +44,14 @@ server_params = (
     [param(True, id='tcp')]
     if platform == 'win32'
     else [param(False, id='unix'), param(True, id='tcp')]
+)
+unix_server_classes = tuple(
+    cls
+    for cls in (
+        getattr(python_server, 'SingleUnixServer', None),
+        getattr(python_server, 'ThreadingUnixServer', None),
+    )
+    if cls is not None
 )
 
 
@@ -117,6 +129,40 @@ def redirect() -> Redirect:
     return Redirect()
 
 
+@fixture
+def unix_endpoint() -> Iterator[tuple[str, Path]]:
+    identifier = f'u{uuid4().hex[:10]}'
+    path = Path(f'/tmp/skill-server-{identifier}.sock')
+    lock_path = Path(f'{path}.lock')
+    try:
+        yield identifier, path
+    finally:
+        path.unlink(missing_ok=True)
+        lock_path.unlink(missing_ok=True)
+
+
+@fixture(params=unix_server_classes, ids=lambda cls: cls.__name__)
+def unix_server_cls(request: FixtureRequest) -> type[BaseServer]:
+    return request.param
+
+
+@fixture
+def managed_unix_server(
+    unix_endpoint: tuple[str, Path],
+) -> Iterator[Callable[[type[BaseServer]], BaseServer]]:
+    identifier, _ = unix_endpoint
+    with ExitStack() as stack:
+
+        def create(server_cls: type[BaseServer]) -> BaseServer:
+            server = cast('Any', server_cls)(
+                identifier, python_server.Handler, pipe=cast('Pipe', Redirect()), timeout=None
+            )
+            stack.callback(server.server_close)
+            return server
+
+        yield create
+
+
 @fixture(params=server_params)
 def server(
     redirect: Redirect,
@@ -134,8 +180,203 @@ def server(
     finally:
         thread.join(TEST_TIMEOUT)
         assert not thread.is_alive(), "Server didn't stop in time"
+        if not use_tcp:
+            Path(f'/tmp/skill-server-{thread.identifier}.sock.lock').unlink(missing_ok=True)
         if thread.failure is not None:
             raise thread.failure
+
+
+@mark.skipif(not unix_server_classes, reason='Unix domain sockets unavailable')
+class TestUnixOwnership:
+    def test_unix_active_endpoint_is_not_unlinked(
+        self,
+        unix_server_cls: type[BaseServer],
+        unix_endpoint: tuple[str, Path],
+        managed_unix_server: Callable[[type[BaseServer]], BaseServer],
+    ) -> None:
+        _, path = unix_endpoint
+        first = managed_unix_server(unix_server_cls)
+        try:
+            with raises(OSError) as caught:
+                managed_unix_server(unix_server_cls)
+            assert caught.value.errno == errno.EADDRINUSE
+            assert path.exists()
+            with socket_mod.socket(socket_mod.AF_UNIX, socket_mod.SOCK_STREAM) as probe:
+                probe.settimeout(TEST_TIMEOUT)
+                probe.connect(str(path))
+        finally:
+            first.server_close()
+
+        assert not path.exists()
+
+    def test_unix_foreign_active_listener_is_not_unlinked(
+        self,
+        unix_endpoint: tuple[str, Path],
+        managed_unix_server: Callable[[type[BaseServer]], BaseServer],
+    ) -> None:
+        _, path = unix_endpoint
+        with socket_mod.socket(socket_mod.AF_UNIX, socket_mod.SOCK_STREAM) as listener:
+            listener.bind(str(path))
+            listener.listen(1)
+            with raises(OSError) as caught:
+                managed_unix_server(python_server.SingleUnixServer)
+            assert caught.value.errno == errno.EADDRINUSE
+            assert path.exists()
+
+    def test_unix_stale_socket_is_reclaimed(
+        self,
+        unix_server_cls: type[BaseServer],
+        unix_endpoint: tuple[str, Path],
+        managed_unix_server: Callable[[type[BaseServer]], BaseServer],
+    ) -> None:
+        _, path = unix_endpoint
+        with socket_mod.socket(socket_mod.AF_UNIX, socket_mod.SOCK_STREAM) as stale:
+            stale.bind(str(path))
+            stale.listen(1)
+
+        server = managed_unix_server(unix_server_cls)
+        try:
+            assert path.exists()
+            with socket_mod.socket(socket_mod.AF_UNIX, socket_mod.SOCK_STREAM) as probe:
+                probe.settimeout(TEST_TIMEOUT)
+                probe.connect(str(path))
+        finally:
+            server.server_close()
+        assert not path.exists()
+
+    @mark.parametrize('kind', ['file', 'symlink'])
+    def test_unix_non_socket_path_is_preserved(
+        self,
+        kind: str,
+        unix_endpoint: tuple[str, Path],
+        managed_unix_server: Callable[[type[BaseServer]], BaseServer],
+    ) -> None:
+        _, path = unix_endpoint
+        target = path.with_name(f'{path.name}-target')
+        if kind == 'file':
+            path.write_text('owned by test')
+        else:
+            path.symlink_to(target)
+
+        with raises(OSError) as caught:
+            managed_unix_server(python_server.SingleUnixServer)
+        assert caught.value.errno == errno.EADDRINUSE
+        assert path.is_symlink() if kind == 'symlink' else path.read_text() == 'owned by test'
+
+    def test_unix_old_close_preserves_replacement(
+        self,
+        unix_endpoint: tuple[str, Path],
+        managed_unix_server: Callable[[type[BaseServer]], BaseServer],
+    ) -> None:
+        _, path = unix_endpoint
+        replacement_path = path.with_name(f'{path.name}-replacement')
+        first = managed_unix_server(python_server.SingleUnixServer)
+        try:
+            with socket_mod.socket(socket_mod.AF_UNIX, socket_mod.SOCK_STREAM) as replacement:
+                replacement.bind(str(replacement_path))
+                replacement.listen(1)
+                Path(replacement_path).replace(path)
+                replacement_identity = (path.stat().st_dev, path.stat().st_ino)
+            first.server_close()
+            current = path.stat()
+            assert (current.st_dev, current.st_ino) == replacement_identity
+            replacement_server = managed_unix_server(python_server.SingleUnixServer)
+            assert path.exists()
+            first.server_close()
+            assert path.exists()
+            replacement_server.server_close()
+        finally:
+            first.server_close()
+            replacement_path.unlink(missing_ok=True)
+
+    def test_unix_failed_activate_releases_lock(
+        self,
+        unix_endpoint: tuple[str, Path],
+        managed_unix_server: Callable[[type[BaseServer]], BaseServer],
+    ) -> None:
+        _, path = unix_endpoint
+
+        class FailingServer(python_server.SingleUnixServer):
+            def server_activate(self) -> None:
+                raise RuntimeError('activate failed')
+
+        with raises(RuntimeError, match='activate failed'):
+            managed_unix_server(FailingServer)
+
+        server = managed_unix_server(python_server.SingleUnixServer)
+        server.server_close()
+        assert not path.exists()
+
+    def test_unix_lock_covers_bind_before_listen(
+        self,
+        unix_endpoint: tuple[str, Path],
+        managed_unix_server: Callable[[type[BaseServer]], BaseServer],
+    ) -> None:
+        identifier, path = unix_endpoint
+        entered = threading.Event()
+        release = threading.Event()
+        created: list[BaseServer] = []
+        failures: list[BaseException] = []
+
+        class PausedServer(python_server.SingleUnixServer):
+            def server_activate(self) -> None:
+                entered.set()
+                if not release.wait(TEST_TIMEOUT):
+                    raise TimeoutError('activate was not released')
+                super().server_activate()
+
+        def create() -> None:
+            try:
+                created.append(
+                    PausedServer(
+                        identifier,
+                        python_server.Handler,
+                        pipe=cast('Pipe', Redirect()),
+                        timeout=None,
+                    )
+                )
+            except BaseException as exc:  # ruff: ignore[blind-except] - return to test thread
+                failures.append(exc)
+
+        thread = threading.Thread(target=create)
+        thread.start()
+        try:
+            assert entered.wait(TEST_TIMEOUT)
+            with raises(OSError) as caught:
+                managed_unix_server(python_server.SingleUnixServer)
+            assert caught.value.errno == errno.EADDRINUSE
+        finally:
+            release.set()
+            thread.join(TEST_TIMEOUT)
+            for server in created:
+                server.server_close()
+            assert not thread.is_alive()
+            assert not failures
+        assert not path.exists()
+
+    def test_unix_crash_leaves_reclaimable_socket(
+        self,
+        unix_endpoint: tuple[str, Path],
+        managed_unix_server: Callable[[type[BaseServer]], BaseServer],
+    ) -> None:
+        identifier, path = unix_endpoint
+        script = textwrap.dedent(f"""\
+        import os
+        from allegrobridge._kernel.server import python_server
+        from allegrobridge._kernel.server.python_server import Handler
+        class P:
+            def execute(self, command, timeout=None):
+                return None
+        python_server.SingleUnixServer({identifier!r}, Handler, pipe=P(), timeout=None)
+        os._exit(0)
+        """)
+        result = subprocess.run([sys.executable, '-c', script], timeout=TEST_TIMEOUT, check=False)
+        assert result.returncode == 0
+        assert path.exists()
+
+        server = managed_unix_server(python_server.SingleUnixServer)
+        server.server_close()
+        assert not path.exists()
 
 
 def test_one_request(redirect: Redirect, server: Server) -> None:

@@ -87,18 +87,69 @@ class _PipeState(Enum):
 
 
 class _StateMachine:
+    """Synchronization and lifecycle state machine for the serialized IPC pipe.
+
+    State Transition Diagram:
+
+                    +-------------------------+
+                    |          READY          |<-----------------------+
+                    +-------------------------+                        |
+                       |                   |                           |
+              begin()  |                   | close()                   |
+                       v                   v                           |
+           +-------------------+       +--------+                      |
+           |     EXECUTING     |       | CLOSED |<----+                |
+           +-------------------+       +--------+     |                |
+             |       |       |            ^           |                |
+     write   |       |       | resp       | close()   | close()        |
+     timeout |       |       | timeout    |           |                |
+     or fail |       |       v            |           |                |
+             |       |   +----------+     |           |                |
+             |       |   | DRAINING |-----+           |                |
+             |       |   +----------+                 |                |
+             |       |     |      |                   | late resp      |
+             |       |     |      | watchdog          | (non-RST)      |
+             |       |     |      | expired           |                |
+             |       |     |      v                   |                |
+             |       |     |   +----------------+     |                |
+             |       |     |   | DESYNCHRONIZED |     |                |
+             |       |     |   +----------------+     |                |
+             |       |     |                          |                |
+             |       |     | late RST                 |                |
+             |       |     +--------------------+     |                |
+             |       |                          |     |                |
+             |       | resp (RST)               v     |                |
+             |       +------------------->+------------+               |
+             |                            | RESTARTING |               |
+             |                            +------------+               |
+             |                                                         |
+             | resp (non-RST) consumed                                 |
+             +---------------------------------------------------------+
+             |
+             v (writer/reader failure or write timeout)
+       +------------+
+       |   BROKEN   |
+       +------------+
+    """
+
     __slots__ = (
         "_cause",
+        "_command",
         "_drain",
         "_drain_generation",
         "_resp",
         "_state",
         "_sync",
+        "_writer_stopping",
+        "_writing",
     )
 
     _cause: Exception | None
     _drain: _DrainTimer
     _drain_generation: int
+    _command: str | None
+    _writing: bool
+    _writer_stopping: bool
     _resp: SkillResp | object
     _state: _PipeState
     _sync: threading.Condition
@@ -107,6 +158,9 @@ class _StateMachine:
         self._cause = None
         self._drain = _DrainTimer(drain_timeout)
         self._drain_generation = 0
+        self._command = None
+        self._writing = False
+        self._writer_stopping = False
         self._resp = _MISSING
         self._state = _PipeState.READY
         self._sync = threading.Condition(threading.Lock())
@@ -131,6 +185,9 @@ class _StateMachine:
             if self._state is _PipeState.CLOSED:
                 return False
             self._state = _PipeState.CLOSED
+            self._command = None
+            self._writing = False
+            self._writer_stopping = True
             self._drain.cancel()
             self._sync.notify_all()
             return True
@@ -162,14 +219,44 @@ class _StateMachine:
 
             self._state = _PipeState.EXECUTING
 
-    def write_failed(self, failure: Exception) -> bool:
+    def queue_command(self, command: str) -> None:
         with self._sync:
-            if self._state is _PipeState.CLOSED:
-                return False
-            self._cause = failure
-            self._state = _PipeState.BROKEN
+            if self._state is _PipeState.CLOSED or self._state is _PipeState.RESTARTING:
+                raise SkillPipeClosedError("SKILL pipe is closed")
+            if self._state is _PipeState.BROKEN:
+                raise SkillPipeBrokenError("SKILL IPC pipe is broken") from self._cause
+            if self._state is _PipeState.DESYNCHRONIZED:
+                raise SkillPipeDesynchronizedError(
+                    "SKILL pipe is desynchronized; restart the bridge before "
+                    "sending another request"
+                ) from self._cause
+            if self._state is not _PipeState.EXECUTING:
+                raise SkillPipeBrokenError("SKILL pipe is not executing")
+            self._command = command + '\n'
+            self._writing = True
             self._sync.notify_all()
-            return True
+
+    def take_command(self) -> str | None:
+        with self._sync:
+            while self._command is None and not self._writer_stopping:
+                self._sync.wait()
+            command, self._command = self._command, None
+            return command
+
+    def write_completed(self, failure: Exception | None) -> None:
+        with self._sync:
+            if failure is not None and self._state is _PipeState.EXECUTING:
+                self._state = _PipeState.BROKEN
+                self._cause = failure
+                self._resp = _MISSING
+            self._writing = False
+            self._sync.notify_all()
+
+    def stop_writer(self) -> None:
+        with self._sync:
+            self._writer_stopping = True
+            self._command = None
+            self._sync.notify_all()
 
     def wait_response(
         self,
@@ -178,29 +265,13 @@ class _StateMachine:
         deadline: float | None,
     ) -> SkillResp:
         with self._sync:
-
-            def is_waiting() -> bool:
-                return (
-                    self._resp is _MISSING
-                    and self._cause is None
-                    and self._state is _PipeState.EXECUTING
-                )
-
-            while is_waiting():
+            while self._state is _PipeState.EXECUTING and self._writing:
                 remaining = _remaining(deadline)
                 if remaining is not None and remaining <= 0.0:
-                    break
+                    raise self._break_on_write_timeout(timeout)
                 self._sync.wait(remaining)
 
-            if is_waiting():
-                self._state = _PipeState.DRAINING
-                self._drain_generation += 1
-                generation = self._drain_generation
-                self._drain.start(lambda: self._expire_drain(generation))
-                self._sync.notify_all()
-                raise SkillPipeTimeoutError(
-                    timeout if timeout is not None else 0.0, phase="SKILL response"
-                )
+            self._wait_for_response(timeout, deadline)
 
             if self._state is _PipeState.CLOSED:
                 raise SkillPipeClosedError("SKILL pipe was closed during execution")
@@ -209,8 +280,8 @@ class _StateMachine:
                     "SKILL pipe became desynchronized while reading a response"
                 )
                 raise failure from self._cause
-            if self._resp is _MISSING and self._cause is not None:
-                raise SkillPipeBrokenError("SKILL IPC reader failed") from self._cause
+            if self._state is _PipeState.BROKEN and self._resp is _MISSING:
+                raise SkillPipeBrokenError("SKILL IPC reader or writer failed") from self._cause
 
             resp = cast("SkillResp", self._resp)
             self._resp = _MISSING
@@ -219,13 +290,45 @@ class _StateMachine:
                 self._cause = None
             return resp
 
+    def _break_on_write_timeout(self, timeout: float | None) -> SkillPipeTimeoutError:
+        failure = SkillPipeTimeoutError(
+            timeout if timeout is not None else 0.0,
+            phase="command write",
+        )
+        self._cause = failure
+        self._state = _PipeState.BROKEN
+        self._command = None
+        self._resp = _MISSING
+        self._writing = False
+        self._writer_stopping = True
+        self._sync.notify_all()
+        return failure
+
+    def _wait_for_response(self, timeout: float | None, deadline: float | None) -> None:
+        while self._state is _PipeState.EXECUTING and self._resp is _MISSING:
+            remaining = _remaining(deadline)
+            if remaining is not None and remaining <= 0.0:
+                break
+            self._sync.wait(remaining)
+
+        if self._state is _PipeState.EXECUTING and self._resp is _MISSING:
+            self._state = _PipeState.DRAINING
+            self._drain_generation += 1
+            generation = self._drain_generation
+            self._drain.start(lambda: self._expire_drain(generation))
+            self._sync.notify_all()
+            raise SkillPipeTimeoutError(
+                timeout if timeout is not None else 0.0, phase="SKILL response"
+            )
+
     def publish(self, event: SkillResp | Exception) -> None:
         with self._sync:
             if self._state is _PipeState.CLOSED:
                 return
             if isinstance(event, Exception):
-                self._cause = event
-                self._state = _PipeState.BROKEN
+                if self._state not in {_PipeState.CLOSED, _PipeState.BROKEN}:
+                    self._cause = event
+                    self._state = _PipeState.BROKEN
                 self._drain.cancel()
                 self._sync.notify_all()
                 return
@@ -291,6 +394,8 @@ class Pipe:
         "_reader",
         "_thread",
         "_writer",
+        "_writer_start_lock",
+        "_writer_thread",
     )
 
     _decoder: Response
@@ -298,6 +403,8 @@ class Pipe:
     _machine: _StateMachine
     _reader: TextIO | BufferedIOBase
     _thread: threading.Thread
+    _writer_start_lock: threading.Lock
+    _writer_thread: threading.Thread | None
     _writer: TextIO
 
     def __init__(
@@ -322,6 +429,8 @@ class Pipe:
         )
         self._lock = threading.Lock()
         self._machine = _StateMachine(drain_timeout)
+        self._writer_start_lock = threading.Lock()
+        self._writer_thread = None
 
         self._start()
 
@@ -342,27 +451,24 @@ class Pipe:
         return self._machine.state
 
     def wait_until_ready(self, timeout: float | None = None) -> bool:
-        """Wait until recovery finishes.
-
-        Returns:
-            Whether the pipe reached the ready state before the timeout.
-        """
         return self._machine.wait_until_ready(timeout)
 
     def close(self) -> None:
-        """Close the command stream; the reader exits after the peer closes its response."""
-        if self._machine.close():
-            with suppress(OSError):
-                self._writer.close()
+        self._start_writer()
+        self._machine.close()
 
     def wait_closed(self, timeout: float | None = None) -> bool:
-        """Wait for the reader thread.
-
-        Returns:
-            Whether the peer closed its response stream before the timeout.
-        """
+        deadline = None if timeout is None else time.monotonic() + timeout
         self._thread.join(timeout)
-        return not self._thread.is_alive()
+        if self._thread.is_alive():
+            return False
+        with self._writer_start_lock:
+            writer = self._writer_thread
+        if writer is None:
+            return True
+        remaining = None if deadline is None else _remaining(deadline)
+        writer.join(remaining)
+        return not writer.is_alive()
 
     def wait_peer_closed(self, timeout: float | None = None) -> bool:
         """Wait for the reader thread and report whether the peer ended the pipe.
@@ -370,7 +476,8 @@ class Pipe:
         Returns:
             Whether the reader thread exited without a prior local close.
         """
-        if not self.wait_closed(timeout):
+        self._thread.join(timeout)
+        if self._thread.is_alive():
             return False
         return self._machine.state is not _PipeState.CLOSED
 
@@ -417,31 +524,50 @@ class Pipe:
                 )
 
             self._machine.begin(timeout=timeout, deadline=deadline)
-            try:
-                self._writer.write(cmd)
-                self._writer.write("\n")
-                self._writer.flush()
-            except Exception as exc:
-                if not self._machine.write_failed(exc):
-                    raise SkillPipeClosedError(
-                        "SKILL pipe was closed while writing a command"
-                    ) from exc
-                raise SkillPipeBrokenError("failed to write command to the SKILL IPC pipe") from exc
+            self._start_writer()
+            self._machine.queue_command(cmd)
 
             return self._machine.wait_response(timeout=timeout, deadline=deadline)
         finally:
             self._lock.release()
 
+    def _start_writer(self) -> None:
+        with self._writer_start_lock:
+            if self._writer_thread is not None:
+                return
+            self._writer_thread = threading.Thread(
+                target=self._writer_loop,
+                name="allegrobridge-pipe-writer",
+                daemon=True,
+            )
+            self._writer_thread.start()
+
+    def _writer_loop(self) -> None:
+        try:
+            while True:
+                command = self._machine.take_command()
+                if command is None:
+                    return
+                failure: Exception | None = None
+                try:
+                    self._writer.write(command)
+                    self._writer.flush()
+                except Exception as exc:  # ruff: ignore[blind-except] - poison writer
+                    failure = exc
+                self._machine.write_completed(failure)
+        finally:
+            with suppress(OSError):
+                self._writer.close()
+
     def _start(self) -> None:
         def loop() -> None:
-            try:  # ruff: ignore[too-many-statements-in-try-clause]
+            try:
                 while True:
                     resp = self._decoder.recv()
                     self._machine.publish(resp)
                     if resp.status == 'restart':
-                        # Wait for execute() to release the lock before closing its flushed writer.
-                        with self._lock, suppress(OSError):
-                            self._writer.close()
+                        # Let the writer owner finish an in-flight flush before closing.
+                        self._machine.stop_writer()
                         return
             except Exception as exc:  # ruff: ignore[blind-except] - publish reader failure
                 self._machine.publish(exc)
