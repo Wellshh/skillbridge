@@ -121,6 +121,25 @@ Creates a value.
     ]
 
 
+def test_s048_runtime_signature_overrides_cover_arglist_mismatches() -> None:
+    specs = {spec.name: spec for spec in generator.build_api_specs(API_NAMES_PATH, REFERENCE_ROOT)}
+
+    assert [
+        (parameter.name, parameter.optional, parameter.kind, parameter.value_name)
+        for parameter in specs['axlDBChangeDesignUnits'].declarations[0].parameters
+    ] == [
+        ('t_units/nil', False, 'positional', None),
+        ('x_accuracy/nil', False, 'positional', None),
+    ]
+    assert [
+        (parameter.name, parameter.optional, parameter.kind, parameter.value_name)
+        for parameter in specs['axlUIWMove'].declarations[0].parameters
+    ] == [
+        ('r_window/nil', False, 'positional', None),
+        ('l_xy', False, 'positional', None),
+    ]
+
+
 def test_build_api_specs_parses_full_document_sections(tmp_path: Path) -> None:
     api_names_path, reference_root = _write_sources(
         tmp_path,
@@ -412,7 +431,7 @@ Different declaration.
 
 
 @pytest.mark.skipif(not REFERENCE_ROOT.is_dir(), reason='Cadence reference docs not available')
-def test_real_allegro_references_cover_the_supported_inventory() -> None:
+def test_real_allegro_references_cover_the_supported_inventory() -> None:  # ruff: ignore[too-many-statements]
     specs = build_api_specs(API_NAMES_PATH, REFERENCE_ROOT)
     by_name = {spec.name: spec for spec in specs}
 
@@ -460,6 +479,16 @@ def test_real_allegro_references_cover_the_supported_inventory() -> None:
     assert by_name['axl_ol_ol2'].quality == 'exact'
     assert by_name['axlReportList'].quality == 'exact'
     assert by_name['axlPurgePadstacks'].quality == 'exact'
+    assert [
+        parameter.name for parameter in by_name['axlCnsPurgeCsets'].declarations[0].parameters
+    ] == ['s_type']
+    assert [
+        parameter.name for parameter in by_name['axlCnsPurgeObjects'].declarations[0].parameters
+    ] == ['s_type']
+    assert [
+        parameter.name
+        for parameter in by_name['axlGetDieStackMemberSet'].declarations[0].parameters
+    ] == ['g_stackArg']
     assert by_name['axlSpreadsheetDoc'].quality == 'document_only'
     assert by_name['axlcreate'].quality == 'exact'
     assert by_name['axlDBCreateFilmRec'].quality == 'fallback'

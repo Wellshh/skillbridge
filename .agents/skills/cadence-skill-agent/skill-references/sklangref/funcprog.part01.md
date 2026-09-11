@@ -1,7 +1,7 @@
 <!--
 source: sklangref/funcprog.md
 part: 1/2
-estimated_tokens: 13479
+estimated_tokens: 12966
 -->
 
 ### Cadence SKILL Language Reference Product Version 6.1.6 November 2014
@@ -1570,48 +1570,4 @@ Calls an`nlambda` function. Prints a list of the unevaluated arguments. `println
 #### Reference
 
 , ,
-
-### procedure
-
-`procedure( s_funcName( l_formalArglist ) g_expr1 ... ) => s_funcName`
-
-#### Description
-
-Defines a function using a formal argument list. The body of the procedure is a list ofexpressions to evaluate.
-
-The body of the procedure is a list of expressions to be evaluated one after another when`s_funcName` is called. There must be no white space between `procedure` and the open parenthesis that follows, nor between `s_funcName` and the open parenthesis of `l_formalArglist`. However, for `defun` there must be white space between `s_funcName` and the open parenthesis. This is the only difference between the two functions. `defun` has been provided principally so that you can your code appear more like other LISP dialects.
-
-The last argument in`l_formalArglist` can be a string denoting type-checking characters, specified using the argument type template. For more information about specifying the argument type template, see [Type Checking](../sklanguser/chap3.html#typechecking) in [Cadence SKILL Language User Guide](../sklanguser/sklanguserTOC.md).
-
-Expressions within a function can reference any variable on the formal argument list or anyglobal variable defined outside the function. If necessary, local variables can be declared using the `let` or `prog` functions.
-
-#### Arguments
-
-| Name | Description |
-|---|---|
-| `s_funcName` | Name of the function you are defining. |
-| `l_formalArglist` | Formal argument list. |
-| `g_expr1` | Expression or expressions to be evaluated when `s_funcName` is called. |
-
-#### Value Returned
-
-| Name | Description |
-|---|---|
-| `s_funcName` | Name of the function being defined. |
-
-#### ARGUMENT LIST PARAMETERS
-
-Several parameters provide flexibility in procedure argument lists. These parameters arereferred to as @ ("at") options. The parameters are `@rest`, `@optional`, `@key`, and `@aux`.
-
-#### @rest Option
-
-The`@rest` option allows an arbitrary number of arguments to be passed into a function. Let's say you need a function that takes any number of arguments and returns a list of them in reverse order. Using the `@rest` option simplifies this task.
-
-**Note:** The name of the parameter following`@rest` is changeable. The `r` has been used for convenience.
-
-`procedure( myReverse( @rest r )    reverse( r ))=> myReverse`
-
-`myReverse( 'a 'b 'c )=> (c b a)`
-
-#### @optional Option
 

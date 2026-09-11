@@ -787,6 +787,7 @@ class TestReadApi:
         assert allegrobridge.Net is Net
         assert allegrobridge.Pin is Pin
         assert allegrobridge.Route is Route
+        assert allegrobridge.RouteConnectResult is RouteConnectResult
         assert allegrobridge.Via is Via
         assert allegrobridge.Shape is Shape
         assert allegrobridge.Board is Board
@@ -1373,7 +1374,7 @@ class TestReadApi:
             '__abProjectRoutes': project_rpc,
         }.__getitem__
 
-        created = _session(workspace).routes.connect(
+        result = _session(workspace).routes.connect(
             'VCC',
             (1.0, 0.0),
             (2.0, 0.0),
@@ -1381,73 +1382,161 @@ class TestReadApi:
             0.2,
         )
 
-        assert len(created.added) == 1
-        assert created.added[0].model_dump() == AbRoute.model_validate(duplicate).model_dump()
+        assert len(result.added) == 1
+        assert result.removed == []
+        assert result.added[0].model_dump() == AbRoute.model_validate(duplicate).model_dump()
 
-    def test_route_connect_accepts_no_change_and_disconnected_change(self) -> None:
+    def test_route_connect_returns_empty_result_without_error(self) -> None:
+        # Both deltas empty is a legal outcome (silent no-op on already-connected
+        # pairs); the former ROUTE_CONNECT_NO_CHANGE error is gone.
         source = _route_payload((0.0, 0.0), (1.0, 0.0), net='VCC')
-        cases = [
-            ([source], 0),
-            (
-                [
-                    source,
-                    _route_payload((1.0, 0.0), (2.0, 0.0), net='VCC'),
-                    _route_payload((10.0, 0.0), (11.0, 0.0), net='VCC'),
-                ],
-                2,
-            ),
-        ]
-        for after, added_count in cases:
-            workspace = MagicMock()
-            workspace.__getitem__.side_effect = {
-                '__abConnectRoutes': MagicMock(return_value=[source]),
-                '__abProjectRoutes': MagicMock(return_value=after),
-            }.__getitem__
-
-            result = _session(workspace).routes.connect(
-                'VCC',
-                (1.0, 0.0),
-                (2.0, 0.0),
-                'ETCH/TOP',
-                0.2,
-            )
-            assert len(result.added) == added_count
-
-    def test_route_connect_accepts_inner_spaces_in_net_name(self) -> None:
         workspace = MagicMock()
         workspace.__getitem__.side_effect = {
-            '__abConnectRoutes': MagicMock(return_value=[]),
-            '__abProjectRoutes': MagicMock(return_value=[]),
+            '__abConnectRoutes': MagicMock(return_value=[source]),
+            '__abProjectRoutes': MagicMock(return_value=[source.copy()]),
         }.__getitem__
 
         result = _session(workspace).routes.connect(
-            'MY NET',
+            'VCC',
             (1.0, 0.0),
             (2.0, 0.0),
             'ETCH/TOP',
             0.2,
         )
+
+        assert result.added == []
+        assert result.removed == []
+
+    def test_route_connect_returns_disconnected_added_without_error(self) -> None:
+        # Disjoint added rows (tee splits, collateral re-materialization) are
+        # reported verbatim; the former ROUTE_CONNECT_AMBIGUOUS chain check is gone.
+        source = _route_payload((0.0, 0.0), (1.0, 0.0), net='VCC')
+        first = _route_payload((1.0, 0.0), (2.0, 0.0), net='VCC')
+        second = _route_payload((10.0, 0.0), (11.0, 0.0), net='VCC')
+        workspace = MagicMock()
+        workspace.__getitem__.side_effect = {
+            '__abConnectRoutes': MagicMock(return_value=[source]),
+            '__abProjectRoutes': MagicMock(return_value=[source.copy(), first, second]),
+        }.__getitem__
+
+        result = _session(workspace).routes.connect(
+            'VCC',
+            (1.0, 0.0),
+            (2.0, 0.0),
+            'ETCH/TOP',
+            0.2,
+        )
+
+        assert [route.model_dump() for route in result.added] == [
+            AbRoute.model_validate(first).model_dump(),
+            AbRoute.model_validate(second).model_dump(),
+        ]
+        assert result.removed == []
+
+    def test_route_connect_reports_removed_rows_as_stale_history(self) -> None:
+        # Rows present before but gone after are returned in removed; they keep the
+        # pre-refresh generation and are therefore stale immediately.
+        source = _route_payload((0.0, 0.0), (1.0, 0.0), net='VCC')
+        gone = _route_payload((1.0, 0.0), (2.0, 0.0), net='VCC', layer='ETCH/GND')
+        workspace = MagicMock()
+        workspace.__getitem__.side_effect = {
+            '__abConnectRoutes': MagicMock(return_value=[source, gone]),
+            '__abProjectRoutes': MagicMock(return_value=[source.copy()]),
+        }.__getitem__
+        session = _session(workspace)
+        generation = session.generation
+
+        result = session.routes.connect(
+            'VCC',
+            (1.0, 0.0),
+            (2.0, 0.0),
+            'ETCH/TOP',
+            0.2,
+        )
+
+        assert result.added == []
+        assert len(result.removed) == 1
+        assert result.removed[0].model_dump() == AbRoute.model_validate(gone).model_dump()
+        assert result.removed[0]._id == _ID(ref(session), generation)
+        assert session.generation == generation + 1
+        with pytest.raises(RecordIDError, match='stale'):
+            result.removed[0]._check_id(session)
+
+    def test_route_connect_allows_inner_space_in_net(self) -> None:
+        # Inner ASCII spaces survive %L quoting end to end (probe-verified on
+        # Allegro 17.2 with a renamed "NET 24").
+        workspace = MagicMock()
+        connect_rpc = MagicMock(return_value=[])
+        project_rpc = MagicMock(return_value=[])
+        workspace.__getitem__.side_effect = {
+            '__abConnectRoutes': connect_rpc,
+            '__abProjectRoutes': project_rpc,
+        }.__getitem__
+
+        result = _session(workspace).routes.connect(
+            'NET 24',
+            (1.0, 2.0),
+            (3.0, 4.0),
+            'ETCH/TOP',
+            0.2,
+        )
+
         assert isinstance(result, RouteConnectResult)
+        connect_rpc.assert_called_once_with(
+            'NET 24',
+            Point(1.0, 2.0),
+            Point(3.0, 4.0),
+            'ETCH/TOP',
+            0.2,
+        )
 
     @pytest.mark.parametrize(
-        ('net', 'layer'),
+        'net',
         [
-            ('', 'ETCH/TOP'),
-            (' VCC', 'ETCH/TOP'),
-            ('VCC ', 'ETCH/TOP'),
-            ('V\tCC', 'ETCH/TOP'),
-            ('VCC;delete', 'ETCH/TOP'),
-            ('VCC', ''),
-            ('VCC', 'ETCH/TO"P'),
-            ('VCC', 'ETCH/TO\x1fP'),
+            '',
+            '   ',
+            ' VCC',
+            'VCC ',
+            'V\tCC',
+            'V\xa0CC',
+            'VCC;delete',
+            'VC"C',
+            "VC'C",
+            'VC\x1fC',
+            'VC\x7fC',
         ],
     )
-    def test_route_connect_rejects_unsafe_names_before_rpc(self, net: str, layer: str) -> None:
+    def test_route_connect_rejects_unsafe_net_names_before_rpc(self, net: str) -> None:
         workspace = MagicMock()
 
         with pytest.raises(ValueError):
             _session(workspace).routes.connect(
                 net,
+                (1.0, 2.0),
+                (3.0, 4.0),
+                'ETCH/TOP',
+                0.2,
+            )
+
+        workspace.__getitem__.assert_not_called()
+
+    @pytest.mark.parametrize(
+        'layer',
+        [
+            '',
+            'ETCH/TO P',
+            'ETCH/TO\tP',
+            'ETCH/TO"P',
+            'ETCH/TO;P',
+            'ETCH/TO\x1fP',
+        ],
+    )
+    def test_route_connect_rejects_unsafe_layer_names_before_rpc(self, layer: str) -> None:
+        workspace = MagicMock()
+
+        with pytest.raises(ValueError):
+            _session(workspace).routes.connect(
+                'VCC',
                 (1.0, 2.0),
                 (3.0, 4.0),
                 layer,
@@ -1549,6 +1638,71 @@ class TestReadApi:
                 'ETCH/TOP',
                 width,
             )
+
+    @pytest.mark.parametrize(
+        'first',
+        [LineTo(Point(3.0, 4.0)), ArcTo(Point(3.0, 4.0), Point(2.0, 3.0), clockwise=True)],
+        ids=['lineto', 'arcto'],
+    )
+    def test_route_create_rejects_step_as_first_element(self, first: LineTo | ArcTo) -> None:
+        workspace = MagicMock()
+        session = _session(workspace)
+
+        with pytest.raises(ValueError, match='first path element'):
+            session.routes.create.command(
+                'GND',
+                [first, (5.0, 6.0)],
+                'ETCH/TOP',
+                0.2,
+            )
+
+        workspace.__getitem__.assert_not_called()
+
+    @pytest.mark.parametrize(
+        'path',
+        [
+            [(1.0, 2.0), (1.0, 2.0), (3.0, 4.0)],
+            [(1.0, 2.0), Point(1.0, 2.0)],
+            [(1.0, 2.0), (3.0, 4.0), LineTo(Point(3.0, 4.0))],
+            [(1.0, 2.0), ArcTo(Point(1.0, 2.0), Point(0.0, 3.0), clockwise=True)],
+        ],
+        ids=['start-duplicate', 'point-duplicate', 'lineto-duplicate', 'zero-length-arc'],
+    )
+    def test_route_create_rejects_adjacent_duplicate_points(
+        self,
+        path: Sequence[Point | tuple[float, float] | LineTo | ArcTo],
+    ) -> None:
+        workspace = MagicMock()
+        session = _session(workspace)
+
+        with pytest.raises(ValueError, match='adjacent'):
+            session.routes.create.command(
+                'GND',
+                path,
+                'ETCH/TOP',
+                0.2,
+            )
+
+        workspace.__getitem__.assert_not_called()
+
+    def test_route_create_allows_non_adjacent_repeat(self) -> None:
+        workspace = MagicMock()
+        remote = workspace.__getitem__.return_value
+        remote.expr.return_value = Expr.raw_skill('__abCreatePath(...)')
+        session = _session(workspace)
+
+        command = session.routes.create.command(
+            'GND',
+            [(1.0, 2.0), (3.0, 4.0), (1.0, 2.0)],
+            'ETCH/TOP',
+            0.2,
+        )
+
+        assert command.proc == '__abCreatePath'
+        assert remote.expr.call_args.args[2] == [
+            LineTo(Point(3.0, 4.0)),
+            LineTo(Point(1.0, 2.0)),
+        ]
 
     @pytest.mark.parametrize(
         'value',

@@ -248,9 +248,24 @@ SIGNATURE_OVERRIDES: dict[str, tuple[str, ...]] = {
     'axlDBGetDrillPlating': ('axlDBGetDrillPlating(t_padstackname) => s_plating/nil',),
     'axlDBGetLayerType': ('axlDBGetLayerType(t_layername) => t_layertype/nil',),
     'axlDllCallList': ('axlDllCallList(o_pluginFunc l_args) => nil/x_value/lg_data',),
+    # Allegro 17.2 S048 arglist reports one symbol argument; the source
+    # rendering repeats the literal ``list`` as if it were a parameter.
+    'axlCnsPurgeCsets': ('axlCnsPurgeCsets(s_type) => x_purgeCount',),
+    'axlCnsPurgeObjects': ('axlCnsPurgeObjects(s_type) => x_purgeCount',),
+    # Allegro 17.2 S048 arglist exposes two inputs; the published
+    # axlDBChangeDesignUnits rendering repeats its result count as an input.
+    'axlDBChangeDesignUnits': (
+        'axlDBChangeDesignUnits(t_units/nil x_accuracy/nil) => x_drcCount/nil',
+    ),
     'axlGetModuleInstanceLogicMethod': (
         'axlGetModuleInstanceLogicMethod(o_modinst) => i_logic/nil',
     ),
+    # The S048 runtime and examples take the die-stack name, while the
+    # published signature omits it.
+    'axlGetDieStackMemberSet': ('axlGetDieStackMemberSet(g_stackArg) => l_data/nil',),
+    # S048 arglist and the official two-argument example omit the stale
+    # t_window parameter present in the rendered declaration.
+    'axlUIWMove': ('axlUIWMove(r_window/nil l_xy) => t/nil',),
     'axlMKSAlias': ('axlMKSAlias(t_mksAlias) => t_def/nil',),
     'axlPathOffset': ('axlPathOffset(r_path offset) => r_path',),
     'axlMeterCreate': (
@@ -626,8 +641,11 @@ def _is_junk_row(cells: Sequence[str]) -> bool:
     return all(not cell or JUNK_CELL.match(cell) for cell in cells)
 
 
+MIN_TABLE_COLUMNS = 2
+
+
 def _is_table_header(cells: Sequence[str]) -> bool:
-    if len(cells) < 2:
+    if len(cells) < MIN_TABLE_COLUMNS:
         return False
     first = re.sub(r'[`*_]', '', cells[0]).strip().casefold()
     second = re.sub(r'[`*_]', '', cells[1]).strip().casefold()
@@ -654,6 +672,24 @@ def _bullet_doc(stripped: str) -> ArgumentDoc | None:
     return ArgumentDoc(token.group(1).lstrip('?'), _clean_prose(remainder))
 
 
+def _parse_table_row(stripped: str) -> tuple[str, ArgumentDoc | str | None]:
+    cells = _row_cells(stripped)
+    if _is_junk_row(cells) or _is_table_header(cells):
+        return 'skip', None
+    if len(cells) > 1 and cells[0]:
+        name = _cell_name(cells[0])
+        prose = _clean_prose(' '.join(cell for cell in cells[1:] if cell))
+        return 'append', ArgumentDoc(name, prose) if name and prose else None
+    continuation = _clean_prose(' '.join(cell for cell in cells if cell))
+    return 'continue', continuation or None
+
+
+def _append_continuation(docs: list[ArgumentDoc], continuation: str) -> None:
+    if docs and continuation:
+        previous = docs[-1]
+        docs[-1] = ArgumentDoc(previous.name, f'{previous.description} {continuation}')
+
+
 def _parse_named_rows(lines: Sequence[str]) -> tuple[ArgumentDoc, ...]:
     docs: list[ArgumentDoc] = []
     for line in lines:
@@ -661,19 +697,11 @@ def _parse_named_rows(lines: Sequence[str]) -> tuple[ArgumentDoc, ...]:
         if not stripped:
             continue
         if stripped.startswith('|'):
-            cells = _row_cells(stripped)
-            if _is_junk_row(cells) or _is_table_header(cells):
-                continue
-            if len(cells) > 1 and cells[0]:
-                name = _cell_name(cells[0])
-                prose = _clean_prose(' '.join(cell for cell in cells[1:] if cell))
-                if name and prose:
-                    docs.append(ArgumentDoc(name, prose))
-                continue
-            continuation = _clean_prose(' '.join(cell for cell in cells if cell))
-            if continuation and docs:
-                previous = docs[-1]
-                docs[-1] = ArgumentDoc(previous.name, f'{previous.description} {continuation}')
+            action, value = _parse_table_row(stripped)
+            if action == 'append' and isinstance(value, ArgumentDoc):
+                docs.append(value)
+            elif action == 'continue' and isinstance(value, str):
+                _append_continuation(docs, value)
             continue
         bullet = _bullet_doc(stripped)
         if bullet is not None and (bullet.name or bullet.description):
@@ -681,9 +709,7 @@ def _parse_named_rows(lines: Sequence[str]) -> tuple[ArgumentDoc, ...]:
             continue
         if docs:
             continuation = _clean_prose(stripped.rstrip('|').rstrip())
-            if continuation:
-                previous = docs[-1]
-                docs[-1] = ArgumentDoc(previous.name, f'{previous.description} {continuation}')
+            _append_continuation(docs, continuation)
     return tuple(docs)
 
 

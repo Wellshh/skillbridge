@@ -204,6 +204,38 @@ class CompletionTests(LspTestBase):
         self.assertEqual(items[0]["detail"], "axlRenameNet( t_old_name t_new_name ) => t/nil")
         self.assertIn("renamenet.md", items[0]["documentation"])
 
+    def test_exact_case_prefix_is_not_hidden_by_completion_cap(self):
+        entry_type = type(next(iter(self.server.entries.values())))
+        self.server._entries = {
+            entry.name.casefold(): entry
+            for entry in (
+                [
+                    entry_type(
+                        name=f"axlDBFake{index:02d}",
+                        signature="axlDBFake() => t",
+                        source="algroskill/fake.md",
+                        line=index,
+                        description="",
+                        domain="algroskill",
+                    )
+                    for index in range(60)
+                ]
+                + [
+                    entry_type(
+                        name="axlDbidName",
+                        signature="axlDbidName( o_dbid ) => t_name/nil",
+                        source="algroskill/dbidname.md",
+                        line=1,
+                        description="",
+                        domain="algroskill",
+                    )
+                ]
+            )
+        }
+        items = self.complete_at("axlDb\n", 0, 5)
+        self.assertEqual(items[0]["label"], "axlDbidName")
+        self.assertIn("axlDbidName", [item["label"] for item in items])
+
     def test_empty_prefix_offers_nothing(self):
         self.assertEqual(self.complete_at("  \n", 0, 2), [])
 

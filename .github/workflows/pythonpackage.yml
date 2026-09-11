@@ -41,18 +41,37 @@ jobs:
     - name: Check with pyright
       if: matrix.python-version == '3.10'
       run: |
-        pyright --warnings allegrobridge
+        pyright --warnings --pythonpath "$(python -c 'import sys; print(sys.executable)')" allegrobridge
 
     - name: Check typing fixtures
       if: matrix.python-version == '3.10'
       run: |
         mypy tests/typing_allegrobridge_axl_stubs.py
-        pyright --warnings tests/typing_allegrobridge_axl_stubs.py
+        pyright --warnings --pythonpath "$(python -c 'import sys; print(sys.executable)')" tests/typing_allegrobridge_axl_stubs.py
 
     - name: Check generated Allegro stubs
       if: matrix.python-version == '3.10'
       run: |
         python scripts/generate_axl_stubs.py --check
+
+    - name: Check Cadence assessment gate
+      if: matrix.python-version == '3.10'
+      run: |
+        pytest .agents/skills/cadence-skill-agent/tests/test_verify_assessment.py -q
+        python .agents/skills/cadence-skill-agent/scripts/verify_assessment.py \
+          .agents/skills/cadence-skill-agent/tests/fixtures/assessment-smoke.json \
+          --root .agents/skills/cadence-skill-agent/skill-references
+
+    - name: Check Cadence quality baselines
+      if: matrix.python-version == '3.10'
+      run: |
+        python .agents/skills/cadence-skill-agent/scripts/build_reference_indexes.py --check
+        python .agents/skills/cadence-skill-agent/scripts/check_signatures.py
+        python .claude/scripts/build_orcad_index.py --check
+        python .agents/skills/cadence-skill-agent/scripts/validate_skill_api.py --check
+        python .agents/skills/cadence-skill-agent/scripts/eval_retrieval.py --check
+        python .agents/skills/cadence-skill-agent/scripts/eval_generation.py \
+          --samples .claude/eval-samples --check
 
     - name: Test with pytest
       run: |

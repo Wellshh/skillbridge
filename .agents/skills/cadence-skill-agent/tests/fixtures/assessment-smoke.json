@@ -1,0 +1,14 @@
+{
+  "agent": "cadence-skill-agent",
+  "phase": "assessment",
+  "payload": {
+    "api_evidence": [
+      {
+        "api": "axlDbidName",
+        "source": "algroskill/26logacc.md",
+        "line": 390,
+        "signature": "axlDbidName( o_dbid ) => t_name/nil"
+      }
+    ]
+  }
+}

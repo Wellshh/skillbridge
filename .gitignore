@@ -40,3 +40,9 @@ tmp/
 # MkDocs build output
 site/
 .DS_Store
+
+_*.py
+
+probe*/
+.artifacts
+*.lck

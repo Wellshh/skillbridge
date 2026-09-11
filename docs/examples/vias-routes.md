@@ -63,8 +63,21 @@ list of `Route` records, one per created segment:
 !!! note "Input validation"
 
     `routes.create` validates before anything reaches Allegro: fewer than two
-    points, a malformed or non-finite coordinate, or a non-positive width each
-    raise `ValueError` immediately.
+    points, a `LineTo`/`ArcTo` step in the first position (the start must be a
+    plain coordinate), adjacent duplicate points, a malformed or non-finite
+    coordinate, or a non-positive width each raise `ValueError` immediately.
+    Allegro itself silently drops zero-length segments, so rejecting adjacent
+    duplicates surfaces caller bugs instead of hiding them.
+
+!!! warning "Net assignment"
+
+    The net name must exist in the design: a nonexistent name fails with
+    `ROUTE_CREATE_FAILED` and the transaction rolls back. `net=""` is accepted
+    and creates unassigned copper (Allegro's dummy net). Even with an existing
+    net, Allegro attaches the net name only to etch connected to a pin, via, or
+    shape — segments placed away from that net's copper come back as `Route`
+    rows with `net=None`. Each row's `net` is therefore the database's own
+    assignment, not an echo of the requested name.
 
 ## Connecting two points (interactive router)
 
@@ -72,40 +85,64 @@ list of `Route` records, one per created segment:
 the CLI, so it requires a CLI-mode session:
 
 ```python
-added = pcb.routes.connect("SCLK", (100.0, 50.0), (120.0, 80.0), "ETCH/TOP", 0.2)
+result = pcb.routes.connect("SCLK", (100.0, 50.0), (120.0, 80.0), "ETCH/TOP", 0.2)
 ```
 
-The result is the list of `Route` segments that were actually added,
-re-projected from the database after the command ran — so it reflects
-Allegro's own routing decisions (grid snapping, layer changes) rather than the
-requested geometry.
+The result is a `RouteConnectResult` describing what changed on the target
+net, re-projected from the database after the command ran:
 
-!!! warning "Immediate operation"
+- `result.added` — `Route` segments that newly appeared on the net. They
+  belong to the refreshed session generation.
+- `result.removed` — segments that existed before and disappeared. They are a
+  historical snapshot, stale immediately (`RecordIDError` on reuse).
+
+The delta is a multiset (duplicate segments are preserved) and covers the
+target net only — collateral changes on other nets are excluded. It reports
+projection differences, not Allegro DBID creation/deletion identity: `added`
+may contain split, direction-flipped, or re-materialized old copper rather
+than a brand-new main chain. Both lists being empty is a legal outcome (e.g.
+the two points were already connected and the router declined to act).
+
+!!! warning "No connectivity guarantee"
+
+    `connect()` executes a structured `add connect` command and reports the
+    observable database delta. Allegro snaps picks to pins/copper/grid, moves
+    points beyond the database resolution, and silently no-ops on unanchored
+    coordinates — a non-empty `added` does **not** prove the two requested
+    coordinates became electrically connected.
+
+!!! warning "Immediate, non-idempotent operation"
 
     `add connect` mutates the database outside a transaction, so
     `routes.connect` has no `.preview(...)`, `.command(...)`, or batch
-    semantics, and a failed call is never replayed automatically. The session
-    is refreshed even if the command fails: previously queried records become
-    stale and raise `RecordIDError` on reuse.
+    semantics, and a failed call is never replayed automatically. Repeated
+    calls with the same arguments may re-route existing copper or change
+    nothing. The session is refreshed even if the command fails: previously
+    queried records become stale and raise `RecordIDError` on reuse.
 
-Failures raise `RuntimeError` carrying a SKILL marker. Pre-command checks run
-before anything is executed — the database is untouched:
+`layer` and `width` are hints: in probe evidence Allegro placed copper on its
+own current layer regardless of the requested one, and constraint widths
+overrode the requested width. The authoritative values are whatever the
+returned `Route` rows carry.
+
+Coordinates and `width` are transmitted with full IEEE-754 double round-trip
+precision (`%.17g`; SKILL's default float rendering keeps only ~7 significant
+digits) and are never pre-quantized. Allegro rounds the committed geometry by
+the design's own units/accuracy, so the returned `Route` coordinates are the
+authoritative database values.
+
+Pre-command checks raise `RuntimeError` carrying a SKILL marker before
+anything is executed — the database is untouched:
 
 - `ROUTE_CONNECT_NET_NOT_FOUND` — no such net in the design.
 - `ROUTE_CONNECT_LAYER_NOT_FOUND` — no such layer.
 
-Post-command failures happen after `add connect` already ran; the database
-may have changed and nothing is rolled back:
-
-- `ROUTE_CONNECT_NO_CHANGE` — no new segments appeared on the net (e.g. the
-  two points were already connected).
-- `ROUTE_CONNECT_AMBIGUOUS` — the new segments do not form a single chain from
-  `start` to `end` (e.g. the command also touched other copper, or Allegro
-  snapped the picks away from the requested points).
-
-Because `net` and `layer` are interpolated into a shell command, both must be
-non-empty names without whitespace, `;`, quotes, or control characters —
-anything else raises `ValueError` before reaching Allegro.
+Because both names are interpolated into a shell command, they are validated
+first. `net` reaches the CLI quoted via SKILL `%L`, so it may contain inner
+ASCII spaces (e.g. `"NET 24"`); empty or pure-whitespace names, edge
+whitespace, `;`, quotes, and control characters still raise `ValueError`
+before reaching Allegro. `layer` reaches the CLI unquoted and must contain no
+whitespace at all.
 
 ## Finding DRC violations afterwards
 

@@ -72,6 +72,12 @@ coverage is below 100%.
   TestSkill` — this copies the suite into a temp dir, launches Allegro, runs
   the suite, and checks the report from Python.
 
+The Python wrapper test for the copied SKILL suite has a local 300-second
+pytest timeout. This is intentional: a cold Allegro 17.2 S048 startup can
+exceed the repository-wide 60-second default even when the bridge and suite
+are healthy. It does not change the bridge's own connection timeout or hide
+SKILL assertion failures.
+
 New test files are **not** auto-discovered: add a `load` line for your
 `test_*.ils` to the load list in `run.ils`.
 
@@ -116,7 +122,9 @@ python -m pytest
 ```
 
 CI also runs `ruff format --check`, `ruff check`, `mypy allegrobridge`,
-`pyright --warnings allegrobridge`, and generated-stub/typing checks. See
+Pyright against `allegrobridge` and the typing fixture, and generated-stub/
+typing checks. Pyright is passed the current job interpreter explicitly so its
+third-party import resolution is independent of the launcher environment; see
 `.github/workflows/pythonpackage.yml` for the complete commands and versions.
 
 Destructive Allegro checks use `Allegro.open(mode="cli")`, a disposable board
@@ -130,3 +138,18 @@ on every exit path.
 Python/static success is not an Allegro runtime result. Follow the Cadence
 skill's validation workflow for `sklint`, loading, and database postconditions;
 use `benchmark/README.md` for comparable Windows performance runs.
+
+On Windows, invoke `sklint` only through an owned
+`allegrobridge.Allegro.open(mode="cli")` session targeting the installed
+Allegro 17.2 S048 executable. Do not assume a standalone `sklint` executable
+exists. If `?checkPubFuncs t` cannot load the SkillDev public-function context,
+record that runtime gate as incomplete; `?checkPubFuncs nil` may provide an
+ordinary lint smoke result but does not replace the public-function gate.
+
+The installed `il_allegro.exe` may be useful as a supplemental SkillDev
+diagnostic when started with the installation's `TELENV` file. A successful
+`loadContext(skillDev.cxt)` or `skillDevStatus()` in that REPL does not prove
+that the public-function context is installed: `sklint(?checkPubFuncs t)` still
+requires the product-provided `tools/dfII/etc/context/64bit/cdsFuncs.cxt`.
+Keep this probe separate from the formal Allegrobridge gate and never create a
+replacement or stub context just to make the check pass.

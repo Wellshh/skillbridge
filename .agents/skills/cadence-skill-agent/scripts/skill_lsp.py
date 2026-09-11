@@ -30,13 +30,14 @@ from __future__ import annotations
 import json
 import re
 import sys
+from operator import itemgetter
 from pathlib import Path
 from typing import Any, BinaryIO, Dict, List, Optional, Tuple
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from search_api import _load_index, attach_descriptions  # noqa: E402
-from validate_skill_api import (  # noqa: E402
+from search_api import _load_index, attach_descriptions
+from validate_skill_api import (
     IDENTIFIER,
     load_corpus,
     load_verified_callables,
@@ -235,13 +236,21 @@ class SkillLanguageServer:
         for key in sorted(self.entries):
             entry = self.entries[key]
             if key.startswith(lowered):
-                items.append({
-                    "label": entry.name,
-                    "kind": 3,  # CompletionItemKind.Function
-                    "detail": entry.signature,
-                    "documentation": f"{entry.source}:{entry.line}",
-                })
-        return items[:MAX_COMPLETIONS]
+                items.append((
+                    # Prefer the spelling the user actually typed.  This keeps
+                    # ``axlDbidName`` visible for the natural ``axlDb`` prefix
+                    # even though many ``axlDB*`` symbols sort before it.
+                    not entry.name.startswith(prefix),
+                    key,
+                    {
+                        "label": entry.name,
+                        "kind": 3,  # CompletionItemKind.Function
+                        "detail": entry.signature,
+                        "documentation": f"{entry.source}:{entry.line}",
+                    },
+                ))
+        items.sort(key=itemgetter(0, 1))
+        return [item[2] for item in items[:MAX_COMPLETIONS]]
 
 
 # ---------------------------------------------------------------------------

@@ -5977,7 +5977,7 @@ class _AxlCnsPurgeAll(LiteralRemoteFunction):
     def expr(self, /) -> Expr[int]: ...
 
 class _AxlCnsPurgeCsets(LiteralRemoteFunction):
-    def __call__(self, list: Skill, l_type: list[Skill] | tuple[Skill, ...], /) -> int:
+    def __call__(self, s_type: Symbol, /) -> int:
         """
         `axlCnsPurgeAll()` Process all constraint sets of the specified domain and delete those without references.
 
@@ -5996,10 +5996,10 @@ class _AxlCnsPurgeCsets(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:218
         """
-    def expr(self, list: Skill, l_type: list[Skill] | tuple[Skill, ...], /) -> Expr[int]: ...
+    def expr(self, s_type: Symbol, /) -> Expr[int]: ...
 
 class _AxlCnsPurgeObjects(LiteralRemoteFunction):
-    def __call__(self, list: Skill, l_type: list[Skill] | tuple[Skill, ...], /) -> int:
+    def __call__(self, s_type: Symbol, /) -> int:
         """
         Process the database and delete all group_type objects that have no members; a netclass with no nets, or a region with no shapes.
 
@@ -6014,7 +6014,7 @@ class _AxlCnsPurgeObjects(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/18consmgt.part02.md:246
         """
-    def expr(self, list: Skill, l_type: list[Skill] | tuple[Skill, ...], /) -> Expr[int]: ...
+    def expr(self, s_type: Symbol, /) -> Expr[int]: ...
 
 class _AxlColorGet(LiteralRemoteFunction):
     @overload
@@ -7539,7 +7539,7 @@ class _AxlDBChangeDesignOrigin(LiteralRemoteFunction):
     def expr(self, l_point: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlDBChangeDesignUnits(LiteralRemoteFunction):
-    def __call__(self, t_units: str | None, x_accuracy: int | None, x_drc_count: int | None, /) -> int | None:
+    def __call__(self, t_units: str | None, x_accuracy: int | None, /) -> int | None:
         """
         Changes the units and accuracy of the design
 
@@ -7589,7 +7589,7 @@ class _AxlDBChangeDesignUnits(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/14dsnctl.md:706
         """
-    def expr(self, t_units: str | None, x_accuracy: int | None, x_drc_count: int | None, /) -> Expr[int | None]: ...
+    def expr(self, t_units: str | None, x_accuracy: int | None, /) -> Expr[int | None]: ...
 
 class _AxlDBChangeText(LiteralRemoteFunction):
     def __call__(self, o_dbid: RemoteObject, t_text: str, r_text_orientation: RemoteObject | int | None = ..., /) -> list[Skill] | None:
@@ -15816,13 +15816,16 @@ class _AxlGetDieStackData(LiteralRemoteFunction):
     def expr(self, g_stack_arg: Skill, /) -> Expr[Skill | None]: ...
 
 class _AxlGetDieStackMemberSet(LiteralRemoteFunction):
-    def __call__(self, /) -> Skill | None:
+    def __call__(self, g_stack_arg: Skill, /) -> list[Skill] | None:
         """
         `data = axlGetDieStackData("DIESTACK1") printf("name = %L, minHeight = %L, maxheight = %L\\n" data->name data->stackHeightMin data->stackHeightMax) ==> name = "DIESTACK1", minHeight = 0.0, maxheight = 496.0` Returns a list of defstructs - one for each member of the given die stack.
 
         `data = axlGetDieStackData("DIESTACK1") printf("name = %L, minHeight = %L, maxheight = %L\\n" data->name data->stackHeightMin data->stackHeightMax) ==> name = "DIESTACK1", minHeight = 0.0, maxheight = 496.0` Returns a list of defstructs - one for each member of the given die stack.
 
         Only available in SIP products.
+
+        Args:
+            g_stack_arg: name or `dbid` of the die stack
 
         Returns:
             l_data: List of die-stack member data defstructs
@@ -15832,7 +15835,7 @@ class _AxlGetDieStackMemberSet(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/sipapd.md:1102
         """
-    def expr(self, /) -> Expr[Skill | None]: ...
+    def expr(self, g_stack_arg: Skill, /) -> Expr[list[Skill] | None]: ...
 
 class _AxlGetDieStackNames(LiteralRemoteFunction):
     def __call__(self, /) -> Skill | None:
@@ -28387,7 +28390,7 @@ class _AxlUIWIsWindow(LiteralRemoteFunction):
     def expr(self, t_window: str, /) -> Expr[bool | None]: ...
 
 class _AxlUIWMove(LiteralRemoteFunction):
-    def __call__(self, r_window: RemoteObject | None, t_window: str, l_xy: list[Skill] | tuple[Skill, ...], /) -> bool | None:
+    def __call__(self, r_window: RemoteObject | None, l_xy: list[Skill] | tuple[Skill, ...], /) -> bool | None:
         """
         Moves a window
 
@@ -28401,7 +28404,6 @@ class _AxlUIWMove(LiteralRemoteFunction):
 
         Args:
             r_window: Window ID or if nil the main window.
-            t_window: Window name. This is the name that appears in Allegro scripting from the setwindow command.
             l_xy: (`x_X x_y`)
 
         Returns:
@@ -28419,7 +28421,7 @@ class _AxlUIWMove(LiteralRemoteFunction):
         Version: Allegro 17.2-2016
         Source: algroskill/10usrint.part01.md:1014
         """
-    def expr(self, r_window: RemoteObject | None, t_window: str, l_xy: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
+    def expr(self, r_window: RemoteObject | None, l_xy: list[Skill] | tuple[Skill, ...], /) -> Expr[bool | None]: ...
 
 class _AxlUIWPerm(LiteralRemoteFunction):
     def __call__(self, r_window: RemoteObject, t: bool | None = ..., /) -> bool | None:
@@ -41425,6 +41427,9 @@ class Axl(FunctionCollection):
 
     Only available in SIP products.
 
+    Args:
+        g_stack_arg: name or `dbid` of the die stack
+
     Returns:
         l_data: List of die-stack member data defstructs
         nil: in case of an error
@@ -51381,7 +51386,6 @@ class Axl(FunctionCollection):
 
     Args:
         r_window: Window ID or if nil the main window.
-        t_window: Window name. This is the name that appears in Allegro scripting from the setwindow command.
         l_xy: (`x_X x_y`)
 
     Returns:
@@ -63983,6 +63987,9 @@ class AxlGet(FunctionCollection):
 
     Only available in SIP products.
 
+    Args:
+        g_stack_arg: name or `dbid` of the die stack
+
     Returns:
         l_data: List of die-stack member data defstructs
         nil: in case of an error
@@ -73923,7 +73930,6 @@ class AxlUIW(FunctionCollection):
 
     Args:
         r_window: Window ID or if nil the main window.
-        t_window: Window name. This is the name that appears in Allegro scripting from the setwindow command.
         l_xy: (`x_X x_y`)
 
     Returns:

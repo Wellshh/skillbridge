@@ -398,29 +398,29 @@
     },
     {
       "path": "sklangref/funcprog.part01.md",
-      "chars": 54293,
-      "estimated_tokens": 13574,
+      "chars": 51938,
+      "estimated_tokens": 12985,
       "exceeds_limit": false,
-      "exceeds_safety_target": true
+      "exceeds_safety_target": false
     },
     {
       "path": "sklangref/funcprog.part02.md",
-      "chars": 15543,
-      "estimated_tokens": 3886,
+      "chars": 17898,
+      "estimated_tokens": 4475,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },
     {
       "path": "sklangref/inputoutput.part01.md",
-      "chars": 54566,
-      "estimated_tokens": 13642,
+      "chars": 53861,
+      "estimated_tokens": 13466,
       "exceeds_limit": false,
-      "exceeds_safety_target": true
+      "exceeds_safety_target": false
     },
     {
       "path": "sklangref/inputoutput.part02.md",
-      "chars": 11701,
-      "estimated_tokens": 2926,
+      "chars": 12406,
+      "estimated_tokens": 3102,
       "exceeds_limit": false,
       "exceeds_safety_target": false
     },

@@ -16,6 +16,41 @@
       "id": "with-undo-mark",
       "prompt": "Write a SKILL wrapper that runs a callback inside a database transaction, committing on success and rolling back on failure.",
       "expected_apis": ["axlDBTransactionStart", "axlDBTransactionCommit", "axlDBTransactionRollback"]
+    },
+    {
+      "id": "report-design",
+      "prompt": "Write a SKILL function that reports the current Allegro design database object.",
+      "expected_apis": ["axlDBGetDesign"]
+    },
+    {
+      "id": "report-design-units",
+      "prompt": "Write a SKILL function that reports the current design units from Allegro.",
+      "expected_apis": ["axlDBGetDesignUnits"]
+    },
+    {
+      "id": "report-drawing-name",
+      "prompt": "Write a SKILL function that reports the current drawing path name.",
+      "expected_apis": ["axlGetDrawingName"]
+    },
+    {
+      "id": "report-conductor-layers",
+      "prompt": "Write a SKILL function that reports the top and bottom conductor layer names.",
+      "expected_apis": ["axlConductorTopLayer", "axlConductorBottomLayer"]
+    },
+    {
+      "id": "report-selection-count",
+      "prompt": "Write a SKILL function that reports the current selection set count without changing the selection.",
+      "expected_apis": ["axlGetSelSetCount"]
+    },
+    {
+      "id": "report-find-filter-state",
+      "prompt": "Write a SKILL function that reports whether the Allegro find filter is open.",
+      "expected_apis": ["axlFindFilterIsOpen"]
+    },
+    {
+      "id": "report-current-design",
+      "prompt": "Write a SKILL function that reports the current Allegro design handle.",
+      "expected_apis": ["axlCurrentDesign"]
     }
   ]
 }

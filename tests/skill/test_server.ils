@@ -265,7 +265,24 @@
       (setq actual (__pyTestWithFakeIpc handles nil (lambda (a)
         let((b cb p) p=pyRunScript("x") b=car(funcall(nth(2 a))) cb=nth(3 b)
           funcall(cb p "42\n-10\n3.14\n") mapcar('cadr funcall(nth(4 a)))))))
-      (qtest::assertEqual '("success 42\n" "success -10\n" "success 3.14\n") actual))
+      ;;; %.17g exposes the true binary64 value of the literal 3.14; Python
+      ;;; parses it back to the identical double, so Python-side == still holds.
+      (qtest::assertEqual '("success 42\n" "success -10\n" "success 3.1400000000000001\n") actual))
+    ;;; Float serialization is a wire-format contract, not a geometry tolerance.
+    ;;; The legacy %L path follows Allegro's default print precision and loses
+    ;;; significant digits before Python can decode the response.  Explicit
+    ;;; %.17g must preserve binary64 values, while an integer-looking flonum
+    ;;; receives .0 so Python keeps its float type; -0.0 must keep its sign.
+    ;;; The nested list verifies that the same rule is applied recursively.
+    (qtest::TestCase test_serialize_flonum_round_trip_preserves_type_and_sign
+      (setq actual (__pyTestWithFakeIpc handles nil (lambda (a)
+        let((b cb p) p=pyRunScript("x") b=car(funcall(nth(2 a))) cb=nth(3 b)
+          funcall(cb p
+            "(list 1.0 -0.0 0.12345678901234566 1.0000000000000002 (list 1.0 -0.0))\n")
+          mapcar('cadr funcall(nth(4 a)))))))
+      (qtest::assertEqual
+        '("success [1.0,-0.0,0.12345678901234566,1.0000000000000002,[1.0,-0.0]]\n")
+        actual))
     (qtest::TestCase test_serialize_string
       (setq actual (__pyTestWithFakeIpc handles nil (lambda (a)
         let((b cb p) p=pyRunScript("x") b=car(funcall(nth(2 a))) cb=nth(3 b)
@@ -298,6 +315,19 @@
           funcall(cb p "(list nil 'a 1 'b 2)\n(list nil 'name \"skillbridge\")\n")
           mapcar('cadr funcall(nth(4 a)))))))
       (qtest::assertEqual '("success {'a':1,'b':2}\n" "success {'name':\"skillbridge\"}\n") actual)))
+
+  (qtest::TestSuite ((actual nil) (handles (makeTable "s2-float" nil)))
+    ;;; DPL fields use propertyListToPython and must still recurse through the
+    ;;; shared float formatter; Route and DRC projections depend on this path.
+    (qtest::TestCase test_serialize_dpl_float_values_preserves_wire_contract
+      (setq actual (__pyTestWithFakeIpc handles nil (lambda (a)
+        let((b cb p) p=pyRunScript("x") b=car(funcall(nth(2 a))) cb=nth(3 b)
+          funcall(cb p
+            "(list nil 'point (list 1.0 -0.0 0.12345678901234566))\n")
+          mapcar('cadr funcall(nth(4 a)))))))
+      (qtest::assertEqual
+        '("success {'point':[1.0,-0.0,0.12345678901234566]}\n")
+        actual)))
 
   (qtest::TestSuite ((actual nil) (handles (makeTable "s3" nil)))
     (qtest::TestCase test_serialize_table

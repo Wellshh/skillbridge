@@ -41,6 +41,7 @@ letseq(
    (listToPython nil)
    (vectorToPython nil)
    (tableToPython nil)
+   (numberToPython nil)
    (skillToPython nil)
    (spawnServer nil)
    (onData nil)
@@ -98,7 +99,7 @@ letseq(
                                                                       ; that value as the symbol 'unbound, so preserve the classic wire
                                                                       ; behavior explicitly in addition to the lexical boundp check.
             (setq resultBound
-              (and (boundp 'result (theEnvironment))
+              (and (boundp 'result (theEnvironment))                  
                    (not (eq result 'unbound))))
             (when resultBound (setq resultValue result))
             (setq captured (funcall captureWarnings tempPort))
@@ -183,29 +184,45 @@ letseq(
         (set symbol collection)
         (lsprintf "Table(%L)" (symbolToString symbol)))))
 
+  (setq numberToPython                                               ; We preserve two principles during serialization: type invariant and value invariant
+    (lambda (thing)                                                  ; Integers keep their existing representation; flonums use a
+      (if (floatp thing)                                             ; 17-significant-digit round-trip representation.  Python's
+          (let ((text (lsprintf "%.17g" thing)))                     ; expression decoder needs a suffix when a flonum looks integral.
+            (if (or (index text ".")                                 ; inf/nan carries no "."/e/E, so it gains a bogus ".0" suffix and
+                    (index text "e")                                 ; Python's ast decode rejects it.  Unreachable from the 17.2 axl
+                    (index text "E"))                                ; integer grid - an honest boundary error beats a fake value.
+                text
+              (strcat text ".0")))                                   ; here -0.0 is explicitly kept
+        (lsprintf "%L" thing))))                                     ; Accepted side effect: wire text grows for inexact doubles, yet
+                                                                     ; Python repr keeps the shortest round-trip form, so decoded
+                                                                     ; values and equality are unchanged - only digits previously
+                                                                     ; erased by 7-digit printing become faithfully visible.
+
   (setq skillToPython
     (lambda (thing)
       (if (equal thing t)
           "True"
         (if (not thing)
             "None"
-          (if (or (numberp thing) (stringp thing))
-              (lsprintf "%L" thing)
-            (if (symbolp thing)
-                (lsprintf "Symbol('%s')" thing)
-              (if (listp thing)
-                  (if (and (not (car thing))
-                           (symbolp (cadr thing))
-                           (not (equal (cadr thing) t)))
-                      (funcall propertyListToPython thing)
-                    (funcall listToPython thing))
-                (if (tablep thing)
-                    (funcall tableToPython thing)
-                  (if (vectorp thing)
-                      (funcall vectorToPython thing)
-                    (progn
-                      (rexCompile "^[_a-zA-Z]+[:@][x0-9a-fA-F]+$")
-                      (funcall saveToVariableAndReturn thing)))))))))))
+          (if (numberp thing)
+              (funcall numberToPython thing)
+            (if (stringp thing)
+                (lsprintf "%L" thing)                                ; We explicily use %L for non-floating number type
+              (if (symbolp thing)
+                  (lsprintf "Symbol('%s')" thing)
+                (if (listp thing)
+                    (if (and (not (car thing))
+                             (symbolp (cadr thing))
+                             (not (equal (cadr thing) t)))
+                        (funcall propertyListToPython thing)
+                      (funcall listToPython thing))
+                  (if (tablep thing)
+                      (funcall tableToPython thing)
+                    (if (vectorp thing)
+                        (funcall vectorToPython thing)
+                      (progn
+                        (rexCompile "^[_a-zA-Z]+[:@][x0-9a-fA-F]+$")
+                        (funcall saveToVariableAndReturn thing))))))))))))
 
   (setq spawnServer
     (lambda ()

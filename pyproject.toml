@@ -151,7 +151,7 @@ strict_equality = true
 
 [tool.ruff]
 preview = true
-exclude = ["venv", "env", "build", ".agents", ".claude", "_probe_*.py"]
+exclude = ["venv", "env", "build", ".agents", ".claude", ".artifacts", "_probe_*.py"]
 line-length = 100
 target-version = "py310"
 

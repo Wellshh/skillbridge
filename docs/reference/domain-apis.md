@@ -8,49 +8,49 @@ construct these yourself — reach them through
 
 ::: allegrobridge.client.api.board.BoardApi
 
-::: allegrobridge.client.api.board.AbBoard
+::: allegrobridge.client.api.record.AbBoard
 
 ## Components
 
 ::: allegrobridge.client.api.components.ComponentsApi
 
-::: allegrobridge.client.api.components.AbComponent
+::: allegrobridge.client.api.record.AbComponent
 
 ## Layers
 
 ::: allegrobridge.client.api.layers.LayersApi
 
-::: allegrobridge.client.api.layers.AbLayer
+::: allegrobridge.client.api.record.AbLayer
 
 ## Nets
 
 ::: allegrobridge.client.api.nets.NetsApi
 
-::: allegrobridge.client.api.nets.AbNet
+::: allegrobridge.client.api.record.AbNet
 
 ## Padstacks
 
 ::: allegrobridge.client.api.padstacks.PadstacksApi
 
-::: allegrobridge.client.api.padstacks.AbPadstack
+::: allegrobridge.client.api.record.AbPadstack
 
 ## Pins
 
 ::: allegrobridge.client.api.pins.PinsApi
 
-::: allegrobridge.client.api.pins.AbPin
+::: allegrobridge.client.api.record.AbPin
 
 ## Symbols
 
 ::: allegrobridge.client.api.symbols.SymbolsApi
 
-::: allegrobridge.client.api.symbols.AbSymbol
+::: allegrobridge.client.api.record.AbSymbol
 
 ## Vias
 
 ::: allegrobridge.client.api.vias.ViasApi
 
-::: allegrobridge.client.api.vias.AbVia
+::: allegrobridge.client.api.record.AbVia
 
 ## Routes
 
@@ -58,13 +58,15 @@ construct these yourself — reach them through
 
 ::: allegrobridge.client.api.record.Route
 
+::: allegrobridge.client.api.record.RouteConnectResult
+
 ::: allegrobridge.client.api.geometry.Point
 
 ## Shapes
 
 ::: allegrobridge.client.api.shapes.ShapesApi
 
-::: allegrobridge.client.api.shapes.AbShape
+::: allegrobridge.client.api.record.AbShape
 
 ::: allegrobridge.client.api.geometry.BBox
 
@@ -72,10 +74,10 @@ construct these yourself — reach them through
 
 ::: allegrobridge.client.api.drc.DrcApi
 
-::: allegrobridge.client.api.drc.AbDrc
+::: allegrobridge.client.api.record.AbDrc
 
-::: allegrobridge.client.api.drc.AbComponentRef
+::: allegrobridge.client.api.record.AbComponentRef
 
-::: allegrobridge.client.api.drc.AbNetRef
+::: allegrobridge.client.api.record.AbNetRef
 
-::: allegrobridge.client.api.drc.AbPinRef
+::: allegrobridge.client.api.record.AbPinRef

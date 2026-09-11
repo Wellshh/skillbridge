@@ -84,6 +84,14 @@ CASES: List[Tuple[str, Tuple[str, ...]]] = [
     ("get the version of Allegro", ("axlVersion",)),
     ("write a property to an object", ("putprop",)),
     ("compare two strings", ("strcmp", "strncmp")),
+    # Keep the retrieval benchmark aligned with the expanded generation task
+    # set; these are all task phrasings with corpus-backed expected APIs.
+    ("report current design units", ("axlDBGetDesignUnits",)),
+    ("report drawing path name", ("axlGetDrawingName",)),
+    ("report top and bottom conductor layer names", ("axlConductorTopLayer", "axlConductorBottomLayer")),
+    ("report selection set count", ("axlGetSelSetCount",)),
+    ("report whether the find filter is open", ("axlFindFilterIsOpen",)),
+    ("return the current design handle", ("axlCurrentDesign",)),
 ]
 
 

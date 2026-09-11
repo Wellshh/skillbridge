@@ -1,8 +1,18 @@
 <!--
 source: sklangref/inputoutput.md
 part: 2/2
-estimated_tokens: 2862
+estimated_tokens: 3083
 -->
+
+### printlev
+
+`printlev( g_value x_level x_length [ p_outputPort ] ) => nil`
+
+#### Description
+
+Prints a list with a limited number of elements and levels of nesting.
+
+Lists are normally printed in their entirety no matter how many elements they have or howdeeply nested they are. Applications have the option, however, of setting upper limits on the number of elements and the levels of nesting shown when printing lists. These limits are sometimes necessary to control the volume of interactive output because the SKILL top-level automatically prints the results of expression evaluation. Limits can also protect against the infinite looping on circular lists possibly created by programming mistakes.
 
 Two integer variables, print length and print level (specified by`x_length` and `x_level`), control the maximum number of elements and the levels of nesting that are printed. List elements beyond the maximum specified by print length are abbreviated as "`...`" and lists nested deeper than the maximum level specified by print level are abbreviated as `&`. Both print length and print level are initialized to `nil` (meaning no limits are imposed) by SKILL, but each application is free to set its own limits.
 

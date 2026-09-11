@@ -5,14 +5,14 @@ from __future__ import annotations
 from collections import Counter
 from collections.abc import Sequence
 from threading import Lock
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING
 
 from pydantic import TypeAdapter
 
 if TYPE_CHECKING:
     from allegrobridge.client.session.session import Session
 
-from allegrobridge._kernel.client.hints import SkillCode
+from allegrobridge._kernel.client.hints import Skill, SkillCode
 from allegrobridge.client.api.geometry import (
     ArcTo,
     LineTo,
@@ -200,15 +200,44 @@ class RoutesApi(Collection[Route]):
         layer: str,
         width: float,
     ) -> RpcArgs:
+        """Create a path and return :class:`Route` projections of the created segments.
+
+        The first element of ``path`` is the start coordinate (``Point`` or plain
+        ``(x, y)``); later elements are ``LineTo``/``ArcTo`` steps, or plain
+        coordinates treated as ``LineTo``. Adjacent duplicate points are rejected
+        before the RPC: a zero-length segment is a caller bug, and Allegro itself
+        silently drops it (probe-verified), hiding the mistake.
+
+        Net contract (probe-verified on Allegro 17.2, ``axlDBCreatePath``):
+
+        - a net name that does not exist fails with ``ROUTE_CREATE_FAILED`` and
+          the transaction is rolled back;
+        - ``net=''`` creates unassigned copper (Allegro's dummy net);
+        - even with an existing net, Allegro attaches the net name only to etch
+          connected to a pin, via, or shape - isolated new segments come back as
+          rows with ``net=None``.
+        """
         if len(path) < _POINT_SIZE:
             raise ValueError('a route requires at least two points')
         width = finite(width)
         if width <= 0:
             raise ValueError('route width must be positive')
-        return (
-            net,
-            Point.of(cast('Point | tuple[float, float]', path[0])),
-            [PathStep.of(item) for item in path[1:]],
-            layer,
-            width,
-        )
+        first = path[0]
+        if isinstance(first, (LineTo, ArcTo)):
+            raise ValueError(
+                'the first path element must be a plain coordinate, not a LineTo/ArcTo step'
+            )
+        start = Point.of(first)
+        # declared as list[Skill] because list is invariant: a list[LineTo | ArcTo]
+        # variable would not satisfy the RpcArgs tuple[Skill, ...] return type
+        steps: list[Skill] = []
+        previous = start
+        for index, item in enumerate(path[1:], start=1):
+            step = PathStep.of(item)
+            if step.end == previous:
+                raise ValueError(
+                    f'adjacent path points must differ: zero-length segment at index {index}'
+                )
+            steps.append(step)
+            previous = step.end
+        return net, start, steps, layer, width

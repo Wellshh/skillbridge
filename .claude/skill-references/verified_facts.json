@@ -289,6 +289,105 @@
       "verified_on": {"allegro": "17.2-2016 S048"},
       "status": "verified",
       "source": "probe"
+    },
+    {
+      "id": "axlDBChangeDesignUnits-arglist-17.2-S048",
+      "api": "axlDBChangeDesignUnits",
+      "constraint": "17.2 S048 实测 isCallable=true；arglist=((g_general) (g_general) gg)，运行时暴露两个形式参数。生成 bridge 桩不应把文档中重复渲染的 x_drcCount 当作第三个输入参数。",
+      "evidence": [{"probe": ".artifacts/arglist-override-real-allegro-17.2-S048.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "axlUIWMove-arglist-17.2-S048",
+      "api": "axlUIWMove",
+      "constraint": "17.2 S048 实测 isCallable=true；arglist=((g_general) (g_general) gg)，运行时暴露两个形式参数；这与文档中的 axlUIWMove(nil 0:0) 两参数示例一致。",
+      "evidence": [{"probe": ".artifacts/arglist-override-real-allegro-17.2-S048.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "xdifference-variadic-arglist-17.2-S048",
+      "api": "xdifference",
+      "constraint": "17.2 S048 实测 arglist=((x_integer) x) 为紧凑可变参数编码；单操作数报错，两个和三个操作数分别返回 5 与 4（8-3、8-3-1）。公开 2-3 操作数签名保持不变。",
+      "evidence": [{"probe": ".artifacts/variadic-arglist-real-allegro-17.2-S048.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "xplus-variadic-arglist-17.2-S048",
+      "api": "xplus",
+      "constraint": "17.2 S048 实测 arglist=((x_integer) x) 为紧凑可变参数编码；单操作数报错，两个和三个操作数分别返回 3 与 6（1+2、1+2+3）。公开 2-3 操作数签名保持不变。",
+      "evidence": [{"probe": ".artifacts/variadic-arglist-real-allegro-17.2-S048.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "xquotient-variadic-arglist-17.2-S048",
+      "api": "xquotient",
+      "constraint": "17.2 S048 实测 arglist=((x_integer) x) 为紧凑可变参数编码；单操作数报错，两个和三个操作数分别返回 4 与 2（8/2、8/2/2）。公开 2-3 操作数签名保持不变。",
+      "evidence": [{"probe": ".artifacts/variadic-arglist-real-allegro-17.2-S048.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "xtimes-variadic-arglist-17.2-S048",
+      "api": "xtimes",
+      "constraint": "17.2 S048 实测 arglist=((x_integer) x) 为紧凑可变参数编码；单操作数报错，两个和三个操作数分别返回 6 与 24（2*3、2*3*4）。公开 2-3 操作数签名保持不变。",
+      "evidence": [{"probe": ".artifacts/variadic-arglist-real-allegro-17.2-S048.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "listFunctions-arglist-17.2-S048",
+      "api": "listFunctions",
+      "constraint": "17.2 S048 实测 isCallable=true；arglist 带有 optional 标记，但零参数与两参数调用均由 errset 捕获为错误，单个字符串参数调用成功并对无匹配模式返回 nil。运行时可用范围裁决为恰好一个参数；不要仅凭 arglist optional 标记放宽调用。",
+      "evidence": [{"probe": ".artifacts/listFunctions-adjudication-real-allegro-17.2-S048.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "axlDBCreatePin-symbol-editor-17.2-S048",
+      "api": "axlDBCreatePin",
+      "constraint": "17.2 S048 实测在 Cadence 官方 cap400.dra package-symbol drawing 中可调用；使用官方 pad60cir36d.pad 和 probe-owned PADPATH，nil pin text 成功创建机械 pin，返回 pin dbid/DRC 标志，并可在同一 owned session 删除。普通 board drawing 不满足该 API 的上下文前置条件。",
+      "evidence": [{"probe": ".artifacts/create-pin-symbol-real-allegro-17.2-S048.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "skillDebugger-interactive-boundary-17.2-S048",
+      "api": "skillDebugger",
+      "constraint": "17.2 S048 实测 zero-argument skillDebugger() enters an interactive debugger boundary and did not return through a bounded Allegrobridge RPC probe; do not treat the documented nil return as a normal synchronous success or invoke it without an interactive exit plan. Use debugQuit only while a debugger is active.",
+      "evidence": [{"probe": ".artifacts/skill-debugger-real-allegro-17.2-S048.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "axlDBCreateModuleInstance-runtime-boundary-17.2-S048",
+      "api": "axlDBCreateModuleInstance",
+      "constraint": "17.2 S048 实测由真实 component 生成 module definition 后，文档六参数调用在 fresh disposable sessions 中返回 nil（普通与绝对 .mdd basename 均如此）；不能据此生成稳定实例创建成功契约或重放失败写入。",
+      "evidence": [{"probe": ".artifacts/create-module-instance-real-allegro-17.2-S048.json"}, {"probe": ".artifacts/create-module-instance-absolute-real-allegro-17.2-S048.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
+    },
+    {
+      "id": "axlPadstackSetType-runtime-boundary-17.2-S048",
+      "api": "axlPadstackSetType",
+      "constraint": "17.2 S048 实测在 disposable board 创建的 smd/through padstack 上调用文档 setter 返回 nil 且类型不变；先编辑 usage 为 Bbvia 的路径未在有界探针内返回。不要把该 API 当作已验证的类型变更成功操作。",
+      "evidence": [{"probe": ".artifacts/padstack-type-create-real-allegro-17.2-S048.json"}, {"probe": ".artifacts/padstack-type-usage-hang-real-allegro-17.2-S048.json"}],
+      "verified_on": {"allegro": "17.2-2016 S048"},
+      "status": "verified",
+      "source": "probe"
     }
   ]
 }

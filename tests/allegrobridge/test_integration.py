@@ -44,6 +44,7 @@ from allegrobridge.client.api import (
     BBox,
     CmdResult,
     Point,
+    RouteConnectResult,
 )
 from allegrobridge.client.base._record import _ID
 from allegrobridge.exceptions import (
@@ -1686,6 +1687,37 @@ class TestRoutesApi:
         assert preview
         assert _route_snapshot(ws) == before
 
+    def test_create_unattached_etch_projects_without_net(
+        self,
+        allegro: Allegro,
+        session: Session,
+    ) -> None:
+        self._require_writable(allegro)
+        source, net = self._source(session)
+        # Allegro attaches no net name to new etch that is not connected to a
+        # pin, via, or shape - whether an existing net or "" is requested.
+        # Probe-verified on real Allegro 17.2: probe_evidence/create_net_contract.json
+        far_x = max(max(route.start.x, route.end.x) for route in session.routes()) + 500.0
+        y = source.start.y
+
+        unassigned = session.routes.create(
+            '',
+            [(far_x, y), (far_x + 200.0, y)],
+            source.layer,
+            source.width,
+        )
+        detached = session.routes.create(
+            net,
+            [(far_x, y + 300.0), (far_x + 200.0, y + 300.0)],
+            source.layer,
+            source.width,
+        )
+
+        assert unassigned
+        assert all(route.net is None for route in unassigned)
+        assert detached
+        assert all(route.net is None for route in detached)
+
     def test_atomic_batch_commits_in_order(
         self,
         allegro: Allegro,
@@ -1829,11 +1861,20 @@ class TestRoutesConnectApi:
         end = Point(cast('float', pins[1].x), cast('float', pins[1].y))
         generation = session.generation
 
-        created = session.routes.connect(net, start, end, source.layer, source.width)
+        result = session.routes.connect(net, start, end, source.layer, source.width)
 
-        assert created.added
-        assert all(isinstance(route, AbRoute) and route.net == net for route in created.added)
-        assert all(route._id == _session_id(session) for route in created.added)
+        assert isinstance(result, RouteConnectResult)
+        # pin-to-pin connect on a fresh board either lays new copper or re-routes
+        # existing copper; both surface as a non-empty delta (silent no-ops only
+        # follow an earlier connect of the same pair)
+        assert result.added or result.removed
+        assert all(isinstance(route, AbRoute) and route.net == net for route in result.added)
+        assert all(route._id == _session_id(session) for route in result.added)
+        assert all(route.net == net for route in result.removed)
+        for route in result.removed:
+            # removed rows are a pre-refresh historical snapshot, stale by contract
+            with pytest.raises(RecordIDError, match='stale'):
+                route._check_id(session)
         assert session.generation == generation + 1
         current = {
             (
@@ -1856,7 +1897,7 @@ class TestRoutesConnectApi:
                 route.obj_type,
             )
             in current
-            for route in created.added
+            for route in result.added
         )
         with pytest.raises(RecordIDError, match='stale'):
             source._check_id(session)
@@ -2405,6 +2446,7 @@ class TestBoundApi:
 
 
 class TestSkill:
+    @pytest.mark.timeout(300)
     def test_run_skill_suite_returns_report_to_python(self, workspace_id: str | None) -> None:
         report = _run_skill_suite(workspace_id)
 
@@ -2456,6 +2498,24 @@ class TestBasicOp:
     def test_ping(self, ws: Workspace) -> None:
         for i in range(1_000):
             assert ws['plus'](i, 0) == i
+
+    def test_float_result_roundtrips_full_precision(self, ws: Workspace) -> None:
+        # skillToPython used to render every float via %L, which truncates to
+        # ~7 significant digits (12345.6789 came back as 12345.68, even sstatus
+        # fullPrecision only reaches ~16). Float leaves now serialize with %.17g
+        # (probe_evidence/l_precision.json), so results must equal the exact
+        # double the same expression yields in Python.
+        def exact(expected: float) -> Any:
+            # Zero-tolerance approx: this contract is bit-exact double
+            # round-trip, not a geometry tolerance (ruff forbids float `==`).
+            return pytest.approx(expected, rel=0, abs=0)
+
+        assert ws['plus'](12345.6789, 0) == exact(12345.6789)
+        assert ws['plus'](1234567890.1234567, 0) == exact(1234567890.1234567)
+        assert ws['plus'](0.1, 0.2) == exact(0.30000000000000004)
+        integer_looking = ws['plus'](25.0, 0)
+        assert integer_looking == exact(25.0)
+        assert type(integer_looking) is float  # %.17g prints "25"; the serializer re-adds ".0"
 
     def test_frame_payload_roundtrips_control_characters(self, ws: Workspace) -> None:
         result = ws['evalstring'](r'(concat "left\033middle\036right")')
