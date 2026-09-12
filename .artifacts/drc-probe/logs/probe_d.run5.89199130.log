@@ -1,0 +1,9 @@
+=== RUN5 PHASE S1 (creates work, saves F1, EXITS) start=1789199132 ===
+S1_RC=0 end=1789199155
+tr: warning: an unescaped backslash at end of string is not portable
+STATE=C:/Users/BAIJUN~1/AppData/Local/Temp/drc-probe-d-10optrd3/probe_d_state.pkl
+=== RUN5 PHASE S2 (fresh process; S1 python DEAD) start=1789199159 ===
+S2_RC=0 end=1789199184
+=== RUN5 PHASE S3 (fresh process) start=1789199184 ===
+S3_RC=0 end=1789199204
+=== RUN5 DONE ===

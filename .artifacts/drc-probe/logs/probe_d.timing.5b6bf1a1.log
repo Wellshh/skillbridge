@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "D:\AutoPlacer\skillbridge\.artifacts\drc-probe\probe_d_timing_test.py", line 52, in <module>
+    import probe_c as pc
+  File "D:\AutoPlacer\skillbridge\.artifacts\drc-probe\probe_c.py", line 70, in <module>
+    from allegrobridge import Allegro
+  File "D:\AutoPlacer\skillbridge\allegrobridge\__init__.py", line 27, in <module>
+    from ._logging import setup_logging
+  File "D:\AutoPlacer\skillbridge\allegrobridge\_logging.py", line 8, in <module>
+    from rich.logging import RichHandler
+ModuleNotFoundError: No module named 'rich'

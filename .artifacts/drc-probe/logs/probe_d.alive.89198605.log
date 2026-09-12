@@ -1,0 +1,25 @@
+SAVER_BASH_PID=1652
+SAVER: workdir=C:\Users\BAIJUN~1\AppData\Local\Temp\drc-probe-h2-omacgznn
+OPEN_READY EL5_MIAN_FPC.brd: lck_holder=None exclusive=True
+SAVER: arcs=113 save='probe_d_F1' exists=True size=5488280
+SAVE_TS 1789198633.484
+SAVER_SLEEPING pid=37432 stay=300.0 workdir=C:\Users\BAIJUN~1\AppData\Local\Temp\drc-probe-h2-omacgznn
+tr: warning: an unescaped backslash at end of string is not portable
+WORK=C:/Users/BAIJUN~1/AppData/Local/Temp/drc-probe-h2-omacgznn SAVER_WINPID=37432
+python.exe                   37432 Console                    1     51,860 K
+SAVER_ALIVE=YES
+=== ATTEMPT ALIVE_UNRELATED port=51181 age=18s saver_pid=37432 ===
+OPEN_READY probe_d_F1.brd: lck_holder=(64428, False) exclusive=True
+TRIAL ALIVE_UNRELATED: lck_before=(64428, False)
+TRIAL ALIVE_UNRELATED STARTUP: arcs=0 routes=0 markers=0 cur='unnamed' draw='unnamed' lic='("PCB_design_studio" "Allegro_performance" "Allegro_studio")' err=None
+TRIAL ALIVE_UNRELATED: EMPTY -> axlKillDesign + axlOpenDesign recovery attempt
+TRIAL ALIVE_UNRELATED: axlKillDesign -> True
+Skill response:0: UserWarning: PCB PR menu inserted.
+TRIAL ALIVE_UNRELATED: axlOpenDesign retry -> None
+TRIAL ALIVE_UNRELATED AFTER_KILL_REOPEN: arcs=0 routes=0 markers=0 cur='unnamed' draw='unnamed' lic='("PCB_design_studio" "Allegro_performance" "Allegro_studio")' err=None
+TRIAL ALIVE_UNRELATED: RESULT=EMPTY
+ATTEMPT_RC=2
+python.exe                   37432 Console                    1     51,812 K
+SAVER_STILL_ALIVE=YES
+SAVER_FINAL_RC=0
+=== CONTROL DONE ===

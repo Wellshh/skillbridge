@@ -1,0 +1,374 @@
+WORKDIR C:\Users\BAIJUN~1\AppData\Local\Temp\drc-probe-d-cgccosvc
+BOARD_COPY_SHA256_START 2b919c474d7d8032a53ab36f5731f899d3aa24b7d8d2226b0e8ad3112d292f4c
+PORTS ['65065', '65066', '65067']
+OPEN_READY EL5_MIAN_FPC.brd: lck_holder=None exclusive=True
+OPEN_VERIFY S1 attempt=1 port=65065: arcs=113 routes=747 board_size=5497960
+PADSTACK: VIA_ALL_0103
+COUNT BASELINE: total_markers=93
+STAGE0: rule learning (natural arc y0=390 + tight line)
+CREATE_ARC STAGE0_ARC net=NFC_SWP cw=False
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 390.0 bits=4078600000000000 on_grid=True)
+   requested E=(302.0001 bits=4072e00068db8bac on_grid=True | 390.0 bits=4078600000000000 on_grid=True)
+   requested C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 390.124975 bits=407861ffe5c91d15 on_grid=False)
+   committed C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 390.124975 bits=407861ffe5c91d15 on_grid=False)
+   committed r=1.0078287320398243 bits=3ff0201105414878 on_grid=False length=2.9155922850665696 bits=400753220c46a588 on_grid=False is_clockwise=None
+   center_bit_preserved=True dcy=0E-44 dcx=0E-43
+   r_committed - |S-C|_exact = 1.162176123163137234737398875118089750055275800E-14
+   bottom_in_span(math_ccw)=True
+CREATE_LINE STAGE0_LINE requested y=388.9571 bits=40784f504816f007 on_grid=True
+   committed y=388.9571 bits=40784f504816f007 on_grid=True
+DRC STAGE0: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.01 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'line', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (299.0, 388.9571), 'end': (303.0001, 388.9571), 'center': None, 'radius': None, 'width': 0.15, 'location': None}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 390.0), 'end': (302.0001, 390.0), 'center': (301.00005, 390.124975), 'radius': 1.0078287320398243, 'width': 0.15, 'location': (301.00005, 390.124975)}
+DRC STAGE0: MARKER name='Line to Route Keepin Spacing' expected='0 MM' actual='461.0504 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'polygon', 'layer': 'ROUTE KEEPIN/ALL', 'net': None, 'start': None, 'end': None, 'center': None, 'radius': None, 'width': None, 'location': None}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 390.0), 'end': (302.0001, 390.0), 'center': (301.00005, 390.124975), 'radius': 1.0078287320398243, 'width': 0.15, 'location': (301.00005, 390.124975)}
+STAGE0: 2 spacing markers; preferring Line to Line Spacing
+STAGE0: marker_name='Line to Line Spacing' R=0.06 (actual='0.01 MM') DELTA=1.9757
+COUNT STAGE0_END: total_markers=99
+STAGE1: P1 violation cell y0=410 (repeat/update stability)
+=== CELL P1 y0=410.0 y1=408.0243 lower_first=False reverse_upper=False planned delta=0.0000024971991317368491536399233154952526092529296875
+   PLANNED cy1=410.12498067 bits=4079a1ffebbb2484 eps=0.000005670000013560638763010501861572265625
+CREATE_ARC P1_UPPER net=NFC_SWP cw=False
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 410.0 bits=4079a00000000000 on_grid=True)
+   requested E=(302.0001 bits=4072e00068db8bac on_grid=True | 410.0 bits=4079a00000000000 on_grid=True)
+   requested C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 410.12498067 bits=4079a1ffebbb2484 on_grid=False)
+   committed C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 410.12498067 bits=4079a1ffebbb2484 on_grid=False)
+   committed r=1.007829435159368 bits=3ff02011c1ff4a4b on_grid=False length=2.9155830666777667 bits=4007531d3701381b on_grid=False is_clockwise=None
+   center_bit_preserved=True dcy=0E-42 dcx=0E-43
+   r_committed - |S-C|_exact = 1.164820048650396737933582889820882518441139400E-14
+   bottom_in_span(math_ccw)=True
+DRC P1_UPPER_ALONE: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='477.0673 MM'
+DRC P1_UPPER_ALONE: VERDICT=clean hits=0
+PRECHECK P1: upper-alone (partner absent) -> clean
+CREATE_ARC P1_LOWER net=FINGER_SPI_MISO cw=True
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 408.0243 bits=40798063886594af on_grid=True)
+   requested E=(302.0001 bits=4072e00068db8bac on_grid=True | 408.0243 bits=40798063886594af on_grid=True)
+   requested C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 407.899325 bits=40797e63a29c779a on_grid=False)
+   committed C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 407.899325 bits=40797e63a29c779a on_grid=False)
+   committed r=1.00782873203983 bits=3ff0201105414892 on_grid=False length=2.915592285066493 bits=400753220c46a4db on_grid=False is_clockwise=True
+   center_bit_preserved=True dcy=0E-43 dcx=0E-43
+   r_committed - |S-C|_exact = 1.739492095968218635757687342525316312555275800E-14
+   top_in_span(math_cw)=True
+COMMITTED_CELL P1: clear=0.0599975028008393973522061060066334903240203857421875 delta=0.0000024971991606026477938939933665096759796142578125 in_window=True
+COUNT P1_AFTER_CREATE: total_markers=104
+DRC P1_CHECK1:P1_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 410.0), 'end': (302.0001, 410.0), 'center': (301.00005, 410.12498067), 'radius': 1.007829435159368, 'width': 0.15, 'location': (301.00005, 410.12498067)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 408.0243), 'end': (302.0001, 408.0243), 'center': (301.00005, 407.899325), 'radius': 1.00782873203983, 'width': 0.15, 'location': (301.00005, 407.899325)}
+DRC P1_CHECK1:P1_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='477.0673 MM'
+DRC P1_CHECK1:P1_UPPER: VERDICT=FLAGGED hits=1
+VERDICT P1_CHECK1 P1_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+DRC P1_CHECK2:P1_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 410.0), 'end': (302.0001, 410.0), 'center': (301.00005, 410.12498067), 'radius': 1.007829435159368, 'width': 0.15, 'location': (301.00005, 410.12498067)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 408.0243), 'end': (302.0001, 408.0243), 'center': (301.00005, 407.899325), 'radius': 1.00782873203983, 'width': 0.15, 'location': (301.00005, 407.899325)}
+DRC P1_CHECK2:P1_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='477.0673 MM'
+DRC P1_CHECK2:P1_UPPER: VERDICT=FLAGGED hits=1
+VERDICT P1_CHECK2 P1_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+DRC P1_CHECK3:P1_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 410.0), 'end': (302.0001, 410.0), 'center': (301.00005, 410.12498067), 'radius': 1.007829435159368, 'width': 0.15, 'location': (301.00005, 410.12498067)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 408.0243), 'end': (302.0001, 408.0243), 'center': (301.00005, 407.899325), 'radius': 1.00782873203983, 'width': 0.15, 'location': (301.00005, 407.899325)}
+DRC P1_CHECK3:P1_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='477.0673 MM'
+DRC P1_CHECK3:P1_UPPER: VERDICT=FLAGGED hits=1
+VERDICT P1_CHECK3 P1_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+REPEAT_STABLE: True h1=('FLAGGED', '0.0599 MM', '0.06 MM') h2=('FLAGGED', '0.0599 MM', '0.06 MM') h3=('FLAGGED', '0.0599 MM', '0.06 MM')
+UPDATE: axlDRCUpdate markers_returned=105
+COUNT P1_AFTER_UPDATE: total_markers=105
+DRC P1_CHECK4_AFTER_UPDATE:P1_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='477.0673 MM'
+DRC P1_CHECK4_AFTER_UPDATE:P1_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 410.0), 'end': (302.0001, 410.0), 'center': (301.00005, 410.12498067), 'radius': 1.007829435159368, 'width': 0.15, 'location': (301.00005, 410.12498067)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 408.0243), 'end': (302.0001, 408.0243), 'center': (301.00005, 407.899325), 'radius': 1.00782873203983, 'width': 0.15, 'location': (301.00005, 407.899325)}
+DRC P1_CHECK4_AFTER_UPDATE:P1_UPPER: VERDICT=FLAGGED hits=1
+VERDICT P1_CHECK4_AFTER_UPDATE P1_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+UPDATE_VERDICT_STABLE: True h4=('FLAGGED', '0.0599 MM', '0.06 MM')
+STAGE1: P2 clean cell y0=430 (margin window)
+=== CELL P2 y0=430.0 y1=428.0243 lower_first=False reverse_upper=False planned margin=5.074416937400627602983149699866771697998046875E-7
+   PLANNED cy1=430.1249841 bits=407ae1ffef53e052 eps=0.0000091000000060375896282494068145751953125
+CREATE_ARC P2_UPPER net=NFC_SWP cw=False
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 430.0 bits=407ae00000000000 on_grid=True)
+   requested E=(302.0001 bits=4072e00068db8bac on_grid=True | 430.0 bits=407ae00000000000 on_grid=True)
+   requested C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 430.1249841 bits=407ae1ffef53e052 on_grid=False)
+   committed C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 430.1249841 bits=407ae1ffef53e052 on_grid=False)
+   committed r=1.0078298605185354 bits=3ff02012342dbfe7 on_grid=False length=2.915577490165704 bits=4007531a4a89b943 on_grid=False is_clockwise=None
+   center_bit_preserved=True dcy=0E-43 dcx=0E-43
+   r_committed - |S-C|_exact = 1.196620597106738122494086121310211478790272087E-14
+   bottom_in_span(math_ccw)=True
+DRC P2_UPPER_ALONE: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='493.3743 MM'
+DRC P2_UPPER_ALONE: VERDICT=clean hits=0
+PRECHECK P2: upper-alone (partner absent) -> clean
+CREATE_ARC P2_LOWER net=FINGER_SPI_MISO cw=True
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 428.0243 bits=407ac063886594af on_grid=True)
+   requested E=(302.0001 bits=4072e00068db8bac on_grid=True | 428.0243 bits=407ac063886594af on_grid=True)
+   requested C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 427.899325 bits=407abe63a29c779a on_grid=False)
+   committed C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 427.899325 bits=407abe63a29c779a on_grid=False)
+   committed r=1.0078287320398243 bits=3ff0201105414878 on_grid=False length=2.915592285066569 bits=400753220c46a587 on_grid=False is_clockwise=True
+   center_bit_preserved=True dcy=0E-43 dcx=0E-43
+   r_committed - |S-C|_exact = 1.162176123163137234737398875118089750055275800E-14
+   top_in_span(math_cw)=True
+COMMITTED_CELL P2: clear=0.0600005074416702033346382449963130056858062744140625 margin=5.074416702033346382449963130056858062744140625E-7 in_window=True
+DRC P2_CHECK1:P2_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='493.3743 MM'
+DRC P2_CHECK1:P2_UPPER: VERDICT=clean hits=0
+VERDICT P2_CHECK1 P2_UPPER: clean actual=None expected=None
+DRC P2_CHECK2:P2_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='493.3743 MM'
+DRC P2_CHECK2:P2_UPPER: VERDICT=clean hits=0
+VERDICT P2_CHECK2 P2_UPPER: clean actual=None expected=None
+CLEAN_REPEAT_STABLE: True g1=('clean', None, None) g2=('clean', None, None)
+DRC P1_CHECK5_AFTER_P2:P1_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 408.0243), 'end': (302.0001, 408.0243), 'center': (301.00005, 407.899325), 'radius': 1.00782873203983, 'width': 0.15, 'location': (301.00005, 407.899325)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 410.0), 'end': (302.0001, 410.0), 'center': (301.00005, 410.12498067), 'radius': 1.007829435159368, 'width': 0.15, 'location': (301.00005, 410.12498067)}
+DRC P1_CHECK5_AFTER_P2:P1_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='477.0673 MM'
+DRC P1_CHECK5_AFTER_P2:P1_UPPER: VERDICT=FLAGGED hits=1
+VERDICT P1_CHECK5_AFTER_P2 P1_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+FAR_OBJECT_STABLE: True h5=('FLAGGED', '0.0599 MM', '0.06 MM')
+STAGE2: order swap (y0=450 upper-first vs y0=470 lower-first)
+=== CELL ORD_A y0=450.0 y1=448.0243 lower_first=False reverse_upper=False planned delta=0.0000024971991317368491536399233154952526092529296875
+   PLANNED cy1=450.12498067 bits=407c21ffebbb2484 eps=0.000005670000013560638763010501861572265625
+CREATE_ARC ORD_A_UPPER net=NFC_SWP cw=False
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 450.0 bits=407c200000000000 on_grid=True)
+   requested E=(302.0001 bits=4072e00068db8bac on_grid=True | 450.0 bits=407c200000000000 on_grid=True)
+   requested C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 450.12498067 bits=407c21ffebbb2484 on_grid=False)
+   committed C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 450.12498067000007 bits=407c21ffebbb2485 on_grid=False)
+   committed r=1.007829435159374 bits=3ff02011c1ff4a66 on_grid=False length=2.9155830666776916 bits=4007531d37013772 on_grid=False is_clockwise=None
+   center_bit_preserved=False dcy=5.684341886080801486968994140625E-14 dcx=0E-43
+   r_committed - |S-C|_exact = 1.059426701255173917914295265592814272083669005E-14
+   bottom_in_span(math_ccw)=True
+DRC ORD_A_UPPER_ALONE: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='509.9436 MM'
+DRC ORD_A_UPPER_ALONE: VERDICT=clean hits=0
+PRECHECK ORD_A: upper-alone (partner absent) -> clean
+CREATE_ARC ORD_A_LOWER net=FINGER_SPI_MISO cw=True
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 448.0243 bits=407c0063886594af on_grid=True)
+   requested E=(302.0001 bits=4072e00068db8bac on_grid=True | 448.0243 bits=407c0063886594af on_grid=True)
+   requested C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 447.899325 bits=407bfe63a29c779a on_grid=False)
+   committed C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 447.899325 bits=407bfe63a29c779a on_grid=False)
+   committed r=1.0078287320398243 bits=3ff0201105414878 on_grid=False length=2.915592285066569 bits=400753220c46a587 on_grid=False is_clockwise=True
+   center_bit_preserved=True dcy=0E-43 dcx=0E-43
+   r_committed - |S-C|_exact = 1.162176123163137234737398875118089750055275800E-14
+   top_in_span(math_cw)=True
+COMMITTED_CELL ORD_A: clear=0.059997502800896018726461988990195095539093017578125 delta=0.000002497199103981273538011009804904460906982421875 in_window=True
+DRC ORD_A_CHECK:ORD_A_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 448.0243), 'end': (302.0001, 448.0243), 'center': (301.00005, 447.899325), 'radius': 1.0078287320398243, 'width': 0.15, 'location': (301.00005, 447.899325)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 450.0), 'end': (302.0001, 450.0), 'center': (301.00005, 450.12498067000007), 'radius': 1.007829435159374, 'width': 0.15, 'location': (301.00005, 450.12498067000007)}
+DRC ORD_A_CHECK:ORD_A_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='509.9436 MM'
+DRC ORD_A_CHECK:ORD_A_UPPER: VERDICT=FLAGGED hits=1
+VERDICT ORD_A_CHECK ORD_A_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+=== CELL ORD_B y0=470.0 y1=468.0243 lower_first=True reverse_upper=False planned delta=0.0000024971991317368491536399233154952526092529296875
+   PLANNED cy1=470.12498067 bits=407d61ffebbb2484 eps=0.000005670000013560638763010501861572265625
+CREATE_ARC ORD_B_LOWER net=FINGER_SPI_MISO cw=True
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 468.0243 bits=407d4063886594af on_grid=True)
+   requested E=(302.0001 bits=4072e00068db8bac on_grid=True | 468.0243 bits=407d4063886594af on_grid=True)
+   requested C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 467.899325 bits=407d3e63a29c779a on_grid=False)
+   committed C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 467.899325 bits=407d3e63a29c779a on_grid=False)
+   committed r=1.0078287320398243 bits=3ff0201105414878 on_grid=False length=2.915592285066569 bits=400753220c46a587 on_grid=False is_clockwise=True
+   center_bit_preserved=True dcy=0E-43 dcx=0E-43
+   r_committed - |S-C|_exact = 1.162176123163137234737398875118089750055275800E-14
+   top_in_span(math_cw)=True
+DRC ORD_B_LOWER_ALONE: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='525.448 MM'
+DRC ORD_B_LOWER_ALONE: VERDICT=clean hits=0
+PRECHECK ORD_B: lower-alone (upper absent) -> clean
+CREATE_ARC ORD_B_UPPER net=NFC_SWP cw=False
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 470.0 bits=407d600000000000 on_grid=True)
+   requested E=(302.0001 bits=4072e00068db8bac on_grid=True | 470.0 bits=407d600000000000 on_grid=True)
+   requested C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 470.12498067 bits=407d61ffebbb2484 on_grid=False)
+   committed C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 470.12498067000007 bits=407d61ffebbb2485 on_grid=False)
+   committed r=1.007829435159374 bits=3ff02011c1ff4a66 on_grid=False length=2.9155830666776916 bits=4007531d37013772 on_grid=False is_clockwise=None
+   center_bit_preserved=False dcy=5.684341886080801486968994140625E-14 dcx=0E-43
+   r_committed - |S-C|_exact = 1.059426701255173917914295265592814272083669005E-14
+   bottom_in_span(math_ccw)=True
+COMMITTED_CELL ORD_B: clear=0.059997502800896018726461988990195095539093017578125 delta=0.000002497199103981273538011009804904460906982421875 in_window=True
+DRC ORD_B_CHECK:ORD_B_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 468.0243), 'end': (302.0001, 468.0243), 'center': (301.00005, 467.899325), 'radius': 1.0078287320398243, 'width': 0.15, 'location': (301.00005, 467.899325)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 470.0), 'end': (302.0001, 470.0), 'center': (301.00005, 470.12498067000007), 'radius': 1.007829435159374, 'width': 0.15, 'location': (301.00005, 470.12498067000007)}
+DRC ORD_B_CHECK:ORD_B_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='526.7504 MM'
+DRC ORD_B_CHECK:ORD_B_UPPER: VERDICT=FLAGGED hits=1
+VERDICT ORD_B_CHECK ORD_B_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+ORDER_SWAP: verdictA=('FLAGGED', '0.0599 MM', '0.06 MM') verdictB=('FLAGGED', '0.0599 MM', '0.06 MM')
+ORDER_SWAP: dcy(committed)-20=0E-44 dr=0E-51
+STAGE3: forward y0=490 vs reversed y0=510 (S/E swap + cw flip, identical center offset)
+=== CELL FWD y0=490.0 y1=488.0243 lower_first=False reverse_upper=False planned delta=0.0000024971991317368491536399233154952526092529296875
+   PLANNED cy1=490.12498067 bits=407ea1ffebbb2484 eps=0.000005670000013560638763010501861572265625
+CREATE_ARC FWD_UPPER net=NFC_SWP cw=False
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 490.0 bits=407ea00000000000 on_grid=True)
+   requested E=(302.0001 bits=4072e00068db8bac on_grid=True | 490.0 bits=407ea00000000000 on_grid=True)
+   requested C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 490.12498067 bits=407ea1ffebbb2484 on_grid=False)
+   committed C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 490.12498067000007 bits=407ea1ffebbb2485 on_grid=False)
+   committed r=1.007829435159374 bits=3ff02011c1ff4a66 on_grid=False length=2.9155830666776916 bits=4007531d37013772 on_grid=False is_clockwise=None
+   center_bit_preserved=False dcy=5.684341886080801486968994140625E-14 dcx=0E-43
+   r_committed - |S-C|_exact = 1.059426701255173917914295265592814272083669005E-14
+   bottom_in_span(math_ccw)=True
+DRC FWD_UPPER_ALONE: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='543.7729 MM'
+DRC FWD_UPPER_ALONE: VERDICT=clean hits=0
+PRECHECK FWD: upper-alone (partner absent) -> clean
+CREATE_ARC FWD_LOWER net=FINGER_SPI_MISO cw=True
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 488.0243 bits=407e8063886594af on_grid=True)
+   requested E=(302.0001 bits=4072e00068db8bac on_grid=True | 488.0243 bits=407e8063886594af on_grid=True)
+   requested C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 487.899325 bits=407e7e63a29c779a on_grid=False)
+   committed C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 487.899325 bits=407e7e63a29c779a on_grid=False)
+   committed r=1.0078287320398243 bits=3ff0201105414878 on_grid=False length=2.915592285066569 bits=400753220c46a587 on_grid=False is_clockwise=True
+   center_bit_preserved=True dcy=0E-43 dcx=0E-43
+   r_committed - |S-C|_exact = 1.162176123163137234737398875118089750055275800E-14
+   top_in_span(math_cw)=True
+COMMITTED_CELL FWD: clear=0.059997502800896018726461988990195095539093017578125 delta=0.000002497199103981273538011009804904460906982421875 in_window=True
+DRC FWD_CHECK:FWD_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 488.0243), 'end': (302.0001, 488.0243), 'center': (301.00005, 487.899325), 'radius': 1.0078287320398243, 'width': 0.15, 'location': (301.00005, 487.899325)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 490.0), 'end': (302.0001, 490.0), 'center': (301.00005, 490.12498067000007), 'radius': 1.007829435159374, 'width': 0.15, 'location': (301.00005, 490.12498067000007)}
+DRC FWD_CHECK:FWD_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='543.7729 MM'
+DRC FWD_CHECK:FWD_UPPER: VERDICT=FLAGGED hits=1
+VERDICT FWD_CHECK FWD_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+=== CELL REV y0=510.0 y1=508.0243 lower_first=False reverse_upper=True planned delta=0.000002497199081776813045507878996431827545166015625
+   PLANNED cy1=510.12498067000007 bits=407fe1ffebbb2485 eps=0.00000567000007040405762381851673126220703125
+CREATE_ARC REV_UPPER net=NFC_SWP cw=True
+   requested S=(302.0001 bits=4072e00068db8bac on_grid=True | 510.0 bits=407fe00000000000 on_grid=True)
+   requested E=(300.0 bits=4072c00000000000 on_grid=True | 510.0 bits=407fe00000000000 on_grid=True)
+   requested C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 510.12498067000007 bits=407fe1ffebbb2485 on_grid=False)
+   committed C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 510.12498067000007 bits=407fe1ffebbb2485 on_grid=False)
+   committed r=1.007829435159374 bits=3ff02011c1ff4a66 on_grid=False length=2.9155830666776916 bits=4007531d37013772 on_grid=False is_clockwise=True
+   center_bit_preserved=True dcy=0E-44 dcx=0E-43
+   r_committed - |S-C|_exact = 1.059426701255173917914295265592814272083669005E-14
+   top_in_span(math_cw)=False
+DRC REV_UPPER_ALONE: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='560.9914 MM'
+DRC REV_UPPER_ALONE: VERDICT=clean hits=0
+PRECHECK REV: upper-alone (partner absent) -> clean
+CREATE_ARC REV_LOWER net=FINGER_SPI_MISO cw=True
+   requested S=(300.0 bits=4072c00000000000 on_grid=True | 508.0243 bits=407fc063886594af on_grid=True)
+   requested E=(302.0001 bits=4072e00068db8bac on_grid=True | 508.0243 bits=407fc063886594af on_grid=True)
+   requested C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 507.899325 bits=407fbe63a29c779a on_grid=False)
+   committed C=(301.00005 bits=4072d000346dc5d6 on_grid=False | 507.899325 bits=407fbe63a29c779a on_grid=False)
+   committed r=1.0078287320398243 bits=3ff0201105414878 on_grid=False length=2.915592285066569 bits=400753220c46a587 on_grid=False is_clockwise=True
+   center_bit_preserved=True dcy=0E-43 dcx=0E-43
+   r_committed - |S-C|_exact = 1.162176123163137234737398875118089750055275800E-14
+   top_in_span(math_cw)=True
+COMMITTED_CELL REV: clear=0.059997502800896018726461988990195095539093017578125 delta=0.000002497199103981273538011009804904460906982421875 in_window=True
+DRC REV_CHECK:REV_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 508.0243), 'end': (302.0001, 508.0243), 'center': (301.00005, 507.899325), 'radius': 1.0078287320398243, 'width': 0.15, 'location': (301.00005, 507.899325)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (302.0001, 510.0), 'end': (300.0, 510.0), 'center': (301.00005, 510.12498067000007), 'radius': 1.007829435159374, 'width': 0.15, 'location': (301.00005, 510.12498067000007)}
+DRC REV_CHECK:REV_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='560.9914 MM'
+DRC REV_CHECK:REV_UPPER: VERDICT=FLAGGED hits=1
+VERDICT REV_CHECK REV_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+REVERSED_EQUIV: verdictF=('FLAGGED', '0.0599 MM', '0.06 MM') verdictR=('FLAGGED', '0.0599 MM', '0.06 MM')
+REVERSED_EQUIV: dcx=0E-43 dcy-20=0E-44 dr=0E-51 dlength=0E-50
+REVERSED_EQUIV: cw fwd=None rev=True r_bits_equal=True len_bits_equal=True
+REVERSED_EQUIV: clear_fwd=0.059997502800896018726461988990195095539093017578125 clear_rev=0.059997502800896018726461988990195095539093017578125 dclear=0E-51
+STAGE4: delete-recreate P1 upper (raw SKILL canary)
+DRC DEL_PRECHECK:P1_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 408.0243), 'end': (302.0001, 408.0243), 'center': (301.00005, 407.899325), 'radius': 1.00782873203983, 'width': 0.15, 'location': (301.00005, 407.899325)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 410.0), 'end': (302.0001, 410.0), 'center': (301.00005, 410.12498067), 'radius': 1.007829435159368, 'width': 0.15, 'location': (301.00005, 410.12498067)}
+DRC DEL_PRECHECK:P1_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='477.0673 MM'
+DRC DEL_PRECHECK:P1_UPPER: VERDICT=FLAGGED hits=1
+VERDICT DEL_PRECHECK P1_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+COUNT DEL_BEFORE: total_markers=129
+Skill response:0: UserWarning: (axlSetFindFilter): Unrecognized keyword ignored - "arcs"
+Skill response:1: UserWarning: (axlSetFindFilter): Unrecognized keyword ignored - "arcs"
+DELETE_SELECT filter=arcs box=(299.85,409.0)-(302.15009999999995,410.15): sel_ok=None selset_count=0
+DELETE_SELECT filter=clines box=(299.85,409.0)-(302.15009999999995,410.15): sel_ok=True selset_count=1
+DELETE_RESULT filter=clines: 1
+DELETE_VERIFY: row_present_after_delete=False
+COUNT DEL_AFTER_DELETE: total_markers=127
+RECREATE_BITS: identical=True dcy=0E-42 dr=0E-52
+DRC DEL_POSTRECREATE:P1_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 408.0243), 'end': (302.0001, 408.0243), 'center': (301.00005, 407.899325), 'radius': 1.00782873203983, 'width': 0.15, 'location': (301.00005, 407.899325)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 410.0), 'end': (302.0001, 410.0), 'center': (301.00005, 410.12498067), 'radius': 1.007829435159368, 'width': 0.15, 'location': (301.00005, 410.12498067)}
+DRC DEL_POSTRECREATE:P1_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='477.0673 MM'
+DRC DEL_POSTRECREATE:P1_UPPER: VERDICT=FLAGGED hits=1
+VERDICT DEL_POSTRECREATE P1_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+COUNT DEL_AFTER_RECREATE: total_markers=129
+RECREATE_VERDICT: before=('FLAGGED', '0.0599 MM', '0.06 MM') after=('FLAGGED', '0.0599 MM', '0.06 MM') stable=True
+STAGE5: save/reopen round-trip
+SNAP S1_PRE: total_arcs=126 distinct_keys=126 duplicate_keys=0
+DRC S1_PRE_CHECK:P1_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 408.0243), 'end': (302.0001, 408.0243), 'center': (301.00005, 407.899325), 'radius': 1.00782873203983, 'width': 0.15, 'location': (301.00005, 407.899325)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 410.0), 'end': (302.0001, 410.0), 'center': (301.00005, 410.12498067), 'radius': 1.007829435159368, 'width': 0.15, 'location': (301.00005, 410.12498067)}
+DRC S1_PRE_CHECK:P1_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='477.0673 MM'
+DRC S1_PRE_CHECK:P1_UPPER: VERDICT=FLAGGED hits=1
+VERDICT S1_PRE_CHECK P1_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+DRC S1_PRE_CHECK:P2_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='493.3743 MM'
+DRC S1_PRE_CHECK:P2_UPPER: VERDICT=clean hits=0
+VERDICT S1_PRE_CHECK P2_UPPER: clean actual=None expected=None
+DRC S1_PRE_CHECK:ORD_A_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 448.0243), 'end': (302.0001, 448.0243), 'center': (301.00005, 447.899325), 'radius': 1.0078287320398243, 'width': 0.15, 'location': (301.00005, 447.899325)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 450.0), 'end': (302.0001, 450.0), 'center': (301.00005, 450.12498067000007), 'radius': 1.007829435159374, 'width': 0.15, 'location': (301.00005, 450.12498067000007)}
+DRC S1_PRE_CHECK:ORD_A_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='509.9436 MM'
+DRC S1_PRE_CHECK:ORD_A_UPPER: VERDICT=FLAGGED hits=1
+VERDICT S1_PRE_CHECK ORD_A_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+DRC S1_PRE_CHECK:ORD_B_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 468.0243), 'end': (302.0001, 468.0243), 'center': (301.00005, 467.899325), 'radius': 1.0078287320398243, 'width': 0.15, 'location': (301.00005, 467.899325)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 470.0), 'end': (302.0001, 470.0), 'center': (301.00005, 470.12498067000007), 'radius': 1.007829435159374, 'width': 0.15, 'location': (301.00005, 470.12498067000007)}
+DRC S1_PRE_CHECK:ORD_B_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='526.7504 MM'
+DRC S1_PRE_CHECK:ORD_B_UPPER: VERDICT=FLAGGED hits=1
+VERDICT S1_PRE_CHECK ORD_B_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+DRC S1_PRE_CHECK:FWD_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 488.0243), 'end': (302.0001, 488.0243), 'center': (301.00005, 487.899325), 'radius': 1.0078287320398243, 'width': 0.15, 'location': (301.00005, 487.899325)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 490.0), 'end': (302.0001, 490.0), 'center': (301.00005, 490.12498067000007), 'radius': 1.007829435159374, 'width': 0.15, 'location': (301.00005, 490.12498067000007)}
+DRC S1_PRE_CHECK:FWD_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='543.7729 MM'
+DRC S1_PRE_CHECK:FWD_UPPER: VERDICT=FLAGGED hits=1
+VERDICT S1_PRE_CHECK FWD_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+DRC S1_PRE_CHECK:REV_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 508.0243), 'end': (302.0001, 508.0243), 'center': (301.00005, 507.899325), 'radius': 1.0078287320398243, 'width': 0.15, 'location': (301.00005, 507.899325)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (302.0001, 510.0), 'end': (300.0, 510.0), 'center': (301.00005, 510.12498067000007), 'radius': 1.007829435159374, 'width': 0.15, 'location': (301.00005, 510.12498067000007)}
+DRC S1_PRE_CHECK:REV_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='560.9914 MM'
+DRC S1_PRE_CHECK:REV_UPPER: VERDICT=FLAGGED hits=1
+VERDICT S1_PRE_CHECK REV_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+COUNT S1_PRE: total_markers=129
+SAVE F1: result='probe_d_F1' exists=True size=5494892
+F1_SHA256 6c3506c29766bb06495d4008facd3403749e480a39a3950e238eb86f222b0599
+SNAP S1_POST: total_arcs=126 distinct_keys=126 duplicate_keys=0
+SNAPDIFF S1_SAVE_INMEMORY: mismatches=0/12
+DRC S1_POST_CHECK:P1_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 408.0243), 'end': (302.0001, 408.0243), 'center': (301.00005, 407.899325), 'radius': 1.00782873203983, 'width': 0.15, 'location': (301.00005, 407.899325)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 410.0), 'end': (302.0001, 410.0), 'center': (301.00005, 410.12498067), 'radius': 1.007829435159368, 'width': 0.15, 'location': (301.00005, 410.12498067)}
+DRC S1_POST_CHECK:P1_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='477.0673 MM'
+DRC S1_POST_CHECK:P1_UPPER: VERDICT=FLAGGED hits=1
+VERDICT S1_POST_CHECK P1_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+DRC S1_POST_CHECK:P2_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='493.3743 MM'
+DRC S1_POST_CHECK:P2_UPPER: VERDICT=clean hits=0
+VERDICT S1_POST_CHECK P2_UPPER: clean actual=None expected=None
+DRC S1_POST_CHECK:ORD_A_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 448.0243), 'end': (302.0001, 448.0243), 'center': (301.00005, 447.899325), 'radius': 1.0078287320398243, 'width': 0.15, 'location': (301.00005, 447.899325)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 450.0), 'end': (302.0001, 450.0), 'center': (301.00005, 450.12498067000007), 'radius': 1.007829435159374, 'width': 0.15, 'location': (301.00005, 450.12498067000007)}
+DRC S1_POST_CHECK:ORD_A_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='509.9436 MM'
+DRC S1_POST_CHECK:ORD_A_UPPER: VERDICT=FLAGGED hits=1
+VERDICT S1_POST_CHECK ORD_A_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+DRC S1_POST_CHECK:ORD_B_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 468.0243), 'end': (302.0001, 468.0243), 'center': (301.00005, 467.899325), 'radius': 1.0078287320398243, 'width': 0.15, 'location': (301.00005, 467.899325)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 470.0), 'end': (302.0001, 470.0), 'center': (301.00005, 470.12498067000007), 'radius': 1.007829435159374, 'width': 0.15, 'location': (301.00005, 470.12498067000007)}
+DRC S1_POST_CHECK:ORD_B_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='526.7504 MM'
+DRC S1_POST_CHECK:ORD_B_UPPER: VERDICT=FLAGGED hits=1
+VERDICT S1_POST_CHECK ORD_B_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+DRC S1_POST_CHECK:FWD_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 488.0243), 'end': (302.0001, 488.0243), 'center': (301.00005, 487.899325), 'radius': 1.0078287320398243, 'width': 0.15, 'location': (301.00005, 487.899325)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 490.0), 'end': (302.0001, 490.0), 'center': (301.00005, 490.12498067000007), 'radius': 1.007829435159374, 'width': 0.15, 'location': (301.00005, 490.12498067000007)}
+DRC S1_POST_CHECK:FWD_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='543.7729 MM'
+DRC S1_POST_CHECK:FWD_UPPER: VERDICT=FLAGGED hits=1
+VERDICT S1_POST_CHECK FWD_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+DRC S1_POST_CHECK:REV_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 508.0243), 'end': (302.0001, 508.0243), 'center': (301.00005, 507.899325), 'radius': 1.0078287320398243, 'width': 0.15, 'location': (301.00005, 507.899325)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (302.0001, 510.0), 'end': (300.0, 510.0), 'center': (301.00005, 510.12498067000007), 'radius': 1.007829435159374, 'width': 0.15, 'location': (301.00005, 510.12498067000007)}
+DRC S1_POST_CHECK:REV_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='560.9914 MM'
+DRC S1_POST_CHECK:REV_UPPER: VERDICT=FLAGGED hits=1
+VERDICT S1_POST_CHECK REV_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+VERDIFF S1_SAVE_INMEMORY: mismatches=0/6
+COUNT S1_POST: total_markers=129
+BOARD_COPY_SHA256_AFTER_SAVE 2b919c474d7d8032a53ab36f5731f899d3aa24b7d8d2226b0e8ad3112d292f4c
+OPEN_READY probe_d_F1.brd: lck_holder=(59588, False) exclusive=True
+OPEN_VERIFY S2 attempt=1 port=65066: arcs=0 routes=0 board_size=5494892
+OPEN_VERIFY S2: EMPTY despite size=5494892; name_before=None
+REOPEN S2 attempt=1: payload_len=143
+Skill response:0: UserWarning: PCB PR menu inserted.
+REOPEN S2 attempt=1: result=None name_after=None
+REOPEN_VERIFY S2 attempt=1: arcs=0 routes=0
+OPEN_VERIFY S2: still empty after in-session reopen; closed, waiting 30s before single retry
+OPEN_READY probe_d_F1.brd: lck_holder=(59588, False) exclusive=True
+OPEN_VERIFY S2 attempt=2 port=59508: arcs=0 routes=0 board_size=5494892
+OPEN_VERIFY S2: EMPTY despite size=5494892; name_before=None
+REOPEN S2 attempt=2: payload_len=143
+Skill response:0: UserWarning: PCB PR menu inserted.
+REOPEN S2 attempt=2: result=None name_after=None
+REOPEN_VERIFY S2 attempt=2: arcs=0 routes=0
+Traceback (most recent call last):
+  File "D:\AutoPlacer\skillbridge\.artifacts\drc-probe\probe_d.py", line 849, in <module>
+    main()
+  File "D:\AutoPlacer\skillbridge\.artifacts\drc-probe\probe_d.py", line 780, in main
+    with open_verified(f1, ports[1], 'S2') as allegro2:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AutoPlacer\skillbridge\.artifacts\drc-probe\probe_d.py", line 238, in open_verified
+    raise RuntimeError(f'{stage}: design empty after open retry: {board}')
+RuntimeError: S2: design empty after open retry: C:\Users\BAIJUN~1\AppData\Local\Temp\drc-probe-d-cgccosvc\probe_d_F1.brd
+EXIT=1

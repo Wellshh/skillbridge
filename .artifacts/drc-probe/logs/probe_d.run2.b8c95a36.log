@@ -1,0 +1,16 @@
+WORKDIR C:\Users\BAIJUN~1\AppData\Local\Temp\drc-probe-d-mo955y6l
+BOARD_COPY_SHA256_START 2b919c474d7d8032a53ab36f5731f899d3aa24b7d8d2226b0e8ad3112d292f4c
+PORTS ['64730', '64731', '64732']
+Traceback (most recent call last):
+  File "D:\AutoPlacer\skillbridge\.artifacts\drc-probe\probe_d.py", line 804, in <module>
+    main()
+  File "D:\AutoPlacer\skillbridge\.artifacts\drc-probe\probe_d.py", line 532, in main
+    with open_verified(board, ports[0], 'S1') as allegro:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\AutoPlacer\skillbridge\.artifacts\drc-probe\probe_d.py", line 171, in open_verified
+    wait_ready(board)
+  File "D:\AutoPlacer\skillbridge\.artifacts\drc-probe\probe_d.py", line 157, in wait_ready
+    print(f'OPEN_READY {board.name}: lck_holder={holder} '
+                        ^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'name'
+EXIT=1

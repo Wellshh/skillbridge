@@ -1,0 +1,8 @@
+=== STEP0: saver (exits after save+terminate-close) ===
+SAVER: workdir=C:\Users\BAIJUN~1\AppData\Local\Temp\drc-probe-h2-b20p_7q8
+OPEN_READY EL5_MIAN_FPC.brd: lck_holder=None exclusive=True
+SAVER: arcs=113 save='probe_d_F1' exists=True size=5488280
+SAVE_TS 1789198227.509
+SAVER_EXIT workdir=C:\Users\BAIJUN~1\AppData\Local\Temp\drc-probe-h2-b20p_7q8
+SAVER_RC=0
+=== STEP1: young-age attempt, parent DEAD, no ALLEGROBRIDGE_LOG_DIRECTORY ===

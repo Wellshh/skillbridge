@@ -1,0 +1,20 @@
+F1 exists: -rw-r--r-- 1 baijunyan 1049089 5488280 Sep 12 15:30 C:/Users/BAIJUN~1/AppData/Local/Temp/drc-probe-h2-b20p_7q8/probe_d_F1.brd
+=== STEP1 YOUNG_DEAD_NOENV port=61162 now=1789198318 age=91s ===
+OPEN_READY probe_d_F1.brd: lck_holder=(56364, False) exclusive=True
+TRIAL YOUNG_DEAD_NOENV: lck_before=(56364, False)
+TRIAL YOUNG_DEAD_NOENV STARTUP: arcs=113 routes=747 markers=93 cur='probe_d_F1' draw='C:/Users/baijunyan/AppData/Local/Temp/drc-probe-h2-b20p_7q8/probe_d_F1.brd' lic='("PCB_design_studio" "Allegro_performance" "Allegro_studio")' err=None
+TRIAL YOUNG_DEAD_NOENV: RESULT=OK
+STEP1_RC=0
+=== STEP2 YOUNG_DEAD_ENV port=61644 now=1789198345 age=118s ===
+OPEN_READY probe_d_F1.brd: lck_holder=(39928, False) exclusive=True
+TRIAL YOUNG_DEAD_ENV: lck_before=(39928, False)
+TRIAL YOUNG_DEAD_ENV STARTUP: arcs=113 routes=747 markers=93 cur='probe_d_F1' draw='C:/Users/baijunyan/AppData/Local/Temp/drc-probe-h2-b20p_7q8/probe_d_F1.brd' lic='("PCB_design_studio" "Allegro_performance" "Allegro_studio")' err=None
+TRIAL YOUNG_DEAD_ENV: RESULT=OK
+STEP2_RC=0
+=== STEP3 LATE_RUN4_F1 port=57462 ===
+OPEN_READY probe_d_F1.brd: lck_holder=(27256, False) exclusive=True
+TRIAL LATE_RUN4_F1: lck_before=(27256, False)
+TRIAL LATE_RUN4_F1 STARTUP: arcs=126 routes=761 markers=129 cur='probe_d_F1' draw='C:/Users/baijunyan/AppData/Local/Temp/drc-probe-d-t6qj7k4b/probe_d_F1.brd' lic='("PCB_design_studio" "Allegro_performance" "Allegro_studio")' err=None
+TRIAL LATE_RUN4_F1: RESULT=OK
+STEP3_RC=0
+=== CHAIN DONE ===

@@ -1,0 +1,9 @@
+DIAG board=C:\Users\BAIJUN~1\AppData\Local\Temp\drc-probe-d-0ndhwrfj\probe_d_F1.brd exists=True size=5494892
+DIAG lck_exists=True
+DIAG lck pid=48816 alive=False
+DIAG PHASE_A_LCK_PRESENT: design_name=None arcs=126 routes=761 markers=129
+DIAG PHASE_A_LCK_PRESENT: P1_UPPER cx=301.00005 cy=410.12498067 r=1.007829435159368 length=2.9155830666777667 cw=None
+DIAG lck_removed=True
+DIAG PHASE_B_LCK_REMOVED: design_name=None arcs=126 routes=761 markers=129
+DIAG PHASE_B_LCK_REMOVED: P1_UPPER cx=301.00005 cy=410.12498067 r=1.007829435159368 length=2.9155830666777667 cw=None
+DIAG DONE

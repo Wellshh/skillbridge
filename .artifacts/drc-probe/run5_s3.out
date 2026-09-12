@@ -1,0 +1,37 @@
+OPEN_READY probe_d_F2.brd: lck_holder=(39264, False) exclusive=True
+OPEN_VERIFY S3 attempt=1 port=62756: arcs=126 routes=761 board_size=5494892
+SESSION3: opened F2
+COUNT S3_PERSISTED: total_markers=129
+SNAP S3: total_arcs=126 distinct_keys=126 duplicate_keys=0
+SNAPDIFF S3_F2_REOPEN: mismatches=0/12
+DRC S3_CHECK:P1_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 408.0243), 'end': (302.0001, 408.0243), 'center': (301.00005, 407.899325), 'radius': 1.00782873203983, 'width': 0.15, 'location': (301.00005, 407.899325)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 410.0), 'end': (302.0001, 410.0), 'center': (301.00005, 410.12498067), 'radius': 1.007829435159368, 'width': 0.15, 'location': (301.00005, 410.12498067)}
+DRC S3_CHECK:P1_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='477.0673 MM'
+DRC S3_CHECK:P1_UPPER: VERDICT=FLAGGED hits=1
+VERDICT S3_CHECK P1_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+DRC S3_CHECK:REV_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (302.0001, 510.0), 'end': (300.0, 510.0), 'center': (301.00005, 510.12498067000007), 'radius': 1.007829435159374, 'width': 0.15, 'location': (301.00005, 510.12498067000007)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 508.0243), 'end': (302.0001, 508.0243), 'center': (301.00005, 507.899325), 'radius': 1.0078287320398243, 'width': 0.15, 'location': (301.00005, 507.899325)}
+DRC S3_CHECK:REV_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='560.9914 MM'
+DRC S3_CHECK:REV_UPPER: VERDICT=FLAGGED hits=1
+VERDICT S3_CHECK REV_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+VERDIFF S3_F2_REOPEN: mismatches=0/2
+SUMMARY
+RESULT REPEAT_STABLE=True
+RESULT UPDATE_OK=True
+RESULT UPDATE_VERDICT_STABLE=True
+RESULT COUNT_CREATE_VS_UPDATE=(104, 105)
+RESULT CLEAN_REPEAT_STABLE=True
+RESULT FAR_OBJECT_STABLE=True
+RESULT ORDER_SWAP_CONSISTENT=True
+RESULT REVERSED_EQUIVALENT=True
+RESULT DELETE_RECREATE='bits_identical=True verdict_stable=True'
+RESULT SAVE_F1='OK'
+RESULT BITS_S1_POST_SAVE=0
+RESULT BITS_S2_REOPEN=0
+RESULT VERDICTS_S2_STABLE=True
+RESULT F1_F2_IDENTICAL=False
+RESULT BITS_S3_F2_REOPEN=0
+RESULT VERDICTS_S3_STABLE=True
+DONE
