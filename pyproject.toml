@@ -116,7 +116,10 @@ exclude_also = ["raise NotImplementedError", "@overload"]
 
 [tool.mypy]
 python_version = "3.10"
-files = ["allegrobridge", "tests/typing_allegrobridge_axl_stubs.py"]
+# tests/typing_allegrobridge_axl_stubs.py is deliberately absent: CI checks it in a
+# dedicated step (pythonpackage.yml "Check typing fixtures"), keeping bare `mypy` here
+# aligned with CI's `mypy allegrobridge`.
+files = ["allegrobridge"]
 exclude = ["tests", "build", "dist", ".venv", "tmp"]
 platform = "linux"
 pretty = true

@@ -1131,13 +1131,25 @@ def _render_example_segment(segment: ExampleSegment) -> list[str]:
 def _render_docstring(spec: ApiSpec, parameters: Sequence[ParameterSpec]) -> tuple[str, ...]:
     blocks = spec.doc.description
     summary = ''
-    if blocks and blocks[0]:
-        summary = blocks[0][0].split('. ', maxsplit=1)[0].strip()
+    body_blocks: tuple[tuple[str, ...], ...] = ()
+    if blocks:
+        first_line = blocks[0][0] if blocks[0] else ''
+        if first_line.startswith('|'):
+            # Never split a table row mid-line; the whole row serves as summary.
+            summary = first_line
+            remainder = ''
+        else:
+            sentence, separator, tail = first_line.partition('. ')
+            summary = sentence.strip()
+            remainder = tail.strip() if separator else ''
+        # The summary already shows the first sentence, so the body starts at its
+        # remainder instead of re-emitting the paragraph verbatim.
+        first_block = ((remainder,) if remainder else ()) + blocks[0][1:]
+        body_blocks = ((first_block,) if first_block else ()) + blocks[1:]
     lines = [summary or 'No description available.']
-    if blocks and not (len(blocks) == 1 and len(blocks[0]) == 1 and blocks[0][0] == summary):
-        for block in blocks:
-            lines.append('')
-            lines.extend(block)
+    for block in body_blocks:
+        lines.append('')
+        lines.extend(block)
 
     matched = _match_arguments(spec.doc.arguments, parameters)
     if matched:
@@ -1285,12 +1297,11 @@ def render_stub(specs: Sequence[ApiSpec]) -> str:
         lines.append(f'    {domain}: {domain_classes[domain]}')
     lines.append('')
     for spec in callable_specs:
-        lines.extend((
-            '    @overload',
-            '    def __getitem__(',
-            f'        self, item: Literal["{spec.name}"], /',
-            f'    ) -> {_callable_class_name(spec.name)}: ...',
-        ))
+        signature = (
+            f'    def __getitem__(self, item: Literal["{spec.name}"], /)'
+            f' -> {_callable_class_name(spec.name)}: ...'
+        )
+        lines.extend(('    @overload', signature))
     lines.extend((
         '    @overload',
         '    def __getitem__(self, item: str, /) -> LiteralRemoteFunction: ...',

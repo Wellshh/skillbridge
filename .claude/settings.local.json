@@ -419,7 +419,8 @@
       "Bash(grep -rn '`.*=>.*=>.*`' .claude/skill-references/sklangref/)",
       "Bash(python3 -m pytest .claude/tests/ -q)",
       "Bash(python3 .claude/scripts/check_signatures.py --root .claude/skill-references)",
-      "Bash(python3 *)"
+      "Bash(python3 *)",
+      "Bash(grep -c -A1 '\"\"\"$' allegrobridge/client/_axl_stubs.pyi)"
     ],
     "additionalDirectories": [
       "/tmp"
