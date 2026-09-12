@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "D:\AutoPlacer\skillbridge\.artifacts\drc-probe-v2\save_reopen_4.py", line 63, in main
+    smoke.assert_echo_inputs("arc",raw,row["input"]); case["creation"]["echo_assert"]=True; session.refresh()
+    ^^^^^
+NameError: name 'smoke' is not defined
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\AutoPlacer\skillbridge\.artifacts\drc-probe-v2\save_reopen_4.py", line 90, in <module>
+    if __name__=='__main__': raise SystemExit(main())
+                                              ^^^^^^
+  File "D:\AutoPlacer\skillbridge\.artifacts\drc-probe-v2\save_reopen_4.py", line 75, in main
+    except Exception: case["creation"].setdefault("valid",False); case["creation"]["traceback"]=traceback.format_exc()
+                                                                                                ^^^^^^^^^
+NameError: name 'traceback' is not defined. Did you forget to import 'traceback'?

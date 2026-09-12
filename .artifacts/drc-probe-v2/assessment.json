@@ -1,0 +1,21 @@
+{
+  "agent": "cadence-skill-agent",
+  "phase": "assessment",
+  "payload": {
+    "target_objects": ["Line", "Via", "ARC", "DRC marker", "spacing constraint set"],
+    "reuse_candidates": [".artifacts/drc-probe/probe_a.py", ".artifacts/drc-probe/probe_b.py", ".artifacts/drc-probe/arc_oracle.py"],
+    "api_evidence": [
+      {"api":"axlCNSGetSpacing","source":"algroskill/18consmgt.part01.md","line":1246,"signature":"axlCNSGetSpacing( t_cset t_layer s_constraint [g_string] ) => g_value/nil","returns":"constraint value (the same entry also documents nil-constraint enumeration overloads)","constraints":"empty cset names DEFAULT; nil constraint enumerates; t string returns text"},
+      {"api":"axlDRCItem","source":"algroskill/18consmgt.part02.md","line":562,"signature":"axlDRCItem( g_mode o_dbid/lo_dbid ) => x_cnt/lo_drcDbid/nil","returns":"count for nil mode or marker list for t mode","constraints":"obeys current DRC settings and master switch"},
+      {"api":"axlDRCGetCount","source":"algroskill/18consmgt.part02.md","line":544,"signature":"axlDRCGetCount( ) => x_count","returns":"total DRC count","constraints":"design DRC may be stale"},
+      {"api":"axlDRCWaiveGetCount","source":"algroskill/18consmgt.part02.md","line":604,"signature":"axlDRCWaiveGetCount() => x_count","returns":"waived DRC count","constraints":"read-only count"},
+      {"api":"axlDRCUpdate","source":"algroskill/18consmgt.part02.md","line":474,"signature":"axlDRCUpdate( g_mode ) => x_cnt/nil","returns":"count or nil","constraints":"whole-design check; enables online DRC if disabled; obeys current modes"},
+      {"api":"axlDBGetDesignUnits","source":"algroskill/07dbaccs.md","line":486,"signature":"axlDBGetDesignUnits() => l_value/nil","returns":"design units and accuracy","constraints":"active design only"},
+      {"api":"axlAirGap","source":"algroskill/25dbmisc.md","line":1,"signature":"axlAirGap( o_item1DBID o_item2DBID/l_xy [t_layer]/nil [s_mode] ) => l_airGapData/nil/(s_error l_airGapData/l_errorData)","returns":"gap data or error tuple","constraints":"geometric objects only; layer needed for pin/via comparison"},
+      {"api":"axlPathArcCenter","source":"algroskill/03dbcre8.part01.md","line":40,"signature":"axlPathArcCenter( r_path f_width l_end_point g_clockwise l_center ) => r_path/nil","returns":"path handle or nil","constraints":"center-based arc construction; no independent radius parameter"},
+      {"api":"axlPathArcRadius","source":"algroskill/03dbcre8.part01.md","line":32,"signature":"axlPathArcRadius( r_path f_width l_end_point g_clockwise g_bigarc f_radius ) => r_path/nil","returns":"path handle or nil","constraints":"separate radius-based construction route"}
+    ],
+    "lifecycle":{"acquire":["disposable board copy","owned CLI Allegro","unique port"],"cleanup":["owned process and temporary board only","restore DRC enable/modes modified by update"],"observable_postconditions":["wire echo before call","full committed and re-query geometry","all markers and attribution","status classification"]},
+    "risks":["effective cset may differ from DEFAULT; must enumerate and resolve net/layer context","axlAirGap is auxiliary measurement, not DRC equivalence","CLEAN requires completeness gate","Decimal high precision is approximate absent a proved error bound"]
+  }
+}

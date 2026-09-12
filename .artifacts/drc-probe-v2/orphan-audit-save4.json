@@ -1,0 +1,117 @@
+{
+  "time": "2026-09-12T13:35:36.2712063+08:00",
+  "confirmed_owned": [
+    {
+      "ProcessId": 55084,
+      "ParentProcessId": 42508,
+      "Name": "allegro.exe",
+      "CommandLine": "D:\\Cadence\\Cadence_SPB_17.2-2016\\tools\\bin\\allegro.exe -s C:/Users/BAIJUN~1/AppData/Local/Temp/allegrobridge-i5v2el29/startup.scr"
+    },
+    {
+      "ProcessId": 49904,
+      "ParentProcessId": 55084,
+      "Name": "cdsNameServer.exe",
+      "CommandLine": "D:\\Cadence\\Cadence_SPB_17.2-2016\\tools\\bin\\cdsNameServer "
+    },
+    {
+      "ProcessId": 53860,
+      "ParentProcessId": 55084,
+      "Name": "cdsMsgServer.exe",
+      "CommandLine": "D:\\Cadence\\Cadence_SPB_17.2-2016\\tools\\bin\\cdsMsgServer \"-mpssession\" \"allegro.55084.edeb9f64\" "
+    },
+    {
+      "ProcessId": 50616,
+      "ParentProcessId": 55084,
+      "Name": "productServer.exe",
+      "CommandLine": "D:/Cadence/Cadence_SPB_17.2-2016/tools/bin/productServer.exe"
+    },
+    {
+      "ProcessId": 3220,
+      "ParentProcessId": 55084,
+      "Name": "cdsServIpc.exe",
+      "CommandLine": "D:\\Cadence\\Cadence_SPB_17.2-2016\\tools\\bin\\cdsServIpc.exe -c 60968 -n 1 -l D:\\AutoPlacer\\skillbridge\\.artifacts\\drc-probe-v2\\results\\ia-quantizer-60\\run-42508-1789189770158158400/allegrobridge_skill.log -r 15 -x \"D:/AutoPlacer/skillbridge/.venv/Scripts/python.exe\" -m allegrobridge._kernel.server.python_server 63968 INFO --single"
+    },
+    {
+      "ProcessId": 75712,
+      "ParentProcessId": 53296,
+      "Name": "allegro.exe",
+      "CommandLine": "D:\\Cadence\\Cadence_SPB_17.2-2016\\tools\\bin\\allegro.exe -s C:/Users/BAIJUN~1/AppData/Local/Temp/allegrobridge-m43c55mu/startup.scr"
+    },
+    {
+      "ProcessId": 59624,
+      "ParentProcessId": 75712,
+      "Name": "cdsMsgServer.exe",
+      "CommandLine": "D:\\Cadence\\Cadence_SPB_17.2-2016\\tools\\bin\\cdsMsgServer \"-mpssession\" \"allegro.75712.edeba496\" "
+    },
+    {
+      "ProcessId": 42912,
+      "ParentProcessId": 75712,
+      "Name": "productServer.exe",
+      "CommandLine": "D:/Cadence/Cadence_SPB_17.2-2016/tools/bin/productServer.exe"
+    },
+    {
+      "ProcessId": 54660,
+      "ParentProcessId": 75712,
+      "Name": "cdsServIpc.exe",
+      "CommandLine": "D:\\Cadence\\Cadence_SPB_17.2-2016\\tools\\bin\\cdsServIpc.exe -c 62755 -n 1 -l D:\\AutoPlacer\\skillbridge\\.artifacts\\drc-probe-v2\\results\\save-reopen-4\\run-53296-1789190620137847500\\d3_s2_b1-p1/allegrobridge_skill.log -r 15 -x \"D:/AutoPlacer/skillbridge/.venv/Scripts/python.exe\" -m allegrobridge._kernel.server.python_server 52364 INFO --single"
+    }
+  ],
+  "retained_uncertain": [],
+  "before": [
+    {
+      "ProcessId": 55084,
+      "ParentProcessId": 42508,
+      "Name": "allegro.exe",
+      "CommandLine": "D:\\Cadence\\Cadence_SPB_17.2-2016\\tools\\bin\\allegro.exe -s C:/Users/BAIJUN~1/AppData/Local/Temp/allegrobridge-i5v2el29/startup.scr"
+    },
+    {
+      "ProcessId": 49904,
+      "ParentProcessId": 55084,
+      "Name": "cdsNameServer.exe",
+      "CommandLine": "D:\\Cadence\\Cadence_SPB_17.2-2016\\tools\\bin\\cdsNameServer "
+    },
+    {
+      "ProcessId": 53860,
+      "ParentProcessId": 55084,
+      "Name": "cdsMsgServer.exe",
+      "CommandLine": "D:\\Cadence\\Cadence_SPB_17.2-2016\\tools\\bin\\cdsMsgServer \"-mpssession\" \"allegro.55084.edeb9f64\" "
+    },
+    {
+      "ProcessId": 50616,
+      "ParentProcessId": 55084,
+      "Name": "productServer.exe",
+      "CommandLine": "D:/Cadence/Cadence_SPB_17.2-2016/tools/bin/productServer.exe"
+    },
+    {
+      "ProcessId": 3220,
+      "ParentProcessId": 55084,
+      "Name": "cdsServIpc.exe",
+      "CommandLine": "D:\\Cadence\\Cadence_SPB_17.2-2016\\tools\\bin\\cdsServIpc.exe -c 60968 -n 1 -l D:\\AutoPlacer\\skillbridge\\.artifacts\\drc-probe-v2\\results\\ia-quantizer-60\\run-42508-1789189770158158400/allegrobridge_skill.log -r 15 -x \"D:/AutoPlacer/skillbridge/.venv/Scripts/python.exe\" -m allegrobridge._kernel.server.python_server 63968 INFO --single"
+    },
+    {
+      "ProcessId": 75712,
+      "ParentProcessId": 53296,
+      "Name": "allegro.exe",
+      "CommandLine": "D:\\Cadence\\Cadence_SPB_17.2-2016\\tools\\bin\\allegro.exe -s C:/Users/BAIJUN~1/AppData/Local/Temp/allegrobridge-m43c55mu/startup.scr"
+    },
+    {
+      "ProcessId": 59624,
+      "ParentProcessId": 75712,
+      "Name": "cdsMsgServer.exe",
+      "CommandLine": "D:\\Cadence\\Cadence_SPB_17.2-2016\\tools\\bin\\cdsMsgServer \"-mpssession\" \"allegro.75712.edeba496\" "
+    },
+    {
+      "ProcessId": 42912,
+      "ParentProcessId": 75712,
+      "Name": "productServer.exe",
+      "CommandLine": "D:/Cadence/Cadence_SPB_17.2-2016/tools/bin/productServer.exe"
+    },
+    {
+      "ProcessId": 54660,
+      "ParentProcessId": 75712,
+      "Name": "cdsServIpc.exe",
+      "CommandLine": "D:\\Cadence\\Cadence_SPB_17.2-2016\\tools\\bin\\cdsServIpc.exe -c 62755 -n 1 -l D:\\AutoPlacer\\skillbridge\\.artifacts\\drc-probe-v2\\results\\save-reopen-4\\run-53296-1789190620137847500\\d3_s2_b1-p1/allegrobridge_skill.log -r 15 -x \"D:/AutoPlacer/skillbridge/.venv/Scripts/python.exe\" -m allegrobridge._kernel.server.python_server 52364 INFO --single"
+    }
+  ],
+  "after": null
+}

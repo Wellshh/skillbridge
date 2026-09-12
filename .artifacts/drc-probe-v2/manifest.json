@@ -1,0 +1,56 @@
+{
+  "run_id": "drc-probe-v2-checkpoint-2026-09-12",
+  "phase": "checkpoint-0-assessment",
+  "status": "PLANNED",
+  "scope": "independent artifacts only; no Allegro started at this checkpoint",
+  "checkout": {
+    "head": "57a4483a8c4ef5e680e857827eb9651418dc79ac",
+    "head_subject": "docs(drc-probe): Allegro DRC numeric-model reverse-probe report + evidence",
+    "dirty": false,
+    "git_status": "empty"
+  },
+  "target": {
+    "allegro": "17.2-2016 S048",
+    "units": "mm",
+    "accuracy": 4,
+    "grid_mm": "0.0001",
+    "board_source": "allegrobridge/assets/route/EL5_MIAN_FPC.brd",
+    "board_source_sha256": "2B919C474D7D8032A53AB36F5731F899D3AA24B7D8D2226B0E8AD3112D292F4C",
+    "lifecycle": "copy board to disposable work directory; owned Allegro CLI process; unique TCP port"
+  },
+  "historical_evidence": {
+    "commit": "57a4483",
+    "report": ".artifacts/drc-probe/REPORT.md",
+    "scripts_sha256": {
+      "arc_oracle.py": "7FE99831D2D0AA0206D52A4EB64E7B8B45D5116C11AB1F503F5F785A9B0EA8A5",
+      "diag_y700.py": "F17EF01E4C2395A93C9E920AAFD40914481C0750195FE9DB5DAB2DDFD3A4B2A9",
+      "ladder.py": "5BB1501ECF1976E001486EF33B57E95FF9897AEE2121AEACC7BC33393A5723B2",
+      "probe_a.py": "4C696D4D1CE70B36D5274675F43864E1530A2813B7B5A852EA2EBEDDD2F1DEB5",
+      "probe_b.py": "708F520F2251DCB5D9185B37EEA96CF8697D9DE35EBAFEE68AE87271DCF2F569",
+      "probe_c.py": "F3E31D0A563B5678ACD12EFDB1FCAC980C030B701F8F0FB6A67DDFB8C2C3FB3F",
+      "recon.py": "2E691094B22C559E4CDE8D67BBC14CAC2FD7899A4595F7FF758BFDB1DA34E120",
+      "scan_window.py": "1C6041264E88C50DEF43A9B4C123E49AE9DF230ED9F0790A71B0CDC7DB726427"
+    },
+    "known_runs": ["probe_b.b9phteksv.log", "probe_c.run2-full-success.bvc57j0lt.log", "probe_c.run1-phase6-y700fail.b2gigon2b.log"]
+  },
+  "api_evidence": [
+    {"api": "axlDRCItem", "source": "algroskill/18consmgt.part02.md", "line": 562, "signature": "axlDRCItem( g_mode o_dbid/lo_dbid ) => x_cnt/lo_drcDbid/nil", "use": "t returns marker list; nil returns count; obeys current DRC settings/master switch"},
+    {"api": "axlDRCGetCount", "source": "algroskill/18consmgt.part02.md", "line": 544, "signature": "axlDRCGetCount( ) => x_count", "use": "total DRC count; may be stale"},
+    {"api": "axlDRCUpdate", "source": "algroskill/18consmgt.part02.md", "line": 474, "signature": "axlDRCUpdate( g_mode ) => x_cnt/nil", "use": "whole-design check; obeys current DRC mode; immediate operation"},
+    {"api": "axlAirGap", "source": "algroskill/25dbmisc.md", "line": 1, "signature": "axlAirGap( o_item1DBID o_item2DBID/l_xy [t_layer]/nil [s_mode] ) => l_airGapData/nil/(s_error l_airGapData/l_errorData)", "use": "show-measure equivalent; full/anyLayer/enhanced modes documented"},
+    {"api": "axlPathArcCenter", "source": "algroskill/03dbcre8.part01.md", "line": 40, "signature": "axlPathArcCenter( r_path f_width l_end_point g_clockwise l_center ) => r_path/nil", "use": "construct arc to endpoint with center; no independent radius argument"},
+    {"api": "axlPathArcRadius", "source": "algroskill/03dbcre8.part01.md", "line": 32, "signature": "axlPathArcRadius( r_path f_width l_end_point g_clockwise g_bigarc f_radius ) => r_path/nil", "use": "separate radius construction route, not same API radius mutation"}
+  ],
+  "checker_gate": {
+    "required": ["master/category settings and waivers", "explicit positive control", "item list vs count", "marker snapshot after update", "duplicate suppression behavior", "target+partner identity attribution"],
+    "classification": ["FLAGGED", "CLEAN", "AMBIGUOUS", "INVALID", "NOT_TESTED"],
+    "rule": "empty/unmatched marker is not CLEAN until completeness and attribution pass"
+  },
+  "planned_stages": {
+    "stage0": "repair exact grid oracle; register errata; checker positive control and reliable CLEAN gate; matched B GRID_EQ/FLIP_LO/FLIP_HI baseline",
+    "stageI": "coordinate quantizer (Line/Via/ARC endpoint with exact half-grid ties), ARC center alpha/beta projection and order, radius authority applicability",
+    "stageII": "finite sweep validation; independent padstack geometry; non-axis ARC-Via radial discrimination; bounded adaptive delta brackets",
+    "stageIII": "translation stability separating wire/commit effects from DRC; display semantics; per-domain final applicability"
+  },
+  "checkpoint_status": "No Windows/Allegro execution, checker gate, or static probe implementation performed yet."
+}

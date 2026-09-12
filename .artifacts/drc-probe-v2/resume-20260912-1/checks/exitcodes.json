@@ -1,0 +1,6 @@
+{
+  "offline_pytest": 0,
+  "validate_skill_api": 0,
+  "skill_lint": 0,
+  "runtime_started": false
+}

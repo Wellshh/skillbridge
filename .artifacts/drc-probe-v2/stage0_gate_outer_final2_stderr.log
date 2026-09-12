@@ -1,0 +1,4 @@
+Skill response:0: UserWarning: (reader): a '(' at line 16 was still unclosed on EOF, ')' added
+Skill response:1: UserWarning: at line 30 of file D:/AutoPlacer/skillbridge/.artifacts/drc-probe-v2/results/stage0-gate/run-74708-1789191795174225400/stage0_gate.il
+Skill response:0: UserWarning: (reader): a '(' at line 16 was still unclosed on EOF, ')' added
+Skill response:1: UserWarning: at line 30 of file D:/AutoPlacer/skillbridge/.artifacts/drc-probe-v2/results/stage0-gate/run-74708-1789191795174225400/stage0_gate.il

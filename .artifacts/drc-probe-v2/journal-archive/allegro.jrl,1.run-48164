@@ -1,0 +1,87 @@
+\t (00:00:08) allegro 17.2 S048 Windows SPB 64-bit Edition
+\t (00:00:08)     Journal start - Sat Sep 12 12:54:51 2026
+\t (00:00:08)         Host=SZ-BAIJUNYAN1 User=baijunyan Pid=69744 CPUs=20
+\t (00:00:08) CmdLine= D:\Cadence\Cadence_SPB_17.2-2016\tools\bin\allegro.exe -s C:/Users/BAIJUN~1/AppData/Local/Temp/allegrobridge-llvib7ee/startup.scr
+\t (00:00:08) 
+   (00:00:08) Loading axlcore.cxt 
+\t (00:00:08) [PCB-GRID] Version=2026-08-31.2 loaded; planning entry=pcb_grid_plan_v2(modules).
+\t (00:00:08) [PCB-PR] Strict TSV placement-plan importer loaded: 2026-08-31.2.
+\t (00:00:08) PCB PR DEV Capture highlight watcher started.
+   (00:00:08) PCB PR bootstrap: C:/Users/baijunyan/AppData/Local/PCB_PR
+   (00:00:08) PCB PR bootstrap loaded.
+\t (00:00:10) Starting new design...
+   (00:00:10) PCB PR menu inserted.
+\i (00:00:11) trapsize 29310
+\i (00:00:11) replay C:/Users/BAIJUN~1/AppData/Local/Temp/allegrobridge-llvib7ee/startup.scr 
+\i (00:00:11) skill 'load("D:/AutoPlacer/skillbridge/allegrobridge/_kernel/server/python_server.ils")' 
+   (00:00:11) Available commands:
+   (00:00:11) 	pyStartServer ?id "default" ?logLevel "WARNING" ?singleMode nil ?timeout nil ?python "python" ?forceTcp nil
+   (00:00:11) 	pyKillServer
+   (00:00:11) 	pyRestartServer
+   (00:00:11) 	pyReloadScript
+   (00:00:11) 	pyShowLog [numberOfLines]
+   (00:00:11) 	pyRunScript path ?args list() ?python "python"
+   (00:00:11) t
+\i (00:00:11) skill 'load("D:/AutoPlacer/skillbridge/allegrobridge/server/allegro_server.il")' 
+   (00:00:11) t
+\i (00:00:11) skill 'axlSetVariable("noconfirm" t)' 
+   (00:00:11) t
+\i (00:00:11) skill '__abLaunchToken = "af9d769f1c614969a468ec81259de746"' 
+   (00:00:11) "af9d769f1c614969a468ec81259de746"
+\i (00:00:11) skill 'unless(axlOpenDesign(?design "D:/AutoPlacer/skillbridge/.artifacts/drc-probe-v2/results/ia-quantizer-60/run-48164-1789188881728635800/EL5_MIAN_FPC.brd" ?mode "wf") error("ALLEGRO_BOARD_OPEN_FAILED"))' 
+\i (00:00:11) trapsize 632
+\t (00:00:11) Opening existing design...
+   (00:00:14) PCB PR menu inserted.
+\i (00:00:14) trapsize 8798
+\i (00:00:14) trapsize 8920
+\i (00:00:15) trapsize 9391
+\d (00:00:15) Design opened: D:/AutoPlacer/skillbridge/.artifacts/drc-probe-v2/results/ia-quantizer-60/run-48164-1789188881728635800/EL5_MIAN_FPC.brd
+\i (00:00:15) trapsize 9262
+   (00:00:15) nil
+\i (00:00:15) skill 'unless(axlDBRefreshId(axlDBGetDesign()) error("ALLEGRO_DESIGN_REFRESH_FAILED"))' 
+   (00:00:15) nil
+\i (00:00:15) skill 'if(pyStartServer(?id "59586" ?singleMode t ?python "D:/AutoPlacer/skillbridge/.venv/Scripts/python.exe") then t else error("ALLEGRO_SERVER_START_FAILED"))' 
+   (00:00:15) t
+\i (00:00:15) trapsize 9262
+\i (00:00:15) generaledit 
+\t (00:00:20) Opening existing design...
+\i (00:00:21) trapsize 9154
+\t (00:00:21) Opening existing design...
+\i (00:00:21) trapsize 9154
+\t (00:00:22) Opening existing design...
+\i (00:00:22) trapsize 9154
+\t (00:00:22) Opening existing design...
+\i (00:00:22) trapsize 9154
+\t (00:00:23) Opening existing design...
+\i (00:00:23) trapsize 9154
+\t (00:00:23) Opening existing design...
+\i (00:00:23) trapsize 9154
+\t (00:00:24) Opening existing design...
+\i (00:00:24) trapsize 9154
+\t (00:00:24) Opening existing design...
+\i (00:00:24) trapsize 9154
+\t (00:00:25) Opening existing design...
+\i (00:00:25) trapsize 9154
+\t (00:00:25) Opening existing design...
+\i (00:00:25) trapsize 9154
+\t (00:00:26) Opening existing design...
+\i (00:00:26) trapsize 9154
+\t (00:00:26) Opening existing design...
+\i (00:00:26) trapsize 9154
+\t (00:00:27) Opening existing design...
+\i (00:00:27) trapsize 9154
+\t (00:00:27) Opening existing design...
+\i (00:00:28) trapsize 9154
+\t (00:00:28) Opening existing design...
+\i (00:00:28) trapsize 9154
+\t (00:00:29) Opening existing design...
+\i (00:00:29) trapsize 9154
+\t (00:00:29) Opening existing design...
+\i (00:00:29) trapsize 9154
+\t (00:00:30) Opening existing design...
+\i (00:00:30) trapsize 9154
+\t (00:00:30) Opening existing design...
+\i (00:00:30) trapsize 9154
+\t (00:00:31) Opening existing design...
+\i (00:00:31) trapsize 9154
+\t (00:00:31) Opening exis

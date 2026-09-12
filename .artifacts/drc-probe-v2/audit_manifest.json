@@ -1,0 +1,28 @@
+{
+  "status": "INCOMPLETE_REJECTED",
+  "scope": "entire current task",
+  "task_has_stage0_runtime_evidence": true,
+  "stage1_runtime_started": false,
+  "audit_archival_started_runtime": false,
+  "production_code_modified": false,
+  "oracle_modified_this_task": true,
+  "oracle_modified_during_audit_archival": false,
+  "stage0_runtime_identities": [
+    {"port": 63705, "pid": 13076, "board": "drc-v2-s0-rjidbgo7"},
+    {"port": 58193, "pid": 28164, "board": "drc-v2-s0-b9bmt3bv"},
+    {"port": 51571, "pid": 51316, "board": "drc-v2-s0-egfo637d"}
+  ],
+  "live_process_check": {"pids_alive": [], "ports_listening": [], "termination_performed": false},
+  "source_board": {"path": "allegrobridge/assets/route/EL5_MIAN_FPC.brd", "sha256": "2B919C474D7D8032A53AB36F5731F899D3AA24B7D8D2226B0E8AD3112D292F4C"},
+  "git_status": {"status_lines": [" M batch_drc.log,2", " M batch_drc.log,3"], "diff_numstat": [], "production_diff": "EMPTY_NOT_MODIFIED", "head": "57a4483a8c4ef5e680e857827eb9651418dc79ac"},
+  "offline_evidence": {"B_GRID_EQ": "accepted_fraction_and_old_grid_reproduction", "B_STAIR_n6": "accepted_fraction_and_flagged_verdict", "C_CC_GOLD": "raw_log_only_no_final_assert"},
+  "stage_status": {"Stage0":"FROZEN_CODE_REVIEW_REJECTED","StageI-A":"REJECTED_NOT_RUN","StageI-B":"NOT_IMPLEMENTED","StageI-C":"NOT_STARTED_API_LIMITED_RADIUS","StageII-A":"NOT_STARTED_FINITE_COMPLEMENTARY_SWEEP","StageII-B":"BLOCKED","StageII-C":"NOT_STARTED_ADAPTIVE_FLIP_BRACKET","StageII-D":"NOT_STARTED_EPSILON_QUANTIZATION","StageIII-A":"NOT_STARTED_TRANSLATION_DRC_SEPARATION","StageIII-B":"NOT_STARTED_MARKER_DISPLAY_SEMANTICS","StageIII-C":"NOT_STARTED_DOMAIN_BOUNDARY_SUMMARY"},
+  "static_checks": {"verify_assessment_latest":"0_single_run_but_historical_summary_had_1","skill_lint":"0","validate_skill_api":"0","offline_dto_tests":"2_passed"},
+  "missing": ["actual runtime command", "S048 Stage I results", "verified cleanup transcript", "C raw-b64 Fraction assert", "final production rule attribution"]
+}
+
+
+
+
+
+

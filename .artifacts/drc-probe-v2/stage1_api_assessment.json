@@ -1,0 +1,20 @@
+{
+  "agent": "cadence-skill-agent",
+  "phase": "assessment",
+  "payload": {
+    "target_objects": ["paramDesign", "line path", "arc path", "via"],
+    "reuse_candidates": ["allegrobridge/server/extensions/routes.il", "allegrobridge/server/extensions/vias.il"],
+    "api_evidence": [
+      {"api":"axlGetParam","source":"algroskill/04parmgt.part01.md","line":666,"signature":"axlGetParam ( t_parm_name )","returns":"paramDesign DBID","constraints":"paramDesign exposes bBox/xy/width/height","platform":"Allegro 17.2"},
+      {"api":"axlPathStart","source":"algroskill/03dbcre8.part01.md","line":7,"signature":"axlPathStart(l_points [f_width]) => r_path/nil","returns":"path handle or nil","constraints":"one point creates empty path; add a segment before DB create","platform":"Allegro 17.2"},
+      {"api":"axlPathLine","source":"algroskill/03dbcre8.part01.md","line":74,"signature":"axlPathLine(r_path f_width l_end_point) => r_path/nil","returns":"updated path or nil","constraints":"nil width uses path width","platform":"Allegro 17.2"},
+      {"api":"axlPathArcCenter","source":"algroskill/03dbcre8.part01.md","line":40,"signature":"axlPathArcCenter(r_path f_width l_end_point g_clockwise l_center) => r_path/nil","returns":"updated path or nil","constraints":"center is absolute; small precise arcs may fail","platform":"Allegro 17.2"},
+      {"api":"axlDBCreatePath","source":"algroskill/03dbcre8.part01.md","line":429,"signature":"axlDBCreatePath(r_path [t_layer] [t_netName]/[line] [o_parent] [lo_props] [s_font]) => l_result/nil","returns":"created DBID list or nil","constraints":"etch net may be ignored/retied when geometry touches existing objects","platform":"Allegro 17.2"},
+      {"api":"axlDBCreateVia","source":"algroskill/03dbcre8.part02.md","line":44,"signature":"axlDBCreateVia(t_padstack/o_padstackDbid l_anchorPoint [t_netName] [g_mirror] [f_rotation] [o_parent]) => l_result/nil","returns":"(DBID drc-created-flag) or nil","constraints":"padstack name is loaded from database/library","platform":"Allegro 17.2"}
+    ],
+    "lifecycle":{"acquire":["Allegro.open(mode=cli, disposable board copy, unique port)"],"cleanup":["context manager closes owned process"],"observable_postconditions":["same-RPC committed projection matches independent DTO requery by binary64 bits"]},
+    "risks":["runtime Allegro S048 validation pending","path creation may merge/touch existing etch geometry; before/after complete-geometry matching rejects ambiguity","full skillDev lint gate is environment-dependent"]
+  }
+}
+
+
