@@ -1,0 +1,64 @@
+OPEN_READY probe_e_F2b.brd: lck_holder=None exclusive=True
+OPEN_VERIFY S3 attempt=1 port=53801: arcs=126 routes=761 board_size=5494892
+E3: opened F2b (pure persistence: reopen WITHOUT regeneration)
+MSET S3_PERSISTED: total=129 distinct=129 names=[36x'Thru Via to Thru Via Spacing', 24x'Line to Route Keepin Spacing', 22x'Line to SMD Pin Spacing', 19x'Line to Line Spacing', 16x'Thru Via to Route Keepin Spacing', 4x'Line to Thru Via Spacing']
+MSETDIFF S3_F2B_VS_S2_PERSISTED: mismatches=0 (a_total=129 b_total=129)
+MSETORDER S3_F2B_VS_S2_PERSISTED: order_stable=True
+MSETDIFF S3_F2B_VS_S1_POST: mismatches=0 (a_total=129 b_total=129)
+MSETORDER S3_F2B_VS_S1_POST: order_stable=False
+DRC S3_CHECK:P1_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='477.0673 MM'
+DRC S3_CHECK:P1_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 408.0243), 'end': (302.0001, 408.0243), 'center': (301.00005, 407.899325), 'radius': 1.00782873203983, 'width': 0.15, 'location': (301.00005, 407.899325)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 410.0), 'end': (302.0001, 410.0), 'center': (301.00005, 410.12498067), 'radius': 1.007829435159368, 'width': 0.15, 'location': (301.00005, 410.12498067)}
+DRC S3_CHECK:P1_UPPER: VERDICT=FLAGGED hits=1
+VERDICT S3_CHECK P1_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+DRC S3_CHECK:REV_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 508.0243), 'end': (302.0001, 508.0243), 'center': (301.00005, 507.899325), 'radius': 1.0078287320398243, 'width': 0.15, 'location': (301.00005, 507.899325)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (302.0001, 510.0), 'end': (300.0, 510.0), 'center': (301.00005, 510.12498067000007), 'radius': 1.007829435159374, 'width': 0.15, 'location': (301.00005, 510.12498067000007)}
+DRC S3_CHECK:REV_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='560.9914 MM'
+DRC S3_CHECK:REV_UPPER: VERDICT=FLAGGED hits=1
+VERDICT S3_CHECK REV_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+VERDIFF S3_F2B_REOPEN: mismatches=0/2
+SAVE F3: result='probe_e_F3' size=5494892
+F3_SHA256 6f089be5e7b4cf4e7faec558f79cd3dc8a355914f3def59102c055be0819b9e6
+FDIFF F3_VS_F2B: size_a=5494892 size_b=5494892 size_equal=True diff_bytes=12355 ranges=3716 first_offset=36
+FDIFF F3_VS_F2B: range [36, 39]
+FDIFF F3_VS_F2B: range [144, 145]
+FDIFF F3_VS_F2B: range [152, 153]
+FDIFF F3_VS_F2B: range [244, 244]
+FDIFF F3_VS_F2B: range [263, 264]
+FDIFF F3_VS_F2B: range [266, 270]
+FDIFF F3_VS_F2B: range [272, 276]
+FDIFF F3_VS_F2B: range [280, 287]
+FDIFF F3_VS_F2B: range [289, 294]
+FDIFF F3_VS_F2B: range [296, 300]
+FDIFF F3_VS_F2B: range [302, 306]
+FDIFF F3_VS_F2B: range [328, 328]
+FDIFF F3_VS_F2B: ... 3704 more ranges (full table in logs/probe_e.fdiff.F3_VS_F2B.txt)
+E6: marker handle -> None
+E6: NOT_TESTED RuntimeError('design->drcs empty / no handle')
+SUMMARY
+RESULT REPEAT_STABLE=True
+RESULT CHECK_SIDE_EFFECT_S1_P1=[0, 0]
+RESULT UPDATE_VERDICT_STABLE=True
+RESULT CLEAN_REPEAT_STABLE=True
+RESULT CHECK_SIDE_EFFECT_S1_P2=[0]
+RESULT FAR_OBJECT_STABLE=True
+RESULT ORDER_SWAP_CONSISTENT=True
+RESULT REVERSED_EQUIVALENT=True
+RESULT DEL_MARKERS='removed=2 added=2 restored_bit_exact=True all_attributed=True'
+RESULT DELETE_RECREATE='bits_identical=True verdict_stable=True'
+RESULT SAVE_F1='OK'
+RESULT F1A_EQ_F1=False
+RESULT BITS_S1_POST_SAVE=0
+RESULT MSETDIFF_S1_POST_VS_PRE=0
+RESULT MSETDIFF_S2_PERSISTED_VS_S1_POST=0
+RESULT CHECK_SIDE_EFFECT_S2_P1=[0]
+RESULT VERDICTS_S2_STABLE=True
+RESULT PERSISTED_VS_REGENERATED=10
+RESULT UPDATE_IDEMPOTENT=True
+RESULT UPDATE3_MISMATCHES=4
+RESULT MSETDIFF_S3_F2B_VS_S2_PERSISTED=0
+RESULT MSETDIFF_S3_F2B_VS_S1_POST=0
+RESULT E6_WAIVER="NOT_TESTED RuntimeError('design->drcs empty / no handle')"
+DONE

@@ -1,0 +1,129 @@
+OPEN_READY probe_e_F1.brd: lck_holder=(77348, False) exclusive=True
+OPEN_VERIFY S2 attempt=1 port=49553: arcs=126 routes=761 board_size=5494892
+E2: opened F1
+MSET S2_PERSISTED: total=129 distinct=129 names=[36x'Thru Via to Thru Via Spacing', 24x'Line to Route Keepin Spacing', 22x'Line to SMD Pin Spacing', 19x'Line to Line Spacing', 16x'Thru Via to Route Keepin Spacing', 4x'Line to Thru Via Spacing']
+MSETDIFF S2_PERSISTED_VS_S1_POST: mismatches=0 (a_total=129 b_total=129)
+MSETORDER S2_PERSISTED_VS_S1_POST: order_stable=False
+SAVE F2b: result='probe_e_F2b' size=5494892
+F2B_SHA256 5c99afb271f455d9be4dda5f6fc2028b2a2cd8bb7dfc3d8f8d84d641529cd900
+MSET S2_CHECK_PRE: total=129 distinct=129 names=[36x'Thru Via to Thru Via Spacing', 24x'Line to Route Keepin Spacing', 22x'Line to SMD Pin Spacing', 19x'Line to Line Spacing', 16x'Thru Via to Route Keepin Spacing', 4x'Line to Thru Via Spacing']
+DRC S2_CHECK:P1_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 408.0243), 'end': (302.0001, 408.0243), 'center': (301.00005, 407.899325), 'radius': 1.00782873203983, 'width': 0.15, 'location': (301.00005, 407.899325)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 410.0), 'end': (302.0001, 410.0), 'center': (301.00005, 410.12498067), 'radius': 1.007829435159368, 'width': 0.15, 'location': (301.00005, 410.12498067)}
+DRC S2_CHECK:P1_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='477.0673 MM'
+DRC S2_CHECK:P1_UPPER: VERDICT=FLAGGED hits=1
+VERDICT S2_CHECK P1_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+MSET S2_CHECK_POST: total=129 distinct=129 names=[36x'Thru Via to Thru Via Spacing', 24x'Line to Route Keepin Spacing', 22x'Line to SMD Pin Spacing', 19x'Line to Line Spacing', 16x'Thru Via to Route Keepin Spacing', 4x'Line to Thru Via Spacing']
+CHECK_DELTA S2_CHECK P1_UPPER: verdict=FLAGGED markers_changed=0
+DRC S2_CHECK_ALL:P1_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 408.0243), 'end': (302.0001, 408.0243), 'center': (301.00005, 407.899325), 'radius': 1.00782873203983, 'width': 0.15, 'location': (301.00005, 407.899325)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 410.0), 'end': (302.0001, 410.0), 'center': (301.00005, 410.12498067), 'radius': 1.007829435159368, 'width': 0.15, 'location': (301.00005, 410.12498067)}
+DRC S2_CHECK_ALL:P1_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='477.0673 MM'
+DRC S2_CHECK_ALL:P1_UPPER: VERDICT=FLAGGED hits=1
+VERDICT S2_CHECK_ALL P1_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+DRC S2_CHECK_ALL:P2_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='493.3743 MM'
+DRC S2_CHECK_ALL:P2_UPPER: VERDICT=clean hits=0
+VERDICT S2_CHECK_ALL P2_UPPER: clean actual=None expected=None
+DRC S2_CHECK_ALL:ORD_A_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 448.0243), 'end': (302.0001, 448.0243), 'center': (301.00005, 447.899325), 'radius': 1.0078287320398243, 'width': 0.15, 'location': (301.00005, 447.899325)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 450.0), 'end': (302.0001, 450.0), 'center': (301.00005, 450.12498067000007), 'radius': 1.007829435159374, 'width': 0.15, 'location': (301.00005, 450.12498067000007)}
+DRC S2_CHECK_ALL:ORD_A_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='509.9436 MM'
+DRC S2_CHECK_ALL:ORD_A_UPPER: VERDICT=FLAGGED hits=1
+VERDICT S2_CHECK_ALL ORD_A_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+DRC S2_CHECK_ALL:ORD_B_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 468.0243), 'end': (302.0001, 468.0243), 'center': (301.00005, 467.899325), 'radius': 1.0078287320398243, 'width': 0.15, 'location': (301.00005, 467.899325)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 470.0), 'end': (302.0001, 470.0), 'center': (301.00005, 470.12498067000007), 'radius': 1.007829435159374, 'width': 0.15, 'location': (301.00005, 470.12498067000007)}
+DRC S2_CHECK_ALL:ORD_B_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='526.7504 MM'
+DRC S2_CHECK_ALL:ORD_B_UPPER: VERDICT=FLAGGED hits=1
+VERDICT S2_CHECK_ALL ORD_B_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+DRC S2_CHECK_ALL:FWD_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 488.0243), 'end': (302.0001, 488.0243), 'center': (301.00005, 487.899325), 'radius': 1.0078287320398243, 'width': 0.15, 'location': (301.00005, 487.899325)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (300.0, 490.0), 'end': (302.0001, 490.0), 'center': (301.00005, 490.12498067000007), 'radius': 1.007829435159374, 'width': 0.15, 'location': (301.00005, 490.12498067000007)}
+DRC S2_CHECK_ALL:FWD_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='543.7729 MM'
+DRC S2_CHECK_ALL:FWD_UPPER: VERDICT=FLAGGED hits=1
+VERDICT S2_CHECK_ALL FWD_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+DRC S2_CHECK_ALL:REV_UPPER: MARKER name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' layer='DRC ERROR CLASS/TOP'
+   FIG[0] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'FINGER_SPI_MISO', 'start': (300.0, 508.0243), 'end': (302.0001, 508.0243), 'center': (301.00005, 507.899325), 'radius': 1.0078287320398243, 'width': 0.15, 'location': (301.00005, 507.899325)}
+   FIG[1] {'obj_type': 'arc', 'layer': 'ETCH/TOP', 'net': 'NFC_SWP', 'start': (302.0001, 510.0), 'end': (300.0, 510.0), 'center': (301.00005, 510.12498067000007), 'radius': 1.007829435159374, 'width': 0.15, 'location': (301.00005, 510.12498067000007)}
+DRC S2_CHECK_ALL:REV_UPPER: OTHER name='Line to Route Keepin Spacing' expected='0 MM' actual='560.9914 MM'
+DRC S2_CHECK_ALL:REV_UPPER: VERDICT=FLAGGED hits=1
+VERDICT S2_CHECK_ALL REV_UPPER: FLAGGED actual='0.0599 MM' expected='0.06 MM'
+VERDIFF S2_REOPEN: mismatches=0/6
+S2_UPDATE1: markers_returned=129
+MSET S2_AFTER_UPDATE1: total=129 distinct=129 names=[36x'Thru Via to Thru Via Spacing', 24x'Line to Route Keepin Spacing', 22x'Line to SMD Pin Spacing', 19x'Line to Line Spacing', 16x'Thru Via to Route Keepin Spacing', 4x'Package to Place Keepin Spacing']
+MSETDIFF S2_PERSISTED_VS_REGENERATED: mismatches=10 (a_total=129 b_total=129)
+MSETDIFF S2_PERSISTED_VS_REGENERATED: tier2 field_diffs={} unpaired=10
+MSETUNPAIRED S2_PERSISTED_VS_REGENERATED A: name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' loc=('301.0000', '489.1172') objs=(('net', None, 'FINGER_SPI_MISO', None), ('net', None, 'NFC_SWP', None))
+MSETUNPAIRED S2_PERSISTED_VS_REGENERATED A: name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' loc=('301.0000', '449.1172') objs=(('net', None, 'FINGER_SPI_MISO', None), ('net', None, 'NFC_SWP', None))
+MSETUNPAIRED S2_PERSISTED_VS_REGENERATED A: name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' loc=('301.0000', '409.1172') objs=(('net', None, 'FINGER_SPI_MISO', None), ('net', None, 'NFC_SWP', None))
+MSETUNPAIRED S2_PERSISTED_VS_REGENERATED A: name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' loc=('301.0000', '509.1172') objs=(('net', None, 'FINGER_SPI_MISO', None), ('net', None, 'NFC_SWP', None))
+MSETUNPAIRED S2_PERSISTED_VS_REGENERATED A: name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' loc=('301.0000', '469.1172') objs=(('net', None, 'FINGER_SPI_MISO', None), ('net', None, 'NFC_SWP', None))
+MSETUNPAIRED S2_PERSISTED_VS_REGENERATED B: name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' loc=('301.0000', '448.9072') objs=(('net', None, 'FINGER_SPI_MISO', None), ('net', None, 'NFC_SWP', None))
+MSETUNPAIRED S2_PERSISTED_VS_REGENERATED B: name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' loc=('301.0000', '508.9072') objs=(('net', None, 'FINGER_SPI_MISO', None), ('net', None, 'NFC_SWP', None))
+MSETUNPAIRED S2_PERSISTED_VS_REGENERATED B: name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' loc=('301.0000', '408.9072') objs=(('net', None, 'FINGER_SPI_MISO', None), ('net', None, 'NFC_SWP', None))
+MSETUNPAIRED S2_PERSISTED_VS_REGENERATED B: name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' loc=('301.0000', '488.9072') objs=(('net', None, 'FINGER_SPI_MISO', None), ('net', None, 'NFC_SWP', None))
+MSETUNPAIRED S2_PERSISTED_VS_REGENERATED B: name='Line to Line Spacing' expected='0.06 MM' actual='0.0599 MM' loc=('301.0000', '468.9072') objs=(('net', None, 'FINGER_SPI_MISO', None), ('net', None, 'NFC_SWP', None))
+S2_UPDATE2: markers_returned=129
+MSET S2_AFTER_UPDATE2: total=129 distinct=129 names=[36x'Thru Via to Thru Via Spacing', 24x'Line to Route Keepin Spacing', 22x'Line to SMD Pin Spacing', 19x'Line to Line Spacing', 16x'Thru Via to Route Keepin Spacing', 4x'Package to Place Keepin Spacing']
+MSETDIFF S2_UPDATE_IDEMPOTENT: mismatches=0 (a_total=129 b_total=129)
+MSETORDER S2_UPDATE_IDEMPOTENT: order_stable=False
+UPDATE_IDEMPOTENT: True
+PERSISTED_VS_REGENERATED_MISMATCHES=10
+S2_UPDATE3: markers_returned=129
+MSET S2_AFTER_UPDATE3: total=129 distinct=129 names=[36x'Thru Via to Thru Via Spacing', 24x'Line to Route Keepin Spacing', 22x'Line to SMD Pin Spacing', 19x'Line to Line Spacing', 16x'Thru Via to Route Keepin Spacing', 4x'Package to Place Keepin Spacing']
+MSETDIFF S2_UPDATE2_VS_UPDATE3: mismatches=4 (a_total=129 b_total=129)
+MSETDIFF S2_UPDATE2_VS_UPDATE3: tier2 field_diffs={} unpaired=4
+MSETUNPAIRED S2_UPDATE2_VS_UPDATE3 A: name='Line to Line Spacing' expected='0.15 MM' actual='0.1499 MM' loc=('-13.6706', '-88.0952') objs=(('net', None, 'MIPI_DSI0_LANE1_P_CON', None), ('net', None, 'MIPI_DSI0_LANE3_M_CON', None))
+MSETUNPAIRED S2_UPDATE2_VS_UPDATE3 B: name='Line to Line Spacing' expected='0.15 MM' actual='0.1499 MM' loc=('-7.5088', '-81.0776') objs=(('net', None, 'MIPI_DSI0_CLK_M_CON', None), ('net', None, 'MIPI_DSI0_LANE0_P_CON', None))
+SAVE F2: result='probe_e_F2' size=5504636
+F2_SHA256 796009f1111bc9011d94c0bc1a840e0d37552ad9bf647b3219b5ee4ccd9ac7fa
+FDIFF F2B_VS_F1: size_a=5494892 size_b=5494892 size_equal=True diff_bytes=50509 ranges=33993 first_offset=36
+FDIFF F2B_VS_F1: range [36, 39]
+FDIFF F2B_VS_F1: range [64, 64]
+FDIFF F2B_VS_F1: range [96, 96]
+FDIFF F2B_VS_F1: range [120, 120]
+FDIFF F2B_VS_F1: range [144, 145]
+FDIFF F2B_VS_F1: range [152, 153]
+FDIFF F2B_VS_F1: range [244, 244]
+FDIFF F2B_VS_F1: range [262, 263]
+FDIFF F2B_VS_F1: range [265, 269]
+FDIFF F2B_VS_F1: range [271, 275]
+FDIFF F2B_VS_F1: range [279, 286]
+FDIFF F2B_VS_F1: range [288, 293]
+FDIFF F2B_VS_F1: ... 33981 more ranges (full table in logs/probe_e.fdiff.F2B_VS_F1.txt)
+FDIFF F2_VS_F2B: size_a=5504636 size_b=5494892 size_equal=False diff_bytes=246912 ranges=74982 first_offset=32
+FDIFF F2_VS_F2B: range [32, 33]
+FDIFF F2_VS_F2B: range [64, 65]
+FDIFF F2_VS_F2B: range [96, 96]
+FDIFF F2_VS_F2B: range [120, 120]
+FDIFF F2_VS_F2B: range [144, 145]
+FDIFF F2_VS_F2B: range [152, 152]
+FDIFF F2_VS_F2B: range [244, 244]
+FDIFF F2_VS_F2B: range [263, 264]
+FDIFF F2_VS_F2B: range [266, 270]
+FDIFF F2_VS_F2B: range [272, 276]
+FDIFF F2_VS_F2B: range [280, 287]
+FDIFF F2_VS_F2B: range [289, 294]
+FDIFF F2_VS_F2B: ... 74970 more ranges (full table in logs/probe_e.fdiff.F2_VS_F2B.txt)
+SUMMARY
+RESULT REPEAT_STABLE=True
+RESULT CHECK_SIDE_EFFECT_S1_P1=[0, 0]
+RESULT UPDATE_VERDICT_STABLE=True
+RESULT CLEAN_REPEAT_STABLE=True
+RESULT CHECK_SIDE_EFFECT_S1_P2=[0]
+RESULT FAR_OBJECT_STABLE=True
+RESULT ORDER_SWAP_CONSISTENT=True
+RESULT REVERSED_EQUIVALENT=True
+RESULT DEL_MARKERS='removed=2 added=2 restored_bit_exact=True all_attributed=True'
+RESULT DELETE_RECREATE='bits_identical=True verdict_stable=True'
+RESULT SAVE_F1='OK'
+RESULT F1A_EQ_F1=False
+RESULT BITS_S1_POST_SAVE=0
+RESULT MSETDIFF_S1_POST_VS_PRE=0
+RESULT MSETDIFF_S2_PERSISTED_VS_S1_POST=0
+RESULT CHECK_SIDE_EFFECT_S2_P1=[0]
+RESULT VERDICTS_S2_STABLE=True
+RESULT PERSISTED_VS_REGENERATED=10
+RESULT UPDATE_IDEMPOTENT=True
+RESULT UPDATE3_MISMATCHES=4
+DONE

@@ -1,0 +1,9 @@
+=== RUN_E PHASE E1 (creates work, saves F1a/F1, EXITS) start=1789239938 ===
+E1_RC=0 end=1789239964
+STATE=C:/Users/BAIJUN~1/AppData/Local/Temp/drc-probe-e-p5o4nbxs/probe_e_state.pkl
+=== RUN_E PHASE E2 (fresh process; E1 python DEAD) start=1789239970 ===
+E2_RC=0 end=1789240003
+=== RUN_E PHASE E3 (fresh process) start=1789240005 ===
+E3_RC=0 end=1789240041
+=== RUN_E DONE ===
+CHAIN_EXIT=0
