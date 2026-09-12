@@ -1,0 +1,174 @@
+{
+  "source_manifest": "D:\\AutoPlacer\\skillbridge\\.artifacts\\drc-probe-v2\\results\\stage2-radial\\run-20260912-224358-093\\manifest.json",
+  "raw_status": "CAPTURED",
+  "case_count": 4,
+  "cases": [
+    {
+      "label": "gap004_a",
+      "input_bits": {
+        "x": "4073228b43958106",
+        "y": "407983645a1cac08"
+      },
+      "exact_input_fraction": {
+        "dx": "54175136923779/8796093022208",
+        "dy": "18058378974593/2199023255552"
+      },
+      "decimal100": {
+        "center_distance": "10.2649999999999863575794734060764312744140625",
+        "radial_gap": "0.03999999999998636590614609076510532759130001068115234375",
+        "vertical_at_x_gap": "0.1087566044199756101111704185291202018324824861268808214265814570667451876317401645930785491792621",
+        "vertical_extremum_gap": "-2.01300000000001090560974859045018092729151248931884765625"
+      },
+      "model_prediction": {
+        "threshold_api_b64": "0.065000000000000002220446049250313080847263336181640625",
+        "threshold_nominal": "0.065",
+        "radial": "FLAGGED",
+        "vertical_at_x": "CLEAN",
+        "vertical_extremum": "FLAGGED"
+      },
+      "observed": {
+        "arc_flagged": true,
+        "target_via_flagged": true,
+        "arc_count": 2,
+        "target_via_count": 2,
+        "arc_markers": [
+          "Line to Thru Via Spacing"
+        ],
+        "target_via_markers": [
+          "Line to Thru Via Spacing"
+        ]
+      },
+      "raw_source": "D:\\AutoPlacer\\skillbridge\\.artifacts\\drc-probe-v2\\results\\stage2-radial\\run-20260912-224358-093\\manifest.json"
+    },
+    {
+      "label": "gap004_b",
+      "input_bits": {
+        "x": "407343645a1cac08",
+        "y": "4079628b43958106"
+      },
+      "exact_input_fraction": {
+        "dx": "18058378974593/2199023255552",
+        "dy": "54175136923779/8796093022208"
+      },
+      "decimal100": {
+        "center_distance": "10.2649999999999863575794734060764312744140625",
+        "radial_gap": "0.03999999999998636590614609076510532759130001068115234375",
+        "vertical_at_x_gap": "0.2275951773467497380048776066413316035641531235044733120590458962585503749855943422656506000183132",
+        "vertical_extremum_gap": "-4.06600000000000817712564327166546718217432498931884765625"
+      },
+      "model_prediction": {
+        "threshold_api_b64": "0.065000000000000002220446049250313080847263336181640625",
+        "threshold_nominal": "0.065",
+        "radial": "FLAGGED",
+        "vertical_at_x": "CLEAN",
+        "vertical_extremum": "FLAGGED"
+      },
+      "observed": {
+        "arc_flagged": true,
+        "target_via_flagged": true,
+        "arc_count": 2,
+        "target_via_count": 2,
+        "arc_markers": [
+          "Line to Thru Via Spacing"
+        ],
+        "target_via_markers": [
+          "Line to Thru Via Spacing"
+        ]
+      },
+      "raw_source": "D:\\AutoPlacer\\skillbridge\\.artifacts\\drc-probe-v2\\results\\stage2-radial\\run-20260912-224358-093\\manifest.json"
+    },
+    {
+      "label": "gap020_a",
+      "input_bits": {
+        "x": "407324147ae147ae",
+        "y": "40798570a3d70a3d"
+      },
+      "exact_input_fraction": {
+        "dx": "55019561853911/8796093022208",
+        "dy": "146718831610429/17592186044416"
+      },
+      "decimal100": {
+        "center_distance": "10.42499999999997726263245567680025101950120300868545742454343571710573739842696866789031562349794433",
+        "radial_gap": "0.19999999999997727095912836148892507267844051936660976829343571710573739842696866789031562349794433",
+        "vertical_at_x_gap": "0.3127583349398586419383453152863289079494957860224279823591300959103630677305669107208083531541347",
+        "vertical_extremum_gap": "-1.88500000000002500277762607083786861039698123931884765625"
+      },
+      "model_prediction": {
+        "threshold_api_b64": "0.065000000000000002220446049250313080847263336181640625",
+        "threshold_nominal": "0.065",
+        "radial": "CLEAN",
+        "vertical_at_x": "CLEAN",
+        "vertical_extremum": "FLAGGED"
+      },
+      "observed": {
+        "arc_flagged": false,
+        "target_via_flagged": false,
+        "arc_count": 1,
+        "target_via_count": 1,
+        "arc_markers": [],
+        "target_via_markers": []
+      },
+      "raw_source": "D:\\AutoPlacer\\skillbridge\\.artifacts\\drc-probe-v2\\results\\stage2-radial\\run-20260912-224358-093\\manifest.json"
+    },
+    {
+      "label": "gap020_b",
+      "input_bits": {
+        "x": "40734570a3d70a3d",
+        "y": "407964147ae147ae"
+      },
+      "exact_input_fraction": {
+        "dx": "146718831610429/17592186044416",
+        "dy": "55019561853911/8796093022208"
+      },
+      "decimal100": {
+        "center_distance": "10.42499999999997726263245567680025101950120300868545742454343571710573739842696866789031562349794433",
+        "radial_gap": "0.19999999999997727095912836148892507267844051936660976829343571710573739842696866789031562349794433",
+        "vertical_at_x_gap": "0.5123555750664335441467162835477529575678673481566782849324495334581184885900559016645808201263103",
+        "vertical_extremum_gap": "-3.97000000000000453914683617995251552201807498931884765625"
+      },
+      "model_prediction": {
+        "threshold_api_b64": "0.065000000000000002220446049250313080847263336181640625",
+        "threshold_nominal": "0.065",
+        "radial": "CLEAN",
+        "vertical_at_x": "CLEAN",
+        "vertical_extremum": "FLAGGED"
+      },
+      "observed": {
+        "arc_flagged": false,
+        "target_via_flagged": false,
+        "arc_count": 1,
+        "target_via_count": 1,
+        "arc_markers": [],
+        "target_via_markers": []
+      },
+      "raw_source": "D:\\AutoPlacer\\skillbridge\\.artifacts\\drc-probe-v2\\results\\stage2-radial\\run-20260912-224358-093\\manifest.json"
+    }
+  ],
+  "audit_conclusion": {
+    "observed_arc_pattern": [
+      true,
+      true,
+      false,
+      false
+    ],
+    "observed_target_via_pattern": [
+      true,
+      true,
+      false,
+      false
+    ],
+    "radial_model_matches_observation": true,
+    "vertical_at_x_rejected": [
+      true,
+      true,
+      false,
+      false
+    ],
+    "vertical_extremum_rejected": [
+      false,
+      false,
+      true,
+      true
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "exit_code": 0,
+  "command": "py .artifacts/drc-probe-v2/oracle_regression.py",
+  "script_sha256": "8375ab0f962ed083f3716075c8189de6d65d5401325bcfe11e9b933cda2fd8d7",
+  "output_sha256": "280bb554d0c01782f89782da4ba2e7cf1052b7220434b4c6296bdb29f87526d9",
+  "stdout": "stdout.txt",
+  "stderr": "stderr.txt",
+  "timestamp": "2026-09-12T14:05:48.3027719+08:00"
+}

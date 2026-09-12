@@ -1,0 +1,100 @@
+{
+  "status": "OFFLINE_GATE_PASS",
+  "source": "D:\\AutoPlacer\\skillbridge\\.artifacts\\drc-probe-v2\\results\\stage0-b-replay\\run-36900-1789223446873968800",
+  "cases": [
+    {
+      "tag": "FLIP_LO",
+      "verdict": "FLAGGED",
+      "evidence": {
+        "reasons": [],
+        "target_signatures": 2,
+        "group_pair_counts": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "group_pair_present": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      }
+    },
+    {
+      "tag": "FLIP_HI",
+      "verdict": "CLEAN",
+      "evidence": {
+        "reasons": [],
+        "target_signatures": 2,
+        "group_pair_counts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "group_pair_present": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      }
+    },
+    {
+      "tag": "GRID_EQ",
+      "verdict": "CLEAN",
+      "evidence": {
+        "reasons": [],
+        "target_signatures": 2,
+        "group_pair_counts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "group_pair_present": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      }
+    }
+  ],
+  "negative_derived_checks": [
+    {
+      "mutation": "delete_item_calls",
+      "verdict": "AMBIGUOUS"
+    },
+    {
+      "mutation": "blank_snapshot_marker",
+      "verdict": "AMBIGUOUS"
+    },
+    {
+      "mutation": "delete_class_table",
+      "verdict": "AMBIGUOUS"
+    },
+    {
+      "mutation": "wrong_string_rule",
+      "verdict": "AMBIGUOUS"
+    },
+    {
+      "mutation": "remove_snapshot_pair",
+      "verdict": "AMBIGUOUS"
+    }
+  ]
+}

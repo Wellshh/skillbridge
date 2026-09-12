@@ -1,0 +1,2 @@
+2026-09-12 23:24:25,123 INFO allegrobridge.server: starting server id=59986 log=INFO notify=False single=True timeout=None force_tcp=False max_payload_size=67108864
+2026-09-12 23:24:25,609 INFO allegrobridge.server: client ('127.0.0.1', 62760) connected

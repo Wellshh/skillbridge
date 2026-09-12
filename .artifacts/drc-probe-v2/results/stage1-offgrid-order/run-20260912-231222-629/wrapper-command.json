@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "D:\\AutoPlacer\\skillbridge\\.venv\\Scripts\\python.exe",
+    "D:\\AutoPlacer\\skillbridge\\.artifacts\\drc-probe-v2\\stage1_offgrid_order.py",
+    "--run-dir",
+    "D:\\AutoPlacer\\skillbridge\\.artifacts\\drc-probe-v2\\results\\stage1-offgrid-order\\run-20260912-231222-629"
+  ],
+  "cwd": "D:\\AutoPlacer\\skillbridge",
+  "run": "D:\\AutoPlacer\\skillbridge\\.artifacts\\drc-probe-v2\\results\\stage1-offgrid-order\\run-20260912-231222-629",
+  "started": "2026-09-12T23:13:08.3909127+08:00"
+}

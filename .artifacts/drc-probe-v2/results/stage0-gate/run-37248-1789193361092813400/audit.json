@@ -1,0 +1,10 @@
+{
+  "review": "GATE_ACCEPTED_FINITE_DOMAIN",
+  "reviewer": "root",
+  "cases": {
+    "POS_NOMINAL_VIOLATION": "POS fullsnapshot 99/99; exact target line pair; expected .06 MM, actual .04 MM, DEFAULT, waived=nil, fixed=t; four item calls resolved and pair matched",
+    "CLEAR_NOMINAL": "CLEAR fullsnapshot 98/98; target pair absent; keepin evidence only; four item calls resolved with no target pair"
+  },
+  "context": "mm accuracy4; LOGICAL_PATH properties only; no class/region tables",
+  "scope": "finite-domain gate only"
+}

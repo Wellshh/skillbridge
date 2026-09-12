@@ -1,0 +1,1974 @@
+{
+  "source": "D:\\AutoPlacer\\skillbridge\\.artifacts\\drc-probe-v2\\results\\stage3-translation\\run-29568-1789228092086311600\\manifest.json",
+  "cases": [
+    {
+      "label": "flag_T0_0",
+      "translation": {
+        "tx": 0,
+        "ty": 0
+      },
+      "center_y_bits": "4079a1ffae2ca8c6",
+      "line_y_bits": "40798e837b4a233a",
+      "full_clearance_fraction": "2161720911343669/36028797018963968",
+      "full_clearance_decimal": "0.05999980821468545",
+      "stored_gate": "FLAGGED",
+      "recomputed_gate": {
+        "verdict": "FLAGGED",
+        "evidence": {
+          "reasons": [],
+          "target_signatures": 2,
+          "group_pair_counts": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "group_pair_present": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ]
+        }
+      },
+      "relative_fraction": {
+        "viaA": {
+          "point": [
+            "300",
+            "410"
+          ]
+        },
+        "arcA": {
+          "start": [
+            "300",
+            "410"
+          ],
+          "end": [
+            "1328210486158059/4398046511104",
+            "410"
+          ],
+          "center": [
+            "2647624439489259/8796093022208",
+            "3607496964330595/8796093022208"
+          ],
+          "radius": "4538827490090899/4503599627370496",
+          "length": "3282762167981569/1125899906842624"
+        },
+        "viaB": {
+          "point": [
+            "300",
+            "3596784889041309/8796093022208"
+          ]
+        },
+        "lineB": {
+          "start": [
+            "300",
+            "3596784889041309/8796093022208"
+          ],
+          "end": [
+            "302",
+            "3596784889041309/8796093022208"
+          ]
+        }
+      },
+      "boundary_match": {
+        "boundary_case": "adaptive-007",
+        "center_bits_equal": true,
+        "object_names_equal": true,
+        "dto_equal": true
+      }
+    },
+    {
+      "label": "flag_T-300_-300",
+      "translation": {
+        "tx": -300,
+        "ty": -300
+      },
+      "center_y_bits": "405b87feb8b2a318",
+      "line_y_bits": "405b3a0ded288ce8",
+      "full_clearance_fraction": "2161720911343773/36028797018963968",
+      "full_clearance_decimal": "0.05999980821468834",
+      "stored_gate": "FLAGGED",
+      "recomputed_gate": {
+        "verdict": "FLAGGED",
+        "evidence": {
+          "reasons": [],
+          "target_signatures": 2,
+          "group_pair_counts": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "group_pair_present": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ]
+        }
+      },
+      "relative_fraction": {
+        "viaA": {
+          "point": [
+            "300",
+            "410"
+          ]
+        },
+        "arcA": {
+          "start": [
+            "300",
+            "410"
+          ],
+          "end": [
+            "680043768912926265/2251799813685248",
+            "410"
+          ],
+          "center": [
+            "1355583713018500665/4503599627370496",
+            "28859975714644759/70368744177664"
+          ],
+          "radius": "2269413745045443/2251799813685248",
+          "length": "6565524335963223/2251799813685248"
+        },
+        "viaB": {
+          "point": [
+            "300",
+            "28774279112330471/70368744177664"
+          ]
+        },
+        "lineB": {
+          "start": [
+            "300",
+            "28774279112330471/70368744177664"
+          ],
+          "end": [
+            "302",
+            "28774279112330471/70368744177664"
+          ]
+        }
+      },
+      "boundary_match": null
+    },
+    {
+      "label": "flag_T-600_-500",
+      "translation": {
+        "tx": -600,
+        "ty": -500
+      },
+      "center_y_bits": "c0567801474d5ce8",
+      "line_y_bits": "c056c5f212d77318",
+      "full_clearance_fraction": "2161720911344237/36028797018963968",
+      "full_clearance_decimal": "0.05999980821470122",
+      "stored_gate": "FLAGGED",
+      "recomputed_gate": {
+        "verdict": "FLAGGED",
+        "evidence": {
+          "reasons": [],
+          "target_signatures": 2,
+          "group_pair_counts": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "group_pair_present": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ]
+        }
+      },
+      "relative_fraction": {
+        "viaA": {
+          "point": [
+            "300",
+            "410"
+          ]
+        },
+        "arcA": {
+          "start": [
+            "300",
+            "410"
+          ],
+          "end": [
+            "1328210486158059/4398046511104",
+            "410"
+          ],
+          "center": [
+            "2647624439489259/8796093022208",
+            "3607496964330595/8796093022208"
+          ],
+          "radius": "1134706872522723/1125899906842624",
+          "length": "6565524335963179/2251799813685248"
+        },
+        "viaB": {
+          "point": [
+            "300",
+            "28774279112330471/70368744177664"
+          ]
+        },
+        "lineB": {
+          "start": [
+            "300",
+            "28774279112330471/70368744177664"
+          ],
+          "end": [
+            "302",
+            "28774279112330471/70368744177664"
+          ]
+        }
+      },
+      "boundary_match": null
+    },
+    {
+      "label": "clean_T0_0",
+      "translation": {
+        "tx": 0,
+        "ty": 0
+      },
+      "center_y_bits": "4079a1ffae4a04f8",
+      "line_y_bits": "40798e837b4a233a",
+      "full_clearance_fraction": "2161724363541365/36028797018963968",
+      "full_clearance_decimal": "0.05999990403241964",
+      "stored_gate": "CLEAN",
+      "recomputed_gate": {
+        "verdict": "CLEAN",
+        "evidence": {
+          "reasons": [],
+          "target_signatures": 2,
+          "group_pair_counts": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "group_pair_present": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ]
+        }
+      },
+      "relative_fraction": {
+        "viaA": {
+          "point": [
+            "300",
+            "410"
+          ]
+        },
+        "arcA": {
+          "start": [
+            "300",
+            "410"
+          ],
+          "end": [
+            "1328210486158059/4398046511104",
+            "410"
+          ],
+          "center": [
+            "2647624439489259/8796093022208",
+            "901874241323167/2199023255552"
+          ],
+          "radius": "4538827551147563/4503599627370496",
+          "length": "820690491937553/281474976710656"
+        },
+        "viaB": {
+          "point": [
+            "300",
+            "3596784889041309/8796093022208"
+          ]
+        },
+        "lineB": {
+          "start": [
+            "300",
+            "3596784889041309/8796093022208"
+          ],
+          "end": [
+            "302",
+            "3596784889041309/8796093022208"
+          ]
+        }
+      },
+      "boundary_match": {
+        "boundary_case": "adaptive-010",
+        "center_bits_equal": true,
+        "object_names_equal": true,
+        "dto_equal": true
+      }
+    },
+    {
+      "label": "clean_T-300_-300",
+      "translation": {
+        "tx": -300,
+        "ty": -300
+      },
+      "center_y_bits": "405b87feb92813e0",
+      "line_y_bits": "405b3a0ded288ce8",
+      "full_clearance_fraction": "2161724363541469/36028797018963968",
+      "full_clearance_decimal": "0.05999990403242253",
+      "stored_gate": "CLEAN",
+      "recomputed_gate": {
+        "verdict": "CLEAN",
+        "evidence": {
+          "reasons": [],
+          "target_signatures": 2,
+          "group_pair_counts": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "group_pair_present": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ]
+        }
+      },
+      "relative_fraction": {
+        "viaA": {
+          "point": [
+            "300",
+            "410"
+          ]
+        },
+        "arcA": {
+          "start": [
+            "300",
+            "410"
+          ],
+          "end": [
+            "680043768912926265/2251799813685248",
+            "410"
+          ],
+          "center": [
+            "1355583713018500665/4503599627370496",
+            "28859975722341343/70368744177664"
+          ],
+          "radius": "2269413775573775/2251799813685248",
+          "length": "3282761967750255/1125899906842624"
+        },
+        "viaB": {
+          "point": [
+            "300",
+            "28774279112330471/70368744177664"
+          ]
+        },
+        "lineB": {
+          "start": [
+            "300",
+            "28774279112330471/70368744177664"
+          ],
+          "end": [
+            "302",
+            "28774279112330471/70368744177664"
+          ]
+        }
+      },
+      "boundary_match": null
+    },
+    {
+      "label": "clean_T-600_-500",
+      "translation": {
+        "tx": -600,
+        "ty": -500
+      },
+      "center_y_bits": "c056780146d7ec20",
+      "line_y_bits": "c056c5f212d77318",
+      "full_clearance_fraction": "2161724363541933/36028797018963968",
+      "full_clearance_decimal": "0.05999990403243541",
+      "stored_gate": "CLEAN",
+      "recomputed_gate": {
+        "verdict": "CLEAN",
+        "evidence": {
+          "reasons": [],
+          "target_signatures": 2,
+          "group_pair_counts": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "group_pair_present": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ]
+        }
+      },
+      "relative_fraction": {
+        "viaA": {
+          "point": [
+            "300",
+            "410"
+          ]
+        },
+        "arcA": {
+          "start": [
+            "300",
+            "410"
+          ],
+          "end": [
+            "1328210486158059/4398046511104",
+            "410"
+          ],
+          "center": [
+            "2647624439489259/8796093022208",
+            "901874241323167/2199023255552"
+          ],
+          "radius": "1134706887786889/1125899906842624",
+          "length": "3282761967750233/1125899906842624"
+        },
+        "viaB": {
+          "point": [
+            "300",
+            "28774279112330471/70368744177664"
+          ]
+        },
+        "lineB": {
+          "start": [
+            "300",
+            "28774279112330471/70368744177664"
+          ],
+          "end": [
+            "302",
+            "28774279112330471/70368744177664"
+          ]
+        }
+      },
+      "boundary_match": null
+    },
+    {
+      "label": "control_T0_0",
+      "translation": {
+        "tx": 0,
+        "ty": 0
+      },
+      "center_y_bits": "4079a1999999999a",
+      "line_y_bits": "40798e837b4a233a",
+      "full_clearance_fraction": "1364147029066653/36028797018963968",
+      "full_clearance_decimal": "0.03786268601609502",
+      "stored_gate": "FLAGGED",
+      "recomputed_gate": {
+        "verdict": "FLAGGED",
+        "evidence": {
+          "reasons": [],
+          "target_signatures": 2,
+          "group_pair_counts": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "group_pair_present": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ]
+        }
+      },
+      "relative_fraction": {
+        "viaA": {
+          "point": [
+            "300",
+            "410"
+          ]
+        },
+        "arcA": {
+          "start": [
+            "300",
+            "410"
+          ],
+          "end": [
+            "1328210486158059/4398046511104",
+            "410"
+          ],
+          "center": [
+            "2647624439489259/8796093022208",
+            "3607277748407501/8796093022208"
+          ],
+          "radius": "2263142836375699/2251799813685248",
+          "length": "6658766521234675/2251799813685248"
+        },
+        "viaB": {
+          "point": [
+            "300",
+            "3596784889041309/8796093022208"
+          ]
+        },
+        "lineB": {
+          "start": [
+            "300",
+            "3596784889041309/8796093022208"
+          ],
+          "end": [
+            "302",
+            "3596784889041309/8796093022208"
+          ]
+        }
+      },
+      "boundary_match": null
+    },
+    {
+      "label": "control_T-300_-300",
+      "translation": {
+        "tx": -300,
+        "ty": -300
+      },
+      "center_y_bits": "405b866666666668",
+      "line_y_bits": "405b3a0ded288ce8",
+      "full_clearance_fraction": "1364147029067077/36028797018963968",
+      "full_clearance_decimal": "0.03786268601610679",
+      "stored_gate": "FLAGGED",
+      "recomputed_gate": {
+        "verdict": "FLAGGED",
+        "evidence": {
+          "reasons": [],
+          "target_signatures": 2,
+          "group_pair_counts": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "group_pair_present": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ]
+        }
+      },
+      "relative_fraction": {
+        "viaA": {
+          "point": [
+            "300",
+            "410"
+          ]
+        },
+        "arcA": {
+          "start": [
+            "300",
+            "410"
+          ],
+          "end": [
+            "680043768912926265/2251799813685248",
+            "410"
+          ],
+          "center": [
+            "1355583713018500665/4503599627370496",
+            "3607277748407501/8796093022208"
+          ],
+          "radius": "4526285672751409/4503599627370496",
+          "length": "6658766521234587/2251799813685248"
+        },
+        "viaB": {
+          "point": [
+            "300",
+            "28774279112330471/70368744177664"
+          ]
+        },
+        "lineB": {
+          "start": [
+            "300",
+            "28774279112330471/70368744177664"
+          ],
+          "end": [
+            "302",
+            "28774279112330471/70368744177664"
+          ]
+        }
+      },
+      "boundary_match": null
+    },
+    {
+      "label": "control_T-600_-500",
+      "translation": {
+        "tx": -600,
+        "ty": -500
+      },
+      "center_y_bits": "c056799999999998",
+      "line_y_bits": "c056c5f212d77318",
+      "full_clearance_fraction": "1364147029067077/36028797018963968",
+      "full_clearance_decimal": "0.03786268601610679",
+      "stored_gate": "FLAGGED",
+      "recomputed_gate": {
+        "verdict": "FLAGGED",
+        "evidence": {
+          "reasons": [],
+          "target_signatures": 2,
+          "group_pair_counts": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "group_pair_present": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ]
+        }
+      },
+      "relative_fraction": {
+        "viaA": {
+          "point": [
+            "300",
+            "410"
+          ]
+        },
+        "arcA": {
+          "start": [
+            "300",
+            "410"
+          ],
+          "end": [
+            "1328210486158059/4398046511104",
+            "410"
+          ],
+          "center": [
+            "2647624439489259/8796093022208",
+            "3607277748407501/8796093022208"
+          ],
+          "radius": "4526285672751409/4503599627370496",
+          "length": "6658766521234587/2251799813685248"
+        },
+        "viaB": {
+          "point": [
+            "300",
+            "28774279112330471/70368744177664"
+          ]
+        },
+        "lineB": {
+          "start": [
+            "300",
+            "28774279112330471/70368744177664"
+          ],
+          "end": [
+            "302",
+            "28774279112330471/70368744177664"
+          ]
+        }
+      },
+      "boundary_match": null
+    }
+  ],
+  "translation_deltas": [
+    {
+      "group": "flag",
+      "translation": {
+        "tx": 0,
+        "ty": 0
+      },
+      "clearance_delta_from_T0_fraction": "0",
+      "objects": {
+        "viaA": {
+          "relative_fraction_equal": true,
+          "relative_fraction_diff": {},
+          "dto_bits_equal": true
+        },
+        "arcA": {
+          "relative_fraction_equal": true,
+          "relative_fraction_diff": {},
+          "dto_bits_equal": true
+        },
+        "viaB": {
+          "relative_fraction_equal": true,
+          "relative_fraction_diff": {},
+          "dto_bits_equal": true
+        },
+        "lineB": {
+          "relative_fraction_equal": true,
+          "relative_fraction_diff": {},
+          "dto_bits_equal": true
+        }
+      }
+    },
+    {
+      "group": "flag",
+      "translation": {
+        "tx": -300,
+        "ty": -300
+      },
+      "clearance_delta_from_T0_fraction": "13/4503599627370496",
+      "objects": {
+        "viaA": {
+          "relative_fraction_equal": true,
+          "relative_fraction_diff": {},
+          "dto_bits_equal": false
+        },
+        "arcA": {
+          "relative_fraction_equal": false,
+          "relative_fraction_diff": {
+            "end": {
+              "base": [
+                "1328210486158059/4398046511104",
+                "410"
+              ],
+              "translated": [
+                "680043768912926265/2251799813685248",
+                "410"
+              ]
+            },
+            "length": {
+              "base": "3282762167981569/1125899906842624",
+              "translated": "6565524335963223/2251799813685248"
+            },
+            "radius": {
+              "base": "4538827490090899/4503599627370496",
+              "translated": "2269413745045443/2251799813685248"
+            },
+            "center": {
+              "base": [
+                "2647624439489259/8796093022208",
+                "3607496964330595/8796093022208"
+              ],
+              "translated": [
+                "1355583713018500665/4503599627370496",
+                "28859975714644759/70368744177664"
+              ]
+            }
+          },
+          "dto_bits_equal": false
+        },
+        "viaB": {
+          "relative_fraction_equal": false,
+          "relative_fraction_diff": {
+            "point": {
+              "base": [
+                "300",
+                "3596784889041309/8796093022208"
+              ],
+              "translated": [
+                "300",
+                "28774279112330471/70368744177664"
+              ]
+            }
+          },
+          "dto_bits_equal": false
+        },
+        "lineB": {
+          "relative_fraction_equal": false,
+          "relative_fraction_diff": {
+            "start": {
+              "base": [
+                "300",
+                "3596784889041309/8796093022208"
+              ],
+              "translated": [
+                "300",
+                "28774279112330471/70368744177664"
+              ]
+            },
+            "end": {
+              "base": [
+                "302",
+                "3596784889041309/8796093022208"
+              ],
+              "translated": [
+                "302",
+                "28774279112330471/70368744177664"
+              ]
+            }
+          },
+          "dto_bits_equal": false
+        }
+      }
+    },
+    {
+      "group": "flag",
+      "translation": {
+        "tx": -600,
+        "ty": -500
+      },
+      "clearance_delta_from_T0_fraction": "71/4503599627370496",
+      "objects": {
+        "viaA": {
+          "relative_fraction_equal": true,
+          "relative_fraction_diff": {},
+          "dto_bits_equal": false
+        },
+        "arcA": {
+          "relative_fraction_equal": false,
+          "relative_fraction_diff": {
+            "length": {
+              "base": "3282762167981569/1125899906842624",
+              "translated": "6565524335963179/2251799813685248"
+            },
+            "radius": {
+              "base": "4538827490090899/4503599627370496",
+              "translated": "1134706872522723/1125899906842624"
+            }
+          },
+          "dto_bits_equal": false
+        },
+        "viaB": {
+          "relative_fraction_equal": false,
+          "relative_fraction_diff": {
+            "point": {
+              "base": [
+                "300",
+                "3596784889041309/8796093022208"
+              ],
+              "translated": [
+                "300",
+                "28774279112330471/70368744177664"
+              ]
+            }
+          },
+          "dto_bits_equal": false
+        },
+        "lineB": {
+          "relative_fraction_equal": false,
+          "relative_fraction_diff": {
+            "start": {
+              "base": [
+                "300",
+                "3596784889041309/8796093022208"
+              ],
+              "translated": [
+                "300",
+                "28774279112330471/70368744177664"
+              ]
+            },
+            "end": {
+              "base": [
+                "302",
+                "3596784889041309/8796093022208"
+              ],
+              "translated": [
+                "302",
+                "28774279112330471/70368744177664"
+              ]
+            }
+          },
+          "dto_bits_equal": false
+        }
+      }
+    },
+    {
+      "group": "clean",
+      "translation": {
+        "tx": 0,
+        "ty": 0
+      },
+      "clearance_delta_from_T0_fraction": "0",
+      "objects": {
+        "viaA": {
+          "relative_fraction_equal": true,
+          "relative_fraction_diff": {},
+          "dto_bits_equal": true
+        },
+        "arcA": {
+          "relative_fraction_equal": true,
+          "relative_fraction_diff": {},
+          "dto_bits_equal": true
+        },
+        "viaB": {
+          "relative_fraction_equal": true,
+          "relative_fraction_diff": {},
+          "dto_bits_equal": true
+        },
+        "lineB": {
+          "relative_fraction_equal": true,
+          "relative_fraction_diff": {},
+          "dto_bits_equal": true
+        }
+      }
+    },
+    {
+      "group": "clean",
+      "translation": {
+        "tx": -300,
+        "ty": -300
+      },
+      "clearance_delta_from_T0_fraction": "13/4503599627370496",
+      "objects": {
+        "viaA": {
+          "relative_fraction_equal": true,
+          "relative_fraction_diff": {},
+          "dto_bits_equal": false
+        },
+        "arcA": {
+          "relative_fraction_equal": false,
+          "relative_fraction_diff": {
+            "end": {
+              "base": [
+                "1328210486158059/4398046511104",
+                "410"
+              ],
+              "translated": [
+                "680043768912926265/2251799813685248",
+                "410"
+              ]
+            },
+            "length": {
+              "base": "820690491937553/281474976710656",
+              "translated": "3282761967750255/1125899906842624"
+            },
+            "radius": {
+              "base": "4538827551147563/4503599627370496",
+              "translated": "2269413775573775/2251799813685248"
+            },
+            "center": {
+              "base": [
+                "2647624439489259/8796093022208",
+                "901874241323167/2199023255552"
+              ],
+              "translated": [
+                "1355583713018500665/4503599627370496",
+                "28859975722341343/70368744177664"
+              ]
+            }
+          },
+          "dto_bits_equal": false
+        },
+        "viaB": {
+          "relative_fraction_equal": false,
+          "relative_fraction_diff": {
+            "point": {
+              "base": [
+                "300",
+                "3596784889041309/8796093022208"
+              ],
+              "translated": [
+                "300",
+                "28774279112330471/70368744177664"
+              ]
+            }
+          },
+          "dto_bits_equal": false
+        },
+        "lineB": {
+          "relative_fraction_equal": false,
+          "relative_fraction_diff": {
+            "start": {
+              "base": [
+                "300",
+                "3596784889041309/8796093022208"
+              ],
+              "translated": [
+                "300",
+                "28774279112330471/70368744177664"
+              ]
+            },
+            "end": {
+              "base": [
+                "302",
+                "3596784889041309/8796093022208"
+              ],
+              "translated": [
+                "302",
+                "28774279112330471/70368744177664"
+              ]
+            }
+          },
+          "dto_bits_equal": false
+        }
+      }
+    },
+    {
+      "group": "clean",
+      "translation": {
+        "tx": -600,
+        "ty": -500
+      },
+      "clearance_delta_from_T0_fraction": "71/4503599627370496",
+      "objects": {
+        "viaA": {
+          "relative_fraction_equal": true,
+          "relative_fraction_diff": {},
+          "dto_bits_equal": false
+        },
+        "arcA": {
+          "relative_fraction_equal": false,
+          "relative_fraction_diff": {
+            "length": {
+              "base": "820690491937553/281474976710656",
+              "translated": "3282761967750233/1125899906842624"
+            },
+            "radius": {
+              "base": "4538827551147563/4503599627370496",
+              "translated": "1134706887786889/1125899906842624"
+            }
+          },
+          "dto_bits_equal": false
+        },
+        "viaB": {
+          "relative_fraction_equal": false,
+          "relative_fraction_diff": {
+            "point": {
+              "base": [
+                "300",
+                "3596784889041309/8796093022208"
+              ],
+              "translated": [
+                "300",
+                "28774279112330471/70368744177664"
+              ]
+            }
+          },
+          "dto_bits_equal": false
+        },
+        "lineB": {
+          "relative_fraction_equal": false,
+          "relative_fraction_diff": {
+            "start": {
+              "base": [
+                "300",
+                "3596784889041309/8796093022208"
+              ],
+              "translated": [
+                "300",
+                "28774279112330471/70368744177664"
+              ]
+            },
+            "end": {
+              "base": [
+                "302",
+                "3596784889041309/8796093022208"
+              ],
+              "translated": [
+                "302",
+                "28774279112330471/70368744177664"
+              ]
+            }
+          },
+          "dto_bits_equal": false
+        }
+      }
+    },
+    {
+      "group": "control",
+      "translation": {
+        "tx": 0,
+        "ty": 0
+      },
+      "clearance_delta_from_T0_fraction": "0",
+      "objects": {
+        "viaA": {
+          "relative_fraction_equal": true,
+          "relative_fraction_diff": {},
+          "dto_bits_equal": true
+        },
+        "arcA": {
+          "relative_fraction_equal": true,
+          "relative_fraction_diff": {},
+          "dto_bits_equal": true
+        },
+        "viaB": {
+          "relative_fraction_equal": true,
+          "relative_fraction_diff": {},
+          "dto_bits_equal": true
+        },
+        "lineB": {
+          "relative_fraction_equal": true,
+          "relative_fraction_diff": {},
+          "dto_bits_equal": true
+        }
+      }
+    },
+    {
+      "group": "control",
+      "translation": {
+        "tx": -300,
+        "ty": -300
+      },
+      "clearance_delta_from_T0_fraction": "53/4503599627370496",
+      "objects": {
+        "viaA": {
+          "relative_fraction_equal": true,
+          "relative_fraction_diff": {},
+          "dto_bits_equal": false
+        },
+        "arcA": {
+          "relative_fraction_equal": false,
+          "relative_fraction_diff": {
+            "end": {
+              "base": [
+                "1328210486158059/4398046511104",
+                "410"
+              ],
+              "translated": [
+                "680043768912926265/2251799813685248",
+                "410"
+              ]
+            },
+            "length": {
+              "base": "6658766521234675/2251799813685248",
+              "translated": "6658766521234587/2251799813685248"
+            },
+            "radius": {
+              "base": "2263142836375699/2251799813685248",
+              "translated": "4526285672751409/4503599627370496"
+            },
+            "center": {
+              "base": [
+                "2647624439489259/8796093022208",
+                "3607277748407501/8796093022208"
+              ],
+              "translated": [
+                "1355583713018500665/4503599627370496",
+                "3607277748407501/8796093022208"
+              ]
+            }
+          },
+          "dto_bits_equal": false
+        },
+        "viaB": {
+          "relative_fraction_equal": false,
+          "relative_fraction_diff": {
+            "point": {
+              "base": [
+                "300",
+                "3596784889041309/8796093022208"
+              ],
+              "translated": [
+                "300",
+                "28774279112330471/70368744177664"
+              ]
+            }
+          },
+          "dto_bits_equal": false
+        },
+        "lineB": {
+          "relative_fraction_equal": false,
+          "relative_fraction_diff": {
+            "start": {
+              "base": [
+                "300",
+                "3596784889041309/8796093022208"
+              ],
+              "translated": [
+                "300",
+                "28774279112330471/70368744177664"
+              ]
+            },
+            "end": {
+              "base": [
+                "302",
+                "3596784889041309/8796093022208"
+              ],
+              "translated": [
+                "302",
+                "28774279112330471/70368744177664"
+              ]
+            }
+          },
+          "dto_bits_equal": false
+        }
+      }
+    },
+    {
+      "group": "control",
+      "translation": {
+        "tx": -600,
+        "ty": -500
+      },
+      "clearance_delta_from_T0_fraction": "53/4503599627370496",
+      "objects": {
+        "viaA": {
+          "relative_fraction_equal": true,
+          "relative_fraction_diff": {},
+          "dto_bits_equal": false
+        },
+        "arcA": {
+          "relative_fraction_equal": false,
+          "relative_fraction_diff": {
+            "length": {
+              "base": "6658766521234675/2251799813685248",
+              "translated": "6658766521234587/2251799813685248"
+            },
+            "radius": {
+              "base": "2263142836375699/2251799813685248",
+              "translated": "4526285672751409/4503599627370496"
+            }
+          },
+          "dto_bits_equal": false
+        },
+        "viaB": {
+          "relative_fraction_equal": false,
+          "relative_fraction_diff": {
+            "point": {
+              "base": [
+                "300",
+                "3596784889041309/8796093022208"
+              ],
+              "translated": [
+                "300",
+                "28774279112330471/70368744177664"
+              ]
+            }
+          },
+          "dto_bits_equal": false
+        },
+        "lineB": {
+          "relative_fraction_equal": false,
+          "relative_fraction_diff": {
+            "start": {
+              "base": [
+                "300",
+                "3596784889041309/8796093022208"
+              ],
+              "translated": [
+                "300",
+                "28774279112330471/70368744177664"
+              ]
+            },
+            "end": {
+              "base": [
+                "302",
+                "3596784889041309/8796093022208"
+              ],
+              "translated": [
+                "302",
+                "28774279112330471/70368744177664"
+              ]
+            }
+          },
+          "dto_bits_equal": false
+        }
+      }
+    }
+  ],
+  "reopen_source": "D:\\AutoPlacer\\skillbridge\\.artifacts\\drc-probe-v2\\results\\stage1-beta-reopen\\run-52936-1789229074638350500\\manifest.json",
+  "reopen_cases": [
+    {
+      "label": "minus",
+      "status": "CAPTURED",
+      "stored_gate_verdict": "CLEAN",
+      "recomputed_gate": {
+        "verdict": "CLEAN",
+        "evidence": {
+          "reasons": [],
+          "target_signatures": 2,
+          "group_pair_counts": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "group_pair_present": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ]
+        }
+      },
+      "all_unique": true,
+      "all_fields_equal": true,
+      "objects": [
+        {
+          "name": "viaA",
+          "count": 1,
+          "before_dto": {
+            "x": {
+              "value": -620.0,
+              "%.17g": "-620.0",
+              "bits": "c083600000000000"
+            },
+            "y": {
+              "value": -70.0,
+              "%.17g": "-70.0",
+              "bits": "c051800000000000"
+            },
+            "rotation": {
+              "value": 0.0,
+              "%.17g": "0.0",
+              "bits": "0000000000000000"
+            },
+            "padstack": "VIA_ALL_0103",
+            "net": "NFC_SWP",
+            "mirroring": "unmirrored",
+            "start_layer": "ETCH/TOP",
+            "end_layer": "ETCH/BOTTOM"
+          },
+          "after_dto": {
+            "x": {
+              "value": -620.0,
+              "bits": "c083600000000000",
+              "%.17g": "-620.0"
+            },
+            "y": {
+              "value": -70.0,
+              "bits": "c051800000000000",
+              "%.17g": "-70.0"
+            },
+            "rotation": {
+              "value": 0.0,
+              "bits": "0000000000000000",
+              "%.17g": "0.0"
+            },
+            "padstack": "VIA_ALL_0103",
+            "net": "NFC_SWP",
+            "mirroring": "unmirrored",
+            "start_layer": "ETCH/TOP",
+            "end_layer": "ETCH/BOTTOM"
+          },
+          "all_fields_equal": true
+        },
+        {
+          "name": "arcA",
+          "count": 1,
+          "before_dto": {
+            "net": "NFC_SWP",
+            "layer": "ETCH/TOP",
+            "obj_type": "arc",
+            "start": [
+              {
+                "value": -620.0,
+                "%.17g": "-620.0",
+                "bits": "c083600000000000"
+              },
+              {
+                "value": -70.0,
+                "%.17g": "-70.0",
+                "bits": "c051800000000000"
+              }
+            ],
+            "end": [
+              {
+                "value": -619.0,
+                "%.17g": "-619.0",
+                "bits": "c083580000000000"
+              },
+              {
+                "value": -70.0,
+                "%.17g": "-70.0",
+                "bits": "c051800000000000"
+              }
+            ],
+            "width": {
+              "value": 0.15,
+              "%.17g": "0.14999999999999999",
+              "bits": "3fc3333333333333"
+            },
+            "length": {
+              "value": 1.159119022478628,
+              "%.17g": "1.1591190224786281",
+              "bits": "3ff28bc0635b79a3"
+            },
+            "radius": {
+              "value": 0.6250000000287987,
+              "%.17g": "0.62500000002879874",
+              "bits": "3fe400000003f544"
+            },
+            "is_clockwise": null,
+            "center": [
+              {
+                "value": -619.5,
+                "%.17g": "-619.5",
+                "bits": "c0835c0000000000"
+              },
+              {
+                "value": -69.624999999952,
+                "%.17g": "-69.624999999951996",
+                "bits": "c05167fffffff2ce"
+              }
+            ]
+          },
+          "after_dto": {
+            "net": "NFC_SWP",
+            "layer": "ETCH/TOP",
+            "obj_type": "arc",
+            "start": [
+              {
+                "value": -620.0,
+                "bits": "c083600000000000",
+                "%.17g": "-620.0"
+              },
+              {
+                "value": -70.0,
+                "bits": "c051800000000000",
+                "%.17g": "-70.0"
+              }
+            ],
+            "end": [
+              {
+                "value": -619.0,
+                "bits": "c083580000000000",
+                "%.17g": "-619.0"
+              },
+              {
+                "value": -70.0,
+                "bits": "c051800000000000",
+                "%.17g": "-70.0"
+              }
+            ],
+            "width": {
+              "value": 0.15,
+              "bits": "3fc3333333333333",
+              "%.17g": "0.14999999999999999"
+            },
+            "length": {
+              "value": 1.159119022478628,
+              "bits": "3ff28bc0635b79a3",
+              "%.17g": "1.1591190224786281"
+            },
+            "radius": {
+              "value": 0.6250000000287987,
+              "bits": "3fe400000003f544",
+              "%.17g": "0.62500000002879874"
+            },
+            "is_clockwise": null,
+            "center": [
+              {
+                "value": -619.5,
+                "bits": "c0835c0000000000",
+                "%.17g": "-619.5"
+              },
+              {
+                "value": -69.624999999952,
+                "bits": "c05167fffffff2ce",
+                "%.17g": "-69.624999999951996"
+              }
+            ]
+          },
+          "all_fields_equal": true
+        },
+        {
+          "name": "viaB",
+          "count": 1,
+          "before_dto": {
+            "x": {
+              "value": -620.0,
+              "%.17g": "-620.0",
+              "bits": "c083600000000000"
+            },
+            "y": {
+              "value": -70.46,
+              "%.17g": "-70.459999999999994",
+              "bits": "c0519d70a3d70a3d"
+            },
+            "rotation": {
+              "value": 0.0,
+              "%.17g": "0.0",
+              "bits": "0000000000000000"
+            },
+            "padstack": "VIA_ALL_0103",
+            "net": "FINGER_SPI_MISO",
+            "mirroring": "unmirrored",
+            "start_layer": "ETCH/TOP",
+            "end_layer": "ETCH/BOTTOM"
+          },
+          "after_dto": {
+            "x": {
+              "value": -620.0,
+              "bits": "c083600000000000",
+              "%.17g": "-620.0"
+            },
+            "y": {
+              "value": -70.46,
+              "bits": "c0519d70a3d70a3d",
+              "%.17g": "-70.459999999999994"
+            },
+            "rotation": {
+              "value": 0.0,
+              "bits": "0000000000000000",
+              "%.17g": "0.0"
+            },
+            "padstack": "VIA_ALL_0103",
+            "net": "FINGER_SPI_MISO",
+            "mirroring": "unmirrored",
+            "start_layer": "ETCH/TOP",
+            "end_layer": "ETCH/BOTTOM"
+          },
+          "all_fields_equal": true
+        },
+        {
+          "name": "lineB",
+          "count": 1,
+          "before_dto": {
+            "net": "FINGER_SPI_MISO",
+            "layer": "ETCH/TOP",
+            "obj_type": "line",
+            "start": [
+              {
+                "value": -620.0,
+                "%.17g": "-620.0",
+                "bits": "c083600000000000"
+              },
+              {
+                "value": -70.46,
+                "%.17g": "-70.459999999999994",
+                "bits": "c0519d70a3d70a3d"
+              }
+            ],
+            "end": [
+              {
+                "value": -619.0,
+                "%.17g": "-619.0",
+                "bits": "c083580000000000"
+              },
+              {
+                "value": -70.46,
+                "%.17g": "-70.459999999999994",
+                "bits": "c0519d70a3d70a3d"
+              }
+            ],
+            "width": {
+              "value": 0.15,
+              "%.17g": "0.14999999999999999",
+              "bits": "3fc3333333333333"
+            },
+            "length": {
+              "value": 1.0,
+              "%.17g": "1.0",
+              "bits": "3ff0000000000000"
+            },
+            "radius": null,
+            "is_clockwise": null,
+            "center": null
+          },
+          "after_dto": {
+            "net": "FINGER_SPI_MISO",
+            "layer": "ETCH/TOP",
+            "obj_type": "line",
+            "start": [
+              {
+                "value": -620.0,
+                "bits": "c083600000000000",
+                "%.17g": "-620.0"
+              },
+              {
+                "value": -70.46,
+                "bits": "c0519d70a3d70a3d",
+                "%.17g": "-70.459999999999994"
+              }
+            ],
+            "end": [
+              {
+                "value": -619.0,
+                "bits": "c083580000000000",
+                "%.17g": "-619.0"
+              },
+              {
+                "value": -70.46,
+                "bits": "c0519d70a3d70a3d",
+                "%.17g": "-70.459999999999994"
+              }
+            ],
+            "width": {
+              "value": 0.15,
+              "bits": "3fc3333333333333",
+              "%.17g": "0.14999999999999999"
+            },
+            "length": {
+              "value": 1.0,
+              "bits": "3ff0000000000000",
+              "%.17g": "1.0"
+            },
+            "radius": null,
+            "is_clockwise": null,
+            "center": null
+          },
+          "all_fields_equal": true
+        }
+      ]
+    },
+    {
+      "label": "plus",
+      "status": "CAPTURED",
+      "stored_gate_verdict": "CLEAN",
+      "recomputed_gate": {
+        "verdict": "CLEAN",
+        "evidence": {
+          "reasons": [],
+          "target_signatures": 2,
+          "group_pair_counts": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "group_pair_present": [
+            false,
+            false,
+            false,
+            false,
+            false,
+            false
+          ]
+        }
+      },
+      "all_unique": true,
+      "all_fields_equal": true,
+      "objects": [
+        {
+          "name": "viaA",
+          "count": 1,
+          "before_dto": {
+            "x": {
+              "value": -620.0,
+              "%.17g": "-620.0",
+              "bits": "c083600000000000"
+            },
+            "y": {
+              "value": -70.0,
+              "%.17g": "-70.0",
+              "bits": "c051800000000000"
+            },
+            "rotation": {
+              "value": 0.0,
+              "%.17g": "0.0",
+              "bits": "0000000000000000"
+            },
+            "padstack": "VIA_ALL_0103",
+            "net": "NFC_SWP",
+            "mirroring": "unmirrored",
+            "start_layer": "ETCH/TOP",
+            "end_layer": "ETCH/BOTTOM"
+          },
+          "after_dto": {
+            "x": {
+              "value": -620.0,
+              "bits": "c083600000000000",
+              "%.17g": "-620.0"
+            },
+            "y": {
+              "value": -70.0,
+              "bits": "c051800000000000",
+              "%.17g": "-70.0"
+            },
+            "rotation": {
+              "value": 0.0,
+              "bits": "0000000000000000",
+              "%.17g": "0.0"
+            },
+            "padstack": "VIA_ALL_0103",
+            "net": "NFC_SWP",
+            "mirroring": "unmirrored",
+            "start_layer": "ETCH/TOP",
+            "end_layer": "ETCH/BOTTOM"
+          },
+          "all_fields_equal": true
+        },
+        {
+          "name": "arcA",
+          "count": 1,
+          "before_dto": {
+            "net": "NFC_SWP",
+            "layer": "ETCH/TOP",
+            "obj_type": "arc",
+            "start": [
+              {
+                "value": -620.0,
+                "%.17g": "-620.0",
+                "bits": "c083600000000000"
+              },
+              {
+                "value": -70.0,
+                "%.17g": "-70.0",
+                "bits": "c051800000000000"
+              }
+            ],
+            "end": [
+              {
+                "value": -619.0,
+                "%.17g": "-619.0",
+                "bits": "c083580000000000"
+              },
+              {
+                "value": -70.0,
+                "%.17g": "-70.0",
+                "bits": "c051800000000000"
+              }
+            ],
+            "width": {
+              "value": 0.15,
+              "%.17g": "0.14999999999999999",
+              "bits": "3fc3333333333333"
+            },
+            "length": {
+              "value": 1.159119022478628,
+              "%.17g": "1.1591190224786281",
+              "bits": "3ff28bc0635b79a3"
+            },
+            "radius": {
+              "value": 0.6250000000287987,
+              "%.17g": "0.62500000002879874",
+              "bits": "3fe400000003f544"
+            },
+            "is_clockwise": null,
+            "center": [
+              {
+                "value": -619.5,
+                "%.17g": "-619.5",
+                "bits": "c0835c0000000000"
+              },
+              {
+                "value": -69.624999999952,
+                "%.17g": "-69.624999999951996",
+                "bits": "c05167fffffff2ce"
+              }
+            ]
+          },
+          "after_dto": {
+            "net": "NFC_SWP",
+            "layer": "ETCH/TOP",
+            "obj_type": "arc",
+            "start": [
+              {
+                "value": -620.0,
+                "bits": "c083600000000000",
+                "%.17g": "-620.0"
+              },
+              {
+                "value": -70.0,
+                "bits": "c051800000000000",
+                "%.17g": "-70.0"
+              }
+            ],
+            "end": [
+              {
+                "value": -619.0,
+                "bits": "c083580000000000",
+                "%.17g": "-619.0"
+              },
+              {
+                "value": -70.0,
+                "bits": "c051800000000000",
+                "%.17g": "-70.0"
+              }
+            ],
+            "width": {
+              "value": 0.15,
+              "bits": "3fc3333333333333",
+              "%.17g": "0.14999999999999999"
+            },
+            "length": {
+              "value": 1.159119022478628,
+              "bits": "3ff28bc0635b79a3",
+              "%.17g": "1.1591190224786281"
+            },
+            "radius": {
+              "value": 0.6250000000287987,
+              "bits": "3fe400000003f544",
+              "%.17g": "0.62500000002879874"
+            },
+            "is_clockwise": null,
+            "center": [
+              {
+                "value": -619.5,
+                "bits": "c0835c0000000000",
+                "%.17g": "-619.5"
+              },
+              {
+                "value": -69.624999999952,
+                "bits": "c05167fffffff2ce",
+                "%.17g": "-69.624999999951996"
+              }
+            ]
+          },
+          "all_fields_equal": true
+        },
+        {
+          "name": "viaB",
+          "count": 1,
+          "before_dto": {
+            "x": {
+              "value": -620.0,
+              "%.17g": "-620.0",
+              "bits": "c083600000000000"
+            },
+            "y": {
+              "value": -70.46,
+              "%.17g": "-70.459999999999994",
+              "bits": "c0519d70a3d70a3d"
+            },
+            "rotation": {
+              "value": 0.0,
+              "%.17g": "0.0",
+              "bits": "0000000000000000"
+            },
+            "padstack": "VIA_ALL_0103",
+            "net": "FINGER_SPI_MISO",
+            "mirroring": "unmirrored",
+            "start_layer": "ETCH/TOP",
+            "end_layer": "ETCH/BOTTOM"
+          },
+          "after_dto": {
+            "x": {
+              "value": -620.0,
+              "bits": "c083600000000000",
+              "%.17g": "-620.0"
+            },
+            "y": {
+              "value": -70.46,
+              "bits": "c0519d70a3d70a3d",
+              "%.17g": "-70.459999999999994"
+            },
+            "rotation": {
+              "value": 0.0,
+              "bits": "0000000000000000",
+              "%.17g": "0.0"
+            },
+            "padstack": "VIA_ALL_0103",
+            "net": "FINGER_SPI_MISO",
+            "mirroring": "unmirrored",
+            "start_layer": "ETCH/TOP",
+            "end_layer": "ETCH/BOTTOM"
+          },
+          "all_fields_equal": true
+        },
+        {
+          "name": "lineB",
+          "count": 1,
+          "before_dto": {
+            "net": "FINGER_SPI_MISO",
+            "layer": "ETCH/TOP",
+            "obj_type": "line",
+            "start": [
+              {
+                "value": -620.0,
+                "%.17g": "-620.0",
+                "bits": "c083600000000000"
+              },
+              {
+                "value": -70.46,
+                "%.17g": "-70.459999999999994",
+                "bits": "c0519d70a3d70a3d"
+              }
+            ],
+            "end": [
+              {
+                "value": -619.0,
+                "%.17g": "-619.0",
+                "bits": "c083580000000000"
+              },
+              {
+                "value": -70.46,
+                "%.17g": "-70.459999999999994",
+                "bits": "c0519d70a3d70a3d"
+              }
+            ],
+            "width": {
+              "value": 0.15,
+              "%.17g": "0.14999999999999999",
+              "bits": "3fc3333333333333"
+            },
+            "length": {
+              "value": 1.0,
+              "%.17g": "1.0",
+              "bits": "3ff0000000000000"
+            },
+            "radius": null,
+            "is_clockwise": null,
+            "center": null
+          },
+          "after_dto": {
+            "net": "FINGER_SPI_MISO",
+            "layer": "ETCH/TOP",
+            "obj_type": "line",
+            "start": [
+              {
+                "value": -620.0,
+                "bits": "c083600000000000",
+                "%.17g": "-620.0"
+              },
+              {
+                "value": -70.46,
+                "bits": "c0519d70a3d70a3d",
+                "%.17g": "-70.459999999999994"
+              }
+            ],
+            "end": [
+              {
+                "value": -619.0,
+                "bits": "c083580000000000",
+                "%.17g": "-619.0"
+              },
+              {
+                "value": -70.46,
+                "bits": "c0519d70a3d70a3d",
+                "%.17g": "-70.459999999999994"
+              }
+            ],
+            "width": {
+              "value": 0.15,
+              "bits": "3fc3333333333333",
+              "%.17g": "0.14999999999999999"
+            },
+            "length": {
+              "value": 1.0,
+              "bits": "3ff0000000000000",
+              "%.17g": "1.0"
+            },
+            "radius": null,
+            "is_clockwise": null,
+            "center": null
+          },
+          "all_fields_equal": true
+        }
+      ]
+    }
+  ],
+  "conclusions": {
+    "T0_boundary_match": {
+      "flag": {
+        "boundary_case": "adaptive-007",
+        "center_bits_equal": true,
+        "object_names_equal": true,
+        "dto_equal": true
+      },
+      "clean": {
+        "boundary_case": "adaptive-010",
+        "center_bits_equal": true,
+        "object_names_equal": true,
+        "dto_equal": true
+      }
+    },
+    "transport_effect_is_not_comparator_inference": true,
+    "scope": "bits-to-Fraction offline audit; no new DRC/epsilon claim"
+  }
+}

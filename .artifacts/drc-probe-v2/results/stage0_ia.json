@@ -1,0 +1,7639 @@
+{
+  "status": "COMPLETE",
+  "phase": "stage0+I-A",
+  "board": "C:/Users/BAIJUN~1/AppData/Local/Temp/drc-v2-s0-rjidbgo7/EL5_MIAN_FPC.brd",
+  "wire_format": "%.17g plus binary64 hex",
+  "cases": [
+    {
+      "case_id": "IA_HALF_0",
+      "object": "line+via+arc_endpoint",
+      "requested": {
+        "x": "310 bits=4073600000000000",
+        "y": "0.03125 bits=3fa0000000000000"
+      },
+      "state": "VALID",
+      "committed": [
+        {
+          "obj_type": "line",
+          "net": "NFC_SWP",
+          "layer": "ETCH/TOP",
+          "start": [
+            310.0,
+            0.0312
+          ],
+          "end": [
+            312.0,
+            0.0312
+          ],
+          "width": 0.15,
+          "length": 2.0,
+          "radius": null,
+          "is_clockwise": null,
+          "center": null
+        }
+      ]
+    },
+    {
+      "case_id": "IA_HALF_1",
+      "object": "line+via+arc_endpoint",
+      "requested": {
+        "x": "310 bits=4073600000000000",
+        "y": "0.031249999999999997 bits=3f9fffffffffffff"
+      },
+      "state": "VALID",
+      "committed": [
+        {
+          "obj_type": "line",
+          "net": "NFC_SWP",
+          "layer": "ETCH/TOP",
+          "start": [
+            310.0,
+            0.0312
+          ],
+          "end": [
+            312.0,
+            0.0312
+          ],
+          "width": 0.15,
+          "length": 2.0,
+          "radius": null,
+          "is_clockwise": null,
+          "center": null
+        }
+      ]
+    },
+    {
+      "case_id": "IA_HALF_2",
+      "object": "line+via+arc_endpoint",
+      "requested": {
+        "x": "310 bits=4073600000000000",
+        "y": "0.031250000000000007 bits=3fa0000000000001"
+      },
+      "state": "VALID",
+      "committed": [
+        {
+          "obj_type": "line",
+          "net": "NFC_SWP",
+          "layer": "ETCH/TOP",
+          "start": [
+            310.0,
+            0.0313
+          ],
+          "end": [
+            312.0,
+            0.0313
+          ],
+          "width": 0.15,
+          "length": 2.0,
+          "radius": null,
+          "is_clockwise": null,
+          "center": null
+        }
+      ]
+    },
+    {
+      "case_id": "IA_HALF_3",
+      "object": "line+via+arc_endpoint",
+      "requested": {
+        "x": "310 bits=4073600000000000",
+        "y": "0.09375 bits=3fb8000000000000"
+      },
+      "state": "VALID",
+      "committed": [
+        {
+          "obj_type": "line",
+          "net": "NFC_SWP",
+          "layer": "ETCH/TOP",
+          "start": [
+            310.0,
+            0.0938
+          ],
+          "end": [
+            312.0,
+            0.0938
+          ],
+          "width": 0.15,
+          "length": 2.0,
+          "radius": null,
+          "is_clockwise": null,
+          "center": null
+        }
+      ]
+    },
+    {
+      "case_id": "IA_HALF_4",
+      "object": "line+via+arc_endpoint",
+      "requested": {
+        "x": "310 bits=4073600000000000",
+        "y": "0.093749999999999986 bits=3fb7ffffffffffff"
+      },
+      "state": "VALID",
+      "committed": [
+        {
+          "obj_type": "line",
+          "net": "NFC_SWP",
+          "layer": "ETCH/TOP",
+          "start": [
+            310.0,
+            0.0937
+          ],
+          "end": [
+            312.0,
+            0.0937
+          ],
+          "width": 0.15,
+          "length": 2.0,
+          "radius": null,
+          "is_clockwise": null,
+          "center": null
+        }
+      ]
+    },
+    {
+      "case_id": "IA_HALF_5",
+      "object": "line+via+arc_endpoint",
+      "requested": {
+        "x": "310 bits=4073600000000000",
+        "y": "0.093750000000000014 bits=3fb8000000000001"
+      },
+      "state": "VALID",
+      "committed": [
+        {
+          "obj_type": "line",
+          "net": "NFC_SWP",
+          "layer": "ETCH/TOP",
+          "start": [
+            310.0,
+            0.0938
+          ],
+          "end": [
+            312.0,
+            0.0938
+          ],
+          "width": 0.15,
+          "length": 2.0,
+          "radius": null,
+          "is_clockwise": null,
+          "center": null
+        }
+      ]
+    },
+    {
+      "case_id": "IA_HALF_6",
+      "object": "line+via+arc_endpoint",
+      "requested": {
+        "x": "310 bits=4073600000000000",
+        "y": "-0.03125 bits=bfa0000000000000"
+      },
+      "state": "VALID",
+      "committed": [
+        {
+          "obj_type": "line",
+          "net": "NFC_SWP",
+          "layer": "ETCH/TOP",
+          "start": [
+            310.0,
+            -0.0312
+          ],
+          "end": [
+            312.0,
+            -0.0312
+          ],
+          "width": 0.15,
+          "length": 2.0,
+          "radius": null,
+          "is_clockwise": null,
+          "center": null
+        }
+      ]
+    },
+    {
+      "case_id": "IA_HALF_7",
+      "object": "line+via+arc_endpoint",
+      "requested": {
+        "x": "310 bits=4073600000000000",
+        "y": "-0.09375 bits=bfb8000000000000"
+      },
+      "state": "VALID",
+      "committed": [
+        {
+          "obj_type": "line",
+          "net": "NFC_SWP",
+          "layer": "ETCH/TOP",
+          "start": [
+            310.0,
+            -0.0938
+          ],
+          "end": [
+            312.0,
+            -0.0938
+          ],
+          "width": 0.15,
+          "length": 2.0,
+          "radius": null,
+          "is_clockwise": null,
+          "center": null
+        }
+      ]
+    }
+  ],
+  "constraint": {
+    "domains": {
+      "ok": true,
+      "value": [
+        [
+          "spacing"
+        ],
+        [
+          "physical"
+        ],
+        [
+          "electrical"
+        ],
+        [
+          "sameNet"
+        ]
+      ]
+    },
+    "spacing_csets": {
+      "ok": true,
+      "value": [
+        "DEFAULT",
+        "DIFF100",
+        "0.1MM",
+        "0.15"
+      ]
+    },
+    "supported_spacing": {
+      "ok": true,
+      "value": [
+        [
+          "bbvia_gap"
+        ],
+        [
+          "shape_shape"
+        ],
+        [
+          "bondpad_bondpad"
+        ],
+        [
+          "bondpad_shape"
+        ],
+        [
+          "bondpad_line"
+        ],
+        [
+          "hole_via"
+        ],
+        [
+          "hole_thrupin"
+        ],
+        [
+          "hole_hole"
+        ],
+        [
+          "hole_shape"
+        ],
+        [
+          "hole_line"
+        ],
+        [
+          "uvia_bondpad"
+        ],
+        [
+          "uvia_testvia"
+        ],
+        [
+          "uvia_uvia"
+        ],
+        [
+          "uvia_bbvia"
+        ],
+        [
+          "uvia_via"
+        ],
+        [
+          "uvia_testpin"
+        ],
+        [
+          "uvia_smdpin"
+        ],
+        [
+          "uvia_thrupin"
+        ],
+        [
+          "uvia_shape"
+        ],
+        [
+          "uvia_line"
+        ],
+        [
+          "bbvia_bondpad"
+        ],
+        [
+          "bbvia_testvia"
+        ],
+        [
+          "bbvia_bbvia"
+        ],
+        [
+          "bbvia_via"
+        ],
+        [
+          "bbvia_testpin"
+        ],
+        [
+          "bbvia_smdpin"
+        ],
+        [
+          "bbvia_thrupin"
+        ],
+        [
+          "bbvia_shape"
+        ],
+        [
+          "bbvia_line"
+        ],
+        [
+          "via_bondpad"
+        ],
+        [
+          "via_via"
+        ],
+        [
+          "via_shape"
+        ],
+        [
+          "via_line"
+        ],
+        [
+          "testvia_bondpad"
+        ],
+        [
+          "testvia_testvia"
+        ],
+        [
+          "testvia_via"
+        ],
+        [
+          "testvia_smdpin"
+        ],
+        [
+          "testvia_thrupin"
+        ],
+        [
+          "testvia_shape"
+        ],
+        [
+          "testvia_line"
+        ],
+        [
+          "testpin_bondpad"
+        ],
+        [
+          "testpin_testvia"
+        ],
+        [
+          "testpin_via"
+        ],
+        [
+          "testpin_testpin"
+        ],
+        [
+          "testpin_smdpin"
+        ],
+        [
+          "testpin_thrupin"
+        ],
+        [
+          "testpin_shape"
+        ],
+        [
+          "testpin_line"
+        ],
+        [
+          "smdpin_bondpad"
+        ],
+        [
+          "smdpin_via"
+        ],
+        [
+          "smdpin_smdpin"
+        ],
+        [
+          "smdpin_shape"
+        ],
+        [
+          "smdpin_line"
+        ],
+        [
+          "thrupin_bondpad"
+        ],
+        [
+          "thrupin_via"
+        ],
+        [
+          "thrupin_smdpin"
+        ],
+        [
+          "thrupin_thrupin"
+        ],
+        [
+          "thrupin_shape"
+        ],
+        [
+          "thrupin_line"
+        ],
+        [
+          "line_shape"
+        ],
+        [
+          "line_line"
+        ]
+      ]
+    },
+    "values": {
+      "": {
+        "ok": true,
+        "value": [
+          [
+            [
+              "bbvia_gap"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "shape_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bondpad_bondpad"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bondpad_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bondpad_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "hole_via"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "hole_thrupin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "hole_hole"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "hole_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "hole_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "uvia_bondpad"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_testvia"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_uvia"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_bbvia"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_via"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_testpin"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_smdpin"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_thrupin"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_shape"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_line"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "bbvia_bondpad"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_testvia"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_bbvia"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_via"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_testpin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_smdpin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_thrupin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "via_bondpad"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "via_via"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "via_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "via_line"
+            ],
+            "0.065 MM"
+          ],
+          [
+            [
+              "testvia_bondpad"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testvia_testvia"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testvia_via"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testvia_smdpin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testvia_thrupin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testvia_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testvia_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_bondpad"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_testvia"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_via"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_testpin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_smdpin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_thrupin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "smdpin_bondpad"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "smdpin_via"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "smdpin_smdpin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "smdpin_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "smdpin_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "thrupin_bondpad"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "thrupin_via"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "thrupin_smdpin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "thrupin_thrupin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "thrupin_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "thrupin_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "line_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "line_line"
+            ],
+            "0.06 MM"
+          ]
+        ]
+      },
+      "DEFAULT": {
+        "ok": true,
+        "value": [
+          [
+            [
+              "bbvia_gap"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "shape_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bondpad_bondpad"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bondpad_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bondpad_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "hole_via"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "hole_thrupin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "hole_hole"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "hole_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "hole_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "uvia_bondpad"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_testvia"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_uvia"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_bbvia"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_via"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_testpin"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_smdpin"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_thrupin"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_shape"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_line"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "bbvia_bondpad"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_testvia"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_bbvia"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_via"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_testpin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_smdpin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_thrupin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "via_bondpad"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "via_via"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "via_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "via_line"
+            ],
+            "0.065 MM"
+          ],
+          [
+            [
+              "testvia_bondpad"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testvia_testvia"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testvia_via"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testvia_smdpin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testvia_thrupin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testvia_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testvia_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_bondpad"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_testvia"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_via"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_testpin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_smdpin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_thrupin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "smdpin_bondpad"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "smdpin_via"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "smdpin_smdpin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "smdpin_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "smdpin_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "thrupin_bondpad"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "thrupin_via"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "thrupin_smdpin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "thrupin_thrupin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "thrupin_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "thrupin_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "line_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "line_line"
+            ],
+            "0.06 MM"
+          ]
+        ]
+      },
+      "DIFF100": {
+        "ok": true,
+        "value": [
+          [
+            [
+              "bbvia_gap"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "shape_shape"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "bondpad_bondpad"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "bondpad_shape"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "bondpad_line"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "hole_via"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "hole_thrupin"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "hole_hole"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "hole_shape"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "hole_line"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "uvia_bondpad"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_testvia"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_uvia"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_bbvia"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_via"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_testpin"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_smdpin"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_thrupin"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_shape"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_line"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "bbvia_bondpad"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "bbvia_testvia"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "bbvia_bbvia"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "bbvia_via"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "bbvia_testpin"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "bbvia_smdpin"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "bbvia_thrupin"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "bbvia_shape"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "bbvia_line"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "via_bondpad"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "via_via"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "via_shape"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "via_line"
+            ],
+            "0.0999 MM"
+          ],
+          [
+            [
+              "testvia_bondpad"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "testvia_testvia"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "testvia_via"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "testvia_smdpin"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "testvia_thrupin"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "testvia_shape"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "testvia_line"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "testpin_bondpad"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "testpin_testvia"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "testpin_via"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "testpin_testpin"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "testpin_smdpin"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "testpin_thrupin"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "testpin_shape"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "testpin_line"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "smdpin_bondpad"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "smdpin_via"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "smdpin_smdpin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "smdpin_shape"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "smdpin_line"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "thrupin_bondpad"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "thrupin_via"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "thrupin_smdpin"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "thrupin_thrupin"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "thrupin_shape"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "thrupin_line"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "line_shape"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "line_line"
+            ],
+            "0.1 MM"
+          ]
+        ]
+      },
+      "0.1MM": {
+        "ok": true,
+        "value": [
+          [
+            [
+              "bbvia_gap"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "shape_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bondpad_bondpad"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bondpad_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bondpad_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "hole_via"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "hole_thrupin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "hole_hole"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "hole_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "hole_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "uvia_bondpad"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_testvia"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_uvia"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_bbvia"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_via"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_testpin"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_smdpin"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_thrupin"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_shape"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_line"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "bbvia_bondpad"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_testvia"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_bbvia"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_via"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_testpin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_smdpin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_thrupin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "via_bondpad"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "via_via"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "via_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "via_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testvia_bondpad"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testvia_testvia"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testvia_via"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testvia_smdpin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testvia_thrupin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testvia_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testvia_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_bondpad"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_testvia"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_via"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_testpin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_smdpin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_thrupin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "smdpin_bondpad"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "smdpin_via"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "smdpin_smdpin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "smdpin_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "smdpin_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "thrupin_bondpad"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "thrupin_via"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "thrupin_smdpin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "thrupin_thrupin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "thrupin_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "thrupin_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "line_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "line_line"
+            ],
+            "0.1 MM"
+          ]
+        ]
+      },
+      "0.15": {
+        "ok": true,
+        "value": [
+          [
+            [
+              "bbvia_gap"
+            ],
+            "0.1 MM"
+          ],
+          [
+            [
+              "shape_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bondpad_bondpad"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bondpad_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bondpad_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "hole_via"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "hole_thrupin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "hole_hole"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "hole_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "hole_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "uvia_bondpad"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_testvia"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_uvia"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_bbvia"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_via"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_testpin"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_smdpin"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_thrupin"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_shape"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "uvia_line"
+            ],
+            "0.127 MM"
+          ],
+          [
+            [
+              "bbvia_bondpad"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_testvia"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_bbvia"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_via"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_testpin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_smdpin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_thrupin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "bbvia_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "via_bondpad"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "via_via"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "via_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "via_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testvia_bondpad"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testvia_testvia"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testvia_via"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testvia_smdpin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testvia_thrupin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testvia_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testvia_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_bondpad"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_testvia"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_via"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_testpin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_smdpin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_thrupin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "testpin_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "smdpin_bondpad"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "smdpin_via"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "smdpin_smdpin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "smdpin_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "smdpin_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "thrupin_bondpad"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "thrupin_via"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "thrupin_smdpin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "thrupin_thrupin"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "thrupin_shape"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "thrupin_line"
+            ],
+            "0.06 MM"
+          ],
+          [
+            [
+              "line_shape"
+            ],
+            "0.15 MM"
+          ],
+          [
+            [
+              "line_line"
+            ],
+            "0.1 MM"
+          ]
+        ]
+      }
+    }
+  },
+  "port": "63705",
+  "pid": 13076,
+  "version": "17.2-2016 S048",
+  "controls_before": {
+    "drcEnable": {
+      "ok": true,
+      "value": null
+    },
+    "activeLayer": {
+      "ok": true,
+      "value": null
+    }
+  },
+  "drc_count_before": {
+    "ok": true,
+    "value": 93
+  },
+  "waived_count_before": {
+    "ok": true,
+    "value": 0
+  },
+  "checker_gate": {
+    "before_markers": [
+      {
+        "name": "Package to Place Keepin Spacing",
+        "category": "DESIGN",
+        "source": "NONE",
+        "layer": "DRC ERROR CLASS/PACKAGE_TOP",
+        "expected": "'0 MM'",
+        "actual": "'19.435 MM'",
+        "figures": [
+          {
+            "obj_type": "shape",
+            "layer": "PACKAGE GEOMETRY/PLACE_BOUND_TOP",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "polygon",
+            "layer": "PACKAGE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Package to Place Keepin Spacing",
+        "category": "DESIGN",
+        "source": "NONE",
+        "layer": "DRC ERROR CLASS/PACKAGE_TOP",
+        "expected": "'0 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "shape",
+            "layer": "PACKAGE GEOMETRY/PLACE_BOUND_TOP",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "polygon",
+            "layer": "PACKAGE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Package to Place Keepin Spacing",
+        "category": "DESIGN",
+        "source": "NONE",
+        "layer": "DRC ERROR CLASS/PACKAGE_TOP",
+        "expected": "'0 MM'",
+        "actual": "'117.0203 MM'",
+        "figures": [
+          {
+            "obj_type": "shape",
+            "layer": "PACKAGE GEOMETRY/PLACE_BOUND_TOP",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "polygon",
+            "layer": "PACKAGE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Package to Place Keepin Spacing",
+        "category": "DESIGN",
+        "source": "NONE",
+        "layer": "DRC ERROR CLASS/PACKAGE_TOP",
+        "expected": "'0 MM'",
+        "actual": "'122.6697 MM'",
+        "figures": [
+          {
+            "obj_type": "shape",
+            "layer": "PACKAGE GEOMETRY/PLACE_BOUND_TOP",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "polygon",
+            "layer": "PACKAGE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Line to Line Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "LINE_TO_LINE_SPACING",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.15 MM'",
+        "actual": "'0.1499 MM'",
+        "figures": [
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE2_P_CON')",
+            "start": "Point(x=-5.9092, y=-81.4005)",
+            "end": "Point(x=-5.995, y=-81.6078)",
+            "width": "0.085"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-5.6867, y=-81.6141)",
+            "end": "Point(x=-12.7628, y=-88.6902)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to Line Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "LINE_TO_LINE_SPACING",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.15 MM'",
+        "actual": "'0.1499 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_CLK_P_CON')",
+            "start": "Point(x=-14.2136, y=-88.044)",
+            "end": "Point(x=-7.255, y=-81.0855)",
+            "width": "0.085"
+          },
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE1_M_CON')",
+            "start": "Point(x=-14.0103, y=-88.2945)",
+            "end": "Point(x=-13.9245, y=-88.0872)",
+            "width": "0.085"
+          }
+        ]
+      },
+      {
+        "name": "Line to Line Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "LINE_TO_LINE_SPACING",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.15 MM'",
+        "actual": "'0.1499 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_CLK_P_CON')",
+            "start": "Point(x=-14.2136, y=-88.044)",
+            "end": "Point(x=-7.255, y=-81.0855)",
+            "width": "0.085"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE1_M_CON')",
+            "start": "Point(x=-13.9245, y=-88.0872)",
+            "end": "Point(x=-6.9659, y=-81.1287)",
+            "width": "0.085"
+          }
+        ]
+      },
+      {
+        "name": "Line to Line Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "LINE_TO_LINE_SPACING",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.15 MM'",
+        "actual": "'0.1499 MM'",
+        "figures": [
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_CLK_P_CON')",
+            "start": "Point(x=-7.255, y=-81.0855)",
+            "end": "Point(x=-7.1692, y=-80.8782)",
+            "width": "0.085"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE1_M_CON')",
+            "start": "Point(x=-13.9245, y=-88.0872)",
+            "end": "Point(x=-6.9659, y=-81.1287)",
+            "width": "0.085"
+          }
+        ]
+      },
+      {
+        "name": "Line to Line Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "LINE_TO_LINE_SPACING",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.15 MM'",
+        "actual": "'0.1499 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE1_P_CON')",
+            "start": "Point(x=-13.7936, y=-88.2181)",
+            "end": "Point(x=-6.7809, y=-81.2054)",
+            "width": "0.085"
+          },
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE3_M_CON')",
+            "start": "Point(x=-13.5903, y=-88.4686)",
+            "end": "Point(x=-13.5045, y=-88.2613)",
+            "width": "0.085"
+          }
+        ]
+      },
+      {
+        "name": "Line to Line Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "LINE_TO_LINE_SPACING",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.15 MM'",
+        "actual": "'0.1499 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE1_P_CON')",
+            "start": "Point(x=-13.7936, y=-88.2181)",
+            "end": "Point(x=-6.7809, y=-81.2054)",
+            "width": "0.085"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE3_M_CON')",
+            "start": "Point(x=-13.5045, y=-88.2613)",
+            "end": "Point(x=-6.5459, y=-81.3028)",
+            "width": "0.085"
+          }
+        ]
+      },
+      {
+        "name": "Line to Line Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "LINE_TO_LINE_SPACING",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.15 MM'",
+        "actual": "'0.1499 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE2_P_CON')",
+            "start": "Point(x=-5.995, y=-81.6078)",
+            "end": "Point(x=-12.9536, y=-88.5663)",
+            "width": "0.085"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-5.6867, y=-81.6141)",
+            "end": "Point(x=-12.7628, y=-88.6902)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to Line Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "LINE_TO_LINE_SPACING",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.15 MM'",
+        "actual": "'0.1499 MM'",
+        "figures": [
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_CLK_M_CON')",
+            "start": "Point(x=-14.4303, y=-88.0438)",
+            "end": "Point(x=-14.3986, y=-87.9673)",
+            "width": "0.085"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE0_P_CON')",
+            "start": "Point(x=-14.6653, y=-87.9017)",
+            "end": "Point(x=-7.675, y=-80.9114)",
+            "width": "0.085"
+          }
+        ]
+      },
+      {
+        "name": "Line to Line Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "LINE_TO_LINE_SPACING",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.15 MM'",
+        "actual": "'0.1499 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_CLK_M_CON')",
+            "start": "Point(x=-14.3986, y=-87.9673)",
+            "end": "Point(x=-7.3859, y=-80.9546)",
+            "width": "0.085"
+          },
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE0_P_CON')",
+            "start": "Point(x=-7.675, y=-80.9114)",
+            "end": "Point(x=-7.5892, y=-80.7042)",
+            "width": "0.085"
+          }
+        ]
+      },
+      {
+        "name": "Line to Line Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "LINE_TO_LINE_SPACING",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.15 MM'",
+        "actual": "'0.1499 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.7301, y=17.8539)",
+            "end": "Point(x=-5.6867, y=13.8105)",
+            "width": "0.06"
+          },
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE2_P_CON')",
+            "start": "Point(x=-5.995, y=13.8042)",
+            "end": "Point(x=-5.9092, y=13.5969)",
+            "width": "0.085"
+          }
+        ]
+      },
+      {
+        "name": "Line to Line Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "LINE_TO_LINE_SPACING",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.15 MM'",
+        "actual": "'0.1499 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.7301, y=17.8539)",
+            "end": "Point(x=-5.6867, y=13.8105)",
+            "width": "0.06"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE2_P_CON')",
+            "start": "Point(x=-9.9526, y=17.7618)",
+            "end": "Point(x=-5.995, y=13.8042)",
+            "width": "0.085"
+          }
+        ]
+      },
+      {
+        "name": "Line to Line Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "LINE_TO_LINE_SPACING",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.15 MM'",
+        "actual": "'0.1499 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.7301, y=20.3935)",
+            "end": "Point(x=-9.7301, y=17.8539)",
+            "width": "0.06"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE2_P_CON')",
+            "start": "Point(x=-9.9526, y=17.7618)",
+            "end": "Point(x=-5.995, y=13.8042)",
+            "width": "0.085"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "0.1MM",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0599 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE0_P_CON')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE0_M_CON')",
+            "start": "Point(x=-16.73, y=-96.6667)",
+            "end": "Point(x=-14.8503, y=-94.7869)",
+            "width": "0.085"
+          }
+        ]
+      },
+      {
+        "name": "Line to Line Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "LINE_TO_LINE_SPACING",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.15 MM'",
+        "actual": "'0.1499 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_CLK_M_CON')",
+            "start": "Point(x=-14.3986, y=-87.9673)",
+            "end": "Point(x=-7.3859, y=-80.9546)",
+            "width": "0.085"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE0_P_CON')",
+            "start": "Point(x=-14.6653, y=-87.9017)",
+            "end": "Point(x=-7.675, y=-80.9114)",
+            "width": "0.085"
+          }
+        ]
+      },
+      {
+        "name": "Line to Route Keepin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "polygon",
+            "layer": "ROUTE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/BOTTOM",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=14.7699, y=-69.9586)",
+            "end": "Point(x=14.7464, y=-70.3179)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to Route Keepin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "polygon",
+            "layer": "ROUTE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/BOTTOM",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=14.7464, y=-70.3179)",
+            "end": "Point(x=14.7122, y=-70.5211)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to Route Keepin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "polygon",
+            "layer": "ROUTE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/BOTTOM",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=14.7122, y=-70.5211)",
+            "end": "Point(x=14.1415, y=-71.7155)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to Route Keepin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "polygon",
+            "layer": "ROUTE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/BOTTOM",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=14.1415, y=-71.7155)",
+            "end": "Point(x=8.7327, y=-78.3088)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to Route Keepin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "polygon",
+            "layer": "ROUTE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/BOTTOM",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=8.7327, y=-78.3088)",
+            "end": "Point(x=7.9999, y=-80.3573)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='LCD_VDDR_1V25_FB')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='LCD_VDDR_1V25')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='FINGER_SPI_MISO')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='LCD_VDDI')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='VTP_PMU')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='EINT_CTP')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='FINGER_SPI_CLK')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='FP_RST')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='FINGER_SPI_MOSI')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='FINGER_SPI_CS_N')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='TP_SPI_CLK')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='TP_SPI_CS')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='TP_SPI_MO')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='TP_SPI_MI')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='GPIO_CTP_RSTB')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='TP_1V8')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='LCD_VCI_3V0')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='OLED_TE')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='OLED_RST')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='VFP_PMU')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to Route Keepin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "polygon",
+            "layer": "ROUTE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=14.7699, y=-69.9586)",
+            "end": "Point(x=14.7464, y=-70.3179)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to Route Keepin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "polygon",
+            "layer": "ROUTE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=14.7464, y=-70.3179)",
+            "end": "Point(x=14.7122, y=-70.5211)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to Route Keepin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "polygon",
+            "layer": "ROUTE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=14.7122, y=-70.5211)",
+            "end": "Point(x=14.1415, y=-71.7155)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to Route Keepin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "polygon",
+            "layer": "ROUTE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=14.1415, y=-71.7155)",
+            "end": "Point(x=8.7327, y=-78.3088)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to Route Keepin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "polygon",
+            "layer": "ROUTE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=8.7327, y=-78.3088)",
+            "end": "Point(x=7.9999, y=-80.3573)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "SMD Pin to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0499 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "SMD Pin to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0125 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "SMD Pin to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0125 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Line to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.065 MM'",
+        "actual": "'0.0397 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=10.18, y=23.6436)",
+            "end": "Point(x=19.33, y=23.6436)",
+            "width": "0.06"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Line to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.065 MM'",
+        "actual": "'0.0397 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/BOTTOM",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=10.18, y=23.6436)",
+            "end": "Point(x=19.33, y=23.6436)",
+            "width": "0.06"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "SMD Pin to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0545 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Line to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.065 MM'",
+        "actual": "'0.0397 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=10.18, y=23.6436)",
+            "end": "Point(x=19.33, y=23.6436)",
+            "width": "0.06"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Line to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.065 MM'",
+        "actual": "'0.0397 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/BOTTOM",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=10.18, y=23.6436)",
+            "end": "Point(x=19.33, y=23.6436)",
+            "width": "0.06"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Route Keepin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0 MM'",
+        "actual": "'393.6284 MM'",
+        "figures": [
+          {
+            "obj_type": "polygon",
+            "layer": "ROUTE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": "NetRef(kind='net', name='NFC_SWP')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Route Keepin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0 MM'",
+        "actual": "'395.1672 MM'",
+        "figures": [
+          {
+            "obj_type": "polygon",
+            "layer": "ROUTE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": "NetRef(kind='net', name='FINGER_SPI_MISO')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Line to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.065 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": "NetRef(kind='net', name='FINGER_SPI_MISO')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='NFC_SWP')",
+            "start": "Point(x=300.0, y=300.0)",
+            "end": "Point(x=302.0, y=300.0)",
+            "width": "0.15"
+          }
+        ]
+      },
+      {
+        "name": "Line to Route Keepin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0 MM'",
+        "actual": "'393.7034 MM'",
+        "figures": [
+          {
+            "obj_type": "polygon",
+            "layer": "ROUTE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='NFC_SWP')",
+            "start": "Point(x=300.0, y=300.0)",
+            "end": "Point(x=302.0, y=300.0)",
+            "width": "0.15"
+          }
+        ]
+      },
+      {
+        "name": "Line to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.065 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": "NetRef(kind='net', name='NFC_SWP')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='FINGER_SPI_MISO')",
+            "start": "Point(x=300.0, y=300.16)",
+            "end": "Point(x=302.0, y=300.16)",
+            "width": "0.15"
+          }
+        ]
+      },
+      {
+        "name": "Line to Line Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.01 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='NFC_SWP')",
+            "start": "Point(x=300.0, y=300.0)",
+            "end": "Point(x=302.0, y=300.0)",
+            "width": "0.15"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='FINGER_SPI_MISO')",
+            "start": "Point(x=300.0, y=300.16)",
+            "end": "Point(x=302.0, y=300.16)",
+            "width": "0.15"
+          }
+        ]
+      },
+      {
+        "name": "Line to Route Keepin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0 MM'",
+        "actual": "'393.8157 MM'",
+        "figures": [
+          {
+            "obj_type": "polygon",
+            "layer": "ROUTE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='FINGER_SPI_MISO')",
+            "start": "Point(x=300.0, y=300.16)",
+            "end": "Point(x=302.0, y=300.16)",
+            "width": "0.15"
+          }
+        ]
+      }
+    ],
+    "item_hits": [
+      {
+        "name": "Line to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.065 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": "NetRef(kind='net', name='FINGER_SPI_MISO')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='NFC_SWP')",
+            "start": "Point(x=300.0, y=300.0)",
+            "end": "Point(x=302.0, y=300.0)",
+            "width": "0.15"
+          }
+        ]
+      },
+      {
+        "name": "Line to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.065 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": "NetRef(kind='net', name='FINGER_SPI_MISO')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='NFC_SWP')",
+            "start": "Point(x=300.0, y=300.0)",
+            "end": "Point(x=302.0, y=300.0)",
+            "width": "0.15"
+          }
+        ]
+      },
+      {
+        "name": "Line to Line Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.01 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='NFC_SWP')",
+            "start": "Point(x=300.0, y=300.0)",
+            "end": "Point(x=302.0, y=300.0)",
+            "width": "0.15"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='FINGER_SPI_MISO')",
+            "start": "Point(x=300.0, y=300.16)",
+            "end": "Point(x=302.0, y=300.16)",
+            "width": "0.15"
+          }
+        ]
+      }
+    ],
+    "after_markers": [
+      {
+        "name": "Package to Place Keepin Spacing",
+        "category": "DESIGN",
+        "source": "NONE",
+        "layer": "DRC ERROR CLASS/PACKAGE_TOP",
+        "expected": "'0 MM'",
+        "actual": "'19.435 MM'",
+        "figures": [
+          {
+            "obj_type": "shape",
+            "layer": "PACKAGE GEOMETRY/PLACE_BOUND_TOP",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "polygon",
+            "layer": "PACKAGE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Package to Place Keepin Spacing",
+        "category": "DESIGN",
+        "source": "NONE",
+        "layer": "DRC ERROR CLASS/PACKAGE_TOP",
+        "expected": "'0 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "shape",
+            "layer": "PACKAGE GEOMETRY/PLACE_BOUND_TOP",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "polygon",
+            "layer": "PACKAGE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Package to Place Keepin Spacing",
+        "category": "DESIGN",
+        "source": "NONE",
+        "layer": "DRC ERROR CLASS/PACKAGE_TOP",
+        "expected": "'0 MM'",
+        "actual": "'117.0203 MM'",
+        "figures": [
+          {
+            "obj_type": "shape",
+            "layer": "PACKAGE GEOMETRY/PLACE_BOUND_TOP",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "polygon",
+            "layer": "PACKAGE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Package to Place Keepin Spacing",
+        "category": "DESIGN",
+        "source": "NONE",
+        "layer": "DRC ERROR CLASS/PACKAGE_TOP",
+        "expected": "'0 MM'",
+        "actual": "'122.6697 MM'",
+        "figures": [
+          {
+            "obj_type": "shape",
+            "layer": "PACKAGE GEOMETRY/PLACE_BOUND_TOP",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "polygon",
+            "layer": "PACKAGE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Line to Line Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "LINE_TO_LINE_SPACING",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.15 MM'",
+        "actual": "'0.1499 MM'",
+        "figures": [
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE2_P_CON')",
+            "start": "Point(x=-5.9092, y=-81.4005)",
+            "end": "Point(x=-5.995, y=-81.6078)",
+            "width": "0.085"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-5.6867, y=-81.6141)",
+            "end": "Point(x=-12.7628, y=-88.6902)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to Line Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "LINE_TO_LINE_SPACING",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.15 MM'",
+        "actual": "'0.1499 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_CLK_P_CON')",
+            "start": "Point(x=-14.2136, y=-88.044)",
+            "end": "Point(x=-7.255, y=-81.0855)",
+            "width": "0.085"
+          },
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE1_M_CON')",
+            "start": "Point(x=-14.0103, y=-88.2945)",
+            "end": "Point(x=-13.9245, y=-88.0872)",
+            "width": "0.085"
+          }
+        ]
+      },
+      {
+        "name": "Line to Line Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "LINE_TO_LINE_SPACING",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.15 MM'",
+        "actual": "'0.1499 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_CLK_P_CON')",
+            "start": "Point(x=-14.2136, y=-88.044)",
+            "end": "Point(x=-7.255, y=-81.0855)",
+            "width": "0.085"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE1_M_CON')",
+            "start": "Point(x=-13.9245, y=-88.0872)",
+            "end": "Point(x=-6.9659, y=-81.1287)",
+            "width": "0.085"
+          }
+        ]
+      },
+      {
+        "name": "Line to Line Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "LINE_TO_LINE_SPACING",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.15 MM'",
+        "actual": "'0.1499 MM'",
+        "figures": [
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_CLK_P_CON')",
+            "start": "Point(x=-7.255, y=-81.0855)",
+            "end": "Point(x=-7.1692, y=-80.8782)",
+            "width": "0.085"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE1_M_CON')",
+            "start": "Point(x=-13.9245, y=-88.0872)",
+            "end": "Point(x=-6.9659, y=-81.1287)",
+            "width": "0.085"
+          }
+        ]
+      },
+      {
+        "name": "Line to Line Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "LINE_TO_LINE_SPACING",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.15 MM'",
+        "actual": "'0.1499 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE1_P_CON')",
+            "start": "Point(x=-13.7936, y=-88.2181)",
+            "end": "Point(x=-6.7809, y=-81.2054)",
+            "width": "0.085"
+          },
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE3_M_CON')",
+            "start": "Point(x=-13.5903, y=-88.4686)",
+            "end": "Point(x=-13.5045, y=-88.2613)",
+            "width": "0.085"
+          }
+        ]
+      },
+      {
+        "name": "Line to Line Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "LINE_TO_LINE_SPACING",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.15 MM'",
+        "actual": "'0.1499 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE1_P_CON')",
+            "start": "Point(x=-13.7936, y=-88.2181)",
+            "end": "Point(x=-6.7809, y=-81.2054)",
+            "width": "0.085"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE3_M_CON')",
+            "start": "Point(x=-13.5045, y=-88.2613)",
+            "end": "Point(x=-6.5459, y=-81.3028)",
+            "width": "0.085"
+          }
+        ]
+      },
+      {
+        "name": "Line to Line Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "LINE_TO_LINE_SPACING",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.15 MM'",
+        "actual": "'0.1499 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE2_P_CON')",
+            "start": "Point(x=-5.995, y=-81.6078)",
+            "end": "Point(x=-12.9536, y=-88.5663)",
+            "width": "0.085"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-5.6867, y=-81.6141)",
+            "end": "Point(x=-12.7628, y=-88.6902)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to Line Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "LINE_TO_LINE_SPACING",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.15 MM'",
+        "actual": "'0.1499 MM'",
+        "figures": [
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_CLK_M_CON')",
+            "start": "Point(x=-14.4303, y=-88.0438)",
+            "end": "Point(x=-14.3986, y=-87.9673)",
+            "width": "0.085"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE0_P_CON')",
+            "start": "Point(x=-14.6653, y=-87.9017)",
+            "end": "Point(x=-7.675, y=-80.9114)",
+            "width": "0.085"
+          }
+        ]
+      },
+      {
+        "name": "Line to Line Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "LINE_TO_LINE_SPACING",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.15 MM'",
+        "actual": "'0.1499 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_CLK_M_CON')",
+            "start": "Point(x=-14.3986, y=-87.9673)",
+            "end": "Point(x=-7.3859, y=-80.9546)",
+            "width": "0.085"
+          },
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE0_P_CON')",
+            "start": "Point(x=-7.675, y=-80.9114)",
+            "end": "Point(x=-7.5892, y=-80.7042)",
+            "width": "0.085"
+          }
+        ]
+      },
+      {
+        "name": "Line to Line Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "LINE_TO_LINE_SPACING",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.15 MM'",
+        "actual": "'0.1499 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.7301, y=17.8539)",
+            "end": "Point(x=-5.6867, y=13.8105)",
+            "width": "0.06"
+          },
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE2_P_CON')",
+            "start": "Point(x=-5.995, y=13.8042)",
+            "end": "Point(x=-5.9092, y=13.5969)",
+            "width": "0.085"
+          }
+        ]
+      },
+      {
+        "name": "Line to Line Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "LINE_TO_LINE_SPACING",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.15 MM'",
+        "actual": "'0.1499 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.7301, y=17.8539)",
+            "end": "Point(x=-5.6867, y=13.8105)",
+            "width": "0.06"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE2_P_CON')",
+            "start": "Point(x=-9.9526, y=17.7618)",
+            "end": "Point(x=-5.995, y=13.8042)",
+            "width": "0.085"
+          }
+        ]
+      },
+      {
+        "name": "Line to Line Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "LINE_TO_LINE_SPACING",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.15 MM'",
+        "actual": "'0.1499 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.7301, y=20.3935)",
+            "end": "Point(x=-9.7301, y=17.8539)",
+            "width": "0.06"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE2_P_CON')",
+            "start": "Point(x=-9.9526, y=17.7618)",
+            "end": "Point(x=-5.995, y=13.8042)",
+            "width": "0.085"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "0.1MM",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0599 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE0_P_CON')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE0_M_CON')",
+            "start": "Point(x=-16.73, y=-96.6667)",
+            "end": "Point(x=-14.8503, y=-94.7869)",
+            "width": "0.085"
+          }
+        ]
+      },
+      {
+        "name": "Line to Line Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "LINE_TO_LINE_SPACING",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.15 MM'",
+        "actual": "'0.1499 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_CLK_M_CON')",
+            "start": "Point(x=-14.3986, y=-87.9673)",
+            "end": "Point(x=-7.3859, y=-80.9546)",
+            "width": "0.085"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='MIPI_DSI0_LANE0_P_CON')",
+            "start": "Point(x=-14.6653, y=-87.9017)",
+            "end": "Point(x=-7.675, y=-80.9114)",
+            "width": "0.085"
+          }
+        ]
+      },
+      {
+        "name": "Line to Route Keepin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "polygon",
+            "layer": "ROUTE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/BOTTOM",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=14.7699, y=-69.9586)",
+            "end": "Point(x=14.7464, y=-70.3179)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to Route Keepin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "polygon",
+            "layer": "ROUTE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/BOTTOM",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=14.7464, y=-70.3179)",
+            "end": "Point(x=14.7122, y=-70.5211)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to Route Keepin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "polygon",
+            "layer": "ROUTE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/BOTTOM",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=14.7122, y=-70.5211)",
+            "end": "Point(x=14.1415, y=-71.7155)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to Route Keepin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "polygon",
+            "layer": "ROUTE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/BOTTOM",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=14.1415, y=-71.7155)",
+            "end": "Point(x=8.7327, y=-78.3088)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to Route Keepin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "polygon",
+            "layer": "ROUTE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/BOTTOM",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=8.7327, y=-78.3088)",
+            "end": "Point(x=7.9999, y=-80.3573)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='LCD_VDDR_1V25_FB')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='LCD_VDDR_1V25')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='FINGER_SPI_MISO')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='LCD_VDDI')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='VTP_PMU')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='EINT_CTP')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='FINGER_SPI_CLK')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='FP_RST')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='FINGER_SPI_MOSI')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='FINGER_SPI_CS_N')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='TP_SPI_CLK')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='TP_SPI_CS')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='TP_SPI_MO')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='TP_SPI_MI')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='GPIO_CTP_RSTB')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='TP_1V8')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='LCD_VCI_3V0')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='OLED_TE')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='OLED_RST')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to SMD Pin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0215 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='VFP_PMU')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=-9.43, y=23.6436)",
+            "end": "Point(x=-20.03, y=23.6436)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to Route Keepin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "polygon",
+            "layer": "ROUTE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=14.7699, y=-69.9586)",
+            "end": "Point(x=14.7464, y=-70.3179)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to Route Keepin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "polygon",
+            "layer": "ROUTE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=14.7464, y=-70.3179)",
+            "end": "Point(x=14.7122, y=-70.5211)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to Route Keepin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "polygon",
+            "layer": "ROUTE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=14.7122, y=-70.5211)",
+            "end": "Point(x=14.1415, y=-71.7155)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to Route Keepin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "polygon",
+            "layer": "ROUTE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=14.1415, y=-71.7155)",
+            "end": "Point(x=8.7327, y=-78.3088)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "Line to Route Keepin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "polygon",
+            "layer": "ROUTE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "arc",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=8.7327, y=-78.3088)",
+            "end": "Point(x=7.9999, y=-80.3573)",
+            "width": "0.06"
+          }
+        ]
+      },
+      {
+        "name": "SMD Pin to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0499 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "SMD Pin to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0125 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "SMD Pin to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0125 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Line to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.065 MM'",
+        "actual": "'0.0397 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=10.18, y=23.6436)",
+            "end": "Point(x=19.33, y=23.6436)",
+            "width": "0.06"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Line to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.065 MM'",
+        "actual": "'0.0397 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/BOTTOM",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=10.18, y=23.6436)",
+            "end": "Point(x=19.33, y=23.6436)",
+            "width": "0.06"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "SMD Pin to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.0545 MM'",
+        "figures": [
+          {
+            "obj_type": "pin",
+            "layer": null,
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Line to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.065 MM'",
+        "actual": "'0.0397 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=10.18, y=23.6436)",
+            "end": "Point(x=19.33, y=23.6436)",
+            "width": "0.06"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Line to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.065 MM'",
+        "actual": "'0.0397 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/BOTTOM",
+            "net": "NetRef(kind='net', name='GND')",
+            "start": "Point(x=10.18, y=23.6436)",
+            "end": "Point(x=19.33, y=23.6436)",
+            "width": "0.06"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/BOTTOM",
+        "expected": "'0.06 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Route Keepin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0 MM'",
+        "actual": "'393.6284 MM'",
+        "figures": [
+          {
+            "obj_type": "polygon",
+            "layer": "ROUTE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": "NetRef(kind='net', name='NFC_SWP')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Thru Via to Route Keepin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0 MM'",
+        "actual": "'395.1672 MM'",
+        "figures": [
+          {
+            "obj_type": "polygon",
+            "layer": "ROUTE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": "NetRef(kind='net', name='FINGER_SPI_MISO')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          }
+        ]
+      },
+      {
+        "name": "Line to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.065 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": "NetRef(kind='net', name='NFC_SWP')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='FINGER_SPI_MISO')",
+            "start": "Point(x=300.0, y=300.16)",
+            "end": "Point(x=302.0, y=300.16)",
+            "width": "0.15"
+          }
+        ]
+      },
+      {
+        "name": "Line to Route Keepin Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0 MM'",
+        "actual": "'393.8157 MM'",
+        "figures": [
+          {
+            "obj_type": "polygon",
+            "layer": "ROUTE KEEPIN/ALL",
+            "net": null,
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='FINGER_SPI_MISO')",
+            "start": "Point(x=300.0, y=300.16)",
+            "end": "Point(x=302.0, y=300.16)",
+            "width": "0.15"
+          }
+        ]
+      },
+      {
+        "name": "Line to Line Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.06 MM'",
+        "actual": "'0.01 MM'",
+        "figures": [
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='NFC_SWP')",
+            "start": "Point(x=300.0, y=300.0)",
+            "end": "Point(x=302.0, y=300.0)",
+            "width": "0.15"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='FINGER_SPI_MISO')",
+            "start": "Point(x=300.0, y=300.16)",
+            "end": "Point(x=302.0, y=300.16)",
+            "width": "0.15"
+          }
+        ]
+      },
+      {
+        "name": "Line to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.065 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": "NetRef(kind='net', name='FINGER_SPI_MISO')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='NFC_SWP')",
+            "start": "Point(x=300.0, y=300.0)",
+            "end": "Point(x=302.0, y=300.0)",
+            "width": "0.15"
+          }
+        ]
+      },
+      {
+        "name": "Line to Thru Via Spacing",
+        "category": "NET SPACING CONSTRAINTS",
+        "source": "DEFAULT",
+        "layer": "DRC ERROR CLASS/TOP",
+        "expected": "'0.065 MM'",
+        "actual": "'0 MM'",
+        "figures": [
+          {
+            "obj_type": "via",
+            "layer": null,
+            "net": "NetRef(kind='net', name='FINGER_SPI_MISO')",
+            "start": "None",
+            "end": "None",
+            "width": "None"
+          },
+          {
+            "obj_type": "line",
+            "layer": "ETCH/TOP",
+            "net": "NetRef(kind='net', name='NFC_SWP')",
+            "start": "Point(x=300.0, y=300.0)",
+            "end": "Point(x=302.0, y=300.0)",
+            "width": "0.15"
+          }
+        ]
+      }
+    ],
+    "count_after": {
+      "ok": true,
+      "value": 100
+    },
+    "waived_after": {
+      "ok": true,
+      "value": 0
+    },
+    "positive_control_has_spacing": true
+  },
+  "controls_after": {
+    "drcEnable": {
+      "ok": true,
+      "value": null
+    },
+    "activeLayer": {
+      "ok": true,
+      "value": null
+    }
+  }
+}

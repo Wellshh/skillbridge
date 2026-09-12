@@ -1,0 +1,6 @@
+SAVER: workdir=C:\Users\BAIJUN~1\AppData\Local\Temp\drc-probe-h2-omacgznn
+OPEN_READY EL5_MIAN_FPC.brd: lck_holder=None exclusive=True
+SAVER: arcs=113 save='probe_d_F1' exists=True size=5488280
+SAVE_TS 1789198633.484
+SAVER_SLEEPING pid=37432 stay=300.0 workdir=C:\Users\BAIJUN~1\AppData\Local\Temp\drc-probe-h2-omacgznn
+SAVER_EXIT workdir=C:\Users\BAIJUN~1\AppData\Local\Temp\drc-probe-h2-omacgznn

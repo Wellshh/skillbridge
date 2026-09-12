@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "D:\\AutoPlacer\\skillbridge\\.venv\\Scripts\\python.exe",
+    "D:\\AutoPlacer\\skillbridge\\.artifacts\\drc-probe-v2\\stage2_pad_probe.py",
+    "--run-dir",
+    "D:\\AutoPlacer\\skillbridge\\.artifacts\\drc-probe-v2\\results\\stage2-pad-probe\\run-20260912-222619-975"
+  ],
+  "cwd": "D:\\AutoPlacer\\skillbridge",
+  "run": "D:\\AutoPlacer\\skillbridge\\.artifacts\\drc-probe-v2\\results\\stage2-pad-probe\\run-20260912-222619-975",
+  "started": "wrapper-recorded"
+}

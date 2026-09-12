@@ -1,0 +1,17 @@
+{
+  "status": "RUNNING",
+  "run_dir": "D:\\AutoPlacer\\skillbridge\\.artifacts\\drc-probe-v2\\results\\save-reopen-4\\run-27788-1789190989331546100",
+  "source_sha256": "2b919c474d7d8032a53ab36f5731f899d3aa24b7d8d2226b0e8ad3112d292f4c",
+  "script_sha256": "3994173715c83b8f52d657f2d2940797f3ba55026914b1047130345f56a52fcc",
+  "helper_sha256": "34b88df2f5811382461d2c37c493464ae03759d1e8824317e95d543024af0981",
+  "cases": [],
+  "argv": [
+    ".artifacts/drc-probe-v2/save_reopen_4.py"
+  ],
+  "cwd": "D:\\AutoPlacer\\skillbridge\\.artifacts\\drc-probe-v2\\results\\save-reopen-4\\run-27788-1789190989331546100",
+  "dependency_snapshots": [
+    "save_reopen_4.py",
+    "stage1_smoke.py",
+    "stage1_smoke.il"
+  ]
+}

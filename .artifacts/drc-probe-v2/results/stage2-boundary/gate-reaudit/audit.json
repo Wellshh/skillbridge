@@ -1,0 +1,660 @@
+{
+  "status": "GATE_REAUDIT_PASS",
+  "boundary_manifest_sha256": "6fc19404ebeaa6c336f46b8e69d6ca9ceb612401a0d0725b865ecf0613136f7e",
+  "repeat_manifest_sha256": "7d4f318c489e1e4a79dc6ce1ba3db968cede0d68f8f912e3960461a234da1e4e",
+  "boundary_gate_sha256": "1af76b45cba629cd50aefc361b6fb54744b07e60e3bd889a0ab6fa91f9dff481",
+  "repeat_group_check": true,
+  "cases": [
+    {
+      "label": "initial-00",
+      "cy_bits": "4079a1ff97247454",
+      "gate_reaudit": "FLAGGED",
+      "gate_evidence": {
+        "reasons": [],
+        "target_signatures": 2,
+        "group_pair_counts": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "group_pair_present": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      "raw_verdict": "FLAGGED",
+      "match": true,
+      "geometry_sha256": "02d5923d7750543ce230d63568394987d2db6bf3b58a16df0aa72ee6383ba2f6",
+      "pid": 47664,
+      "port": "59986",
+      "poll": 1
+    },
+    {
+      "label": "initial-01",
+      "cy_bits": "4079a1ffa6defc7a",
+      "gate_reaudit": "FLAGGED",
+      "gate_evidence": {
+        "reasons": [],
+        "target_signatures": 2,
+        "group_pair_counts": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "group_pair_present": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      "raw_verdict": "FLAGGED",
+      "match": true,
+      "geometry_sha256": "b60f20ecd7f254f060350c450391a846946627afa8baa46d2173fce9efb167e6",
+      "pid": 76340,
+      "port": "62767",
+      "poll": 1
+    },
+    {
+      "label": "initial-02",
+      "cy_bits": "4079a1ffab6c0426",
+      "gate_reaudit": "FLAGGED",
+      "gate_evidence": {
+        "reasons": [],
+        "target_signatures": 2,
+        "group_pair_counts": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "group_pair_present": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      "raw_verdict": "FLAGGED",
+      "match": true,
+      "geometry_sha256": "b348d1c03a2b50d26600d3c56e7080ae0ba03846943e3fbc1506f58fd41b5e4e",
+      "pid": 35036,
+      "port": "62878",
+      "poll": 1
+    },
+    {
+      "label": "initial-03",
+      "cy_bits": "4079a1ffaf178a51",
+      "gate_reaudit": "CLEAN",
+      "gate_evidence": {
+        "reasons": [],
+        "target_signatures": 2,
+        "group_pair_counts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "group_pair_present": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      "raw_verdict": "CLEAN",
+      "match": true,
+      "geometry_sha256": "a0331ac75828c0579a87f2906b9fb13b52fa41ccbbcb96d5fde1cbcd908ac126",
+      "pid": 57132,
+      "port": "62517",
+      "poll": 1
+    },
+    {
+      "label": "initial-04",
+      "cy_bits": "4079a1ffb69984a1",
+      "gate_reaudit": "CLEAN",
+      "gate_evidence": {
+        "reasons": [],
+        "target_signatures": 2,
+        "group_pair_counts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "group_pair_present": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      "raw_verdict": "CLEAN",
+      "match": true,
+      "geometry_sha256": "c27cd0214c76364c9b1ffad2a4fd0e5df14fca3f8e889b3b197bba0926360e39",
+      "pid": 37424,
+      "port": "60555",
+      "poll": 1
+    },
+    {
+      "label": "initial-05",
+      "cy_bits": "4079a1ffcb923a2a",
+      "gate_reaudit": "CLEAN",
+      "gate_evidence": {
+        "reasons": [],
+        "target_signatures": 2,
+        "group_pair_counts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "group_pair_present": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      "raw_verdict": "CLEAN",
+      "match": true,
+      "geometry_sha256": "5602727bdfb3d1f7329e6d4a90a95ba310aaa344f5ab02a08b5039e2dedb367b",
+      "pid": 33868,
+      "port": "50724",
+      "poll": 1
+    },
+    {
+      "label": "adaptive-006",
+      "cy_bits": "4079a1ffad41c73c",
+      "gate_reaudit": "FLAGGED",
+      "gate_evidence": {
+        "reasons": [],
+        "target_signatures": 2,
+        "group_pair_counts": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "group_pair_present": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      "raw_verdict": "FLAGGED",
+      "match": true,
+      "geometry_sha256": "760af2225011000799b4eb302b0c99034f100666925adad3c161f43854a3a59c",
+      "pid": 15160,
+      "port": "65248",
+      "poll": 1
+    },
+    {
+      "label": "adaptive-007",
+      "cy_bits": "4079a1ffae2ca8c6",
+      "gate_reaudit": "FLAGGED",
+      "gate_evidence": {
+        "reasons": [],
+        "target_signatures": 2,
+        "group_pair_counts": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "group_pair_present": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      "raw_verdict": "FLAGGED",
+      "match": true,
+      "geometry_sha256": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e",
+      "pid": 47980,
+      "port": "55901",
+      "poll": 1
+    },
+    {
+      "label": "adaptive-008",
+      "cy_bits": "4079a1ffaea2198c",
+      "gate_reaudit": "CLEAN",
+      "gate_evidence": {
+        "reasons": [],
+        "target_signatures": 2,
+        "group_pair_counts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "group_pair_present": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      "raw_verdict": "CLEAN",
+      "match": true,
+      "geometry_sha256": "672cd24e3d7cea3e632ae3d8aaa45a4011cb39246838c279c155b85d26661156",
+      "pid": 29340,
+      "port": "53884",
+      "poll": 1
+    },
+    {
+      "label": "adaptive-009",
+      "cy_bits": "4079a1ffae676129",
+      "gate_reaudit": "CLEAN",
+      "gate_evidence": {
+        "reasons": [],
+        "target_signatures": 2,
+        "group_pair_counts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "group_pair_present": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      "raw_verdict": "CLEAN",
+      "match": true,
+      "geometry_sha256": "5ce507c603172432f677aa6713c69fb6735521d475c3476bfe0acbc09b9a153f",
+      "pid": 5052,
+      "port": "59021",
+      "poll": 1
+    },
+    {
+      "label": "adaptive-010",
+      "cy_bits": "4079a1ffae4a04f8",
+      "gate_reaudit": "CLEAN",
+      "gate_evidence": {
+        "reasons": [],
+        "target_signatures": 2,
+        "group_pair_counts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "group_pair_present": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      "raw_verdict": "CLEAN",
+      "match": true,
+      "geometry_sha256": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d",
+      "pid": 30228,
+      "port": "59115",
+      "poll": 1
+    },
+    {
+      "label": "lo-01",
+      "cy_bits": "4079a1ffae2ca8c6",
+      "gate_reaudit": "FLAGGED",
+      "gate_evidence": {
+        "reasons": [],
+        "target_signatures": 2,
+        "group_pair_counts": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "group_pair_present": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      "raw_verdict": "FLAGGED",
+      "match": true,
+      "geometry_sha256": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e",
+      "pid": 76876,
+      "port": "53671",
+      "poll": 1
+    },
+    {
+      "label": "lo-02",
+      "cy_bits": "4079a1ffae2ca8c6",
+      "gate_reaudit": "FLAGGED",
+      "gate_evidence": {
+        "reasons": [],
+        "target_signatures": 2,
+        "group_pair_counts": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "group_pair_present": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      "raw_verdict": "FLAGGED",
+      "match": true,
+      "geometry_sha256": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e",
+      "pid": 27260,
+      "port": "53882",
+      "poll": 1
+    },
+    {
+      "label": "hi-00",
+      "cy_bits": "4079a1ffae4a04f8",
+      "gate_reaudit": "CLEAN",
+      "gate_evidence": {
+        "reasons": [],
+        "target_signatures": 2,
+        "group_pair_counts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "group_pair_present": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      "raw_verdict": "CLEAN",
+      "match": true,
+      "geometry_sha256": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d",
+      "pid": 43372,
+      "port": "63423",
+      "poll": 1
+    },
+    {
+      "label": "hi-02",
+      "cy_bits": "4079a1ffae4a04f8",
+      "gate_reaudit": "CLEAN",
+      "gate_evidence": {
+        "reasons": [],
+        "target_signatures": 2,
+        "group_pair_counts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "group_pair_present": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      "raw_verdict": "CLEAN",
+      "match": true,
+      "geometry_sha256": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d",
+      "pid": 23216,
+      "port": "51463",
+      "poll": 1
+    },
+    {
+      "label": "lo-04",
+      "cy_bits": "4079a1ffae2ca8c6",
+      "gate_reaudit": "FLAGGED",
+      "gate_evidence": {
+        "reasons": [],
+        "target_signatures": 2,
+        "group_pair_counts": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "group_pair_present": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      "raw_verdict": "FLAGGED",
+      "match": true,
+      "geometry_sha256": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e",
+      "pid": 10792,
+      "port": "60863",
+      "poll": 1
+    },
+    {
+      "label": "hi-03",
+      "cy_bits": "4079a1ffae4a04f8",
+      "gate_reaudit": "CLEAN",
+      "gate_evidence": {
+        "reasons": [],
+        "target_signatures": 2,
+        "group_pair_counts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "group_pair_present": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      "raw_verdict": "CLEAN",
+      "match": true,
+      "geometry_sha256": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d",
+      "pid": 42900,
+      "port": "52725",
+      "poll": 1
+    },
+    {
+      "label": "hi-04",
+      "cy_bits": "4079a1ffae4a04f8",
+      "gate_reaudit": "CLEAN",
+      "gate_evidence": {
+        "reasons": [],
+        "target_signatures": 2,
+        "group_pair_counts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "group_pair_present": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      "raw_verdict": "CLEAN",
+      "match": true,
+      "geometry_sha256": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d",
+      "pid": 27664,
+      "port": "60275",
+      "poll": 1
+    },
+    {
+      "label": "lo-03",
+      "cy_bits": "4079a1ffae2ca8c6",
+      "gate_reaudit": "FLAGGED",
+      "gate_evidence": {
+        "reasons": [],
+        "target_signatures": 2,
+        "group_pair_counts": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "group_pair_present": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      "raw_verdict": "FLAGGED",
+      "match": true,
+      "geometry_sha256": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e",
+      "pid": 21988,
+      "port": "60460",
+      "poll": 1
+    },
+    {
+      "label": "hi-01",
+      "cy_bits": "4079a1ffae4a04f8",
+      "gate_reaudit": "CLEAN",
+      "gate_evidence": {
+        "reasons": [],
+        "target_signatures": 2,
+        "group_pair_counts": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "group_pair_present": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      "raw_verdict": "CLEAN",
+      "match": true,
+      "geometry_sha256": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d",
+      "pid": 47784,
+      "port": "53940",
+      "poll": 1
+    },
+    {
+      "label": "lo-00",
+      "cy_bits": "4079a1ffae2ca8c6",
+      "gate_reaudit": "FLAGGED",
+      "gate_evidence": {
+        "reasons": [],
+        "target_signatures": 2,
+        "group_pair_counts": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "group_pair_present": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      "raw_verdict": "FLAGGED",
+      "match": true,
+      "geometry_sha256": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e",
+      "pid": 61480,
+      "port": "56378",
+      "poll": 1
+    }
+  ]
+}

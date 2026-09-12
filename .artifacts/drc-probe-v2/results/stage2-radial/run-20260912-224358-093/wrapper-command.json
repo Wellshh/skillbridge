@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "D:\\AutoPlacer\\skillbridge\\.venv\\Scripts\\python.exe",
+    "D:\\AutoPlacer\\skillbridge\\.artifacts\\drc-probe-v2\\stage2_radial.py",
+    "--run-dir",
+    "D:\\AutoPlacer\\skillbridge\\.artifacts\\drc-probe-v2\\results\\stage2-radial\\run-20260912-224358-093"
+  ],
+  "cwd": "D:\\AutoPlacer\\skillbridge",
+  "run": "D:\\AutoPlacer\\skillbridge\\.artifacts\\drc-probe-v2\\results\\stage2-radial\\run-20260912-224358-093",
+  "started": "2026-09-12T22:46:21.9760992+08:00"
+}

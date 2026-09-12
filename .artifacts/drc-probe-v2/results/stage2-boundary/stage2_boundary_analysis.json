@@ -1,0 +1,579 @@
+{
+  "status": "OFFLINE_ANALYSIS_PASS",
+  "boundary": {
+    "FULL_B64_WIDTH": {
+      "monotonic_by_requested_cy": true,
+      "flagged_max": "2161720911343669/36028797018963968",
+      "clean_min": "2161724363541365/36028797018963968",
+      "rows": [
+        {
+          "cy": 410.1249,
+          "clearance": "2161027620481549/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "02d5923d7750543ce230d63568394987d2db6bf3b58a16df0aa72ee6383ba2f6"
+        },
+        {
+          "cy": 410.124915,
+          "clearance": "2161501072240773/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "b60f20ecd7f254f060350c450391a846946627afa8baa46d2173fce9efb167e6"
+        },
+        {
+          "cy": 410.1249193400748,
+          "clearance": "2161638058501709/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "b348d1c03a2b50d26600d3c56e7080ae0ba03846943e3fbc1506f58fd41b5e4e"
+        },
+        {
+          "cy": 410.12492109007485,
+          "clearance": "2161693293757789/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "760af2225011000799b4eb302b0c99034f100666925adad3c161f43854a3a59c"
+        },
+        {
+          "cy": 410.1249219650748,
+          "clearance": "2161720911343669/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e"
+        },
+        {
+          "cy": 410.12492207444984,
+          "clearance": "2161724363541365/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d"
+        },
+        {
+          "cy": 410.1249221838248,
+          "clearance": "2161727815736797/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "5ce507c603172432f677aa6713c69fb6735521d475c3476bfe0acbc09b9a153f"
+        },
+        {
+          "cy": 410.12492240257484,
+          "clearance": "2161734720128453/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "672cd24e3d7cea3e632ae3d8aaa45a4011cb39246838c279c155b85d26661156"
+        },
+        {
+          "cy": 410.1249228400748,
+          "clearance": "2161748528904445/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "a0331ac75828c0579a87f2906b9fb13b52fa41ccbbcb96d5fde1cbcd908ac126"
+        },
+        {
+          "cy": 410.12493,
+          "clearance": "2161974516081629/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "c27cd0214c76364c9b1ffad2a4fd0e5df14fca3f8e889b3b197bba0926360e39"
+        },
+        {
+          "cy": 410.12495,
+          "clearance": "2162605762215845/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "5602727bdfb3d1f7329e6d4a90a95ba310aaa344f5ab02a08b5039e2dedb367b"
+        }
+      ]
+    },
+    "CENTER_FROM_START": {
+      "monotonic_by_requested_cy": true,
+      "flagged_max": "2161720911344181/36028797018963968",
+      "clean_min": "2161724363541869/36028797018963968",
+      "rows": [
+        {
+          "cy": 410.1249,
+          "clearance": "2161027620482101/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "02d5923d7750543ce230d63568394987d2db6bf3b58a16df0aa72ee6383ba2f6"
+        },
+        {
+          "cy": 410.124915,
+          "clearance": "2161501072241237/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "b60f20ecd7f254f060350c450391a846946627afa8baa46d2173fce9efb167e6"
+        },
+        {
+          "cy": 410.1249193400748,
+          "clearance": "2161638058502077/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "b348d1c03a2b50d26600d3c56e7080ae0ba03846943e3fbc1506f58fd41b5e4e"
+        },
+        {
+          "cy": 410.12492109007485,
+          "clearance": "2161693293758293/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "760af2225011000799b4eb302b0c99034f100666925adad3c161f43854a3a59c"
+        },
+        {
+          "cy": 410.1249219650748,
+          "clearance": "2161720911344181/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e"
+        },
+        {
+          "cy": 410.12492207444984,
+          "clearance": "2161724363541869/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d"
+        },
+        {
+          "cy": 410.1249221838248,
+          "clearance": "2161727815737341/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "5ce507c603172432f677aa6713c69fb6735521d475c3476bfe0acbc09b9a153f"
+        },
+        {
+          "cy": 410.12492240257484,
+          "clearance": "2161734720128813/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "672cd24e3d7cea3e632ae3d8aaa45a4011cb39246838c279c155b85d26661156"
+        },
+        {
+          "cy": 410.1249228400748,
+          "clearance": "2161748528904917/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "a0331ac75828c0579a87f2906b9fb13b52fa41ccbbcb96d5fde1cbcd908ac126"
+        },
+        {
+          "cy": 410.12493,
+          "clearance": "2161974516082173/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "c27cd0214c76364c9b1ffad2a4fd0e5df14fca3f8e889b3b197bba0926360e39"
+        },
+        {
+          "cy": 410.12495,
+          "clearance": "2162605762216237/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "5602727bdfb3d1f7329e6d4a90a95ba310aaa344f5ab02a08b5039e2dedb367b"
+        }
+      ]
+    },
+    "CENTER_FROM_END": {
+      "monotonic_by_requested_cy": true,
+      "flagged_max": "2161720911344181/36028797018963968",
+      "clean_min": "2161724363541869/36028797018963968",
+      "rows": [
+        {
+          "cy": 410.1249,
+          "clearance": "2161027620482101/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "02d5923d7750543ce230d63568394987d2db6bf3b58a16df0aa72ee6383ba2f6"
+        },
+        {
+          "cy": 410.124915,
+          "clearance": "2161501072241237/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "b60f20ecd7f254f060350c450391a846946627afa8baa46d2173fce9efb167e6"
+        },
+        {
+          "cy": 410.1249193400748,
+          "clearance": "2161638058502077/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "b348d1c03a2b50d26600d3c56e7080ae0ba03846943e3fbc1506f58fd41b5e4e"
+        },
+        {
+          "cy": 410.12492109007485,
+          "clearance": "2161693293758293/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "760af2225011000799b4eb302b0c99034f100666925adad3c161f43854a3a59c"
+        },
+        {
+          "cy": 410.1249219650748,
+          "clearance": "2161720911344181/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e"
+        },
+        {
+          "cy": 410.12492207444984,
+          "clearance": "2161724363541869/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d"
+        },
+        {
+          "cy": 410.1249221838248,
+          "clearance": "2161727815737341/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "5ce507c603172432f677aa6713c69fb6735521d475c3476bfe0acbc09b9a153f"
+        },
+        {
+          "cy": 410.12492240257484,
+          "clearance": "2161734720128813/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "672cd24e3d7cea3e632ae3d8aaa45a4011cb39246838c279c155b85d26661156"
+        },
+        {
+          "cy": 410.1249228400748,
+          "clearance": "2161748528904917/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "a0331ac75828c0579a87f2906b9fb13b52fa41ccbbcb96d5fde1cbcd908ac126"
+        },
+        {
+          "cy": 410.12493,
+          "clearance": "2161974516082173/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "c27cd0214c76364c9b1ffad2a4fd0e5df14fca3f8e889b3b197bba0926360e39"
+        },
+        {
+          "cy": 410.12495,
+          "clearance": "2162605762216237/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "5602727bdfb3d1f7329e6d4a90a95ba310aaa344f5ab02a08b5039e2dedb367b"
+        }
+      ]
+    },
+    "GRID_NORMALIZED": {
+      "monotonic_by_requested_cy": true,
+      "flagged_max": "3/50",
+      "clean_min": "3/50",
+      "rows": [
+        {
+          "cy": 410.1249,
+          "clearance": "3/50",
+          "verdict": "FLAGGED",
+          "fingerprint": "02d5923d7750543ce230d63568394987d2db6bf3b58a16df0aa72ee6383ba2f6"
+        },
+        {
+          "cy": 410.124915,
+          "clearance": "3/50",
+          "verdict": "FLAGGED",
+          "fingerprint": "b60f20ecd7f254f060350c450391a846946627afa8baa46d2173fce9efb167e6"
+        },
+        {
+          "cy": 410.1249193400748,
+          "clearance": "3/50",
+          "verdict": "FLAGGED",
+          "fingerprint": "b348d1c03a2b50d26600d3c56e7080ae0ba03846943e3fbc1506f58fd41b5e4e"
+        },
+        {
+          "cy": 410.12492109007485,
+          "clearance": "3/50",
+          "verdict": "FLAGGED",
+          "fingerprint": "760af2225011000799b4eb302b0c99034f100666925adad3c161f43854a3a59c"
+        },
+        {
+          "cy": 410.1249219650748,
+          "clearance": "3/50",
+          "verdict": "FLAGGED",
+          "fingerprint": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e"
+        },
+        {
+          "cy": 410.12492207444984,
+          "clearance": "3/50",
+          "verdict": "CLEAN",
+          "fingerprint": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d"
+        },
+        {
+          "cy": 410.1249221838248,
+          "clearance": "3/50",
+          "verdict": "CLEAN",
+          "fingerprint": "5ce507c603172432f677aa6713c69fb6735521d475c3476bfe0acbc09b9a153f"
+        },
+        {
+          "cy": 410.12492240257484,
+          "clearance": "3/50",
+          "verdict": "CLEAN",
+          "fingerprint": "672cd24e3d7cea3e632ae3d8aaa45a4011cb39246838c279c155b85d26661156"
+        },
+        {
+          "cy": 410.1249228400748,
+          "clearance": "3/50",
+          "verdict": "CLEAN",
+          "fingerprint": "a0331ac75828c0579a87f2906b9fb13b52fa41ccbbcb96d5fde1cbcd908ac126"
+        },
+        {
+          "cy": 410.12493,
+          "clearance": "3/50",
+          "verdict": "CLEAN",
+          "fingerprint": "c27cd0214c76364c9b1ffad2a4fd0e5df14fca3f8e889b3b197bba0926360e39"
+        },
+        {
+          "cy": 410.12495,
+          "clearance": "601/10000",
+          "verdict": "CLEAN",
+          "fingerprint": "5602727bdfb3d1f7329e6d4a90a95ba310aaa344f5ab02a08b5039e2dedb367b"
+        }
+      ]
+    },
+    "n": 11
+  },
+  "repeat": {
+    "FULL_B64_WIDTH": {
+      "monotonic_by_requested_cy": true,
+      "flagged_max": "2161720911343669/36028797018963968",
+      "clean_min": "2161724363541365/36028797018963968",
+      "rows": [
+        {
+          "cy": 410.1249219650748,
+          "clearance": "2161720911343669/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e"
+        },
+        {
+          "cy": 410.1249219650748,
+          "clearance": "2161720911343669/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e"
+        },
+        {
+          "cy": 410.1249219650748,
+          "clearance": "2161720911343669/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e"
+        },
+        {
+          "cy": 410.1249219650748,
+          "clearance": "2161720911343669/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e"
+        },
+        {
+          "cy": 410.1249219650748,
+          "clearance": "2161720911343669/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e"
+        },
+        {
+          "cy": 410.12492207444984,
+          "clearance": "2161724363541365/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d"
+        },
+        {
+          "cy": 410.12492207444984,
+          "clearance": "2161724363541365/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d"
+        },
+        {
+          "cy": 410.12492207444984,
+          "clearance": "2161724363541365/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d"
+        },
+        {
+          "cy": 410.12492207444984,
+          "clearance": "2161724363541365/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d"
+        },
+        {
+          "cy": 410.12492207444984,
+          "clearance": "2161724363541365/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d"
+        }
+      ]
+    },
+    "CENTER_FROM_START": {
+      "monotonic_by_requested_cy": true,
+      "flagged_max": "2161720911344181/36028797018963968",
+      "clean_min": "2161724363541869/36028797018963968",
+      "rows": [
+        {
+          "cy": 410.1249219650748,
+          "clearance": "2161720911344181/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e"
+        },
+        {
+          "cy": 410.1249219650748,
+          "clearance": "2161720911344181/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e"
+        },
+        {
+          "cy": 410.1249219650748,
+          "clearance": "2161720911344181/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e"
+        },
+        {
+          "cy": 410.1249219650748,
+          "clearance": "2161720911344181/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e"
+        },
+        {
+          "cy": 410.1249219650748,
+          "clearance": "2161720911344181/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e"
+        },
+        {
+          "cy": 410.12492207444984,
+          "clearance": "2161724363541869/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d"
+        },
+        {
+          "cy": 410.12492207444984,
+          "clearance": "2161724363541869/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d"
+        },
+        {
+          "cy": 410.12492207444984,
+          "clearance": "2161724363541869/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d"
+        },
+        {
+          "cy": 410.12492207444984,
+          "clearance": "2161724363541869/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d"
+        },
+        {
+          "cy": 410.12492207444984,
+          "clearance": "2161724363541869/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d"
+        }
+      ]
+    },
+    "CENTER_FROM_END": {
+      "monotonic_by_requested_cy": true,
+      "flagged_max": "2161720911344181/36028797018963968",
+      "clean_min": "2161724363541869/36028797018963968",
+      "rows": [
+        {
+          "cy": 410.1249219650748,
+          "clearance": "2161720911344181/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e"
+        },
+        {
+          "cy": 410.1249219650748,
+          "clearance": "2161720911344181/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e"
+        },
+        {
+          "cy": 410.1249219650748,
+          "clearance": "2161720911344181/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e"
+        },
+        {
+          "cy": 410.1249219650748,
+          "clearance": "2161720911344181/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e"
+        },
+        {
+          "cy": 410.1249219650748,
+          "clearance": "2161720911344181/36028797018963968",
+          "verdict": "FLAGGED",
+          "fingerprint": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e"
+        },
+        {
+          "cy": 410.12492207444984,
+          "clearance": "2161724363541869/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d"
+        },
+        {
+          "cy": 410.12492207444984,
+          "clearance": "2161724363541869/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d"
+        },
+        {
+          "cy": 410.12492207444984,
+          "clearance": "2161724363541869/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d"
+        },
+        {
+          "cy": 410.12492207444984,
+          "clearance": "2161724363541869/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d"
+        },
+        {
+          "cy": 410.12492207444984,
+          "clearance": "2161724363541869/36028797018963968",
+          "verdict": "CLEAN",
+          "fingerprint": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d"
+        }
+      ]
+    },
+    "GRID_NORMALIZED": {
+      "monotonic_by_requested_cy": true,
+      "flagged_max": "3/50",
+      "clean_min": "3/50",
+      "rows": [
+        {
+          "cy": 410.1249219650748,
+          "clearance": "3/50",
+          "verdict": "FLAGGED",
+          "fingerprint": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e"
+        },
+        {
+          "cy": 410.1249219650748,
+          "clearance": "3/50",
+          "verdict": "FLAGGED",
+          "fingerprint": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e"
+        },
+        {
+          "cy": 410.1249219650748,
+          "clearance": "3/50",
+          "verdict": "FLAGGED",
+          "fingerprint": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e"
+        },
+        {
+          "cy": 410.1249219650748,
+          "clearance": "3/50",
+          "verdict": "FLAGGED",
+          "fingerprint": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e"
+        },
+        {
+          "cy": 410.1249219650748,
+          "clearance": "3/50",
+          "verdict": "FLAGGED",
+          "fingerprint": "9704e7831bf9855a6626c95d38ee56417db8a2625da171e5718b98cbf2981f4e"
+        },
+        {
+          "cy": 410.12492207444984,
+          "clearance": "3/50",
+          "verdict": "CLEAN",
+          "fingerprint": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d"
+        },
+        {
+          "cy": 410.12492207444984,
+          "clearance": "3/50",
+          "verdict": "CLEAN",
+          "fingerprint": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d"
+        },
+        {
+          "cy": 410.12492207444984,
+          "clearance": "3/50",
+          "verdict": "CLEAN",
+          "fingerprint": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d"
+        },
+        {
+          "cy": 410.12492207444984,
+          "clearance": "3/50",
+          "verdict": "CLEAN",
+          "fingerprint": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d"
+        },
+        {
+          "cy": 410.12492207444984,
+          "clearance": "3/50",
+          "verdict": "CLEAN",
+          "fingerprint": "990ce7be2a301665e08a7d85571add3a522ea2edc4b6b12b0f77cc5b8f9ba88d"
+        }
+      ]
+    },
+    "n": 10
+  },
+  "api_R_fraction": "1080863910568919/18014398509481984",
+  "nominal_fraction": "3/50",
+  "sqrt_precision": "100-digit Decimal display only; not exact",
+  "model_conclusions": {
+    "M0": "rejected by effective CLEAN with FULL<R",
+    "M1": "conditional epsilon interval uses observed FULL deltas; strict upper bound",
+    "M2": "rejected because positive epsilon predicts HI flagged",
+    "M3": "not uniquely identifiable",
+    "M4": "not uniquely identifiable"
+  }
+}
